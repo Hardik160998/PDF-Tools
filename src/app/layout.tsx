@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import "./mobileview.css";
 import { Heart } from "lucide-react";
 import AllToolsDropdown from "@/components/AllToolsDropdown";
 import NavSearchBar from "@/components/NavSearchBar";
+import MobileNav from "@/components/MobileNav";
 
 const inter = Inter({ subsets: ["latin"], weight: ['400', '500', '600', '700', '800', '900'] });
 
@@ -31,7 +33,8 @@ export default function RootLayout({
                 <span className="text-slate-900 dark:text-white uppercase">PDFs</span>
               </a>
 
-              <nav className="hidden lg:flex items-center gap-6">
+              {/* Desktop nav — hidden on mobile via CSS */}
+              <nav className="desktop-nav">
                 {[
                   { label: 'MERGE PDF', href: '/tool/merge' },
                   { label: 'SPLIT PDF', href: '/tool/split' },
@@ -46,14 +49,19 @@ export default function RootLayout({
               </nav>
             </div>
 
-            <div className="flex items-center gap-4">
-              <NavSearchBar />
-              <button className="hidden sm:block text-sm font-black text-slate-700 hover:text-red-500 px-4 py-2 border border-transparent hover:border-slate-100 rounded-lg transition-all">
-                Login
-              </button>
-              <button className="primary-button text-xs uppercase tracking-widest shadow-lg shadow-red-500/20">
-                Sign Up
-              </button>
+            <div className="flex items-center gap-3">
+              {/* Desktop actions — hidden on mobile via CSS */}
+              <div className="desktop-nav-actions">
+                <NavSearchBar />
+                <button className="text-sm font-black text-slate-700 hover:text-red-500 px-4 py-2 border border-transparent hover:border-slate-100 rounded-lg transition-all">
+                  Login
+                </button>
+                <button className="primary-button text-xs uppercase tracking-widest shadow-lg shadow-red-500/20">
+                  Sign Up
+                </button>
+              </div>
+              {/* Mobile hamburger — hidden on desktop via CSS */}
+              <MobileNav />
             </div>
           </div>
         </header>
