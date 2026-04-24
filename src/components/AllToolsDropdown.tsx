@@ -7,6 +7,7 @@ const CATEGORIES = [
   {
     name: "Organize",
     color: "#f26522",
+    gradient: "linear-gradient(135deg, #f26522, #c2410c)",
     tools: [
       { id: "organize", label: "Organize PDF", icon: FileSymlink },
       { id: "merge",    label: "Merge PDF",    icon: Combine },
@@ -16,6 +17,7 @@ const CATEGORIES = [
   {
     name: "Optimize",
     color: "#22c55e",
+    gradient: "linear-gradient(135deg, #22c55e, #15803d)",
     tools: [
       { id: "compress",   label: "Compress PDF", icon: Zap },
       { id: "repair-pdf", label: "Repair PDF",   icon: LifeBuoy },
@@ -24,6 +26,7 @@ const CATEGORIES = [
   {
     name: "Convert",
     color: "#3182ce",
+    gradient: "linear-gradient(135deg, #3182ce, #1e3a8a)",
     tools: [
       { id: "extract-text", label: "PDF to Text",       icon: Type },
       { id: "pdf-to-xml",   label: "PDF to XML",        icon: FileJson },
@@ -41,6 +44,7 @@ const CATEGORIES = [
   {
     name: "Edit",
     color: "#E8465D",
+    gradient: "linear-gradient(135deg, #E8465D, #843286)",
     tools: [
       { id: "watermark",    label: "Watermark",      icon: Stamp },
       { id: "page-numbers", label: "Page Numbers",   icon: FileDigit },
@@ -50,6 +54,7 @@ const CATEGORIES = [
   {
     name: "Security",
     color: "#e53e3e",
+    gradient: "linear-gradient(135deg, #e53e3e, #7f1d1d)",
     tools: [
       { id: "unlock",  label: "Unlock PDF",  icon: Unlock },
       { id: "protect", label: "Protect PDF", icon: Lock },
@@ -58,6 +63,7 @@ const CATEGORIES = [
   {
     name: "Special",
     color: "#ef4444",
+    gradient: "linear-gradient(135deg, #ef4444, #991b1b)",
     tools: [
       { id: "aadhar-crop", label: "Aadhar Cropper", icon: Wand2 },
     ],
@@ -93,7 +99,7 @@ export default function AllToolsDropdown() {
                 </div>
                 {cat.tools.map(({ id, label, icon: Icon }) => (
                   <a key={id} href={`/tool/${id}`} className="all-tools-item">
-                    <span className="all-tools-icon" style={{ background: cat.color }}>
+                    <span className="all-tools-icon" style={{ background: cat.gradient }}>
                       <Icon size={14} />
                     </span>
                     {label}

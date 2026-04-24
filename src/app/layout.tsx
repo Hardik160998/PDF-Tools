@@ -6,6 +6,7 @@ import { Heart } from "lucide-react";
 import AllToolsDropdown from "@/components/AllToolsDropdown";
 import NavSearchBar from "@/components/NavSearchBar";
 import MobileNav from "@/components/MobileNav";
+import ConvertDropdown from "@/components/ConvertDropdown";
 
 const inter = Inter({ subsets: ["latin"], weight: ['400', '500', '600', '700', '800', '900'] });
 
@@ -39,12 +40,12 @@ export default function RootLayout({
                   { label: 'MERGE PDF', href: '/tool/merge' },
                   { label: 'SPLIT PDF', href: '/tool/split' },
                   { label: 'COMPRESS PDF', href: '/tool/compress' },
-                  { label: 'CONVERT PDF', href: '/tool/extract-text' },
                 ].map(({ label, href }) => (
                   <a key={label} href={href} className="text-xs font-black text-slate-700 dark:text-slate-300 hover:text-red-500 transition-colors uppercase tracking-tight">
                     {label}
                   </a>
                 ))}
+                <ConvertDropdown />
                 <AllToolsDropdown />
               </nav>
             </div>
