@@ -6,7 +6,7 @@ import {
   Trash2, ArrowDownUp, RotateCw, FilePlus, 
   Settings2, CheckCircle2, LayoutGrid, FileSymlink
 } from 'lucide-react';
-import { PDFDocument } from 'pdf-lib';
+import { PDFDocument, degrees } from 'pdf-lib';
 import * as pdfjs from 'pdfjs-dist';
 import {
   DndContext,
@@ -154,7 +154,7 @@ export default function OrganizeTool({ id }: { id: string }) {
       canvas.width = viewport.width;
 
       if (context) {
-        await page.render({ canvasContext: context, viewport }).promise;
+        await page.render({ canvasContext: context, viewport, canvas }).promise;
         newPages.push({
           id: `${fileIdx}-${i}-${Math.random().toString(36).substr(2, 9)}`,
           fileIndex: fileIdx,
@@ -241,14 +241,14 @@ export default function OrganizeTool({ id }: { id: string }) {
         // Apply rotation
         if (pageMeta.rotation !== 0) {
           const currentRotation = copiedPage.getRotation().angle;
-          copiedPage.setRotation({ angle: (currentRotation + pageMeta.rotation) % 360 });
+          copiedPage.setRotation(degrees((currentRotation + pageMeta.rotation) % 360));
         }
         
         organizedPdf.addPage(copiedPage);
       }
 
       const pdfBytes = await organizedPdf.save();
-      const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+      const blob = new Blob([pdfBytes.buffer as ArrayBuffer], { type: 'application/pdf' });
       setResult({
         url: URL.createObjectURL(blob),
         filename: 'organized_document.pdf'

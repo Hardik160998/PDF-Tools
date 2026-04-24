@@ -35,7 +35,7 @@ export default function RepairTool({ id }: { id: string }) {
       const context = canvas.getContext('2d');
       canvas.height = viewport.height;
       canvas.width = viewport.width;
-      await page.render({ canvasContext: context!, viewport }).promise;
+      await page.render({ canvasContext: context!, viewport, canvas }).promise;
       return canvas.toDataURL();
     } catch (e) {
       console.error("Thumbnail error:", e);
