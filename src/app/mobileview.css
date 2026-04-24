@@ -287,8 +287,9 @@ body.drawer-open {
   .mob-hamburger { display: flex; }
 }
 
-/* Backdrop */
+/* Backdrop — hidden on desktop */
 .mob-backdrop {
+  display: none;
   position: fixed;
   inset: 0;
   background: rgba(15, 23, 42, 0.45);
@@ -297,12 +298,18 @@ body.drawer-open {
   animation: mobFadeIn 0.2s ease forwards;
 }
 
+@media (max-width: 1023px) {
+  .mob-backdrop {
+    display: block;
+  }
+}
+
 @keyframes mobFadeIn {
   from { opacity: 0; }
   to   { opacity: 1; }
 }
 
-/* Drawer — slides in from right */
+/* Drawer — slides in from right — hidden on desktop */
 .mob-drawer {
   position: fixed;
   top: 0;
@@ -313,11 +320,17 @@ body.drawer-open {
   max-width: 85vw;
   background: #ffffff;
   z-index: 99;
-  display: flex;
+  display: none;
   flex-direction: column;
   box-shadow: -8px 0 32px rgba(0, 0, 0, 0.12);
   transform: translateX(100%);
   transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@media (max-width: 1023px) {
+  .mob-drawer {
+    display: flex;
+  }
 }
 
 .mob-drawer--open {

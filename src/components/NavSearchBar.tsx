@@ -3,6 +3,15 @@
 import { useState, useRef, useEffect } from "react";
 import { Search, Combine, Scissors, Zap, LifeBuoy, Type, FileJson, ImageIcon, FileText, Presentation, FileSpreadsheet, Globe, Stamp, FileDigit, Settings, Unlock, Lock, Wand2, FileSymlink } from "lucide-react";
 
+const GRADIENTS: Record<string, string> = {
+  "Organize": "linear-gradient(135deg, #f26522, #c2410c)",
+  "Optimize": "linear-gradient(135deg, #22c55e, #15803d)",
+  "Convert":  "linear-gradient(135deg, #3182ce, #1e3a8a)",
+  "Edit":     "linear-gradient(135deg, #E8465D, #843286)",
+  "Security": "linear-gradient(135deg, #e53e3e, #7f1d1d)",
+  "Special":  "linear-gradient(135deg, #ef4444, #991b1b)",
+};
+
 const TOOLS = [
   { id: "organize",     label: "Organize PDF",       category: "Organize", color: "#f26522", icon: FileSymlink },
   { id: "merge",        label: "Merge PDF",           category: "Organize", color: "#f26522", icon: Combine },
@@ -74,7 +83,7 @@ export default function NavSearchBar() {
               className="nav-search-item"
               onClick={() => { setOpen(false); setQuery(""); }}
             >
-              <span className="nav-search-item-icon" style={{ background: color }}>
+              <span className="nav-search-item-icon" style={{ background: GRADIENTS[category] || color }}>
                 <Icon size={13} />
               </span>
               <span className="nav-search-item-label">{label}</span>
