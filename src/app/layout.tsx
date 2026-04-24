@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import { Heart, Search } from "lucide-react";
+import { Heart } from "lucide-react";
+import AllToolsDropdown from "@/components/AllToolsDropdown";
+import NavSearchBar from "@/components/NavSearchBar";
 
 const inter = Inter({ subsets: ["latin"], weight: ['400', '500', '600', '700', '800', '900'] });
 
@@ -30,18 +32,22 @@ export default function RootLayout({
               </a>
 
               <nav className="hidden lg:flex items-center gap-6">
-                {['MERGE PDF', 'SPLIT PDF', 'COMPRESS PDF', 'CONVERT PDF', 'ALL PDF TOOLS'].map((link) => (
-                   <a key={link} href="#" className="text-xs font-black text-slate-700 dark:text-slate-300 hover:text-red-500 transition-colors uppercase tracking-tight">
-                    {link}
-                   </a>
+                {[
+                  { label: 'MERGE PDF', href: '/tool/merge' },
+                  { label: 'SPLIT PDF', href: '/tool/split' },
+                  { label: 'COMPRESS PDF', href: '/tool/compress' },
+                  { label: 'CONVERT PDF', href: '/tool/extract-text' },
+                ].map(({ label, href }) => (
+                  <a key={label} href={href} className="text-xs font-black text-slate-700 dark:text-slate-300 hover:text-red-500 transition-colors uppercase tracking-tight">
+                    {label}
+                  </a>
                 ))}
+                <AllToolsDropdown />
               </nav>
             </div>
 
             <div className="flex items-center gap-4">
-              <button className="p-2 text-slate-500 hover:text-red-500 hover:bg-slate-50 rounded-full transition-all" aria-label="Search tools">
-                <Search size={20} />
-              </button>
+              <NavSearchBar />
               <button className="hidden sm:block text-sm font-black text-slate-700 hover:text-red-500 px-4 py-2 border border-transparent hover:border-slate-100 rounded-lg transition-all">
                 Login
               </button>
