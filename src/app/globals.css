@@ -1,0 +1,245 @@
+@import "tailwindcss";
+
+:root {
+  /* iLovePDF Inspired Clean Theme - Light First */
+  --bg-main: #ffffff;
+  --bg-sub: #f8fafc;
+  --text-primary: #1e293b;
+  --text-muted: #64748b;
+  --border-light: rgba(0, 0, 0, 0.05);
+  
+  /* Tool Category Colors */
+  --clr-orange: #f26522; /* Merge/Split */
+  --clr-blue: #38bdf8;   /* Word/Convert */
+  --clr-green: #22c55e;  /* Excel/Optimize */
+  --clr-red: #ef4444;    /* Security */
+  --clr-purple: #8b5cf6; /* Edit */
+  
+  --radius-card: 1.25rem;
+  --shadow-sm: 0 4px 6px -1px rgba(0,0,0,0.1);
+  --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1);
+}
+
+[data-theme='dark'] {
+  --bg-main: #0f172a;
+  --bg-sub: #1e293b;
+  --text-primary: #f8fafc;
+  --text-muted: #94a3b8;
+  --border-light: rgba(255, 255, 255, 0.05);
+}
+
+@layer base {
+  body {
+    background-color: var(--bg-main);
+    color: var(--text-primary);
+    font-family: 'Inter', sans-serif;
+    transition: all 0.3s ease;
+  }
+}
+
+@layer components {
+  /* Minimalist Tool Card */
+  .tool-card {
+    background: white;
+    border-radius: var(--radius-card);
+    padding: 2.5rem 1.5rem;
+    text-align: left;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid var(--border-light);
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    position: relative;
+    cursor: pointer;
+    box-shadow: var(--shadow-sm);
+  }
+
+  [data-theme='dark'] .tool-card {
+    background: var(--bg-sub);
+    border-color: rgba(255,255,255,0.05);
+  }
+
+  .tool-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1), 0 8px 10px -6px rgba(0,0,0,0.1);
+    border-color: var(--clr-orange);
+  }
+
+  .tool-icon-wrapper {
+    width: 64px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 1rem;
+    color: white;
+    box-shadow: 0 8px 16px -4px rgba(0,0,0,0.2);
+  }
+
+  /* Filter Tabs */
+  .category-nav {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0.5rem;
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(226, 232, 240, 0.8);
+    border-radius: 9999px;
+    box-shadow: 
+      0 4px 6px -1px rgba(0, 0, 0, 0.05),
+      0 10px 15px -3px rgba(0, 0, 0, 0.03);
+    gap: 0.25rem;
+  }
+
+  .filter-tab {
+    padding: 0.75rem 1.75rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #64748b;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+
+  .filter-tab:hover:not(.active) {
+    color: #1e293b;
+    background: rgba(241, 245, 249, 0.8);
+    transform: translateY(-1px);
+  }
+
+  .filter-tab.active {
+    background: #1e293b;
+    color: white;
+    box-shadow: 0 10px 15px -3px rgba(30, 41, 59, 0.2);
+  }
+
+  [data-theme='dark'] .category-nav {
+    background: rgba(30, 41, 59, 0.7);
+    border-color: rgba(51, 65, 85, 0.8);
+  }
+
+  [data-theme='dark'] .filter-tab.active {
+    background: white;
+    color: #1e293b;
+  }
+
+  .primary-button {
+    background: #ef4444;
+    color: white;
+    font-weight: 800;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    transition: all 0.2s;
+    border: none;
+    cursor: pointer;
+  }
+
+  /* --- Premium Overhaul Utilities --- */
+  
+  .hero-gradient-text {
+    background: linear-gradient(135deg, #1e293b 0%, #ef4444 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .bg-mesh-premium {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 600px;
+    z-index: -1;
+    overflow: hidden;
+    background: #fff;
+  }
+
+  .bg-mesh-premium::after {
+    content: '';
+    position: absolute;
+    width: 200%;
+    height: 200%;
+    top: -50%;
+    left: -50%;
+    background-image: 
+      radial-gradient(at 0% 0%, rgba(239, 68, 68, 0.08) 0, transparent 40%),
+      radial-gradient(at 100% 0%, rgba(56, 189, 248, 0.08) 0, transparent 40%),
+      radial-gradient(at 50% 50%, rgba(245, 158, 11, 0.05) 0, transparent 40%),
+      radial-gradient(at 0% 100%, rgba(139, 92, 246, 0.08) 0, transparent 40%),
+      radial-gradient(at 100% 100%, rgba(16, 185, 129, 0.05) 0, transparent 40%);
+    animation: mesh-rotate 40s linear infinite;
+    filter: blur(80px);
+  }
+
+  @keyframes mesh-rotate {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+  .glass-card {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(226, 232, 240, 0.8);
+    box-shadow: 
+      0 4px 6px -1px rgba(0, 0, 0, 0.05),
+      0 20px 25px -5px rgba(0, 0, 0, 0.05);
+  }
+
+  .fade-in-up {
+    animation: fadeInUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .stagger-1 { animation-delay: 0.1s; }
+  .stagger-2 { animation-delay: 0.2s; }
+  .stagger-3 { animation-delay: 0.3s; }
+
+  .primary-button:hover {
+    transform: scale(1.05);
+    background: #dc2626;
+  }
+
+  /* Custom Scrollbar for Sidebar Lists */
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 4px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: #e2e8f0;
+    border-radius: 10px;
+  }
+  [data-theme='dark'] .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: #334155;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #cbd5e1;
+  }
+}
+
+/* Custom Mesh Gradient (Subtle) */
+.bg-mesh {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  z-index: -1;
+  background-image: 
+    radial-gradient(at 100% 0%, rgba(242, 101, 34, 0.05) 0, transparent 40%),
+    radial-gradient(at 0% 100%, rgba(56, 189, 248, 0.05) 0, transparent 40%);
+}
