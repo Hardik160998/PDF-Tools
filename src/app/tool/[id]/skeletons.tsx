@@ -40,65 +40,45 @@ function ToolCardSkeleton({ accent = 'rgb(254 215 170)', fileCards = 1 }: { acce
 ══════════════════════════════════════════════════════ */
 export function OrganizeSkeletonA() {
   return (
-    <div className="min-h-[70vh] flex flex-col lg:flex-row gap-8 items-start">
-      <div className="flex-1 w-full bg-white dark:bg-slate-800 rounded-[2rem] border border-slate-100 dark:border-slate-700 shadow-sm p-6 sm:p-8 min-h-[600px] flex flex-col gap-8">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <S className="w-11 h-11 rounded-2xl" />
-            <S className="w-44 h-7 rounded-xl" />
-          </div>
-          <div className="hidden sm:flex gap-3">
-            <S className="w-24 h-8 rounded-lg" />
-            <S className="w-24 h-8 rounded-lg" />
-          </div>
+    <div className="min-h-[70vh] flex flex-col lg:flex-row gap-6 items-start">
+      {/* Main panel — matches screenshot exactly */}
+      <div className="flex-1 w-full bg-white dark:bg-slate-800 rounded-[1.5rem] border border-slate-100 dark:border-slate-700 shadow-sm p-6 sm:p-8 flex flex-col gap-6">
+        {/* Header: orange icon + VISUAL ORGANIZER title */}
+        <div className="flex items-center gap-3">
+          <S className="w-11 h-11 rounded-xl" style={{ backgroundColor: 'rgb(254 215 170)' }} />
+          <S className="w-52 h-6 rounded-lg" />
         </div>
-        <div className="border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-3xl flex flex-col items-center justify-center gap-5 p-10 min-h-[200px]">
-          <S className="w-16 h-16 rounded-2xl" />
-          <S className="w-48 h-6 rounded-xl" />
+
+        {/* Large drop zone */}
+        <div className="border border-slate-200 dark:border-slate-700 rounded-2xl flex flex-col items-center justify-center gap-5 min-h-[320px] p-10">
+          <S className="w-14 h-14 rounded-2xl" />
+          <S className="w-40 h-5 rounded-xl" />
           <S className="w-64 h-4 rounded-lg" />
         </div>
-        <div className="grid grid-cols-3 sm:grid-cols-4 xl:grid-cols-5 gap-3 sm:gap-4">
-          {Array.from({ length: 10 }).map((_, i) => (
-            <S key={i} className="aspect-[3/4] rounded-xl"
-              style={{ animationDelay: `${i * 0.07}s` } as React.CSSProperties} />
-          ))}
-        </div>
       </div>
-      <div className="w-full lg:w-80 bg-white dark:bg-slate-800 rounded-[2rem] border border-slate-100 dark:border-slate-700 shadow-sm p-6 sm:p-8 space-y-7 sticky top-8">
+
+      {/* Sidebar — matches screenshot: title + reset, files(0) label, CTA button */}
+      <div className="w-full lg:w-72 bg-white dark:bg-slate-800 rounded-[1.5rem] border border-slate-100 dark:border-slate-700 shadow-sm p-6 space-y-6 sticky top-8">
+        {/* Organize PDF + Reset All */}
         <div className="flex items-center justify-between">
-          <S className="w-36 h-6 rounded-xl" />
-          <S className="w-16 h-4 rounded-lg" />
+          <S className="w-32 h-5 rounded-lg" />
+          <S className="w-16 h-4 rounded-lg" style={{ backgroundColor: 'rgb(254 202 202)' }} />
         </div>
-        <div className="space-y-3">
+
+        {/* Files (0) label */}
+        <div className="flex items-center gap-2">
+          <S className="w-4 h-4 rounded-full" />
           <S className="w-20 h-3 rounded-md" />
-          {Array.from({ length: 3 }).map((_, i) => (
-            <div key={i} className="flex items-center gap-3 p-3 bg-slate-50 dark:bg-slate-900 rounded-xl">
-              <S className="w-7 h-7 rounded-lg shrink-0" />
-              <div className="flex-1 space-y-2">
-                <S className="w-full h-3 rounded-md" />
-                <S className="w-2/3 h-2 rounded-md" />
-              </div>
-            </div>
-          ))}
         </div>
-        <div className="pt-4 border-t border-slate-100 dark:border-white/5">
-          <S className="w-full h-14 rounded-2xl" style={{ backgroundColor: 'rgb(254 215 170)' }} />
-        </div>
+
+        {/* Organize PDF CTA button */}
+        <S className="w-full h-12 rounded-2xl" style={{ backgroundColor: 'rgb(226 232 240)' }} />
       </div>
     </div>
   );
 }
 
-/* ══════════════════════════════════════════════════════
-   ORGANIZE — B: centered card style
-══════════════════════════════════════════════════════ */
-export function OrganizeSkeletonB() {
-  return (
-    <div className="max-w-2xl mx-auto py-6 px-4">
-      <ToolCardSkeleton accent="rgb(254 215 170)" fileCards={1} />
-    </div>
-  );
-}
+
 
 /* ══════════════════════════════════════════════════════
    MERGE / SPLIT — A: centered card + 2 file cards
@@ -166,50 +146,49 @@ export function MergeSplitSkeletonB() {
 export function RepairSkeleton() {
   return (
     <div className="flex flex-col lg:flex-row min-h-[calc(100vh-80px)] bg-slate-50 dark:bg-slate-900">
-      <div className="flex-1 p-6 sm:p-8 space-y-8">
+      {/* Left workspace */}
+      <div className="flex-1 p-6 sm:p-8 space-y-6">
+        {/* Header: REPAIR PDF FILES + Add Files button */}
         <div className="flex items-center justify-between">
-          <S className="w-52 h-8 rounded-xl" />
-          <S className="w-28 h-10 rounded-full" />
+          <S className="w-44 h-5 rounded-lg" />
+          <S className="w-24 h-9 rounded-full" style={{ backgroundColor: 'rgb(254 202 202)' }} />
         </div>
-        <div className="border-4 border-dashed border-slate-200 dark:border-slate-800 rounded-[3rem] p-16 sm:p-24 flex flex-col items-center gap-6">
-          <S className="w-20 h-20 rounded-3xl" />
-          <S className="w-56 h-6 rounded-xl" />
+
+        {/* Dashed drop zone */}
+        <div className="border-2 border-dashed border-slate-200 dark:border-slate-800 rounded-2xl flex flex-col items-center justify-center gap-4 min-h-[220px] p-10">
+          <S className="w-12 h-12 rounded-2xl" />
           <S className="w-44 h-4 rounded-lg" />
-        </div>
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-          {Array.from({ length: 4 }).map((_, i) => (
-            <S key={i} className="aspect-[3/4] rounded-2xl"
-              style={{ animationDelay: `${i * 0.1}s` } as React.CSSProperties} />
-          ))}
+          <S className="w-36 h-3 rounded-lg" />
         </div>
       </div>
-      <div className="w-full lg:w-[400px] bg-white dark:bg-slate-800 border-l border-slate-100 dark:border-slate-700 flex flex-col">
-        <div className="p-6 sm:p-8 space-y-8 flex-1">
-          <S className="w-40 h-9 rounded-xl" />
-          <div className="p-5 bg-blue-50 dark:bg-blue-500/10 rounded-2xl border border-blue-100 dark:border-blue-500/20 space-y-2">
-            <S className="w-full h-4 rounded-lg" />
-            <S className="w-4/5 h-3 rounded-lg" />
-            <S className="w-3/5 h-3 rounded-lg" />
-          </div>
-          <div className="space-y-3">
-            <div className="flex justify-between items-center">
-              <S className="w-28 h-3 rounded-md" />
-              <S className="w-8 h-5 rounded-full" />
-            </div>
-            {Array.from({ length: 3 }).map((_, i) => (
-              <div key={i} className="flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-100 dark:border-slate-700">
-                <div className="flex items-center gap-3">
-                  <S className="w-4 h-4 rounded-full" />
-                  <S className="w-36 h-3 rounded-md" />
-                </div>
-                <S className="w-4 h-4 rounded-md" />
+
+      {/* Right sidebar */}
+      <div className="w-full lg:w-[340px] bg-white dark:bg-slate-800 border-l border-slate-100 dark:border-slate-700 flex flex-col">
+        <div className="p-6 space-y-6 flex-1">
+          {/* Info box */}
+          <div className="p-4 bg-blue-50 dark:bg-blue-500/10 rounded-2xl border border-blue-100 dark:border-blue-500/20 space-y-2">
+            <div className="flex gap-2">
+              <S className="w-4 h-4 rounded-full shrink-0" style={{ backgroundColor: 'rgb(191 219 254)' }} />
+              <div className="flex-1 space-y-2">
+                <S className="w-full h-3 rounded-md" />
+                <S className="w-4/5 h-3 rounded-md" />
+                <S className="w-3/5 h-3 rounded-md" />
               </div>
-            ))}
+            </div>
+          </div>
+
+          {/* Empty state: icon + text */}
+          <div className="flex flex-col items-center justify-center gap-3 py-10">
+            <S className="w-10 h-10 rounded-full" />
+            <S className="w-48 h-3 rounded-md" />
+            <S className="w-36 h-3 rounded-md" />
           </div>
         </div>
-        <div className="p-6 sm:p-8 border-t border-slate-100 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-900/50 space-y-3">
-          <S className="w-full h-14 rounded-2xl" style={{ backgroundColor: 'rgb(254 202 202)' }} />
-          <S className="w-48 h-3 rounded-md mx-auto" />
+
+        {/* Bottom: Repair PDF button + powered by text */}
+        <div className="p-6 border-t border-slate-100 dark:border-slate-700 space-y-2">
+          <S className="w-full h-12 rounded-2xl" style={{ backgroundColor: 'rgb(226 232 240)' }} />
+          <S className="w-40 h-2 rounded-md mx-auto" />
         </div>
       </div>
     </div>

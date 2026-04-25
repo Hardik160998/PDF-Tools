@@ -183,7 +183,7 @@ export default function Home() {
       {/* Tools Grid */}
       <section className="container mx-auto px-4 pb-20">
         {isLoading ? (
-          <SkeletonGrid count={filteredTools.length || 16} />
+          <SkeletonGrid count={filteredTools.length || 16} categories={filteredTools.map(t => t.category)} />
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 lg:grid-cols-5 gap-6 animate-fade-in">
             {filteredTools.map((tool) => {

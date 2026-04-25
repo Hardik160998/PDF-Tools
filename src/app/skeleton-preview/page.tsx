@@ -2,13 +2,13 @@
 
 import { useState } from 'react';
 import {
-  OrganizeSkeletonA, OrganizeSkeletonB,
+  OrganizeSkeletonA,
   MergeSplitSkeletonA, MergeSplitSkeletonB,
   RepairSkeleton, CenteredCardSkeleton,
 } from '@/app/tool/[id]/skeletons';
 
 const TABS = [
-  { label: 'Organize',      key: 'organize', ab: true  },
+  { label: 'Organize',      key: 'organize', ab: false },
   { label: 'Merge / Split', key: 'merge',    ab: true  },
   { label: 'Repair',        key: 'repair',   ab: false },
   { label: 'Compress',      key: 'compress', ab: false },
@@ -22,7 +22,7 @@ const TABS = [
 
 function getSkeletons(id: string) {
   switch (id) {
-    case 'organize': return { A: <OrganizeSkeletonA />,                        B: <OrganizeSkeletonB /> };
+    case 'organize': return { A: <OrganizeSkeletonA />, B: null };
     case 'merge':    return { A: <MergeSplitSkeletonA />,                      B: <MergeSplitSkeletonB /> };
     case 'repair':   return { A: <RepairSkeleton />,                           B: null };
     case 'compress': return { A: <CenteredCardSkeleton accent="rgb(187 247 208)" />, B: null };
