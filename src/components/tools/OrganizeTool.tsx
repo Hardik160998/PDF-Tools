@@ -153,8 +153,8 @@ export default function OrganizeTool({ id }: { id: string }) {
       canvas.height = viewport.height;
       canvas.width = viewport.width;
 
-      if (context) {
-        await page.render({ canvasContext: context, viewport }).promise;
+       if (context) {
+         await page.render({ canvasContext: context, viewport, canvas }).promise;
         newPages.push({
           id: `${fileIdx}-${i}-${Math.random().toString(36).substr(2, 9)}`,
           fileIndex: fileIdx,
@@ -239,10 +239,13 @@ export default function OrganizeTool({ id }: { id: string }) {
         const [copiedPage] = await organizedPdf.copyPages(sourceDoc, [pageMeta.pageIndex]);
         
         // Apply rotation
-        if (pageMeta.rotation !== 0) {
-          const currentRotation = copiedPage.getRotation().angle;
-          copiedPage.setRotation({ angle: (currentRotation + pageMeta.rotation) % 360 });
-        }
+       if (pageMeta.rotation !== 0) {
+         const currentRotation = copiedPage.getRotation().angle;
+         copiedPage.setRotation({ 
+           angle: (currentRotation + pageMeta.rotation) % 360,
+           type: 'degrees' 
+         });
+       }
         
         organizedPdf.addPage(copiedPage);
       }
