@@ -49,16 +49,9 @@ export default function ToolPage({ params }: { params: Promise<{ id: string }> }
   }
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-7xl animate-in fade-in slide-in-from-bottom-8 duration-700">
+    <div className="container mx-auto px-4 py-4 sm:py-8 max-w-7xl animate-in fade-in slide-in-from-bottom-8 duration-700">
       <Tool id={id} />
       
-      {/* Universal Tool Ad Slot - Clean iLovePDF Style */}
-      <div className="mt-16 bg-slate-50 dark:bg-slate-800/50 rounded-[2rem] p-12 text-center text-slate-400 opacity-50 border border-slate-100 dark:border-slate-800 border-dashed max-w-5xl mx-auto">
-        <p className="text-[10px] font-black uppercase tracking-widest mb-4">Ad Placement</p>
-        <div className="h-32 flex items-center justify-center italic font-medium text-lg">
-          Premium Responsive Display Ad
-        </div>
-      </div>
     </div>
   );
 }

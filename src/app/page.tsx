@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
+import SkeletonGrid from '@/components/SkeletonGrid';
 import { 
   Combine, 
   Scissors, 
@@ -77,6 +78,14 @@ export default function Home() {
   const [activeCategory, setActiveCategory] = useState('All');
   const [search, setSearch] = useState('');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+
+  // Hide skeletons after initial load and on category changes
+  useEffect(() => {
+    setIsLoading(true);
+    const timer = setTimeout(() => setIsLoading(false), 500);
+    return () => clearTimeout(timer);
+  }, [activeCategory]);
 
   const filteredTools = useMemo(() => {
     return TOOLS.filter(t => {
@@ -173,44 +182,39 @@ export default function Home() {
       </section>
       {/* Tools Grid */}
       <section className="container mx-auto px-4 pb-20">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 lg:grid-cols-5 gap-6">
-          {filteredTools.map((tool) => {
-            const style = CATEGORY_STYLES[tool.category] || CATEGORY_STYLES['Special'];
-            return (
-              <a 
-                key={tool.id} 
-                href={`/tool/${tool.id}`} 
-                className={`tool-card group ${style.hover}`}
-              >
-                <div 
-                  className={`tool-icon-wrapper shadow-xl ${style.shadow}`} 
-                  style={{ backgroundImage: style.gradient }}
+        {isLoading ? (
+          <SkeletonGrid count={filteredTools.length || 16} />
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 lg:grid-cols-5 gap-6 animate-fade-in">
+            {filteredTools.map((tool) => {
+              const style = CATEGORY_STYLES[tool.category] || CATEGORY_STYLES['Special'];
+              return (
+                <a 
+                  key={tool.id} 
+                  href={`/tool/${tool.id}`} 
+                  className={`tool-card group ${style.hover}`}
                 >
-                  <tool.icon size={28} />
-                </div>
-                <div className="space-y-3">
-                  <h3 className="text-lg font-black text-slate-900 dark:text-white tracking-tight group-hover:text-red-500 transition-colors">
-                    {tool.title}
-                  </h3>
-                  <p className="text-[13px] font-medium text-slate-500 dark:text-slate-400 leading-snug">
-                    {tool.description}
-                  </p>
-                </div>
-              </a>
-            );
-          })}
-        </div>
+                  <div 
+                    className={`tool-icon-wrapper shadow-xl ${style.shadow}`} 
+                    style={{ backgroundImage: style.gradient }}
+                  >
+                    <tool.icon size={28} />
+                  </div>
+                  <div className="space-y-3">
+                    <h3 className="text-lg font-black text-slate-900 dark:text-white tracking-tight group-hover:text-red-500 transition-colors">
+                      {tool.title}
+                    </h3>
+                    <p className="text-[13px] font-medium text-slate-500 dark:text-slate-400 leading-snug">
+                      {tool.description}
+                    </p>
+                  </div>
+                </a>
+              );
+            })}
+          </div>
+        )}
       </section>
 
-      {/* Advertisement Slot */}
-      <div className="container mx-auto px-4 pb-20">
-         <div className="bg-slate-50 dark:bg-slate-800/50 rounded-[2rem] p-12 border border-slate-100 dark:border-slate-800 text-center text-slate-400 opacity-50 border-dashed">
-            <p className="text-[10px] font-black uppercase tracking-[0.2em] mb-4">Advertisement Zone</p>
-            <div className="h-24 flex items-center justify-center font-bold text-xl italic italic">
-              Premium Native Display Ad Placement
-            </div>
-         </div>
-      </div>
     </div>
   );
 }

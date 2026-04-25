@@ -110,17 +110,17 @@ export default function RepairTool({ id }: { id: string }) {
   return (
     <div className="flex flex-col lg:flex-row min-h-[calc(100vh-80px)] bg-slate-50 dark:bg-slate-900">
       {/* Workspace */}
-      <div className="flex-1 p-8 overflow-y-auto">
+      <div className="flex-1 p-4 sm:p-8 overflow-y-auto">
         <div className="max-w-5xl mx-auto space-y-8">
-          <div className="flex items-center justify-between">
-            <h2 className="text-3xl font-black tracking-tight text-slate-900 dark:text-white uppercase">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <h2 className="text-xl sm:text-3xl font-black tracking-tight text-slate-900 dark:text-white uppercase">
               Repair PDF Files
             </h2>
             <button 
               onClick={() => fileInputRef.current?.click()}
-              className="p-3 bg-red-500 text-white rounded-full shadow-lg hover:scale-110 transition-transform flex items-center gap-2 px-6 font-bold"
+              className="p-2.5 sm:p-3 bg-red-500 text-white rounded-full shadow-lg hover:scale-110 transition-transform flex items-center justify-center gap-2 px-5 sm:px-6 font-bold text-sm sm:text-base"
             >
-              <Plus size={20} /> Add Files
+              <Plus size={18} className="sm:w-5 sm:h-5" /> Add Files
             </button>
             <input 
               type="file" 
@@ -135,18 +135,18 @@ export default function RepairTool({ id }: { id: string }) {
           {!files.length ? (
             <div 
               onClick={() => fileInputRef.current?.click()}
-              className="border-4 border-dashed border-slate-200 dark:border-slate-800 rounded-[3rem] p-24 flex flex-col items-center justify-center gap-6 group hover:border-red-500 transition-all cursor-pointer bg-white/50 dark:bg-slate-800/50"
+              className="border-4 border-dashed border-slate-200 dark:border-slate-800 rounded-[2rem] sm:rounded-[3rem] p-12 sm:p-24 flex flex-col items-center justify-center gap-4 sm:gap-6 group hover:border-red-500 transition-all cursor-pointer bg-white/50 dark:bg-slate-800/50"
             >
-              <div className="p-8 bg-white dark:bg-slate-800 rounded-3xl shadow-xl text-red-500 group-hover:scale-110 transition-transform">
-                <Upload size={64} />
+              <div className="p-6 sm:p-8 bg-white dark:bg-slate-800 rounded-3xl shadow-xl text-red-500 group-hover:scale-110 transition-transform">
+                <Upload size={40} className="sm:w-16 sm:h-16" />
               </div>
-              <div className="text-center">
-                <p className="text-2xl font-black">Drop damaged PDFs here</p>
-                <p className="text-slate-500 font-medium">Click to browse your computer</p>
+              <div className="text-center px-4">
+                <p className="text-lg sm:text-2xl font-black">Drop damaged PDFs here</p>
+                <p className="text-sm sm:text-base text-slate-500 font-medium">Click to browse your computer</p>
               </div>
             </div>
           ) : (
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6 animate-in fade-in zoom-in duration-500">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 sm:gap-6 animate-in fade-in zoom-in duration-500">
               <AnimatePresence>
                 {files.map((f) => (
                   <motion.div 
@@ -230,16 +230,16 @@ export default function RepairTool({ id }: { id: string }) {
 
       {/* Sidebar */}
       <div className="w-full lg:w-[400px] bg-white dark:bg-slate-800 border-l border-slate-100 dark:border-slate-700 shadow-2xl flex flex-col">
-        <div className="p-8 space-y-8 flex-1">
-          <div className="space-y-2">
-            <h1 className="text-4xl font-black tracking-tighter text-slate-900 dark:text-white">Repair PDF</h1>
+        <div className="p-6 sm:p-8 space-y-6 sm:space-y-8 flex-1">
+          <div className="space-y-1 sm:space-y-2">
+            <h1 className="text-2xl sm:text-4xl font-black tracking-tighter text-slate-900 dark:text-white uppercase">Repair PDF</h1>
           </div>
 
-          <div className="p-6 bg-blue-50 dark:bg-blue-500/10 rounded-2xl border border-blue-100 dark:border-blue-500/20 flex gap-4">
-             <Info className="text-blue-500 shrink-0" size={24} />
-             <div className="space-y-2">
-                <p className="text-sm font-bold text-blue-900 dark:text-blue-200">We will try to repair your PDFs.</p>
-                <p className="text-xs text-blue-700 dark:text-blue-300 leading-relaxed font-medium">You can get a different file format on download if we detect that format in your file.</p>
+          <div className="p-4 sm:p-6 bg-blue-50 dark:bg-blue-500/10 rounded-2xl border border-blue-100 dark:border-blue-500/20 flex gap-3 sm:gap-4">
+             <Info className="text-blue-500 shrink-0 sm:w-6 sm:h-6" size={20} />
+             <div className="space-y-1 sm:space-y-2">
+                <p className="text-xs sm:text-sm font-bold text-blue-900 dark:text-blue-200">We will try to repair your PDFs.</p>
+                <p className="text-[10px] sm:text-xs text-blue-700 dark:text-blue-300 leading-relaxed font-medium">You can get a different file format on download if we detect that format in your file.</p>
              </div>
           </div>
 
@@ -277,14 +277,14 @@ export default function RepairTool({ id }: { id: string }) {
           )}
         </div>
 
-        <div className="p-8 border-t border-slate-100 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-900/50">
+        <div className="p-6 sm:p-8 border-t border-slate-100 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-900/50">
           <button 
             onClick={handleRepair}
             disabled={processing || files.length === 0}
-            className={`w-full py-5 bg-red-600 hover:bg-red-700 text-white rounded-2xl text-xl font-black shadow-xl flex items-center justify-center gap-4 transition-all disabled:grayscale disabled:opacity-50 group overflow-hidden relative active:scale-95`}
+            className={`w-full py-4 sm:py-5 bg-red-600 hover:bg-red-700 text-white rounded-2xl text-lg sm:text-xl font-black shadow-xl flex items-center justify-center gap-4 transition-all disabled:grayscale disabled:opacity-50 group overflow-hidden relative active:scale-95`}
           >
             {processing ? (
-              <Loader2 className="animate-spin" size={24} />
+              <Loader2 className="animate-spin" size={20} />
             ) : (
               <>
                 Repair PDF
@@ -292,7 +292,7 @@ export default function RepairTool({ id }: { id: string }) {
                   animate={{ x: [0, 5, 0] }}
                   transition={{ repeat: Infinity, duration: 1.5 }}
                 >
-                  <Plus className="rotate-45" size={24} />
+                  <Plus className="rotate-45" size={20} className="sm:w-6 sm:h-6" />
                 </motion.span>
               </>
             )}

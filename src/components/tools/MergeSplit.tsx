@@ -86,28 +86,28 @@ export default function MergeSplit({ id }: { id: string }) {
   };
 
   return (
-    <div className="max-w-4xl mx-auto py-12 px-4 text-center">
-      <div className="bg-white dark:bg-slate-800 rounded-[2.5rem] p-12 border border-slate-100 dark:border-slate-700 shadow-2xl space-y-10">
-        <div className="space-y-4">
-          <div className="inline-flex p-5 rounded-3xl bg-orange-500 text-white shadow-lg">
-             {id === 'merge' ? <Combine size={40} /> : <Scissors size={40} />}
+    <div className="max-w-4xl mx-auto py-6 sm:py-12 px-4 text-center">
+      <div className="bg-white dark:bg-slate-800 rounded-[1.5rem] sm:rounded-[2.5rem] p-6 sm:p-12 border border-slate-100 dark:border-slate-700 shadow-2xl space-y-6 sm:space-y-10">
+        <div className="space-y-3 sm:space-y-4">
+          <div className="inline-flex p-3 sm:p-5 rounded-2xl sm:rounded-3xl bg-orange-500 text-white shadow-lg">
+             {id === 'merge' ? <Combine size={32} className="sm:w-10 sm:h-10" /> : <Scissors size={32} className="sm:w-10 sm:h-10" />}
           </div>
-          <h2 className="text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter">
+          <h2 className="text-2xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter">
             {id === 'merge' ? 'Merge PDF' : 'Split PDF'}
           </h2>
-          <p className="text-slate-500 font-medium">Combine or separate your documents with ultra-speed.</p>
+          <p className="text-sm sm:text-base text-slate-500 font-medium">Combine or separate your documents with ultra-speed.</p>
         </div>
 
         {!result ? (
           <div className="space-y-8">
-            <div className="relative border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-3xl p-16 group hover:border-orange-500 transition-all cursor-pointer bg-slate-50/50 dark:bg-slate-900/50">
+            <div className="relative border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-2xl sm:rounded-3xl p-8 sm:p-16 group hover:border-orange-500 transition-all cursor-pointer bg-slate-50/50 dark:bg-slate-900/50">
               <input type="file" multiple={id === 'merge'} onChange={onFileChange} accept=".pdf" className="absolute inset-0 opacity-0 cursor-pointer" />
-              <div className="space-y-6">
-                <div className="p-6 bg-white dark:bg-slate-800 rounded-2xl shadow-xl inline-block text-orange-500 group-hover:scale-110 transition-transform">
-                  <Upload size={48} />
+              <div className="space-y-4 sm:space-y-6">
+                <div className="p-4 sm:p-6 bg-white dark:bg-slate-800 rounded-2xl shadow-xl inline-block text-orange-500 group-hover:scale-110 transition-transform">
+                  <Upload size={32} className="sm:w-12 sm:h-12" />
                 </div>
-                <div className="text-2xl font-black tracking-tight">Select PDF Files</div>
-                <p className="text-slate-500">or drop PDF here</p>
+                <div className="text-xl sm:text-2xl font-black tracking-tight">Select PDF Files</div>
+                <p className="text-sm sm:text-base text-slate-500">or drop PDF here</p>
               </div>
             </div>
 
@@ -159,10 +159,10 @@ export default function MergeSplit({ id }: { id: string }) {
                 <button 
                   onClick={handleProcess} 
                   disabled={processing}
-                  className="w-full py-5 bg-orange-500 hover:bg-orange-600 text-white rounded-2xl text-2xl font-black shadow-xl shadow-orange-500/20 flex items-center justify-center gap-4 group"
+                  className="w-full py-4 sm:py-5 bg-orange-500 hover:bg-orange-600 text-white rounded-2xl text-lg sm:text-2xl font-black shadow-xl shadow-orange-500/20 flex items-center justify-center gap-4 group"
                 >
-                  {processing ? <Loader2 className="animate-spin" /> : <Combine size={28} className="fill-white/20" />}
-                  {processing ? 'Merging...' : (id === 'merge' ? 'Merge PDF' : 'Split PDF')}
+                  {processing ? <Loader2 className="animate-spin" /> : <Combine size={24} className="sm:w-7 sm:h-7 fill-white/20" />}
+                  {processing ? 'Processing...' : (id === 'merge' ? 'Merge PDF' : 'Split PDF')}
                 </button>
               </div>
             )}
@@ -177,10 +177,10 @@ export default function MergeSplit({ id }: { id: string }) {
                 <p className="text-slate-500 font-bold uppercase tracking-widest">{id === 'merge' ? `${result.count} files combined.` : `${result.count} files extracted.`}</p>
              </div>
              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <a href={result.url} download={result.filename || 'download'} className="flex-1 py-5 bg-orange-500 hover:bg-orange-600 text-white rounded-2xl text-2xl font-black shadow-xl flex items-center justify-center gap-4">
-                   <Download size={28} /> Download
+                <a href={result.url} download={result.filename || 'download'} className="flex-1 py-4 sm:py-5 bg-orange-500 hover:bg-orange-600 text-white rounded-2xl text-xl sm:text-2xl font-black shadow-xl flex items-center justify-center gap-4">
+                   <Download size={24} className="sm:w-7 sm:h-7" /> Download
                 </a>
-                <button onClick={() => {setFiles([]); setResult(null);}} className="px-10 py-5 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 text-slate-900 dark:text-white rounded-2xl font-bold transition-all">
+                <button onClick={() => {setFiles([]); setResult(null);}} className="px-10 py-4 sm:py-5 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 text-slate-900 dark:text-white rounded-2xl font-bold transition-all">
                    Start Over
                 </button>
              </div>
