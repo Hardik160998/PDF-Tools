@@ -292,7 +292,7 @@ export default function RepairTool({ id }: { id: string }) {
                   animate={{ x: [0, 5, 0] }}
                   transition={{ repeat: Infinity, duration: 1.5 }}
                 >
-                  <Plus className="rotate-45" size={20} className="sm:w-6 sm:h-6" />
+                  <Plus className="rotate-45 sm:w-6 sm:h-6" size={20} />
                 </motion.span>
               </>
             )}
