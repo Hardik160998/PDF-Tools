@@ -1,7 +1,11 @@
 "use client";
 
 import { useState } from 'react';
-import { OrganizeSkeleton, MergeSplitSkeleton, RepairSkeleton, CenteredCardSkeleton } from '../tool/[id]/skeletons';
+import {
+  OrganizeSkeletonA, OrganizeSkeletonB,
+  MergeSplitSkeletonA, MergeSplitSkeletonB,
+  RepairSkeleton, CenteredCardSkeleton,
+} from '@/app/tool/[id]/skeletons';
 
 const TABS = [
   { label: 'Organize', key: 'organize' },
