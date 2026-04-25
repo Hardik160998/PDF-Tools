@@ -250,8 +250,13 @@
 }
 
 /* When drawer is open — hide bg-mesh, lock everything */
-body.drawer-open .bg-mesh {
-  display: none !important;
+body.drawer-open .page-content > main,
+body.drawer-open .page-content > footer {
+    background: rgba(15, 23, 42, 0.15);
+  filter: blur(1px);
+  transition: filter 0.28s ease;
+  pointer-events: none;
+  user-select: none;
 }
 
 body.drawer-open {
@@ -292,15 +297,15 @@ body.drawer-open {
   display: none;
   position: fixed;
   inset: 0;
-  background: rgba(15, 23, 42, 0.45);
-  backdrop-filter: blur(3px);
+  backdrop-filter: blur(1px);
   z-index: 98;
   animation: mobFadeIn 0.2s ease forwards;
 }
 
 @media (max-width: 1023px) {
   .mob-backdrop {
-    display: block;
+        display: block;
+    filter: blur(1px);
   }
 }
 
@@ -335,6 +340,26 @@ body.drawer-open {
 
 .mob-drawer--open {
   transform: translateX(0);
+}
+
+/* Mobile drawer item icons when drawer is open */
+.mob-drawer.mob-drawer--open .mob-drawer-body .mob-drawer-item:nth-child(1) .mob-drawer-item-icon {
+  background: linear-gradient(135deg, #f26522, #c2410c);
+}
+.mob-drawer.mob-drawer--open .mob-drawer-body .mob-drawer-item:nth-child(2) .mob-drawer-item-icon {
+  background: linear-gradient(135deg, #22c55e, #15803d);
+}
+.mob-drawer.mob-drawer--open .mob-drawer-body .mob-drawer-item:nth-child(3) .mob-drawer-item-icon {
+  background: linear-gradient(135deg, #3182ce, #1e3a8a);
+}
+.mob-drawer.mob-drawer--open .mob-drawer-body .mob-drawer-item:nth-child(4) .mob-drawer-item-icon {
+  background: linear-gradient(135deg, #E8465D, #843286);
+}
+.mob-drawer.mob-drawer--open .mob-drawer-body .mob-drawer-item:nth-child(5) .mob-drawer-item-icon {
+  background: linear-gradient(135deg, #e53e3e, #7f1d1d);
+}
+.mob-drawer.mob-drawer--open .mob-drawer-body .mob-drawer-item:nth-child(6) .mob-drawer-item-icon {
+  background: linear-gradient(135deg, #ef4444, #991b1b);
 }
 
 /* Drawer Header */
