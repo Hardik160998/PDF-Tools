@@ -5,7 +5,7 @@ import { Menu, X, Heart, Combine, Scissors, Zap, LifeBuoy, Type, FileJson, Image
 
 const SECTIONS = [
   {
-    label: "Organize", color: "#f26522",
+    label: "Organize", color: "#f26522", gradient: "linear-gradient(135deg, #f26522, #c2410c)",
     links: [
       { href: "/tool/organize",    label: "Organize PDF",       icon: FileSymlink },
       { href: "/tool/merge",       label: "Merge PDF",          icon: Combine },
@@ -13,14 +13,14 @@ const SECTIONS = [
     ],
   },
   {
-    label: "Optimize", color: "#22c55e",
+    label: "Optimize", color: "#22c55e", gradient: "linear-gradient(135deg, #22c55e, #15803d)",
     links: [
       { href: "/tool/compress",    label: "Compress PDF",       icon: Zap },
       { href: "/tool/repair-pdf",  label: "Repair PDF",         icon: LifeBuoy },
     ],
   },
   {
-    label: "Convert", color: "#3182ce",
+    label: "Convert", color: "#3182ce", gradient: "linear-gradient(135deg, #3182ce, #1e3a8a)",
     links: [
       { href: "/tool/extract-text",label: "PDF to Text",        icon: Type },
       { href: "/tool/pdf-to-xml",  label: "PDF to XML",         icon: FileJson },
@@ -36,7 +36,7 @@ const SECTIONS = [
     ],
   },
   {
-    label: "Edit", color: "#E8465D",
+    label: "Edit", color: "#E8465D", gradient: "linear-gradient(135deg, #E8465D, #843286)",
     links: [
       { href: "/tool/watermark",    label: "Watermark",         icon: Stamp },
       { href: "/tool/page-numbers", label: "Page Numbers",      icon: FileDigit },
@@ -44,14 +44,14 @@ const SECTIONS = [
     ],
   },
   {
-    label: "Security", color: "#e53e3e",
+    label: "Security", color: "#e53e3e", gradient: "linear-gradient(135deg, #e53e3e, #7f1d1d)",
     links: [
       { href: "/tool/unlock",  label: "Unlock PDF",  icon: Unlock },
       { href: "/tool/protect", label: "Protect PDF", icon: Lock },
     ],
   },
   {
-    label: "Special", color: "#ef4444",
+    label: "Special", color: "#ef4444", gradient: "linear-gradient(135deg, #ef4444, #991b1b)",
     links: [
       { href: "/tool/aadhar-crop", label: "Aadhar Cropper", icon: Wand2 },
     ],
@@ -144,9 +144,9 @@ export default function MobileNav() {
                 </div>
                 {section.links.map(({ href, label, icon: Icon }) => (
                   <a key={href} href={href} className="mob-drawer-item" onClick={close}>
-                    <span className="mob-drawer-item-icon" style={{ background: section.color }}>
-                      <Icon size={13} />
-                    </span>
+<span className="mob-drawer-item-icon" style={{ background: section.gradient }}>
+  <Icon size={13} />
+</span>
                     {label}
                   </a>
                 ))}

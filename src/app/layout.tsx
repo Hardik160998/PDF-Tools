@@ -6,6 +6,7 @@ import { Heart } from "lucide-react";
 import AllToolsDropdown from "@/components/AllToolsDropdown";
 import NavSearchBar from "@/components/NavSearchBar";
 import MobileNav from "@/components/MobileNav";
+import ConvertDropdown from "@/components/ConvertDropdown";
 
 const inter = Inter({ subsets: ["latin"], weight: ['400', '500', '600', '700', '800', '900'] });
 
@@ -24,6 +25,7 @@ export default function RootLayout({
       <body className={`${inter.className} antialiased`} suppressHydrationWarning>
         <div className="bg-mesh" aria-hidden="true" />
         
+        <div className="page-content">
         <header className="sticky top-0 z-50 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-b border-slate-100 dark:border-slate-800">
           <div className="container mx-auto px-4 h-16 flex items-center justify-between">
             <div className="flex items-center gap-8">
@@ -39,12 +41,12 @@ export default function RootLayout({
                   { label: 'MERGE PDF', href: '/tool/merge' },
                   { label: 'SPLIT PDF', href: '/tool/split' },
                   { label: 'COMPRESS PDF', href: '/tool/compress' },
-                  { label: 'CONVERT PDF', href: '/tool/extract-text' },
                 ].map(({ label, href }) => (
                   <a key={label} href={href} className="text-xs font-black text-slate-700 dark:text-slate-300 hover:text-red-500 transition-colors uppercase tracking-tight">
                     {label}
                   </a>
                 ))}
+                <ConvertDropdown />
                 <AllToolsDropdown />
               </nav>
             </div>
@@ -75,6 +77,7 @@ export default function RootLayout({
             <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">&copy; 2026 SmartPDFs Plus Project. Toolset for modern workflows.</p>
           </div>
         </footer>
+        </div>
       </body>
     </html>
   );
