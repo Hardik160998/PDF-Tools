@@ -239,10 +239,10 @@ export default function OrganizeTool({ id }: { id: string }) {
         const [copiedPage] = await organizedPdf.copyPages(sourceDoc, [pageMeta.pageIndex]);
         
         // Apply rotation
-        if (pageMeta.rotation !== 0) {
-          const currentRotation = copiedPage.getRotation().angle;
-          copiedPage.setRotation(degrees((currentRotation + pageMeta.rotation) % 360));
-        }
+       if (pageMeta.rotation !== 0) {
+         const currentRotation = copiedPage.getRotation().angle;
+         copiedPage.setRotation(degrees((currentRotation + pageMeta.rotation) % 360));
+       }
         
         organizedPdf.addPage(copiedPage);
       }
