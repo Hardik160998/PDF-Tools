@@ -485,6 +485,22 @@
   [data-theme='dark'] .nav-search-item:hover { background: #0f172a; }
   [data-theme='dark'] .nav-search-item-label { color: #f1f5f9; }
   [data-theme='dark'] .nav-search-item-cat { background: #0f172a; color: #64748b; }
+
+  /* --- Mobile Dropdown Enhancements --- */
+  .mobile-dropdown-shadow {
+    box-shadow: 0 20px 50px -12px rgba(0, 0, 0, 0.15);
+  }
+
+  .glass-dropdown {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(226, 232, 240, 0.8);
+  }
+
+  [data-theme='dark'] .glass-dropdown {
+    background: rgba(30, 41, 59, 0.95);
+    border-color: rgba(51, 65, 85, 0.8);
+  }
 }
 
 /* Custom Mesh Gradient (Subtle) */

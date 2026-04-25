@@ -75,25 +75,6 @@
     line-height: 1.6 !important;
   }
 
-  .category-nav {
-    flex-wrap: nowrap !important;
-    overflow-x: auto !important;
-    justify-content: flex-start !important;
-    padding: 0.35rem !important;
-    gap: 0.15rem !important;
-    border-radius: 1rem !important;
-    scrollbar-width: none;
-  }
-
-  .category-nav::-webkit-scrollbar { display: none; }
-
-  .filter-tab {
-    padding: 0.5rem 1rem !important;
-    font-size: 0.65rem !important;
-    white-space: nowrap !important;
-    flex-shrink: 0 !important;
-  }
-
   .mt-16.fade-in-up.stagger-3 { margin-top: 1.5rem !important; }
   .overflow-x-auto.pb-4 { padding-bottom: 0.5rem !important; }
 }
