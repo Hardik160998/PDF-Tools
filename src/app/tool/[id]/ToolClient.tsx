@@ -2,37 +2,37 @@
 
 import dynamic from 'next/dynamic';
 import { notFound } from 'next/navigation';
-import { OrganizeSkeleton, MergeSplitSkeleton, RepairSkeleton, CenteredCardSkeleton } from './skeletons';
+import { OrganizeSkeletonA, MergeSplitSkeletonA, RepairSkeleton, CenteredCardSkeleton } from './skeletons';
 
 const OrganizeTool = dynamic(() => import('@/components/tools/OrganizeTool'), {
-  ssr: false, loading: () => <OrganizeSkeleton />,
+  ssr: false, loading: () => <OrganizeSkeletonA />,
 });
 const MergeSplit = dynamic(() => import('@/components/tools/MergeSplit'), {
-  ssr: false, loading: () => <MergeSplitSkeleton />,
+  ssr: false, loading: () => <MergeSplitSkeletonA />,
 });
 const RepairTool = dynamic(() => import('@/components/tools/RepairTool'), {
   ssr: false, loading: () => <RepairSkeleton />,
 });
 const Compressor = dynamic(() => import('@/components/tools/Compressor'), {
-  ssr: false, loading: () => <CenteredCardSkeleton accentColor="bg-green-200 dark:bg-green-900/40" />,
+  ssr: false, loading: () => <CenteredCardSkeleton accent="rgb(187 247 208)" />,
 });
 const EditTools = dynamic(() => import('@/components/tools/EditTools'), {
-  ssr: false, loading: () => <CenteredCardSkeleton accentColor="bg-purple-200 dark:bg-purple-900/40" />,
+  ssr: false, loading: () => <CenteredCardSkeleton accent="rgb(221 214 254)" />,
 });
 const ExtractText = dynamic(() => import('@/components/tools/ExtractText'), {
-  ssr: false, loading: () => <CenteredCardSkeleton accentColor="bg-blue-200 dark:bg-blue-900/40" />,
+  ssr: false, loading: () => <CenteredCardSkeleton accent="rgb(191 219 254)" />,
 });
 const ImageConverter = dynamic(() => import('@/components/tools/ImageConverter'), {
-  ssr: false, loading: () => <CenteredCardSkeleton accentColor="bg-yellow-200 dark:bg-yellow-900/40" />,
+  ssr: false, loading: () => <CenteredCardSkeleton accent="rgb(254 240 138)" />,
 });
 const OfficeTools = dynamic(() => import('@/components/tools/OfficeTools'), {
-  ssr: false, loading: () => <CenteredCardSkeleton accentColor="bg-blue-200 dark:bg-blue-900/40" />,
+  ssr: false, loading: () => <CenteredCardSkeleton accent="rgb(191 219 254)" />,
 });
 const SecurityTools = dynamic(() => import('@/components/tools/SecurityTools'), {
-  ssr: false, loading: () => <CenteredCardSkeleton accentColor="bg-red-200 dark:bg-red-900/40" />,
+  ssr: false, loading: () => <CenteredCardSkeleton accent="rgb(254 202 202)" />,
 });
 const AadharCropper = dynamic(() => import('@/components/tools/AadharCropper'), {
-  ssr: false, loading: () => <CenteredCardSkeleton accentColor="bg-red-200 dark:bg-red-900/40" />,
+  ssr: false, loading: () => <CenteredCardSkeleton accent="rgb(254 202 202)" />,
 });
 
 const TOOL_COMPONENTS: Record<string, React.ComponentType<{ id: string }>> = {
