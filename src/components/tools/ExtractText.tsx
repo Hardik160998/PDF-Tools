@@ -93,7 +93,7 @@ ${lines.map(line => `      <content>${line.replace(/&/g, '&amp;').replace(/</g, 
               <div className="text-xl sm:text-2xl font-black tracking-tight">Select PDF File</div>
               <p className="text-sm sm:text-base text-slate-500">or drop PDF here</p>
             </div>
-            {processing && <div className="absolute inset-0 bg-black/50 backdrop-blur-md flex items-center justify-center rounded-[1.5rem] sm:rounded-[2.5rem]"><Loader2 className="animate-spin text-blue-500" size={48} className="sm:w-16 sm:h-16" /></div>}
+            {processing && <div className="absolute inset-0 bg-black/50 backdrop-blur-md flex items-center justify-center rounded-[1.5rem] sm:rounded-[2.5rem]"><Loader2 className="animate-spin text-blue-500 sm:w-16 sm:h-16" size={48} /></div>}
           </div>
         ) : (
           <div className="space-y-8 animate-in zoom-in duration-700">
