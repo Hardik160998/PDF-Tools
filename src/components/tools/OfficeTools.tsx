@@ -82,13 +82,13 @@ export default function OfficeTools({ id }: { id: string }) {
               </div>
             ) : (
               <div className="space-y-8 animate-in slide-in-from-bottom-4 duration-500">
-                <div className="flex items-center justify-between p-6 bg-blue-50 dark:bg-blue-500/10 rounded-2xl border border-blue-500/20">
-                  <div className="flex items-center gap-4 text-left">
+                <div className="flex items-center justify-between p-6 bg-blue-50 dark:bg-blue-500/10 rounded-2xl border border-blue-500/20 overflow-hidden">
+                  <div className="flex items-center gap-4 text-left min-w-0 flex-1">
                     <div className="p-3 bg-white dark:bg-slate-800 rounded-xl shadow-md text-blue-500">
                       <FileText size={24} />
                     </div>
-                    <div>
-                      <p className="font-bold text-slate-900 dark:text-white truncate max-w-xs">{file.name}</p>
+                    <div className="min-w-0 flex-1">
+                      <p className="font-bold text-slate-900 dark:text-white truncate">{file.name}</p>
                       <p className="text-xs text-slate-500 font-bold uppercase tracking-widest">{info.type} Document</p>
                     </div>
                   </div>

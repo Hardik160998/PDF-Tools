@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
+import SkeletonGrid from '@/components/SkeletonGrid';
 import { 
   Combine, 
   Scissors, 
@@ -24,7 +25,8 @@ import {
   Presentation,
   FileSpreadsheet,
   Globe,
-  LifeBuoy
+  LifeBuoy,
+  ChevronDown
 } from 'lucide-react';const CATEGORIES = ['All', 'Organize', 'Optimize', 'Convert', 'Edit', 'Security', 'Special'];
 
 const CATEGORY_STYLES: Record<string, { gradient: string, shadow: string, hover: string }> = {
@@ -75,6 +77,15 @@ const TOOLS = [
 export default function Home() {
   const [activeCategory, setActiveCategory] = useState('All');
   const [search, setSearch] = useState('');
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+
+  // Hide skeletons after initial load and on category changes
+  useEffect(() => {
+    setIsLoading(true);
+    const timer = setTimeout(() => setIsLoading(false), 500);
+    return () => clearTimeout(timer);
+  }, [activeCategory]);
 
   const filteredTools = useMemo(() => {
     return TOOLS.filter(t => {
@@ -110,7 +121,8 @@ export default function Home() {
 
         {/* Integrated Control Center (Categories) */}
         <div className="mt-16 fade-in-up stagger-3 flex justify-center">
-          <div className="overflow-x-auto pb-4 scrollbar-hide px-4">
+          {/* Desktop Navigation */}
+          <div className="hidden md:block overflow-x-auto pb-4 scrollbar-hide px-4">
             <div className="category-nav mx-auto">
               {CATEGORIES.map(cat => (
                 <button
@@ -123,48 +135,86 @@ export default function Home() {
               ))}
             </div>
           </div>
+
+          {/* Mobile Dropdown Navigation */}
+          <div className="md:hidden w-full px-4 relative z-50">
+            {isMobileMenuOpen && (
+              <div 
+                className="fixed inset-0 z-[-1]" 
+                onClick={() => setIsMobileMenuOpen(false)}
+              />
+            )}
+            <button 
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="w-full flex items-center justify-between px-6 py-4 bg-white/80 dark:bg-slate-800/80 backdrop-blur-md border border-slate-200 dark:border-slate-700 rounded-2xl shadow-lg focus:outline-none transition-all active:scale-[0.98]"
+            >
+              <span className="text-sm font-black uppercase tracking-widest text-slate-900 dark:text-white">
+                {activeCategory}
+              </span>
+              <ChevronDown 
+                size={20} 
+                className={`text-slate-400 transition-transform duration-300 ${isMobileMenuOpen ? 'rotate-180' : ''}`} 
+              />
+            </button>
+
+            {isMobileMenuOpen && (
+              <div className="absolute top-full left-4 right-4 mt-2 py-2 glass-dropdown mobile-dropdown-shadow rounded-2xl animate-in fade-in slide-in-from-top-2 duration-200 overflow-hidden z-[60]">
+                {CATEGORIES.map(cat => (
+                  <button
+                    key={cat}
+                    onClick={() => {
+                      setActiveCategory(cat);
+                      setIsMobileMenuOpen(false);
+                    }}
+                    className={`w-full text-left px-6 py-3 text-sm font-bold transition-colors ${
+                      activeCategory === cat 
+                        ? 'bg-red-50 text-red-600 dark:bg-red-900/20 dark:text-red-400' 
+                        : 'text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-700/50'
+                    }`}
+                  >
+                    {cat}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
       </section>
       {/* Tools Grid */}
       <section className="container mx-auto px-4 pb-20">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 lg:grid-cols-5 gap-6">
-          {filteredTools.map((tool) => {
-            const style = CATEGORY_STYLES[tool.category] || CATEGORY_STYLES['Special'];
-            return (
-              <a 
-                key={tool.id} 
-                href={`/tool/${tool.id}`} 
-                className={`tool-card group ${style.hover}`}
-              >
-                <div 
-                  className={`tool-icon-wrapper shadow-xl ${style.shadow}`} 
-                  style={{ backgroundImage: style.gradient }}
+        {isLoading ? (
+          <SkeletonGrid count={filteredTools.length || 16} />
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 lg:grid-cols-5 gap-6 animate-fade-in">
+            {filteredTools.map((tool) => {
+              const style = CATEGORY_STYLES[tool.category] || CATEGORY_STYLES['Special'];
+              return (
+                <a 
+                  key={tool.id} 
+                  href={`/tool/${tool.id}`} 
+                  className={`tool-card group ${style.hover}`}
                 >
-                  <tool.icon size={28} />
-                </div>
-                <div className="space-y-3">
-                  <h3 className="text-lg font-black text-slate-900 dark:text-white tracking-tight group-hover:text-red-500 transition-colors">
-                    {tool.title}
-                  </h3>
-                  <p className="text-[13px] font-medium text-slate-500 dark:text-slate-400 leading-snug">
-                    {tool.description}
-                  </p>
-                </div>
-              </a>
-            );
-          })}
-        </div>
+                  <div 
+                    className={`tool-icon-wrapper shadow-xl ${style.shadow}`} 
+                    style={{ backgroundImage: style.gradient }}
+                  >
+                    <tool.icon size={28} />
+                  </div>
+                  <div className="space-y-3">
+                    <h3 className="text-lg font-black text-slate-900 dark:text-white tracking-tight group-hover:text-red-500 transition-colors">
+                      {tool.title}
+                    </h3>
+                    <p className="text-[13px] font-medium text-slate-500 dark:text-slate-400 leading-snug">
+                      {tool.description}
+                    </p>
+                  </div>
+                </a>
+              );
+            })}
+          </div>
+        )}
       </section>
 
-      {/* Advertisement Slot */}
-      <div className="container mx-auto px-4 pb-20">
-         <div className="bg-slate-50 dark:bg-slate-800/50 rounded-[2rem] p-12 border border-slate-100 dark:border-slate-800 text-center text-slate-400 opacity-50 border-dashed">
-            <p className="text-[10px] font-black uppercase tracking-[0.2em] mb-4">Advertisement Zone</p>
-            <div className="h-24 flex items-center justify-center font-bold text-xl italic italic">
-              Premium Native Display Ad Placement
-            </div>
-         </div>
-      </div>
     </div>
   );
 }

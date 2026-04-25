@@ -210,6 +210,19 @@
   .stagger-2 { animation-delay: 0.2s; }
   .stagger-3 { animation-delay: 0.3s; }
 
+  .animate-fade-in {
+    animation: fadeIn 0.4s ease-in forwards;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
   .primary-button:hover {
     transform: scale(1.05);
     background: #dc2626;
@@ -485,6 +498,67 @@
   [data-theme='dark'] .nav-search-item:hover { background: #0f172a; }
   [data-theme='dark'] .nav-search-item-label { color: #f1f5f9; }
   [data-theme='dark'] .nav-search-item-cat { background: #0f172a; color: #64748b; }
+
+  /* --- Mobile Dropdown Enhancements --- */
+  .mobile-dropdown-shadow {
+    box-shadow: 0 20px 50px -12px rgba(0, 0, 0, 0.15);
+  }
+
+  .glass-dropdown {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(226, 232, 240, 0.8);
+  }
+
+  [data-theme='dark'] .glass-dropdown {
+    background: rgba(30, 41, 59, 0.95);
+    border-color: rgba(51, 65, 85, 0.8);
+  }
+
+  /* Skeleton Loader Shimmer Effect */
+  .skeleton-shimmer {
+    position: relative;
+    overflow: hidden;
+    background-color: #e2e8f0;
+  }
+
+  [data-theme='dark'] .skeleton-shimmer {
+    background-color: #1e293b;
+  }
+
+  .skeleton-shimmer::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    transform: translateX(-100%);
+    background: linear-gradient(
+      90deg,
+      transparent 0,
+      rgba(255, 255, 255, 0.35) 40%,
+      rgba(255, 255, 255, 0.6) 60%,
+      transparent 100%
+    );
+    animation: shimmer 1.6s ease-in-out infinite;
+  }
+
+  [data-theme='dark'] .skeleton-shimmer::after {
+    background: linear-gradient(
+      90deg,
+      transparent 0,
+      rgba(255, 255, 255, 0.06) 40%,
+      rgba(255, 255, 255, 0.12) 60%,
+      transparent 100%
+    );
+  }
+
+  @keyframes shimmer {
+    100% {
+      transform: translateX(100%);
+    }
+  }
 }
 
 /* Custom Mesh Gradient (Subtle) */
