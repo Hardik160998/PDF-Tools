@@ -16,6 +16,7 @@ export default function OfficeTools({ id }: { id: string }) {
     if (e.target.files?.[0]) {
       setFile(e.target.files[0]);
       setResultUrl(null);
+      e.target.value = '';
     }
   };
 
@@ -57,8 +58,8 @@ export default function OfficeTools({ id }: { id: string }) {
   const info = toolInfo[id] || toolInfo['word-to-pdf'];
 
   return (
-    <div className="max-w-3xl mx-auto py-12 px-4 text-center">
-      <div className="bg-white dark:bg-slate-800 rounded-[2.5rem] p-12 border border-slate-100 dark:border-slate-700 shadow-2xl space-y-10">
+    <div className="max-w-3xl mx-auto py-4 sm:py-12 px-3 sm:px-4 text-center">
+      <div className="bg-white dark:bg-slate-800 rounded-[1.5rem] sm:rounded-[2.5rem] p-5 sm:p-12 border border-slate-100 dark:border-slate-700 shadow-2xl space-y-6 sm:space-y-10">
         <div className="space-y-4">
           <div className={`inline-flex p-5 rounded-3xl ${info.color} text-white shadow-lg`}>
              <info.icon size={40} />
@@ -70,9 +71,9 @@ export default function OfficeTools({ id }: { id: string }) {
         {!resultUrl ? (
           <div className="space-y-8">
             {!file ? (
-              <div className="relative border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-3xl p-20 group hover:border-blue-500 transition-all cursor-pointer bg-slate-50/50 dark:bg-slate-900/50">
-                <input type="file" onChange={onFileChange} accept={info.ext} className="absolute inset-0 opacity-0 cursor-pointer" />
-                <div className="space-y-6">
+              <div className="relative border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-2xl sm:rounded-3xl p-10 sm:p-20 group hover:border-blue-500 transition-all cursor-pointer bg-slate-50/50 dark:bg-slate-900/50">
+                <input type="file" onChange={onFileChange} accept={info.ext} className="absolute inset-0 opacity-0 cursor-pointer w-full h-full" />
+                <div className="space-y-4 sm:space-y-6 pointer-events-none">
                   <div className={`p-6 bg-white dark:bg-slate-800 rounded-2xl shadow-xl inline-block text-blue-500 group-hover:scale-110 transition-transform`}>
                     <Upload size={48} />
                   </div>
@@ -124,9 +125,8 @@ export default function OfficeTools({ id }: { id: string }) {
              <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <a 
                    href={resultUrl} 
+                   download={`converted_${file?.name}`}
                    className={`flex-1 py-5 ${info.color} hover:opacity-90 text-white rounded-2xl text-2xl font-black shadow-xl flex items-center justify-center gap-4 transition-all`}
-                   target="_blank"
-                   rel="noreferrer"
                 >
                    <Download size={28} /> Download Result
                 </a>

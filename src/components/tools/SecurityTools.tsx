@@ -14,6 +14,7 @@ export default function SecurityTools({ id }: { id: string }) {
       setFile(e.target.files[0]);
       setResultUrl(null);
       setPassword('');
+      e.target.value = '';
     }
   };
 
@@ -57,8 +58,8 @@ export default function SecurityTools({ id }: { id: string }) {
   const info = getToolInfo();
 
   return (
-    <div className="max-w-3xl mx-auto py-12 px-4 text-center">
-      <div className="bg-white dark:bg-slate-800 rounded-[2.5rem] p-12 border border-slate-100 dark:border-slate-700 shadow-2xl space-y-10">
+    <div className="max-w-3xl mx-auto py-4 sm:py-12 px-3 sm:px-4 text-center">
+      <div className="bg-white dark:bg-slate-800 rounded-[1.5rem] sm:rounded-[2.5rem] p-5 sm:p-12 border border-slate-100 dark:border-slate-700 shadow-2xl space-y-6 sm:space-y-10">
         <div className="space-y-4">
           <div className={`inline-flex p-5 rounded-3xl ${info.color} text-white shadow-lg`}>
              <info.icon size={40} />
@@ -70,9 +71,9 @@ export default function SecurityTools({ id }: { id: string }) {
         {!resultUrl ? (
           <div className="space-y-8">
             {!file ? (
-              <div className="relative border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-3xl p-20 group hover:border-red-500 transition-all cursor-pointer bg-slate-50/50 dark:bg-slate-900/50">
-                <input type="file" onChange={onFileChange} accept=".pdf" className="absolute inset-0 opacity-0 cursor-pointer" />
-                <div className="space-y-6">
+              <div className="relative border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-2xl sm:rounded-3xl p-10 sm:p-20 group hover:border-red-500 transition-all cursor-pointer bg-slate-50/50 dark:bg-slate-900/50">
+                <input type="file" onChange={onFileChange} accept=".pdf" className="absolute inset-0 opacity-0 cursor-pointer w-full h-full" />
+                <div className="space-y-4 sm:space-y-6 pointer-events-none">
                   <div className={`p-6 bg-white dark:bg-slate-800 rounded-2xl shadow-xl inline-block text-red-500 group-hover:scale-110 transition-transform`}>
                     <Upload size={48} />
                   </div>
@@ -107,7 +108,9 @@ export default function SecurityTools({ id }: { id: string }) {
                        type="password" 
                        value={password}
                        onChange={(e) => setPassword(e.target.value)}
+                       onKeyDown={(e) => e.key === 'Enter' && handleProcess()}
                        placeholder={id === 'unlock' ? 'Enter password to unlock' : 'Type a strong password'}
+                       style={{ userSelect: 'text', WebkitUserSelect: 'text' } as React.CSSProperties}
                        className="w-full pl-12 pr-4 py-4 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 outline-none focus:ring-2 ring-red-500/20 font-black tracking-widest"
                      />
                    </div>

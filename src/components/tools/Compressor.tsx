@@ -13,6 +13,7 @@ export default function Compressor({ id }: { id: string }) {
     if (e.target.files?.[0]) {
       setFile(e.target.files[0]);
       setResult(null);
+      e.target.value = '';
     }
   };
 
@@ -56,8 +57,8 @@ export default function Compressor({ id }: { id: string }) {
   };
 
   return (
-    <div className="max-w-3xl mx-auto py-12 px-4">
-      <div className="bg-white dark:bg-slate-800 rounded-[2.5rem] p-12 border border-slate-100 dark:border-slate-700 shadow-2xl text-center space-y-10">
+    <div className="max-w-3xl mx-auto py-4 sm:py-12 px-3 sm:px-4">
+      <div className="bg-white dark:bg-slate-800 rounded-[1.5rem] sm:rounded-[2.5rem] p-5 sm:p-12 border border-slate-100 dark:border-slate-700 shadow-2xl text-center space-y-6 sm:space-y-10">
         <div className="space-y-4">
           <div className="inline-flex p-5 rounded-3xl bg-green-500 text-white shadow-lg">
              <Zap size={40} className="fill-white/20" />
@@ -69,9 +70,9 @@ export default function Compressor({ id }: { id: string }) {
         {!result ? (
           <div className="space-y-8">
             {!file ? (
-              <div className="relative border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-3xl p-20 group hover:border-green-500 transition-all cursor-pointer bg-slate-50/50 dark:bg-slate-900/50">
-                <input type="file" onChange={onFileChange} accept=".pdf" className="absolute inset-0 opacity-0 cursor-pointer" />
-                <div className="space-y-6">
+              <div className="relative border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-2xl sm:rounded-3xl p-10 sm:p-20 group hover:border-green-500 transition-all cursor-pointer bg-slate-50/50 dark:bg-slate-900/50">
+                <input type="file" onChange={onFileChange} accept=".pdf" className="absolute inset-0 opacity-0 cursor-pointer w-full h-full" />
+                <div className="space-y-4 sm:space-y-6 pointer-events-none">
                   <div className="p-6 bg-white dark:bg-slate-800 rounded-2xl shadow-xl inline-block text-green-500 group-hover:scale-110 transition-transform">
                     <Upload size={48} />
                   </div>
