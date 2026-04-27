@@ -1,14 +1,31 @@
 'use client';
 import { useState } from 'react';
-import { Mail, MapPin, Clock, Send, MessageSquare } from 'lucide-react';
+import { Mail, MapPin, Clock, Send, MessageSquare, Loader2 } from 'lucide-react';
 
 export default function ContactPage() {
   const [form, setForm] = useState({ name: '', email: '', subject: '', message: '' });
   const [sent, setSent] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [error, setError] = useState('');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSent(true);
+    setSending(true);
+    setError('');
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(form),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Failed to send.');
+      setSent(true);
+    } catch (err: any) {
+      setError(err.message || 'Something went wrong. Please try again.');
+    } finally {
+      setSending(false);
+    }
   };
 
   return (
@@ -118,9 +135,15 @@ export default function ContactPage() {
                     style={{ userSelect: 'text', WebkitUserSelect: 'text' }}
                   />
                 </div>
-                <button type="submit"
-                  className="w-full py-3.5 bg-red-500 hover:bg-red-600 text-white rounded-xl font-black text-sm flex items-center justify-center gap-2 transition-all shadow-lg shadow-red-500/20">
-                  <Send size={16} /> Send Message
+                {error && (
+                  <div className="p-3 bg-red-50 border border-red-200 rounded-xl text-red-600 text-sm font-medium">
+                    {error}
+                  </div>
+                )}
+                <button type="submit" disabled={sending}
+                  className="w-full py-3.5 bg-red-500 hover:bg-red-600 disabled:opacity-50 text-white rounded-xl font-black text-sm flex items-center justify-center gap-2 transition-all shadow-lg shadow-red-500/20">
+                  {sending ? <Loader2 size={16} className="animate-spin" /> : <Send size={16} />}
+                  {sending ? 'Sending...' : 'Send Message'}
                 </button>
               </form>
             )}

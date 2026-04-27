@@ -98,11 +98,12 @@ export default function RootLayout({
                 <h4 className="text-xs font-black uppercase tracking-widest text-slate-900 dark:text-white">Quick Links</h4>
                 <ul className="space-y-2">
                   {[
-                    { label: 'About Us',         href: '/about' },
-                    { label: "FAQ's",            href: '/faq' },
-                    { label: 'Privacy Policy',   href: '/privacy' },
+                    { label: 'About Us',           href: '/about' },
+                    { label: "FAQ's",              href: '/faq' },
+                    { label: 'Blog',               href: '/blog' },
+                    { label: 'Privacy Policy',     href: '/privacy' },
                     { label: 'Terms & Conditions', href: '/terms' },
-                    { label: 'Contact Us',       href: '/contact' },
+                    { label: 'Contact Us',         href: '/contact' },
                   ].map(({ label, href }) => (
                     <li key={label}>
                       <a href={href} className="text-sm text-slate-500 dark:text-slate-400 hover:text-red-500 dark:hover:text-red-400 transition-colors font-medium">
@@ -161,6 +162,7 @@ export default function RootLayout({
             <div className="mt-10 pt-6 border-t border-slate-100 dark:border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-3">
               <p className="text-xs text-slate-400 font-medium">Built with ❤️ for productivity. 100% free &amp; secure.</p>
               <div className="flex items-center gap-4">
+                <a href="/blog" className="text-xs text-slate-400 hover:text-red-500 transition-colors">Blog</a>
                 <a href="/privacy" className="text-xs text-slate-400 hover:text-red-500 transition-colors">Privacy</a>
                 <a href="/terms" className="text-xs text-slate-400 hover:text-red-500 transition-colors">Terms</a>
                 <a href="/contact" className="text-xs text-slate-400 hover:text-red-500 transition-colors">Contact</a>
