@@ -63,16 +63,8 @@ function SortableItem({ page, onRotate, onDelete }: {
     <div
       ref={setNodeRef}
       style={style}
-      className="relative aspect-[3/4] bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden"
+      className="relative aspect-[3/4] bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden select-none"
     >
-      {/* Drag handle — only middle area, leaves room for buttons */}
-      <div
-        {...attributes}
-        {...listeners}
-        className="absolute inset-0 z-10 cursor-grab active:cursor-grabbing"
-        style={{ bottom: '2rem' }}
-      />
-
       {/* Thumbnail */}
       <div className="absolute inset-0 flex items-center justify-center p-2 bg-slate-50 dark:bg-slate-900">
         <img
@@ -80,18 +72,33 @@ function SortableItem({ page, onRotate, onDelete }: {
           alt={`Page ${page.pageIndex + 1}`}
           className="max-w-full max-h-full shadow-lg transition-transform duration-300"
           style={{ transform: `rotate(${page.rotation}deg)` }}
+          draggable={false}
         />
       </div>
 
+      {/* Dedicated drag handle at bottom center — touch-friendly */}
+      <div
+        {...attributes}
+        {...listeners}
+        className="absolute bottom-0 inset-x-0 z-20 h-8 flex items-center justify-center cursor-grab active:cursor-grabbing touch-none bg-gradient-to-t from-black/60 to-transparent"
+      >
+        <div className="flex gap-0.5">
+          {[0,1,2].map(i => (
+            <div key={i} className="w-0.5 h-3 bg-white/70 rounded-full" />
+          ))}
+        </div>
+      </div>
+
       {/* Page number */}
-      <div className="absolute bottom-2 left-1/2 -translate-x-1/2 z-20 px-2 py-0.5 bg-slate-900/80 text-white text-[10px] font-bold rounded-full">
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 px-2 py-0.5 bg-slate-900/80 text-white text-[10px] font-bold rounded-full">
         {page.pageIndex + 1}
       </div>
 
-      {/* Action buttons — always visible on mobile, hover on desktop */}
-      <div className="absolute top-1 right-1 z-30 flex flex-col gap-1 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity">
+      {/* Action buttons — always visible */}
+      <div className="absolute top-1 right-1 z-30 flex flex-col gap-1">
         <button
           onPointerDown={e => e.stopPropagation()}
+          onTouchStart={e => e.stopPropagation()}
           onClick={(e) => { e.stopPropagation(); onRotate(page.id); }}
           className="p-1.5 bg-white dark:bg-slate-800 rounded-lg shadow-lg text-slate-600 hover:text-orange-500 transition-colors"
         >
@@ -99,6 +106,7 @@ function SortableItem({ page, onRotate, onDelete }: {
         </button>
         <button
           onPointerDown={e => e.stopPropagation()}
+          onTouchStart={e => e.stopPropagation()}
           onClick={(e) => { e.stopPropagation(); onDelete(page.id); }}
           className="p-1.5 bg-white dark:bg-slate-800 rounded-lg shadow-lg text-slate-600 hover:text-red-500 transition-colors"
         >
@@ -123,10 +131,11 @@ export default function OrganizeTool({ id }: { id: string }) {
   const [activeId, setActiveId] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  // Touch-friendly sensors
+  // Mobile: only TouchSensor with longer delay to distinguish scroll vs drag
+  // Desktop: PointerSensor with small distance threshold
   const sensors = useSensors(
-    useSensor(PointerSensor, { activationConstraint: { distance: 8 } }),
-    useSensor(TouchSensor, { activationConstraint: { delay: 200, tolerance: 8 } }),
+    useSensor(PointerSensor, { activationConstraint: { distance: 10 } }),
+    useSensor(TouchSensor, { activationConstraint: { delay: 250, tolerance: 5 } }),
     useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates })
   );
 
@@ -270,7 +279,7 @@ export default function OrganizeTool({ id }: { id: string }) {
               onDragStart={(e) => setActiveId(e.active.id as string)}
               onDragEnd={handleDragEnd}
             >
-              <div className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-5 gap-2 sm:gap-4 group">
+              <div className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-5 gap-2 sm:gap-4">
                 <SortableContext items={pages.map(p => p.id)} strategy={rectSortingStrategy}>
                   {pages.map(page => (
                     <SortableItem key={page.id} page={page} onRotate={rotatePage} onDelete={deletePage} />
