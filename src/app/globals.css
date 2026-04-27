@@ -1,6 +1,8 @@
 ﻿@import "tailwindcss";
+@variant dark (&:is(.dark *));
 
 :root {
+  color-scheme: light only;
   /* iLovePDF Inspired Clean Theme - Light First */
   --bg-main: #ffffff;
   --bg-sub: #f8fafc;

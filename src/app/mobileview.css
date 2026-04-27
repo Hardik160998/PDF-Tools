@@ -697,3 +697,38 @@ body.drawer-open {
   color: #94a3b8;
   font-weight: 600;
 }
+
+/* ── FOOTER MOBILE CENTER ───────────────────────────── */
+@media (max-width: 768px) {
+  footer .grid {
+    text-align: center !important;
+  }
+
+  footer .grid > div {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+  }
+
+  footer ul {
+    align-items: center !important;
+  }
+
+  footer .flex.items-center.gap-2 {
+    justify-content: center !important;
+  }
+
+  footer .flex.gap-3 {
+    justify-content: center !important;
+  }
+
+  footer .space-y-4 p,
+  footer .space-y-4 a {
+    text-align: center !important;
+  }
+
+  footer .mt-10 .flex {
+    justify-content: center !important;
+    text-align: center !important;
+  }
+}

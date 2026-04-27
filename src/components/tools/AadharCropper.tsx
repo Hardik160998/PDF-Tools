@@ -145,8 +145,8 @@ export default function AadharCropper({ id }: { id: string }) {
   };
 
   return (
-    <div className="max-w-5xl mx-auto py-6 sm:py-10 px-4">
-      <div className="bg-white dark:bg-slate-800 rounded-[1.5rem] sm:rounded-[2.5rem] p-5 sm:p-8 border border-slate-100 dark:border-slate-700 shadow-2xl space-y-6">
+    <div className="max-w-3xl mx-auto py-6 sm:py-10 px-4">
+      <div className="bg-white dark:bg-slate-800 rounded-[1.5rem] sm:rounded-[2.5rem] p-6 sm:p-10 border border-slate-100 dark:border-slate-700 shadow-2xl space-y-6">
         {/* Header */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div className="flex items-center gap-4">
@@ -173,14 +173,19 @@ export default function AadharCropper({ id }: { id: string }) {
         </div>
 
         {step === 1 && (
-          <div className="relative border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-2xl p-12 sm:p-16 group hover:border-red-500 transition-all cursor-pointer bg-slate-50/50 dark:bg-slate-900/50">
+          <div className="relative border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-2xl p-12 sm:p-20 group hover:border-red-500 transition-all cursor-pointer bg-slate-50/50 dark:bg-slate-900/50">
             <input type="file" onChange={onFileChange} accept=".pdf,.jpg,.jpeg,.png" className="absolute inset-0 opacity-0 cursor-pointer w-full h-full" />
-            <div className="space-y-5 pointer-events-none">
-              <div className="p-5 bg-white dark:bg-slate-800 rounded-2xl shadow-xl inline-block text-red-500 group-hover:scale-110 transition-transform">
+            <div className="flex flex-col items-center text-center space-y-5 pointer-events-none">
+              <div className="p-5 bg-white dark:bg-slate-800 rounded-2xl shadow-xl text-red-500 group-hover:scale-110 transition-transform">
                 <Upload size={44} />
               </div>
-              <div className="text-xl sm:text-2xl font-black tracking-tight">Upload E-Aadhar PDF</div>
-              <p className="text-slate-500 max-w-sm mx-auto text-sm">We'll help you crop and format it to standard ID card dimensions automatically.</p>
+              <div className="text-xl sm:text-2xl font-black tracking-tight text-slate-900 dark:text-white">Upload E-Aadhar PDF</div>
+              <p className="text-slate-500 max-w-sm text-sm leading-relaxed">We'll help you crop and format it to standard ID card dimensions automatically.</p>
+              <div className="flex items-center gap-3 pt-2">
+                <span className="px-3 py-1 bg-red-50 text-red-500 text-xs font-black rounded-full border border-red-100">PDF</span>
+                <span className="px-3 py-1 bg-slate-100 text-slate-500 text-xs font-black rounded-full">JPG</span>
+                <span className="px-3 py-1 bg-slate-100 text-slate-500 text-xs font-black rounded-full">PNG</span>
+              </div>
             </div>
             {processing && (
               <div className="absolute inset-0 bg-black/50 backdrop-blur-md flex items-center justify-center rounded-2xl">
