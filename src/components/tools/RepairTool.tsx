@@ -146,71 +146,76 @@ export default function RepairTool({ id }: { id: string }) {
               </div>
             </div>
           ) : (
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 sm:gap-6 animate-in fade-in zoom-in duration-500">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6 sm:gap-8 animate-in fade-in zoom-in duration-500">
               <AnimatePresence>
                 {files.map((f) => (
-                  <motion.div 
+                  <motion.div
                     key={f.id}
                     layout
                     initial={{ scale: 0.8, opacity: 0 }}
                     animate={{ scale: 1, opacity: 1 }}
                     exit={{ scale: 0.8, opacity: 0 }}
-                    className="relative aspect-[3/4] bg-white dark:bg-slate-800 rounded-2xl shadow-md border border-slate-100 dark:border-slate-700 overflow-hidden group"
+                    className="relative aspect-[3/4]"
                   >
-                    {f.preview ? (
-                      <img src={f.preview} className="w-full h-full object-cover p-2" alt="Preview" />
-                    ) : (
-                      <div className="w-full h-full flex items-center justify-center text-slate-300">
-                        <LifeBuoy size={48} className="animate-pulse" />
-                      </div>
-                    )}
+                    {/* Card — overflow hidden for thumbnail */}
+                    <div className="absolute inset-0 bg-white dark:bg-slate-800 rounded-2xl shadow-md border border-slate-100 dark:border-slate-700 overflow-hidden">
+                      {f.preview ? (
+                        <img src={f.preview} className="w-full h-full object-cover p-2" alt="Preview" />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center text-slate-300">
+                          <LifeBuoy size={48} className="animate-pulse" />
+                        </div>
+                      )}
 
-                    {/* Overlay status */}
-                    {f.status === 'processing' && (
-                      <div className="absolute inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center">
-                        <Loader2 className="animate-spin text-white" size={32} />
-                      </div>
-                    )}
-                    {f.status === 'completed' && f.resultUrl && (
-                      <div className="absolute inset-0 z-10 bg-green-500/10 backdrop-blur-[2px] flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                        <a 
-                          href={f.resultUrl} 
-                          download={f.repairedName}
-                          className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-xl shadow-xl flex items-center gap-2 font-black text-[10px] uppercase tracking-widest scale-90 hover:scale-100 transition-transform no-underline"
-                        >
-                          <Download size={14} /> Download
-                        </a>
-                      </div>
-                    )}
-                    {f.status === 'completed' && (
-                      <div className="absolute inset-0 bg-green-500/20 backdrop-blur-sm flex items-center justify-center pointer-events-none">
-                         <div className="bg-white rounded-full p-2 shadow-xl">
-                            <CheckCircle2 className="text-green-500" size={32} />
-                         </div>
-                      </div>
-                    )}
+                      {/* Processing overlay */}
+                      {f.status === 'processing' && (
+                        <div className="absolute inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-10">
+                          <Loader2 className="animate-spin text-white" size={32} />
+                        </div>
+                      )}
 
-                    {/* Header badges */}
-                    <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity z-20">
-                      <button 
+                      {/* Completed overlay */}
+                      {f.status === 'completed' && (
+                        <div className="absolute inset-0 bg-green-500/20 flex items-center justify-center pointer-events-none z-10">
+                          <div className="bg-white rounded-full p-2 shadow-xl">
+                            <CheckCircle2 className="text-green-500" size={28} />
+                          </div>
+                        </div>
+                      )}
+
+                      {/* File name */}
+                      <div className="absolute bottom-0 inset-x-0 p-2 bg-gradient-to-t from-black/80 to-transparent z-10">
+                        <p className="text-[10px] text-white font-bold truncate">{f.file.name}</p>
+                      </div>
+                    </div>
+
+                    {/* Cancel button — OUTSIDE overflow-hidden, always visible */}
+                    {f.status !== 'completed' && f.status !== 'processing' && (
+                      <button
                         onClick={() => removeFile(f.id)}
-                        className="bg-red-500 text-white p-1 rounded-full shadow-lg hover:scale-110 transition-transform"
+                        className="absolute -top-2 -right-2 z-30 w-6 h-6 bg-red-500 text-white rounded-full shadow-lg flex items-center justify-center"
                       >
-                        <X size={14} />
+                        <X size={12} />
                       </button>
-                    </div>
+                    )}
 
-                    <div className="absolute bottom-0 inset-x-0 p-2 bg-gradient-to-t from-black/80 to-transparent z-10">
-                       <p className="text-[10px] text-white font-bold truncate">{f.file.name}</p>
-                    </div>
-
+                    {/* Download button — OUTSIDE overflow-hidden, always visible */}
                     {f.status === 'completed' && f.resultUrl && (
-                      <a 
-                        href={f.resultUrl} 
+                      <a
+                        href={f.resultUrl}
                         download={f.repairedName}
-                        className="absolute inset-0 z-0"
-                        title="Download Repaired PDF"
-                      />
+                        className="absolute -top-2 -right-2 z-30 w-6 h-6 bg-green-500 text-white rounded-full shadow-lg flex items-center justify-center"
+                        title="Download repaired PDF"
+                      >
+                        <Download size={12} />
+                      </a>
+                    )}
+
+                    {/* Error badge */}
+                    {f.status === 'error' && (
+                      <div className="absolute -top-2 -left-2 z-30 px-2 py-0.5 bg-red-500 text-white text-[9px] font-black rounded-full shadow-lg">
+                        Failed
+                      </div>
                     )}
                   </motion.div>
                 ))}
@@ -259,17 +264,29 @@ export default function RepairTool({ id }: { id: string }) {
                <div className="max-h-[300px] overflow-y-auto pr-2 space-y-2 custom-scrollbar">
                   {files.map(f => (
                     <div key={f.id} className="flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-100 dark:border-slate-700">
-                       <div className="flex items-center gap-3 overflow-hidden">
-                          <LifeBuoy size={16} className={f.status === 'completed' ? 'text-green-500' : 'text-red-500'} />
+                       <div className="flex items-center gap-3 overflow-hidden flex-1 min-w-0">
+                          <LifeBuoy size={16} className={f.status === 'completed' ? 'text-green-500' : f.status === 'error' ? 'text-red-400' : 'text-red-500'} />
                           <span className="text-xs font-bold truncate dark:text-slate-300">{f.file.name}</span>
                        </div>
-                       {f.status === 'completed' ? (
-                         <CheckCircle2 size={16} className="text-green-500" />
-                       ) : (
-                         <button onClick={() => removeFile(f.id)} className="text-slate-300 hover:text-red-500 transition-colors">
-                           <X size={16} />
-                         </button>
-                       )}
+                       <div className="flex items-center gap-1 shrink-0 ml-2">
+                         {f.status === 'completed' && f.resultUrl ? (
+                           <a
+                             href={f.resultUrl}
+                             download={f.repairedName}
+                             className="flex items-center gap-1 px-2 py-1 bg-green-500 hover:bg-green-600 text-white rounded-lg text-[10px] font-black transition-all"
+                           >
+                             <Download size={11} /> Save
+                           </a>
+                         ) : f.status === 'processing' ? (
+                           <Loader2 size={14} className="animate-spin text-slate-400" />
+                         ) : f.status === 'error' ? (
+                           <span className="text-[10px] text-red-400 font-bold">Failed</span>
+                         ) : (
+                           <button onClick={() => removeFile(f.id)} className="text-slate-300 hover:text-red-500 transition-colors p-1">
+                             <X size={14} />
+                           </button>
+                         )}
+                       </div>
                     </div>
                   ))}
                </div>
