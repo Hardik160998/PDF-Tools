@@ -185,28 +185,34 @@ export default function Home() {
         {isLoading ? (
           <SkeletonGrid count={filteredTools.length || 16} categories={filteredTools.map(t => t.category)} />
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 lg:grid-cols-5 gap-6 animate-fade-in">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 animate-fade-in">
             {filteredTools.map((tool) => {
               const style = CATEGORY_STYLES[tool.category] || CATEGORY_STYLES['Special'];
               return (
-                <a 
-                  key={tool.id} 
-                  href={`/tool/${tool.id}`} 
-                  className={`tool-card group ${style.hover}`}
+                <a
+                  key={tool.id}
+                  href={`/tool/${tool.id}`}
+                  className="skeleton-wrapper"
+                  style={{
+                    background: style.gradient,
+                    padding: '2px',
+                  }}
                 >
-                  <div 
-                    className={`tool-icon-wrapper shadow-xl ${style.shadow}`} 
-                    style={{ backgroundImage: style.gradient }}
-                  >
-                    <tool.icon size={28} />
-                  </div>
-                  <div className="space-y-3">
-                    <h3 className="text-lg font-black text-slate-900 dark:text-white tracking-tight group-hover:text-red-500 transition-colors">
-                      {tool.title}
-                    </h3>
-                    <p className="text-[13px] font-medium text-slate-500 dark:text-slate-400 leading-snug">
-                      {tool.description}
-                    </p>
+                  <div className="tool-card skeleton-card group">
+                    <div
+                      className={`tool-icon-wrapper shadow-xl ${style.shadow}`}
+                      style={{ backgroundImage: style.gradient }}
+                    >
+                      <tool.icon size={28} />
+                    </div>
+                    <div className="space-y-3">
+                      <h3 className="text-lg font-black text-slate-900 dark:text-white tracking-tight group-hover:text-red-500 transition-colors">
+                        {tool.title}
+                      </h3>
+                      <p className="text-[13px] font-medium text-slate-500 dark:text-slate-400 leading-snug">
+                        {tool.description}
+                      </p>
+                    </div>
                   </div>
                 </a>
               );
