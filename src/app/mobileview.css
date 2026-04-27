@@ -1,10 +1,10 @@
-/* ============================================================
-   SMARTPDFS PLUS â€” MOBILE VIEW CSS
+﻿/* ============================================================
+   SMARTPDFS PLUS Ã¢â‚¬â€ MOBILE VIEW CSS
    Covers: Navbar, Homepage, All Tool Pages, Dropdowns, Search
    Breakpoints: max-width 768px (mobile), max-width 1024px (tablet)
    ============================================================ */
 
-/* â”€â”€ GLOBAL MOBILE BASE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* Ã¢â€â‚¬Ã¢â€â‚¬ GLOBAL MOBILE BASE Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ */
 @media (max-width: 768px) {
   .container {
     padding-left: 1rem !important;
@@ -16,16 +16,16 @@
   }
 }
 
-/* â”€â”€ HEADER / NAVBAR â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* Ã¢â€â‚¬Ã¢â€â‚¬ HEADER / NAVBAR Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ */
 
-/* Desktop nav â€” visible by default */
+/* Desktop nav Ã¢â‚¬â€ visible by default */
 .desktop-nav {
   display: flex;
   align-items: center;
   gap: 1.5rem;
 }
 
-/* Desktop actions â€” visible by default */
+/* Desktop actions Ã¢â‚¬â€ visible by default */
 .desktop-nav-actions {
   display: flex;
   align-items: center;
@@ -53,7 +53,7 @@
   }
 }
 
-/* â”€â”€ HOMEPAGE HERO SECTION â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* Ã¢â€â‚¬Ã¢â€â‚¬ HOMEPAGE HERO SECTION Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ */
 @media (max-width: 768px) {
   section.container.mx-auto.px-4.py-24 {
     padding-top: 2.5rem !important;
@@ -79,7 +79,7 @@
   .overflow-x-auto.pb-4 { padding-bottom: 0.5rem !important; }
 }
 
-/* â”€â”€ TOOLS GRID â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* Ã¢â€â‚¬Ã¢â€â‚¬ TOOLS GRID Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ */
 @media (max-width: 768px) {
   .grid.grid-cols-1.sm\:grid-cols-2 {
     grid-template-columns: repeat(2, 1fr) !important;
@@ -116,13 +116,13 @@
   .grid.grid-cols-1.sm\:grid-cols-2 { grid-template-columns: 1fr !important; }
 }
 
-/* â”€â”€ FOOTER â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* Ã¢â€â‚¬Ã¢â€â‚¬ FOOTER Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ */
 @media (max-width: 768px) {
   footer { padding-top: 2rem !important; padding-bottom: 2rem !important; margin-top: 2rem !important; }
   footer p { font-size: 0.6rem !important; }
 }
 
-/* â”€â”€ TOOL PAGE WRAPPER â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* Ã¢â€â‚¬Ã¢â€â‚¬ TOOL PAGE WRAPPER Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ */
 @media (max-width: 768px) {
   .max-w-3xl.mx-auto.py-12,
   .max-w-4xl.mx-auto.py-12,
@@ -197,7 +197,7 @@
   }
 }
 
-/* â”€â”€ ORGANIZE TOOL â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* Ã¢â€â‚¬Ã¢â€â‚¬ ORGANIZE TOOL Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ */
 @media (max-width: 768px) {
   .min-h-\[70vh\].flex.flex-col.lg\:flex-row { flex-direction: column !important; gap: 1rem !important; }
   .bg-white.rounded-\[2rem\].p-8 { padding: 1rem !important; border-radius: 1.25rem !important; min-height: auto !important; }
@@ -209,13 +209,13 @@
   .bg-white.rounded-\[2rem\].p-8.space-y-8 { padding: 1.25rem !important; border-radius: 1.25rem !important; }
 }
 
-/* â”€â”€ EDIT TOOLS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* Ã¢â€â‚¬Ã¢â€â‚¬ EDIT TOOLS Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ */
 @media (max-width: 768px) {
   .grid.grid-cols-1.md\:grid-cols-2.gap-3 { grid-template-columns: 1fr !important; gap: 0.5rem !important; }
   .bg-white.p-4.rounded-2xl.border { padding: 0.75rem !important; border-radius: 0.75rem !important; }
 }
 
-/* â”€â”€ EXTRACT TEXT â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* Ã¢â€â‚¬Ã¢â€â‚¬ EXTRACT TEXT Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ */
 @media (max-width: 768px) {
   .flex.flex-col.md\:flex-row.items-center.justify-between.gap-4 {
     flex-direction: column !important;
@@ -281,7 +281,7 @@
   }
 }
 
-/* â”€â”€ TABLET (769px â€“ 1023px) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* Ã¢â€â‚¬Ã¢â€â‚¬ TABLET (769px Ã¢â‚¬â€œ 1023px) Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ */
 @media (min-width: 769px) and (max-width: 1023px) {
   header .container { padding-left: 1.5rem !important; padding-right: 1.5rem !important; }
   .nav-search-box { width: 160px !important; }
@@ -292,7 +292,7 @@
   .grid.grid-cols-2.sm\:grid-cols-3.md\:grid-cols-4 { grid-template-columns: repeat(4, 1fr) !important; }
 }
 
-/* â”€â”€ UTILITY â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* Ã¢â€â‚¬Ã¢â€â‚¬ UTILITY Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ */
 @media (max-width: 768px) {
   button { -webkit-tap-highlight-color: transparent; user-select: none; }
   * { -webkit-overflow-scrolling: touch; }
@@ -302,7 +302,7 @@
   .scrollbar-hide, .overflow-x-auto { scrollbar-width: none !important; -ms-overflow-style: none !important; }
 }
 
-/* When drawer is open â€” hide bg-mesh, lock everything */
+/* When drawer is open Ã¢â‚¬â€ hide bg-mesh, lock everything */
 body.drawer-open .page-content > main,
 body.drawer-open .page-content > footer {
     background: rgba(15, 23, 42, 0.15);
@@ -322,7 +322,7 @@ body.drawer-open {
    MOBILE HAMBURGER + SLIDE-IN DRAWER
    ============================================================ */
 
-/* Hamburger button â€” hidden on desktop, shown on mobile */
+/* Hamburger button Ã¢â‚¬â€ hidden on desktop, shown on mobile */
 .mob-hamburger {
   display: none;
   align-items: center;
@@ -345,7 +345,7 @@ body.drawer-open {
   .mob-hamburger { display: flex; }
 }
 
-/* Backdrop â€” hidden on desktop */
+/* Backdrop Ã¢â‚¬â€ hidden on desktop */
 .mob-backdrop { position: fixed; inset: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.5); z-index: 998; cursor: pointer; -webkit-tap-highlight-color: transparent; animation: mobFadeIn 0.2s ease forwards; }
 
 @keyframes mobFadeIn {
@@ -353,7 +353,7 @@ body.drawer-open {
   to   { opacity: 1; }
 }
 
-/* Drawer â€” slides in from right â€” hidden on desktop */
+/* Drawer Ã¢â‚¬â€ slides in from right Ã¢â‚¬â€ hidden on desktop */
 .mob-drawer { position: fixed; top: 0; right: 0; bottom: 0; width: 300px; height: 100vh; height: 100dvh; max-width: 85vw; background: #ffffff; z-index: 999; display: flex; flex-direction: column; box-shadow: -8px 0 32px rgba(0,0,0,0.18); transform: translateX(100%); transition: transform 0.28s cubic-bezier(0.22,1,0.36,1); overflow: hidden; }
 
 .mob-drawer--open {
@@ -452,7 +452,7 @@ body.drawer-open {
 
 .mob-drawer-search-input::placeholder { color: #94a3b8; }
 
-/* Drawer Body â€” scrollable */
+/* Drawer Body Ã¢â‚¬â€ scrollable */
 .mob-drawer-body {
   flex: 1;
   overflow-y: auto;
@@ -563,3 +563,137 @@ body.drawer-open {
 }
 
 .mob-drawer-signup:hover { background: #dc2626; }
+
+/* â”€â”€ MOBILE SEARCH â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+
+/* Search icon button â€” only on mobile */
+.mob-search-btn {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 0.6rem;
+  border: none;
+  background: #f8fafc;
+  color: #334155;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 0.15s, color 0.15s;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.mob-search-btn:hover { background: #f1f5f9; color: #ef4444; }
+
+@media (max-width: 1023px) {
+  .mob-search-btn { display: flex; }
+}
+
+/* Full-screen overlay */
+.mob-search-overlay { position: fixed; inset: 0; width: 100vw; height: 100vh; height: 100dvh; background: #ffffff; z-index: 1100; display: flex; flex-direction: column; overflow: hidden; }
+
+[data-theme='dark'] .mob-search-overlay { background: #0f172a; }
+
+/* Header row: input + cancel */
+.mob-search-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #f1f5f9;
+  flex-shrink: 0;
+}
+
+[data-theme='dark'] .mob-search-header {
+  border-color: #1e293b;
+}
+
+.mob-search-box-wrap {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.55rem 0.9rem;
+  background: #f8fafc;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 9999px;
+  transition: border-color 0.2s;
+}
+
+.mob-search-box-wrap:focus-within {
+  border-color: #cbd5e1;
+  background: white;
+}
+
+[data-theme='dark'] .mob-search-box-wrap {
+  background: #1e293b;
+  border-color: #334155;
+}
+
+.mob-search-icon { color: #94a3b8; flex-shrink: 0; }
+
+.mob-search-input {
+  flex: 1;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #1e293b;
+  background: transparent;
+  border: none;
+  outline: none;
+  padding: 0;
+  margin: 0;
+}
+
+[data-theme='dark'] .mob-search-input { color: #f1f5f9; }
+.mob-search-input::placeholder { color: #94a3b8; }
+
+.mob-search-clear {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: none;
+  background: #cbd5e1;
+  color: #64748b;
+  cursor: pointer;
+  flex-shrink: 0;
+  padding: 0;
+}
+
+.mob-search-close {
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: #ef4444;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.25rem 0;
+  flex-shrink: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Results list */
+.mob-search-results {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0.5rem 0.75rem 2rem;
+}
+
+.mob-search-hint {
+  font-size: 0.65rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #94a3b8;
+  padding: 0.75rem 0.5rem 0.4rem;
+}
+
+.mob-search-empty {
+  text-align: center;
+  padding: 3rem 1rem;
+  font-size: 0.85rem;
+  color: #94a3b8;
+  font-weight: 600;
+}

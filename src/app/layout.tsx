@@ -6,6 +6,7 @@ import { Heart } from "lucide-react";
 import AllToolsDropdown from "@/components/AllToolsDropdown";
 import NavSearchBar from "@/components/NavSearchBar";
 import MobileNav from "@/components/MobileNav";
+import MobileSearch from "@/components/MobileSearch";
 import ConvertDropdown from "@/components/ConvertDropdown";
 
 const inter = Inter({ subsets: ["latin"], weight: ['400', '500', '600', '700', '800', '900'] });
@@ -63,6 +64,7 @@ export default function RootLayout({
                 </button>
               </div>
               {/* Mobile hamburger — hidden on desktop via CSS */}
+              <MobileSearch />
               <MobileNav />
             </div>
           </div>
