@@ -2,12 +2,14 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import "./mobileview.css";
+import "./darktheme.css";
 import { Heart } from "lucide-react";
 import AllToolsDropdown from "@/components/AllToolsDropdown";
 import NavSearchBar from "@/components/NavSearchBar";
 import MobileNav from "@/components/MobileNav";
 import MobileSearch from "@/components/MobileSearch";
 import ConvertDropdown from "@/components/ConvertDropdown";
+import ThemeToggle from "@/components/ThemeToggle";
 
 const inter = Inter({ subsets: ["latin"], weight: ['400', '500', '600', '700', '800', '900'] });
 
@@ -23,6 +25,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: `(function(){try{var t=localStorage.getItem('theme');if(t==='dark')document.documentElement.classList.add('dark');}catch(e){}})();` }} />
+      </head>
       <body className={`${inter.className} antialiased`} suppressHydrationWarning>
         <div className="bg-mesh" aria-hidden="true" />
         
@@ -56,15 +61,17 @@ export default function RootLayout({
               {/* Desktop actions — hidden on mobile via CSS */}
               <div className="desktop-nav-actions">
                 <NavSearchBar />
-                <button className="text-sm font-black text-slate-700 hover:text-red-500 px-4 py-2 border border-transparent hover:border-slate-100 rounded-lg transition-all">
+                <ThemeToggle />
+                <button className="text-sm font-black text-slate-700 dark:text-slate-300 hover:text-red-500 px-4 py-2 border border-transparent hover:border-slate-100 rounded-lg transition-all">
                   Login
                 </button>
                 <button className="primary-button text-xs uppercase tracking-widest shadow-lg shadow-red-500/20">
                   Sign Up
                 </button>
               </div>
-              {/* Mobile hamburger — hidden on desktop via CSS */}
+              {/* Mobile actions — hidden on desktop via CSS */}
               <MobileSearch />
+              <ThemeToggle />
               <MobileNav />
             </div>
           </div>

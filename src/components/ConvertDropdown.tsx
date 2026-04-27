@@ -25,7 +25,7 @@ export default function ConvertDropdown() {
   const hide = () => { timeout.current = setTimeout(() => setOpen(false), 150); };
 
   return (
-    <div style={{ position: "relative" }} onMouseEnter={show} onMouseLeave={hide}>
+    <div className="relative" onMouseEnter={show} onMouseLeave={hide}>
       <button className="flex items-center gap-1 text-xs font-black text-slate-700 dark:text-slate-300 hover:text-red-500 transition-colors uppercase tracking-tight">
         CONVERT PDF
         <ChevronDown size={13} className={`transition-transform duration-200 ${open ? "rotate-180" : ""}`} />
@@ -35,44 +35,13 @@ export default function ConvertDropdown() {
         <div
           onMouseEnter={show}
           onMouseLeave={hide}
-          style={{
-            position: "absolute",
-            top: "calc(100% + 14px)",
-            left: "50%",
-            transform: "translateX(-50%)",
-            width: "210px",
-            background: "white",
-            border: "1px solid #e2e8f0",
-            borderRadius: "1rem",
-            boxShadow: "0 20px 40px -8px rgba(0,0,0,0.15), 0 4px 12px -2px rgba(0,0,0,0.08)",
-            padding: "0.6rem",
-            zIndex: 9999,
-          }}
+          className="convert-dropdown-panel"
         >
           {/* Arrow */}
-          <div style={{
-            position: "absolute",
-            top: "-6px",
-            left: "50%",
-            transform: "translateX(-50%) rotate(45deg)",
-            width: "11px",
-            height: "11px",
-            background: "white",
-            borderLeft: "1px solid #e2e8f0",
-            borderTop: "1px solid #e2e8f0",
-          }} />
+          <div className="convert-dropdown-arrow" />
 
           {/* Label */}
-          <div style={{
-            fontSize: "0.58rem",
-            fontWeight: 900,
-            textTransform: "uppercase",
-            letterSpacing: "0.14em",
-            color: "#3182ce",
-            padding: "0.25rem 0.5rem 0.5rem",
-            borderBottom: "1.5px solid #3182ce",
-            marginBottom: "0.4rem",
-          }}>
+          <div className="convert-dropdown-label">
             CONVERT PDF TOOLS
           </div>
 
@@ -81,34 +50,9 @@ export default function ConvertDropdown() {
             <a
               key={id}
               href={`/tool/${id}`}
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: "0.6rem",
-                padding: "0.45rem 0.5rem",
-                borderRadius: "0.5rem",
-                fontSize: "0.76rem",
-                fontWeight: 700,
-                color: "#334155",
-                textDecoration: "none",
-                whiteSpace: "nowrap",
-                transition: "background 0.1s",
-              }}
-              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = "#eff6ff"; (e.currentTarget as HTMLElement).style.color = "#1d4ed8"; }}
-              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = ""; (e.currentTarget as HTMLElement).style.color = "#334155"; }}
+              className="convert-dropdown-item"
             >
-              <span style={{
-                width: "26px",
-                height: "26px",
-                borderRadius: "7px",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                background: "linear-gradient(135deg, #3182ce, #1e3a8a)",
-                color: "white",
-                flexShrink: 0,
-                boxShadow: "0 2px 6px rgba(49,130,206,0.35)",
-              }}>
+              <span className="convert-dropdown-icon">
                 <Icon size={14} />
               </span>
               {label}
