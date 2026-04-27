@@ -4,21 +4,11 @@ interface SkeletonCardProps {
 
 export default function SkeletonCard({ gradient }: SkeletonCardProps) {
   return (
-    <div
-      className="tool-card"
-      style={gradient ? {
-        borderWidth: '2px',
-        borderStyle: 'solid',
-        borderColor: 'transparent',
-        backgroundImage: `linear-gradient(white, white), ${gradient}`,
-        backgroundOrigin: 'border-box',
-        backgroundClip: 'padding-box, border-box',
-      } : undefined}
-    >
-      {/* Icon skeleton */}
-      <div className="tool-icon-wrapper skeleton-shimmer" />
-
-      {/* Content skeleton */}
+    <div className="tool-card">
+      <div
+        className="tool-icon-wrapper"
+        style={{ backgroundImage: gradient, opacity: 0.35 }}
+      />
       <div className="space-y-3 flex-1">
         <div className="h-5 rounded-md skeleton-shimmer w-3/4" />
         <div className="space-y-2">

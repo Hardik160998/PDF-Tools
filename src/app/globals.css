@@ -573,3 +573,24 @@
   overflow: hidden !important;
   padding: 2px;
 }
+
+/* Tool card gradient border on hover only */
+.tool-card {
+  border: 2px solid transparent !important;
+  background: white;
+  background-clip: padding-box;
+}
+[data-theme='dark'] .tool-card {
+  background: var(--bg-sub);
+}
+.tool-card:hover {
+  border: 2px solid transparent !important;
+  background-image: linear-gradient(white, white), var(--hover-gradient) !important;
+  background-origin: border-box !important;
+  background-clip: padding-box, border-box !important;
+}
+[data-theme='dark'] .tool-card:hover {
+  background-image: linear-gradient(#1e293b, #1e293b), var(--hover-gradient) !important;
+  background-origin: border-box !important;
+  background-clip: padding-box, border-box !important;
+}

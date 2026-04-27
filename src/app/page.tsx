@@ -192,27 +192,22 @@ export default function Home() {
                 <a
                   key={tool.id}
                   href={`/tool/${tool.id}`}
-                  className="skeleton-wrapper"
-                  style={{
-                    background: style.gradient,
-                    padding: '2px',
-                  }}
+                  className="tool-card group"
+                  style={{ '--hover-gradient': style.gradient } as React.CSSProperties}
                 >
-                  <div className="tool-card skeleton-card group">
-                    <div
-                      className={`tool-icon-wrapper shadow-xl ${style.shadow}`}
-                      style={{ backgroundImage: style.gradient }}
-                    >
-                      <tool.icon size={28} />
-                    </div>
-                    <div className="space-y-3">
-                      <h3 className="text-lg font-black text-slate-900 dark:text-white tracking-tight group-hover:text-red-500 transition-colors">
-                        {tool.title}
-                      </h3>
-                      <p className="text-[13px] font-medium text-slate-500 dark:text-slate-400 leading-snug">
-                        {tool.description}
-                      </p>
-                    </div>
+                  <div
+                    className={`tool-icon-wrapper shadow-xl ${style.shadow}`}
+                    style={{ backgroundImage: style.gradient }}
+                  >
+                    <tool.icon size={28} />
+                  </div>
+                  <div className="space-y-3">
+                    <h3 className="text-lg font-black text-slate-900 dark:text-white tracking-tight group-hover:text-red-500 transition-colors">
+                      {tool.title}
+                    </h3>
+                    <p className="text-[13px] font-medium text-slate-500 dark:text-slate-400 leading-snug">
+                      {tool.description}
+                    </p>
                   </div>
                 </a>
               );
