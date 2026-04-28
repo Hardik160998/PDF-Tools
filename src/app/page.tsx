@@ -2,110 +2,93 @@
 
 import { useState, useMemo, useEffect } from 'react';
 import SkeletonGrid from '@/components/SkeletonGrid';
-import { 
-  Combine, 
-  Scissors, 
-  FileText, 
-  Settings, 
-  Lock, 
-  FileCode,
-  Stamp,
-  Hash,
-  Sparkles,
-  Zap,
-  LayoutGrid,
-  FileCheck,
-  Type,
-  ImageIcon,
-  Wand2,
-  FileDigit,
-  FileJson,
-  FileSymlink,
-  Unlock,
-  Presentation,
-  FileSpreadsheet,
-  Globe,
-  LifeBuoy,
-  ChevronDown
+import {
+  Combine, Scissors, FileText, Settings, Lock,
+  Stamp, Sparkles, Zap, Type, ImageIcon, Wand2,
+  FileDigit, FileJson, FileSymlink, Unlock,
+  Presentation, FileSpreadsheet, Globe, LifeBuoy, ChevronDown
 } from 'lucide-react';
 
 const CATEGORIES = ['All', 'Organize', 'Optimize', 'Convert', 'Edit', 'Security', 'Special'];
 
-const CATEGORY_STYLES: Record<string, { gradient: string, shadow: string }> = {
-  'Organize': { gradient: 'linear-gradient(135deg, #f26522, #c2410c)', shadow: 'shadow-orange-500/20' },
-  'Optimize': { gradient: 'linear-gradient(135deg, #22c55e, #15803d)', shadow: 'shadow-green-500/20' },
-  'Convert':  { gradient: 'linear-gradient(135deg, #3182ce, #1e3a8a)', shadow: 'shadow-blue-500/20' },
-  'Edit':     { gradient: 'linear-gradient(135deg, #E8465D, #843286)', shadow: 'shadow-pink-500/20' },
-  'Security': { gradient: 'linear-gradient(135deg, #e53e3e, #7f1d1d)', shadow: 'shadow-red-500/20' },
-  'Special':  { gradient: 'linear-gradient(135deg, #ef4444, #991b1b)', shadow: 'shadow-red-600/20' },
+const CATEGORY_STYLES: Record<string, { gradient: string; shadow: string }> = {
+  Organize: { gradient: 'linear-gradient(135deg, #f26522, #c2410c)', shadow: 'shadow-orange-500/20' },
+  Optimize: { gradient: 'linear-gradient(135deg, #22c55e, #15803d)', shadow: 'shadow-green-500/20' },
+  Convert:  { gradient: 'linear-gradient(135deg, #3182ce, #1e3a8a)', shadow: 'shadow-blue-500/20'  },
+  Edit:     { gradient: 'linear-gradient(135deg, #E8465D, #843286)',  shadow: 'shadow-pink-500/20'  },
+  Security: { gradient: 'linear-gradient(135deg, #e53e3e, #7f1d1d)', shadow: 'shadow-red-500/20'   },
+  Special:  { gradient: 'linear-gradient(135deg, #ef4444, #991b1b)', shadow: 'shadow-red-600/20'   },
 };
 
 const TOOLS = [
-  // Organize
-  { id: 'organize',   title: 'Organize PDF',       description: 'Sort, add and delete PDF pages. Rotate PDF pages and reorder them at your convenience.',          category: 'Organize', icon: FileSymlink },
-  { id: 'merge',      title: 'Merge PDF',           description: 'Combine PDFs in the order you want with the easiest PDF merger available.',                       category: 'Organize', icon: Combine },
-  { id: 'split',      title: 'Split PDF',           description: 'Separate one page or a whole set for easy conversion into independent PDF files.',                category: 'Organize', icon: Scissors },
-  // Optimize
-  { id: 'compress',   title: 'Compress PDF',        description: 'Reduce file size while optimizing for maximal PDF quality.',                                      category: 'Optimize', icon: Zap },
-  { id: 'repair-pdf', title: 'Repair PDF',          description: 'Recover data from damaged, corrupted or illegible PDF files.',                                    category: 'Optimize', icon: LifeBuoy },
-  // Convert
-  { id: 'extract-text',  title: 'PDF to Text',        description: 'Easily convert your PDF files into easy to edit text documents.',                              category: 'Convert', icon: Type },
-  { id: 'pdf-to-xml',    title: 'PDF to XML',         description: 'Extract structured data from your PDF into XML machine readable format.',                      category: 'Convert', icon: FileJson },
-  { id: 'pdf-to-jpg',    title: 'PDF to JPG',         description: 'Convert each PDF page into a JPG or extract all images contained in a PDF.',                  category: 'Convert', icon: ImageIcon },
-  { id: 'jpg-to-pdf',    title: 'JPG to PDF',         description: 'Convert JPG images to PDF in seconds. Easily adjust orientation and margins.',                 category: 'Convert', icon: ImageIcon },
-  { id: 'word-to-pdf',   title: 'Word to PDF',        description: 'Make DOC and DOCX files easy to read by converting them to PDF.',                             category: 'Convert', icon: FileText },
-  { id: 'pdf-to-word',   title: 'PDF to Word',        description: 'Convert your PDF documents to editable DOCX files with high accuracy.',                       category: 'Convert', icon: FileText },
-  { id: 'ppt-to-pdf',    title: 'PowerPoint to PDF',  description: 'Make PPT and PPTX slideshows easy to view by converting them to PDF.',                        category: 'Convert', icon: Presentation },
-  { id: 'pdf-to-ppt',    title: 'PDF to PowerPoint',  description: 'Convert your PDF documents into editable PPTX presentations.',                                category: 'Convert', icon: Presentation },
-  { id: 'excel-to-pdf',  title: 'Excel to PDF',       description: 'Make EXCEL spreadsheets easy to read by converting them to PDF.',                             category: 'Convert', icon: FileSpreadsheet },
-  { id: 'pdf-to-excel',  title: 'PDF to Excel',       description: 'Convert your PDF documents into editable XLSX spreadsheets with table extraction.',           category: 'Convert', icon: FileSpreadsheet },
-  { id: 'html-to-pdf',   title: 'HTML to PDF',        description: 'Convert web pages or HTML files into PDF documents with high fidelity.',                      category: 'Convert', icon: Globe },
-  // Edit
-  { id: 'watermark',    title: 'Watermark',     description: 'Stamp an image or text over your PDF in seconds. Choose typography, transparency and position.',     category: 'Edit', icon: Stamp },
-  { id: 'page-numbers', title: 'Page Numbers',  description: 'Add page numbers to PDFs with ease. Choose position, dimensions, typography and size.',              category: 'Edit', icon: FileDigit },
-  { id: 'metadata',     title: 'Edit Metadata', description: 'Add, change or remove metadata fields including Author, Title, and Subject.',                        category: 'Edit', icon: Settings },
-  // Security
-  { id: 'unlock',  title: 'Unlock PDF',  description: 'Remove PDF password security, giving you the freedom to use your PDFs as you want.', category: 'Security', icon: Unlock },
-  { id: 'protect', title: 'Protect PDF', description: 'Encrypt PDF with a password. Manage PDF permissions and access control.',            category: 'Security', icon: Lock },
-  // Special
-  { id: 'aadhar-crop', title: 'Aadhar Cropper', description: 'Perfectly crop Aadhar ID cards from e-Aadhar PDF for high quality printing.', category: 'Special', icon: Wand2 },
+  { id: 'organize',     title: 'Organize PDF',      description: 'Sort, add and delete PDF pages. Rotate PDF pages and reorder them at your convenience.',          category: 'Organize', icon: FileSymlink    },
+  { id: 'merge',        title: 'Merge PDF',          description: 'Combine PDFs in the order you want with the easiest PDF merger available.',                       category: 'Organize', icon: Combine        },
+  { id: 'split',        title: 'Split PDF',          description: 'Separate one page or a whole set for easy conversion into independent PDF files.',                category: 'Organize', icon: Scissors       },
+  { id: 'compress',     title: 'Compress PDF',       description: 'Reduce file size while optimizing for maximal PDF quality.',                                      category: 'Optimize', icon: Zap            },
+  { id: 'repair-pdf',   title: 'Repair PDF',         description: 'Recover data from damaged, corrupted or illegible PDF files.',                                    category: 'Optimize', icon: LifeBuoy       },
+  { id: 'extract-text', title: 'PDF to Text',        description: 'Easily convert your PDF files into easy to edit text documents.',                                 category: 'Convert',  icon: Type           },
+  { id: 'pdf-to-xml',   title: 'PDF to XML',         description: 'Extract structured data from your PDF into XML machine readable format.',                         category: 'Convert',  icon: FileJson       },
+  { id: 'pdf-to-jpg',   title: 'PDF to JPG',         description: 'Convert each PDF page into a JPG or extract all images contained in a PDF.',                     category: 'Convert',  icon: ImageIcon      },
+  { id: 'jpg-to-pdf',   title: 'JPG to PDF',         description: 'Convert JPG images to PDF in seconds. Easily adjust orientation and margins.',                    category: 'Convert',  icon: ImageIcon      },
+  { id: 'word-to-pdf',  title: 'Word to PDF',        description: 'Make DOC and DOCX files easy to read by converting them to PDF.',                                category: 'Convert',  icon: FileText       },
+  { id: 'pdf-to-word',  title: 'PDF to Word',        description: 'Convert your PDF documents to editable DOCX files with high accuracy.',                          category: 'Convert',  icon: FileText       },
+  { id: 'ppt-to-pdf',   title: 'PowerPoint to PDF',  description: 'Make PPT and PPTX slideshows easy to view by converting them to PDF.',                           category: 'Convert',  icon: Presentation   },
+  { id: 'pdf-to-ppt',   title: 'PDF to PowerPoint',  description: 'Convert your PDF documents into editable PPTX presentations.',                                   category: 'Convert',  icon: Presentation   },
+  { id: 'excel-to-pdf', title: 'Excel to PDF',       description: 'Make EXCEL spreadsheets easy to read by converting them to PDF.',                                category: 'Convert',  icon: FileSpreadsheet },
+  { id: 'pdf-to-excel', title: 'PDF to Excel',       description: 'Convert your PDF documents into editable XLSX spreadsheets with table extraction.',              category: 'Convert',  icon: FileSpreadsheet },
+  { id: 'html-to-pdf',  title: 'HTML to PDF',        description: 'Convert web pages or HTML files into PDF documents with high fidelity.',                         category: 'Convert',  icon: Globe          },
+  { id: 'watermark',    title: 'Watermark',          description: 'Stamp an image or text over your PDF in seconds. Choose typography, transparency and position.',  category: 'Edit',     icon: Stamp          },
+  { id: 'page-numbers', title: 'Page Numbers',       description: 'Add page numbers to PDFs with ease. Choose position, dimensions, typography and size.',           category: 'Edit',     icon: FileDigit      },
+  { id: 'metadata',     title: 'Edit Metadata',      description: 'Add, change or remove metadata fields including Author, Title, and Subject.',                     category: 'Edit',     icon: Settings       },
+  { id: 'unlock',       title: 'Unlock PDF',         description: 'Remove PDF password security, giving you the freedom to use your PDFs as you want.',              category: 'Security', icon: Unlock         },
+  { id: 'protect',      title: 'Protect PDF',        description: 'Encrypt PDF with a password. Manage PDF permissions and access control.',                         category: 'Security', icon: Lock           },
+  { id: 'aadhar-crop',  title: 'Aadhar Cropper',     description: 'Perfectly crop Aadhar ID cards from e-Aadhar PDF for high quality printing.',                    category: 'Special',  icon: Wand2          },
 ];
 
 export default function Home() {
   const [activeCategory, setActiveCategory] = useState('All');
-  const [search, setSearch] = useState('');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [displayCategory, setDisplayCategory] = useState(activeCategory);
+  const [displayCategory, setDisplayCategory] = useState('All');
+  // false on first paint → grid shows shimmer; true after hydration
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => { setMounted(true); }, []);
 
   useEffect(() => {
-    if (activeCategory === displayCategory) return;
+    if (!mounted || activeCategory === displayCategory) return;
     setIsLoading(true);
-    const timer = setTimeout(() => {
-      setDisplayCategory(activeCategory);
-      setIsLoading(false);
-    }, 250);
-    return () => clearTimeout(timer);
-  }, [activeCategory]);
+    const t = setTimeout(() => { setDisplayCategory(activeCategory); setIsLoading(false); }, 300);
+    return () => clearTimeout(t);
+  }, [activeCategory, mounted]);
 
-  const filteredTools = useMemo(() => {
-    return TOOLS.filter(t => {
-      const matchCategory = displayCategory === 'All' || t.category === displayCategory;
-      const matchSearch = t.title.toLowerCase().includes(search.toLowerCase());
-      return matchCategory && matchSearch;
-    });
-  }, [displayCategory, search]);
+  const filteredTools = useMemo(() =>
+    TOOLS.filter(t => displayCategory === 'All' || t.category === displayCategory),
+  [displayCategory]);
+
+  // Grid shimmer: on first load OR category switch
+  const showGridSkeleton = !mounted || isLoading;
+
+  // Tools that WILL show after skeleton — used to drive skeleton colors
+  const skeletonTools = useMemo(() => {
+    if (!mounted) return TOOLS; // on refresh show all tools shimmer
+    // On category switch: always show 8 skeleton cards (4x2) in that category's color
+    const cat = activeCategory;
+    if (cat === 'All') return TOOLS.slice(0, 8);
+    const catColor = Array.from({ length: 8 }, () => ({ category: cat }));
+    return catColor;
+  }, [activeCategory, mounted]);
 
   return (
     <div className="min-h-screen relative overflow-hidden">
       <div className="bg-mesh-premium" />
 
-      {/* Hero Section */}
+      {/* Hero */}
       <section className="container mx-auto px-4 py-24 text-center relative z-10">
         <div className="max-w-6xl mx-auto space-y-8">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-red-50 text-red-600 border border-red-100 text-xs font-black uppercase tracking-widest shadow-sm fade-in-up mb-4">
             <Sparkles size={14} className="fill-red-500" />
-            100% Free & Secure PDF Tools
+            100% Free &amp; Secure PDF Tools
           </div>
           <h2 className="text-4xl md:text-6xl font-black leading-[1.1] tracking-tighter fade-in-up stagger-1">
             <span className="hero-gradient-text">PDF Tools Simplified.</span>{' '}
@@ -116,8 +99,10 @@ export default function Home() {
           </p>
         </div>
 
-        {/* Category Filter */}
+        {/* Category Filter — always shows real buttons, NO shimmer */}
         <div className="mt-16 fade-in-up stagger-3 flex justify-center">
+
+          {/* Desktop */}
           <div className="hidden md:block overflow-x-auto pb-4 scrollbar-hide px-4">
             <div className="category-nav mx-auto">
               {CATEGORIES.map(cat => (
@@ -132,6 +117,7 @@ export default function Home() {
             </div>
           </div>
 
+          {/* Mobile dropdown */}
           <div className="md:hidden w-full px-4 relative z-50">
             {isMobileMenuOpen && (
               <div className="fixed inset-0 z-[-1]" onClick={() => setIsMobileMenuOpen(false)} />
@@ -169,16 +155,18 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Tools Grid */}
+      {/* Tools Grid — shimmer on refresh + category switch */}
       <section className="container mx-auto px-4 pb-20">
-        {isLoading ? (
-          <SkeletonGrid count={filteredTools.length || 16} categories={filteredTools.map(t => t.category)} />
+        {showGridSkeleton ? (
+          <SkeletonGrid
+            count={skeletonTools.length}
+            categories={skeletonTools.map(t => t.category)}
+          />
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 animate-fade-in">
             {filteredTools.map((tool) => {
-              const style = CATEGORY_STYLES[tool.category] || CATEGORY_STYLES['Special'];
+              const style = CATEGORY_STYLES[tool.category] || CATEGORY_STYLES.Special;
               return (
-                /* Gradient border wrapper — shows category gradient border on hover */
                 <div
                   key={tool.id}
                   className="tool-card-border"
