@@ -26,7 +26,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        <script dangerouslySetInnerHTML={{ __html: `(function(){var h=document.documentElement;try{var t=localStorage.getItem('theme');if(t==='dark'){h.classList.add('dark');}else if(!t&&window.matchMedia('(prefers-color-scheme:dark)').matches){h.classList.add('dark');localStorage.setItem('theme','dark');}}catch(e){}h.classList.add('no-transition');document.addEventListener('DOMContentLoaded',function(){requestAnimationFrame(function(){h.classList.remove('no-transition');});},{once:true});})();` }} />
+        <script dangerouslySetInnerHTML={{ __html: `(function(){var h=document.documentElement;try{var t=localStorage.getItem('theme');if(t==='dark'){h.classList.add('dark');}}catch(e){}h.classList.add('no-transition');document.addEventListener('DOMContentLoaded',function(){requestAnimationFrame(function(){h.classList.remove('no-transition');});},{once:true});})();` }} />
       </head>
       <body className={`${inter.className} antialiased`} suppressHydrationWarning>
         <div className="bg-mesh" aria-hidden="true" />
