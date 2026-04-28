@@ -1,9 +1,9 @@
 "use client";
 
-import { useState, useRef } from "react";
-import { ChevronDown, Combine, Scissors, Zap, LifeBuoy, Type, FileJson, ImageIcon, FileText, Presentation, FileSpreadsheet, Globe, Stamp, FileDigit, Settings, Unlock, Lock, Wand2, FileSymlink } from "lucide-react";
+import React, { useState, useRef } from "react";
+import { ChevronDown, Combine, Scissors, Zap, LifeBuoy, Type, FileJson, ImageIcon, FileText, Presentation, FileSpreadsheet, Globe, Stamp, FileDigit, Settings, Unlock, Lock, Wand2, FileSymlink, PenLine } from "lucide-react";
 
-const CATEGORIES = [
+const CATEGORIES: { name: string; color: string; gradient: string; tools: { id: string; label: string; icon: React.ElementType; href?: string }[] }[] = [
   {
     name: "Organize",
     color: "#f26522",
@@ -46,9 +46,10 @@ const CATEGORIES = [
     color: "#E8465D",
     gradient: "linear-gradient(135deg, #E8465D, #843286)",
     tools: [
-      { id: "watermark",    label: "Watermark",      icon: Stamp },
-      { id: "page-numbers", label: "Page Numbers",   icon: FileDigit },
-      { id: "metadata",     label: "Edit Metadata",  icon: Settings },
+      { id: "watermark",    label: "Watermark",      icon: Stamp,     href: "/tool/watermark" },
+      { id: "page-numbers", label: "Page Numbers",   icon: FileDigit, href: "/tool/page-numbers" },
+      { id: "metadata",     label: "Edit Metadata",  icon: Settings,  href: "/tool/metadata" },
+      { id: "esign",        label: "E-Sign PDF",     icon: PenLine,   href: "/esign" },
     ],
   },
   {
@@ -97,8 +98,8 @@ export default function AllToolsDropdown() {
                 <div className="all-tools-cat-label" style={{ color: cat.color }}>
                   {cat.name}
                 </div>
-                {cat.tools.map(({ id, label, icon: Icon }) => (
-                  <a key={id} href={`/tool/${id}`} className="all-tools-item">
+                {cat.tools.map(({ id, label, icon: Icon, href }) => (
+                  <a key={id} href={href ?? `/tool/${id}`} className="all-tools-item">
                     <span className="all-tools-icon" style={{ background: cat.gradient }}>
                       <Icon size={14} />
                     </span>
