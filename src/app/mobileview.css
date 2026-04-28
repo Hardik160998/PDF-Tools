@@ -92,7 +92,8 @@
     border-radius: 1rem !important;
   }
 
-  .tool-card:hover { transform: translateY(-4px) !important; }
+  .tool-card-border { -webkit-tap-highlight-color: transparent !important; }
+  .tool-card:hover, .tool-card:active { transform: none !important; box-shadow: none !important; }
 
   .tool-icon-wrapper {
     width: 44px !important;
