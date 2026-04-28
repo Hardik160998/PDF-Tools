@@ -732,3 +732,9 @@ body.drawer-open {
     text-align: center !important;
   }
 }
+
+/* ── MOB-ONLY: visible only on mobile/tablet ── */
+.mob-only { display: none; }
+@media (max-width: 1023px) {
+  .mob-only { display: flex; align-items: center; }
+}

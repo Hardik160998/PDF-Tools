@@ -1,8 +1,8 @@
-﻿@import "tailwindcss";
+@import "tailwindcss";
 @variant dark (&:is(html.dark *));
 
 :root {
-  color-scheme: light only;
+  color-scheme: light;
   /* iLovePDF Inspired Clean Theme - Light First */
   --bg-main: #ffffff;
   --bg-sub: #f8fafc;
@@ -35,7 +35,7 @@ html.dark {
     background-color: var(--bg-main);
     color: var(--text-primary);
     font-family: 'Inter', sans-serif;
-    transition: all 0.3s ease;
+    transition: background-color 0.3s ease, color 0.2s ease;
     user-select: none;
     -webkit-user-select: none;
   }
@@ -161,7 +161,7 @@ html.dark {
     height: 600px;
     z-index: -1;
     overflow: hidden;
-    background: #fff;
+    background: transparent;
   }
 
   .bg-mesh-premium::after {
@@ -597,11 +597,11 @@ html.dark .tool-card:hover {
 
 /* â”€â”€ BEAUTIFUL PAGE BACKGROUND (matches screenshot) â”€â”€ */
 body {
-  background: #f0f4f8 !important;
+  background: #f0f4f8;
   background-image:
     radial-gradient(ellipse at 0% 100%, rgba(186, 230, 253, 0.5) 0%, transparent 50%),
     radial-gradient(ellipse at 100% 0%, rgba(254, 202, 202, 0.4) 0%, transparent 50%),
-    radial-gradient(ellipse at 50% 50%, rgba(255, 255, 255, 0.8) 0%, transparent 70%) !important;
+    radial-gradient(ellipse at 50% 50%, rgba(255, 255, 255, 0.8) 0%, transparent 70%);
   min-height: 100vh;
 }
 

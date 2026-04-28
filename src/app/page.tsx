@@ -78,25 +78,29 @@ export default function Home() {
   const [activeCategory, setActiveCategory] = useState('All');
   const [search, setSearch] = useState('');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+  const [displayCategory, setDisplayCategory] = useState(activeCategory);
 
-  // Hide skeletons after initial load and on category changes
   useEffect(() => {
+    if (activeCategory === displayCategory) return;
     setIsLoading(true);
-    const timer = setTimeout(() => setIsLoading(false), 500);
+    const timer = setTimeout(() => {
+      setDisplayCategory(activeCategory);
+      setIsLoading(false);
+    }, 250);
     return () => clearTimeout(timer);
   }, [activeCategory]);
 
   const filteredTools = useMemo(() => {
     return TOOLS.filter(t => {
-      const matchCategory = activeCategory === 'All' || t.category === activeCategory;
+      const matchCategory = displayCategory === 'All' || t.category === displayCategory;
       const matchSearch = t.title.toLowerCase().includes(search.toLowerCase());
       return matchCategory && matchSearch;
     });
-  }, [activeCategory, search]);
+  }, [displayCategory, search]);
 
   return (
-    <div className="bg-white dark:bg-slate-900 min-h-screen relative overflow-hidden">
+    <div className="min-h-screen relative overflow-hidden">
       {/* Premium Background Layer */}
       <div className="bg-mesh-premium" />
 
