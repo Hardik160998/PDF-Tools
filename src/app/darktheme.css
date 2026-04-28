@@ -1,3 +1,6 @@
+/* -- NO-TRANSITION ON LOAD (prevents flicker) -- */
+.no-transition,.no-transition *,.no-transition *::before,.no-transition *::after{transition:none!important;animation:none!important;}
+
 /* ============================================================
    SMARTPDFS PLUS — DARK THEME
    Activated when <html class="dark"> is present
@@ -194,9 +197,7 @@ html.dark input[type="email"],
 html.dark input[type="password"],
 html.dark textarea,
 html.dark select {
-  background-color: #0f172a !important;
-  border-color: #334155 !important;
-  color: #f1f5f9 !important;
+color: #f1f5f9 !important;
 }
 html.dark input::placeholder,
 html.dark textarea::placeholder { color: #475569 !important; }
@@ -268,13 +269,70 @@ html.dark ::-webkit-scrollbar-track { background: #0f172a; }
 html.dark ::-webkit-scrollbar-thumb { background: #334155; border-radius: 99px; }
 html.dark ::-webkit-scrollbar-thumb:hover { background: #475569; }
 
-/* ── THEME TOGGLE ── */
-.toggle-thumb { width: 1.5rem; height: 1.5rem; }
-.toggle-thumb--light { left: 0.125rem; }
-.toggle-thumb--dark  { left: calc(100% - 1.625rem); }
+/* -- SMOOTH PAGE TRANSITION -- */
+html { color-scheme: light; }
+html.dark { color-scheme: dark; }
+html, body { transition: background-color 0.25s ease, color 0.2s ease; }
+header, footer, main, nav,
+.tool-card, .category-nav, .filter-tab,
+.nav-search-box, .nav-search-dropdown,
+.all-tools-dropdown, .convert-dropdown-panel,
+.mob-drawer, .mob-search-overlay,
+.bg-mesh-premium {
+  transition: background-color 0.25s ease, border-color 0.25s ease, color 0.2s ease;
+}
+
+/* -- THEME TOGGLE PILL -- */
+.theme-toggle-pill {
+  position: relative;
+  width: 3.25rem;
+  height: 1.75rem;
+  border-radius: 9999px;
+  border: none;
+  cursor: pointer;
+  flex-shrink: 0;
+  background: #e2e8f0;
+  transition: background 0.35s ease;
+}
+.theme-toggle-pill--dark  { background: #334155; }
+.theme-toggle-pill--light { background: #e2e8f0; }
+
+.toggle-track-icon {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  transition: opacity 0.25s ease;
+}
+.toggle-track-icon--sun  { left: 0.4rem;  color: #f59e0b; opacity: 1; }
+.toggle-track-icon--moon { right: 0.4rem; color: #94a3b8; opacity: 0; }
+.theme-toggle-pill--dark  .toggle-track-icon--sun  { opacity: 0; }
+.theme-toggle-pill--dark  .toggle-track-icon--moon { opacity: 1; }
+.theme-toggle-pill--light .toggle-track-icon--sun  { opacity: 1; }
+.theme-toggle-pill--light .toggle-track-icon--moon { opacity: 0; }
+
+.toggle-thumb-pill {
+  position: absolute;
+  top: 0.2rem;
+  left: 0.2rem;
+  width: 1.35rem;
+  height: 1.35rem;
+  border-radius: 9999px;
+  background: #ffffff;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #f59e0b;
+  transition: left 0.35s cubic-bezier(0.34,1.56,0.64,1), background 0.35s ease, color 0.25s ease;
+}
+.theme-toggle-pill--dark .toggle-thumb-pill {
+  left: calc(100% - 1.55rem);
+  background: #0f172a;
+  color: #93c5fd;
+}
 
 @media (max-width: 1023px) {
-  .theme-toggle-btn { width: 2.75rem !important; height: 1.6rem !important; }
-  .toggle-thumb { width: 1.2rem !important; height: 1.2rem !important; }
-  .toggle-thumb--dark { left: calc(100% - 1.325rem) !important; }
+  .theme-toggle-pill { width: 2.75rem; height: 1.5rem; }
+  .toggle-thumb-pill { width: 1.1rem; height: 1.1rem; top: 0.2rem; }
+  .theme-toggle-pill--dark .toggle-thumb-pill { left: calc(100% - 1.3rem); }
 }
