@@ -1,13 +1,20 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Sun, Moon } from "lucide-react";
 
 export default function ThemeToggle() {
-  const [dark, setDark] = useState<boolean>(() => {
-    if (typeof window === "undefined") return false;
-    return document.documentElement.classList.contains("dark");
-  });
+  // Start as undefined — renders nothing until client hydrates
+  const [dark, setDark] = useState<boolean | null>(null);
+  const initialized = useRef(false);
+
+  useEffect(() => {
+    if (initialized.current) return;
+    initialized.current = true;
+    // Read the class that the inline <head> script already set
+    const isDark = document.documentElement.classList.contains("dark");
+    setDark(isDark);
+  }, []);
 
   const toggle = () => {
     const next = !dark;
@@ -15,6 +22,18 @@ export default function ThemeToggle() {
     localStorage.setItem("theme", next ? "dark" : "light");
     document.documentElement.classList.toggle("dark", next);
   };
+
+  // Render a size-matched placeholder during SSR / before hydration
+  // This prevents layout shift and hydration mismatch
+  if (dark === null) {
+    return (
+      <span
+        className="theme-toggle-pill theme-toggle-pill--light flex-shrink-0"
+        aria-hidden="true"
+        style={{ visibility: "hidden" }}
+      />
+    );
+  }
 
   return (
     <button
