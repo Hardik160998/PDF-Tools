@@ -41,17 +41,18 @@ const CATEGORIES: { name: string; color: string; gradient: string; tools: { id: 
       { id: "html-to-pdf",  label: "HTML to PDF",       icon: Globe },
     ],
   },
-  {
-    name: "Edit",
-    color: "#E8465D",
-    gradient: "linear-gradient(135deg, #E8465D, #843286)",
-    tools: [
-      { id: "watermark",    label: "Watermark",      icon: Stamp,     href: "/tool/watermark" },
-      { id: "page-numbers", label: "Page Numbers",   icon: FileDigit, href: "/tool/page-numbers" },
-      { id: "metadata",     label: "Edit Metadata",  icon: Settings,  href: "/tool/metadata" },
-      { id: "esign",        label: "E-Sign PDF",     icon: PenLine,   href: "/esign" },
-    ],
-  },
+    {
+      name: "Edit",
+      color: "#E8465D",
+      gradient: "linear-gradient(135deg, #E8465D, #843286)",
+      tools: [
+        { id: "watermark",    label: "Watermark",      icon: Stamp,     href: "/tool/watermark" },
+        { id: "page-numbers", label: "Page Numbers",   icon: FileDigit, href: "/tool/page-numbers" },
+        { id: "metadata",     label: "Edit Metadata",  icon: Settings,  href: "/tool/metadata" },
+        { id: "esign",        label: "E-Sign PDF",     icon: PenLine,   href: "/esign" },
+        { id: "edit-pdf",     label: "Edit PDF",       icon: PenLine,   href: "/edit" },
+      ],
+    },
   {
     name: "Security",
     color: "#e53e3e",

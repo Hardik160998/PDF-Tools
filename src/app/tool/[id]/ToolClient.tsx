@@ -35,6 +35,9 @@ const AadharCropper = dynamic(() => import('@/components/tools/AadharCropper'), 
   ssr: false, loading: () => <CenteredCardSkeleton accent="rgb(254 202 202)" />,
 });
 
+const PdfEditorWrapper = dynamic(() => import('@/app/edit/PdfEditor'), {
+  ssr: false, loading: () => <CenteredCardSkeleton accent="rgb(221 214 254)" />,
+});
 const TOOL_COMPONENTS: Record<string, React.ComponentType<{ id: string }>> = {
   'organize': OrganizeTool,
   'merge': MergeSplit,
@@ -44,6 +47,7 @@ const TOOL_COMPONENTS: Record<string, React.ComponentType<{ id: string }>> = {
   'watermark': EditTools,
   'page-numbers': EditTools,
   'metadata': EditTools,
+  'edit-pdf': PdfEditorWrapper,
   'compress': Compressor,
   'repair-pdf': RepairTool,
   'pdf-to-jpg': ImageConverter,

@@ -45,6 +45,7 @@ const TOOLS = [
   { id: 'protect',      title: 'Protect PDF',        description: 'Encrypt PDF with a password. Manage PDF permissions and access control.',                         category: 'Security', icon: Lock           },
   { id: 'aadhar-crop',  title: 'Aadhar Cropper',     description: 'Perfectly crop Aadhar ID cards from e-Aadhar PDF for high quality printing.',                    category: 'Special',  icon: Wand2          },
   { id: 'esign',        title: 'E-Sign PDF',          description: 'Draw or type your signature and place it anywhere on a PDF or image. Download the signed file instantly.', category: 'Sign', icon: PenLine },
+  { id: 'edit-pdf',      title: 'Edit PDF',            description: 'Highlight, draw, add text and freehand annotations directly on PDFs. Zero uploads, 100% private.', category: 'Edit', icon: PenLine },
 ];
 
 const FEATURE_BG = 'linear-gradient(135deg, #bae6fd4d 0%, #fff0 50%, #fecaca4d 100%)';
@@ -171,7 +172,7 @@ export default function Home() {
                   className="tool-card-border"
                   style={{ '--cat-gradient': style.gradient } as React.CSSProperties}
                 >
-                  <a href={tool.id === 'esign' ? '/esign' : `/tool/${tool.id}`} className="tool-card">
+                   <a href={tool.id === 'esign' ? '/esign' : tool.id === 'edit-pdf' ? '/edit' : `/tool/${tool.id}`} className="tool-card">
                     <div
                       className={`tool-icon-wrapper shadow-xl ${style.shadow}`}
                       style={{ backgroundImage: style.gradient }}
@@ -321,10 +322,14 @@ export default function Home() {
                 Work Directly on Your Files
               </h2>
               <p className="text-base text-slate-500 dark:text-slate-400 font-medium leading-relaxed">
-                Do more than just view PDFs. Highlight and add text, images, shapes, and freehand annotations to your documents. Connect to 30+ other tools to enhance your files further.
+                Do more than just view PDFs. Highlight and add text, freehand annotations, and more — all processed locally in your browser. Zero uploads, 100% private.
               </p>
-              <a href="/tool/watermark" className="inline-flex items-center gap-2 text-blue-600 dark:text-blue-400 font-semibold hover:underline">
-                Edit a PDF now &#8594;
+              <a
+                href="/edit"
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-white font-black text-sm uppercase tracking-widest shadow-lg transition-all hover:scale-105 hover:shadow-xl"
+                style={{ background: 'linear-gradient(135deg,#3b82f6,#8b5cf6)' }}
+              >
+                Open &amp; Edit a PDF &#8594;
               </a>
             </div>
             <div className="flex-1 flex justify-center">
@@ -336,9 +341,9 @@ export default function Home() {
                     <div className="w-3 h-3 rounded-full bg-green-400" />
                     <span className="ml-2 text-xs text-slate-400 font-medium">Edit &mdash; Document.pdf</span>
                   </div>
-                  <div className="flex gap-3 mb-4 flex-wrap">
-                    {['Draw', 'Text', 'Shape', 'Image'].map(tool => (
-                      <span key={tool} className="text-xs font-bold bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 px-2 py-1 rounded-lg border border-blue-100 dark:border-blue-800">{tool}</span>
+                  <div className="flex gap-2 mb-4 flex-wrap">
+                    {[['Highlight','#fbbf24'],['Text','#3b82f6'],['Draw','#8b5cf6'],['Erase','#ef4444']].map(([label, color]) => (
+                      <span key={label} className="text-xs font-bold px-2.5 py-1 rounded-lg border" style={{ color, borderColor: color, background: color + '18' }}>{label}</span>
                     ))}
                   </div>
                   <div className="space-y-2">
@@ -346,8 +351,11 @@ export default function Home() {
                       <div key={i} className="h-2 bg-slate-100 dark:bg-slate-700 rounded-full" style={{ width: `${95 - i * 8}%` }} />
                     ))}
                   </div>
-                  <div className="mt-4 border-2 border-blue-300 rounded-lg p-2 inline-block">
-                    <p className="text-sm font-bold text-slate-700 dark:text-slate-300">Hello!</p>
+                  <div className="mt-4 flex items-center gap-2">
+                    <div className="border-2 border-blue-400 rounded-lg px-3 py-1.5">
+                      <p className="text-sm font-bold text-slate-700 dark:text-slate-300">Hello!</p>
+                    </div>
+                    <div className="h-6 w-16 rounded" style={{ background: 'rgba(251,191,36,0.35)' }} />
                   </div>
                 </div>
               </div>

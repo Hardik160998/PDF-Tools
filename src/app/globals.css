@@ -1,6 +1,13 @@
 @import "tailwindcss";
 @variant dark (&:is(html.dark *));
 
+.container {
+  max-width: 80rem;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 :root {
   color-scheme: light;
   /* iLovePDF Inspired Clean Theme - Light First */
