@@ -11,6 +11,7 @@ html.dark,
 html.dark body {
   background: #0b1120 !important;
   color: #e2e8f0 !important;
+  color-scheme: dark;
 }
 
 html.dark body {
@@ -335,4 +336,198 @@ header, footer, main, nav,
   .theme-toggle-pill { width: 2.75rem; height: 1.5rem; }
   .toggle-thumb-pill { width: 1.1rem; height: 1.1rem; top: 0.2rem; }
   .theme-toggle-pill--dark .toggle-thumb-pill { left: calc(100% - 1.3rem); }
+}
+
+/* ============================================================
+   HOMEPAGE DARK MODE FIXES
+   ============================================================ */
+
+/* Hero badge pill */
+html.dark .bg-red-50.text-red-600.border.border-red-100 {
+  background: rgba(127,29,29,0.25) !important;
+  color: #f87171 !important;
+  border-color: rgba(127,29,29,0.4) !important;
+}
+
+/* Heading color fix — globals.css was forcing #1a1a2e on all headings */
+html.dark h1, html.dark h2, html.dark h3 {
+  color: #f1f5f9;
+}
+html.dark .text-slate-900 {
+  color: #f1f5f9 !important;
+}
+
+/* Feature section mock-UI cards */
+html.dark .bg-white.dark\:bg-slate-800.rounded-3xl,
+html.dark .bg-white.dark\:bg-slate-800.rounded-2xl {
+  background: #1e293b !important;
+  border-color: #334155 !important;
+}
+
+/* Feature section bg-slate-50 sections */
+html.dark .bg-slate-50.dark\:bg-slate-800\/40 {
+  background: rgba(15,23,42,0.6) !important;
+}
+
+/* Tagline & Digital Signatures white sections */
+html.dark .bg-white.dark\:bg-slate-900 {
+  background: #0b1120 !important;
+}
+
+/* Mock card line placeholders */
+html.dark .bg-slate-100.dark\:bg-slate-700.rounded-full {
+  background: #334155 !important;
+}
+
+/* eSign mock card dashed border */
+html.dark .border-2.border-dashed.border-purple-300 {
+  border-color: rgba(139,92,246,0.4) !important;
+  background: rgba(139,92,246,0.05) !important;
+}
+
+/* eSign mock card text */
+html.dark .text-slate-400.italic {
+  color: #475569 !important;
+}
+
+/* Edit mock card annotation badge */
+html.dark .border-2.border-blue-400.rounded-lg {
+  border-color: #3b82f6 !important;
+  background: rgba(59,130,246,0.08) !important;
+}
+
+/* ============================================================
+   OVERRIDE globals.css HEADING COLOR FOR DARK MODE
+   globals.css forces color:#1a1a2e on .text-4xl/.text-2xl
+   These rules override that in dark mode
+   ============================================================ */
+html.dark .text-4xl.font-black { color: #f1f5f9 !important; }
+html.dark .text-2xl.font-black { color: #f1f5f9 !important; }
+html.dark .text-3xl.font-black { color: #f1f5f9 !important; }
+html.dark .text-5xl.font-black { color: #f1f5f9 !important; }
+html.dark .text-6xl.font-black { color: #f1f5f9 !important; }
+
+/* Homepage inline-style section backgrounds */
+html.dark .bg-white.dark\:bg-slate-900 { background: #0b1120 !important; }
+html.dark .bg-slate-50.dark\:bg-slate-800\/40 { background: rgba(15,23,42,0.7) !important; }
+
+/* Hero badge */
+html.dark .bg-red-50.text-red-600.border.border-red-100 {
+  background: rgba(127,29,29,0.25) !important;
+  color: #f87171 !important;
+  border-color: rgba(127,29,29,0.4) !important;
+}
+
+/* Feature pills on hero */
+html.dark .bg-white.border.border-slate-100.rounded-full {
+  background: #1e293b !important;
+  border-color: #334155 !important;
+  color: #cbd5e1 !important;
+}
+
+/* How it works section bg */
+html.dark .bg-white\/60 { background: rgba(15,23,42,0.6) !important; }
+
+/* How it works + related tool cards */
+html.dark .bg-white.rounded-2xl.p-6.shadow-sm.border.border-slate-100 {
+  background: #1e293b !important;
+  border-color: #334155 !important;
+}
+html.dark .bg-white.rounded-2xl.p-6.shadow-sm.border.border-slate-100:hover {
+  box-shadow: 0 20px 40px -8px rgba(0,0,0,0.5) !important;
+}
+
+/* Step icon bg pills */
+html.dark .bg-orange-50.text-orange-500 { background: rgba(124,45,18,0.2) !important; color: #fb923c !important; }
+html.dark .bg-green-50.text-green-500   { background: rgba(20,83,45,0.2) !important;  color: #4ade80 !important; }
+html.dark .bg-blue-50.text-blue-500     { background: rgba(30,58,138,0.2) !important; color: #60a5fa !important; }
+html.dark .bg-yellow-50.text-yellow-500 { background: rgba(113,63,18,0.2) !important; color: #fbbf24 !important; }
+html.dark .bg-red-50.text-red-500       { background: rgba(127,29,29,0.2) !important; color: #f87171 !important; }
+html.dark .bg-indigo-50.text-indigo-500 { background: rgba(49,46,129,0.2) !important; color: #a5b4fc !important; }
+html.dark .bg-slate-100.text-slate-500  { background: rgba(30,41,59,0.5) !important;  color: #94a3b8 !important; }
+html.dark .bg-purple-50.text-purple-500 { background: rgba(88,28,135,0.2) !important; color: #c084fc !important; }
+html.dark .bg-purple-50.text-purple-600 { background: rgba(88,28,135,0.2) !important; color: #c084fc !important; }
+
+/* Related tool tag badges */
+html.dark .bg-slate-50.px-2.py-1.rounded-full.border.border-slate-100 {
+  background: #0f172a !important;
+  border-color: #334155 !important;
+  color: #64748b !important;
+}
+
+/* Tool page drop zone dark override (overrides globals.css) */
+html.dark .border-2.border-dashed {
+  border-color: #334155 !important;
+  background: #0f172a !important;
+}
+html.dark .border-2.border-dashed:hover {
+  border-color: #f26522 !important;
+  background: rgba(242,101,34,0.05) !important;
+}
+
+/* Upload icon box inside drop zone */
+html.dark .border-2.border-dashed .p-6.bg-white,
+html.dark .border-2.border-dashed .p-4.bg-white,
+html.dark .border-2.border-dashed .p-5.bg-white {
+  background: #1e293b !important;
+}
+
+/* Tool page white cards (rounded variants) */
+html.dark .bg-white.rounded-\[2\.5rem\],
+html.dark .bg-white.rounded-\[2rem\],
+html.dark .bg-white.rounded-\[1\.5rem\] {
+  background: #1e293b !important;
+  border-color: #334155 !important;
+}
+
+/* File card rows */
+html.dark .bg-slate-50 { background: #0f172a !important; }
+html.dark .bg-slate-50\/50 { background: rgba(15,23,42,0.5) !important; }
+
+/* Homepage mock UI cards */
+html.dark .bg-white.dark\:bg-slate-800.rounded-3xl,
+html.dark .bg-white.dark\:bg-slate-800.rounded-2xl {
+  background: #1e293b !important;
+  border-color: #334155 !important;
+}
+
+/* eSign mock dashed border */
+html.dark .border-2.border-dashed.border-purple-300 {
+  border-color: rgba(139,92,246,0.4) !important;
+  background: rgba(139,92,246,0.05) !important;
+}
+
+/* About page sections */
+html.dark .bg-slate-900.py-16 { background: #020617 !important; }
+html.dark .bg-slate-50.py-16  { background: #0f172a !important; }
+
+/* Blog, FAQ, Privacy, Terms cards */
+html.dark .bg-white.rounded-2xl.border.border-slate-100.shadow-sm {
+  background: #1e293b !important;
+  border-color: #334155 !important;
+}
+html.dark .bg-white.rounded-2xl.border.border-slate-100.shadow-sm.overflow-hidden {
+  background: #1e293b !important;
+  border-color: #334155 !important;
+}
+
+/* Contact form inputs */
+html.dark input[type="text"],
+html.dark input[type="email"],
+html.dark input[type="password"],
+html.dark textarea {
+
+  color: #f1f5f9 !important;
+}
+
+/* Repair tool sidebar */
+html.dark .bg-white.border-l {
+  background: #0f172a !important;
+  border-color: #1e293b !important;
+}
+
+/* Organizer workspace */
+html.dark .bg-white.rounded-\[1\.5rem\] {
+  background: #1e293b !important;
+  border-color: #334155 !important;
 }

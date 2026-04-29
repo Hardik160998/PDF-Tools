@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import Script from "next/script";
 import "./globals.css";
 import "./mobileview.css";
 import "./darktheme.css";
@@ -26,11 +25,10 @@ export default function RootLayout({
 }>) {
    return (
      <html lang="en" suppressHydrationWarning>
-       <head />
+       <head>
+         <script dangerouslySetInnerHTML={{ __html: `(function(){try{var t=localStorage.getItem('theme');if(t==='dark'){document.documentElement.classList.add('dark');document.documentElement.style.colorScheme='dark';}}catch(e){}})();` }} />
+       </head>
        <body className={`${inter.className} antialiased`} suppressHydrationWarning>
-         <Script id="theme-init" strategy="beforeInteractive">
-           {`(function(){var h=document.documentElement;try{var t=localStorage.getItem('theme');if(t==='dark'){h.classList.add('dark');}}catch(e){}h.classList.add('no-transition');requestAnimationFrame(function(){requestAnimationFrame(function(){h.classList.remove('no-transition');});});})();`}
-         </Script>
          <div className="bg-mesh" aria-hidden="true" />
         
         <div className="page-content">
