@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useRef } from "react";
-import { ChevronDown, Combine, Scissors, Zap, LifeBuoy, Type, FileJson, ImageIcon, FileText, Presentation, FileSpreadsheet, Globe, Stamp, FileDigit, Settings, Unlock, Lock, Wand2, FileSymlink, PenLine } from "lucide-react";
+import { ChevronDown, Combine, Scissors, Zap, LifeBuoy, Type, FileJson, ImageIcon, FileText, Presentation, FileSpreadsheet, Globe, Stamp, FileDigit, Settings, Unlock, Lock, Wand2, FileSymlink, PenLine, Layers } from "lucide-react";
 
 const CATEGORIES: { name: string; color: string; gradient: string; tools: { id: string; label: string; icon: React.ElementType; href?: string }[] }[] = [
   {
@@ -10,6 +10,7 @@ const CATEGORIES: { name: string; color: string; gradient: string; tools: { id: 
     gradient: "linear-gradient(135deg, #f26522, #c2410c)",
     tools: [
       { id: "organize", label: "Organize PDF", icon: FileSymlink },
+      { id: "extract-pages", label: "Extract Pages", icon: Layers },
       { id: "merge",    label: "Merge PDF",    icon: Combine },
       { id: "split",    label: "Split PDF",    icon: Scissors },
     ],

@@ -1,4 +1,4 @@
-/* -- NO-TRANSITION ON LOAD (prevents flicker) -- */
+﻿/* -- NO-TRANSITION ON LOAD (prevents flicker) -- */
 .no-transition,.no-transition *,.no-transition *::before,.no-transition *::after{transition:none!important;animation:none!important;}
 
 /* ============================================================
@@ -530,4 +530,53 @@ html.dark .bg-white.border-l {
 html.dark .bg-white.rounded-\[1\.5rem\] {
   background: #1e293b !important;
   border-color: #334155 !important;
+}
+
+/* ============================================================
+   EDIT PAGE - LANDING (no PDF loaded)
+   ============================================================ */
+
+/* Page background (overrides inline light gradient) */
+html.dark .min-h-screen[style*="linear-gradient(160deg"] {
+  background: #0b1120 !important;
+}
+
+/* Drop zone */
+html.dark .rounded-3xl.cursor-pointer {
+  background: rgba(30,41,59,0.9) !important;
+  border-color: #334155 !important;
+}
+
+/* Feature cards */
+html.dark .rounded-2xl.p-5.text-center.bg-white.shadow-sm.border.border-slate-100 {
+  background: #1e293b !important;
+  border-color: #334155 !important;
+}
+
+/* How it works card */
+html.dark .bg-white.rounded-3xl.p-8.shadow-sm.border.border-slate-100 {
+  background: #1e293b !important;
+  border-color: #334155 !important;
+}
+
+/* ============================================================
+   EDIT PAGE - EDITOR (PDF loaded)
+   ============================================================ */
+
+/* Canvas scroll area (overrides inline #e2e8f0) */
+html.dark .flex-1.overflow-auto[style*="#e2e8f0"] {
+  background: #0f172a !important;
+}
+
+/* Floating text box (matched via unique inline border-radius:12px) */
+html.dark .fixed[style*="border-radius: 12px"] {
+  background: #1e293b !important;
+}
+html.dark .fixed[style*="border-radius: 12px"] textarea {
+  background: #1e293b !important;
+  border-color: #3b82f6 !important;
+}
+html.dark .fixed[style*="border-radius: 12px"] .flex button:last-child {
+  background: #334155 !important;
+  color: #cbd5e1 !important;
 }

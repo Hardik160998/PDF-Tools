@@ -5,12 +5,15 @@ const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
 
 export const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
+const ALWAYS_VERIFIED = ['esign', 'edit-pdf', 'extract-pages'];
+
 export async function getVerifiedToolKeys(): Promise<string[]> {
   const { data } = await supabase
     .from('allpdftools')
     .select('tool_key')
     .eq('is_verified', true);
-  return data?.map(r => r.tool_key) ?? [];
+  const dbKeys = data?.map(r => r.tool_key) ?? [];
+  return Array.from(new Set([...dbKeys, ...ALWAYS_VERIFIED]));
 }
 
 export async function trackToolClick(tool_key: string) {

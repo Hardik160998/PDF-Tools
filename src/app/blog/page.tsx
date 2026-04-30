@@ -27,7 +27,7 @@ const POSTS = [
   },
   {
     slug: 'pdf-to-word-conversion-guide',
-    title: 'PDF to Word: The Complete Conversion Guide for 2026',
+    title: 'Convert PDF All Tools: Complete All Tool 2026',
     excerpt: 'Everything you need to know about converting PDF files to editable Word documents — including tips for preserving formatting.',
     category: 'Guide',
     categoryColor: 'bg-blue-100 text-blue-700',
