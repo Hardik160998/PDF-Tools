@@ -209,7 +209,7 @@ export default function AboutPage() {
 
       {/* CTA */}
       <section className="container mx-auto px-4 pb-20 max-w-3xl">
-        <div className="bg-gradient-to-br from-red-500 to-red-600 rounded-3xl p-10 text-center text-white space-y-5 shadow-2xl shadow-red-500/20">
+        <div className="bg-red-500 rounded-3xl p-10 text-center text-white space-y-5 shadow-2xl shadow-red-500/20">
           <h2 className="text-3xl font-black tracking-tight">Ready to Get Started?</h2>
           <p className="text-red-100 text-base leading-relaxed max-w-lg mx-auto">
             Join thousands of users who trust SmartPDFs Plus for their daily document workflows. No account needed — just pick a tool and go.

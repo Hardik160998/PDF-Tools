@@ -1,4 +1,4 @@
-import { BookOpen, Clock, ArrowRight, Tag, Combine, Scissors, Zap, FileText, Lock, LayoutGrid } from 'lucide-react';
+import { BookOpen, Clock, ArrowRight, Tag, Combine, Scissors, Zap, FileText, Lock, LayoutGrid, Wand2 } from 'lucide-react';
 
 const POSTS = [
   {
@@ -59,6 +59,18 @@ const POSTS = [
     iconBg: 'bg-purple-500',
     readTime: '4 min read',
     date: 'Apr 10, 2026',
+    featured: false,
+  },
+  {
+    slug: 'how-to-crop-aadhar-card',
+    title: 'How to Crop Aadhar Card for Printing — Free Online Tool',
+    excerpt: 'Crop your e-Aadhar PDF to standard ID card dimensions (86mm × 54mm) and get a print-ready A4 PDF in seconds — 100% private, runs in your browser.',
+    category: 'Tutorial',
+    categoryColor: 'bg-red-100 text-red-700',
+    icon: Wand2,
+    iconBg: 'bg-red-500',
+    readTime: '3 min read',
+    date: 'Apr 8, 2026',
     featured: false,
   },
 ];
