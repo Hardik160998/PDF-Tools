@@ -36,6 +36,8 @@ const CATEGORIES: { name: string; color: string; gradient: string; tools: { id: 
       { id: "jpg-to-pdf",   label: "JPG to PDF",        icon: ImageIcon },
       { id: "word-to-pdf",  label: "Word to PDF",       icon: FileText },
       { id: "pdf-to-word",  label: "PDF to Word",       icon: FileText },
+      { id: "docx-to-pdf",  label: "DOCX to PDF",       icon: FileText },
+      { id: "pdf-to-docx",  label: "PDF to DOCX",       icon: FileText },
       { id: "ppt-to-pdf",   label: "PowerPoint to PDF", icon: Presentation },
       { id: "pdf-to-ppt",   label: "PDF to PowerPoint", icon: Presentation },
       { id: "excel-to-pdf", label: "Excel to PDF",      icon: FileSpreadsheet },

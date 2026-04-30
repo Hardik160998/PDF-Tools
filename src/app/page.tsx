@@ -36,6 +36,8 @@ const TOOLS = [
   { id: 'jpg-to-pdf',   title: 'JPG to PDF',         description: 'Convert JPG images to PDF in seconds. Easily adjust orientation and margins.',                    category: 'Convert',  icon: ImageIcon      },
   { id: 'word-to-pdf',  title: 'Word to PDF',        description: 'Make DOC and DOCX files easy to read by converting them to PDF.',                                category: 'Convert',  icon: FileText       },
   { id: 'pdf-to-word',  title: 'PDF to Word',        description: 'Convert your PDF documents to editable DOCX files with high accuracy.',                          category: 'Convert',  icon: FileText       },
+  { id: 'docx-to-pdf',  title: 'DOCX to PDF',        description: 'Convert .doc and .docx files to PDF with fonts, images, and formatting perfectly preserved.',      category: 'Convert',  icon: FileText       },
+  { id: 'pdf-to-docx',  title: 'PDF to DOCX',        description: 'Convert any PDF into a fully editable DOCX file ready to edit in Word or Google Docs.',            category: 'Convert',  icon: FileText       },
   { id: 'ppt-to-pdf',   title: 'PowerPoint to PDF',  description: 'Make PPT and PPTX slideshows easy to view by converting them to PDF.',                           category: 'Convert',  icon: Presentation   },
   { id: 'pdf-to-ppt',   title: 'PDF to PowerPoint',  description: 'Convert your PDF documents into editable PPTX presentations.',                                   category: 'Convert',  icon: Presentation   },
   { id: 'excel-to-pdf', title: 'Excel to PDF',       description: 'Make EXCEL spreadsheets easy to read by converting them to PDF.',                                category: 'Convert',  icon: FileSpreadsheet },
