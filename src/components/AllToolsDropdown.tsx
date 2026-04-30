@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React, { useState, useRef } from "react";
 import { ChevronDown, Combine, Scissors, Zap, LifeBuoy, Type, FileJson, ImageIcon, FileText, Presentation, FileSpreadsheet, Globe, Stamp, FileDigit, Settings, Unlock, Lock, Wand2, FileSymlink, PenLine, Layers } from "lucide-react";
@@ -40,6 +40,7 @@ const CATEGORIES: { name: string; color: string; gradient: string; tools: { id: 
       { id: "excel-to-pdf", label: "Excel to PDF",      icon: FileSpreadsheet },
       { id: "pdf-to-excel", label: "PDF to Excel",      icon: FileSpreadsheet },
       { id: "html-to-pdf",  label: "HTML to PDF",       icon: Globe },
+      { id: "webpage-to-pdf", label: "Webpage to PDF",    icon: Globe },
     ],
   },
     {

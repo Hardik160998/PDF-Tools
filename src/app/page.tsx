@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState, useMemo, useEffect, useRef } from 'react';
 import SkeletonGrid from '@/components/SkeletonGrid';
@@ -40,6 +40,7 @@ const TOOLS = [
   { id: 'excel-to-pdf', title: 'Excel to PDF',       description: 'Make EXCEL spreadsheets easy to read by converting them to PDF.',                                category: 'Convert',  icon: FileSpreadsheet },
   { id: 'pdf-to-excel', title: 'PDF to Excel',       description: 'Convert your PDF documents into editable XLSX spreadsheets with table extraction.',              category: 'Convert',  icon: FileSpreadsheet },
   { id: 'html-to-pdf',  title: 'HTML to PDF',        description: 'Convert web pages or HTML files into PDF documents with high fidelity.',                         category: 'Convert',  icon: Globe          },
+  { id: 'webpage-to-pdf', title: 'Webpage to PDF',     description: 'Paste any URL and convert a live webpage to a pixel-perfect PDF instantly.',      category: 'Convert',  icon: Globe          },
   { id: 'watermark',    title: 'Watermark',          description: 'Stamp an image or text over your PDF in seconds. Choose typography, transparency and position.',  category: 'Edit',     icon: Stamp          },
   { id: 'page-numbers', title: 'Page Numbers',       description: 'Add page numbers to PDFs with ease. Choose position, dimensions, typography and size.',           category: 'Edit',     icon: FileDigit      },
   { id: 'metadata',     title: 'Edit Metadata',      description: 'Add, change or remove metadata fields including Author, Title, and Subject.',                     category: 'Edit',     icon: Settings       },
