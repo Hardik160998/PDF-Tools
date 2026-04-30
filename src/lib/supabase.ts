@@ -1,11 +1,11 @@
-import { createClient } from '@supabase/supabase-js';
+﻿import { createClient } from '@supabase/supabase-js';
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
 
 export const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
-const ALWAYS_VERIFIED = ['esign', 'edit-pdf', 'extract-pages', 'webpage-to-pdf'];
+const ALWAYS_VERIFIED = ['esign', 'edit-pdf', 'extract-pages', 'webpage-to-pdf', 'compare-pdf', 'redact-pdf'];
 
 export async function getVerifiedToolKeys(): Promise<string[]> {
   const { data } = await supabase

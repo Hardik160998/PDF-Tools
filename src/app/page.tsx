@@ -7,7 +7,7 @@ import {
   Combine, Scissors, FileText, Settings, Lock,
   Stamp, Sparkles, Zap, Type, ImageIcon, Wand2,
   FileDigit, FileJson, FileSymlink, Unlock,
-  Presentation, FileSpreadsheet, Globe, LifeBuoy, ChevronDown, PenLine, Layers
+  Presentation, FileSpreadsheet, Globe, LifeBuoy, ChevronDown, PenLine, Layers, GitCompare, EyeOff
 } from 'lucide-react';
 
 const CATEGORIES = ['All', 'Organize', 'Optimize', 'Convert', 'Edit', 'Security', 'Special', 'Sign'];
@@ -23,6 +23,7 @@ const CATEGORY_STYLES: Record<string, { gradient: string; shadow: string }> = {
 };
 
 const TOOLS = [
+  { id: 'compare-pdf', title: 'Compare PDF', description: 'Compare two PDF files side by side and instantly spot which pages changed. 100% private.', category: 'Organize', icon: GitCompare },
   { id: 'extract-pages', title: 'Extract PDF Pages', description: 'Pick individual pages or a range and download them as a new PDF. 100% private, runs in your browser.', category: 'Organize', icon: Layers },
   { id: 'organize',     title: 'Organize PDF',      description: 'Sort, add and delete PDF pages. Rotate PDF pages and reorder them at your convenience.',          category: 'Organize', icon: FileSymlink    },
   { id: 'merge',        title: 'Merge PDF',          description: 'Combine PDFs in the order you want with the easiest PDF merger available.',                       category: 'Organize', icon: Combine        },
@@ -44,6 +45,7 @@ const TOOLS = [
   { id: 'watermark',    title: 'Watermark',          description: 'Stamp an image or text over your PDF in seconds. Choose typography, transparency and position.',  category: 'Edit',     icon: Stamp          },
   { id: 'page-numbers', title: 'Page Numbers',       description: 'Add page numbers to PDFs with ease. Choose position, dimensions, typography and size.',           category: 'Edit',     icon: FileDigit      },
   { id: 'metadata',     title: 'Edit Metadata',      description: 'Add, change or remove metadata fields including Author, Title, and Subject.',                     category: 'Edit',     icon: Settings       },
+  { id: 'redact-pdf',   title: 'Redact PDF',         description: 'Permanently hide sensitive text and areas with black boxes. Draw or search to redact.',          category: 'Security', icon: EyeOff         },
   { id: 'unlock',       title: 'Unlock PDF',         description: 'Remove PDF password security, giving you the freedom to use your PDFs as you want.',              category: 'Security', icon: Unlock         },
   { id: 'protect',      title: 'Protect PDF',        description: 'Encrypt PDF with a password. Manage PDF permissions and access control.',                         category: 'Security', icon: Lock           },
   { id: 'aadhar-crop',  title: 'Aadhar Cropper',     description: 'Perfectly crop Aadhar ID cards from e-Aadhar PDF for high quality printing.',                    category: 'Special',  icon: Wand2          },

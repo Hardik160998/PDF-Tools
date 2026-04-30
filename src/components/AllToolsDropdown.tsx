@@ -1,7 +1,7 @@
 ﻿"use client";
 
 import React, { useState, useRef } from "react";
-import { ChevronDown, Combine, Scissors, Zap, LifeBuoy, Type, FileJson, ImageIcon, FileText, Presentation, FileSpreadsheet, Globe, Stamp, FileDigit, Settings, Unlock, Lock, Wand2, FileSymlink, PenLine, Layers } from "lucide-react";
+import { ChevronDown, Combine, Scissors, Zap, LifeBuoy, Type, FileJson, ImageIcon, FileText, Presentation, FileSpreadsheet, Globe, Stamp, FileDigit, Settings, Unlock, Lock, Wand2, FileSymlink, PenLine, Layers, GitCompare, EyeOff } from "lucide-react";
 
 const CATEGORIES: { name: string; color: string; gradient: string; tools: { id: string; label: string; icon: React.ElementType; href?: string }[] }[] = [
   {
@@ -10,6 +10,7 @@ const CATEGORIES: { name: string; color: string; gradient: string; tools: { id: 
     gradient: "linear-gradient(135deg, #f26522, #c2410c)",
     tools: [
       { id: "organize", label: "Organize PDF", icon: FileSymlink },
+      { id: "compare-pdf", label: "Compare PDF", icon: GitCompare },
       { id: "extract-pages", label: "Extract Pages", icon: Layers },
       { id: "merge",    label: "Merge PDF",    icon: Combine },
       { id: "split",    label: "Split PDF",    icon: Scissors },
@@ -60,6 +61,7 @@ const CATEGORIES: { name: string; color: string; gradient: string; tools: { id: 
     color: "#e53e3e",
     gradient: "linear-gradient(135deg, #e53e3e, #7f1d1d)",
     tools: [
+      { id: "redact-pdf", label: "Redact PDF",   icon: EyeOff },
       { id: "unlock",  label: "Unlock PDF",  icon: Unlock },
       { id: "protect", label: "Protect PDF", icon: Lock },
     ],
