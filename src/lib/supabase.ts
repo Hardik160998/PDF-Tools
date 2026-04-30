@@ -5,7 +5,7 @@ const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
 
 export const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
-const ALWAYS_VERIFIED = ['esign', 'edit-pdf', 'extract-pages', 'webpage-to-pdf', 'compare-pdf', 'redact-pdf'];
+const ALWAYS_VERIFIED = ['esign', 'edit-pdf', 'extract-pages', 'webpage-to-pdf', 'compare-pdf', 'redact-pdf', 'bookmark-pdf'];
 
 export async function getVerifiedToolKeys(): Promise<string[]> {
   const { data } = await supabase

@@ -1,7 +1,7 @@
 ﻿"use client";
 
 import React, { useState, useRef } from "react";
-import { ChevronDown, Combine, Scissors, Zap, LifeBuoy, Type, FileJson, ImageIcon, FileText, Presentation, FileSpreadsheet, Globe, Stamp, FileDigit, Settings, Unlock, Lock, Wand2, FileSymlink, PenLine, Layers, GitCompare, EyeOff } from "lucide-react";
+import { ChevronDown, Combine, Scissors, Zap, LifeBuoy, Type, FileJson, ImageIcon, FileText, Presentation, FileSpreadsheet, Globe, Stamp, FileDigit, Settings, Unlock, Lock, Wand2, FileSymlink, PenLine, Layers, GitCompare, EyeOff, Bookmark } from "lucide-react";
 
 const CATEGORIES: { name: string; color: string; gradient: string; tools: { id: string; label: string; icon: React.ElementType; href?: string }[] }[] = [
   {
@@ -49,6 +49,7 @@ const CATEGORIES: { name: string; color: string; gradient: string; tools: { id: 
       color: "#E8465D",
       gradient: "linear-gradient(135deg, #E8465D, #843286)",
       tools: [
+        { id: "bookmark-pdf", label: "Bookmark PDF",  icon: Bookmark,  href: "/tool/bookmark-pdf" },
         { id: "watermark",    label: "Watermark",      icon: Stamp,     href: "/tool/watermark" },
         { id: "page-numbers", label: "Page Numbers",   icon: FileDigit, href: "/tool/page-numbers" },
         { id: "metadata",     label: "Edit Metadata",  icon: Settings,  href: "/tool/metadata" },

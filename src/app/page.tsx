@@ -7,7 +7,7 @@ import {
   Combine, Scissors, FileText, Settings, Lock,
   Stamp, Sparkles, Zap, Type, ImageIcon, Wand2,
   FileDigit, FileJson, FileSymlink, Unlock,
-  Presentation, FileSpreadsheet, Globe, LifeBuoy, ChevronDown, PenLine, Layers, GitCompare, EyeOff
+  Presentation, FileSpreadsheet, Globe, LifeBuoy, ChevronDown, PenLine, Layers, GitCompare, EyeOff, Bookmark
 } from 'lucide-react';
 
 const CATEGORIES = ['All', 'Organize', 'Optimize', 'Convert', 'Edit', 'Security', 'Special', 'Sign'];
@@ -42,6 +42,7 @@ const TOOLS = [
   { id: 'pdf-to-excel', title: 'PDF to Excel',       description: 'Convert your PDF documents into editable XLSX spreadsheets with table extraction.',              category: 'Convert',  icon: FileSpreadsheet },
   { id: 'html-to-pdf',  title: 'HTML to PDF',        description: 'Convert web pages or HTML files into PDF documents with high fidelity.',                         category: 'Convert',  icon: Globe          },
   { id: 'webpage-to-pdf', title: 'Webpage to PDF',     description: 'Paste any URL and convert a live webpage to a pixel-perfect PDF instantly.',      category: 'Convert',  icon: Globe          },
+  { id: 'bookmark-pdf', title: 'Bookmark PDF',      description: 'Add a clickable table of contents to any PDF. Create, edit and reorder bookmarks instantly.',    category: 'Edit',     icon: Bookmark       },
   { id: 'watermark',    title: 'Watermark',          description: 'Stamp an image or text over your PDF in seconds. Choose typography, transparency and position.',  category: 'Edit',     icon: Stamp          },
   { id: 'page-numbers', title: 'Page Numbers',       description: 'Add page numbers to PDFs with ease. Choose position, dimensions, typography and size.',           category: 'Edit',     icon: FileDigit      },
   { id: 'metadata',     title: 'Edit Metadata',      description: 'Add, change or remove metadata fields including Author, Title, and Subject.',                     category: 'Edit',     icon: Settings       },
