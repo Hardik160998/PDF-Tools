@@ -5,7 +5,7 @@ const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
 
 export const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
-const ALWAYS_VERIFIED = ['esign', 'edit-pdf', 'extract-pages', 'delete-pages', 'webpage-to-pdf', 'compare-pdf', 'redact-pdf', 'bookmark-pdf', 'docx-to-pdf', 'pdf-to-docx', 'jpg-to-png', 'png-to-jpg', 'jpg-to-webp', 'webp-to-jpg', 'png-to-webp', 'webp-to-png', 'jpg-to-avif', 'avif-to-jpg', 'png-to-avif', 'avif-to-png', 'webp-to-avif', 'avif-to-webp'];
+const ALWAYS_VERIFIED = ['esign', 'edit-pdf', 'extract-pages', 'delete-pages', 'flatten-pdf', 'webpage-to-pdf', 'compare-pdf', 'redact-pdf', 'bookmark-pdf', 'docx-to-pdf', 'pdf-to-docx', 'jpg-to-png', 'png-to-jpg', 'jpg-to-webp', 'webp-to-jpg', 'png-to-webp', 'webp-to-png', 'jpg-to-avif', 'avif-to-jpg', 'png-to-avif', 'avif-to-png', 'webp-to-avif', 'avif-to-webp'];
 
 // Tools with their category — synced to allpdftools.category column
 const TOOL_CATEGORIES: Record<string, string> = {
@@ -21,7 +21,7 @@ const TOOL_CATEGORIES: Record<string, string> = {
   'jpg-to-avif': 'Image Convert', 'avif-to-jpg': 'Image Convert',
   'png-to-avif': 'Image Convert', 'avif-to-png': 'Image Convert',
   'webp-to-avif': 'Image Convert', 'avif-to-webp': 'Image Convert',
-  'bookmark-pdf': 'Edit', 'watermark': 'Edit', 'page-numbers': 'Edit', 'metadata': 'Edit', 'esign': 'Sign', 'edit-pdf': 'Edit',
+  'bookmark-pdf': 'Edit', 'watermark': 'Edit', 'page-numbers': 'Edit', 'metadata': 'Edit', 'flatten-pdf': 'Edit', 'esign': 'Sign', 'edit-pdf': 'Edit',
   'redact-pdf': 'Security', 'unlock': 'Security', 'protect': 'Security',
   'aadhar-crop': 'Special',
 };

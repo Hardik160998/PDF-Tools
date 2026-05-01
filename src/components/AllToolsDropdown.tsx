@@ -56,6 +56,7 @@ const CATEGORIES: { name: string; color: string; gradient: string; tools: { id: 
       { id: "watermark",    label: "Watermark",     icon: Stamp,     href: "/tool/watermark" },
       { id: "page-numbers", label: "Page Numbers",  icon: FileDigit, href: "/tool/page-numbers" },
       { id: "metadata",     label: "Edit Metadata", icon: Settings,  href: "/tool/metadata" },
+      { id: "flatten-pdf",  label: "Flatten PDF",   icon: Layers },
       { id: "esign",        label: "E-Sign PDF",    icon: PenLine,   href: "/esign" },
       { id: "edit-pdf",     label: "Edit PDF",      icon: PenLine,   href: "/edit" },
     ],
