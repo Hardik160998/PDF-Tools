@@ -2,7 +2,7 @@
 
 import { useState, useMemo, useEffect, useRef } from 'react';
 import SkeletonGrid from '@/components/SkeletonGrid';
-import { trackToolClick, getVerifiedToolKeys } from '@/lib/supabase';
+import { trackToolClick, getVerifiedToolKeys, getImgConvertTools, getCategories, insertAvifTools } from '@/lib/supabase';
 import {
   Combine, Scissors, FileText, Settings, Lock,
   Stamp, Sparkles, Zap, Type, ImageIcon, Wand2,
@@ -10,7 +10,7 @@ import {
   Presentation, FileSpreadsheet, Globe, LifeBuoy, ChevronDown, PenLine, Layers, GitCompare, EyeOff, Bookmark
 } from 'lucide-react';
 
-const CATEGORIES = ['All', 'Organize', 'Optimize', 'Convert', 'Edit', 'Security', 'Special', 'Sign'];
+const CATEGORIES = ['All', 'Organize', 'Optimize', 'Convert', 'Image Convert', 'Edit', 'Security', 'Special', 'Sign'];
 
 const CATEGORY_STYLES: Record<string, { gradient: string; shadow: string }> = {
   Organize: { gradient: 'linear-gradient(135deg, #f26522, #c2410c)', shadow: 'shadow-orange-500/20' },
@@ -18,6 +18,7 @@ const CATEGORY_STYLES: Record<string, { gradient: string; shadow: string }> = {
   Convert:  { gradient: 'linear-gradient(135deg, #3182ce, #1e3a8a)', shadow: 'shadow-blue-500/20'  },
   Edit:     { gradient: 'linear-gradient(135deg, #E8465D, #843286)',  shadow: 'shadow-pink-500/20'  },
   Security: { gradient: 'linear-gradient(135deg, #e53e3e, #7f1d1d)', shadow: 'shadow-red-500/20'   },
+  'Image Convert': { gradient: 'linear-gradient(135deg, #06b6d4, #0e7490)', shadow: 'shadow-cyan-500/20' },
   Special:  { gradient: 'linear-gradient(135deg, #ef4444, #991b1b)', shadow: 'shadow-red-600/20'   },
   Sign:     { gradient: 'linear-gradient(135deg, #8b5cf6, #ec4899)', shadow: 'shadow-purple-500/20' },
 };
@@ -34,6 +35,18 @@ const TOOLS = [
   { id: 'pdf-to-xml',   title: 'PDF to XML',         description: 'Extract structured data from your PDF into XML machine readable format.',                         category: 'Convert',  icon: FileJson       },
   { id: 'pdf-to-jpg',   title: 'PDF to JPG',         description: 'Convert each PDF page into a JPG or extract all images contained in a PDF.',                     category: 'Convert',  icon: ImageIcon      },
   { id: 'jpg-to-pdf',   title: 'JPG to PDF',         description: 'Convert JPG images to PDF in seconds. Easily adjust orientation and margins.',                    category: 'Convert',  icon: ImageIcon      },
+  { id: 'jpg-to-png',   title: 'JPG to PNG',   description: 'Convert JPG images to lossless PNG format instantly. Preserves quality and enables transparency.',  category: 'Image Convert',  icon: ImageIcon      },
+  { id: 'png-to-jpg',   title: 'PNG to JPG',   description: 'Convert PNG images to JPG format for smaller file sizes and universal compatibility.',               category: 'Image Convert',  icon: ImageIcon      },
+  { id: 'jpg-to-webp',  title: 'JPG to WebP',  description: 'Convert JPG images to modern WebP format for superior compression and faster web loading.',          category: 'Image Convert',  icon: ImageIcon      },
+  { id: 'webp-to-jpg',  title: 'WebP to JPG',  description: 'Convert WebP images to universally compatible JPG format instantly.',                                 category: 'Image Convert',  icon: ImageIcon      },
+  { id: 'png-to-webp',  title: 'PNG to WebP',  description: 'Convert PNG images to WebP for smaller file sizes without visible quality loss.',                     category: 'Image Convert',  icon: ImageIcon      },
+  { id: 'webp-to-png',  title: 'WebP to PNG',  description: 'Convert WebP images to lossless PNG format for maximum compatibility and editing.',                    category: 'Image Convert',  icon: ImageIcon      },
+  { id: 'jpg-to-avif',  title: 'JPG to AVIF',  description: 'Convert JPG images to next-gen AVIF format for superior compression and modern browser support.',       category: 'Image Convert',  icon: ImageIcon      },
+  { id: 'avif-to-jpg',  title: 'AVIF to JPG',  description: 'Convert AVIF images to universally compatible JPG format instantly.',                                   category: 'Image Convert',  icon: ImageIcon      },
+  { id: 'png-to-avif',  title: 'PNG to AVIF',  description: 'Convert PNG images to AVIF for smaller file sizes with excellent quality retention.',                    category: 'Image Convert',  icon: ImageIcon      },
+  { id: 'avif-to-png',  title: 'AVIF to PNG',  description: 'Convert AVIF images to lossless PNG format for maximum compatibility.',                                  category: 'Image Convert',  icon: ImageIcon      },
+  { id: 'webp-to-avif', title: 'WebP to AVIF', description: 'Convert WebP images to next-gen AVIF format for even better compression.',                               category: 'Image Convert',  icon: ImageIcon      },
+  { id: 'avif-to-webp', title: 'AVIF to WebP', description: 'Convert AVIF images to WebP format for broad browser compatibility.',                                    category: 'Image Convert',  icon: ImageIcon      },
   { id: 'word-to-pdf',  title: 'Word to PDF',        description: 'Make DOC and DOCX files easy to read by converting them to PDF.',                                category: 'Convert',  icon: FileText       },
   { id: 'pdf-to-word',  title: 'PDF to Word',        description: 'Convert your PDF documents to editable DOCX files with high accuracy.',                          category: 'Convert',  icon: FileText       },
   { id: 'docx-to-pdf',  title: 'DOCX to PDF',        description: 'Convert .doc and .docx files to PDF with fonts, images, and formatting perfectly preserved.',      category: 'Convert',  icon: FileText       },
@@ -87,10 +100,19 @@ export default function Home() {
   const [displayCategory, setDisplayCategory] = useState('All');
   const [mounted, setMounted] = useState(false);
   const [verifiedKeys, setVerifiedKeys] = useState<string[]>([]);
+  const [imgConvertKeys, setImgConvertKeys] = useState<string[]>(['jpg-to-png', 'png-to-jpg', 'jpg-to-webp', 'webp-to-jpg', 'png-to-webp', 'webp-to-png', 'jpg-to-avif', 'avif-to-jpg', 'png-to-avif', 'avif-to-png', 'webp-to-avif', 'avif-to-webp']);
+  const [dbCategories, setDbCategories] = useState<string[]>(CATEGORIES);
   const toolsGridRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     getVerifiedToolKeys().then(setVerifiedKeys);
+    getImgConvertTools().then(setImgConvertKeys);
+    getCategories().then(cats => {
+      const ordered = CATEGORIES.filter(c => c === 'All' || cats.includes(c));
+      const extra = cats.filter((c: string) => !CATEGORIES.includes(c));
+      setDbCategories([...ordered, ...extra]);
+    });
+    insertAvifTools().then(err => { if (err) console.error('insertAvifTools error:', err); });
   }, []);
 
   useEffect(() => { setMounted(true); }, []);
@@ -103,11 +125,13 @@ export default function Home() {
   }, [activeCategory, mounted]);
 
   const filteredTools = useMemo(() =>
-    TOOLS.filter(t =>
-      verifiedKeys.includes(t.id) &&
-      (displayCategory === 'All' || t.category === displayCategory)
-    ),
-  [displayCategory, verifiedKeys]);
+    TOOLS.filter(t => {
+      const isVerified = verifiedKeys.includes(t.id);
+      if (displayCategory === 'All') return isVerified;
+      if (displayCategory === 'Image Convert') return isVerified && imgConvertKeys.includes(t.id);
+      return isVerified && t.category === displayCategory;
+    }),
+  [displayCategory, verifiedKeys, imgConvertKeys]);
 
   const showGridSkeleton = !mounted || isLoading;
 
@@ -142,7 +166,7 @@ export default function Home() {
           <div className="mt-16 fade-in-up stagger-3 flex justify-center">
             <div className="hidden md:block overflow-x-auto pb-4 scrollbar-hide px-4">
               <div className="category-nav mx-auto">
-                {CATEGORIES.map(cat => (
+                {dbCategories.map(cat => (
                   <button key={cat} onClick={() => setActiveCategory(cat)} className={`filter-tab ${activeCategory === cat ? 'active' : ''}`}>
                     {cat}
                   </button>
@@ -160,7 +184,7 @@ export default function Home() {
               </button>
               {isMobileMenuOpen && (
                 <div className="absolute top-full left-4 right-4 mt-2 py-2 glass-dropdown mobile-dropdown-shadow rounded-2xl animate-in fade-in slide-in-from-top-2 duration-200 overflow-hidden z-[60]">
-                  {CATEGORIES.map(cat => (
+                  {dbCategories.map(cat => (
                     <button key={cat} onClick={() => { setActiveCategory(cat); setIsMobileMenuOpen(false); }}
                       className={`w-full text-left px-6 py-3 text-sm font-bold transition-colors ${activeCategory === cat ? 'bg-red-50 text-red-600 dark:bg-red-900/20 dark:text-red-400' : 'text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-700/50'}`}>
                       {cat}
