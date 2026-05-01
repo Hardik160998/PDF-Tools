@@ -22,8 +22,9 @@ const CATEGORIES: { name: string; color: string; gradient: string; tools: { id: 
     color: "#22c55e",
     gradient: "linear-gradient(135deg, #22c55e, #15803d)",
     tools: [
-      { id: "compress",   label: "Compress PDF", icon: Zap },
-      { id: "repair-pdf", label: "Repair PDF",   icon: LifeBuoy },
+      { id: "compress",   label: "Compress PDF",  icon: Zap },
+      { id: "repair-pdf", label: "Repair PDF",    icon: LifeBuoy },
+      { id: "optimize-pdf",label: "Optimize PDF", icon: Zap },
     ],
   },
   {
@@ -45,6 +46,7 @@ const CATEGORIES: { name: string; color: string; gradient: string; tools: { id: 
       { id: "pdf-to-excel",   label: "PDF to Excel",      icon: FileSpreadsheet },
       { id: "html-to-pdf",    label: "HTML to PDF",       icon: Globe },
       { id: "webpage-to-pdf", label: "Webpage to PDF",    icon: Globe },
+      { id: "translate-pdf",  label: "Translate PDF",     icon: FileText },
     ],
   },
   {
