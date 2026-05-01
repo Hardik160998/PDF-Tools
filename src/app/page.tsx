@@ -26,7 +26,8 @@ const CATEGORY_STYLES: Record<string, { gradient: string; shadow: string }> = {
 const TOOLS = [
   { id: 'compare-pdf', title: 'Compare PDF', description: 'Compare two PDF files side by side and instantly spot which pages changed. 100% private.', category: 'Organize', icon: GitCompare },
   { id: 'extract-pages', title: 'Extract PDF Pages', description: 'Pick individual pages or a range and download them as a new PDF. 100% private, runs in your browser.', category: 'Organize', icon: Layers },
-  { id: 'delete-pages', title: 'Delete PDF Pages', description: 'Select and permanently remove unwanted pages from your PDF. Fast, private, runs in your browser.', category: 'Organize', icon: Scissors },
+  { id: 'delete-pages',   title: 'Delete PDF Pages',  description: 'Select and permanently remove unwanted pages from your PDF. Fast, private, runs in your browser.', category: 'Organize', icon: Scissors },
+  { id: 'add-blank-page', title: 'Add Blank Page',    description: 'Insert blank pages at the beginning, end, or after any page in your PDF. Choose size and count.',  category: 'Organize', icon: Layers   },
   { id: 'flatten-pdf',   title: 'Flatten PDF',      description: 'Merge all form fields, annotations and layers into a flat, non-editable PDF. 100% private.',      category: 'Edit',     icon: Layers },
   { id: 'optimize-pdf',  title: 'Optimize PDF',     description: 'Reduce PDF file size by re-compressing pages. Choose Low, Medium or High quality. 100% private.',  category: 'Optimize', icon: Zap    },
   { id: 'translate-pdf', title: 'Translate PDF',    description: 'Extract and translate PDF text into 16 languages. Download the translated PDF instantly.',           category: 'Convert',  icon: FileText },
@@ -278,7 +279,7 @@ export default function Home() {
                   View all PDF tools &#8594;
                 </button>
               </div>
-              <div className="flex-1 flex justify-center relative">
+              <div className="hidden md:flex flex-1 justify-center relative">
                 <div className="relative w-full max-w-lg">
                   <div className="relative">
                     <div className="bg-white dark:bg-slate-800 rounded-3xl shadow-2xl p-8 border border-slate-200 dark:border-slate-700 relative z-10 transform rotate-[-2deg]">
@@ -323,7 +324,7 @@ export default function Home() {
                 </p>
                 <a href="/esign" className="inline-flex items-center gap-2 text-purple-600 dark:text-purple-400 font-bold text-base hover:gap-3 transition-all">Try eSign &#8594;</a>
               </div>
-              <div className="flex-1 flex justify-center">
+              <div className="hidden md:flex flex-1 justify-center">
                 <div className="relative w-full max-w-md">
                   <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-xl p-8 border border-slate-100 dark:border-slate-700">
                     <div className="flex items-center gap-2 mb-4">
@@ -369,7 +370,7 @@ export default function Home() {
                    Open &amp; Edit a PDF &#8594;
                  </a>
                </div>
-               <div className="flex-1 flex justify-center">
+               <div className="hidden md:flex flex-1 justify-center">
                  <div className="relative w-full max-w-md">
                    <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-xl p-8 border border-slate-100 dark:border-slate-700">
                      <div className="flex items-center gap-2 mb-4">

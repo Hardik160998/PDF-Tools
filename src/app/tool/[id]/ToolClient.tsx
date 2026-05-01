@@ -46,6 +46,9 @@ const OptimizePdf = dynamic(() => import('@/components/tools/OptimizePdf'), {
 const TranslatePdf = dynamic(() => import('@/components/tools/TranslatePdf'), {
   ssr: false, loading: () => <CenteredCardSkeleton accent="rgb(191 219 254)" />,
 });
+const AddBlankPage = dynamic(() => import('@/components/tools/AddBlankPage'), {
+  ssr: false, loading: () => <CenteredCardSkeleton accent="rgb(199 210 254)" />,
+});
 
 const PdfEditorWrapper = dynamic(() => import('@/app/edit/PdfEditor'), {
   ssr: false, loading: () => <CenteredCardSkeleton accent="rgb(221 214 254)" />,
@@ -88,6 +91,7 @@ const TOOL_COMPONENTS: Record<string, React.ComponentType<{ id: string }>> = {
   'pdf-to-ppt': OfficeTools,
   'html-to-pdf': OfficeTools,
   'delete-pages': DeletePages,
+  'add-blank-page': AddBlankPage,
   'flatten-pdf': FlattenPdf,
   'optimize-pdf': OptimizePdf,
   'translate-pdf': TranslatePdf,

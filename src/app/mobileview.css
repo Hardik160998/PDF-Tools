@@ -1,10 +1,10 @@
-﻿/* ============================================================
-   SMARTPDFS PLUS Ã¢â‚¬â€ MOBILE VIEW CSS
+/* ============================================================
+   SMARTPDFS PLUS â€” MOBILE VIEW CSS
    Covers: Navbar, Homepage, All Tool Pages, Dropdowns, Search
    Breakpoints: max-width 768px (mobile), max-width 1024px (tablet)
    ============================================================ */
 
-/* Ã¢â€â‚¬Ã¢â€â‚¬ GLOBAL MOBILE BASE Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ */
+/* â”€â”€ GLOBAL MOBILE BASE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 @media (max-width: 768px) {
   .container {
     padding-left: 1rem !important;
@@ -16,16 +16,16 @@
   }
 }
 
-/* Ã¢â€â‚¬Ã¢â€â‚¬ HEADER / NAVBAR Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ */
+/* â”€â”€ HEADER / NAVBAR â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
-/* Desktop nav Ã¢â‚¬â€ visible by default */
+/* Desktop nav â€” visible by default */
 .desktop-nav {
   display: flex;
   align-items: center;
   gap: 1.5rem;
 }
 
-/* Desktop actions Ã¢â‚¬â€ visible by default */
+/* Desktop actions â€” visible by default */
 .desktop-nav-actions {
   display: flex;
   align-items: center;
@@ -53,7 +53,7 @@
   }
 }
 
-/* Ã¢â€â‚¬Ã¢â€â‚¬ HOMEPAGE HERO SECTION Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ */
+/* â”€â”€ HOMEPAGE HERO SECTION â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 @media (max-width: 768px) {
   section.container.mx-auto.px-4.py-24 {
     padding-top: 2.5rem !important;
@@ -79,7 +79,7 @@
   .overflow-x-auto.pb-4 { padding-bottom: 0.5rem !important; }
 }
 
-/* Ã¢â€â‚¬Ã¢â€â‚¬ TOOLS GRID Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ */
+/* â”€â”€ TOOLS GRID â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 @media (max-width: 768px) {
   .grid.grid-cols-1.sm\:grid-cols-2 {
     grid-template-columns: repeat(2, 1fr) !important;
@@ -117,13 +117,13 @@
   .grid.grid-cols-1.sm\:grid-cols-2 { grid-template-columns: 1fr !important; }
 }
 
-/* Ã¢â€â‚¬Ã¢â€â‚¬ FOOTER Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ */
+/* â”€â”€ FOOTER â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 @media (max-width: 768px) {
   footer { padding-top: 2rem !important; padding-bottom: 2rem !important; margin-top: 2rem !important; }
   footer p { font-size: 0.6rem !important; }
 }
 
-/* Ã¢â€â‚¬Ã¢â€â‚¬ TOOL PAGE WRAPPER Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ */
+/* â”€â”€ TOOL PAGE WRAPPER â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 @media (max-width: 768px) {
   .max-w-3xl.mx-auto.py-12,
   .max-w-4xl.mx-auto.py-12,
@@ -198,7 +198,7 @@
   }
 }
 
-/* Ã¢â€â‚¬Ã¢â€â‚¬ ORGANIZE TOOL Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ */
+/* â”€â”€ ORGANIZE TOOL â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 @media (max-width: 768px) {
   .min-h-\[70vh\].flex.flex-col.lg\:flex-row { flex-direction: column !important; gap: 1rem !important; }
   .bg-white.rounded-\[2rem\].p-8 { padding: 1rem !important; border-radius: 1.25rem !important; min-height: auto !important; }
@@ -210,13 +210,13 @@
   .bg-white.rounded-\[2rem\].p-8.space-y-8 { padding: 1.25rem !important; border-radius: 1.25rem !important; }
 }
 
-/* Ã¢â€â‚¬Ã¢â€â‚¬ EDIT TOOLS Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ */
+/* â”€â”€ EDIT TOOLS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 @media (max-width: 768px) {
   .grid.grid-cols-1.md\:grid-cols-2.gap-3 { grid-template-columns: 1fr !important; gap: 0.5rem !important; }
   .bg-white.p-4.rounded-2xl.border { padding: 0.75rem !important; border-radius: 0.75rem !important; }
 }
 
-/* Ã¢â€â‚¬Ã¢â€â‚¬ EXTRACT TEXT Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ */
+/* â”€â”€ EXTRACT TEXT â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 @media (max-width: 768px) {
   .flex.flex-col.md\:flex-row.items-center.justify-between.gap-4 {
     flex-direction: column !important;
@@ -282,7 +282,7 @@
   }
 }
 
-/* Ã¢â€â‚¬Ã¢â€â‚¬ TABLET (769px Ã¢â‚¬â€œ 1023px) Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ */
+/* â”€â”€ TABLET (769px â€“ 1023px) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 @media (min-width: 769px) and (max-width: 1023px) {
   header .container { padding-left: 1.5rem !important; padding-right: 1.5rem !important; }
   .nav-search-box { width: 160px !important; }
@@ -293,7 +293,7 @@
   .grid.grid-cols-2.sm\:grid-cols-3.md\:grid-cols-4 { grid-template-columns: repeat(4, 1fr) !important; }
 }
 
-/* Ã¢â€â‚¬Ã¢â€â‚¬ UTILITY Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ */
+/* â”€â”€ UTILITY â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 @media (max-width: 768px) {
   button { -webkit-tap-highlight-color: transparent; user-select: none; }
   * { -webkit-overflow-scrolling: touch; }
@@ -303,7 +303,7 @@
   .scrollbar-hide, .overflow-x-auto { scrollbar-width: none !important; -ms-overflow-style: none !important; }
 }
 
-/* When drawer is open Ã¢â‚¬â€ hide bg-mesh, lock everything */
+/* When drawer is open â€” hide bg-mesh, lock everything */
 body.drawer-open .page-content > main,
 body.drawer-open .page-content > footer {
     background: rgba(15, 23, 42, 0.15);
@@ -323,7 +323,7 @@ body.drawer-open {
    MOBILE HAMBURGER + SLIDE-IN DRAWER
    ============================================================ */
 
-/* Hamburger button Ã¢â‚¬â€ hidden on desktop, shown on mobile */
+/* Hamburger button â€” hidden on desktop, shown on mobile */
 .mob-hamburger {
   display: none;
   align-items: center;
@@ -346,7 +346,7 @@ body.drawer-open {
   .mob-hamburger { display: flex; }
 }
 
-/* Backdrop Ã¢â‚¬â€ hidden on desktop */
+/* Backdrop â€” hidden on desktop */
 .mob-backdrop { position: fixed; inset: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.5); z-index: 998; cursor: pointer; -webkit-tap-highlight-color: transparent; animation: mobFadeIn 0.2s ease forwards; }
 
 @keyframes mobFadeIn {
@@ -354,7 +354,7 @@ body.drawer-open {
   to   { opacity: 1; }
 }
 
-/* Drawer Ã¢â‚¬â€ slides in from right Ã¢â‚¬â€ hidden on desktop */
+/* Drawer â€” slides in from right â€” hidden on desktop */
 .mob-drawer { display: none; } @media (max-width: 1023px) { .mob-drawer { position: fixed; top: 0; right: 0; bottom: 0; width: 300px; height: 100vh; height: 100dvh; max-width: 85vw; background: #ffffff; z-index: 999; display: flex; flex-direction: column; box-shadow: -8px 0 32px rgba(0,0,0,0.18); transform: translateX(100%); transition: transform 0.28s cubic-bezier(0.22,1,0.36,1); overflow: hidden; } }
 
 .mob-drawer--open {
@@ -453,7 +453,7 @@ body.drawer-open {
 
 .mob-drawer-search-input::placeholder { color: #94a3b8; }
 
-/* Drawer Body Ã¢â‚¬â€ scrollable */
+/* Drawer Body â€” scrollable */
 .mob-drawer-body {
   flex: 1;
   overflow-y: auto;
@@ -565,9 +565,9 @@ body.drawer-open {
 
 .mob-drawer-signup:hover { background: #dc2626; }
 
-/* â”€â”€ MOBILE SEARCH â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── MOBILE SEARCH ──────────────────────────────────── */
 
-/* Search icon button â€” only on mobile */
+/* Search icon button — only on mobile */
 .mob-search-btn {
   display: none;
   align-items: center;
@@ -699,7 +699,7 @@ body.drawer-open {
   font-weight: 600;
 }
 
-/* ── FOOTER MOBILE CENTER ───────────────────────────── */
+/* -- FOOTER MOBILE CENTER ----------------------------- */
 @media (max-width: 768px) {
   footer .grid {
     text-align: center !important;
@@ -734,7 +734,7 @@ body.drawer-open {
   }
 }
 
-/* ── MOB-ONLY: visible only on mobile/tablet ── */
+/* -- MOB-ONLY: visible only on mobile/tablet -- */
 .mob-only { display: none; }
 @media (max-width: 1023px) {
   .mob-only { display: flex; align-items: center; }

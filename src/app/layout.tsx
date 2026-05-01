@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import "./mobileview.css";
+import "./mobilefixes.css";
 import "./darktheme.css";
 import { Heart } from "lucide-react";
 import AllToolsDropdown from "@/components/AllToolsDropdown";

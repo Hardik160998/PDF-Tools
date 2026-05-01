@@ -1,0 +1,169 @@
+/* ============================================================
+   MOBILE FIXES — HOMEPAGE FEATURE SECTIONS + ALL TOOL PAGES
+   ============================================================ */
+
+@media (max-width: 768px) {
+
+  /* Feature sections padding */
+  .feature-section {
+    padding-top: 2.5rem !important;
+    padding-bottom: 2.5rem !important;
+  }
+
+  /* Hide decorative illustration on mobile */
+  .feature-illustration {
+    display: none !important;
+  }
+
+  /* Feature text side full width + centered */
+  .feature-text {
+    width: 100% !important;
+    text-align: center !important;
+  }
+
+  .feature-text h2 {
+    font-size: 1.6rem !important;
+    line-height: 1.2 !important;
+  }
+
+  .feature-text p {
+    font-size: 0.85rem !important;
+    line-height: 1.6 !important;
+  }
+
+  .feature-text a,
+  .feature-text button {
+    display: inline-flex !important;
+    justify-content: center !important;
+  }
+
+  /* Tagline section */
+  section.py-20.text-center h2 {
+    font-size: 1.75rem !important;
+    line-height: 1.2 !important;
+  }
+
+  section.py-20.text-center p {
+    font-size: 0.85rem !important;
+  }
+
+  /* Why Choose section */
+  section.py-20.bg-white h2.text-4xl {
+    font-size: 1.6rem !important;
+    margin-bottom: 2rem !important;
+  }
+
+  /* Tool page main card */
+  .tool-page-card {
+    border-radius: 1.25rem !important;
+    padding: 1.25rem 1rem !important;
+  }
+
+  /* Tool page header icon */
+  .tool-page-icon {
+    padding: 0.75rem !important;
+    border-radius: 1rem !important;
+  }
+
+  .tool-page-icon svg {
+    width: 26px !important;
+    height: 26px !important;
+  }
+
+  /* Tool page h1 */
+  h1.font-black {
+    font-size: 1.4rem !important;
+  }
+
+  /* Drop zone */
+  .tool-dropzone {
+    padding: 2rem 1rem !important;
+    border-radius: 1rem !important;
+  }
+
+  /* Feature cards 2-col */
+  .feature-cards-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 0.6rem !important;
+  }
+
+  /* Steps single col */
+  .steps-grid {
+    grid-template-columns: 1fr !important;
+    gap: 0.6rem !important;
+  }
+
+  /* When to use single col */
+  .when-grid {
+    grid-template-columns: 1fr !important;
+    gap: 0.6rem !important;
+  }
+
+  /* Related tools 2-col */
+  .related-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 0.6rem !important;
+  }
+
+  /* Section card padding */
+  .section-card {
+    padding: 1rem !important;
+    border-radius: 1rem !important;
+  }
+
+  /* Action button */
+  .tool-action-btn {
+    padding-top: 0.85rem !important;
+    padding-bottom: 0.85rem !important;
+    font-size: 1rem !important;
+    border-radius: 1rem !important;
+  }
+
+  /* Result actions stacked */
+  .result-actions {
+    flex-direction: column !important;
+    gap: 0.6rem !important;
+  }
+
+  /* Blog article */
+  article h1 {
+    font-size: 1.5rem !important;
+    line-height: 1.2 !important;
+  }
+
+  article p.text-lg {
+    font-size: 0.9rem !important;
+  }
+
+  /* FAQ */
+  .faq-item button {
+    padding: 0.85rem 1rem !important;
+    font-size: 0.8rem !important;
+  }
+
+  /* Compression / position selector grids */
+  .level-grid {
+    gap: 0.5rem !important;
+  }
+
+  /* Language selectors */
+  .lang-grid {
+    gap: 0.6rem !important;
+  }
+}
+
+/* Very small screens */
+@media (max-width: 380px) {
+  h1.font-black {
+    font-size: 1.2rem !important;
+  }
+
+  .feature-cards-grid,
+  .related-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  section.py-20.bg-white h2.text-4xl {
+    font-size: 1.3rem !important;
+  }
+}
