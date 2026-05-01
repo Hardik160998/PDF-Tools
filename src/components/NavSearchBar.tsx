@@ -70,6 +70,7 @@ export default function NavSearchBar() {
           onFocus={() => setOpen(true)}
           placeholder="Search PDF tools..."
           className="nav-search-input"
+          autoComplete="off"
           style={{ display: 'block', width: '100%' }}
         />
       </div>

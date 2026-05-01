@@ -26,6 +26,7 @@ const CATEGORY_STYLES: Record<string, { gradient: string; shadow: string }> = {
 const TOOLS = [
   { id: 'compare-pdf', title: 'Compare PDF', description: 'Compare two PDF files side by side and instantly spot which pages changed. 100% private.', category: 'Organize', icon: GitCompare },
   { id: 'extract-pages', title: 'Extract PDF Pages', description: 'Pick individual pages or a range and download them as a new PDF. 100% private, runs in your browser.', category: 'Organize', icon: Layers },
+  { id: 'delete-pages', title: 'Delete PDF Pages', description: 'Select and permanently remove unwanted pages from your PDF. Fast, private, runs in your browser.', category: 'Organize', icon: Scissors },
   { id: 'organize',     title: 'Organize PDF',      description: 'Sort, add and delete PDF pages. Rotate PDF pages and reorder them at your convenience.',          category: 'Organize', icon: FileSymlink    },
   { id: 'merge',        title: 'Merge PDF',          description: 'Combine PDFs in the order you want with the easiest PDF merger available.',                       category: 'Organize', icon: Combine        },
   { id: 'split',        title: 'Split PDF',          description: 'Separate one page or a whole set for easy conversion into independent PDF files.',                category: 'Organize', icon: Scissors       },

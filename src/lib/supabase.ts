@@ -5,11 +5,11 @@ const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
 
 export const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
-const ALWAYS_VERIFIED = ['esign', 'edit-pdf', 'extract-pages', 'webpage-to-pdf', 'compare-pdf', 'redact-pdf', 'bookmark-pdf', 'docx-to-pdf', 'pdf-to-docx', 'jpg-to-png', 'png-to-jpg', 'jpg-to-webp', 'webp-to-jpg', 'png-to-webp', 'webp-to-png', 'jpg-to-avif', 'avif-to-jpg', 'png-to-avif', 'avif-to-png', 'webp-to-avif', 'avif-to-webp'];
+const ALWAYS_VERIFIED = ['esign', 'edit-pdf', 'extract-pages', 'delete-pages', 'webpage-to-pdf', 'compare-pdf', 'redact-pdf', 'bookmark-pdf', 'docx-to-pdf', 'pdf-to-docx', 'jpg-to-png', 'png-to-jpg', 'jpg-to-webp', 'webp-to-jpg', 'png-to-webp', 'webp-to-png', 'jpg-to-avif', 'avif-to-jpg', 'png-to-avif', 'avif-to-png', 'webp-to-avif', 'avif-to-webp'];
 
 // Tools with their category — synced to allpdftools.category column
 const TOOL_CATEGORIES: Record<string, string> = {
-  'compare-pdf': 'Organize', 'extract-pages': 'Organize', 'organize': 'Organize', 'merge': 'Organize', 'split': 'Organize',
+  'compare-pdf': 'Organize', 'extract-pages': 'Organize', 'delete-pages': 'Organize', 'organize': 'Organize', 'merge': 'Organize', 'split': 'Organize',
   'compress': 'Optimize', 'repair-pdf': 'Optimize',
   'extract-text': 'Convert', 'pdf-to-xml': 'Convert', 'pdf-to-jpg': 'Convert', 'jpg-to-pdf': 'Convert',
   'word-to-pdf': 'Convert', 'pdf-to-word': 'Convert', 'docx-to-pdf': 'Convert', 'pdf-to-docx': 'Convert',

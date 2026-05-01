@@ -358,13 +358,12 @@ html.dark {
     border: 1.5px solid #e2e8f0;
     border-radius: 9999px;
     background: #f8fafc;
-    transition: border-color 0.2s, box-shadow 0.2s, width 0.25s;
+    transition: border-color 0.2s, box-shadow 0.2s;
   }
 
   .nav-search-box:focus-within {
     border-color: #cbd5e1;
     box-shadow: 0 0 0 3px rgba(226,232,240,0.6);
-    width: 280px;
     background: white;
   }
 
@@ -402,8 +401,7 @@ html.dark {
     border: 1px solid #e2e8f0;
     border-radius: 1rem;
     box-shadow: 0 16px 32px -8px rgba(0,0,0,0.14);
-    overflow: hidden;
-    z-index: 200;
+    z-index: 9999;
     animation: dropdownIn 0.15s cubic-bezier(0.22,1,0.36,1) forwards;
     max-height: 360px;
     overflow-y: auto;
