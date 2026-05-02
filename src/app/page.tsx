@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useState, useMemo, useEffect, useRef } from 'react';
 import SkeletonGrid from '@/components/SkeletonGrid';
@@ -30,7 +30,6 @@ const TOOLS = [
   { id: 'add-blank-page', title: 'Add Blank Page',    description: 'Insert blank pages at the beginning, end, or after any page in your PDF. Choose size and count.',  category: 'Organize', icon: Layers   },
   { id: 'flatten-pdf',   title: 'Flatten PDF',      description: 'Merge all form fields, annotations and layers into a flat, non-editable PDF. 100% private.',      category: 'Edit',     icon: Layers },
   { id: 'optimize-pdf',  title: 'Optimize PDF',     description: 'Reduce PDF file size by re-compressing pages. Choose Low, Medium or High quality. 100% private.',  category: 'Optimize', icon: Zap    },
-  { id: 'translate-pdf', title: 'Translate PDF',    description: 'Extract and translate PDF text into 16 languages. Download the translated PDF instantly.',           category: 'Convert',  icon: FileText },
   { id: 'organize',     title: 'Organize PDF',      description: 'Sort, add and delete PDF pages. Rotate PDF pages and reorder them at your convenience.',          category: 'Organize', icon: FileSymlink    },
   { id: 'merge',        title: 'Merge PDF',          description: 'Combine PDFs in the order you want with the easiest PDF merger available.',                       category: 'Organize', icon: Combine        },
   { id: 'split',        title: 'Split PDF',          description: 'Separate one page or a whole set for easy conversion into independent PDF files.',                category: 'Organize', icon: Scissors       },
@@ -74,12 +73,12 @@ const TOOLS = [
   { id: 'edit-pdf',     title: 'Edit PDF',           description: 'Highlight, draw, add text and freehand annotations directly on PDFs. Zero uploads, 100% private.', category: 'Edit', icon: PenLine },
 ];
 
-/* ── Reusable shimmer bar ── */
+/* -- Reusable shimmer bar -- */
 function Sh({ className }: { className: string }) {
   return <div className={`skeleton-shimmer rounded-xl ${className}`} />;
 }
 
-/* ── Feature section shimmer (text + mock card) ── */
+/* -- Feature section shimmer (text + mock card) -- */
 function FeatureSectionShimmer({ reverse = false }: { reverse?: boolean }) {
   return (
     <div className={`flex flex-col ${reverse ? 'md:flex-row-reverse' : 'md:flex-row'} items-center gap-12 max-w-6xl mx-auto`}>
@@ -151,7 +150,7 @@ export default function Home() {
     <div className="min-h-screen relative overflow-hidden">
       <div className="bg-mesh-premium" />
 
-      {/* ── HERO ── */}
+      {/* -- HERO -- */}
       <section className="container mx-auto px-4 py-24 text-center relative z-10">
           <div className="max-w-6xl mx-auto space-y-8">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-red-50 text-red-600 border border-red-100 text-xs font-black uppercase tracking-widest shadow-sm fade-in-up mb-4">
@@ -201,7 +200,7 @@ export default function Home() {
           </div>
         </section>
 
-      {/* ── TOOLS GRID ── */}
+      {/* -- TOOLS GRID -- */}
       <section ref={toolsGridRef} className="container mx-auto px-4 pb-20">
         {showGridSkeleton ? (
           <SkeletonGrid count={skeletonTools.length} categories={skeletonTools.map(t => t.category)} />
@@ -231,7 +230,7 @@ export default function Home() {
         )}
       </section>
 
-      {/* ── TAGLINE ── */}
+      {/* -- TAGLINE -- */}
       {!mounted ? (
         <section className="py-20 bg-white dark:bg-slate-900">
           <div className="container mx-auto px-4 max-w-3xl flex flex-col items-center gap-4">
@@ -254,7 +253,7 @@ export default function Home() {
         </section>
       )}
 
-      {/* ── CREATE THE PERFECT DOCUMENT ── */}
+      {/* -- CREATE THE PERFECT DOCUMENT -- */}
       {!mounted ? (
         <section className="py-20 bg-slate-50 dark:bg-slate-800/40">
           <div className="container mx-auto px-4">
@@ -294,7 +293,7 @@ export default function Home() {
                     <div className="absolute top-1/3 -left-8 bg-orange-500 text-white px-4 py-2 rounded-xl shadow-xl font-black text-sm z-20 transform -rotate-12">PPT</div>
                     <div className="absolute bottom-8 -right-4 bg-green-500 text-white px-4 py-2 rounded-xl shadow-xl font-black text-sm z-20 transform rotate-6">XLS</div>
                     <div className="absolute -bottom-4 left-1/2 transform -translate-x-1/2 flex gap-3 z-30">
-                      {[{ label: '✂️', bg: '#ef4444' }, { label: '🔒', bg: '#8b5cf6' }, { label: '⚡', bg: '#f59e0b' }, { label: '🔄', bg: '#3b82f6' }].map((item, i) => (
+                      {[{ label: '??', bg: '#ef4444' }, { label: '??', bg: '#8b5cf6' }, { label: '?', bg: '#f59e0b' }, { label: '??', bg: '#3b82f6' }].map((item, i) => (
                         <div key={i} className="w-12 h-12 rounded-xl shadow-2xl flex items-center justify-center text-xl transform hover:scale-110 transition-transform" style={{ backgroundColor: item.bg }}>{item.label}</div>
                       ))}
                     </div>
@@ -306,7 +305,7 @@ export default function Home() {
         </section>
       )}
 
-      {/* ── DIGITAL SIGNATURES ── */}
+      {/* -- DIGITAL SIGNATURES -- */}
       {!mounted ? (
         <section className="py-16 bg-white dark:bg-slate-900">
           <div className="container mx-auto px-4">
@@ -338,7 +337,7 @@ export default function Home() {
                       <p className="text-2xl font-bold text-slate-400 italic" style={{ fontFamily: 'cursive' }}>esign</p>
                     </div>
                     <div className="mt-4 flex gap-2">
-                      <span className="text-xs font-bold bg-yellow-50 dark:bg-yellow-900/20 text-yellow-700 dark:text-yellow-400 px-3 py-1 rounded-full border border-yellow-200 dark:border-yellow-800">✏️ Signature</span>
+                      <span className="text-xs font-bold bg-yellow-50 dark:bg-yellow-900/20 text-yellow-700 dark:text-yellow-400 px-3 py-1 rounded-full border border-yellow-200 dark:border-yellow-800">?? Signature</span>
                       <span className="text-xs font-bold bg-slate-50 dark:bg-slate-700 text-slate-500 dark:text-slate-300 px-3 py-1 rounded-full border border-slate-200 dark:border-slate-600">AB Initials</span>
                     </div>
                     <button className="mt-4 w-full py-2 bg-blue-600 text-white text-sm font-bold rounded-xl">Review &amp; Send</button>
@@ -350,7 +349,7 @@ export default function Home() {
         </section>
       )}
 
-       {/* ── WORK DIRECTLY ON YOUR FILES ── */}
+       {/* -- WORK DIRECTLY ON YOUR FILES -- */}
        {!mounted ? (
          <section className="py-16 bg-slate-50 dark:bg-slate-800/40">
            <div className="container mx-auto px-4">
@@ -364,7 +363,7 @@ export default function Home() {
                <div className="flex-1 space-y-5">
                  <h2 className="text-3xl md:text-4xl font-black text-slate-900 dark:text-white tracking-tight">Work Directly on Your Files</h2>
                  <p className="text-base text-slate-500 dark:text-slate-400 font-medium leading-relaxed">
-                   Do more than just view PDFs. Highlight and add text, freehand annotations, and more — all processed locally in your browser. Zero uploads, 100% private.
+                   Do more than just view PDFs. Highlight and add text, freehand annotations, and more � all processed locally in your browser. Zero uploads, 100% private.
                  </p>
                  <a href="/edit" className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-white font-black text-sm uppercase tracking-widest shadow-lg transition-all hover:scale-105 hover:shadow-xl" style={{ background: 'linear-gradient(135deg,#3b82f6,#8b5cf6)' }}>
                    Open &amp; Edit a PDF &#8594;
@@ -394,7 +393,7 @@ export default function Home() {
          </section>
        )}
 
-       {/* ── LATEST BLOG POSTS ── */}
+       {/* -- LATEST BLOG POSTS -- */}
        <section className="py-20 bg-white dark:bg-slate-900">
          <div className="container mx-auto px-4">
            <div className="text-center max-w-3xl mx-auto mb-12">
@@ -430,10 +429,10 @@ export default function Home() {
                  </div>
                  <div className="flex-1">
                    <h3 className="font-black text-slate-900 dark:text-white text-base leading-snug mb-2 group-hover:text-red-500 dark:group-hover:text-red-400 transition-colors">
-                     How to Crop Aadhar Card for Printing — Free Online Tool
+                     How to Crop Aadhar Card for Printing � Free Online Tool
                    </h3>
                    <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
-                     Crop your e-Aadhar PDF to standard ID card dimensions (86mm × 54mm) and get a print-ready A4 PDF in seconds — 100% private, runs in your browser.
+                     Crop your e-Aadhar PDF to standard ID card dimensions (86mm � 54mm) and get a print-ready A4 PDF in seconds � 100% private, runs in your browser.
                    </p>
                  </div>
                  <div className="flex items-center justify-between pt-2 border-t border-slate-100 dark:border-slate-700">
@@ -511,7 +510,7 @@ export default function Home() {
          </div>
        </section>
 
-      {/* ── WHY CHOOSE SMART PDFs? ── */}
+      {/* -- WHY CHOOSE SMART PDFs? -- */}
       <section className="py-20 bg-white dark:bg-slate-900">
         <div className="container mx-auto px-4 max-w-6xl">
           <h2 className="text-4xl md:text-5xl font-black text-slate-900 dark:text-white tracking-tight text-center mb-16">
@@ -532,7 +531,7 @@ export default function Home() {
               </div>
               <h3 className="text-lg font-black text-slate-900 dark:text-white">People Trust Us</h3>
               <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
-                Millions of users rely on Smart PDFs every day to simplify their work with digital documents — fast, free, and fully private.
+                Millions of users rely on Smart PDFs every day to simplify their work with digital documents � fast, free, and fully private.
               </p>
             </div>
 
@@ -571,7 +570,7 @@ export default function Home() {
               </div>
               <h3 className="text-lg font-black text-slate-900 dark:text-white">Works on Any Device</h3>
               <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
-                Fully responsive on desktop, tablet, and mobile. No app or installation needed — just open your browser and get to work.
+                Fully responsive on desktop, tablet, and mobile. No app or installation needed � just open your browser and get to work.
               </p>
             </div>
 
@@ -589,7 +588,7 @@ export default function Home() {
               </div>
               <h3 className="text-lg font-black text-slate-900 dark:text-white">Always Available</h3>
               <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
-                Smart PDFs is available around the clock. Process your documents any time, any day — no downtime, no waiting.
+                Smart PDFs is available around the clock. Process your documents any time, any day � no downtime, no waiting.
               </p>
             </div>
 
@@ -625,7 +624,7 @@ export default function Home() {
               </div>
               <h3 className="text-lg font-black text-slate-900 dark:text-white">Privacy First</h3>
               <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
-                Your safety is our priority. All PDF processing happens locally in your browser — your files never leave your device. Zero uploads, 100% private.
+                Your safety is our priority. All PDF processing happens locally in your browser � your files never leave your device. Zero uploads, 100% private.
               </p>
             </div>
 

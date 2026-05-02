@@ -47,7 +47,6 @@ const CATEGORIES: { name: string; color: string; gradient: string; tools: { id: 
       { id: "pdf-to-excel",   label: "PDF to Excel",      icon: FileSpreadsheet },
       { id: "html-to-pdf",    label: "HTML to PDF",       icon: Globe },
       { id: "webpage-to-pdf", label: "Webpage to PDF",    icon: Globe },
-      { id: "translate-pdf",  label: "Translate PDF",     icon: FileText },
     ],
   },
   {

@@ -43,9 +43,6 @@ const FlattenPdf = dynamic(() => import('@/components/tools/FlattenPdf'), {
 const OptimizePdf = dynamic(() => import('@/components/tools/OptimizePdf'), {
   ssr: false, loading: () => <CenteredCardSkeleton accent="rgb(187 247 208)" />,
 });
-const TranslatePdf = dynamic(() => import('@/components/tools/TranslatePdf'), {
-  ssr: false, loading: () => <CenteredCardSkeleton accent="rgb(191 219 254)" />,
-});
 const AddBlankPage = dynamic(() => import('@/components/tools/AddBlankPage'), {
   ssr: false, loading: () => <CenteredCardSkeleton accent="rgb(199 210 254)" />,
 });
@@ -94,7 +91,6 @@ const TOOL_COMPONENTS: Record<string, React.ComponentType<{ id: string }>> = {
   'add-blank-page': AddBlankPage,
   'flatten-pdf': FlattenPdf,
   'optimize-pdf': OptimizePdf,
-  'translate-pdf': TranslatePdf,
   'aadhar-crop': AadharCropper,
   'unlock': SecurityTools,
   'protect': SecurityTools,
