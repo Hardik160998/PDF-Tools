@@ -1,4 +1,4 @@
-"use client";
+ï»¿"use client";
 
 import { useState, useMemo, useEffect, useRef } from 'react';
 import SkeletonGrid from '@/components/SkeletonGrid';
@@ -363,7 +363,7 @@ export default function Home() {
                <div className="flex-1 space-y-5">
                  <h2 className="text-3xl md:text-4xl font-black text-slate-900 dark:text-white tracking-tight">Work Directly on Your Files</h2>
                  <p className="text-base text-slate-500 dark:text-slate-400 font-medium leading-relaxed">
-                   Do more than just view PDFs. Highlight and add text, freehand annotations, and more — all processed locally in your browser. Zero uploads, 100% private.
+                   Do more than just view PDFs. Highlight and add text, freehand annotations, and more â€” all processed locally in your browser. Zero uploads, 100% private.
                  </p>
                  <a href="/edit" className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-white font-black text-sm uppercase tracking-widest shadow-lg transition-all hover:scale-105 hover:shadow-xl" style={{ background: 'linear-gradient(135deg,#3b82f6,#8b5cf6)' }}>
                    Open &amp; Edit a PDF &#8594;
@@ -429,10 +429,10 @@ export default function Home() {
                  </div>
                  <div className="flex-1">
                    <h3 className="font-black text-slate-900 dark:text-white text-base leading-snug mb-2 group-hover:text-red-500 dark:group-hover:text-red-400 transition-colors">
-                     How to Crop Aadhar Card for Printing — Free Online Tool
+                     How to Crop Aadhar Card for Printing â€” Free Online Tool
                    </h3>
                    <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
-                     Crop your e-Aadhar PDF to standard ID card dimensions (86mm × 54mm) and get a print-ready A4 PDF in seconds — 100% private, runs in your browser.
+                     Crop your e-Aadhar PDF to standard ID card dimensions (86mm Ã— 54mm) and get a print-ready A4 PDF in seconds â€” 100% private, runs in your browser.
                    </p>
                  </div>
                  <div className="flex items-center justify-between pt-2 border-t border-slate-100 dark:border-slate-700">
@@ -531,7 +531,7 @@ export default function Home() {
               </div>
               <h3 className="text-lg font-black text-slate-900 dark:text-white">People Trust Us</h3>
               <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
-                Millions of users rely on Smart PDFs every day to simplify their work with digital documents — fast, free, and fully private.
+                Millions of users rely on Smart PDFs every day to simplify their work with digital documents â€” fast, free, and fully private.
               </p>
             </div>
 
@@ -570,7 +570,7 @@ export default function Home() {
               </div>
               <h3 className="text-lg font-black text-slate-900 dark:text-white">Works on Any Device</h3>
               <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
-                Fully responsive on desktop, tablet, and mobile. No app or installation needed — just open your browser and get to work.
+                Fully responsive on desktop, tablet, and mobile. No app or installation needed â€” just open your browser and get to work.
               </p>
             </div>
 
@@ -588,7 +588,7 @@ export default function Home() {
               </div>
               <h3 className="text-lg font-black text-slate-900 dark:text-white">Always Available</h3>
               <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
-                Smart PDFs is available around the clock. Process your documents any time, any day — no downtime, no waiting.
+                Smart PDFs is available around the clock. Process your documents any time, any day â€” no downtime, no waiting.
               </p>
             </div>
 
@@ -624,7 +624,7 @@ export default function Home() {
               </div>
               <h3 className="text-lg font-black text-slate-900 dark:text-white">Privacy First</h3>
               <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
-                Your safety is our priority. All PDF processing happens locally in your browser — your files never leave your device. Zero uploads, 100% private.
+                Your safety is our priority. All PDF processing happens locally in your browser â€” your files never leave your device. Zero uploads, 100% private.
               </p>
             </div>
 
