@@ -530,119 +530,113 @@ export default function Home() {
        </section>
 
       {/* -- WHY CHOOSE SMART PDFs? -- */}
-      <section className="py-20 bg-white dark:bg-slate-900">
+      <section className="py-20 bg-slate-50 dark:bg-slate-900">
         <div className="container mx-auto px-4 max-w-6xl">
           <h2 className="text-4xl md:text-5xl font-black text-slate-900 dark:text-white tracking-tight text-center mb-16">
             Why Choose Smart PDFs?
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-x-12 gap-y-14">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
 
             {/* People Trust Us */}
-            <div className="flex flex-col gap-4">
-              <div className="w-20 h-20 flex items-center justify-center relative">
-                <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
-                  <circle cx="24" cy="20" r="10" fill="#bfdbfe" />
-                  <circle cx="40" cy="18" r="8" fill="#93c5fd" />
-                  <ellipse cx="24" cy="46" rx="16" ry="10" fill="#bfdbfe" />
-                  <ellipse cx="40" cy="44" rx="13" ry="8" fill="#93c5fd" />
+            <div className="why-card-blue flex flex-col gap-4 rounded-2xl p-8" style={{ background: 'linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%)' }}>
+              <div className="w-14 h-14 rounded-xl flex items-center justify-center relative" style={{ background: 'linear-gradient(135deg, #3b82f6, #1d4ed8)' }}>
+                <svg width="28" height="28" viewBox="0 0 64 64" fill="none">
+                  <circle cx="24" cy="20" r="10" fill="white" fillOpacity="0.9" />
+                  <circle cx="40" cy="18" r="8" fill="white" fillOpacity="0.6" />
+                  <ellipse cx="24" cy="46" rx="16" ry="10" fill="white" fillOpacity="0.9" />
+                  <ellipse cx="40" cy="44" rx="13" ry="8" fill="white" fillOpacity="0.6" />
                 </svg>
-                <span className="absolute bottom-0 left-0 bg-red-500 text-white text-[10px] font-black px-2 py-0.5 rounded-md shadow">1M+ users</span>
+                <span className="absolute -bottom-2 -right-2 bg-red-500 text-white text-[9px] font-black px-1.5 py-0.5 rounded-md shadow">1M+</span>
               </div>
-              <h3 className="text-lg font-black text-slate-900 dark:text-white">People Trust Us</h3>
-              <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
+              <h3 className="text-lg font-black text-slate-900">People Trust Us</h3>
+              <p className="text-sm text-slate-600 leading-relaxed">
                 Millions of users rely on Smart PDFs every day to simplify their work with digital documents — fast, free, and fully private.
               </p>
             </div>
 
-            {/* Businesses Trust Us */}
-            <div className="flex flex-col gap-4">
-              <div className="w-20 h-20 flex items-center justify-center">
-                <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
-                  <rect x="8" y="36" width="10" height="20" rx="2" fill="#fde68a" />
-                  <rect x="22" y="24" width="10" height="32" rx="2" fill="#fbbf24" />
-                  <rect x="36" y="14" width="10" height="42" rx="2" fill="#f59e0b" />
-                  <path d="M8 34 L22 22 L36 12 L50 8" stroke="#f59e0b" strokeWidth="2.5" strokeLinecap="round" />
-                  <path d="M46 8 L52 8 L52 14" stroke="#f59e0b" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
-                  {[0,1,2,3,4].map(i => (
-                    <path key={i} d={`M${10 + i * 10} 58 L${14 + i * 10} 54`} stroke="#fbbf24" strokeWidth="1.5" strokeLinecap="round" />
-                  ))}
+            {/* Top-Rated */}
+            <div className="why-card-yellow flex flex-col gap-4 rounded-2xl p-8" style={{ background: 'linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%)' }}>
+              <div className="w-14 h-14 rounded-xl flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #f59e0b, #d97706)' }}>
+                <svg width="28" height="28" viewBox="0 0 64 64" fill="none">
+                  <rect x="8" y="36" width="10" height="20" rx="2" fill="white" fillOpacity="0.7" />
+                  <rect x="22" y="24" width="10" height="32" rx="2" fill="white" fillOpacity="0.85" />
+                  <rect x="36" y="14" width="10" height="42" rx="2" fill="white" />
+                  <path d="M8 34 L22 22 L36 12 L50 8" stroke="white" strokeWidth="2.5" strokeLinecap="round" />
+                  <path d="M46 8 L52 8 L52 14" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
               </div>
-              <h3 className="text-lg font-black text-slate-900 dark:text-white">Top-Rated PDF Tools</h3>
-              <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
+              <h3 className="text-lg font-black text-slate-900">Top-Rated PDF Tools</h3>
+              <p className="text-sm text-slate-600 leading-relaxed">
                 Smart PDFs is consistently rated among the best free PDF platforms for speed, reliability, and ease of use by our growing community.
               </p>
             </div>
 
             {/* Works Everywhere */}
-            <div className="flex flex-col gap-4">
-              <div className="w-20 h-20 flex items-center justify-center relative">
-                <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
-                  <rect x="6" y="10" width="52" height="36" rx="6" fill="#e0e7ff" />
-                  <rect x="10" y="14" width="44" height="28" rx="3" fill="#c7d2fe" />
-                  <rect x="22" y="46" width="20" height="4" rx="2" fill="#a5b4fc" />
-                  <rect x="16" y="50" width="32" height="3" rx="1.5" fill="#818cf8" />
+            <div className="why-card-green flex flex-col gap-4 rounded-2xl p-8" style={{ background: 'linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%)' }}>
+              <div className="w-14 h-14 rounded-xl flex items-center justify-center relative" style={{ background: 'linear-gradient(135deg, #22c55e, #15803d)' }}>
+                <svg width="28" height="28" viewBox="0 0 64 64" fill="none">
+                  <rect x="6" y="10" width="52" height="36" rx="6" fill="white" fillOpacity="0.3" />
+                  <rect x="10" y="14" width="44" height="28" rx="3" fill="white" fillOpacity="0.6" />
+                  <rect x="22" y="46" width="20" height="4" rx="2" fill="white" fillOpacity="0.8" />
+                  <rect x="16" y="50" width="32" height="3" rx="1.5" fill="white" />
                 </svg>
-                <span className="absolute top-1 right-0 w-5 h-5 bg-green-400 rounded-full border-2 border-white flex items-center justify-center">
-                  <svg width="10" height="10" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                <span className="absolute -top-1 -right-1 w-5 h-5 bg-white rounded-full flex items-center justify-center shadow">
+                  <svg width="10" height="10" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#22c55e" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" /></svg>
                 </span>
               </div>
-              <h3 className="text-lg font-black text-slate-900 dark:text-white">Works on Any Device</h3>
-              <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
+              <h3 className="text-lg font-black text-slate-900">Works on Any Device</h3>
+              <p className="text-sm text-slate-600 leading-relaxed">
                 Fully responsive on desktop, tablet, and mobile. No app or installation needed — just open your browser and get to work.
               </p>
             </div>
 
             {/* 24/7 Available */}
-            <div className="flex flex-col gap-4">
-              <div className="w-20 h-20 flex items-center justify-center relative">
-                <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
-                  <rect x="8" y="12" width="30" height="36" rx="4" fill="#bfdbfe" />
-                  <rect x="12" y="16" width="22" height="4" rx="2" fill="#93c5fd" />
-                  <rect x="12" y="24" width="16" height="3" rx="1.5" fill="#93c5fd" />
-                  <rect x="12" y="30" width="20" height="3" rx="1.5" fill="#93c5fd" />
-                  <circle cx="44" cy="44" r="14" fill="#1d4ed8" />
+            <div className="why-card-indigo flex flex-col gap-4 rounded-2xl p-8" style={{ background: 'linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%)' }}>
+              <div className="w-14 h-14 rounded-xl flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #6366f1, #4338ca)' }}>
+                <svg width="28" height="28" viewBox="0 0 64 64" fill="none">
+                  <rect x="8" y="12" width="30" height="36" rx="4" fill="white" fillOpacity="0.4" />
+                  <rect x="12" y="16" width="22" height="4" rx="2" fill="white" fillOpacity="0.8" />
+                  <rect x="12" y="24" width="16" height="3" rx="1.5" fill="white" fillOpacity="0.7" />
+                  <rect x="12" y="30" width="20" height="3" rx="1.5" fill="white" fillOpacity="0.7" />
+                  <circle cx="44" cy="44" r="14" fill="white" fillOpacity="0.25" />
                   <text x="44" y="49" textAnchor="middle" fill="white" fontSize="9" fontWeight="bold">24/7</text>
                 </svg>
               </div>
-              <h3 className="text-lg font-black text-slate-900 dark:text-white">Always Available</h3>
-              <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
+              <h3 className="text-lg font-black text-slate-900">Always Available</h3>
+              <p className="text-sm text-slate-600 leading-relaxed">
                 Smart PDFs is available around the clock. Process your documents any time, any day — no downtime, no waiting.
               </p>
             </div>
 
             {/* 256-bit Encryption */}
-            <div className="flex flex-col gap-4">
-              <div className="w-20 h-20 flex items-center justify-center relative">
-                <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
-                  <rect x="14" y="8" width="36" height="28" rx="5" fill="#dbeafe" />
-                  <rect x="20" y="14" width="24" height="16" rx="3" fill="#93c5fd" />
-                  <rect x="10" y="32" width="44" height="24" rx="5" fill="#3b82f6" />
-                  <circle cx="32" cy="44" r="5" fill="white" />
-                  <rect x="30" y="44" width="4" height="6" rx="1" fill="#3b82f6" />
+            <div className="why-card-purple flex flex-col gap-4 rounded-2xl p-8" style={{ background: 'linear-gradient(135deg, #fdf4ff 0%, #fae8ff 100%)' }}>
+              <div className="w-14 h-14 rounded-xl flex items-center justify-center relative" style={{ background: 'linear-gradient(135deg, #a855f7, #7c3aed)' }}>
+                <svg width="28" height="28" viewBox="0 0 64 64" fill="none">
+                  <rect x="14" y="8" width="36" height="28" rx="5" fill="white" fillOpacity="0.3" />
+                  <rect x="20" y="14" width="24" height="16" rx="3" fill="white" fillOpacity="0.5" />
+                  <rect x="10" y="32" width="44" height="24" rx="5" fill="white" fillOpacity="0.25" />
+                  <circle cx="32" cy="44" r="5" fill="white" fillOpacity="0.9" />
+                  <rect x="30" y="44" width="4" height="6" rx="1" fill="white" fillOpacity="0.4" />
                 </svg>
-                <span className="absolute -top-1 -right-1 bg-yellow-400 text-[9px] font-black text-slate-900 px-1.5 py-0.5 rounded shadow">256-bit</span>
+                <span className="absolute -top-2 -right-2 bg-yellow-400 text-[9px] font-black text-slate-900 px-1.5 py-0.5 rounded shadow">256-bit</span>
               </div>
-              <h3 className="text-lg font-black text-slate-900 dark:text-white">256-Bit TLS Encryption</h3>
-              <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
+              <h3 className="text-lg font-black text-slate-900">256-Bit TLS Encryption</h3>
+              <p className="text-sm text-slate-600 leading-relaxed">
                 We use 256-bit TLS encryption to keep your data safe during transfer. Your files are processed securely and never stored on our servers.
               </p>
             </div>
 
-            {/* Privacy & Security */}
-            <div className="flex flex-col gap-4">
-              <div className="w-20 h-20 flex items-center justify-center">
-                <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
-                  <circle cx="32" cy="32" r="28" fill="none" stroke="#e2e8f0" strokeWidth="3" strokeDasharray="6 4" />
-                  <circle cx="32" cy="32" r="20" fill="#f1f5f9" />
-                  <path d="M32 14 L44 20 L44 34 C44 42 32 50 32 50 C32 50 20 42 20 34 L20 20 Z" fill="#64748b" />
-                  <path d="M32 18 L41 23 L41 34 C41 40 32 47 32 47 C32 47 23 40 23 34 L23 23 Z" fill="#94a3b8" />
+            {/* Privacy First */}
+            <div className="why-card-red flex flex-col gap-4 rounded-2xl p-8" style={{ background: 'linear-gradient(135deg, #fff1f2 0%, #ffe4e6 100%)' }}>
+              <div className="w-14 h-14 rounded-xl flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #f43f5e, #be123c)' }}>
+                <svg width="28" height="28" viewBox="0 0 64 64" fill="none">
+                  <path d="M32 14 L44 20 L44 34 C44 42 32 50 32 50 C32 50 20 42 20 34 L20 20 Z" fill="white" fillOpacity="0.35" />
+                  <path d="M32 18 L41 23 L41 34 C41 40 32 47 32 47 C32 47 23 40 23 34 L23 23 Z" fill="white" fillOpacity="0.6" />
                   <path d="M27 32 L30 35 L37 28" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
-                  <text x="32" y="62" textAnchor="middle" fill="#64748b" fontSize="7" fontWeight="bold">PRIVACY FIRST</text>
                 </svg>
               </div>
-              <h3 className="text-lg font-black text-slate-900 dark:text-white">Privacy First</h3>
-              <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
+              <h3 className="text-lg font-black text-slate-900">Privacy First</h3>
+              <p className="text-sm text-slate-600 leading-relaxed">
                 Your safety is our priority. All PDF processing happens locally in your browser — your files never leave your device. Zero uploads, 100% private.
               </p>
             </div>

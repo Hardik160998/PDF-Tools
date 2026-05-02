@@ -3,14 +3,14 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import {
   Upload, Download, ChevronLeft, ChevronRight, Minus, Plus, Highlighter, Type, Pen, Eraser,
-  FileText, X, MousePointer, Undo2, Move, Image, ChevronDown
+  FileText, X, MousePointer, Undo2, Move, Image, ChevronDown, EyeOff
 } from "lucide-react";
 import * as pdfjsLib from "pdfjs-dist";
 import { PDFDocument } from "pdf-lib";
 
 pdfjsLib.GlobalWorkerOptions.workerSrc = "/workers/pdf.worker.min.mjs";
 
-type Tool = "select" | "highlight" | "text" | "draw" | "eraser";
+type Tool = "select" | "highlight" | "text" | "draw" | "eraser" | "blur";
 
 interface DrawAnnotation {
   id: string; type: "draw"; page: number;
@@ -22,26 +22,24 @@ interface HighlightAnnotation {
 }
 interface TextAnnotation {
   id: string; type: "text"; page: number;
-  data: { x: number; y: number; text: string; color: string; fontSize: number };
+  data: { x: number; y: number; w?: number; h?: number; text: string; color: string; fontSize: number };
 }
-type AnyAnnotation = DrawAnnotation | HighlightAnnotation | TextAnnotation;
-
-// Floating draggable text box state
-interface FloatingText {
-  // fixed viewport position (for rendering the box)
-  fixedX: number; fixedY: number;
-  // canvas pixel coords (for storing the annotation)
-  canvasX: number; canvasY: number;
-  text: string; color: string; fontSize: number;
+interface BlurAnnotation {
+  id: string; type: "blur"; page: number;
+  data: { x: number; y: number; w: number; h: number; amount: number };
 }
+type AnyAnnotation = DrawAnnotation | HighlightAnnotation | TextAnnotation | BlurAnnotation;
 
-const COLORS = ["#FBBF24", "#34D399", "#60A5FA", "#F87171", "#A78BFA", "#000000"];
+// No longer using FloatingText interface
+
+const COLORS = ["#EF4444", "#22C55E", "#3B82F6", "#000000"];
 const TOOL_META: Record<Tool, { label: string; icon: React.ElementType }> = {
   select:    { label: "Select",    icon: MousePointer },
   highlight: { label: "Highlight", icon: Highlighter  },
   text:      { label: "Text",      icon: Type         },
   draw:      { label: "Draw",      icon: Pen          },
   eraser:    { label: "Eraser",    icon: Eraser       },
+  blur:      { label: "Blur",      icon: EyeOff       },
 };
 
 const FEATURES = [
@@ -60,46 +58,50 @@ export default function PdfEditor() {
   const [tool, setTool] = useState<Tool>("select");
   const [color, setColor] = useState(COLORS[0]);
   const [annotations, setAnnotations] = useState<AnyAnnotation[]>([]);
-  const [floatingText, setFloatingText] = useState<FloatingText | null>(null);
-  const [boxDragging, setBoxDragging] = useState(false);
-  const boxDragOffset = useRef({ dx: 0, dy: 0 });
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const [dragHandle, setDragHandle] = useState<string | null>(null);
+  const dragStart = useRef({ x: 0, y: 0, annotation: null as TextAnnotation | null });
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
   const commitText = useCallback(() => {
-    if (!floatingText) return;
-    const safe = floatingText.text.trim();
-    if (safe) {
-      setAnnotations(prev => [...prev, {
-        id: crypto.randomUUID(), type: "text", page,
-        data: { x: floatingText.canvasX, y: floatingText.canvasY, text: safe, color: floatingText.color, fontSize: floatingText.fontSize }
-      } as TextAnnotation]);
-    }
-    setFloatingText(null);
-  }, [floatingText, page]);
+    setEditingId(null);
+  }, []);
 
   const handleCanvasClick = (e: React.MouseEvent<HTMLCanvasElement>) => {
-    if (tool !== "text") return;
-    if (floatingText) commitText();
-    const overlay = overlayRef.current!;
-    const rect = overlay.getBoundingClientRect();
-    const sx = overlay.width / rect.width;
-    const sy = overlay.height / rect.height;
-    setFloatingText({
-      fixedX: e.clientX,
-      fixedY: e.clientY,
-      canvasX: (e.clientX - rect.left) * sx,
-      canvasY: (e.clientY - rect.top) * sy,
-      text: "",
-      color,
-      fontSize,
+    if (tool !== "text") {
+      if (editingId) commitText();
+      return;
+    }
+    const pos = getPos(e);
+    
+    // Check if we clicked an existing text annotation
+    const hit = [...annotations].reverse().find(a => {
+      if (a.page !== page || a.type !== "text") return false;
+      const t = a as TextAnnotation;
+      const w = t.data.w || 200;
+      const h = t.data.h || 40;
+      return pos.canvasX >= t.data.x && pos.canvasX <= t.data.x + w &&
+             pos.canvasY >= t.data.y && pos.canvasY <= t.data.y + h;
     });
-    setTimeout(() => textAreaRef.current?.focus(), 30);
+
+    if (hit) {
+      setEditingId(hit.id);
+    } else {
+      const newId = crypto.randomUUID();
+      setAnnotations(prev => [...prev, {
+        id: newId, type: "text", page,
+        data: { x: pos.canvasX, y: pos.canvasY, w: 200, h: 60, text: "", color, fontSize }
+      } as TextAnnotation]);
+      setEditingId(newId);
+    }
+    setTimeout(() => textAreaRef.current?.focus(), 50);
   };
 
   const [dragging, setDragging] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [penSize, setPenSize] = useState(3);
   const [fontSize, setFontSize] = useState(18);
+  const [blurAmount, setBlurAmount] = useState(10);
   const [pageThumbnails, setPageThumbnails] = useState<string[]>([]);
   const canvasWrapRef = useRef<HTMLDivElement>(null);
   const [downloading, setDownloading] = useState(false);
@@ -119,16 +121,13 @@ export default function PdfEditor() {
   const drawingRef   = useRef<{ points: { x: number; y: number }[] } | null>(null);
   const highlightRef = useRef<{ x: number; y: number } | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  
   const drawAnnotations = useCallback(() => {
     const overlay = overlayRef.current;
-    const base = canvasRef.current;
-    if (!overlay || !base) return;
-    if (overlay.width !== base.width || overlay.height !== base.height) {
-      overlay.width = base.width;
-      overlay.height = base.height;
-    }
+    if (!overlay) return;
     const ctx = overlay.getContext("2d")!;
     ctx.clearRect(0, 0, overlay.width, overlay.height);
+    
     annotations.filter(a => a.page === page).forEach(ann => {
       if (ann.type === "highlight") {
         const h = ann as HighlightAnnotation;
@@ -148,14 +147,35 @@ export default function PdfEditor() {
         ctx.stroke();
       } else if (ann.type === "text") {
         const t = ann as TextAnnotation;
+        if (t.id === editingId) return; // Skip if being edited
         ctx.font = `bold ${t.data.fontSize}px Inter, sans-serif`;
         ctx.fillStyle = t.data.color;
-        // Adjust y for text baseline (fillText uses baseline, not top)
-        const textY = t.data.y + t.data.fontSize * 0.85;
-        ctx.fillText(t.data.text, t.data.x, textY);
+        // Handle multiline text in canvas
+        const lines = t.data.text.split("\n");
+        lines.forEach((line, i) => {
+          ctx.fillText(line, t.data.x, t.data.y + (t.data.fontSize * 0.85) + (i * t.data.fontSize * 1.2));
+        });
+      } else if (ann.type === "blur") {
+        const b = ann as BlurAnnotation;
+        ctx.save();
+        ctx.beginPath();
+        ctx.rect(b.data.x, b.data.y, b.data.w, b.data.h);
+        ctx.clip();
+        ctx.filter = `blur(${b.data.amount}px)`;
+        // Draw the PDF canvas onto the overlay canvas with blur
+        if (canvasRef.current) ctx.drawImage(canvasRef.current, 0, 0);
+        ctx.restore();
+
+        // Add a dashed border for visibility
+        ctx.save();
+        ctx.strokeStyle = "rgba(99, 102, 241, 0.5)"; // Indigo-500 with alpha
+        ctx.lineWidth = 1;
+        ctx.setLineDash([4, 4]);
+        ctx.strokeRect(b.data.x, b.data.y, b.data.w, b.data.h);
+        ctx.restore();
       }
     });
-  }, [annotations, page]);
+  }, [annotations, page, editingId]);
 
   const generateThumbnails = useCallback(async (doc: pdfjsLib.PDFDocumentProxy) => {
     const thumbs: string[] = [];
@@ -179,20 +199,44 @@ export default function PdfEditor() {
   useEffect(() => {
     if (!pdfDoc || !canvasRef.current) return;
     let cancelled = false;
-    (async () => {
-      const pg = await pdfDoc.getPage(page);
-      const viewport = pg.getViewport({ scale });
-      const canvas = canvasRef.current!;
-      canvas.width = viewport.width;
-      canvas.height = viewport.height;
-      await pg.render({ canvas: canvas, viewport }).promise;
-      if (!cancelled) {
-        const overlay = overlayRef.current;
-        if (overlay) { overlay.width = canvas.width; overlay.height = canvas.height; }
-        drawAnnotations();
+    let renderTask: any = null;
+
+    const renderPage = async () => {
+      try {
+        const pg = await pdfDoc.getPage(page);
+        if (cancelled) return;
+
+        const viewport = pg.getViewport({ scale });
+        const canvas = canvasRef.current!;
+        canvas.width = viewport.width;
+        canvas.height = viewport.height;
+
+        renderTask = pg.render({ canvas, viewport });
+        await renderTask.promise;
+
+        if (!cancelled) {
+          const overlay = overlayRef.current;
+          if (overlay) {
+            overlay.width = canvas.width;
+            overlay.height = canvas.height;
+          }
+          drawAnnotations();
+        }
+      } catch (e: any) {
+        if (e.name !== "RenderingCancelledException" && !cancelled) {
+          console.error("Render error:", e);
+        }
       }
-    })();
-    return () => { cancelled = true; };
+    };
+
+    renderPage();
+
+    return () => {
+      cancelled = true;
+      if (renderTask) {
+        renderTask.cancel();
+      }
+    };
   }, [pdfDoc, page, scale, drawAnnotations]);
 
   useEffect(() => { drawAnnotations(); }, [drawAnnotations]);
@@ -214,7 +258,7 @@ export default function PdfEditor() {
     if (tool === "select" || tool === "text") return; // text handled by onClick
     const pos = getPos(e);
     if (tool === "draw") drawingRef.current = { points: [{ x: pos.canvasX, y: pos.canvasY }] };
-    if (tool === "highlight") highlightRef.current = { x: pos.canvasX, y: pos.canvasY };
+    if (tool === "highlight" || tool === "blur") highlightRef.current = { x: pos.canvasX, y: pos.canvasY };
     if (tool === "eraser") {
       const hit = [...annotations].reverse().find(a => {
         if (a.page !== page) return false;
@@ -228,15 +272,39 @@ export default function PdfEditor() {
         }
         if (a.type === "text") {
           const t = a as TextAnnotation;
-          return Math.abs(pos.canvasX - t.data.x) < 80 && Math.abs(pos.canvasY - t.data.y) < 20;
+          const w = t.data.w || 200;
+          const h = t.data.h || 40;
+          return pos.canvasX >= t.data.x && pos.canvasX <= t.data.x + w &&
+                 pos.canvasY >= t.data.y && pos.canvasY <= t.data.y + h;
         }
         if (a.type === "draw") {
           const d = a as DrawAnnotation;
           return d.data.points.some(p => Math.hypot(p.x - pos.canvasX, p.y - pos.canvasY) < 12);
         }
+        if (a.type === "blur") {
+          const b = a as BlurAnnotation;
+          const bx = Math.min(b.data.x, b.data.x + b.data.w);
+          const bx1 = Math.max(b.data.x, b.data.x + b.data.w);
+          const by = Math.min(b.data.y, b.data.y + b.data.h);
+          const by1 = Math.max(b.data.y, b.data.y + b.data.h);
+          return pos.canvasX >= bx && pos.canvasX <= bx1 && pos.canvasY >= by && pos.canvasY <= by1;
+        }
         return false;
       });
       if (hit) setAnnotations(prev => prev.filter(a => a.id !== hit.id));
+    }
+    
+    if (tool === "select") {
+      const hit = [...annotations].reverse().find(a => {
+        if (a.page !== page || a.type !== "text") return false;
+        const t = a as TextAnnotation;
+        const w = t.data.w || 200;
+        const h = t.data.h || 40;
+        return pos.canvasX >= t.data.x && pos.canvasX <= t.data.x + w &&
+               pos.canvasY >= t.data.y && pos.canvasY <= t.data.y + h;
+      });
+      if (hit) setEditingId(hit.id);
+      else setEditingId(null);
     }
   };
 
@@ -265,6 +333,19 @@ export default function PdfEditor() {
       ctx.fillRect(start.x, start.y, pos.canvasX - start.x, pos.canvasY - start.y);
       ctx.globalAlpha = 1;
     }
+    if (tool === "blur" && highlightRef.current) {
+      const pos = getPos(e);
+      const start = highlightRef.current;
+      drawAnnotations();
+      const ctx = overlayRef.current!.getContext("2d")!;
+      ctx.save();
+      ctx.beginPath();
+      ctx.rect(start.x, start.y, pos.canvasX - start.x, pos.canvasY - start.y);
+      ctx.clip();
+      ctx.filter = `blur(${blurAmount}px)`;
+      if (canvasRef.current) ctx.drawImage(canvasRef.current, 0, 0);
+      ctx.restore();
+    }
   };
 
   const finishStroke = useCallback((e: React.MouseEvent<HTMLCanvasElement> | MouseEvent) => {
@@ -282,15 +363,18 @@ export default function PdfEditor() {
         setAnnotations(prev => [...prev, { id: crypto.randomUUID(), type: "highlight", page, data: { x: start.x, y: start.y, w, h, color } } as HighlightAnnotation]);
       highlightRef.current = null;
     }
-  }, [tool, page, color, getPos, penSize]);
+    if (tool === "blur" && highlightRef.current) {
+      const start = highlightRef.current;
+      const w = pos.canvasX - start.x, h = pos.canvasY - start.y;
+      if (Math.abs(w) > 5 && Math.abs(h) > 5)
+        setAnnotations(prev => [...prev, { id: crypto.randomUUID(), type: "blur", page, data: { x: start.x, y: start.y, w, h, amount: blurAmount } } as BlurAnnotation]);
+      highlightRef.current = null;
+    }
+  }, [tool, page, color, getPos, penSize, blurAmount]);
 
-  useEffect(() => {
-    const handler = (e: MouseEvent) => {
-      if (drawingRef.current || highlightRef.current) finishStroke(e);
-    };
-    window.addEventListener("mouseup", handler);
-    return () => window.removeEventListener("mouseup", handler);
-  }, [finishStroke]);
+  const updateAnnotation = useCallback((id: string, data: Partial<TextAnnotation["data"]>) => {
+    setAnnotations(prev => prev.map(a => a.id === id ? { ...a, data: { ...a.data, ...data } } : a));
+  }, []);
 
   const undo = useCallback(() => {
     const pageAnns = annotations.filter(a => a.page === page);
@@ -300,7 +384,67 @@ export default function PdfEditor() {
 
   const clearPage = useCallback(() => {
     setAnnotations(prev => prev.filter(a => a.page !== page));
+    setEditingId(null);
   }, [page]);
+
+  useEffect(() => {
+    const onMove = (e: MouseEvent) => {
+      if (drawingRef.current || highlightRef.current) {
+        // Handle drawing/highlighting (already handled by React events but window helps for consistency)
+        return;
+      }
+
+      if (dragHandle && dragStart.current.annotation) {
+        const ann = dragStart.current.annotation;
+        const overlay = overlayRef.current;
+        if (!overlay) return;
+        const rect = overlay.getBoundingClientRect();
+        const scaleX = overlay.width / rect.width;
+        const scaleY = overlay.height / rect.height;
+
+        const dx = (e.clientX - dragStart.current.x) * scaleX;
+        const dy = (e.clientY - dragStart.current.y) * scaleY;
+
+        setAnnotations(prev => prev.map(a => {
+          if (a.id !== ann.id) return a;
+          const t = a as TextAnnotation;
+          let { x, y, w, h } = t.data;
+          w = w || 200; h = h || 60;
+
+          if (dragHandle === "move") {
+            x += dx; y += dy;
+          } else {
+            if (dragHandle.includes("l")) { x += dx; w -= dx; }
+            if (dragHandle.includes("r")) { w += dx; }
+            if (dragHandle.includes("t")) { y += dy; h -= dy; }
+            if (dragHandle.includes("b")) { h += dy; }
+          }
+          return { ...t, data: { ...t.data, x, y, w: Math.max(20, w), h: Math.max(20, h) } };
+        }));
+
+        dragStart.current.x = e.clientX;
+        dragStart.current.y = e.clientY;
+      }
+    };
+
+    const onUp = (e: MouseEvent) => {
+      if (dragHandle) {
+        setDragHandle(null);
+      }
+      if (drawingRef.current || highlightRef.current) {
+        finishStroke(e);
+      }
+    };
+
+    window.addEventListener("mousemove", onMove);
+    window.addEventListener("mouseup", onUp);
+    return () => {
+      window.removeEventListener("mousemove", onMove);
+      window.removeEventListener("mouseup", onUp);
+    };
+  }, [dragHandle, updateAnnotation, finishStroke]);
+
+
 
   const loadFile = async (file: File) => {
     if (!file.name.endsWith(".pdf")) return;
@@ -308,7 +452,7 @@ export default function PdfEditor() {
     const buf = await file.arrayBuffer();
     originalFileRef.current = buf.slice(0);
     const doc = await pdfjsLib.getDocument({ data: buf }).promise;
-    setPdfDoc(doc); setTotalPages(doc.numPages); setPage(1); setAnnotations([]); setFloatingText(null);
+    setPdfDoc(doc); setTotalPages(doc.numPages); setPage(1); setAnnotations([]); setEditingId(null);
     await generateThumbnails(doc);
   };
 
@@ -326,11 +470,34 @@ export default function PdfEditor() {
     base.width = viewport.width; base.height = viewport.height;
     await pg.render({ canvas: base, viewport }).promise;
 
+    // Keep a clean copy for blur sampling
+    const clean = document.createElement("canvas");
+    clean.width = base.width; clean.height = base.height;
+    clean.getContext("2d")!.drawImage(base, 0, 0);
+    const baseCtx = base.getContext("2d")!;
+
     const overlay = document.createElement("canvas");
     overlay.width = viewport.width; overlay.height = viewport.height;
     const ctx = overlay.getContext("2d")!;
+
     annotations.filter(a => a.page === pageNum).forEach(ann => {
-      if (ann.type === "highlight") {
+      if (ann.type === "blur") {
+        const b = ann as BlurAnnotation;
+        const bx = Math.min(b.data.x, b.data.x + b.data.w);
+        const by = Math.min(b.data.y, b.data.y + b.data.h);
+        const bw = Math.abs(b.data.w);
+        const bh = Math.abs(b.data.h);
+        if (bw > 1 && bh > 1) {
+          const pad = b.data.amount * 2;
+          const tmp = document.createElement("canvas");
+          tmp.width = bw + pad; tmp.height = bh + pad;
+          const tctx = tmp.getContext("2d")!;
+          tctx.filter = `blur(${b.data.amount}px)`;
+          tctx.drawImage(clean, bx, by, bw, bh, b.data.amount, b.data.amount, bw, bh);
+          tctx.filter = "none";
+          baseCtx.drawImage(tmp, b.data.amount, b.data.amount, bw, bh, bx, by, bw, bh);
+        }
+      } else if (ann.type === "highlight") {
         const h = ann as HighlightAnnotation;
         ctx.globalAlpha = 0.35; ctx.fillStyle = h.data.color;
         ctx.fillRect(h.data.x, h.data.y, h.data.w, h.data.h);
@@ -390,7 +557,15 @@ export default function PdfEditor() {
         overlayCanvas.width = viewport.width; overlayCanvas.height = viewport.height;
         const ctx = overlayCanvas.getContext("2d")!;
 
-        pageAnns.forEach(ann => {
+        // render a clean base canvas once for blur use
+        let baseForBlur: HTMLCanvasElement | null = null;
+        if (pageAnns.some(a => a.type === "blur")) {
+          baseForBlur = document.createElement("canvas");
+          baseForBlur.width = viewport.width; baseForBlur.height = viewport.height;
+          await pg.render({ canvas: baseForBlur, viewport }).promise;
+        }
+
+        for (const ann of pageAnns) {
           if (ann.type === "highlight") {
             const h = ann as HighlightAnnotation;
             ctx.globalAlpha = 0.35; ctx.fillStyle = h.data.color;
@@ -398,7 +573,7 @@ export default function PdfEditor() {
             ctx.globalAlpha = 1;
           } else if (ann.type === "draw") {
             const d = ann as DrawAnnotation;
-            if (d.data.points.length < 2) return;
+            if (d.data.points.length < 2) continue;
             ctx.strokeStyle = d.data.color; ctx.lineWidth = d.data.width;
             ctx.lineCap = "round"; ctx.lineJoin = "round";
             ctx.beginPath();
@@ -410,8 +585,22 @@ export default function PdfEditor() {
             ctx.font = `bold ${t.data.fontSize}px Inter, sans-serif`;
             ctx.fillStyle = t.data.color;
             ctx.fillText(t.data.text, t.data.x, t.data.y + t.data.fontSize * 0.85);
+          } else if (ann.type === "blur" && baseForBlur) {
+            const b = ann as BlurAnnotation;
+            const bx = Math.min(b.data.x, b.data.x + b.data.w);
+            const by = Math.min(b.data.y, b.data.y + b.data.h);
+            const bw = Math.abs(b.data.w);
+            const bh = Math.abs(b.data.h);
+            if (bw > 1 && bh > 1) {
+              const tmp = document.createElement("canvas");
+              tmp.width = bw; tmp.height = bh;
+              const tctx = tmp.getContext("2d")!;
+              tctx.filter = `blur(${b.data.amount}px)`;
+              tctx.drawImage(baseForBlur, bx, by, bw, bh, 0, 0, bw, bh);
+              ctx.drawImage(tmp, 0, 0, bw, bh, bx, by, bw, bh);
+            }
           }
-        });
+        }
 
         const pngDataUrl = overlayCanvas.toDataURL("image/png");
         const pngBytes = await fetch(pngDataUrl).then(r => r.arrayBuffer());
@@ -447,7 +636,7 @@ export default function PdfEditor() {
   };
 
   const cursorMap: Record<Tool, string> = {
-    select: "default", highlight: "crosshair", text: "text", draw: "crosshair", eraser: "cell",
+    select: "default", highlight: "crosshair", text: "text", draw: "crosshair", eraser: "cell", blur: "crosshair",
   };
 
   if (!pdfDoc) {
@@ -652,101 +841,139 @@ export default function PdfEditor() {
         </div>
       </div>
 
-      {/* ── Floating draggable text box ── */}
-      {floatingText && (
-        <div
-          className="fixed z-[60] select-none"
-          style={{
-            left: floatingText.fixedX,
-            top: floatingText.fixedY,
-            width: 260,
-            boxShadow: "0 8px 32px rgba(0,0,0,0.22)",
-            borderRadius: 12,
-            overflow: "hidden",
-            background: "white",
-          }}
-        >
-          {/* drag handle — only this bar triggers drag */}
+      {/* ── Inline Text Editor ── */}
+      {editingId && (() => {
+        const ann = annotations.find(a => a.id === editingId) as TextAnnotation;
+        if (!ann) return null;
+
+        const overlay = overlayRef.current;
+        if (!overlay) return null;
+        const rect = overlay.getBoundingClientRect();
+        const scaleX = rect.width / overlay.width;
+        const scaleY = rect.height / overlay.height;
+
+        const left = ann.data.x * scaleX;
+        const top = ann.data.y * scaleY;
+        const width = (ann.data.w || 200) * scaleX;
+        const height = (ann.data.h || 60) * scaleY;
+
+        const handleSize = 10;
+        const handles = [
+          "nw", "n", "ne",
+          "w",       "e",
+          "sw", "s", "se"
+        ];
+
+        return (
           <div
-            className="flex items-center gap-2 px-3 py-2 bg-blue-600 cursor-grab active:cursor-grabbing"
+            className="absolute z-[60]"
+            style={{
+              left: `calc(${rect.left}px + ${left}px)`,
+              top: `calc(${rect.top}px + ${top}px)`,
+              width,
+              height,
+              border: "2px solid #3b82f6",
+              backgroundColor: "rgba(59, 130, 246, 0.05)",
+              padding: 10, // Padding on the outer box makes it draggable
+              boxSizing: "border-box",
+            }}
             onMouseDown={e => {
-              e.preventDefault();
-              e.stopPropagation();
-              // record offset from box top-left to mouse
-              boxDragOffset.current = {
-                dx: e.clientX - floatingText.fixedX,
-                dy: e.clientY - floatingText.fixedY,
-              };
-              setBoxDragging(true);
+              // If clicking the selection box itself (the background/padding), start moving
+              if (e.target === e.currentTarget) {
+                e.preventDefault();
+                setDragHandle("move");
+                dragStart.current = { x: e.clientX, y: e.clientY, annotation: ann };
+              }
             }}
           >
-            <Move size={13} className="text-white shrink-0" />
-            <span className="text-white text-xs font-bold flex-1 leading-none">Drag to move</span>
-            <button
-              className="text-white/70 hover:text-white text-base leading-none w-5 h-5 flex items-center justify-center"
-              onMouseDown={e => e.stopPropagation()}
-              onClick={e => { e.stopPropagation(); setFloatingText(null); }}
-            >✕</button>
+            <textarea
+              ref={textAreaRef}
+              value={ann.data.text}
+              onChange={e => updateAnnotation(ann.id, { text: e.target.value })}
+              onKeyDown={e => {
+                if (e.key === "Escape") commitText();
+              }}
+              className="w-full h-full bg-transparent outline-none resize-none border-none overflow-hidden font-bold"
+              style={{
+                color: ann.data.color,
+                fontSize: ann.data.fontSize * scaleX,
+                lineHeight: 1.2,
+                padding: 0, // Removed padding from here
+              }}
+              autoFocus
+              placeholder="Type here..."
+            />
+
+            {/* Resize Handles */}
+            {handles.map(h => {
+              let style: React.CSSProperties = {
+                position: "absolute",
+                width: handleSize,
+                height: handleSize,
+                backgroundColor: "#3b82f6",
+                border: "1px solid white",
+                borderRadius: 2,
+                cursor: `${h}-resize`,
+              };
+
+              if (h.includes("n")) style.top = -handleSize/2;
+              if (h.includes("s")) style.bottom = -handleSize/2;
+              if (h.includes("w")) style.left = -handleSize/2;
+              if (h.includes("e")) style.right = -handleSize/2;
+              if (h === "n" || h === "s") style.left = "50%", style.transform = "translateX(-50%)";
+              if (h === "w" || h === "e") style.top = "50%", style.transform = "translateY(-50%)";
+
+              return (
+                <div
+                  key={h}
+                  style={style}
+                  onMouseDown={e => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    setDragHandle(h);
+                    dragStart.current = { x: e.clientX, y: e.clientY, annotation: ann };
+                  }}
+                />
+              );
+            })}
           </div>
+        );
+      })()}
 
-          {/* textarea — pointer-events always on, never blocked */}
-          <textarea
-            ref={textAreaRef}
-            value={floatingText.text}
-            onChange={e => setFloatingText(prev => prev ? { ...prev, text: e.target.value } : null)}
-            onKeyDown={e => {
-              if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); commitText(); }
-              if (e.key === "Escape") setFloatingText(null);
-            }}
-            className="block w-full outline-none resize-none border-x-2 border-blue-600 bg-white font-semibold"
-            style={{
-              color: floatingText.color,
-              height: 90,
-              padding: "10px 12px",
-              fontSize: `${floatingText.fontSize}px`,
-              lineHeight: 1.5,
-              fontFamily: "inherit",
-              display: "block",
-            }}
-            placeholder="Type here…"
-            autoFocus
-          />
-
-          {/* action row */}
-          <div className="flex border-t-2 border-blue-600">
-            <button
-              onClick={commitText}
-              className="flex-1 py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition-colors"
-            >✓ Add Text</button>
-            <button
-              onClick={() => setFloatingText(null)}
-              className="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-600 text-xs font-bold border-l border-blue-600 transition-colors"
-            >Cancel</button>
-          </div>
-        </div>
-      )}
-
-      {/* drag capture — z higher than box so it captures mousemove everywhere */}
-      {boxDragging && (
+      {/* Global Drag Handler */}
+      {dragHandle && (
         <div
-          className="fixed inset-0 z-[70] cursor-grabbing"
+          className="fixed inset-0 z-[70] cursor-move"
           onMouseMove={e => {
-            // box top-left = mouse minus the initial grab offset
-            const newFixedX = e.clientX - boxDragOffset.current.dx;
-            const newFixedY = e.clientY - boxDragOffset.current.dy;
-            // map box top-left to canvas coords
+            if (!dragHandle || !dragStart.current.annotation) return;
+            const ann = dragStart.current.annotation;
             const overlay = overlayRef.current;
             if (!overlay) return;
             const rect = overlay.getBoundingClientRect();
-            const sx = overlay.width  / rect.width;
-            const sy = overlay.height / rect.height;
-            const canvasX = (newFixedX - rect.left) * sx;
-            const canvasY = (newFixedY - rect.top)  * sy;
-            setFloatingText(prev => prev
-              ? { ...prev, fixedX: newFixedX, fixedY: newFixedY, canvasX, canvasY }
-              : null);
+            const scaleX = overlay.width / rect.width;
+            const scaleY = overlay.height / rect.height;
+
+            const dx = (e.clientX - dragStart.current.x) * scaleX;
+            const dy = (e.clientY - dragStart.current.y) * scaleY;
+
+            let { x, y, w, h } = ann.data;
+            w = w || 200; h = h || 60;
+
+            if (dragHandle === "move") {
+              x += dx; y += dy;
+            } else {
+              if (dragHandle.includes("e")) w += dx;
+              if (dragHandle.includes("w")) { x += dx; w -= dx; }
+              if (dragHandle.includes("s")) h += dy;
+              if (dragHandle.includes("n")) { y += dy; h -= dy; }
+            }
+
+            updateAnnotation(ann.id, { x, y, w: Math.max(20, w), h: Math.max(20, h) });
+            // Important: we don't update dragStart.current.x/y here to keep smooth dragging from origin
+            // Actually, for better performance we might want to but it depends on how updateAnnotation is handled.
+            // If we use dx/dy from start, it's more stable.
           }}
-          onMouseUp={() => setBoxDragging(false)}
+          onMouseUp={() => setDragHandle(null)}
         />
       )}
 
@@ -767,7 +994,10 @@ export default function PdfEditor() {
             <>
               <div className="flex items-center gap-1 px-2 border-r border-slate-200 dark:border-slate-700">
                 {COLORS.map(c => (
-                  <button key={c} onClick={() => setColor(c)}
+                  <button key={c} onClick={() => {
+                    setColor(c);
+                    if (editingId) updateAnnotation(editingId, { color: c });
+                  }}
                     className={`w-7 h-7 rounded-full border-2 transition-all ${color === c ? "scale-125 border-slate-400" : "border-transparent hover:scale-110"}`}
                     style={{ backgroundColor: c }} />
                 ))}
@@ -791,10 +1021,19 @@ export default function PdfEditor() {
                 onChange={e => {
                   const v = Number(e.target.value);
                   setFontSize(v);
-                  setFloatingText(prev => prev ? { ...prev, fontSize: v } : null);
+                  if (editingId) updateAnnotation(editingId, { fontSize: v });
                 }}
                 className="w-20 accent-blue-500" />
               <span className="text-xs font-bold text-slate-600 dark:text-slate-300 w-6 text-center">{fontSize}</span>
+            </div>
+          )}
+          {tool === "blur" && (
+            <div className="flex items-center gap-2 px-2 border-r border-slate-200 dark:border-slate-700">
+              <span className="text-xs font-bold text-slate-400">Blur</span>
+              <input type="range" min="1" max="50" value={blurAmount}
+                onChange={e => setBlurAmount(Number(e.target.value))}
+                className="w-20 accent-blue-500" />
+              <span className="text-xs font-bold text-slate-600 dark:text-slate-300 w-6 text-center">{blurAmount}</span>
             </div>
           )}
           {tool === "eraser" && (
@@ -803,6 +1042,7 @@ export default function PdfEditor() {
               <span className="text-xs font-bold text-slate-600 dark:text-slate-300">12px</span>
             </div>
           )}
+
         </div>
       </div>
     </div>

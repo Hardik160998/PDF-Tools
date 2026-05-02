@@ -186,7 +186,27 @@ html.dark .mob-search-btn:hover { background: #334155 !important; color: #f87171
 /* ── GLASS DROPDOWN ── */
 html.dark .glass-dropdown { background: rgba(15,23,42,0.97) !important; border-color: rgba(51,65,85,0.8) !important; }
 
-/* ── ABOUT PAGE — TIMELINE ── */
+/* ── WHY CHOOSE SECTION — COLORED CARDS DARK MODE ── */
+html.dark .why-card-blue   { background: linear-gradient(135deg, rgba(30,58,138,0.25) 0%, rgba(30,58,138,0.15) 100%) !important; }
+html.dark .why-card-yellow { background: linear-gradient(135deg, rgba(113,63,18,0.25) 0%, rgba(113,63,18,0.15) 100%) !important; }
+html.dark .why-card-green  { background: linear-gradient(135deg, rgba(20,83,45,0.25) 0%, rgba(20,83,45,0.15) 100%) !important; }
+html.dark .why-card-indigo { background: linear-gradient(135deg, rgba(49,46,129,0.25) 0%, rgba(49,46,129,0.15) 100%) !important; }
+html.dark .why-card-purple { background: linear-gradient(135deg, rgba(88,28,135,0.25) 0%, rgba(88,28,135,0.15) 100%) !important; }
+html.dark .why-card-red    { background: linear-gradient(135deg, rgba(127,29,29,0.25) 0%, rgba(127,29,29,0.15) 100%) !important; }
+html.dark .why-card-blue h3,
+html.dark .why-card-yellow h3,
+html.dark .why-card-green h3,
+html.dark .why-card-indigo h3,
+html.dark .why-card-purple h3,
+html.dark .why-card-red h3  { color: #f1f5f9 !important; }
+html.dark .why-card-blue p,
+html.dark .why-card-yellow p,
+html.dark .why-card-green p,
+html.dark .why-card-indigo p,
+html.dark .why-card-purple p,
+html.dark .why-card-red p   { color: #94a3b8 !important; }
+
+
 html.dark .w-0\.5.bg-slate-200 { background-color: #334155 !important; }
 
 /* ── FAQ PAGE — SIDEBAR ── */
