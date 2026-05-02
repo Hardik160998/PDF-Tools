@@ -373,7 +373,7 @@ export default function PdfEditor() {
   }, [tool, page, color, getPos, penSize, blurAmount]);
 
   const updateAnnotation = useCallback((id: string, data: Partial<TextAnnotation["data"]>) => {
-    setAnnotations(prev => prev.map(a => a.id === id ? { ...a, data: { ...a.data, ...data } } : a));
+    setAnnotations(prev => prev.map(a => a.id === id ? { ...a, data: { ...a.data, ...data } } as AnyAnnotation : a));
   }, []);
 
   const undo = useCallback(() => {
