@@ -202,21 +202,26 @@ export default function PdfEditor() {
         });
       } else if (ann.type === "blur") {
         const b = ann as BlurAnnotation;
+        const bx = Math.min(b.data.x, b.data.x + b.data.w);
+        const by = Math.min(b.data.y, b.data.y + b.data.h);
+        const bw = Math.abs(b.data.w);
+        const bh = Math.abs(b.data.h);
+        if (bw > 1 && bh > 1 && canvasRef.current) {
+          const amount = b.data.amount;
+          const pad = amount * 2;
+          const tmp = document.createElement("canvas");
+          tmp.width = bw + pad; tmp.height = bh + pad;
+          const tctx = tmp.getContext("2d")!;
+          tctx.filter = `blur(${amount}px)`;
+          tctx.drawImage(canvasRef.current, bx, by, bw, bh, amount, amount, bw, bh);
+          tctx.filter = "none";
+          ctx.drawImage(tmp, amount, amount, bw, bh, bx, by, bw, bh);
+        }
         ctx.save();
-        ctx.beginPath();
-        ctx.rect(b.data.x, b.data.y, b.data.w, b.data.h);
-        ctx.clip();
-        ctx.filter = `blur(${b.data.amount}px)`;
-        // Draw the PDF canvas onto the overlay canvas with blur
-        if (canvasRef.current) ctx.drawImage(canvasRef.current, 0, 0);
-        ctx.restore();
-
-        // Add a dashed border for visibility
-        ctx.save();
-        ctx.strokeStyle = "rgba(99, 102, 241, 0.5)"; // Indigo-500 with alpha
+        ctx.strokeStyle = "rgba(99, 102, 241, 0.5)";
         ctx.lineWidth = 1;
         ctx.setLineDash([4, 4]);
-        ctx.strokeRect(b.data.x, b.data.y, b.data.w, b.data.h);
+        ctx.strokeRect(bx, by, bw, bh);
         ctx.restore();
       }
     });
@@ -362,8 +367,6 @@ export default function PdfEditor() {
       drawAnnotations();
       if (bw > 1 && bh > 1 && canvasRef.current) {
         const amount = blurAmountRef.current;
-        const ctx = overlay.getContext("2d")!;
-        // offscreen blur — works reliably on all mobile browsers
         const pad = amount * 2;
         const tmp = document.createElement("canvas");
         tmp.width = bw + pad; tmp.height = bh + pad;
@@ -371,8 +374,8 @@ export default function PdfEditor() {
         tctx.filter = `blur(${amount}px)`;
         tctx.drawImage(canvasRef.current, bx, by, bw, bh, amount, amount, bw, bh);
         tctx.filter = "none";
+        const ctx = overlay.getContext("2d")!;
         ctx.drawImage(tmp, amount, amount, bw, bh, bx, by, bw, bh);
-        // dashed border preview
         ctx.save();
         ctx.strokeStyle = "rgba(99,102,241,0.7)";
         ctx.lineWidth = 2;
