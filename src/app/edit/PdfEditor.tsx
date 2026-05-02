@@ -34,19 +34,19 @@ type AnyAnnotation = DrawAnnotation | HighlightAnnotation | TextAnnotation | Blu
 
 const COLORS = ["#EF4444", "#22C55E", "#3B82F6", "#000000"];
 const TOOL_META: Record<Tool, { label: string; icon: React.ElementType }> = {
-  select:    { label: "Select",    icon: MousePointer },
-  highlight: { label: "Highlight", icon: Highlighter  },
-  text:      { label: "Text",      icon: Type         },
-  draw:      { label: "Draw",      icon: Pen          },
-  eraser:    { label: "Eraser",    icon: Eraser       },
-  blur:      { label: "Blur",      icon: EyeOff       },
+  select: { label: "Select", icon: MousePointer },
+  highlight: { label: "Highlight", icon: Highlighter },
+  text: { label: "Text", icon: Type },
+  draw: { label: "Draw", icon: Pen },
+  eraser: { label: "Eraser", icon: Eraser },
+  blur: { label: "Blur", icon: EyeOff },
 };
 
 const FEATURES = [
   { icon: Highlighter, label: "Highlight", desc: "Mark key passages instantly", color: "#f59e0b", bg: "rgba(251,191,36,0.1)" },
-  { icon: Type,        label: "Add Text",  desc: "Insert notes anywhere",        color: "#3b82f6", bg: "rgba(59,130,246,0.1)" },
-  { icon: Pen,         label: "Draw",      desc: "Freehand pen annotations",     color: "#8b5cf6", bg: "rgba(139,92,246,0.1)" },
-  { icon: Eraser,      label: "Erase",     desc: "Remove marks cleanly",         color: "#ef4444", bg: "rgba(239,68,68,0.1)"  },
+  { icon: Type, label: "Add Text", desc: "Insert notes anywhere", color: "#3b82f6", bg: "rgba(59,130,246,0.1)" },
+  { icon: Pen, label: "Draw", desc: "Freehand pen annotations", color: "#8b5cf6", bg: "rgba(139,92,246,0.1)" },
+  { icon: Eraser, label: "Erase", desc: "Remove marks cleanly", color: "#ef4444", bg: "rgba(239,68,68,0.1)" },
 ];
 
 export default function PdfEditor() {
@@ -73,7 +73,7 @@ export default function PdfEditor() {
       return;
     }
     const pos = getPos(e);
-    
+
     // Check if we clicked an existing text annotation
     const hit = [...annotations].reverse().find(a => {
       if (a.page !== page || a.type !== "text") return false;
@@ -81,7 +81,7 @@ export default function PdfEditor() {
       const w = t.data.w || 200;
       const h = t.data.h || 40;
       return pos.canvasX >= t.data.x && pos.canvasX <= t.data.x + w &&
-             pos.canvasY >= t.data.y && pos.canvasY <= t.data.y + h;
+        pos.canvasY >= t.data.y && pos.canvasY <= t.data.y + h;
     });
 
     if (hit) {
@@ -116,18 +116,18 @@ export default function PdfEditor() {
     return () => window.removeEventListener("click", handler);
   }, [showDlMenu]);
 
-  const canvasRef    = useRef<HTMLCanvasElement>(null);
-  const overlayRef   = useRef<HTMLCanvasElement>(null);
-  const drawingRef   = useRef<{ points: { x: number; y: number }[] } | null>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const overlayRef = useRef<HTMLCanvasElement>(null);
+  const drawingRef = useRef<{ points: { x: number; y: number }[] } | null>(null);
   const highlightRef = useRef<{ x: number; y: number } | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
-  
+
   const drawAnnotations = useCallback(() => {
     const overlay = overlayRef.current;
     if (!overlay) return;
     const ctx = overlay.getContext("2d")!;
     ctx.clearRect(0, 0, overlay.width, overlay.height);
-    
+
     annotations.filter(a => a.page === page).forEach(ann => {
       if (ann.type === "highlight") {
         const h = ann as HighlightAnnotation;
@@ -275,7 +275,7 @@ export default function PdfEditor() {
           const w = t.data.w || 200;
           const h = t.data.h || 40;
           return pos.canvasX >= t.data.x && pos.canvasX <= t.data.x + w &&
-                 pos.canvasY >= t.data.y && pos.canvasY <= t.data.y + h;
+            pos.canvasY >= t.data.y && pos.canvasY <= t.data.y + h;
         }
         if (a.type === "draw") {
           const d = a as DrawAnnotation;
@@ -293,7 +293,7 @@ export default function PdfEditor() {
       });
       if (hit) setAnnotations(prev => prev.filter(a => a.id !== hit.id));
     }
-    
+
     if (tool === "select") {
       const hit = [...annotations].reverse().find(a => {
         if (a.page !== page || a.type !== "text") return false;
@@ -301,7 +301,7 @@ export default function PdfEditor() {
         const w = t.data.w || 200;
         const h = t.data.h || 40;
         return pos.canvasX >= t.data.x && pos.canvasX <= t.data.x + w &&
-               pos.canvasY >= t.data.y && pos.canvasY <= t.data.y + h;
+          pos.canvasY >= t.data.y && pos.canvasY <= t.data.y + h;
       });
       if (hit) setEditingId(hit.id);
       else setEditingId(null);
@@ -388,61 +388,13 @@ export default function PdfEditor() {
   }, [page]);
 
   useEffect(() => {
-    const onMove = (e: MouseEvent) => {
-      if (drawingRef.current || highlightRef.current) {
-        // Handle drawing/highlighting (already handled by React events but window helps for consistency)
-        return;
-      }
-
-      if (dragHandle && dragStart.current.annotation) {
-        const ann = dragStart.current.annotation;
-        const overlay = overlayRef.current;
-        if (!overlay) return;
-        const rect = overlay.getBoundingClientRect();
-        const scaleX = overlay.width / rect.width;
-        const scaleY = overlay.height / rect.height;
-
-        const dx = (e.clientX - dragStart.current.x) * scaleX;
-        const dy = (e.clientY - dragStart.current.y) * scaleY;
-
-        setAnnotations(prev => prev.map(a => {
-          if (a.id !== ann.id) return a;
-          const t = a as TextAnnotation;
-          let { x, y, w, h } = t.data;
-          w = w || 200; h = h || 60;
-
-          if (dragHandle === "move") {
-            x += dx; y += dy;
-          } else {
-            if (dragHandle.includes("l")) { x += dx; w -= dx; }
-            if (dragHandle.includes("r")) { w += dx; }
-            if (dragHandle.includes("t")) { y += dy; h -= dy; }
-            if (dragHandle.includes("b")) { h += dy; }
-          }
-          return { ...t, data: { ...t.data, x, y, w: Math.max(20, w), h: Math.max(20, h) } };
-        }));
-
-        dragStart.current.x = e.clientX;
-        dragStart.current.y = e.clientY;
-      }
-    };
-
     const onUp = (e: MouseEvent) => {
-      if (dragHandle) {
-        setDragHandle(null);
-      }
-      if (drawingRef.current || highlightRef.current) {
-        finishStroke(e);
-      }
+      if (dragHandle) setDragHandle(null);
+      if (drawingRef.current || highlightRef.current) finishStroke(e);
     };
-
-    window.addEventListener("mousemove", onMove);
     window.addEventListener("mouseup", onUp);
-    return () => {
-      window.removeEventListener("mousemove", onMove);
-      window.removeEventListener("mouseup", onUp);
-    };
-  }, [dragHandle, updateAnnotation, finishStroke]);
+    return () => window.removeEventListener("mouseup", onUp);
+  }, [dragHandle, finishStroke]);
 
 
 
@@ -697,13 +649,13 @@ export default function PdfEditor() {
           <div className="bg-white rounded-3xl p-8 shadow-sm border border-slate-100">
             <p className="text-center text-xs font-black uppercase tracking-widest text-slate-400 mb-8">How it works</p>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
-              {[ { n: "1", title: "Open Your PDF", desc: "Click or drag any PDF. It loads instantly — no server involved.", color: "#3b82f6" }, { n: "2", title: "Annotate Freely", desc: "Highlight, draw, add text, or erase using the toolbar.", color: "#8b5cf6" }, { n: "3", title: "Save Your Work", desc: "Download the annotated page as a PNG with one click.", color: "#f59e0b" }, ].map(({ n, title, desc, color }) => (
+              {[{ n: "1", title: "Open Your PDF", desc: "Click or drag any PDF. It loads instantly — no server involved.", color: "#3b82f6" }, { n: "2", title: "Annotate Freely", desc: "Highlight, draw, add text, or erase using the toolbar.", color: "#8b5cf6" }, { n: "3", title: "Save Your Work", desc: "Download the annotated page as a PNG with one click.", color: "#f59e0b" },].map(({ n, title, desc, color }) => (
                 <div key={n} className="space-y-2">
                   <div className="text-5xl font-black opacity-15 leading-none" style={{ color }}>{n}</div>
                   <p className="font-black text-slate-800">{title}</p>
                   <p className="text-xs text-slate-400 font-medium leading-relaxed">{desc}</p>
                 </div>
-              ))} 
+              ))}
             </div>
           </div>
         </section>
@@ -858,11 +810,7 @@ export default function PdfEditor() {
         const height = (ann.data.h || 60) * scaleY;
 
         const handleSize = 10;
-        const handles = [
-          "nw", "n", "ne",
-          "w",       "e",
-          "sw", "s", "se"
-        ];
+        const handles = ["nw","n","ne","w","e","sw","s","se"];
 
         return (
           <div
@@ -870,66 +818,69 @@ export default function PdfEditor() {
             style={{
               left: `calc(${rect.left}px + ${left}px)`,
               top: `calc(${rect.top}px + ${top}px)`,
-              width,
-              height,
+              width, height,
               border: "2px solid #3b82f6",
-              backgroundColor: "rgba(59, 130, 246, 0.05)",
-              padding: 10, // Padding on the outer box makes it draggable
+              backgroundColor: "rgba(59,130,246,0.05)",
               boxSizing: "border-box",
+              cursor: dragHandle === "move" ? "grabbing" : "grab",
             }}
             onMouseDown={e => {
-              // If clicking the selection box itself (the background/padding), start moving
-              if (e.target === e.currentTarget) {
-                e.preventDefault();
-                setDragHandle("move");
-                dragStart.current = { x: e.clientX, y: e.clientY, annotation: ann };
-              }
+              if ((e.target as HTMLElement).dataset.handle) return;
+              e.preventDefault();
+              setDragHandle("move");
+              dragStart.current = { x: e.clientX, y: e.clientY, annotation: ann };
             }}
+            onMouseMove={e => {
+              if (dragHandle !== "move" || !dragStart.current.annotation) return;
+              e.preventDefault();
+              const dx = (e.clientX - dragStart.current.x) / scaleX;
+              const dy = (e.clientY - dragStart.current.y) / scaleY;
+              updateAnnotation(ann.id, {
+                x: ann.data.x + dx,
+                y: ann.data.y + dy,
+              });
+              dragStart.current = { x: e.clientX, y: e.clientY, annotation: { ...ann, data: { ...ann.data, x: ann.data.x + dx, y: ann.data.y + dy } } };
+            }}
+            onMouseUp={() => setDragHandle(null)}
           >
             <textarea
               ref={textAreaRef}
               value={ann.data.text}
               onChange={e => updateAnnotation(ann.id, { text: e.target.value })}
-              onKeyDown={e => {
-                if (e.key === "Escape") commitText();
-              }}
-              className="w-full h-full bg-transparent outline-none resize-none border-none overflow-hidden font-bold"
+              onKeyDown={e => { if (e.key === "Escape") commitText(); }}
+              onMouseDown={e => e.stopPropagation()}
+              className="absolute inset-0 w-full h-full bg-transparent outline-none resize-none border-none overflow-hidden font-bold"
               style={{
                 color: ann.data.color,
                 fontSize: ann.data.fontSize * scaleX,
                 lineHeight: 1.2,
-                padding: 0, // Removed padding from here
+                padding: 4,
+                cursor: "text",
               }}
               autoFocus
               placeholder="Type here..."
             />
 
-            {/* Resize Handles */}
             {handles.map(h => {
-              let style: React.CSSProperties = {
+              const s: React.CSSProperties = {
                 position: "absolute",
-                width: handleSize,
-                height: handleSize,
+                width: handleSize, height: handleSize,
                 backgroundColor: "#3b82f6",
                 border: "1px solid white",
                 borderRadius: 2,
                 cursor: `${h}-resize`,
+                zIndex: 1,
               };
-
-              if (h.includes("n")) style.top = -handleSize/2;
-              if (h.includes("s")) style.bottom = -handleSize/2;
-              if (h.includes("w")) style.left = -handleSize/2;
-              if (h.includes("e")) style.right = -handleSize/2;
-              if (h === "n" || h === "s") style.left = "50%", style.transform = "translateX(-50%)";
-              if (h === "w" || h === "e") style.top = "50%", style.transform = "translateY(-50%)";
-
+              if (h.includes("n")) s.top = -handleSize / 2;
+              if (h.includes("s")) s.bottom = -handleSize / 2;
+              if (h.includes("w")) s.left = -handleSize / 2;
+              if (h.includes("e")) s.right = -handleSize / 2;
+              if (h === "n" || h === "s") { s.left = "50%"; s.transform = "translateX(-50%)"; }
+              if (h === "w" || h === "e") { s.top = "50%"; s.transform = "translateY(-50%)"; }
               return (
-                <div
-                  key={h}
-                  style={style}
+                <div key={h} data-handle={h} style={s}
                   onMouseDown={e => {
-                    e.preventDefault();
-                    e.stopPropagation();
+                    e.preventDefault(); e.stopPropagation();
                     setDragHandle(h);
                     dragStart.current = { x: e.clientX, y: e.clientY, annotation: ann };
                   }}
@@ -940,38 +891,29 @@ export default function PdfEditor() {
         );
       })()}
 
-      {/* Global Drag Handler */}
-      {dragHandle && (
+      {/* Global resize handler */}
+      {dragHandle && dragHandle !== "move" && (
         <div
-          className="fixed inset-0 z-[70] cursor-move"
+          className="fixed inset-0 z-[70]"
+          style={{ cursor: `${dragHandle}-resize` }}
           onMouseMove={e => {
-            if (!dragHandle || !dragStart.current.annotation) return;
+            if (!dragStart.current.annotation) return;
             const ann = dragStart.current.annotation;
             const overlay = overlayRef.current;
             if (!overlay) return;
             const rect = overlay.getBoundingClientRect();
             const scaleX = overlay.width / rect.width;
             const scaleY = overlay.height / rect.height;
-
             const dx = (e.clientX - dragStart.current.x) * scaleX;
             const dy = (e.clientY - dragStart.current.y) * scaleY;
-
             let { x, y, w, h } = ann.data;
             w = w || 200; h = h || 60;
-
-            if (dragHandle === "move") {
-              x += dx; y += dy;
-            } else {
-              if (dragHandle.includes("e")) w += dx;
-              if (dragHandle.includes("w")) { x += dx; w -= dx; }
-              if (dragHandle.includes("s")) h += dy;
-              if (dragHandle.includes("n")) { y += dy; h -= dy; }
-            }
-
+            if (dragHandle.includes("e")) w += dx;
+            if (dragHandle.includes("w")) { x += dx; w -= dx; }
+            if (dragHandle.includes("s")) h += dy;
+            if (dragHandle.includes("n")) { y += dy; h -= dy; }
             updateAnnotation(ann.id, { x, y, w: Math.max(20, w), h: Math.max(20, h) });
-            // Important: we don't update dragStart.current.x/y here to keep smooth dragging from origin
-            // Actually, for better performance we might want to but it depends on how updateAnnotation is handled.
-            // If we use dx/dy from start, it's more stable.
+            dragStart.current = { x: e.clientX, y: e.clientY, annotation: { ...ann, data: { ...ann.data, x, y, w: Math.max(20, w), h: Math.max(20, h) } } };
           }}
           onMouseUp={() => setDragHandle(null)}
         />
