@@ -146,6 +146,7 @@ export default function PdfEditor() {
   const [penSize, setPenSize] = useState(3);
   const [fontSize, setFontSize] = useState(18);
   const [blurAmount, setBlurAmount] = useState(10);
+  const blurAmountRef = useRef(10);
   const [pageThumbnails, setPageThumbnails] = useState<string[]>([]);
   const canvasWrapRef = useRef<HTMLDivElement>(null);
   const [downloading, setDownloading] = useState(false);
@@ -354,17 +355,33 @@ export default function PdfEditor() {
     }
     if (tool === "blur" && highlightRef.current) {
       const start = highlightRef.current;
+      const bx = Math.min(start.x, canvasX);
+      const by = Math.min(start.y, canvasY);
+      const bw = Math.abs(canvasX - start.x);
+      const bh = Math.abs(canvasY - start.y);
       drawAnnotations();
-      const ctx = overlay.getContext("2d")!;
-      ctx.save();
-      ctx.beginPath();
-      ctx.rect(start.x, start.y, canvasX - start.x, canvasY - start.y);
-      ctx.clip();
-      ctx.filter = `blur(${blurAmount}px)`;
-      if (canvasRef.current) ctx.drawImage(canvasRef.current, 0, 0);
-      ctx.restore();
+      if (bw > 1 && bh > 1 && canvasRef.current) {
+        const amount = blurAmountRef.current;
+        const ctx = overlay.getContext("2d")!;
+        // offscreen blur — works reliably on all mobile browsers
+        const pad = amount * 2;
+        const tmp = document.createElement("canvas");
+        tmp.width = bw + pad; tmp.height = bh + pad;
+        const tctx = tmp.getContext("2d")!;
+        tctx.filter = `blur(${amount}px)`;
+        tctx.drawImage(canvasRef.current, bx, by, bw, bh, amount, amount, bw, bh);
+        tctx.filter = "none";
+        ctx.drawImage(tmp, amount, amount, bw, bh, bx, by, bw, bh);
+        // dashed border preview
+        ctx.save();
+        ctx.strokeStyle = "rgba(99,102,241,0.7)";
+        ctx.lineWidth = 2;
+        ctx.setLineDash([4, 4]);
+        ctx.strokeRect(bx, by, bw, bh);
+        ctx.restore();
+      }
     }
-  }, [tool, color, penSize, blurAmount, drawAnnotations]);
+  }, [tool, color, penSize, drawAnnotations]);
 
   const onTouchEnd = useCallback((e: TouchEvent) => {
     e.preventDefault();
@@ -392,7 +409,7 @@ export default function PdfEditor() {
       const start = highlightRef.current;
       const w = canvasX - start.x, h = canvasY - start.y;
       if (Math.abs(w) > 5 && Math.abs(h) > 5)
-        setAnnotations(prev => [...prev, { id: crypto.randomUUID(), type: "blur", page, data: { x: start.x, y: start.y, w, h, amount: blurAmount } } as BlurAnnotation]);
+        setAnnotations(prev => [...prev, { id: crypto.randomUUID(), type: "blur", page, data: { x: start.x, y: start.y, w, h, amount: blurAmountRef.current } } as BlurAnnotation]);
       highlightRef.current = null;
     }
     if (tool === "text") {
@@ -410,7 +427,7 @@ export default function PdfEditor() {
       }
       setTimeout(() => textAreaRef.current?.focus(), 50);
     }
-  }, [tool, page, color, penSize, blurAmount, fontSize, annotations]);
+  }, [tool, page, color, penSize, fontSize, annotations]);
 
   // Attach touch handlers with passive:false so preventDefault works
   useEffect(() => {
@@ -508,15 +525,29 @@ export default function PdfEditor() {
     if (tool === "blur" && highlightRef.current) {
       const pos = getPos(e);
       const start = highlightRef.current;
+      const bx = Math.min(start.x, pos.canvasX);
+      const by = Math.min(start.y, pos.canvasY);
+      const bw = Math.abs(pos.canvasX - start.x);
+      const bh = Math.abs(pos.canvasY - start.y);
       drawAnnotations();
-      const ctx = overlayRef.current!.getContext("2d")!;
-      ctx.save();
-      ctx.beginPath();
-      ctx.rect(start.x, start.y, pos.canvasX - start.x, pos.canvasY - start.y);
-      ctx.clip();
-      ctx.filter = `blur(${blurAmount}px)`;
-      if (canvasRef.current) ctx.drawImage(canvasRef.current, 0, 0);
-      ctx.restore();
+      if (bw > 1 && bh > 1 && canvasRef.current) {
+        const amount = blurAmountRef.current;
+        const ctx = overlayRef.current!.getContext("2d")!;
+        const pad = amount * 2;
+        const tmp = document.createElement("canvas");
+        tmp.width = bw + pad; tmp.height = bh + pad;
+        const tctx = tmp.getContext("2d")!;
+        tctx.filter = `blur(${amount}px)`;
+        tctx.drawImage(canvasRef.current, bx, by, bw, bh, amount, amount, bw, bh);
+        tctx.filter = "none";
+        ctx.drawImage(tmp, amount, amount, bw, bh, bx, by, bw, bh);
+        ctx.save();
+        ctx.strokeStyle = "rgba(99,102,241,0.7)";
+        ctx.lineWidth = 2;
+        ctx.setLineDash([4, 4]);
+        ctx.strokeRect(bx, by, bw, bh);
+        ctx.restore();
+      }
     }
   };
 
@@ -539,10 +570,10 @@ export default function PdfEditor() {
       const start = highlightRef.current;
       const w = pos.canvasX - start.x, h = pos.canvasY - start.y;
       if (Math.abs(w) > 5 && Math.abs(h) > 5)
-        setAnnotations(prev => [...prev, { id: crypto.randomUUID(), type: "blur", page, data: { x: start.x, y: start.y, w, h, amount: blurAmount } } as BlurAnnotation]);
+        setAnnotations(prev => [...prev, { id: crypto.randomUUID(), type: "blur", page, data: { x: start.x, y: start.y, w, h, amount: blurAmountRef.current } } as BlurAnnotation]);
       highlightRef.current = null;
     }
-  }, [tool, page, color, getPos, penSize, blurAmount]);
+  }, [tool, page, color, getPos, penSize]);
 
 
   // Native passive:false touch for global drag overlay
@@ -1199,16 +1230,18 @@ export default function PdfEditor() {
                 {/* Custom color picker */}
                 <label
                   title="Custom color"
-                  className={`w-7 h-7 rounded-full border-2 transition-all cursor-pointer overflow-hidden flex items-center justify-center hover:scale-110 ${
-                    !COLORS.includes(color) ? "scale-125 border-slate-400" : "border-transparent"
+                  className={`w-7 h-7 rounded-full border-2 transition-all cursor-pointer flex items-center justify-center hover:scale-110 relative ${
+                    !COLORS.includes(color) ? "scale-125 border-slate-400" : "border-slate-200 hover:border-slate-400"
                   }`}
-                  style={{ backgroundColor: !COLORS.includes(color) ? color : "transparent", padding: 0 }}
+                  style={{
+                    background: !COLORS.includes(color)
+                      ? color
+                      : "conic-gradient(red, yellow, lime, cyan, blue, magenta, red)",
+                    padding: 0,
+                  }}
                 >
-                  {COLORS.includes(color) && (
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-slate-400">
-                      <circle cx="12" cy="12" r="10" />
-                      <path d="M8 12h8M12 8v8" />
-                    </svg>
+                  {!COLORS.includes(color) && (
+                    <div className="w-3 h-3 rounded-full bg-white/30 pointer-events-none" />
                   )}
                   <input
                     type="color"
@@ -1250,7 +1283,7 @@ export default function PdfEditor() {
             <div className="flex items-center gap-1 md:gap-2 px-1 md:px-2 border-r border-slate-200 dark:border-slate-700 shrink-0">
               <span className="text-xs font-bold text-slate-400 hidden md:inline">Blur</span>
               <input type="range" min="1" max="50" value={blurAmount}
-                onChange={e => setBlurAmount(Number(e.target.value))}
+                onChange={e => { const v = Number(e.target.value); setBlurAmount(v); blurAmountRef.current = v; }}
                 className="w-14 md:w-20 accent-blue-500" />
               <span className="text-xs font-bold text-slate-600 dark:text-slate-300 w-5 text-center">{blurAmount}</span>
             </div>
