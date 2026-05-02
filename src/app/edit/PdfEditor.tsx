@@ -254,6 +254,146 @@ export default function PdfEditor() {
     };
   }, []);
 
+  const onTouchStart = useCallback((e: TouchEvent) => {
+    if (tool === "text") return;
+    e.preventDefault();
+    const overlay = overlayRef.current!;
+    const rect = overlay.getBoundingClientRect();
+    const scaleX = overlay.width / rect.width;
+    const scaleY = overlay.height / rect.height;
+    const touch = e.touches[0];
+    const canvasX = (touch.clientX - rect.left) * scaleX;
+    const canvasY = (touch.clientY - rect.top) * scaleY;
+    if (tool === "draw") drawingRef.current = { points: [{ canvasX, canvasY }] };
+    if (tool === "highlight" || tool === "blur") highlightRef.current = { x: canvasX, y: canvasY };
+    if (tool === "eraser") {
+      const hit = [...annotations].reverse().find(a => {
+        if (a.page !== page) return false;
+        if (a.type === "highlight") {
+          const h = a as HighlightAnnotation;
+          return canvasX >= Math.min(h.data.x, h.data.x+h.data.w) && canvasX <= Math.max(h.data.x, h.data.x+h.data.w) &&
+                 canvasY >= Math.min(h.data.y, h.data.y+h.data.h) && canvasY <= Math.max(h.data.y, h.data.y+h.data.h);
+        }
+        if (a.type === "blur") {
+          const b = a as BlurAnnotation;
+          return canvasX >= Math.min(b.data.x, b.data.x+b.data.w) && canvasX <= Math.max(b.data.x, b.data.x+b.data.w) &&
+                 canvasY >= Math.min(b.data.y, b.data.y+b.data.h) && canvasY <= Math.max(b.data.y, b.data.y+b.data.h);
+        }
+        if (a.type === "draw") {
+          const d = a as DrawAnnotation;
+          return d.data.points.some(p => Math.hypot(p.x - canvasX, p.y - canvasY) < 20);
+        }
+        return false;
+      });
+      if (hit) setAnnotations(prev => prev.filter(a => a.id !== hit.id));
+    }
+  }, [tool, annotations, page]);
+
+  const onTouchMove = useCallback((e: TouchEvent) => {
+    e.preventDefault();
+    const overlay = overlayRef.current!;
+    const rect = overlay.getBoundingClientRect();
+    const scaleX = overlay.width / rect.width;
+    const scaleY = overlay.height / rect.height;
+    const touch = e.touches[0];
+    const canvasX = (touch.clientX - rect.left) * scaleX;
+    const canvasY = (touch.clientY - rect.top) * scaleY;
+    if (tool === "draw" && drawingRef.current) {
+      drawingRef.current.points.push({ canvasX, canvasY });
+      drawAnnotations();
+      const pts = drawingRef.current.points;
+      if (pts.length >= 2) {
+        const ctx = overlay.getContext("2d")!;
+        ctx.strokeStyle = color; ctx.lineWidth = penSize;
+        ctx.lineCap = "round"; ctx.lineJoin = "round";
+        ctx.beginPath();
+        ctx.moveTo(pts[0].canvasX, pts[0].canvasY);
+        pts.slice(1).forEach(p => ctx.lineTo(p.canvasX, p.canvasY));
+        ctx.stroke();
+      }
+    }
+    if (tool === "highlight" && highlightRef.current) {
+      const start = highlightRef.current;
+      drawAnnotations();
+      const ctx = overlay.getContext("2d")!;
+      ctx.globalAlpha = 0.35; ctx.fillStyle = color;
+      ctx.fillRect(start.x, start.y, canvasX - start.x, canvasY - start.y);
+      ctx.globalAlpha = 1;
+    }
+    if (tool === "blur" && highlightRef.current) {
+      const start = highlightRef.current;
+      drawAnnotations();
+      const ctx = overlay.getContext("2d")!;
+      ctx.save();
+      ctx.beginPath();
+      ctx.rect(start.x, start.y, canvasX - start.x, canvasY - start.y);
+      ctx.clip();
+      ctx.filter = `blur(${blurAmount}px)`;
+      if (canvasRef.current) ctx.drawImage(canvasRef.current, 0, 0);
+      ctx.restore();
+    }
+  }, [tool, color, penSize, blurAmount, drawAnnotations]);
+
+  const onTouchEnd = useCallback((e: TouchEvent) => {
+    e.preventDefault();
+    const overlay = overlayRef.current!;
+    const rect = overlay.getBoundingClientRect();
+    const scaleX = overlay.width / rect.width;
+    const scaleY = overlay.height / rect.height;
+    const touch = e.changedTouches[0];
+    const canvasX = (touch.clientX - rect.left) * scaleX;
+    const canvasY = (touch.clientY - rect.top) * scaleY;
+    if (tool === "draw" && drawingRef.current) {
+      const pts = drawingRef.current.points;
+      if (pts.length > 1)
+        setAnnotations(prev => [...prev, { id: crypto.randomUUID(), type: "draw", page, data: { points: pts.map(p => ({ x: p.canvasX, y: p.canvasY })), color, width: penSize } } as DrawAnnotation]);
+      drawingRef.current = null;
+    }
+    if (tool === "highlight" && highlightRef.current) {
+      const start = highlightRef.current;
+      const w = canvasX - start.x, h = canvasY - start.y;
+      if (Math.abs(w) > 5 && Math.abs(h) > 5)
+        setAnnotations(prev => [...prev, { id: crypto.randomUUID(), type: "highlight", page, data: { x: start.x, y: start.y, w, h, color } } as HighlightAnnotation]);
+      highlightRef.current = null;
+    }
+    if (tool === "blur" && highlightRef.current) {
+      const start = highlightRef.current;
+      const w = canvasX - start.x, h = canvasY - start.y;
+      if (Math.abs(w) > 5 && Math.abs(h) > 5)
+        setAnnotations(prev => [...prev, { id: crypto.randomUUID(), type: "blur", page, data: { x: start.x, y: start.y, w, h, amount: blurAmount } } as BlurAnnotation]);
+      highlightRef.current = null;
+    }
+    if (tool === "text") {
+      const hit = [...annotations].reverse().find(a => {
+        if (a.page !== page || a.type !== "text") return false;
+        const t = a as TextAnnotation;
+        return canvasX >= t.data.x && canvasX <= t.data.x + (t.data.w||200) &&
+               canvasY >= t.data.y && canvasY <= t.data.y + (t.data.h||40);
+      });
+      if (hit) { setEditingId(hit.id); }
+      else {
+        const newId = crypto.randomUUID();
+        setAnnotations(prev => [...prev, { id: newId, type: "text", page, data: { x: canvasX, y: canvasY, w: 200, h: 60, text: "", color, fontSize } } as TextAnnotation]);
+        setEditingId(newId);
+      }
+      setTimeout(() => textAreaRef.current?.focus(), 50);
+    }
+  }, [tool, page, color, penSize, blurAmount, fontSize, annotations]);
+
+  // Attach touch handlers with passive:false so preventDefault works
+  useEffect(() => {
+    const el = overlayRef.current;
+    if (!el) return;
+    el.addEventListener("touchstart", onTouchStart, { passive: false });
+    el.addEventListener("touchmove", onTouchMove, { passive: false });
+    el.addEventListener("touchend", onTouchEnd, { passive: false });
+    return () => {
+      el.removeEventListener("touchstart", onTouchStart);
+      el.removeEventListener("touchmove", onTouchMove);
+      el.removeEventListener("touchend", onTouchEnd);
+    };
+  }, [onTouchStart, onTouchMove, onTouchEnd]);
+
   const onMouseDown = (e: React.MouseEvent<HTMLCanvasElement>) => {
     if (tool === "text") return; // text handled by onClick
     const pos = getPos(e);
@@ -578,7 +718,8 @@ export default function PdfEditor() {
     if (!pdfDoc || !canvasRef.current) return;
     const container = canvasRef.current.parentElement;
     if (!container) return;
-    const padding = 48;
+    const isMobile = window.innerWidth <= 768;
+    const padding = isMobile ? 16 : 48;
     const availableWidth = container.clientWidth - padding;
     pdfDoc.getPage(1).then(pg => {
       const viewport = pg.getViewport({ scale: 1 });
@@ -586,6 +727,15 @@ export default function PdfEditor() {
       setScale(Math.max(0.3, Math.min(3, newScale)));
     });
   };
+
+  // Auto fit-width on mobile when PDF loads
+  useEffect(() => {
+    if (!pdfDoc || !canvasRef.current) return;
+    if (window.innerWidth <= 768) {
+      setTimeout(() => fitWidth(), 100);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pdfDoc]);
 
   const cursorMap: Record<Tool, string> = {
     select: "default", highlight: "crosshair", text: "text", draw: "crosshair", eraser: "cell", blur: "crosshair",
@@ -665,7 +815,7 @@ export default function PdfEditor() {
 
   return (
     <div className="flex flex-col bg-slate-100 dark:bg-slate-900" style={{ position: "fixed", inset: 0, zIndex: 50 }}>
-      <div className="sticky top-0 z-40 flex items-center justify-between px-4 py-2.5 bg-white dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700 shadow-sm shrink-0 gap-3 flex-wrap">
+      <div className="sticky top-0 z-40 flex items-center px-2 md:px-4 py-1.5 md:py-2.5 bg-white dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700 shadow-sm shrink-0 gap-1 md:gap-3 overflow-x-auto scrollbar-hide">
         <div className="flex items-center gap-3 min-w-0">
           <button onClick={() => { setPdfDoc(null); setAnnotations([]); }}
             className="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-500 transition-colors">
@@ -682,29 +832,29 @@ export default function PdfEditor() {
             <span className="text-sm font-bold text-slate-700 dark:text-slate-200 truncate max-w-[200px]">{fileName}</span>
           </div>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1 md:gap-2 shrink-0">
           <button onClick={fitWidth}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors border border-slate-200 dark:border-slate-600">
-            <svg width={14} height={14} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
+            className="flex items-center gap-1 px-1.5 md:px-3 py-1.5 rounded-lg text-xs font-bold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors border border-slate-200 dark:border-slate-600">
+            <svg width={13} height={13} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
               <path d="M8 3H5a2 2 0 00-2 2v3m18 0V5a2 2 0 00-2-2h-3m0 18h3a2 2 0 002-2v-3M3 16v3a2 2 0 002 2h3" />
             </svg>
-            Fit Width
+            <span className="hidden md:inline">Fit Width</span>
           </button>
-          <span className="text-xs font-bold text-slate-400 px-2 py-1 rounded bg-slate-100 dark:bg-slate-700">{Math.round(scale * 100)}%</span>
+          <span className="text-xs font-bold text-slate-400 px-1.5 py-1 rounded bg-slate-100 dark:bg-slate-700">{Math.round(scale * 100)}%</span>
           <button onClick={() => setScale(s => Math.max(0.5, +(s - 0.2).toFixed(1)))}
-            className="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-500 transition-colors">
-            <Minus size={16} />
+            className="p-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-500 transition-colors">
+            <Minus size={14} />
           </button>
           <button onClick={() => setScale(s => Math.min(3, +(s + 0.2).toFixed(1)))}
-            className="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-500 transition-colors">
-            <Plus size={16} />
+            className="p-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-500 transition-colors">
+            <Plus size={14} />
           </button>
         </div>
-        <div className="flex items-center gap-2">
-          <button onClick={undo} title="Undo last" className="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-500 transition-colors">
-            <Undo2 size={17} />
+        <div className="flex items-center gap-1 md:gap-2 shrink-0">
+          <button onClick={undo} title="Undo last" className="p-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-500 transition-colors">
+            <Undo2 size={15} />
           </button>
-          <button onClick={clearPage} title="Clear all annotations on this page" className="px-3 py-2 rounded-lg hover:bg-red-50 text-slate-500 hover:text-red-500 text-xs font-bold transition-colors border border-slate-200 dark:border-slate-600">
+          <button onClick={clearPage} title="Clear all annotations on this page" className="hidden md:flex px-3 py-2 rounded-lg hover:bg-red-50 text-slate-500 hover:text-red-500 text-xs font-bold transition-colors border border-slate-200 dark:border-slate-600">
             Clear Page
           </button>
           {/* Download split button */}
@@ -713,10 +863,11 @@ export default function PdfEditor() {
               <button
                 onClick={downloadAsPDF}
                 disabled={downloading}
-                className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white text-sm font-bold transition-all disabled:opacity-60"
+                className="flex items-center gap-1.5 px-2 md:px-4 py-2 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white text-xs md:text-sm font-bold transition-all disabled:opacity-60"
               >
-                <Download size={15} />
-                {downloading ? "Saving…" : "Download PDF"}
+                <Download size={13} />
+                <span className="hidden md:inline">{downloading ? "Saving…" : "Download PDF"}</span>
+                <span className="md:hidden">{downloading ? "…" : "PDF"}</span>
               </button>
               <button
                 onClick={e => { e.stopPropagation(); setShowDlMenu(v => !v); }}
@@ -748,7 +899,14 @@ export default function PdfEditor() {
         </div>
       </div>
       <div className="flex flex-1 overflow-hidden">
-        <div className={`transition-all duration-300 ease-in-out flex-shrink-0 border-r border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 overflow-hidden ${sidebarOpen ? "w-48 opacity-100" : "w-0 opacity-0 pointer-events-none"}`}>
+        {/* Mobile sidebar backdrop */}
+        {sidebarOpen && (
+          <div
+            className="fixed inset-0 z-40 bg-black/30 md:hidden"
+            onClick={() => setSidebarOpen(false)}
+          />
+        )}
+        <div className={`transition-all duration-300 ease-in-out flex-shrink-0 border-r border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 overflow-hidden fixed md:relative top-0 bottom-0 z-50 md:z-auto ${sidebarOpen ? "w-48 opacity-100 left-0" : "w-0 opacity-0 pointer-events-none -left-48"}`}>
           <div className="p-3 border-b border-slate-200 dark:border-slate-700">
             <p className="text-xs font-black uppercase tracking-widest text-slate-400">Pages</p>
           </div>
@@ -778,14 +936,14 @@ export default function PdfEditor() {
         {/* scroll container */}
         <div
           ref={canvasWrapRef}
-          className="flex-1 overflow-auto relative"
-          style={{ background: "#e2e8f0" }}
+          className="flex-1 overflow-auto relative pb-16 md:pb-0"
+          style={{ background: "#e2e8f0", WebkitOverflowScrolling: "touch" }}
         >
-          <div className="flex items-start justify-center p-6 min-h-full">
-            <div className="relative shadow-2xl rounded-lg" style={{ overflow: "visible" }}>
+          <div className="flex items-start justify-start md:justify-center p-2 md:p-6 min-h-full min-w-full">
+            <div className="relative shadow-2xl rounded-lg" style={{ overflow: "visible", flexShrink: 0 }}>
               <canvas ref={canvasRef} className="block rounded-lg" />
               <canvas ref={overlayRef} className="absolute inset-0 rounded-lg"
-                style={{ cursor: cursorMap[tool] }}
+                style={{ cursor: cursorMap[tool], touchAction: "none" }}
                 onMouseDown={onMouseDown} onMouseMove={onMouseMove} onMouseUp={finishStroke}
                 onClick={handleCanvasClick} />
             </div>
@@ -808,16 +966,15 @@ export default function PdfEditor() {
         const top = ann.data.y * scaleY;
         const width = (ann.data.w || 200) * scaleX;
         const height = (ann.data.h || 60) * scaleY;
-
         const handleSize = 10;
         const handles = ["nw","n","ne","w","e","sw","s","se"];
 
         return (
           <div
-            className="absolute z-[60]"
+            className="fixed z-[60]"
             style={{
-              left: `calc(${rect.left}px + ${left}px)`,
-              top: `calc(${rect.top}px + ${top}px)`,
+              left: rect.left + left,
+              top: rect.top + top,
               width, height,
               border: "2px solid #3b82f6",
               backgroundColor: "rgba(59,130,246,0.05)",
@@ -830,18 +987,6 @@ export default function PdfEditor() {
               setDragHandle("move");
               dragStart.current = { x: e.clientX, y: e.clientY, annotation: ann };
             }}
-            onMouseMove={e => {
-              if (dragHandle !== "move" || !dragStart.current.annotation) return;
-              e.preventDefault();
-              const dx = (e.clientX - dragStart.current.x) / scaleX;
-              const dy = (e.clientY - dragStart.current.y) / scaleY;
-              updateAnnotation(ann.id, {
-                x: ann.data.x + dx,
-                y: ann.data.y + dy,
-              });
-              dragStart.current = { x: e.clientX, y: e.clientY, annotation: { ...ann, data: { ...ann.data, x: ann.data.x + dx, y: ann.data.y + dy } } };
-            }}
-            onMouseUp={() => setDragHandle(null)}
           >
             <textarea
               ref={textAreaRef}
@@ -860,6 +1005,34 @@ export default function PdfEditor() {
               autoFocus
               placeholder="Type here..."
             />
+
+            {/* Move handle */}
+            <div
+              data-handle="move-btn"
+              title="Move"
+              style={{
+                position: "absolute",
+                right: -36, top: "50%",
+                transform: "translateY(-50%)",
+                width: 28, height: 28,
+                borderRadius: "50%",
+                background: "#3b82f6",
+                display: "flex", alignItems: "center", justifyContent: "center",
+                cursor: "grab",
+                boxShadow: "0 2px 8px rgba(59,130,246,0.4)",
+                zIndex: 2,
+              }}
+              onMouseDown={e => {
+                e.preventDefault(); e.stopPropagation();
+                setDragHandle("move");
+                dragStart.current = { x: e.clientX, y: e.clientY, annotation: ann };
+              }}
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+                <path d="M3 3v5h5" />
+              </svg>
+            </div>
 
             {handles.map(h => {
               const s: React.CSSProperties = {
@@ -891,11 +1064,11 @@ export default function PdfEditor() {
         );
       })()}
 
-      {/* Global resize handler */}
-      {dragHandle && dragHandle !== "move" && (
+      {/* Global move + resize handler — captures mouse anywhere on screen */}
+      {dragHandle && (
         <div
           className="fixed inset-0 z-[70]"
-          style={{ cursor: `${dragHandle}-resize` }}
+          style={{ cursor: dragHandle === "move" ? "grabbing" : `${dragHandle}-resize` }}
           onMouseMove={e => {
             if (!dragStart.current.annotation) return;
             const ann = dragStart.current.annotation;
@@ -908,79 +1081,108 @@ export default function PdfEditor() {
             const dy = (e.clientY - dragStart.current.y) * scaleY;
             let { x, y, w, h } = ann.data;
             w = w || 200; h = h || 60;
-            if (dragHandle.includes("e")) w += dx;
-            if (dragHandle.includes("w")) { x += dx; w -= dx; }
-            if (dragHandle.includes("s")) h += dy;
-            if (dragHandle.includes("n")) { y += dy; h -= dy; }
-            updateAnnotation(ann.id, { x, y, w: Math.max(20, w), h: Math.max(20, h) });
-            dragStart.current = { x: e.clientX, y: e.clientY, annotation: { ...ann, data: { ...ann.data, x, y, w: Math.max(20, w), h: Math.max(20, h) } } };
+            if (dragHandle === "move") {
+              x += dx / scaleX; y += dy / scaleY;
+            } else {
+              if (dragHandle.includes("e")) w += dx;
+              if (dragHandle.includes("w")) { x += dx; w -= dx; }
+              if (dragHandle.includes("s")) h += dy;
+              if (dragHandle.includes("n")) { y += dy; h -= dy; }
+            }
+            const newData = { x, y, w: Math.max(20, w), h: Math.max(20, h) };
+            updateAnnotation(ann.id, newData);
+            dragStart.current = { x: e.clientX, y: e.clientY, annotation: { ...ann, data: { ...ann.data, ...newData } } };
           }}
           onMouseUp={() => setDragHandle(null)}
         />
       )}
 
-      <div className="fixed bottom-6 left-1/2 transform -translate-x-1/2 z-50">
-        <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-700 px-3 py-2 flex items-center gap-1.5">
-          <div className="flex items-center gap-0.5 px-2 border-r border-slate-200 dark:border-slate-700">
+      <div className="fixed bottom-0 md:bottom-6 left-0 md:left-1/2 right-0 md:right-auto md:transform md:-translate-x-1/2 z-50">
+        <div className="bg-white dark:bg-slate-800 md:rounded-2xl shadow-2xl border-t md:border border-slate-200 dark:border-slate-700 px-2 md:px-3 py-1.5 md:py-2 flex items-center gap-1 md:gap-1.5 overflow-x-auto scrollbar-hide" style={{ paddingBottom: 'calc(0.375rem + env(safe-area-inset-bottom, 0px))' }}>
+          <div className="flex items-center gap-0.5 px-1 md:px-2 border-r border-slate-200 dark:border-slate-700 shrink-0">
             {(Object.keys(TOOL_META) as Tool[]).map(t => {
               const { icon: Icon, label } = TOOL_META[t];
               return (
                 <button key={t} title={label} onClick={() => setTool(t)}
-                  className={`p-2.5 rounded-xl transition-all ${tool === t ? "bg-blue-500 text-white shadow-lg shadow-blue-500/30 scale-110" : "text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-700 hover:text-slate-800 dark:hover:text-white"}`}>
-                  <Icon size={18} />
+                  className={`p-2 md:p-2.5 rounded-xl transition-all ${tool === t ? "bg-blue-500 text-white shadow-lg shadow-blue-500/30 scale-110" : "text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-700 hover:text-slate-800 dark:hover:text-white"}`}>
+                  <Icon size={16} />
                 </button>
               );
             })}
           </div>
           {(tool === "highlight" || tool === "draw" || tool === "text") && (
             <>
-              <div className="flex items-center gap-1 px-2 border-r border-slate-200 dark:border-slate-700">
+              <div className="flex items-center gap-1 px-1 md:px-2 border-r border-slate-200 dark:border-slate-700 shrink-0">
                 {COLORS.map(c => (
                   <button key={c} onClick={() => {
                     setColor(c);
                     if (editingId) updateAnnotation(editingId, { color: c });
                   }}
-                    className={`w-7 h-7 rounded-full border-2 transition-all ${color === c ? "scale-125 border-slate-400" : "border-transparent hover:scale-110"}`}
+                    className={`w-6 h-6 md:w-7 md:h-7 rounded-full border-2 transition-all ${color === c ? "scale-125 border-slate-400" : "border-transparent hover:scale-110"}`}
                     style={{ backgroundColor: c }} />
                 ))}
+                {/* Custom color picker */}
+                <label
+                  title="Custom color"
+                  className={`w-7 h-7 rounded-full border-2 transition-all cursor-pointer overflow-hidden flex items-center justify-center hover:scale-110 ${
+                    !COLORS.includes(color) ? "scale-125 border-slate-400" : "border-transparent"
+                  }`}
+                  style={{ backgroundColor: !COLORS.includes(color) ? color : "transparent", padding: 0 }}
+                >
+                  {COLORS.includes(color) && (
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-slate-400">
+                      <circle cx="12" cy="12" r="10" />
+                      <path d="M8 12h8M12 8v8" />
+                    </svg>
+                  )}
+                  <input
+                    type="color"
+                    value={color}
+                    onChange={e => {
+                      setColor(e.target.value);
+                      if (editingId) updateAnnotation(editingId, { color: e.target.value });
+                    }}
+                    className="absolute opacity-0 w-0 h-0"
+                  />
+                </label>
               </div>
             </>
           )}
           {(tool === "draw" || tool === "highlight") && (
             <>
-              <div className="flex items-center gap-2 px-2 border-r border-slate-200 dark:border-slate-700">
-                <span className="text-xs font-bold text-slate-400">Size</span>
+              <div className="flex items-center gap-1 md:gap-2 px-1 md:px-2 border-r border-slate-200 dark:border-slate-700 shrink-0">
+                <span className="text-xs font-bold text-slate-400 hidden md:inline">Size</span>
                 <input type="range" min="1" max="20" value={penSize} onChange={e => setPenSize(Number(e.target.value))}
-                  className="w-20 accent-blue-500" />
-                <span className="text-xs font-bold text-slate-600 dark:text-slate-300 w-5 text-center">{penSize}</span>
+                  className="w-14 md:w-20 accent-blue-500" />
+                <span className="text-xs font-bold text-slate-600 dark:text-slate-300 w-4 text-center">{penSize}</span>
               </div>
             </>
           )}
           {tool === "text" && (
-            <div className="flex items-center gap-2 px-2 border-r border-slate-200 dark:border-slate-700">
-              <span className="text-xs font-bold text-slate-400">Size</span>
+            <div className="flex items-center gap-1 md:gap-2 px-1 md:px-2 border-r border-slate-200 dark:border-slate-700 shrink-0">
+              <span className="text-xs font-bold text-slate-400 hidden md:inline">Size</span>
               <input type="range" min="10" max="72" value={fontSize}
                 onChange={e => {
                   const v = Number(e.target.value);
                   setFontSize(v);
                   if (editingId) updateAnnotation(editingId, { fontSize: v });
                 }}
-                className="w-20 accent-blue-500" />
-              <span className="text-xs font-bold text-slate-600 dark:text-slate-300 w-6 text-center">{fontSize}</span>
+                className="w-14 md:w-20 accent-blue-500" />
+              <span className="text-xs font-bold text-slate-600 dark:text-slate-300 w-5 text-center">{fontSize}</span>
             </div>
           )}
           {tool === "blur" && (
-            <div className="flex items-center gap-2 px-2 border-r border-slate-200 dark:border-slate-700">
-              <span className="text-xs font-bold text-slate-400">Blur</span>
+            <div className="flex items-center gap-1 md:gap-2 px-1 md:px-2 border-r border-slate-200 dark:border-slate-700 shrink-0">
+              <span className="text-xs font-bold text-slate-400 hidden md:inline">Blur</span>
               <input type="range" min="1" max="50" value={blurAmount}
                 onChange={e => setBlurAmount(Number(e.target.value))}
-                className="w-20 accent-blue-500" />
-              <span className="text-xs font-bold text-slate-600 dark:text-slate-300 w-6 text-center">{blurAmount}</span>
+                className="w-14 md:w-20 accent-blue-500" />
+              <span className="text-xs font-bold text-slate-600 dark:text-slate-300 w-5 text-center">{blurAmount}</span>
             </div>
           )}
           {tool === "eraser" && (
-            <div className="flex items-center gap-2 px-2">
-              <span className="text-xs font-bold text-slate-400">Sensitivity</span>
+            <div className="flex items-center gap-1 md:gap-2 px-1 md:px-2 shrink-0">
+              <span className="text-xs font-bold text-slate-400 hidden md:inline">Sensitivity</span>
               <span className="text-xs font-bold text-slate-600 dark:text-slate-300">12px</span>
             </div>
           )}
