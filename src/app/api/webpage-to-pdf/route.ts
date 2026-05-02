@@ -38,7 +38,7 @@ export async function POST(request: Request) {
       margin: { top: '10mm', bottom: '10mm', left: '10mm', right: '10mm' },
     });
 
-    return new Response(pdfBuffer, {
+    return new Response(Buffer.from(pdfBuffer), {
       headers: {
         'Content-Type': 'application/pdf',
         'Content-Disposition': 'attachment; filename="webpage.pdf"',

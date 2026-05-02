@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useState, useMemo, useEffect, useRef } from 'react';
 import SkeletonGrid from '@/components/SkeletonGrid';
@@ -128,14 +128,20 @@ export default function Home() {
     return () => clearTimeout(t);
   }, [activeCategory, mounted]);
 
-  const filteredTools = useMemo(() =>
-    TOOLS.filter(t => {
+  const CATEGORY_ORDER = ['Organize', 'Optimize', 'Convert', 'Image Convert', 'Edit', 'Security', 'Special', 'Sign'];
+
+  const filteredTools = useMemo(() => {
+    const tools = TOOLS.filter(t => {
       const isVerified = verifiedKeys.includes(t.id);
       if (displayCategory === 'All') return isVerified;
       if (displayCategory === 'Image Convert') return isVerified && imgConvertKeys.includes(t.id);
       return isVerified && t.category === displayCategory;
-    }),
-  [displayCategory, verifiedKeys, imgConvertKeys]);
+    });
+    if (displayCategory === 'All') {
+      tools.sort((a, b) => CATEGORY_ORDER.indexOf(a.category) - CATEGORY_ORDER.indexOf(b.category));
+    }
+    return tools;
+  }, [displayCategory, verifiedKeys, imgConvertKeys]);
 
   const showGridSkeleton = !mounted || isLoading;
 
