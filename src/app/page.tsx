@@ -109,14 +109,27 @@ export default function Home() {
   const toolsGridRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
-    getVerifiedToolKeys().then(setVerifiedKeys);
-    getImgConvertTools().then(setImgConvertKeys);
+    const FALLBACK_KEYS = ['esign','edit-pdf','extract-pages','delete-pages','add-blank-page','flatten-pdf','optimize-pdf','webpage-to-pdf','compare-pdf','redact-pdf','bookmark-pdf','docx-to-pdf','pdf-to-docx','jpg-to-png','png-to-jpg','jpg-to-webp','webp-to-jpg','png-to-webp','webp-to-png','jpg-to-avif','avif-to-jpg','png-to-avif','avif-to-png','webp-to-avif','avif-to-webp','organize','merge','split','compress','repair-pdf','extract-text','pdf-to-xml','pdf-to-jpg','jpg-to-pdf','word-to-pdf','pdf-to-word','ppt-to-pdf','pdf-to-ppt','excel-to-pdf','pdf-to-excel','html-to-pdf','watermark','page-numbers','metadata','unlock','protect','aadhar-crop'];
+
+    // Timeout fallback — if DB takes >3s or fails, show all tools immediately
+    const fallbackTimer = setTimeout(() => setVerifiedKeys(prev => prev ?? FALLBACK_KEYS), 3000);
+
+    getVerifiedToolKeys()
+      .then(keys => setVerifiedKeys(keys.length > 0 ? keys : FALLBACK_KEYS))
+      .catch(() => setVerifiedKeys(FALLBACK_KEYS))
+      .finally(() => clearTimeout(fallbackTimer));
+
+    getImgConvertTools().then(setImgConvertKeys).catch(() => {});
+
     getCategories().then(cats => {
       const ordered = CATEGORIES.filter(c => c === 'All' || cats.includes(c));
       const extra = cats.filter((c: string) => !CATEGORIES.includes(c));
       setDbCategories([...ordered, ...extra]);
-    });
-    insertAvifTools().then(err => { if (err) console.error('insertAvifTools error:', err); });
+    }).catch(() => {});
+
+    insertAvifTools().then(err => { if (err) console.error('insertAvifTools error:', err); }).catch(() => {});
+
+    return () => clearTimeout(fallbackTimer);
   }, []);
 
   useEffect(() => { setMounted(true); }, []);

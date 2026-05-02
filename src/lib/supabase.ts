@@ -42,32 +42,43 @@ const TOOL_CATEGORIES: Record<string, string> = {
   'aadhar-crop': 'Special',
 };
 
-export async function getCategories(): Promise<string[]> {
-  const { data } = await supabase
-    .from('categories')
-    .select('name')
-    .eq('is_active', true)
-    .order('sort_order', { ascending: true });
-  return data?.map(r => r.name) ?? ['Organize','Optimize','Convert','Image Convert','Edit','Security','Special','Sign'];
-}
-
 export async function getVerifiedToolKeys(): Promise<string[]> {
-  const { data } = await supabase
-    .from('allpdftools')
-    .select('tool_key')
-    .eq('is_verified', true);
-  const dbKeys = data?.map(r => r.tool_key) ?? [];
-  return Array.from(new Set([...dbKeys, ...ALWAYS_VERIFIED]));
+  try {
+    const { data } = await supabase
+      .from('allpdftools')
+      .select('tool_key')
+      .eq('is_verified', true);
+    const dbKeys = data?.map(r => r.tool_key) ?? [];
+    return Array.from(new Set([...dbKeys, ...ALWAYS_VERIFIED]));
+  } catch {
+    return ALWAYS_VERIFIED;
+  }
 }
 
 export async function getImgConvertTools(): Promise<string[]> {
-  const { data } = await supabase
-    .from('allpdftools')
-    .select('tool_key')
-    .eq('img_convert', true);
-  // fallback to hardcoded if column doesn't exist yet or no rows marked
-  if (!data || data.length === 0) return ['jpg-to-png', 'png-to-jpg', 'jpg-to-webp', 'webp-to-jpg', 'png-to-webp', 'webp-to-png', 'jpg-to-avif', 'avif-to-jpg', 'png-to-avif', 'avif-to-png', 'webp-to-avif', 'avif-to-webp'];
-  return data.map(r => r.tool_key);
+  try {
+    const { data } = await supabase
+      .from('allpdftools')
+      .select('tool_key')
+      .eq('img_convert', true);
+    if (!data || data.length === 0) return ['jpg-to-png', 'png-to-jpg', 'jpg-to-webp', 'webp-to-jpg', 'png-to-webp', 'webp-to-png', 'jpg-to-avif', 'avif-to-jpg', 'png-to-avif', 'avif-to-png', 'webp-to-avif', 'avif-to-webp'];
+    return data.map(r => r.tool_key);
+  } catch {
+    return ['jpg-to-png', 'png-to-jpg', 'jpg-to-webp', 'webp-to-jpg', 'png-to-webp', 'webp-to-png', 'jpg-to-avif', 'avif-to-jpg', 'png-to-avif', 'avif-to-png', 'webp-to-avif', 'avif-to-webp'];
+  }
+}
+
+export async function getCategories(): Promise<string[]> {
+  try {
+    const { data } = await supabase
+      .from('categories')
+      .select('name')
+      .eq('is_active', true)
+      .order('sort_order', { ascending: true });
+    return data?.map(r => r.name) ?? ['Organize','Optimize','Convert','Image Convert','Edit','Security','Special','Sign'];
+  } catch {
+    return ['Organize','Optimize','Convert','Image Convert','Edit','Security','Special','Sign'];
+  }
 }
 
 export async function getToolsByCategory(category: string): Promise<string[]> {
