@@ -378,7 +378,7 @@ export default function PdfEditor() {
     if (tool === "draw" && drawingRef.current) {
       const pts = drawingRef.current.points;
       if (pts.length > 1)
-        setAnnotations(prev => [...prev, { id: crypto.randomUUID(), type: "draw", page, data: { points: pts.map(p => ({ x: p.canvasX, y: p.canvasY })), color, width: penSize } } as DrawAnnotation]);
+        setAnnotations(prev => [...prev, { id: crypto.randomUUID(), type: "draw", page, data: { points: pts, color, width: penSize } } as DrawAnnotation]);
       drawingRef.current = null;
     }
     if (tool === "highlight" && highlightRef.current) {
