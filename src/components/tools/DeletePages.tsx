@@ -9,7 +9,7 @@ if (typeof window !== 'undefined') {
   pdfjsLib.GlobalWorkerOptions.workerSrc = '/workers/pdf.worker.min.mjs';
 }
 
-export default function DeletePages() {
+export default function DeletePages({ id: _id }: { id: string }) {
   const [file, setFile] = useState<File | null>(null);
   const [thumbs, setThumbs] = useState<string[]>([]);
   const [selected, setSelected] = useState<Set<number>>(new Set());
