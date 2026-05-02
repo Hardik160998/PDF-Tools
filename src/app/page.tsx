@@ -103,7 +103,7 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(false);
   const [displayCategory, setDisplayCategory] = useState('All');
   const [mounted, setMounted] = useState(false);
-  const [verifiedKeys, setVerifiedKeys] = useState<string[]>([]);
+  const [verifiedKeys, setVerifiedKeys] = useState<string[] | null>(null);
   const [imgConvertKeys, setImgConvertKeys] = useState<string[]>(['jpg-to-png', 'png-to-jpg', 'jpg-to-webp', 'webp-to-jpg', 'png-to-webp', 'webp-to-png', 'jpg-to-avif', 'avif-to-jpg', 'png-to-avif', 'avif-to-png', 'webp-to-avif', 'avif-to-webp']);
   const [dbCategories, setDbCategories] = useState<string[]>(CATEGORIES);
   const toolsGridRef = useRef<HTMLElement>(null);
@@ -132,7 +132,7 @@ export default function Home() {
 
   const filteredTools = useMemo(() => {
     const tools = TOOLS.filter(t => {
-      const isVerified = verifiedKeys.includes(t.id);
+      const isVerified = (verifiedKeys ?? []).includes(t.id);
       if (displayCategory === 'All') return isVerified;
       if (displayCategory === 'Image Convert') return isVerified && imgConvertKeys.includes(t.id);
       return isVerified && t.category === displayCategory;
@@ -143,14 +143,14 @@ export default function Home() {
     return tools;
   }, [displayCategory, verifiedKeys, imgConvertKeys]);
 
-  const showGridSkeleton = !mounted || isLoading;
+  const showGridSkeleton = !mounted || isLoading || verifiedKeys === null;
 
-  const skeletonTools = useMemo(() => {
-    if (!mounted) return TOOLS;
+  const skeletonCount = 8;
+  const skeletonCategories = useMemo(() => {
     const cat = activeCategory;
-    if (cat === 'All') return TOOLS.slice(0, 8);
-    return Array.from({ length: 8 }, () => ({ category: cat }));
-  }, [activeCategory, mounted]);
+    if (cat === 'All') return TOOLS.slice(0, skeletonCount).map(t => t.category);
+    return Array.from({ length: skeletonCount }, () => cat);
+  }, [activeCategory]);
 
   return (
     <div className="min-h-screen relative overflow-hidden">
@@ -209,7 +209,7 @@ export default function Home() {
       {/* -- TOOLS GRID -- */}
       <section ref={toolsGridRef} className="container mx-auto px-4 pb-20">
         {showGridSkeleton ? (
-          <SkeletonGrid count={skeletonTools.length} categories={skeletonTools.map(t => t.category)} />
+          <SkeletonGrid count={skeletonCount} categories={skeletonCategories} />
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 animate-fade-in">
             {filteredTools.map((tool) => {

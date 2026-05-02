@@ -28,9 +28,9 @@ export default function ThemeToggle() {
   if (dark === null) {
     return (
       <span
-        className="theme-toggle-pill theme-toggle-pill--light flex-shrink-0"
+        className="theme-toggle-pill flex-shrink-0"
         aria-hidden="true"
-        style={{ visibility: "hidden" }}
+        style={{ visibility: 'hidden', pointerEvents: 'none' }}
       />
     );
   }
