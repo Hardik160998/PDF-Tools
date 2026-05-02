@@ -35,13 +35,14 @@ export default function ImageConverter({ id }: { id: string }) {
   const [pdfName, setPdfName] = useState('');
   const accent = ACCENT[id] ?? ACCENT['jpg-to-pdf'];
 
+  const isMultiMode = id !== 'pdf-to-jpg'; // all except pdf-to-jpg support multiple files
+
   const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       const incoming = Array.from(e.target.files!);
-      const newFiles = id === 'jpg-to-pdf' ? incoming : [incoming[0]];
-      setFiles(prev => id === 'jpg-to-pdf' ? [...prev, ...newFiles] : newFiles);
-      const newPreviews = newFiles.map(f => f.type.startsWith('image/') ? URL.createObjectURL(f) : '');
-      setPreviews(prev => id === 'jpg-to-pdf' ? [...prev, ...newPreviews] : newPreviews);
+      setFiles(prev => isMultiMode ? [...prev, ...incoming] : incoming);
+      const newPreviews = incoming.map(f => f.type.startsWith('image/') ? URL.createObjectURL(f) : '');
+      setPreviews(prev => isMultiMode ? [...prev, ...newPreviews] : newPreviews);
       setResults([]);
       e.target.value = '';
     }
@@ -75,6 +76,19 @@ export default function ImageConverter({ id }: { id: string }) {
     setPreviews(previews.filter((_, i) => i !== index));
   };
 
+  const getTargetFormat = (): 'png' | 'jpeg' | 'webp' | 'avif' => {
+    if (['jpg-to-png', 'webp-to-png', 'avif-to-png'].includes(id)) return 'png';
+    if (['png-to-jpg', 'webp-to-jpg', 'avif-to-jpg'].includes(id)) return 'jpeg';
+    if (['jpg-to-webp', 'png-to-webp', 'avif-to-webp'].includes(id)) return 'webp';
+    if (['jpg-to-avif', 'png-to-avif', 'webp-to-avif'].includes(id)) return 'avif';
+    return 'jpeg';
+  };
+
+  const getTargetExt = () => {
+    const fmt = getTargetFormat();
+    return fmt === 'jpeg' ? 'jpg' : fmt;
+  };
+
   const handleConvert = async () => {
     if (!files.length) return;
     setProcessing(true);
@@ -94,33 +108,6 @@ export default function ImageConverter({ id }: { id: string }) {
         }
         const pdfBytes = await pdfDoc.save();
         setResults([URL.createObjectURL(new Blob([pdfBytes.buffer as ArrayBuffer], { type: 'application/pdf' }))]);
-      } else if (id === 'jpg-to-png') {
-        const dataUrl = await convertImageFormat(files[0], 'png');
-        setResults([dataUrl]);
-      } else if (id === 'png-to-jpg') {
-        const dataUrl = await convertImageFormat(files[0], 'jpeg');
-        setResults([dataUrl]);
-      } else if (id === 'jpg-to-webp' || id === 'png-to-webp') {
-        const dataUrl = await convertImageFormat(files[0], 'webp' as 'png');
-        setResults([dataUrl]);
-      } else if (id === 'webp-to-jpg') {
-        const dataUrl = await convertImageFormat(files[0], 'jpeg');
-        setResults([dataUrl]);
-      } else if (id === 'webp-to-png') {
-        const dataUrl = await convertImageFormat(files[0], 'png');
-        setResults([dataUrl]);
-      } else if (id === 'jpg-to-avif' || id === 'png-to-avif' || id === 'webp-to-avif') {
-        const dataUrl = await convertImageFormat(files[0], 'avif');
-        setResults([dataUrl]);
-      } else if (id === 'avif-to-jpg') {
-        const dataUrl = await convertImageFormat(files[0], 'jpeg');
-        setResults([dataUrl]);
-      } else if (id === 'avif-to-png') {
-        const dataUrl = await convertImageFormat(files[0], 'png');
-        setResults([dataUrl]);
-      } else if (id === 'avif-to-webp') {
-        const dataUrl = await convertImageFormat(files[0], 'webp');
-        setResults([dataUrl]);
       } else if (id === 'pdf-to-jpg') {
         const file = files[0];
         setPdfName(file.name.replace(/\.pdf$/i, ''));
@@ -137,6 +124,11 @@ export default function ImageConverter({ id }: { id: string }) {
           pageImages.push(canvas.toDataURL('image/jpeg', 0.9));
         }
         setResults(pageImages);
+      } else {
+        // All image-to-image: convert every file
+        const fmt = getTargetFormat();
+        const converted = await Promise.all(files.map(f => convertImageFormat(f, fmt)));
+        setResults(converted);
       }
     } catch (err) {
       console.error(err);
@@ -152,16 +144,19 @@ export default function ImageConverter({ id }: { id: string }) {
     try {
       const JSZip = (await import('jszip')).default;
       const zip = new JSZip();
-      const folder = zip.folder('pages')!;
+      const ext = id === 'pdf-to-jpg' ? 'jpg' : getTargetExt();
+      const folder = zip.folder('converted')!;
       results.forEach((dataUrl, i) => {
         const base64 = dataUrl.split(',')[1];
-        folder.file(`page_${i + 1}.jpg`, base64, { base64: true });
+        const baseName = files[i] ? files[i].name.replace(/\.[^.]+$/, '') : `image_${i + 1}`;
+        const fileName = id === 'pdf-to-jpg' ? `${pdfName || 'page'}_${i + 1}.${ext}` : `${baseName}.${ext}`;
+        folder.file(fileName, base64, { base64: true });
       });
       const blob = await zip.generateAsync({ type: 'blob' });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = `${pdfName || 'pages'}.zip`;
+      a.download = `converted_${ext}.zip`;
       a.click();
       URL.revokeObjectURL(url);
     } catch (err) {
@@ -192,22 +187,14 @@ export default function ImageConverter({ id }: { id: string }) {
             <div className={`relative border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-2xl sm:rounded-3xl p-10 sm:p-16 group ${accent.hover} transition-all cursor-pointer bg-slate-50/50 dark:bg-slate-900/50`}>
               <input
                 type="file"
-                multiple={id === 'jpg-to-pdf'}
+                multiple={isMultiMode}
                 onChange={onFileChange}
                 accept={
                   id === 'jpg-to-pdf' ? 'image/*' :
-                  id === 'jpg-to-png' ? 'image/jpeg,image/jpg' :
-                  id === 'png-to-jpg' ? 'image/png' :
-                  id === 'jpg-to-webp' ? 'image/jpeg,image/jpg' :
-                  id === 'webp-to-jpg' ? 'image/webp' :
-                  id === 'png-to-webp' ? 'image/png' :
-                  id === 'webp-to-png' ? 'image/webp' :
-                  id === 'jpg-to-avif' ? 'image/jpeg,image/jpg' :
-                  id === 'avif-to-jpg' ? 'image/avif' :
-                  id === 'png-to-avif' ? 'image/png' :
-                  id === 'avif-to-png' ? 'image/avif' :
-                  id === 'webp-to-avif' ? 'image/webp' :
-                  id === 'avif-to-webp' ? 'image/avif' :
+                  id === 'jpg-to-png' || id === 'jpg-to-webp' || id === 'jpg-to-avif' ? 'image/jpeg,image/jpg' :
+                  id === 'png-to-jpg' || id === 'png-to-webp' || id === 'png-to-avif' ? 'image/png' :
+                  id === 'webp-to-jpg' || id === 'webp-to-png' || id === 'webp-to-avif' ? 'image/webp' :
+                  id === 'avif-to-jpg' || id === 'avif-to-png' || id === 'avif-to-webp' ? 'image/avif' :
                   '.pdf'
                 }
                 className="absolute inset-0 opacity-0 cursor-pointer w-full h-full"
@@ -217,9 +204,11 @@ export default function ImageConverter({ id }: { id: string }) {
                   <Upload size={36} />
                 </div>
                 <div className="text-xl sm:text-2xl font-black tracking-tight">
-                  {id === 'jpg-to-pdf' ? 'Select Images' : id === 'jpg-to-png' ? 'Select JPG Image' : id === 'png-to-jpg' ? 'Select PNG Image' : id === 'jpg-to-webp' ? 'Select JPG Image' : id === 'webp-to-jpg' ? 'Select WebP Image' : id === 'png-to-webp' ? 'Select PNG Image' : id === 'webp-to-png' ? 'Select WebP Image' : id === 'jpg-to-avif' ? 'Select JPG Image' : id === 'avif-to-jpg' ? 'Select AVIF Image' : id === 'png-to-avif' ? 'Select PNG Image' : id === 'avif-to-png' ? 'Select AVIF Image' : id === 'webp-to-avif' ? 'Select WebP Image' : id === 'avif-to-webp' ? 'Select AVIF Image' : 'Select PDF File'}
+                  {id === 'pdf-to-jpg' ? 'Select PDF File' : `Select ${id.split('-')[0].toUpperCase()} Image${isMultiMode ? 's' : ''}`}
                 </div>
-                <p className="text-sm text-slate-500">or drop {id === 'jpg-to-pdf' ? 'images' : id === 'jpg-to-png' ? 'JPG' : id === 'png-to-jpg' ? 'PNG' : id === 'jpg-to-webp' ? 'JPG' : id === 'webp-to-jpg' ? 'WebP' : id === 'png-to-webp' ? 'PNG' : id === 'webp-to-png' ? 'WebP' : id === 'jpg-to-avif' || id === 'png-to-avif' || id === 'webp-to-avif' ? id.split('-')[0].toUpperCase() : id === 'avif-to-jpg' || id === 'avif-to-png' || id === 'avif-to-webp' ? 'AVIF' : 'PDF'} here</p>
+                <p className="text-sm text-slate-500">
+                  {isMultiMode ? 'Drop multiple images or click to browse' : 'or drop file here'}
+                </p>
               </div>
             </div>
 
@@ -250,21 +239,7 @@ export default function ImageConverter({ id }: { id: string }) {
                   className={`w-full py-4 sm:py-5 ${accent.bg} hover:opacity-90 text-slate-900 rounded-2xl text-lg sm:text-2xl font-black shadow-xl ${accent.shadow} flex items-center justify-center gap-4 transition-all disabled:opacity-50`}
                 >
                   {processing ? <Loader2 className="animate-spin" /> : <Sparkles size={24} />}
-                  {processing ? 'Converting...' : `Convert to ${
-                    id === 'jpg-to-pdf' ? 'PDF' :
-                    id === 'jpg-to-png' ? 'PNG' :
-                    id === 'png-to-jpg' ? 'JPG' :
-                    id === 'jpg-to-webp' ? 'WebP' :
-                    id === 'webp-to-jpg' ? 'JPG' :
-                    id === 'png-to-webp' ? 'WebP' :
-                    id === 'webp-to-png' ? 'PNG' :
-                    id === 'jpg-to-avif' ? 'AVIF' :
-                    id === 'avif-to-jpg' ? 'JPG' :
-                    id === 'png-to-avif' ? 'AVIF' :
-                    id === 'avif-to-png' ? 'PNG' :
-                    id === 'webp-to-avif' ? 'AVIF' :
-                    id === 'avif-to-webp' ? 'WebP' : 'JPG'
-                  }`}
+                  {processing ? 'Converting...' : id === 'jpg-to-pdf' ? `Convert ${files.length} Image${files.length > 1 ? 's' : ''} to PDF` : `Convert ${files.length > 1 ? `${files.length} Images` : '1 Image'} to ${getTargetExt().toUpperCase()}`}
                 </button>
               </div>
             )}
@@ -290,46 +265,53 @@ export default function ImageConverter({ id }: { id: string }) {
               >
                 <Download size={26} /> Download PDF
               </a>
-            ) : id === 'jpg-to-png' || id === 'png-to-jpg' || id === 'jpg-to-webp' || id === 'webp-to-jpg' || id === 'png-to-webp' || id === 'webp-to-png' || id === 'jpg-to-avif' || id === 'avif-to-jpg' || id === 'png-to-avif' || id === 'avif-to-png' || id === 'webp-to-avif' || id === 'avif-to-webp' ? (
+            ) : id !== 'pdf-to-jpg' ? (
               <div className="space-y-4">
-                <a
-                  href={results[0]}
-                  download={`converted.${
-                    id === 'jpg-to-png' ? 'png' :
-                    id === 'png-to-jpg' ? 'jpg' :
-                    id === 'jpg-to-webp' ? 'webp' :
-                    id === 'webp-to-jpg' ? 'jpg' :
-                    id === 'png-to-webp' ? 'webp' :
-                    id === 'webp-to-png' ? 'png' :
-                    id === 'jpg-to-avif' ? 'avif' :
-                    id === 'avif-to-jpg' ? 'jpg' :
-                    id === 'png-to-avif' ? 'avif' :
-                    id === 'avif-to-png' ? 'png' :
-                    id === 'webp-to-avif' ? 'avif' :
-                    id === 'avif-to-webp' ? 'webp' : 'jpg'
-                  }`}
-                  className={`w-full py-5 ${accent.bg} hover:opacity-90 text-slate-900 rounded-2xl text-xl sm:text-2xl font-black shadow-xl flex items-center justify-center gap-4 transition-all`}
-                >
-                  <Download size={26} /> Download {
-                    id === 'jpg-to-png' ? 'PNG' :
-                    id === 'png-to-jpg' ? 'JPG' :
-                    id === 'jpg-to-webp' ? 'WebP' :
-                    id === 'webp-to-jpg' ? 'JPG' :
-                    id === 'png-to-webp' ? 'WebP' :
-                    id === 'webp-to-png' ? 'PNG' :
-                    id === 'jpg-to-avif' ? 'AVIF' :
-                    id === 'avif-to-jpg' ? 'JPG' :
-                    id === 'png-to-avif' ? 'AVIF' :
-                    id === 'avif-to-png' ? 'PNG' :
-                    id === 'webp-to-avif' ? 'AVIF' :
-                    id === 'avif-to-webp' ? 'WebP' : 'JPG'
-                  }
-                </a>
-                <div className="rounded-2xl overflow-hidden border border-slate-100 max-h-80">
-                  <img src={results[0]} alt="Converted" className="w-full h-full object-contain" />
-                </div>
+                {results.length === 1 ? (
+                  <>
+                    <a
+                      href={results[0]}
+                      download={`${files[0]?.name.replace(/\.[^.]+$/, '') || 'converted'}.${getTargetExt()}`}
+                      className={`w-full py-5 ${accent.bg} hover:opacity-90 text-slate-900 rounded-2xl text-xl sm:text-2xl font-black shadow-xl flex items-center justify-center gap-4 transition-all`}
+                    >
+                      <Download size={26} /> Download {getTargetExt().toUpperCase()}
+                    </a>
+                    <div className="rounded-2xl overflow-hidden border border-slate-100 max-h-80">
+                      <img src={results[0]} alt="Converted" className="w-full h-full object-contain" />
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <div className="flex flex-col sm:flex-row gap-3">
+                      <button
+                        onClick={downloadAllZip}
+                        disabled={zipping}
+                        className={`flex-1 py-4 ${accent.bg} hover:opacity-90 text-slate-900 rounded-2xl font-black text-base shadow-xl ${accent.shadow} flex items-center justify-center gap-3 transition-all disabled:opacity-50`}
+                      >
+                        {zipping ? <Loader2 className="animate-spin" size={20} /> : <FolderDown size={20} />}
+                        {zipping ? 'Creating ZIP...' : `Download All (${results.length} ${getTargetExt().toUpperCase()}s)`}
+                      </button>
+                    </div>
+                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+                      {results.map((url, i) => (
+                        <div key={i} className="space-y-2">
+                          <div className="aspect-square bg-slate-100 dark:bg-slate-700 rounded-xl overflow-hidden">
+                            <img src={url} alt={files[i]?.name} className="w-full h-full object-cover" />
+                          </div>
+                          <a
+                            href={url}
+                            download={`${files[i]?.name.replace(/\.[^.]+$/, '') || `image_${i+1}`}.${getTargetExt()}`}
+                            className="w-full py-2 bg-slate-900 hover:bg-slate-700 text-white rounded-xl text-[11px] font-black flex items-center justify-center gap-1.5 transition-all"
+                          >
+                            <Download size={12} /> {files[i]?.name.replace(/\.[^.]+$/, '').slice(0, 10) || `Image ${i+1}`}
+                          </a>
+                        </div>
+                      ))}
+                    </div>
+                  </>
+                )}
                 <button onClick={() => { setFiles([]); setResults([]); }} className="px-8 py-4 bg-slate-100 hover:bg-slate-200 text-slate-900 rounded-2xl font-bold transition-all">
-                  Convert Another
+                  Convert More
                 </button>
               </div>
             ) : (
