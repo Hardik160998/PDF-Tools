@@ -296,7 +296,7 @@ export default function PdfEditor() {
     const touch = e.touches[0];
     const canvasX = (touch.clientX - rect.left) * scaleX;
     const canvasY = (touch.clientY - rect.top) * scaleY;
-    if (tool === "draw") drawingRef.current = { points: [{ canvasX, canvasY }] };
+    if (tool === "draw") drawingRef.current = { points: [{ x: canvasX, y: canvasY }] };
     if (tool === "highlight" || tool === "blur") highlightRef.current = { x: canvasX, y: canvasY };
     if (tool === "eraser") {
       const hit = [...annotations].reverse().find(a => {
@@ -331,7 +331,7 @@ export default function PdfEditor() {
     const canvasX = (touch.clientX - rect.left) * scaleX;
     const canvasY = (touch.clientY - rect.top) * scaleY;
     if (tool === "draw" && drawingRef.current) {
-      drawingRef.current.points.push({ canvasX, canvasY });
+      drawingRef.current.points.push({ x: canvasX, y: canvasY });
       drawAnnotations();
       const pts = drawingRef.current.points;
       if (pts.length >= 2) {
@@ -339,8 +339,8 @@ export default function PdfEditor() {
         ctx.strokeStyle = color; ctx.lineWidth = penSize;
         ctx.lineCap = "round"; ctx.lineJoin = "round";
         ctx.beginPath();
-        ctx.moveTo(pts[0].canvasX, pts[0].canvasY);
-        pts.slice(1).forEach(p => ctx.lineTo(p.canvasX, p.canvasY));
+        ctx.moveTo(pts[0].x, pts[0].y);
+        pts.slice(1).forEach(p => ctx.lineTo(p.x, p.y));
         ctx.stroke();
       }
     }
