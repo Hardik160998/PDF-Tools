@@ -1,9 +1,25 @@
-import { createClient } from '@supabase/supabase-js';
+import { createClient, SupabaseClient } from '@supabase/supabase-js';
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
+let _supabase: SupabaseClient | null = null;
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey);
+function getSupabase(): SupabaseClient | null {
+  if (typeof window === 'undefined') return null;
+  if (!_supabase) {
+    const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+    const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+    if (!url || !key) return null;
+    _supabase = createClient(url, key);
+  }
+  return _supabase;
+}
+
+export const supabase = new Proxy({} as SupabaseClient, {
+  get(_target, prop) {
+    const client = getSupabase();
+    if (!client) return () => Promise.resolve({ data: null, error: null });
+    return (client as any)[prop];
+  },
+});
 
 const ALWAYS_VERIFIED = ['esign', 'edit-pdf', 'extract-pages', 'delete-pages', 'add-blank-page', 'flatten-pdf', 'optimize-pdf', 'webpage-to-pdf', 'compare-pdf', 'redact-pdf', 'bookmark-pdf', 'docx-to-pdf', 'pdf-to-docx', 'jpg-to-png', 'png-to-jpg', 'jpg-to-webp', 'webp-to-jpg', 'png-to-webp', 'webp-to-png', 'jpg-to-avif', 'avif-to-jpg', 'png-to-avif', 'avif-to-png', 'webp-to-avif', 'avif-to-webp'];
 
