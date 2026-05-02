@@ -255,7 +255,7 @@ export default function PdfEditor() {
   }, []);
 
   const onMouseDown = (e: React.MouseEvent<HTMLCanvasElement>) => {
-    if (tool === "select" || tool === "text") return; // text handled by onClick
+    if (tool === "text") return; // text handled by onClick
     const pos = getPos(e);
     if (tool === "draw") drawingRef.current = { points: [{ x: pos.canvasX, y: pos.canvasY }] };
     if (tool === "highlight" || tool === "blur") highlightRef.current = { x: pos.canvasX, y: pos.canvasY };
