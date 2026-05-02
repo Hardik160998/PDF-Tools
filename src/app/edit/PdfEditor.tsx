@@ -61,7 +61,46 @@ export default function PdfEditor() {
   const [editingId, setEditingId] = useState<string | null>(null);
   const [dragHandle, setDragHandle] = useState<string | null>(null);
   const dragStart = useRef({ x: 0, y: 0, annotation: null as TextAnnotation | null });
+  const textBoxRef = useRef<HTMLDivElement>(null);
+  const dragOverlayRef = useRef<HTMLDivElement>(null);
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
+
+  const getPos = useCallback((e: React.MouseEvent<HTMLCanvasElement> | MouseEvent) => {
+    const overlay = overlayRef.current!;
+    const rect = overlay.getBoundingClientRect();
+    const scaleX = overlay.width / rect.width;
+    const scaleY = overlay.height / rect.height;
+    return {
+      canvasX: (e.clientX - rect.left) * scaleX,
+      canvasY: (e.clientY - rect.top) * scaleY,
+      cssX: e.clientX - rect.left,
+      cssY: e.clientY - rect.top,
+    };
+  }, []);
+
+  const updateAnnotation = useCallback((id: string, data: Partial<TextAnnotation["data"]>) => {
+    setAnnotations(prev => prev.map(a => a.id === id ? { ...a, data: { ...a.data, ...data } } as AnyAnnotation : a));
+  }, []);
+
+
+  // Native passive:false touch for text box drag
+  useEffect(() => {
+    const el = textBoxRef.current;
+    if (!el || !editingId) return;
+    const onStart = (e: TouchEvent) => {
+      const target = e.target as HTMLElement;
+      if (target.tagName === "TEXTAREA") return;
+      e.preventDefault();
+      const t = e.touches[0];
+      setDragHandle("move");
+      const cur = annotations.find(a => a.id === editingId) as TextAnnotation | undefined;
+      if (cur) dragStart.current = { x: t.clientX, y: t.clientY, annotation: cur };
+    };
+    el.addEventListener("touchstart", onStart, { passive: false });
+    return () => el.removeEventListener("touchstart", onStart);
+  }, [editingId, annotations]);
+
+
 
   const commitText = useCallback(() => {
     setEditingId(null);
@@ -98,7 +137,12 @@ export default function PdfEditor() {
   };
 
   const [dragging, setDragging] = useState(false);
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  // Open sidebar by default on desktop only
+  useEffect(() => {
+    setSidebarOpen(window.innerWidth > 768);
+  }, []);
   const [penSize, setPenSize] = useState(3);
   const [fontSize, setFontSize] = useState(18);
   const [blurAmount, setBlurAmount] = useState(10);
@@ -241,18 +285,6 @@ export default function PdfEditor() {
 
   useEffect(() => { drawAnnotations(); }, [drawAnnotations]);
 
-  const getPos = useCallback((e: React.MouseEvent<HTMLCanvasElement> | MouseEvent) => {
-    const overlay = overlayRef.current!;
-    const rect = overlay.getBoundingClientRect();
-    const scaleX = overlay.width / rect.width;
-    const scaleY = overlay.height / rect.height;
-    return {
-      canvasX: (e.clientX - rect.left) * scaleX,
-      canvasY: (e.clientY - rect.top) * scaleY,
-      cssX: e.clientX - rect.left,
-      cssY: e.clientY - rect.top,
-    };
-  }, []);
 
   const onTouchStart = useCallback((e: TouchEvent) => {
     if (tool === "text") return;
@@ -512,9 +544,45 @@ export default function PdfEditor() {
     }
   }, [tool, page, color, getPos, penSize, blurAmount]);
 
-  const updateAnnotation = useCallback((id: string, data: Partial<TextAnnotation["data"]>) => {
-    setAnnotations(prev => prev.map(a => a.id === id ? { ...a, data: { ...a.data, ...data } } as AnyAnnotation : a));
-  }, []);
+
+  // Native passive:false touch for global drag overlay
+  useEffect(() => {
+    const el = dragOverlayRef.current;
+    if (!el || !dragHandle) return;
+    const onMove = (e: TouchEvent) => {
+      e.preventDefault();
+      if (!dragStart.current.annotation) return;
+      const ann = dragStart.current.annotation;
+      const overlay = overlayRef.current;
+      if (!overlay) return;
+      const rect = overlay.getBoundingClientRect();
+      const scaleX = overlay.width / rect.width;
+      const scaleY = overlay.height / rect.height;
+      const touch = e.touches[0];
+      const dx = (touch.clientX - dragStart.current.x) / scaleX;
+      const dy = (touch.clientY - dragStart.current.y) / scaleY;
+      let { x, y, w, h } = ann.data;
+      w = w || 200; h = h || 60;
+      if (dragHandle === "move") { x += dx; y += dy; }
+      else {
+        if (dragHandle.includes("e")) w += dx * scaleX;
+        if (dragHandle.includes("w")) { x += dx; w -= dx * scaleX; }
+        if (dragHandle.includes("s")) h += dy * scaleY;
+        if (dragHandle.includes("n")) { y += dy; h -= dy * scaleY; }
+      }
+      const newData = { x, y, w: Math.max(20, w), h: Math.max(20, h) };
+      updateAnnotation(ann.id, newData);
+      dragStart.current = { x: touch.clientX, y: touch.clientY, annotation: { ...ann, data: { ...ann.data, ...newData } } };
+    };
+    const onEnd = () => setDragHandle(null);
+    el.addEventListener("touchmove", onMove, { passive: false });
+    el.addEventListener("touchend", onEnd);
+    return () => {
+      el.removeEventListener("touchmove", onMove);
+      el.removeEventListener("touchend", onEnd);
+    };
+  }, [dragHandle, updateAnnotation]);
+
 
   const undo = useCallback(() => {
     const pageAnns = annotations.filter(a => a.page === page);
@@ -971,6 +1039,7 @@ export default function PdfEditor() {
 
         return (
           <div
+            ref={textBoxRef}
             className="fixed z-[60]"
             style={{
               left: rect.left + left,
@@ -986,6 +1055,10 @@ export default function PdfEditor() {
               e.preventDefault();
               setDragHandle("move");
               dragStart.current = { x: e.clientX, y: e.clientY, annotation: ann };
+            }}
+            onTouchStart={e => {
+              if ((e.target as HTMLElement).dataset.handle) return;
+              // handled by native listener below
             }}
           >
             <textarea
@@ -1064,9 +1137,10 @@ export default function PdfEditor() {
         );
       })()}
 
-      {/* Global move + resize handler — captures mouse anywhere on screen */}
+      {/* Global move + resize handler — captures mouse + touch anywhere on screen */}
       {dragHandle && (
         <div
+          ref={dragOverlayRef}
           className="fixed inset-0 z-[70]"
           style={{ cursor: dragHandle === "move" ? "grabbing" : `${dragHandle}-resize` }}
           onMouseMove={e => {
@@ -1077,17 +1151,18 @@ export default function PdfEditor() {
             const rect = overlay.getBoundingClientRect();
             const scaleX = overlay.width / rect.width;
             const scaleY = overlay.height / rect.height;
-            const dx = (e.clientX - dragStart.current.x) * scaleX;
-            const dy = (e.clientY - dragStart.current.y) * scaleY;
+            const dx = (e.clientX - dragStart.current.x) / scaleX;
+            const dy = (e.clientY - dragStart.current.y) / scaleY;
             let { x, y, w, h } = ann.data;
             w = w || 200; h = h || 60;
             if (dragHandle === "move") {
-              x += dx / scaleX; y += dy / scaleY;
+              x += dx; y += dy;
             } else {
-              if (dragHandle.includes("e")) w += dx;
-              if (dragHandle.includes("w")) { x += dx; w -= dx; }
-              if (dragHandle.includes("s")) h += dy;
-              if (dragHandle.includes("n")) { y += dy; h -= dy; }
+              const dxC = dx * scaleX; const dyC = dy * scaleY;
+              if (dragHandle.includes("e")) w += dxC;
+              if (dragHandle.includes("w")) { x += dx; w -= dxC; }
+              if (dragHandle.includes("s")) h += dyC;
+              if (dragHandle.includes("n")) { y += dy; h -= dyC; }
             }
             const newData = { x, y, w: Math.max(20, w), h: Math.max(20, h) };
             updateAnnotation(ann.id, newData);
