@@ -208,14 +208,24 @@ export default function PdfEditor() {
         const bh = Math.abs(b.data.h);
         if (bw > 1 && bh > 1 && canvasRef.current) {
           const amount = b.data.amount;
-          const pad = amount * 2;
+          // Multi-pass blur for strong effect: sample → blur → draw back opaquely
           const tmp = document.createElement("canvas");
-          tmp.width = bw + pad; tmp.height = bh + pad;
+          tmp.width = bw; tmp.height = bh;
           const tctx = tmp.getContext("2d")!;
-          tctx.filter = `blur(${amount}px)`;
-          tctx.drawImage(canvasRef.current, bx, by, bw, bh, amount, amount, bw, bh);
-          tctx.filter = "none";
-          ctx.drawImage(tmp, amount, amount, bw, bh, bx, by, bw, bh);
+          // Draw the source region at full size
+          tctx.drawImage(canvasRef.current, bx, by, bw, bh, 0, 0, bw, bh);
+          // Apply blur via a second pass canvas to avoid edge bleed
+          const tmp2 = document.createElement("canvas");
+          tmp2.width = bw; tmp2.height = bh;
+          const tctx2 = tmp2.getContext("2d")!;
+          tctx2.filter = `blur(${amount}px)`;
+          tctx2.drawImage(tmp, 0, 0);
+          tctx2.filter = "none";
+          // Cover the region completely (opaque) so underlying PDF is hidden
+          ctx.save();
+          ctx.globalAlpha = 1;
+          ctx.drawImage(tmp2, 0, 0, bw, bh, bx, by, bw, bh);
+          ctx.restore();
         }
         ctx.save();
         ctx.strokeStyle = "rgba(99, 102, 241, 0.5)";
@@ -367,15 +377,21 @@ export default function PdfEditor() {
       drawAnnotations();
       if (bw > 1 && bh > 1 && canvasRef.current) {
         const amount = blurAmountRef.current;
-        const pad = amount * 2;
         const tmp = document.createElement("canvas");
-        tmp.width = bw + pad; tmp.height = bh + pad;
+        tmp.width = bw; tmp.height = bh;
         const tctx = tmp.getContext("2d")!;
-        tctx.filter = `blur(${amount}px)`;
-        tctx.drawImage(canvasRef.current, bx, by, bw, bh, amount, amount, bw, bh);
-        tctx.filter = "none";
+        tctx.drawImage(canvasRef.current, bx, by, bw, bh, 0, 0, bw, bh);
+        const tmp2 = document.createElement("canvas");
+        tmp2.width = bw; tmp2.height = bh;
+        const tctx2 = tmp2.getContext("2d")!;
+        tctx2.filter = `blur(${amount}px)`;
+        tctx2.drawImage(tmp, 0, 0);
+        tctx2.filter = "none";
         const ctx = overlay.getContext("2d")!;
-        ctx.drawImage(tmp, amount, amount, bw, bh, bx, by, bw, bh);
+        ctx.save();
+        ctx.globalAlpha = 1;
+        ctx.drawImage(tmp2, 0, 0, bw, bh, bx, by, bw, bh);
+        ctx.restore();
         ctx.save();
         ctx.strokeStyle = "rgba(99,102,241,0.7)";
         ctx.lineWidth = 2;
@@ -536,14 +552,20 @@ export default function PdfEditor() {
       if (bw > 1 && bh > 1 && canvasRef.current) {
         const amount = blurAmountRef.current;
         const ctx = overlayRef.current!.getContext("2d")!;
-        const pad = amount * 2;
         const tmp = document.createElement("canvas");
-        tmp.width = bw + pad; tmp.height = bh + pad;
+        tmp.width = bw; tmp.height = bh;
         const tctx = tmp.getContext("2d")!;
-        tctx.filter = `blur(${amount}px)`;
-        tctx.drawImage(canvasRef.current, bx, by, bw, bh, amount, amount, bw, bh);
-        tctx.filter = "none";
-        ctx.drawImage(tmp, amount, amount, bw, bh, bx, by, bw, bh);
+        tctx.drawImage(canvasRef.current, bx, by, bw, bh, 0, 0, bw, bh);
+        const tmp2 = document.createElement("canvas");
+        tmp2.width = bw; tmp2.height = bh;
+        const tctx2 = tmp2.getContext("2d")!;
+        tctx2.filter = `blur(${amount}px)`;
+        tctx2.drawImage(tmp, 0, 0);
+        tctx2.filter = "none";
+        ctx.save();
+        ctx.globalAlpha = 1;
+        ctx.drawImage(tmp2, 0, 0, bw, bh, bx, by, bw, bh);
+        ctx.restore();
         ctx.save();
         ctx.strokeStyle = "rgba(99,102,241,0.7)";
         ctx.lineWidth = 2;
@@ -816,28 +838,41 @@ export default function PdfEditor() {
     } finally { setDownloading(false); }
   }, [pdfDoc, annotations, fileName, scale]);
 
-  const fitWidth = () => {
-    if (!pdfDoc || !canvasRef.current) return;
-    const container = canvasRef.current.parentElement;
+  const fitWidth = useCallback(() => {
+    if (!pdfDoc) return;
+    const container = canvasWrapRef.current;
     if (!container) return;
     const isMobile = window.innerWidth <= 768;
-    const padding = isMobile ? 16 : 48;
-    const availableWidth = container.clientWidth - padding;
+    // On mobile: fill full width with minimal padding
+    // On desktop: cap at a readable max width with some padding
+    const containerWidth = container.clientWidth;
+    const padding = isMobile ? 8 : Math.min(96, containerWidth * 0.1);
+    const availableWidth = containerWidth - padding;
+    if (availableWidth <= 0) return;
     pdfDoc.getPage(1).then(pg => {
       const viewport = pg.getViewport({ scale: 1 });
       const newScale = availableWidth / viewport.width;
       setScale(Math.max(0.3, Math.min(3, newScale)));
     });
-  };
-
-  // Auto fit-width on mobile when PDF loads
-  useEffect(() => {
-    if (!pdfDoc || !canvasRef.current) return;
-    if (window.innerWidth <= 768) {
-      setTimeout(() => fitWidth(), 100);
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pdfDoc]);
+
+  // Auto fit-width on both mobile and desktop when PDF loads
+  useEffect(() => {
+    if (!pdfDoc) return;
+    // Use requestAnimationFrame to ensure layout is painted before measuring
+    const raf = requestAnimationFrame(() => {
+      setTimeout(() => fitWidth(), 0);
+    });
+    return () => cancelAnimationFrame(raf);
+  }, [pdfDoc, fitWidth]);
+
+  // Re-fit on window resize (orientation change etc.)
+  useEffect(() => {
+    if (!pdfDoc) return;
+    const onResize = () => fitWidth();
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, [pdfDoc, fitWidth]);
 
   const cursorMap: Record<Tool, string> = {
     select: "default", highlight: "crosshair", text: "text", draw: "crosshair", eraser: "cell", blur: "crosshair",
@@ -1041,7 +1076,7 @@ export default function PdfEditor() {
           className="flex-1 overflow-auto relative pb-16 md:pb-0"
           style={{ background: "#e2e8f0", WebkitOverflowScrolling: "touch" }}
         >
-          <div className="flex items-start justify-start md:justify-center p-2 md:p-6 min-h-full min-w-full">
+          <div className="flex items-start justify-center p-2 md:p-6 min-h-full">
             <div className="relative shadow-2xl rounded-lg" style={{ overflow: "visible", flexShrink: 0 }}>
               <canvas ref={canvasRef} className="block rounded-lg" />
               <canvas ref={overlayRef} className="absolute inset-0 rounded-lg"
