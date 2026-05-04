@@ -7,7 +7,7 @@ import {
   Combine, Scissors, FileText, Settings, Lock,
   Stamp, Sparkles, Zap, Type, ImageIcon, Wand2,
   FileDigit, FileJson, FileSymlink, Unlock,
-  Presentation, FileSpreadsheet, Globe, LifeBuoy, ChevronDown, PenLine, Layers, GitCompare, EyeOff, Bookmark
+  Presentation, FileSpreadsheet, Globe, LifeBuoy, ChevronDown, PenLine, Layers, GitCompare, EyeOff, Bookmark, ScanText
 } from 'lucide-react';
 
 const CATEGORIES = ['All', 'Organize', 'Optimize', 'Convert', 'Image Convert', 'Edit', 'Security', 'Special', 'Sign'];
@@ -36,6 +36,8 @@ const TOOLS = [
   { id: 'compress',     title: 'Compress PDF',       description: 'Reduce file size while optimizing for maximal PDF quality.',                                      category: 'Optimize', icon: Zap            },
   { id: 'repair-pdf',   title: 'Repair PDF',         description: 'Recover data from damaged, corrupted or illegible PDF files.',                                    category: 'Optimize', icon: LifeBuoy       },
   { id: 'extract-text', title: 'PDF to Text',        description: 'Easily convert your PDF files into easy to edit text documents.',                                 category: 'Convert',  icon: Type           },
+  { id: 'ocr-pdf',      title: 'OCR PDF',            description: 'Make scanned PDFs selectable and searchable. Add an invisible text layer with OCR — 100% in-browser.', category: 'Convert',  icon: ScanText       },
+  { id: 'remove-ocr',   title: 'Remove OCR',         description: 'Strip the text layer from a selectable PDF and convert it to a non-selectable image-only file.',       category: 'Edit',     icon: EyeOff         },
   { id: 'pdf-to-xml',   title: 'PDF to XML',         description: 'Extract structured data from your PDF into XML machine readable format.',                         category: 'Convert',  icon: FileJson       },
   { id: 'pdf-to-jpg',   title: 'PDF to JPG',         description: 'Convert each PDF page into a JPG or extract all images contained in a PDF.',                     category: 'Convert',  icon: ImageIcon      },
   { id: 'jpg-to-pdf',   title: 'JPG to PDF',         description: 'Convert JPG images to PDF in seconds. Easily adjust orientation and margins.',                    category: 'Convert',  icon: ImageIcon      },
@@ -109,7 +111,7 @@ export default function Home() {
   const toolsGridRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
-    const FALLBACK_KEYS = ['esign','edit-pdf','extract-pages','delete-pages','add-blank-page','flatten-pdf','optimize-pdf','webpage-to-pdf','compare-pdf','redact-pdf','bookmark-pdf','docx-to-pdf','pdf-to-docx','jpg-to-png','png-to-jpg','jpg-to-webp','webp-to-jpg','png-to-webp','webp-to-png','jpg-to-avif','avif-to-jpg','png-to-avif','avif-to-png','webp-to-avif','avif-to-webp','organize','merge','split','compress','repair-pdf','extract-text','pdf-to-xml','pdf-to-jpg','jpg-to-pdf','word-to-pdf','pdf-to-word','ppt-to-pdf','pdf-to-ppt','excel-to-pdf','pdf-to-excel','html-to-pdf','watermark','page-numbers','metadata','unlock','protect','aadhar-crop'];
+    const FALLBACK_KEYS = ['esign','edit-pdf','extract-pages','delete-pages','add-blank-page','flatten-pdf','optimize-pdf','webpage-to-pdf','compare-pdf','redact-pdf','bookmark-pdf','docx-to-pdf','pdf-to-docx','jpg-to-png','png-to-jpg','jpg-to-webp','webp-to-jpg','png-to-webp','webp-to-png','jpg-to-avif','avif-to-jpg','png-to-avif','avif-to-png','webp-to-avif','avif-to-webp','organize','merge','split','compress','repair-pdf','extract-text','ocr-pdf','remove-ocr','pdf-to-xml','pdf-to-jpg','jpg-to-pdf','word-to-pdf','pdf-to-word','ppt-to-pdf','pdf-to-ppt','excel-to-pdf','pdf-to-excel','html-to-pdf','watermark','page-numbers','metadata','unlock','protect','aadhar-crop'];
 
     // Timeout fallback — if DB takes >3s or fails, show all tools immediately
     const fallbackTimer = setTimeout(() => setVerifiedKeys(prev => prev ?? FALLBACK_KEYS), 3000);

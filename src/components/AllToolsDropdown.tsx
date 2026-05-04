@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useRef } from "react";
-import { ChevronDown, Combine, Scissors, Zap, LifeBuoy, Type, FileJson, ImageIcon, FileText, Presentation, FileSpreadsheet, Globe, Stamp, FileDigit, Settings, Unlock, Lock, Wand2, FileSymlink, PenLine, Layers, GitCompare, EyeOff, Bookmark, Trash2, FilePlus } from "lucide-react";
+import { ChevronDown, Combine, Scissors, Zap, LifeBuoy, Type, FileJson, ImageIcon, FileText, Presentation, FileSpreadsheet, Globe, Stamp, FileDigit, Settings, Unlock, Lock, Wand2, FileSymlink, PenLine, Layers, GitCompare, EyeOff, Bookmark, Trash2, FilePlus, ScanText } from "lucide-react";
 
 const CATEGORIES: { name: string; color: string; gradient: string; tools: { id: string; label: string; icon: React.ElementType; href?: string }[] }[] = [
   {
@@ -34,6 +34,7 @@ const CATEGORIES: { name: string; color: string; gradient: string; tools: { id: 
     gradient: "linear-gradient(135deg, #3182ce, #1e3a8a)",
     tools: [
       { id: "extract-text",   label: "PDF to Text",       icon: Type },
+      { id: "ocr-pdf",        label: "OCR PDF",           icon: ScanText },
       { id: "pdf-to-xml",     label: "PDF to XML",        icon: FileJson },
       { id: "pdf-to-jpg",     label: "PDF to JPG",        icon: ImageIcon },
       { id: "jpg-to-pdf",     label: "JPG to PDF",        icon: ImageIcon },
@@ -59,6 +60,7 @@ const CATEGORIES: { name: string; color: string; gradient: string; tools: { id: 
       { id: "page-numbers", label: "Page Numbers",  icon: FileDigit, href: "/tool/page-numbers" },
       { id: "metadata",     label: "Edit Metadata", icon: Settings,  href: "/tool/metadata" },
       { id: "flatten-pdf",  label: "Flatten PDF",   icon: Layers },
+      { id: "remove-ocr",   label: "Remove OCR",    icon: EyeOff },
       { id: "esign",        label: "E-Sign PDF",    icon: PenLine,   href: "/esign" },
       { id: "edit-pdf",     label: "Edit PDF",      icon: PenLine,   href: "/edit" },
     ],
