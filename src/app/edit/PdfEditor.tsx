@@ -49,6 +49,28 @@ const FEATURES = [
   { icon: Eraser, label: "Erase", desc: "Remove marks cleanly", color: "#ef4444", bg: "rgba(239,68,68,0.1)" },
 ];
 
+// Cross-browser blur: scale down then up (works on iOS Safari where ctx.filter is unsupported)
+function applyBlur(src: HTMLCanvasElement, amount: number): HTMLCanvasElement {
+  const bw = src.width;
+  const bh = src.height;
+  const factor = Math.max(2, Math.min(20, amount));
+  const sw = Math.max(1, Math.floor(bw / factor));
+  const sh = Math.max(1, Math.floor(bh / factor));
+  // Step 1: scale down
+  const small = document.createElement("canvas");
+  small.width = sw; small.height = sh;
+  const sctx = small.getContext("2d")!;
+  sctx.drawImage(src, 0, 0, sw, sh);
+  // Step 2: scale back up into result
+  const out = document.createElement("canvas");
+  out.width = bw; out.height = bh;
+  const octx = out.getContext("2d")!;
+  octx.imageSmoothingEnabled = true;
+  octx.imageSmoothingQuality = "high";
+  octx.drawImage(small, 0, 0, bw, bh);
+  return out;
+}
+
 export default function PdfEditor() {
   const [pdfDoc, setPdfDoc] = useState<pdfjsLib.PDFDocumentProxy | null>(null);
   const [fileName, setFileName] = useState("");
@@ -207,24 +229,13 @@ export default function PdfEditor() {
         const bw = Math.abs(b.data.w);
         const bh = Math.abs(b.data.h);
         if (bw > 1 && bh > 1 && canvasRef.current) {
-          const amount = b.data.amount;
-          // Multi-pass blur for strong effect: sample → blur → draw back opaquely
           const tmp = document.createElement("canvas");
           tmp.width = bw; tmp.height = bh;
-          const tctx = tmp.getContext("2d")!;
-          // Draw the source region at full size
-          tctx.drawImage(canvasRef.current, bx, by, bw, bh, 0, 0, bw, bh);
-          // Apply blur via a second pass canvas to avoid edge bleed
-          const tmp2 = document.createElement("canvas");
-          tmp2.width = bw; tmp2.height = bh;
-          const tctx2 = tmp2.getContext("2d")!;
-          tctx2.filter = `blur(${amount}px)`;
-          tctx2.drawImage(tmp, 0, 0);
-          tctx2.filter = "none";
-          // Cover the region completely (opaque) so underlying PDF is hidden
+          tmp.getContext("2d")!.drawImage(canvasRef.current, bx, by, bw, bh, 0, 0, bw, bh);
+          const blurred = applyBlur(tmp, b.data.amount);
           ctx.save();
           ctx.globalAlpha = 1;
-          ctx.drawImage(tmp2, 0, 0, bw, bh, bx, by, bw, bh);
+          ctx.drawImage(blurred, 0, 0, bw, bh, bx, by, bw, bh);
           ctx.restore();
         }
         ctx.save();
@@ -376,21 +387,14 @@ export default function PdfEditor() {
       const bh = Math.abs(canvasY - start.y);
       drawAnnotations();
       if (bw > 1 && bh > 1 && canvasRef.current) {
-        const amount = blurAmountRef.current;
         const tmp = document.createElement("canvas");
         tmp.width = bw; tmp.height = bh;
-        const tctx = tmp.getContext("2d")!;
-        tctx.drawImage(canvasRef.current, bx, by, bw, bh, 0, 0, bw, bh);
-        const tmp2 = document.createElement("canvas");
-        tmp2.width = bw; tmp2.height = bh;
-        const tctx2 = tmp2.getContext("2d")!;
-        tctx2.filter = `blur(${amount}px)`;
-        tctx2.drawImage(tmp, 0, 0);
-        tctx2.filter = "none";
+        tmp.getContext("2d")!.drawImage(canvasRef.current, bx, by, bw, bh, 0, 0, bw, bh);
+        const blurred = applyBlur(tmp, blurAmountRef.current);
         const ctx = overlay.getContext("2d")!;
         ctx.save();
         ctx.globalAlpha = 1;
-        ctx.drawImage(tmp2, 0, 0, bw, bh, bx, by, bw, bh);
+        ctx.drawImage(blurred, 0, 0, bw, bh, bx, by, bw, bh);
         ctx.restore();
         ctx.save();
         ctx.strokeStyle = "rgba(99,102,241,0.7)";
@@ -550,21 +554,14 @@ export default function PdfEditor() {
       const bh = Math.abs(pos.canvasY - start.y);
       drawAnnotations();
       if (bw > 1 && bh > 1 && canvasRef.current) {
-        const amount = blurAmountRef.current;
         const ctx = overlayRef.current!.getContext("2d")!;
         const tmp = document.createElement("canvas");
         tmp.width = bw; tmp.height = bh;
-        const tctx = tmp.getContext("2d")!;
-        tctx.drawImage(canvasRef.current, bx, by, bw, bh, 0, 0, bw, bh);
-        const tmp2 = document.createElement("canvas");
-        tmp2.width = bw; tmp2.height = bh;
-        const tctx2 = tmp2.getContext("2d")!;
-        tctx2.filter = `blur(${amount}px)`;
-        tctx2.drawImage(tmp, 0, 0);
-        tctx2.filter = "none";
+        tmp.getContext("2d")!.drawImage(canvasRef.current, bx, by, bw, bh, 0, 0, bw, bh);
+        const blurred = applyBlur(tmp, blurAmountRef.current);
         ctx.save();
         ctx.globalAlpha = 1;
-        ctx.drawImage(tmp2, 0, 0, bw, bh, bx, by, bw, bh);
+        ctx.drawImage(blurred, 0, 0, bw, bh, bx, by, bw, bh);
         ctx.restore();
         ctx.save();
         ctx.strokeStyle = "rgba(99,102,241,0.7)";
@@ -704,14 +701,11 @@ export default function PdfEditor() {
         const bw = Math.abs(b.data.w);
         const bh = Math.abs(b.data.h);
         if (bw > 1 && bh > 1) {
-          const pad = b.data.amount * 2;
           const tmp = document.createElement("canvas");
-          tmp.width = bw + pad; tmp.height = bh + pad;
-          const tctx = tmp.getContext("2d")!;
-          tctx.filter = `blur(${b.data.amount}px)`;
-          tctx.drawImage(clean, bx, by, bw, bh, b.data.amount, b.data.amount, bw, bh);
-          tctx.filter = "none";
-          baseCtx.drawImage(tmp, b.data.amount, b.data.amount, bw, bh, bx, by, bw, bh);
+          tmp.width = bw; tmp.height = bh;
+          tmp.getContext("2d")!.drawImage(clean, bx, by, bw, bh, 0, 0, bw, bh);
+          const blurred = applyBlur(tmp, b.data.amount);
+          baseCtx.drawImage(blurred, 0, 0, bw, bh, bx, by, bw, bh);
         }
       } else if (ann.type === "highlight") {
         const h = ann as HighlightAnnotation;
@@ -810,10 +804,9 @@ export default function PdfEditor() {
             if (bw > 1 && bh > 1) {
               const tmp = document.createElement("canvas");
               tmp.width = bw; tmp.height = bh;
-              const tctx = tmp.getContext("2d")!;
-              tctx.filter = `blur(${b.data.amount}px)`;
-              tctx.drawImage(baseForBlur, bx, by, bw, bh, 0, 0, bw, bh);
-              ctx.drawImage(tmp, 0, 0, bw, bh, bx, by, bw, bh);
+              tmp.getContext("2d")!.drawImage(baseForBlur, bx, by, bw, bh, 0, 0, bw, bh);
+              const blurred = applyBlur(tmp, b.data.amount);
+              ctx.drawImage(blurred, 0, 0, bw, bh, bx, by, bw, bh);
             }
           }
         }
@@ -843,16 +836,18 @@ export default function PdfEditor() {
     const container = canvasWrapRef.current;
     if (!container) return;
     const isMobile = window.innerWidth <= 768;
-    // On mobile: fill full width with minimal padding
-    // On desktop: cap at a readable max width with some padding
     const containerWidth = container.clientWidth;
-    const padding = isMobile ? 8 : Math.min(96, containerWidth * 0.1);
+    const padding = isMobile ? 8 : 48;
     const availableWidth = containerWidth - padding;
     if (availableWidth <= 0) return;
     pdfDoc.getPage(1).then(pg => {
       const viewport = pg.getViewport({ scale: 1 });
       const newScale = availableWidth / viewport.width;
-      setScale(Math.max(0.3, Math.min(3, newScale)));
+      // On desktop: clamp to a readable range (0.5 – 1.5)
+      // On mobile: fill the screen (0.3 – 3)
+      const min = 0.3;
+      const max = isMobile ? 3 : 1.5;
+      setScale(Math.max(min, Math.min(max, newScale)));
     });
   }, [pdfDoc]);
 
@@ -952,7 +947,7 @@ export default function PdfEditor() {
 
   return (
     <div className="flex flex-col bg-slate-100 dark:bg-slate-900" style={{ position: "fixed", inset: 0, zIndex: 50 }}>
-      <div className="sticky top-0 z-40 flex items-center px-2 md:px-4 py-1.5 md:py-2.5 bg-white dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700 shadow-sm shrink-0 gap-1 md:gap-3 overflow-x-auto scrollbar-hide">
+      <div className="sticky top-0 z-40 flex items-center justify-between px-2 md:px-4 py-1.5 md:py-2.5 bg-white dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700 shadow-sm shrink-0 gap-1 md:gap-3 overflow-x-auto scrollbar-hide">
         <div className="flex items-center gap-3 min-w-0">
           <button onClick={() => { setPdfDoc(null); setAnnotations([]); }}
             className="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-500 transition-colors">
