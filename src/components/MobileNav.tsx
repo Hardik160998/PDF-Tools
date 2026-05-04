@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Menu, X, Heart, Combine, Scissors, Zap, LifeBuoy, Type, FileJson, ImageIcon, FileText, Presentation, FileSpreadsheet, Globe, Stamp, FileDigit, Settings, Unlock, Lock, Wand2, FileSymlink, Search, Layers, GitCompare, Bookmark, EyeOff, PenLine } from "lucide-react";
+import { Menu, X, Heart, Combine, Scissors, Zap, LifeBuoy, Type, FileJson, ImageIcon, FileText, Presentation, FileSpreadsheet, Globe, Stamp, FileDigit, Settings, Unlock, Lock, Wand2, FileSymlink, Search, Layers, GitCompare, Bookmark, EyeOff, PenLine, ScanText } from "lucide-react";
 
 const SECTIONS = [
   {
@@ -69,6 +69,7 @@ const SECTIONS = [
       { href: "/tool/page-numbers",  label: "Page Numbers",  icon: FileDigit },
       { href: "/tool/metadata",      label: "Edit Metadata", icon: Settings },
       { href: "/tool/flatten-pdf",   label: "Flatten PDF",   icon: Layers },
+      { href: "/tool/ocr-pdf",       label: "OCR PDF",       icon: ScanText },
     ],
   },
   {
