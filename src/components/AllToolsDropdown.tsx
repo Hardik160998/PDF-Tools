@@ -34,6 +34,7 @@ const CATEGORIES: { name: string; color: string; gradient: string; tools: { id: 
     gradient: "linear-gradient(135deg, #3182ce, #1e3a8a)",
     tools: [
       { id: "extract-text",   label: "PDF to Text",       icon: Type },
+      { id: "ocr-pdf",        label: "OCR PDF",           icon: ScanText },
       { id: "pdf-to-xml",     label: "PDF to XML",        icon: FileJson },
       { id: "pdf-to-jpg",     label: "PDF to JPG",        icon: ImageIcon },
       { id: "jpg-to-pdf",     label: "JPG to PDF",        icon: ImageIcon },
@@ -59,7 +60,7 @@ const CATEGORIES: { name: string; color: string; gradient: string; tools: { id: 
       { id: "page-numbers", label: "Page Numbers",  icon: FileDigit, href: "/tool/page-numbers" },
       { id: "metadata",     label: "Edit Metadata", icon: Settings,  href: "/tool/metadata" },
       { id: "flatten-pdf",  label: "Flatten PDF",   icon: Layers },
-      { id: "ocr-pdf",      label: "OCR PDF",       icon: ScanText,  href: "/tool/ocr-pdf" },
+      { id: "remove-ocr",   label: "Remove OCR",    icon: EyeOff },
       { id: "esign",        label: "E-Sign PDF",    icon: PenLine,   href: "/esign" },
       { id: "edit-pdf",     label: "Edit PDF",      icon: PenLine,   href: "/edit" },
     ],

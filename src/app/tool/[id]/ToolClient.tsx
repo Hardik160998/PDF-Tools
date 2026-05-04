@@ -47,13 +47,6 @@ const AddBlankPage = dynamic(() => import('@/components/tools/AddBlankPage'), {
   ssr: false, loading: () => <CenteredCardSkeleton accent="rgb(199 210 254)" />,
 });
 
-const PdfEditorWrapper = dynamic(() => import('@/app/edit/PdfEditor'), {
-  ssr: false, loading: () => <CenteredCardSkeleton accent="rgb(221 214 254)" />,
-});
-
-function PdfEditorWithId(_props: { id: string }) {
-  return <PdfEditorWrapper />;
-}
 const TOOL_COMPONENTS: Record<string, React.ComponentType<{ id: string }>> = {
   'organize': OrganizeTool,
   'merge': MergeSplit,
@@ -63,7 +56,6 @@ const TOOL_COMPONENTS: Record<string, React.ComponentType<{ id: string }>> = {
   'watermark': EditTools,
   'page-numbers': EditTools,
   'metadata': EditTools,
-  'edit-pdf': PdfEditorWithId,
   'compress': Compressor,
   'repair-pdf': RepairTool,
   'pdf-to-jpg': ImageConverter,

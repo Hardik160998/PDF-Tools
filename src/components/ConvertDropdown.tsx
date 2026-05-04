@@ -1,10 +1,11 @@
 "use client";
 
 import { useState, useRef } from "react";
-import { ChevronDown, Type, FileJson, ImageIcon, FileText, Presentation, FileSpreadsheet, Globe } from "lucide-react";
+import { ChevronDown, Type, FileJson, ImageIcon, FileText, Presentation, FileSpreadsheet, Globe, ScanText } from "lucide-react";
 
 const TOOLS = [
   { id: "extract-text",   label: "PDF to Text",       icon: Type },
+  { id: "ocr-pdf",        label: "OCR PDF",           icon: ScanText },
   { id: "pdf-to-xml",     label: "PDF to XML",        icon: FileJson },
   { id: "pdf-to-jpg",     label: "PDF to JPG",        icon: ImageIcon },
   { id: "jpg-to-pdf",     label: "JPG to PDF",        icon: ImageIcon },
