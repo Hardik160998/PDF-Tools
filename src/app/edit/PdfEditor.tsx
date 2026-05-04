@@ -1131,7 +1131,9 @@ export default function PdfEditor() {
             }}
             onTouchStart={e => {
               if ((e.target as HTMLElement).dataset.handle) return;
-              // handled by native listener below
+              e.preventDefault();
+              setDragHandle("move");
+              dragStart.current = { x: e.touches[0].clientX, y: e.touches[0].clientY, annotation: ann };
             }}
           >
             <textarea
@@ -1174,6 +1176,14 @@ export default function PdfEditor() {
                 setDragHandle("move");
                 dragStart.current = { x: e.clientX, y: e.clientY, annotation: ann };
               }}
+              ref={el => {
+                if (!el) return;
+                el.addEventListener("touchstart", (e: TouchEvent) => {
+                  e.preventDefault(); e.stopPropagation();
+                  setDragHandle("move");
+                  dragStart.current = { x: e.touches[0].clientX, y: e.touches[0].clientY, annotation: ann };
+                }, { passive: false });
+              }}
             >
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M5 9l-3 3 3 3M9 5l3-3 3 3M15 19l-3 3-3-3M19 9l3 3-3 3M12 3v18M3 12h18" />
@@ -1200,6 +1210,14 @@ export default function PdfEditor() {
                 e.stopPropagation();
                 setAnnotations(prev => prev.filter(a => a.id !== ann.id));
                 setEditingId(null);
+              }}
+              ref={el => {
+                if (!el) return;
+                el.addEventListener("touchstart", (e: TouchEvent) => {
+                  e.preventDefault(); e.stopPropagation();
+                  setAnnotations(prev => prev.filter(a => a.id !== ann.id));
+                  setEditingId(null);
+                }, { passive: false });
               }}
             >
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round">
@@ -1316,6 +1334,14 @@ export default function PdfEditor() {
                     setDragHandle(h);
                     dragStart.current = { x: e.clientX, y: e.clientY, annotation: ann };
                   }}
+                  ref={el => {
+                    if (!el) return;
+                    el.addEventListener("touchstart", (e: TouchEvent) => {
+                      e.preventDefault(); e.stopPropagation();
+                      setDragHandle(h);
+                      dragStart.current = { x: e.touches[0].clientX, y: e.touches[0].clientY, annotation: ann };
+                    }, { passive: false });
+                  }}
                 />
               );
             })}
@@ -1355,6 +1381,27 @@ export default function PdfEditor() {
             dragStart.current = { x: e.clientX, y: e.clientY, annotation: { ...ann, data: { ...ann.data, ...newData } } };
           }}
           onMouseUp={() => setDragHandle(null)}
+          ref={el => {
+            if (!el) return;
+            el.addEventListener("touchmove", (e: TouchEvent) => {
+              e.preventDefault();
+              if (!dragStart.current.annotation) return;
+              const ann = dragStart.current.annotation;
+              const overlay = overlayRef.current; if (!overlay) return;
+              const rect = overlay.getBoundingClientRect();
+              const scaleX = overlay.width / rect.width; const scaleY = overlay.height / rect.height;
+              const touch = e.touches[0];
+              const dx = (touch.clientX - dragStart.current.x) / scaleX;
+              const dy = (touch.clientY - dragStart.current.y) / scaleY;
+              let { x, y, w, h } = ann.data; w = w||200; h = h||60;
+              if (dragHandle === "move") { x += dx; y += dy; }
+              else { const dxC = dx*scaleX; const dyC = dy*scaleY; if (dragHandle.includes("e")) w+=dxC; if (dragHandle.includes("w")) { x+=dx; w-=dxC; } if (dragHandle.includes("s")) h+=dyC; if (dragHandle.includes("n")) { y+=dy; h-=dyC; } }
+              const newData = { x, y, w: Math.max(20,w), h: Math.max(20,h) };
+              updateAnnotation(ann.id, newData);
+              dragStart.current = { x: touch.clientX, y: touch.clientY, annotation: { ...ann, data: { ...ann.data, ...newData } } };
+            }, { passive: false });
+            el.addEventListener("touchend", () => setDragHandle(null));
+          }}
         />
       )}
 
