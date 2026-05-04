@@ -22,7 +22,7 @@ interface HighlightAnnotation {
 }
 interface TextAnnotation {
   id: string; type: "text"; page: number;
-  data: { x: number; y: number; w?: number; h?: number; text: string; color: string; fontSize: number };
+  data: { x: number; y: number; w?: number; h?: number; text: string; color: string; fontSize: number; rotation?: number };
 }
 interface BlurAnnotation {
   id: string; type: "blur"; page: number;
@@ -83,6 +83,7 @@ export default function PdfEditor() {
   const [editingId, setEditingId] = useState<string | null>(null);
   const [dragHandle, setDragHandle] = useState<string | null>(null);
   const dragStart = useRef({ x: 0, y: 0, annotation: null as TextAnnotation | null });
+  const rotatingRef = useRef<{ startAngle: number; id: string } | null>(null);
   const textBoxRef = useRef<HTMLDivElement>(null);
   const dragOverlayRef = useRef<HTMLDivElement>(null);
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
@@ -214,14 +215,20 @@ export default function PdfEditor() {
         ctx.stroke();
       } else if (ann.type === "text") {
         const t = ann as TextAnnotation;
-        if (t.id === editingId) return; // Skip if being edited
+        if (t.id === editingId) return;
+        ctx.save();
+        const cx = t.data.x + (t.data.w || 200) / 2;
+        const cy = t.data.y + (t.data.h || 60) / 2;
+        ctx.translate(cx, cy);
+        ctx.rotate(((t.data.rotation ?? 0) * Math.PI) / 180);
+        ctx.translate(-cx, -cy);
         ctx.font = `bold ${t.data.fontSize}px Inter, sans-serif`;
         ctx.fillStyle = t.data.color;
-        // Handle multiline text in canvas
         const lines = t.data.text.split("\n");
         lines.forEach((line, i) => {
           ctx.fillText(line, t.data.x, t.data.y + (t.data.fontSize * 0.85) + (i * t.data.fontSize * 1.2));
         });
+        ctx.restore();
       } else if (ann.type === "blur") {
         const b = ann as BlurAnnotation;
         const bx = Math.min(b.data.x, b.data.x + b.data.w);
@@ -1113,6 +1120,8 @@ export default function PdfEditor() {
               backgroundColor: "rgba(59,130,246,0.05)",
               boxSizing: "border-box",
               cursor: dragHandle === "move" ? "grabbing" : "grab",
+              transform: `rotate(${ann.data.rotation ?? 0}deg)`,
+              transformOrigin: "center center",
             }}
             onMouseDown={e => {
               if ((e.target as HTMLElement).dataset.handle) return;
@@ -1143,21 +1152,22 @@ export default function PdfEditor() {
               placeholder="Type here..."
             />
 
-            {/* Move handle */}
+            {/* Move handle - centered at top */}
             <div
               data-handle="move-btn"
               title="Move"
               style={{
                 position: "absolute",
-                right: -36, top: "50%",
-                transform: "translateY(-50%)",
-                width: 28, height: 28,
+                top: -13,
+                left: "50%",
+                transform: "translateX(-50%)",
+                width: 26, height: 26,
                 borderRadius: "50%",
                 background: "#3b82f6",
                 display: "flex", alignItems: "center", justifyContent: "center",
                 cursor: "grab",
                 boxShadow: "0 2px 8px rgba(59,130,246,0.4)",
-                zIndex: 2,
+                zIndex: 3,
               }}
               onMouseDown={e => {
                 e.preventDefault(); e.stopPropagation();
@@ -1165,9 +1175,121 @@ export default function PdfEditor() {
                 dragStart.current = { x: e.clientX, y: e.clientY, annotation: ann };
               }}
             >
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
-                <path d="M3 3v5h5" />
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M5 9l-3 3 3 3M9 5l3-3 3 3M15 19l-3 3-3-3M19 9l3 3-3 3M12 3v18M3 12h18" />
+              </svg>
+            </div>
+            {/* Close handle - top right */}
+            <div
+              data-handle="close-btn"
+              title="Delete"
+              style={{
+                position: "absolute",
+                top: -13,
+                right: -13,
+                width: 26, height: 26,
+                borderRadius: "50%",
+                background: "#ef4444",
+                display: "flex", alignItems: "center", justifyContent: "center",
+                cursor: "pointer",
+                boxShadow: "0 2px 8px rgba(239,68,68,0.4)",
+                zIndex: 3,
+              }}
+              onMouseDown={e => { e.preventDefault(); e.stopPropagation(); }}
+              onClick={e => {
+                e.stopPropagation();
+                setAnnotations(prev => prev.filter(a => a.id !== ann.id));
+                setEditingId(null);
+              }}
+            >
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round">
+                <path d="M18 6 6 18M6 6l12 12" />
+              </svg>
+            </div>
+            {/* Rotate handle - bottom center */}
+            <div
+              data-handle="rotate-btn"
+              title="Rotate"
+              style={{
+                position: "absolute",
+                bottom: -13,
+                left: "50%",
+                transform: "translateX(-50%)",
+                width: 26, height: 26,
+                borderRadius: "50%",
+                background: "#8b5cf6",
+                display: "flex", alignItems: "center", justifyContent: "center",
+                cursor: "grab",
+                boxShadow: "0 2px 8px rgba(139,92,246,0.4)",
+                zIndex: 3,
+                touchAction: "none",
+              }}
+              onMouseDown={e => {
+                e.preventDefault(); e.stopPropagation();
+                const overlay = overlayRef.current;
+                if (!overlay) return;
+                const rect = overlay.getBoundingClientRect();
+                const scaleX = rect.width / overlay.width;
+                const cx = rect.left + ann.data.x * scaleX + (ann.data.w || 200) * scaleX / 2;
+                const cy = rect.top + ann.data.y * scaleX + (ann.data.h || 60) * scaleX / 2;
+                const startAngle = Math.atan2(e.clientY - cy, e.clientX - cx) * 180 / Math.PI;
+                rotatingRef.current = { startAngle: startAngle - (ann.data.rotation ?? 0), id: ann.id };
+                const onMove = (ev: MouseEvent) => {
+                  if (!rotatingRef.current) return;
+                  const angle = Math.atan2(ev.clientY - cy, ev.clientX - cx) * 180 / Math.PI;
+                  updateAnnotation(rotatingRef.current.id, { rotation: angle - rotatingRef.current.startAngle });
+                };
+                const onUp = () => {
+                  rotatingRef.current = null;
+                  window.removeEventListener("mousemove", onMove);
+                  window.removeEventListener("mouseup", onUp);
+                };
+                window.addEventListener("mousemove", onMove);
+                window.addEventListener("mouseup", onUp);
+              }}
+              ref={el => {
+                if (!el) return;
+                // Native touch handler with passive:false for rotate
+                const overlay = overlayRef.current;
+                const getCenter = () => {
+                  if (!overlay) return { cx: 0, cy: 0 };
+                  const rect = overlay.getBoundingClientRect();
+                  const scaleX = rect.width / overlay.width;
+                  return {
+                    cx: rect.left + ann.data.x * scaleX + (ann.data.w || 200) * scaleX / 2,
+                    cy: rect.top + ann.data.y * scaleX + (ann.data.h || 60) * scaleX / 2,
+                  };
+                };
+                const onTouchStart = (e: TouchEvent) => {
+                  e.preventDefault(); e.stopPropagation();
+                  const t = e.touches[0];
+                  const { cx, cy } = getCenter();
+                  const startAngle = Math.atan2(t.clientY - cy, t.clientX - cx) * 180 / Math.PI;
+                  rotatingRef.current = { startAngle: startAngle - (ann.data.rotation ?? 0), id: ann.id };
+                  const onTouchMove = (ev: TouchEvent) => {
+                    ev.preventDefault();
+                    if (!rotatingRef.current) return;
+                    const touch = ev.touches[0];
+                    const { cx: cx2, cy: cy2 } = getCenter();
+                    const angle = Math.atan2(touch.clientY - cy2, touch.clientX - cx2) * 180 / Math.PI;
+                    updateAnnotation(rotatingRef.current.id, { rotation: angle - rotatingRef.current.startAngle });
+                  };
+                  const onTouchEnd = () => {
+                    rotatingRef.current = null;
+                    window.removeEventListener("touchmove", onTouchMove);
+                    window.removeEventListener("touchend", onTouchEnd);
+                  };
+                  window.addEventListener("touchmove", onTouchMove, { passive: false });
+                  window.addEventListener("touchend", onTouchEnd);
+                };
+                el.addEventListener("touchstart", onTouchStart, { passive: false });
+              }}
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M21 2v6h-6" />
+                <path d="M3 12a9 9 0 0 1 15-6.7L21 8" />
+                <path d="M3 22v-6h6" />
+                <path d="M21 12a9 9 0 0 1-15 6.7L3 16" />
               </svg>
             </div>
 
