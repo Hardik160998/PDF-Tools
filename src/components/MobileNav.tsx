@@ -28,6 +28,7 @@ const SECTIONS = [
     label: "Convert", color: "#3182ce", gradient: "linear-gradient(135deg, #3182ce, #1e3a8a)",
     links: [
       { href: "/tool/extract-text",  label: "PDF to Text",        icon: Type },
+      { href: "/tool/ocr-pdf",        label: "OCR PDF",            icon: ScanText },
       { href: "/tool/pdf-to-xml",    label: "PDF to XML",         icon: FileJson },
       { href: "/tool/pdf-to-jpg",    label: "PDF to JPG",         icon: ImageIcon },
       { href: "/tool/jpg-to-pdf",    label: "JPG to PDF",         icon: ImageIcon },
@@ -69,7 +70,7 @@ const SECTIONS = [
       { href: "/tool/page-numbers",  label: "Page Numbers",  icon: FileDigit },
       { href: "/tool/metadata",      label: "Edit Metadata", icon: Settings },
       { href: "/tool/flatten-pdf",   label: "Flatten PDF",   icon: Layers },
-      { href: "/tool/ocr-pdf",       label: "OCR PDF",       icon: ScanText },
+      { href: "/tool/remove-ocr",    label: "Remove OCR",    icon: EyeOff },
     ],
   },
   {

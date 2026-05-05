@@ -21,7 +21,7 @@ export const supabase = new Proxy({} as SupabaseClient, {
   },
 });
 
-const ALWAYS_VERIFIED = ['esign', 'edit-pdf', 'extract-pages', 'delete-pages', 'add-blank-page', 'flatten-pdf', 'optimize-pdf', 'webpage-to-pdf', 'compare-pdf', 'redact-pdf', 'bookmark-pdf', 'docx-to-pdf', 'pdf-to-docx', 'jpg-to-png', 'png-to-jpg', 'jpg-to-webp', 'webp-to-jpg', 'png-to-webp', 'webp-to-png', 'jpg-to-avif', 'avif-to-jpg', 'png-to-avif', 'avif-to-png', 'webp-to-avif', 'avif-to-webp'];
+const ALWAYS_VERIFIED = ['esign', 'edit-pdf', 'extract-pages', 'delete-pages', 'add-blank-page', 'flatten-pdf', 'optimize-pdf', 'webpage-to-pdf', 'compare-pdf', 'redact-pdf', 'bookmark-pdf', 'docx-to-pdf', 'pdf-to-docx', 'jpg-to-png', 'png-to-jpg', 'jpg-to-webp', 'webp-to-jpg', 'png-to-webp', 'webp-to-png', 'jpg-to-avif', 'avif-to-jpg', 'png-to-avif', 'avif-to-png', 'webp-to-avif', 'avif-to-webp', 'ocr-pdf', 'remove-ocr'];
 
 // Tools with their category — synced to allpdftools.category column
 const TOOL_CATEGORIES: Record<string, string> = {
@@ -88,6 +88,41 @@ export async function getToolsByCategory(category: string): Promise<string[]> {
     .eq('category', category)
     .eq('is_verified', true);
   return data?.map(r => r.tool_key) ?? [];
+}
+
+const CATEGORY_ID_MAP: Record<string, number> = {
+  'Organize': 1, 'Optimize': 2, 'Convert': 3, 'Edit': 4,
+  'Security': 5, 'Special': 6, 'Sign': 7, 'Image Convert': 10,
+};
+
+const SPECIAL_URLS: Record<string, string> = {
+  'esign': '/esign',
+  'edit-pdf': '/edit',
+};
+
+// Auto-sync: insert any tool from TOOLS list that is missing in Supabase
+export async function syncMissingTools(tools: { id: string; title: string; category: string }[]) {
+  const keys = tools.map(t => t.id);
+  const { data: existing } = await supabase
+    .from('allpdftools')
+    .select('tool_key')
+    .in('tool_key', keys);
+  const existingKeys = new Set(existing?.map(r => r.tool_key) ?? []);
+  const toInsert = tools
+    .filter(t => !existingKeys.has(t.id))
+    .map(t => ({
+      tool_key: t.id,
+      title: t.title,
+      url: SPECIAL_URLS[t.id] ?? `/tool/${t.id}`,
+      category: t.category,
+      category_id: CATEGORY_ID_MAP[t.category] ?? 6,
+      is_verified: true,
+      img_convert: t.category === 'Image Convert',
+    }));
+  if (toInsert.length === 0) return null;
+  const { error } = await supabase.from('allpdftools').insert(toInsert);
+  if (error) console.error('syncMissingTools error:', error);
+  return error;
 }
 
 export async function syncToolCategories() {

@@ -2,7 +2,7 @@
 
 import { useState, useMemo, useEffect, useRef } from 'react';
 import SkeletonGrid from '@/components/SkeletonGrid';
-import { trackToolClick, getVerifiedToolKeys, getImgConvertTools, getCategories, insertAvifTools } from '@/lib/supabase';
+import { trackToolClick, getVerifiedToolKeys, getImgConvertTools, getCategories, insertAvifTools, syncMissingTools } from '@/lib/supabase';
 import {
   Combine, Scissors, FileText, Settings, Lock,
   Stamp, Sparkles, Zap, Type, ImageIcon, Wand2,
@@ -130,6 +130,7 @@ export default function Home() {
     }).catch(() => {});
 
     insertAvifTools().then(err => { if (err) console.error('insertAvifTools error:', err); }).catch(() => {});
+    syncMissingTools(TOOLS.map(t => ({ id: t.id, title: t.title, category: t.category }))).catch(() => {});
 
     return () => clearTimeout(fallbackTimer);
   }, []);
