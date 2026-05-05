@@ -2,7 +2,7 @@
 
 import { useState, useCallback } from 'react';
 import Cropper from 'react-easy-crop';
-import { Upload, Download, Loader2, X, ChevronRight, CheckCircle2, Wand2 } from 'lucide-react';
+import { Download, Loader2, ChevronRight, CheckCircle2, Wand2, FileText } from 'lucide-react';
 import { PDFDocument } from 'pdf-lib';
 import * as pdfjsLib from 'pdfjs-dist';
 
@@ -25,39 +25,69 @@ export default function AadharCropper({ id }: { id: string }) {
   const [processing, setProcessing] = useState(false);
   const [result, setResult] = useState<string | null>(null);
 
+  const [uploadMode, setUploadMode] = useState<'pdf' | 'img' | null>(null);
+  const [frontPage, setFrontPage] = useState<string | null>(null);
+  const [backPage, setBackPage] = useState<string | null>(null);
+  const [loadingSlot, setLoadingSlot] = useState<'front' | 'back' | null>(null);
+
+  const fileToDataUrl = async (selectedFile: File): Promise<string> => {
+    if (selectedFile.type.startsWith('image/')) {
+      return new Promise<string>((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result as string);
+        reader.onerror = reject;
+        reader.readAsDataURL(selectedFile);
+      });
+    }
+    const arrayBuffer = await selectedFile.arrayBuffer();
+    const pdf = await pdfjsLib.getDocument(arrayBuffer).promise;
+    const page = await pdf.getPage(1);
+    const viewport = page.getViewport({ scale: 2 });
+    const canvas = document.createElement('canvas');
+    canvas.height = viewport.height;
+    canvas.width = viewport.width;
+    const context = canvas.getContext('2d')!;
+    await page.render({ canvasContext: context, viewport, canvas }).promise;
+    return canvas.toDataURL('image/jpeg', 0.9);
+  };
+
+  const onSlotFileChange = async (e: React.ChangeEvent<HTMLInputElement>, slot: 'front' | 'back') => {
+    if (!e.target.files?.[0]) return;
+    setLoadingSlot(slot);
+    try {
+      const dataUrl = await fileToDataUrl(e.target.files[0]);
+      if (slot === 'front') setFrontPage(dataUrl);
+      else setBackPage(dataUrl);
+    } catch (err) {
+      console.error(err);
+      alert('Could not load file. If PDF is password protected, please remove the password first.');
+    } finally {
+      setLoadingSlot(null);
+    }
+  };
+
+  const startCropping = () => {
+    const combined: string[] = [];
+    if (frontPage) combined.push(frontPage);
+    if (backPage) combined.push(backPage);
+    setPages(combined);
+    setStep(2);
+  };
+
   const onFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files?.[0]) {
-      const selectedFile = e.target.files[0];
-      setFile(selectedFile);
-      setProcessing(true);
-      
-      try {
-        const arrayBuffer = await selectedFile.arrayBuffer();
-        const pdf = await pdfjsLib.getDocument(arrayBuffer).promise;
-        const pageImages: string[] = [];
-        
-        for (let i = 1; i <= Math.min(pdf.numPages, 2); i++) {
-          const page = await pdf.getPage(i);
-          const viewport = page.getViewport({ scale: 2 });
-          const canvas = document.createElement('canvas');
-          const context = canvas.getContext('2d');
-          canvas.height = viewport.height;
-          canvas.width = viewport.width;
-          
-          if (context) {
-            await page.render({ canvasContext: context, viewport, canvas: canvas }).promise;
-            pageImages.push(canvas.toDataURL('image/jpeg', 0.9));
-          }
-        }
-        
-        setPages(pageImages);
-        setStep(2);
-      } catch (err) {
-        console.error(err);
-        alert("Could not load PDF. Is it password protected? (Please remove password first)");
-      } finally {
-        setProcessing(false);
-      }
+    if (!e.target.files?.[0]) return;
+    const selectedFile = e.target.files[0];
+    setFile(selectedFile);
+    setProcessing(true);
+    try {
+      const dataUrl = await fileToDataUrl(selectedFile);
+      setPages([dataUrl]);
+      setStep(2);
+    } catch (err) {
+      console.error(err);
+      alert('Could not load file. If PDF is password protected, please remove the password first.');
+    } finally {
+      setProcessing(false);
     }
   };
 
@@ -112,26 +142,28 @@ export default function AadharCropper({ id }: { id: string }) {
     try {
       const pdfDoc = await PDFDocument.create();
       const page = pdfDoc.addPage([595.28, 841.89]); // A4
-      
+      const W = page.getWidth();
+      const H = page.getHeight();
+      const MARGIN = 40;
+      // Scale card to fill page width with margins
+      const CARD_WIDTH = W - MARGIN * 2;
+      const CARD_HEIGHT = CARD_WIDTH * (54 / 86); // maintain aspect ratio
+      const cx = MARGIN;
+
       const frontImg = await pdfDoc.embedJpg(front);
-      const CARD_WIDTH = 243.78; // ~86mm
-      const CARD_HEIGHT = 153.07; // ~54mm
-      
-      page.drawImage(frontImg, {
-        x: (page.getWidth() - CARD_WIDTH) / 2,
-        y: page.getHeight() - 150,
-        width: CARD_WIDTH,
-        height: CARD_HEIGHT,
-      });
 
       if (back) {
         const backImg = await pdfDoc.embedJpg(back);
-        page.drawImage(backImg, {
-          x: (page.getWidth() - CARD_WIDTH) / 2,
-          y: page.getHeight() - 150 - CARD_HEIGHT - 20,
-          width: CARD_WIDTH,
-          height: CARD_HEIGHT,
-        });
+        const GAP = 20;
+        const totalH = CARD_HEIGHT * 2 + GAP;
+        // Center the block vertically
+        const blockStartY = (H - totalH) / 2;
+        // Front on top (pdf-lib Y=0 is bottom)
+        page.drawImage(frontImg, { x: cx, y: blockStartY + CARD_HEIGHT + GAP, width: CARD_WIDTH, height: CARD_HEIGHT });
+        page.drawImage(backImg,  { x: cx, y: blockStartY,                      width: CARD_WIDTH, height: CARD_HEIGHT });
+      } else {
+        // Only front: vertically centered
+        page.drawImage(frontImg, { x: cx, y: (H - CARD_HEIGHT) / 2, width: CARD_WIDTH, height: CARD_HEIGHT });
       }
 
       const pdfBytes = await pdfDoc.save();
@@ -173,24 +205,58 @@ export default function AadharCropper({ id }: { id: string }) {
         </div>
 
         {step === 1 && (
-          <div className="relative border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-2xl p-12 sm:p-20 group hover:border-red-500 transition-all cursor-pointer bg-slate-50/50 dark:bg-slate-900/50">
-            <input type="file" onChange={onFileChange} accept=".pdf,.jpg,.jpeg,.png" className="absolute inset-0 opacity-0 cursor-pointer w-full h-full" />
-            <div className="flex flex-col items-center text-center space-y-5 pointer-events-none">
-              <div className="p-5 bg-white dark:bg-slate-800 rounded-2xl shadow-xl text-red-500 group-hover:scale-110 transition-transform">
-                <Upload size={44} />
-              </div>
-              <div className="text-xl sm:text-2xl font-black tracking-tight text-slate-900 dark:text-white">Upload E-Aadhar PDF</div>
-              <p className="text-slate-500 max-w-sm text-sm leading-relaxed">We'll help you crop and format it to standard ID card dimensions automatically.</p>
-              <div className="flex items-center gap-3 pt-2">
-                <span className="px-3 py-1 bg-red-50 text-red-500 text-xs font-black rounded-full border border-red-100">PDF</span>
-                <span className="px-3 py-1 bg-slate-100 text-slate-500 text-xs font-black rounded-full">JPG</span>
-                <span className="px-3 py-1 bg-slate-100 text-slate-500 text-xs font-black rounded-full">PNG</span>
-              </div>
+          <div className="space-y-4">
+            <p className="text-center text-slate-500 text-sm font-medium">Upload front and back of your Aadhar card</p>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {/* Front View */}
+              {(['front', 'back'] as const).map((slot) => {
+                const isLoading = loadingSlot === slot;
+                const preview = slot === 'front' ? frontPage : backPage;
+                const color = slot === 'front' ? 'red' : 'blue';
+                return (
+                  <div key={slot} className={`relative group border-2 border-dashed rounded-2xl p-6 transition-all cursor-pointer bg-slate-50/50 dark:bg-slate-900/50 ${
+                    preview ? `border-${color}-400 bg-${color}-50/20` : `border-slate-200 dark:border-slate-700 hover:border-${color}-500 hover:bg-${color}-50/30 dark:hover:bg-${color}-500/5`
+                  }`}>
+                    <input
+                      type="file"
+                      accept=".pdf,.jpg,.jpeg,.png,.webp"
+                      onChange={(e) => onSlotFileChange(e, slot)}
+                      className="absolute inset-0 opacity-0 cursor-pointer w-full h-full"
+                    />
+                    <div className="flex flex-col items-center text-center space-y-3 pointer-events-none">
+                      {isLoading ? (
+                        <Loader2 className={`animate-spin text-${color}-500`} size={36} />
+                      ) : preview ? (
+                        <img src={preview} alt={slot} className="w-full h-28 object-cover rounded-xl border border-slate-200 dark:border-slate-700" />
+                      ) : (
+                        <div className={`p-4 bg-white dark:bg-slate-800 rounded-2xl shadow-lg text-${color}-500 group-hover:scale-110 transition-transform`}>
+                          <FileText size={36} />
+                        </div>
+                      )}
+                      <div>
+                        <div className="text-lg font-black tracking-tight text-slate-900 dark:text-white">
+                          {preview ? `${slot === 'front' ? 'Front' : 'Back'} Uploaded ✓` : `Add ${slot === 'front' ? 'Front' : 'Back'} View`}
+                        </div>
+                        <p className="text-slate-500 text-xs mt-1">{slot === 'front' ? 'Front side of Aadhar card' : 'Back side of Aadhar card'}</p>
+                      </div>
+                      <span className={`px-3 py-1 bg-${color}-50 text-${color}-500 text-xs font-black rounded-full border border-${color}-100`}>
+                        PDF / Image
+                      </span>
+                    </div>
+                  </div>
+                );
+              })}
             </div>
-            {processing && (
-              <div className="absolute inset-0 bg-black/50 backdrop-blur-md flex items-center justify-center rounded-2xl">
-                <Loader2 className="animate-spin text-red-500" size={48} />
-              </div>
+
+            {(frontPage || backPage) && (
+              <button
+                onClick={startCropping}
+                disabled={!frontPage}
+                className="w-full py-3 bg-red-500 hover:bg-red-600 disabled:opacity-50 text-white rounded-xl font-black text-base shadow-lg shadow-red-500/20 flex items-center justify-center gap-2 transition-all"
+              >
+                <ChevronRight size={18} />
+                {frontPage && backPage ? 'Crop Both Sides' : 'Crop Front Side Only'}
+              </button>
             )}
           </div>
         )}
@@ -260,7 +326,7 @@ export default function AadharCropper({ id }: { id: string }) {
                 className="flex-1 py-4 bg-green-500 hover:bg-green-600 text-white rounded-2xl text-lg font-black shadow-xl flex items-center justify-center gap-3 transition-all">
                 <Download size={22} /> Download Printable PDF
               </a>
-              <button onClick={() => window.location.reload()}
+              <button onClick={() => { setStep(1); setPages([]); setFrontImage(null); setBackImage(null); setResult(null); setUploadMode(null); setZoom(1); setCrop({ x: 0, y: 0 }); setFrontPage(null); setBackPage(null); }}
                 className="sm:w-auto px-8 py-4 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 text-slate-900 dark:text-white rounded-2xl font-bold transition-all">
                 Crop Another
               </button>
