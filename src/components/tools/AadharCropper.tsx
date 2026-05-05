@@ -177,28 +177,28 @@ export default function AadharCropper({ id }: { id: string }) {
   };
 
   return (
-    <div className="max-w-3xl mx-auto py-6 sm:py-10 px-4">
-      <div className="bg-white dark:bg-slate-800 rounded-[1.5rem] sm:rounded-[2.5rem] p-6 sm:p-10 border border-slate-100 dark:border-slate-700 shadow-2xl space-y-6">
+    <div className="max-w-3xl mx-auto py-4 sm:py-10 px-3 sm:px-4">
+      <div className="bg-white dark:bg-slate-800 rounded-2xl sm:rounded-[2.5rem] p-4 sm:p-10 border border-slate-100 dark:border-slate-700 shadow-2xl space-y-5">
         {/* Header */}
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-          <div className="flex items-center gap-4">
-            <div className="p-3 rounded-2xl bg-red-500 text-white shadow-lg">
-              <Wand2 size={28} />
+        <div className="flex items-center justify-between gap-2">
+          <div className="flex items-center gap-3">
+            <div className="p-2.5 sm:p-3 rounded-xl sm:rounded-2xl bg-red-500 text-white shadow-lg shrink-0">
+              <Wand2 size={22} />
             </div>
             <div className="text-left">
-              <h2 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white uppercase tracking-tighter leading-none">Aadhar Cropper</h2>
-              <p className="text-slate-500 font-medium text-sm">Perfect ID card formatting for high-quality printing.</p>
+              <h2 className="text-lg sm:text-3xl font-black text-slate-900 dark:text-white uppercase tracking-tighter leading-none">Aadhar Cropper</h2>
+              <p className="text-slate-500 font-medium text-xs sm:text-sm hidden sm:block">Perfect ID card formatting for high-quality printing.</p>
             </div>
           </div>
           {/* Step Indicator */}
-          <div className="flex items-center gap-3 bg-slate-50 dark:bg-slate-900/50 px-4 py-3 rounded-2xl border border-slate-100 dark:border-slate-800">
+          <div className="flex items-center gap-2 bg-slate-50 dark:bg-slate-900/50 px-3 py-2 rounded-xl border border-slate-100 dark:border-slate-800 shrink-0">
             {[1, 2, 3].map(s => (
-              <div key={s} className={`w-8 h-8 rounded-full flex items-center justify-center font-black text-xs transition-all ${
+              <div key={s} className={`w-7 h-7 rounded-full flex items-center justify-center font-black text-xs transition-all ${
                 step >= s + 1 || (step === 4 && s === 3) ? 'bg-green-500 text-white' :
                 step === s ? 'bg-red-500 text-white animate-pulse' :
                 'bg-slate-200 dark:bg-slate-700 text-slate-400'
               }`}>
-                {step > s || (step === 4 && s === 3) ? <CheckCircle2 size={14} /> : s}
+                {step > s || (step === 4 && s === 3) ? <CheckCircle2 size={12} /> : s}
               </div>
             ))}
           </div>
@@ -264,7 +264,7 @@ export default function AadharCropper({ id }: { id: string }) {
         {(step === 2 || step === 3) && (
           <div className="space-y-5 animate-in zoom-in duration-500">
             {/* Cropper — tall enough to work comfortably */}
-            <div className="relative h-[500px] sm:h-[560px] bg-slate-100 dark:bg-slate-900 rounded-2xl overflow-hidden shadow-inner border border-slate-200 dark:border-slate-700">
+            <div className="relative h-[320px] sm:h-[560px] bg-slate-100 dark:bg-slate-900 rounded-2xl overflow-hidden shadow-inner border border-slate-200 dark:border-slate-700">
               <Cropper
                 image={pages[step === 2 ? 0 : (pages.length > 1 ? 1 : 0)]}
                 crop={crop}
@@ -313,21 +313,21 @@ export default function AadharCropper({ id }: { id: string }) {
         )}
 
         {step === 4 && result && (
-          <div className="py-8 space-y-8 animate-in zoom-in duration-700 text-center">
-            <div className="p-10 rounded-full bg-green-100 dark:bg-green-500/20 text-green-500 inline-block">
-              <CheckCircle2 size={64} />
+          <div className="py-4 sm:py-8 space-y-5 sm:space-y-8 animate-in zoom-in duration-700 text-center">
+            <div className="p-5 sm:p-10 rounded-full bg-green-100 dark:bg-green-500/20 text-green-500 inline-block">
+              <CheckCircle2 size={48} />
             </div>
-            <div className="space-y-3">
-              <h3 className="text-3xl font-black text-slate-900 dark:text-white">Your Card is Ready!</h3>
-              <p className="text-slate-500 font-medium max-w-lg mx-auto text-sm">Standard A4 format with both sides optimized for high-quality printing.</p>
+            <div className="space-y-2">
+              <h3 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white">Your Card is Ready!</h3>
+              <p className="text-slate-500 font-medium max-w-lg mx-auto text-xs sm:text-sm">Standard A4 format with both sides optimized for high-quality printing.</p>
             </div>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <div className="flex flex-col gap-3">
               <a href={result} download="Aadhar_Card_Print.pdf"
-                className="flex-1 py-4 bg-green-500 hover:bg-green-600 text-white rounded-2xl text-lg font-black shadow-xl flex items-center justify-center gap-3 transition-all">
-                <Download size={22} /> Download Printable PDF
+                className="w-full py-3.5 sm:py-4 bg-green-500 hover:bg-green-600 text-white rounded-2xl text-base sm:text-lg font-black shadow-xl flex items-center justify-center gap-2 transition-all">
+                <Download size={20} /> Download Printable PDF
               </a>
               <button onClick={() => { setStep(1); setPages([]); setFrontImage(null); setBackImage(null); setResult(null); setUploadMode(null); setZoom(1); setCrop({ x: 0, y: 0 }); setFrontPage(null); setBackPage(null); }}
-                className="sm:w-auto px-8 py-4 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 text-slate-900 dark:text-white rounded-2xl font-bold transition-all">
+                className="w-full py-3.5 sm:py-4 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 text-slate-900 dark:text-white rounded-2xl font-bold transition-all text-sm sm:text-base">
                 Crop Another
               </button>
             </div>
