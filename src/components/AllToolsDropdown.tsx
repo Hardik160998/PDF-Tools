@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useRef } from "react";
-import { ChevronDown, Combine, Scissors, Zap, LifeBuoy, Type, FileJson, ImageIcon, FileText, Presentation, FileSpreadsheet, Globe, Stamp, FileDigit, Settings, Unlock, Lock, Wand2, FileSymlink, PenLine, Layers, GitCompare, EyeOff, Bookmark, Trash2, FilePlus, ScanText, Crop } from "lucide-react";
+import { ChevronDown, Combine, Scissors, Zap, LifeBuoy, Type, FileJson, ImageIcon, FileText, Presentation, FileSpreadsheet, Globe, Stamp, FileDigit, Settings, Unlock, Lock, Wand2, FileSymlink, PenLine, Layers, GitCompare, EyeOff, Bookmark, Trash2, FilePlus, ScanText, Crop, ShoppingBag } from "lucide-react";
 
 const CATEGORIES: { name: string; color: string; gradient: string; tools: { id: string; label: string; icon: React.ElementType; href?: string }[] }[] = [
   {
@@ -101,6 +101,14 @@ const CATEGORIES: { name: string; color: string; gradient: string; tools: { id: 
     tools: [
       { id: "aadhar-crop", label: "Aadhar Cropper", icon: Wand2 },
       { id: "crop-pdf",    label: "Crop PDF",       icon: Crop },
+    ],
+  },
+  {
+    name: "Ecommerce",
+    color: "#f26522",
+    gradient: "linear-gradient(135deg, #f26522, #f59e0b)",
+    tools: [
+      { id: "meesho-cropper", label: "Meesho Label Cropper", icon: ShoppingBag },
     ],
   },
 ];

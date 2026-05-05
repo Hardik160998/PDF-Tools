@@ -49,6 +49,9 @@ const OptimizePdf = dynamic(() => import('@/components/tools/OptimizePdf'), {
 const AddBlankPage = dynamic(() => import('@/components/tools/AddBlankPage'), {
   ssr: false, loading: () => <CenteredCardSkeleton accent="rgb(199 210 254)" />,
 });
+const MeeshoCropper = dynamic(() => import('@/components/tools/MeeshoCropper'), {
+  ssr: false, loading: () => <CenteredCardSkeleton accent="rgb(254 215 170)" />,
+});
 
 const TOOL_COMPONENTS: Record<string, React.ComponentType<{ id: string }>> = {
   'organize': OrganizeTool,
@@ -88,6 +91,7 @@ const TOOL_COMPONENTS: Record<string, React.ComponentType<{ id: string }>> = {
   'optimize-pdf': OptimizePdf,
   'aadhar-crop': AadharCropper,
   'crop-pdf': CropPdf,
+  'meesho-cropper': MeeshoCropper,
   'unlock': SecurityTools,
   'protect': SecurityTools,
 };

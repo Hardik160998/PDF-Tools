@@ -137,6 +137,7 @@ export async function syncToolCategories() {
 }
 
 export async function insertMeeshoTool() {
+
   const { data: existing } = await supabase
     .from('allpdftools')
     .select('tool_key')

@@ -2,25 +2,26 @@
 
 import { useState, useMemo, useEffect, useRef } from 'react';
 import SkeletonGrid from '@/components/SkeletonGrid';
-import { trackToolClick, getVerifiedToolKeys, getImgConvertTools, getCategories, insertAvifTools, syncMissingTools } from '@/lib/supabase';
+import { trackToolClick, getVerifiedToolKeys, getImgConvertTools, getCategories, insertAvifTools, syncMissingTools, insertMeeshoTool, insertEcommerceCategory } from '@/lib/supabase';
 import {
   Combine, Scissors, FileText, Settings, Lock,
   Stamp, Sparkles, Zap, Type, ImageIcon, Wand2, Crop,
   FileDigit, FileJson, FileSymlink, Unlock,
-  Presentation, FileSpreadsheet, Globe, LifeBuoy, ChevronDown, PenLine, Layers, GitCompare, EyeOff, Bookmark, ScanText
+  Presentation, FileSpreadsheet, Globe, LifeBuoy, ChevronDown, PenLine, Layers, GitCompare, EyeOff, Bookmark, ScanText, ShoppingBag
 } from 'lucide-react';
 
-const CATEGORIES = ['All', 'Organize', 'Optimize', 'Convert', 'Image Convert', 'Edit', 'Security', 'Special', 'Sign'];
+const CATEGORIES = ['All', 'Organize', 'Optimize', 'Convert', 'Image Convert', 'Edit', 'Security', 'Special', 'Ecommerce', 'Sign'];
 
 const CATEGORY_STYLES: Record<string, { gradient: string; shadow: string }> = {
-  Organize: { gradient: 'linear-gradient(135deg, #f26522, #c2410c)', shadow: 'shadow-orange-500/20' },
-  Optimize: { gradient: 'linear-gradient(135deg, #22c55e, #15803d)', shadow: 'shadow-green-500/20' },
-  Convert:  { gradient: 'linear-gradient(135deg, #3182ce, #1e3a8a)', shadow: 'shadow-blue-500/20'  },
-  Edit:     { gradient: 'linear-gradient(135deg, #E8465D, #843286)',  shadow: 'shadow-pink-500/20'  },
-  Security: { gradient: 'linear-gradient(135deg, #e53e3e, #7f1d1d)', shadow: 'shadow-red-500/20'   },
+  Organize:   { gradient: 'linear-gradient(135deg, #f26522, #c2410c)', shadow: 'shadow-orange-500/20' },
+  Optimize:   { gradient: 'linear-gradient(135deg, #22c55e, #15803d)', shadow: 'shadow-green-500/20' },
+  Convert:    { gradient: 'linear-gradient(135deg, #3182ce, #1e3a8a)', shadow: 'shadow-blue-500/20'  },
+  Edit:       { gradient: 'linear-gradient(135deg, #E8465D, #843286)',  shadow: 'shadow-pink-500/20'  },
+  Security:   { gradient: 'linear-gradient(135deg, #e53e3e, #7f1d1d)', shadow: 'shadow-red-500/20'   },
   'Image Convert': { gradient: 'linear-gradient(135deg, #06b6d4, #0e7490)', shadow: 'shadow-cyan-500/20' },
-  Special:  { gradient: 'linear-gradient(135deg, #ef4444, #991b1b)', shadow: 'shadow-red-600/20'   },
-  Sign:     { gradient: 'linear-gradient(135deg, #8b5cf6, #ec4899)', shadow: 'shadow-purple-500/20' },
+  Special:    { gradient: 'linear-gradient(135deg, #ef4444, #991b1b)', shadow: 'shadow-red-600/20'   },
+  Sign:       { gradient: 'linear-gradient(135deg, #8b5cf6, #ec4899)', shadow: 'shadow-purple-500/20' },
+  Ecommerce:  { gradient: 'linear-gradient(135deg, #f26522, #f59e0b)', shadow: 'shadow-orange-400/20' },
 };
 
 const TOOLS = [
@@ -70,8 +71,9 @@ const TOOLS = [
   { id: 'redact-pdf',   title: 'Redact PDF',         description: 'Permanently hide sensitive text and areas with black boxes. Draw or search to redact.',          category: 'Security', icon: EyeOff         },
   { id: 'unlock',       title: 'Unlock PDF',         description: 'Remove PDF password security, giving you the freedom to use your PDFs as you want.',              category: 'Security', icon: Unlock         },
   { id: 'protect',      title: 'Protect PDF',        description: 'Encrypt PDF with a password. Manage PDF permissions and access control.',                         category: 'Security', icon: Lock           },
-  { id: 'aadhar-crop',  title: 'Aadhar Cropper',     description: 'Perfectly crop Aadhar ID cards from e-Aadhar PDF for high quality printing.',                    category: 'Special',  icon: Wand2          },
-  { id: 'crop-pdf',     title: 'Crop PDF',           description: 'Trim margins and crop any pages of your PDF. Select pages, set margins and download instantly.',     category: 'Special',  icon: Crop           },
+  { id: 'aadhar-crop',      title: 'Aadhar Cropper',          description: 'Perfectly crop Aadhar ID cards from e-Aadhar PDF for high quality printing.',                    category: 'Special',    icon: Wand2        },
+  { id: 'crop-pdf',         title: 'Crop PDF',                description: 'Trim margins and crop any pages of your PDF. Select pages, set margins and download instantly.',     category: 'Special',    icon: Crop         },
+  { id: 'meesho-cropper',   title: 'Meesho Label Cropper',    description: 'Auto-remove the invoice section below "Total" from Meesho shipping label PDFs. Clean labels in one click.', category: 'Ecommerce', icon: ShoppingBag  },
   { id: 'esign',        title: 'E-Sign PDF',         description: 'Draw or type your signature and place it anywhere on a PDF or image. Download the signed file instantly.', category: 'Sign', icon: PenLine },
   { id: 'edit-pdf',     title: 'Edit PDF',           description: 'Highlight, draw, add text and freehand annotations directly on PDFs. Zero uploads, 100% private.', category: 'Edit', icon: PenLine },
 ];
@@ -112,7 +114,7 @@ export default function Home() {
   const toolsGridRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
-    const FALLBACK_KEYS = ['esign','edit-pdf','extract-pages','delete-pages','add-blank-page','flatten-pdf','optimize-pdf','webpage-to-pdf','compare-pdf','redact-pdf','bookmark-pdf','docx-to-pdf','pdf-to-docx','jpg-to-png','png-to-jpg','jpg-to-webp','webp-to-jpg','png-to-webp','webp-to-png','jpg-to-avif','avif-to-jpg','png-to-avif','avif-to-png','webp-to-avif','avif-to-webp','organize','merge','split','compress','repair-pdf','extract-text','ocr-pdf','remove-ocr','pdf-to-xml','pdf-to-jpg','jpg-to-pdf','word-to-pdf','pdf-to-word','ppt-to-pdf','pdf-to-ppt','excel-to-pdf','pdf-to-excel','html-to-pdf','watermark','page-numbers','metadata','unlock','protect','aadhar-crop','crop-pdf'];
+    const FALLBACK_KEYS = ['esign','edit-pdf','extract-pages','delete-pages','add-blank-page','flatten-pdf','optimize-pdf','webpage-to-pdf','compare-pdf','redact-pdf','bookmark-pdf','docx-to-pdf','pdf-to-docx','jpg-to-png','png-to-jpg','jpg-to-webp','webp-to-jpg','png-to-webp','webp-to-png','jpg-to-avif','avif-to-jpg','png-to-avif','avif-to-png','webp-to-avif','avif-to-webp','organize','merge','split','compress','repair-pdf','extract-text','ocr-pdf','remove-ocr','pdf-to-xml','pdf-to-jpg','jpg-to-pdf','word-to-pdf','pdf-to-word','ppt-to-pdf','pdf-to-ppt','excel-to-pdf','pdf-to-excel','html-to-pdf','watermark','page-numbers','metadata','unlock','protect','aadhar-crop','crop-pdf','meesho-cropper'];
 
     // Timeout fallback — if DB takes >3s or fails, show all tools immediately
     const fallbackTimer = setTimeout(() => setVerifiedKeys(prev => prev ?? FALLBACK_KEYS), 3000);
@@ -132,6 +134,8 @@ export default function Home() {
 
     insertAvifTools().then(err => { if (err) console.error('insertAvifTools error:', err); }).catch(() => {});
     syncMissingTools(TOOLS.map(t => ({ id: t.id, title: t.title, category: t.category }))).catch(() => {});
+    insertMeeshoTool().then(err => { if (err) console.error('insertMeeshoTool error:', err); }).catch(() => {});
+    insertEcommerceCategory().then(err => { if (err) console.error('insertEcommerceCategory error:', err); }).catch(() => {});
 
     return () => clearTimeout(fallbackTimer);
   }, []);
@@ -145,7 +149,7 @@ export default function Home() {
     return () => clearTimeout(t);
   }, [activeCategory, mounted]);
 
-  const CATEGORY_ORDER = ['Organize', 'Optimize', 'Convert', 'Image Convert', 'Edit', 'Security', 'Special', 'Sign'];
+  const CATEGORY_ORDER = ['Organize', 'Optimize', 'Convert', 'Image Convert', 'Edit', 'Security', 'Special', 'Ecommerce', 'Sign'];
 
   const filteredTools = useMemo(() => {
     const tools = TOOLS.filter(t => {
@@ -191,8 +195,8 @@ export default function Home() {
 
           {/* Category Filter */}
           <div className="mt-16 fade-in-up stagger-3 flex justify-center">
-            <div className="hidden md:block overflow-x-auto pb-4 scrollbar-hide px-4">
-              <div className="category-nav mx-auto">
+            <div className="hidden md:block w-full max-w-5xl overflow-x-auto pb-2 scrollbar-hide">
+              <div className="category-nav mx-auto w-max">
                 {dbCategories.map(cat => (
                   <button key={cat} onClick={() => setActiveCategory(cat)} className={`filter-tab ${activeCategory === cat ? 'active' : ''}`}>
                     {cat}
@@ -225,6 +229,52 @@ export default function Home() {
 
       {/* -- TOOLS GRID -- */}
       <section ref={toolsGridRef} className="container mx-auto px-4 pb-20">
+
+        {/* Priority Tools — always visible at top */}
+        <div className="mb-10">
+          <div className="flex items-center gap-3 mb-5">
+            <div className="h-px flex-1 bg-gradient-to-r from-transparent via-slate-200 dark:via-slate-700 to-transparent" />
+            <span className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 dark:text-slate-500 px-3">Most Used Tools</span>
+            <div className="h-px flex-1 bg-gradient-to-l from-transparent via-slate-200 dark:via-slate-700 to-transparent" />
+          </div>
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
+            {[
+              { id: 'merge',        title: 'Merge PDF',      icon: Combine,     gradient: 'linear-gradient(135deg,#f26522,#c2410c)', tag: 'Organize' },
+              { id: 'compress',     title: 'Compress PDF',   icon: Zap,         gradient: 'linear-gradient(135deg,#22c55e,#15803d)', tag: 'Optimize' },
+              { id: 'pdf-to-word',  title: 'PDF to Word',    icon: FileText,    gradient: 'linear-gradient(135deg,#3182ce,#1e3a8a)', tag: 'Convert'  },
+              { id: 'split',        title: 'Split PDF',      icon: Scissors,    gradient: 'linear-gradient(135deg,#f26522,#c2410c)', tag: 'Organize' },
+              { id: 'edit-pdf',     title: 'Edit PDF',       icon: PenLine,     gradient: 'linear-gradient(135deg,#E8465D,#843286)', tag: 'Edit',    href: '/edit' },
+              { id: 'crop-pdf',     title: 'Crop PDF',       icon: Crop,        gradient: 'linear-gradient(135deg,#ef4444,#991b1b)', tag: 'Special'  },
+              { id: 'protect',      title: 'Protect PDF',    icon: Lock,        gradient: 'linear-gradient(135deg,#e53e3e,#7f1d1d)', tag: 'Security' },
+              { id: 'unlock',       title: 'Unlock PDF',     icon: Unlock,      gradient: 'linear-gradient(135deg,#e53e3e,#7f1d1d)', tag: 'Security' },
+              { id: 'redact-pdf',   title: 'Redact PDF',     icon: EyeOff,      gradient: 'linear-gradient(135deg,#e53e3e,#7f1d1d)', tag: 'Security' },
+              { id: 'ocr-pdf',      title: 'OCR PDF',        icon: ScanText,    gradient: 'linear-gradient(135deg,#3182ce,#1e3a8a)', tag: 'Convert'  },
+              { id: 'remove-ocr',   title: 'Remove OCR',     icon: EyeOff,      gradient: 'linear-gradient(135deg,#E8465D,#843286)', tag: 'Edit'     },
+            ].map(tool => (
+              <a
+                key={tool.id}
+                href={tool.href ?? `/tool/${tool.id}`}
+                onClick={() => trackToolClick(tool.id)}
+                className="group flex flex-col items-center gap-2.5 p-4 bg-white dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 text-center"
+              >
+                <div
+                  className="w-11 h-11 rounded-xl flex items-center justify-center text-white shadow-md group-hover:scale-110 transition-transform duration-200"
+                  style={{ background: tool.gradient }}
+                >
+                  <tool.icon size={20} />
+                </div>
+                <span className="text-[11px] font-black text-slate-700 dark:text-white leading-tight tracking-tight">{tool.title}</span>
+              </a>
+            ))}
+          </div>
+        </div>
+
+        {/* Divider before full grid */}
+        <div className="flex items-center gap-3 mb-8">
+          <div className="h-px flex-1 bg-gradient-to-r from-transparent via-slate-200 dark:via-slate-700 to-transparent" />
+          <span className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 dark:text-slate-500 px-3">All Tools</span>
+          <div className="h-px flex-1 bg-gradient-to-l from-transparent via-slate-200 dark:via-slate-700 to-transparent" />
+        </div>
         {showGridSkeleton ? (
           <SkeletonGrid count={skeletonCount} categories={skeletonCategories} />
         ) : (

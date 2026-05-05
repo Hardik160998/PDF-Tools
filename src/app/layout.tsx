@@ -11,6 +11,7 @@ import MobileNav from "@/components/MobileNav";
 import MobileSearch from "@/components/MobileSearch";
 import ConvertDropdown from "@/components/ConvertDropdown";
 import ThemeToggle from "@/components/ThemeToggle";
+import EcommerceDropdown from "@/components/EcommerceDropdown";
 
 const inter = Inter({ subsets: ["latin"], weight: ['400', '500', '600', '700', '800', '900'] });
 
@@ -34,31 +35,32 @@ export default function RootLayout({
         
         <div className="page-content">
         <header className="sticky top-0 z-50 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-b border-slate-100 dark:border-slate-800">
-          <div className="container mx-auto px-4 h-16 flex items-center justify-between">
-            <div className="flex items-center gap-8">
-              <a href="/" className="flex items-center gap-1.5 font-black text-2xl tracking-tighter hover:opacity-80 transition-opacity">
-                <span className="text-slate-900 dark:text-white uppercase">Smart</span>
-                <Heart className="fill-red-500 text-red-500" size={24} />
-                <span className="text-slate-900 dark:text-white uppercase">PDFs</span>
-              </a>
+          <div className="w-full px-6 h-16 grid items-center" style={{ gridTemplateColumns: '1fr auto 1fr' }}>
+            {/* Left — Logo */}
+            <a href="/" className="flex items-center gap-1.5 font-black text-2xl tracking-tighter hover:opacity-80 transition-opacity justify-self-start">
+              <span className="text-slate-900 dark:text-white uppercase">Smart</span>
+              <Heart className="fill-red-500 text-red-500" size={24} />
+              <span className="text-slate-900 dark:text-white uppercase">PDFs</span>
+            </a>
 
-              {/* Desktop nav — hidden on mobile via CSS */}
-              <nav className="desktop-nav">
-                {[
-                  { label: 'MERGE PDF', href: '/tool/merge' },
-                  { label: 'SPLIT PDF', href: '/tool/split' },
-                  { label: 'COMPRESS PDF', href: '/tool/compress' },
-                ].map(({ label, href }) => (
-                  <a key={label} href={href} className="text-xs font-black text-slate-700 dark:text-slate-300 hover:text-red-500 transition-colors uppercase tracking-tight">
-                    {label}
-                  </a>
-                ))}
-                <ConvertDropdown />
-                <AllToolsDropdown />
-              </nav>
-            </div>
+            {/* Center — Desktop nav */}
+            <nav className="desktop-nav">
+              {[
+                { label: 'MERGE PDF', href: '/tool/merge' },
+                { label: 'SPLIT PDF', href: '/tool/split' },
+                { label: 'COMPRESS PDF', href: '/tool/compress' },
+              ].map(({ label, href }) => (
+                <a key={label} href={href} className="text-xs font-black text-slate-700 dark:text-slate-300 hover:text-red-500 transition-colors uppercase tracking-tight">
+                  {label}
+                </a>
+              ))}
+              <ConvertDropdown />
+              <EcommerceDropdown />
+              <AllToolsDropdown />
+            </nav>
 
-            <div className="flex items-center gap-3">
+            {/* Right — Actions */}
+            <div className="flex items-center gap-3 justify-self-end">
               {/* Desktop actions — hidden on mobile via CSS */}
               <div className="desktop-nav-actions">
                 <NavSearchBar />

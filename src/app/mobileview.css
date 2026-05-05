@@ -42,11 +42,8 @@
     display: none !important;
   }
 
-  header .container {
-    height: 56px;
-    padding-left: 1rem !important;
-    padding-right: 1rem !important;
-  }
+  header > div { display: flex !important; justify-content: space-between !important; align-items: center !important; padding-left: 1rem !important; padding-right: 1rem !important; height: 56px !important; }
+  header > div > div.flex.items-center { gap: 0.5rem !important; }
 
   .all-tools-dropdown {
     display: none !important;
