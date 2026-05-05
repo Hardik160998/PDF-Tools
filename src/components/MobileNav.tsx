@@ -1,7 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Menu, X, Heart, Combine, Scissors, Zap, LifeBuoy, Type, FileJson, ImageIcon, FileText, Presentation, FileSpreadsheet, Globe, Stamp, FileDigit, Settings, Unlock, Lock, Wand2, FileSymlink, Search, Layers, GitCompare, Bookmark, EyeOff, PenLine, ScanText } from "lucide-react";
+import { Menu, X, Heart, Combine, Scissors, Zap, LifeBuoy, Type, FileJson, ImageIcon, FileText, Presentation, FileSpreadsheet, Globe, Stamp, FileDigit, Settings, Unlock, Lock, Wand2, FileSymlink, Search, Layers, GitCompare, Bookmark, EyeOff, PenLine, ScanText, Crop, ShoppingBag } from "lucide-react";
+import ThemeToggle from "@/components/ThemeToggle";
 
 const SECTIONS = [
   {
@@ -28,7 +29,7 @@ const SECTIONS = [
     label: "Convert", color: "#3182ce", gradient: "linear-gradient(135deg, #3182ce, #1e3a8a)",
     links: [
       { href: "/tool/extract-text",  label: "PDF to Text",        icon: Type },
-      { href: "/tool/ocr-pdf",        label: "OCR PDF",            icon: ScanText },
+      { href: "/tool/ocr-pdf",       label: "OCR PDF",            icon: ScanText },
       { href: "/tool/pdf-to-xml",    label: "PDF to XML",         icon: FileJson },
       { href: "/tool/pdf-to-jpg",    label: "PDF to JPG",         icon: ImageIcon },
       { href: "/tool/jpg-to-pdf",    label: "JPG to PDF",         icon: ImageIcon },
@@ -85,6 +86,13 @@ const SECTIONS = [
     label: "Special", color: "#ef4444", gradient: "linear-gradient(135deg, #ef4444, #991b1b)",
     links: [
       { href: "/tool/aadhar-crop", label: "Aadhar Cropper", icon: Wand2 },
+      { href: "/tool/crop-pdf",    label: "Crop PDF",       icon: Crop },
+    ],
+  },
+  {
+    label: "Ecommerce", color: "#f26522", gradient: "linear-gradient(135deg, #f26522, #f59e0b)",
+    links: [
+      { href: "/tool/meesho-cropper", label: "Meesho Label Cropper", icon: ShoppingBag },
     ],
   },
   {
@@ -190,6 +198,7 @@ export default function MobileNav() {
         </div>
 
         <div className="mob-drawer-footer">
+          <ThemeToggle />
           <button className="mob-drawer-login">Login</button>
           <button className="mob-drawer-signup">Sign Up</button>
         </div>

@@ -5,7 +5,7 @@ import SkeletonGrid from '@/components/SkeletonGrid';
 import { trackToolClick, getVerifiedToolKeys, getImgConvertTools, getCategories, insertAvifTools, syncMissingTools } from '@/lib/supabase';
 import {
   Combine, Scissors, FileText, Settings, Lock,
-  Stamp, Sparkles, Zap, Type, ImageIcon, Wand2,
+  Stamp, Sparkles, Zap, Type, ImageIcon, Wand2, Crop,
   FileDigit, FileJson, FileSymlink, Unlock,
   Presentation, FileSpreadsheet, Globe, LifeBuoy, ChevronDown, PenLine, Layers, GitCompare, EyeOff, Bookmark, ScanText
 } from 'lucide-react';
@@ -71,6 +71,7 @@ const TOOLS = [
   { id: 'unlock',       title: 'Unlock PDF',         description: 'Remove PDF password security, giving you the freedom to use your PDFs as you want.',              category: 'Security', icon: Unlock         },
   { id: 'protect',      title: 'Protect PDF',        description: 'Encrypt PDF with a password. Manage PDF permissions and access control.',                         category: 'Security', icon: Lock           },
   { id: 'aadhar-crop',  title: 'Aadhar Cropper',     description: 'Perfectly crop Aadhar ID cards from e-Aadhar PDF for high quality printing.',                    category: 'Special',  icon: Wand2          },
+  { id: 'crop-pdf',     title: 'Crop PDF',           description: 'Trim margins and crop any pages of your PDF. Select pages, set margins and download instantly.',     category: 'Special',  icon: Crop           },
   { id: 'esign',        title: 'E-Sign PDF',         description: 'Draw or type your signature and place it anywhere on a PDF or image. Download the signed file instantly.', category: 'Sign', icon: PenLine },
   { id: 'edit-pdf',     title: 'Edit PDF',           description: 'Highlight, draw, add text and freehand annotations directly on PDFs. Zero uploads, 100% private.', category: 'Edit', icon: PenLine },
 ];
@@ -111,7 +112,7 @@ export default function Home() {
   const toolsGridRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
-    const FALLBACK_KEYS = ['esign','edit-pdf','extract-pages','delete-pages','add-blank-page','flatten-pdf','optimize-pdf','webpage-to-pdf','compare-pdf','redact-pdf','bookmark-pdf','docx-to-pdf','pdf-to-docx','jpg-to-png','png-to-jpg','jpg-to-webp','webp-to-jpg','png-to-webp','webp-to-png','jpg-to-avif','avif-to-jpg','png-to-avif','avif-to-png','webp-to-avif','avif-to-webp','organize','merge','split','compress','repair-pdf','extract-text','ocr-pdf','remove-ocr','pdf-to-xml','pdf-to-jpg','jpg-to-pdf','word-to-pdf','pdf-to-word','ppt-to-pdf','pdf-to-ppt','excel-to-pdf','pdf-to-excel','html-to-pdf','watermark','page-numbers','metadata','unlock','protect','aadhar-crop'];
+    const FALLBACK_KEYS = ['esign','edit-pdf','extract-pages','delete-pages','add-blank-page','flatten-pdf','optimize-pdf','webpage-to-pdf','compare-pdf','redact-pdf','bookmark-pdf','docx-to-pdf','pdf-to-docx','jpg-to-png','png-to-jpg','jpg-to-webp','webp-to-jpg','png-to-webp','webp-to-png','jpg-to-avif','avif-to-jpg','png-to-avif','avif-to-png','webp-to-avif','avif-to-webp','organize','merge','split','compress','repair-pdf','extract-text','ocr-pdf','remove-ocr','pdf-to-xml','pdf-to-jpg','jpg-to-pdf','word-to-pdf','pdf-to-word','ppt-to-pdf','pdf-to-ppt','excel-to-pdf','pdf-to-excel','html-to-pdf','watermark','page-numbers','metadata','unlock','protect','aadhar-crop','crop-pdf'];
 
     // Timeout fallback — if DB takes >3s or fails, show all tools immediately
     const fallbackTimer = setTimeout(() => setVerifiedKeys(prev => prev ?? FALLBACK_KEYS), 3000);

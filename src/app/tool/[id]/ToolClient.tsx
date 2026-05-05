@@ -34,6 +34,9 @@ const SecurityTools = dynamic(() => import('@/components/tools/SecurityTools'), 
 const AadharCropper = dynamic(() => import('@/components/tools/AadharCropper'), {
   ssr: false, loading: () => <CenteredCardSkeleton accent="rgb(254 202 202)" />,
 });
+const CropPdf = dynamic(() => import('@/components/tools/CropPdf'), {
+  ssr: false, loading: () => <CenteredCardSkeleton accent="rgb(254 215 170)" />,
+});
 const DeletePages = dynamic(() => import('@/components/tools/DeletePages'), {
   ssr: false, loading: () => <CenteredCardSkeleton accent="rgb(254 202 202)" />,
 });
@@ -84,6 +87,7 @@ const TOOL_COMPONENTS: Record<string, React.ComponentType<{ id: string }>> = {
   'flatten-pdf': FlattenPdf,
   'optimize-pdf': OptimizePdf,
   'aadhar-crop': AadharCropper,
+  'crop-pdf': CropPdf,
   'unlock': SecurityTools,
   'protect': SecurityTools,
 };

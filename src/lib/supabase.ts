@@ -21,7 +21,7 @@ export const supabase = new Proxy({} as SupabaseClient, {
   },
 });
 
-const ALWAYS_VERIFIED = ['esign', 'edit-pdf', 'extract-pages', 'delete-pages', 'add-blank-page', 'flatten-pdf', 'optimize-pdf', 'webpage-to-pdf', 'compare-pdf', 'redact-pdf', 'bookmark-pdf', 'docx-to-pdf', 'pdf-to-docx', 'jpg-to-png', 'png-to-jpg', 'jpg-to-webp', 'webp-to-jpg', 'png-to-webp', 'webp-to-png', 'jpg-to-avif', 'avif-to-jpg', 'png-to-avif', 'avif-to-png', 'webp-to-avif', 'avif-to-webp', 'ocr-pdf', 'remove-ocr'];
+const ALWAYS_VERIFIED = ['esign', 'edit-pdf', 'extract-pages', 'delete-pages', 'add-blank-page', 'flatten-pdf', 'optimize-pdf', 'webpage-to-pdf', 'compare-pdf', 'redact-pdf', 'bookmark-pdf', 'docx-to-pdf', 'pdf-to-docx', 'jpg-to-png', 'png-to-jpg', 'jpg-to-webp', 'webp-to-jpg', 'png-to-webp', 'webp-to-png', 'jpg-to-avif', 'avif-to-jpg', 'png-to-avif', 'avif-to-png', 'webp-to-avif', 'avif-to-webp', 'ocr-pdf', 'remove-ocr', 'crop-pdf', 'meesho-cropper'];
 
 // Tools with their category — synced to allpdftools.category column
 const TOOL_CATEGORIES: Record<string, string> = {
@@ -30,16 +30,27 @@ const TOOL_CATEGORIES: Record<string, string> = {
   'extract-text': 'Convert', 'pdf-to-xml': 'Convert', 'pdf-to-jpg': 'Convert', 'jpg-to-pdf': 'Convert',
   'word-to-pdf': 'Convert', 'pdf-to-word': 'Convert', 'docx-to-pdf': 'Convert', 'pdf-to-docx': 'Convert',
   'ppt-to-pdf': 'Convert', 'pdf-to-ppt': 'Convert', 'excel-to-pdf': 'Convert', 'pdf-to-excel': 'Convert',
-  'html-to-pdf': 'Convert', 'webpage-to-pdf': 'Convert',
+  'html-to-pdf': 'Convert', 'webpage-to-pdf': 'Convert', 'ocr-pdf': 'Convert',
   'jpg-to-png': 'Image Convert', 'png-to-jpg': 'Image Convert',
   'jpg-to-webp': 'Image Convert', 'webp-to-jpg': 'Image Convert',
   'png-to-webp': 'Image Convert', 'webp-to-png': 'Image Convert',
   'jpg-to-avif': 'Image Convert', 'avif-to-jpg': 'Image Convert',
   'png-to-avif': 'Image Convert', 'avif-to-png': 'Image Convert',
   'webp-to-avif': 'Image Convert', 'avif-to-webp': 'Image Convert',
-  'bookmark-pdf': 'Edit', 'watermark': 'Edit', 'page-numbers': 'Edit', 'metadata': 'Edit', 'flatten-pdf': 'Edit', 'esign': 'Sign', 'edit-pdf': 'Edit',
+  'bookmark-pdf': 'Edit', 'watermark': 'Edit', 'page-numbers': 'Edit', 'metadata': 'Edit', 'flatten-pdf': 'Edit', 'remove-ocr': 'Edit', 'esign': 'Sign', 'edit-pdf': 'Edit',
   'redact-pdf': 'Security', 'unlock': 'Security', 'protect': 'Security',
-  'aadhar-crop': 'Special',
+  'aadhar-crop': 'Special', 'crop-pdf': 'Special',
+  'meesho-cropper': 'Ecommerce',
+};
+
+const CATEGORY_ID_MAP: Record<string, number> = {
+  'Organize': 1, 'Optimize': 2, 'Convert': 3, 'Edit': 4,
+  'Security': 5, 'Special': 6, 'Sign': 7, 'Image Convert': 10, 'Ecommerce': 11,
+};
+
+const SPECIAL_URLS: Record<string, string> = {
+  'esign': '/esign',
+  'edit-pdf': '/edit',
 };
 
 export async function getVerifiedToolKeys(): Promise<string[]> {
@@ -75,9 +86,9 @@ export async function getCategories(): Promise<string[]> {
       .select('name')
       .eq('is_active', true)
       .order('sort_order', { ascending: true });
-    return data?.map(r => r.name) ?? ['Organize','Optimize','Convert','Image Convert','Edit','Security','Special','Sign'];
+    return data?.map(r => r.name) ?? ['Organize','Optimize','Convert','Image Convert','Edit','Security','Special','Ecommerce','Sign'];
   } catch {
-    return ['Organize','Optimize','Convert','Image Convert','Edit','Security','Special','Sign'];
+    return ['Organize','Optimize','Convert','Image Convert','Edit','Security','Special','Ecommerce','Sign'];
   }
 }
 
@@ -89,16 +100,6 @@ export async function getToolsByCategory(category: string): Promise<string[]> {
     .eq('is_verified', true);
   return data?.map(r => r.tool_key) ?? [];
 }
-
-const CATEGORY_ID_MAP: Record<string, number> = {
-  'Organize': 1, 'Optimize': 2, 'Convert': 3, 'Edit': 4,
-  'Security': 5, 'Special': 6, 'Sign': 7, 'Image Convert': 10,
-};
-
-const SPECIAL_URLS: Record<string, string> = {
-  'esign': '/esign',
-  'edit-pdf': '/edit',
-};
 
 // Auto-sync: insert any tool from TOOLS list that is missing in Supabase
 export async function syncMissingTools(tools: { id: string; title: string; category: string }[]) {
@@ -135,16 +136,50 @@ export async function syncToolCategories() {
   }
 }
 
+export async function insertMeeshoTool() {
+  const { data: existing } = await supabase
+    .from('allpdftools')
+    .select('tool_key')
+    .eq('tool_key', 'meesho-cropper')
+    .single();
+  if (existing) {
+    await supabase.from('allpdftools').update({ category: 'Ecommerce', category_id: 11, is_verified: true }).eq('tool_key', 'meesho-cropper');
+    return null;
+  }
+  const { error } = await supabase.from('allpdftools').insert([{
+    tool_key: 'meesho-cropper',
+    title: 'Meesho Label Cropper',
+    url: '/tool/meesho-cropper',
+    category: 'Ecommerce',
+    category_id: 11,
+    is_verified: true,
+    img_convert: false,
+  }]);
+  return error;
+}
+
+export async function insertEcommerceCategory() {
+  const { data: existing } = await supabase
+    .from('categories')
+    .select('name')
+    .eq('name', 'Ecommerce')
+    .single();
+  if (existing) return null;
+  const { error } = await supabase
+    .from('categories')
+    .insert([{ name: 'Ecommerce', is_active: true, sort_order: 9 }]);
+  return error;
+}
+
 export async function insertAvifTools() {
   const avifTools = [
-    { tool_key: 'jpg-to-avif',  title: 'JPG to AVIF',  url: '/tool/jpg-to-avif',  category: 'Image Convert', is_verified: true, img_convert: true },
-    { tool_key: 'avif-to-jpg',  title: 'AVIF to JPG',  url: '/tool/avif-to-jpg',  category: 'Image Convert', is_verified: true, img_convert: true },
-    { tool_key: 'png-to-avif',  title: 'PNG to AVIF',  url: '/tool/png-to-avif',  category: 'Image Convert', is_verified: true, img_convert: true },
-    { tool_key: 'avif-to-png',  title: 'AVIF to PNG',  url: '/tool/avif-to-png',  category: 'Image Convert', is_verified: true, img_convert: true },
-    { tool_key: 'webp-to-avif', title: 'WebP to AVIF', url: '/tool/webp-to-avif', category: 'Image Convert', is_verified: true, img_convert: true },
-    { tool_key: 'avif-to-webp', title: 'AVIF to WebP', url: '/tool/avif-to-webp', category: 'Image Convert', is_verified: true, img_convert: true },
+    { tool_key: 'jpg-to-avif',  title: 'JPG to AVIF',  url: '/tool/jpg-to-avif',  category: 'Image Convert', category_id: 10, is_verified: true, img_convert: true },
+    { tool_key: 'avif-to-jpg',  title: 'AVIF to JPG',  url: '/tool/avif-to-jpg',  category: 'Image Convert', category_id: 10, is_verified: true, img_convert: true },
+    { tool_key: 'png-to-avif',  title: 'PNG to AVIF',  url: '/tool/png-to-avif',  category: 'Image Convert', category_id: 10, is_verified: true, img_convert: true },
+    { tool_key: 'avif-to-png',  title: 'AVIF to PNG',  url: '/tool/avif-to-png',  category: 'Image Convert', category_id: 10, is_verified: true, img_convert: true },
+    { tool_key: 'webp-to-avif', title: 'WebP to AVIF', url: '/tool/webp-to-avif', category: 'Image Convert', category_id: 10, is_verified: true, img_convert: true },
+    { tool_key: 'avif-to-webp', title: 'AVIF to WebP', url: '/tool/avif-to-webp', category: 'Image Convert', category_id: 10, is_verified: true, img_convert: true },
   ];
-  // Check which ones already exist to avoid conflicts
   const keys = avifTools.map(t => t.tool_key);
   const { data: existing } = await supabase
     .from('allpdftools')

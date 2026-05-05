@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useRef } from "react";
-import { ChevronDown, Combine, Scissors, Zap, LifeBuoy, Type, FileJson, ImageIcon, FileText, Presentation, FileSpreadsheet, Globe, Stamp, FileDigit, Settings, Unlock, Lock, Wand2, FileSymlink, PenLine, Layers, GitCompare, EyeOff, Bookmark, Trash2, FilePlus, ScanText } from "lucide-react";
+import { ChevronDown, Combine, Scissors, Zap, LifeBuoy, Type, FileJson, ImageIcon, FileText, Presentation, FileSpreadsheet, Globe, Stamp, FileDigit, Settings, Unlock, Lock, Wand2, FileSymlink, PenLine, Layers, GitCompare, EyeOff, Bookmark, Trash2, FilePlus, ScanText, Crop } from "lucide-react";
 
 const CATEGORIES: { name: string; color: string; gradient: string; tools: { id: string; label: string; icon: React.ElementType; href?: string }[] }[] = [
   {
@@ -100,6 +100,7 @@ const CATEGORIES: { name: string; color: string; gradient: string; tools: { id: 
     gradient: "linear-gradient(135deg, #ef4444, #991b1b)",
     tools: [
       { id: "aadhar-crop", label: "Aadhar Cropper", icon: Wand2 },
+      { id: "crop-pdf",    label: "Crop PDF",       icon: Crop },
     ],
   },
 ];
