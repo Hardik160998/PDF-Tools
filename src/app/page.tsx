@@ -368,8 +368,8 @@ export default function Home() {
                     <div className="absolute top-1/3 -left-8 bg-orange-500 text-white px-4 py-2 rounded-xl shadow-xl font-black text-sm z-20 transform -rotate-12">PPT</div>
                     <div className="absolute bottom-8 -right-4 bg-green-500 text-white px-4 py-2 rounded-xl shadow-xl font-black text-sm z-20 transform rotate-6">XLS</div>
                     <div className="absolute -bottom-4 left-1/2 transform -translate-x-1/2 flex gap-3 z-30">
-                      {[{ label: '??', bg: '#ef4444' }, { label: '??', bg: '#8b5cf6' }, { label: '?', bg: '#f59e0b' }, { label: '??', bg: '#3b82f6' }].map((item, i) => (
-                        <div key={i} className="w-12 h-12 rounded-xl shadow-2xl flex items-center justify-center text-xl transform hover:scale-110 transition-transform" style={{ backgroundColor: item.bg }}>{item.label}</div>
+                      {[{ label: 'PDF', bg: '#ef4444' }, { label: 'DOC', bg: '#8b5cf6' }, { label: 'XLS', bg: '#f59e0b' }, { label: 'PPT', bg: '#3b82f6' }].map((item, i) => (
+                        <div key={i} className="w-12 h-12 rounded-xl shadow-2xl flex items-center justify-center text-[10px] font-black text-white transform hover:scale-110 transition-transform" style={{ backgroundColor: item.bg }}>{item.label}</div>
                       ))}
                     </div>
                   </div>
@@ -412,7 +412,7 @@ export default function Home() {
                       <p className="text-2xl font-bold text-slate-400 italic" style={{ fontFamily: 'cursive' }}>esign</p>
                     </div>
                     <div className="mt-4 flex gap-2">
-                      <span className="text-xs font-bold bg-yellow-50 dark:bg-yellow-900/20 text-yellow-700 dark:text-yellow-400 px-3 py-1 rounded-full border border-yellow-200 dark:border-yellow-800">?? Signature</span>
+                      <span className="text-xs font-bold bg-yellow-50 dark:bg-yellow-900/20 text-yellow-700 dark:text-yellow-400 px-3 py-1 rounded-full border border-yellow-200 dark:border-yellow-800">✍ Signature</span>
                       <span className="text-xs font-bold bg-slate-50 dark:bg-slate-700 text-slate-500 dark:text-slate-300 px-3 py-1 rounded-full border border-slate-200 dark:border-slate-600">AB Initials</span>
                     </div>
                     <button className="mt-4 w-full py-2 bg-blue-600 text-white text-sm font-bold rounded-xl">Review &amp; Send</button>

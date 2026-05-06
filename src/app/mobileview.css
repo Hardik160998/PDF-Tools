@@ -14,6 +14,17 @@
     overflow-x: hidden;
     width: 100%;
   }
+  /* Override Tailwind v4 negative left spacing that causes overflow */
+  .-left-8 {
+    left: 0 !important;
+  }
+  /* Hide decorative floating badges on mobile */
+  .absolute.-top-6,
+  .absolute.-right-6,
+  .absolute.-left-8,
+  .absolute.-bottom-4 {
+    display: none !important;
+  }
 }
 
 /* â”€â”€ HEADER / NAVBAR â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
@@ -696,7 +707,86 @@ body.drawer-open {
   font-weight: 600;
 }
 
-/* -- FOOTER MOBILE CENTER ----------------------------- */
+/* ── FEATURE SECTIONS MOBILE CENTER ── */
+@media (max-width: 768px) {
+  .flex.flex-col.md\:flex-row.items-center.gap-16,
+  .flex.flex-col.md\:flex-row.items-center.gap-12,
+  .flex.flex-col.md\:flex-row-reverse.items-center.gap-12 {
+    text-align: center !important;
+    align-items: center !important;
+    gap: 1.5rem !important;
+    padding: 0 0.5rem !important;
+  }
+
+  .flex.flex-col.md\:flex-row.items-center.gap-16 > div,
+  .flex.flex-col.md\:flex-row.items-center.gap-12 > div,
+  .flex.flex-col.md\:flex-row-reverse.items-center.gap-12 > div {
+    text-align: center !important;
+    align-items: center !important;
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100% !important;
+  }
+
+  .flex.flex-col.md\:flex-row.items-center.gap-16 h2,
+  .flex.flex-col.md\:flex-row.items-center.gap-12 h2,
+  .flex.flex-col.md\:flex-row-reverse.items-center.gap-12 h2 {
+    text-align: center !important;
+    font-size: 1.6rem !important;
+    line-height: 1.2 !important;
+  }
+
+  .flex.flex-col.md\:flex-row.items-center.gap-16 p,
+  .flex.flex-col.md\:flex-row.items-center.gap-12 p,
+  .flex.flex-col.md\:flex-row-reverse.items-center.gap-12 p {
+    text-align: center !important;
+    font-size: 0.875rem !important;
+  }
+
+  .flex.flex-col.md\:flex-row.items-center.gap-16 a,
+  .flex.flex-col.md\:flex-row.items-center.gap-12 a,
+  .flex.flex-col.md\:flex-row-reverse.items-center.gap-12 a,
+  .flex.flex-col.md\:flex-row.items-center.gap-16 button,
+  .flex.flex-col.md\:flex-row.items-center.gap-12 button {
+    align-self: center !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+}
+
+/* ── WHY CHOOSE SECTION MOBILE CENTER ── */
+@media (max-width: 768px) {
+  .why-card-blue, .why-card-yellow, .why-card-green,
+  .why-card-indigo, .why-card-purple, .why-card-red {
+    text-align: center !important;
+    align-items: center !important;
+  }
+
+  .why-card-blue h3, .why-card-yellow h3, .why-card-green h3,
+  .why-card-indigo h3, .why-card-purple h3, .why-card-red h3 {
+    text-align: center !important;
+  }
+
+  .why-card-blue p, .why-card-yellow p, .why-card-green p,
+  .why-card-indigo p, .why-card-purple p, .why-card-red p {
+    text-align: center !important;
+  }
+
+  /* Why Choose section title */
+  section.py-20.bg-slate-50 h2,
+  section.py-20.bg-slate-900 h2 {
+    text-align: center !important;
+    font-size: 1.75rem !important;
+  }
+
+  /* Why Choose grid — 1 col on mobile */
+  .grid.grid-cols-1.md\:grid-cols-3.gap-6 {
+    grid-template-columns: 1fr !important;
+    gap: 1rem !important;
+  }
+}
+
+/* ── FOOTER MOBILE CENTER ----------------------------- */
 @media (max-width: 768px) {
   footer .grid {
     text-align: center !important;
