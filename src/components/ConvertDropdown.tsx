@@ -30,7 +30,7 @@ export default function ConvertDropdown() {
 
   return (
     <div className="relative" onMouseEnter={show} onMouseLeave={hide}>
-      <button className="flex items-center gap-1 text-xs font-black text-slate-700 dark:text-slate-300 hover:text-red-500 transition-colors uppercase tracking-tight">
+      <button className={`flex items-center gap-1 text-[15px] font-semibold transition-colors uppercase tracking-wide whitespace-nowrap ${open ? "text-red-500" : "text-slate-500 dark:text-slate-400 hover:text-red-500"}`}>
         CONVERT PDF
         <ChevronDown size={13} className={`transition-transform duration-200 ${open ? "rotate-180" : ""}`} />
       </button>
@@ -40,6 +40,7 @@ export default function ConvertDropdown() {
           onMouseEnter={show}
           onMouseLeave={hide}
           className="convert-dropdown-panel"
+          style={{ maxHeight: 'none', overflow: 'visible' }}
         >
           {/* Arrow */}
           <div className="convert-dropdown-arrow" />

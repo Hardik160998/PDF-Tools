@@ -149,7 +149,7 @@ export async function insertMeeshoTool() {
   }
   const { error } = await supabase.from('allpdftools').insert([{
     tool_key: 'meesho-cropper',
-    title: 'Meesho Label Cropper',
+    title: 'Meesho Label with Invoice Cropper',
     url: '/tool/meesho-cropper',
     category: 'Ecommerce',
     category_id: 11,

@@ -95,20 +95,13 @@ const CATEGORIES: { name: string; color: string; gradient: string; tools: { id: 
     ],
   },
   {
-    name: "Special",
+    name: "Special & Ecommerce",
     color: "#ef4444",
     gradient: "linear-gradient(135deg, #ef4444, #991b1b)",
     tools: [
       { id: "aadhar-crop", label: "Aadhar Cropper", icon: Wand2 },
       { id: "crop-pdf",    label: "Crop PDF",       icon: Crop },
-    ],
-  },
-  {
-    name: "Ecommerce",
-    color: "#f26522",
-    gradient: "linear-gradient(135deg, #f26522, #f59e0b)",
-    tools: [
-      { id: "meesho-cropper", label: "Meesho Label Cropper", icon: ShoppingBag },
+      { id: "meesho-cropper", label: "Meesho Cropper", icon: ShoppingBag },
     ],
   },
 ];
@@ -122,14 +115,19 @@ export default function AllToolsDropdown() {
 
   return (
     <div className="relative" onMouseEnter={show} onMouseLeave={hide}>
-      <button className="flex items-center gap-1 text-xs font-black text-slate-700 dark:text-slate-300 hover:text-red-500 transition-colors uppercase tracking-tight">
+      <button className={`flex items-center gap-1 text-[15px] font-semibold transition-colors uppercase tracking-wide whitespace-nowrap ${open ? "text-red-500" : "text-slate-500 dark:text-slate-400 hover:text-red-500"}`}>
         ALL PDF TOOLS
         <ChevronDown size={13} className={`transition-transform duration-200 ${open ? "rotate-180" : ""}`} />
       </button>
 
       {open && (
-        <div className="all-tools-dropdown">
+        <div
+          onMouseEnter={show}
+          onMouseLeave={hide}
+          className="all-tools-dropdown"
+        >
           <div className="all-tools-row">
+            {/* Split categories into columns or just map them */}
             {CATEGORIES.map((cat) => (
               <div key={cat.name} className="all-tools-col">
                 <div className="all-tools-cat-label" style={{ color: cat.color }}>

@@ -73,7 +73,7 @@ const TOOLS = [
   { id: 'protect',      title: 'Protect PDF',        description: 'Encrypt PDF with a password. Manage PDF permissions and access control.',                         category: 'Security', icon: Lock           },
   { id: 'aadhar-crop',      title: 'Aadhar Cropper',          description: 'Perfectly crop Aadhar ID cards from e-Aadhar PDF for high quality printing.',                    category: 'Special',    icon: Wand2        },
   { id: 'crop-pdf',         title: 'Crop PDF',                description: 'Trim margins and crop any pages of your PDF. Select pages, set margins and download instantly.',     category: 'Special',    icon: Crop         },
-  { id: 'meesho-cropper',   title: 'Meesho Label Cropper',    description: 'Auto-remove the invoice section below "Total" from Meesho shipping label PDFs. Clean labels in one click.', category: 'Ecommerce', icon: ShoppingBag  },
+  { id: 'meesho-cropper',   title: 'Meesho Label with Invoice Cropper',    description: 'Auto-remove the invoice section below "Total" from Meesho shipping label PDFs. Clean labels in one click.', category: 'Ecommerce', icon: ShoppingBag  },
   { id: 'esign',        title: 'E-Sign PDF',         description: 'Draw or type your signature and place it anywhere on a PDF or image. Download the signed file instantly.', category: 'Sign', icon: PenLine },
   { id: 'edit-pdf',     title: 'Edit PDF',           description: 'Highlight, draw, add text and freehand annotations directly on PDFs. Zero uploads, 100% private.', category: 'Edit', icon: PenLine },
 ];
@@ -195,8 +195,8 @@ export default function Home() {
 
           {/* Category Filter */}
           <div className="mt-16 fade-in-up stagger-3 flex justify-center">
-            <div className="hidden md:block w-full max-w-5xl overflow-x-hidden">
-              <div className="category-nav mx-auto w-max">
+            <div className="hidden md:flex justify-center w-full overflow-x-auto scrollbar-hide">
+              <div className="category-nav">
                 {dbCategories.map(cat => (
                   <button key={cat} onClick={() => setActiveCategory(cat)} className={`filter-tab ${activeCategory === cat ? 'active' : ''}`}>
                     {cat}
@@ -237,33 +237,35 @@ export default function Home() {
             <span className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 dark:text-slate-500 px-3">Most Used Tools</span>
             <div className="h-px flex-1 bg-gradient-to-l from-transparent via-slate-200 dark:via-slate-700 to-transparent" />
           </div>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
             {[
-              { id: 'merge',        title: 'Merge PDF',      icon: Combine,     gradient: 'linear-gradient(135deg,#f26522,#c2410c)', tag: 'Organize' },
-              { id: 'compress',     title: 'Compress PDF',   icon: Zap,         gradient: 'linear-gradient(135deg,#22c55e,#15803d)', tag: 'Optimize' },
-              { id: 'pdf-to-word',  title: 'PDF to Word',    icon: FileText,    gradient: 'linear-gradient(135deg,#3182ce,#1e3a8a)', tag: 'Convert'  },
-              { id: 'split',        title: 'Split PDF',      icon: Scissors,    gradient: 'linear-gradient(135deg,#f26522,#c2410c)', tag: 'Organize' },
-              { id: 'edit-pdf',     title: 'Edit PDF',       icon: PenLine,     gradient: 'linear-gradient(135deg,#E8465D,#843286)', tag: 'Edit',    href: '/edit' },
-              { id: 'crop-pdf',     title: 'Crop PDF',       icon: Crop,        gradient: 'linear-gradient(135deg,#ef4444,#991b1b)', tag: 'Special'  },
-              { id: 'protect',      title: 'Protect PDF',    icon: Lock,        gradient: 'linear-gradient(135deg,#e53e3e,#7f1d1d)', tag: 'Security' },
-              { id: 'unlock',       title: 'Unlock PDF',     icon: Unlock,      gradient: 'linear-gradient(135deg,#e53e3e,#7f1d1d)', tag: 'Security' },
-              { id: 'redact-pdf',   title: 'Redact PDF',     icon: EyeOff,      gradient: 'linear-gradient(135deg,#e53e3e,#7f1d1d)', tag: 'Security' },
-              { id: 'ocr-pdf',      title: 'OCR PDF',        icon: ScanText,    gradient: 'linear-gradient(135deg,#3182ce,#1e3a8a)', tag: 'Convert'  },
-              { id: 'remove-ocr',   title: 'Remove OCR',     icon: EyeOff,      gradient: 'linear-gradient(135deg,#E8465D,#843286)', tag: 'Edit'     },
+              { id: 'merge',       title: 'Merge PDF',     desc: 'Combine multiple PDFs into one.',         icon: Combine,  gradient: 'linear-gradient(135deg,#f26522,#c2410c)' },
+              { id: 'compress',    title: 'Compress PDF',  desc: 'Reduce file size instantly.',             icon: Zap,      gradient: 'linear-gradient(135deg,#22c55e,#15803d)' },
+              { id: 'pdf-to-word', title: 'PDF to Word',   desc: 'Convert PDF to editable DOCX.',           icon: FileText, gradient: 'linear-gradient(135deg,#3182ce,#1e3a8a)' },
+              { id: 'split',       title: 'Split PDF',     desc: 'Divide PDF into separate files.',         icon: Scissors, gradient: 'linear-gradient(135deg,#f26522,#c2410c)' },
+              { id: 'edit-pdf',    title: 'Edit PDF',      desc: 'Annotate, highlight & draw on PDFs.',     icon: PenLine,  gradient: 'linear-gradient(135deg,#E8465D,#843286)', href: '/edit' },
+              { id: 'crop-pdf',    title: 'Crop PDF',      desc: 'Trim margins from any PDF page.',         icon: Crop,     gradient: 'linear-gradient(135deg,#ef4444,#991b1b)' },
+              { id: 'protect',     title: 'Protect PDF',   desc: 'Encrypt PDF with a password.',            icon: Lock,     gradient: 'linear-gradient(135deg,#e53e3e,#7f1d1d)' },
+              { id: 'unlock',      title: 'Unlock PDF',    desc: 'Remove PDF password protection.',         icon: Unlock,   gradient: 'linear-gradient(135deg,#e53e3e,#7f1d1d)' },
+              { id: 'redact-pdf',  title: 'Redact PDF',    desc: 'Permanently hide sensitive content.',     icon: EyeOff,   gradient: 'linear-gradient(135deg,#e53e3e,#7f1d1d)' },
+              { id: 'ocr-pdf',     title: 'OCR PDF',       desc: 'Make scanned PDFs searchable.',           icon: ScanText, gradient: 'linear-gradient(135deg,#3182ce,#1e3a8a)' },
             ].map(tool => (
               <a
                 key={tool.id}
                 href={tool.href ?? `/tool/${tool.id}`}
                 onClick={() => trackToolClick(tool.id)}
-                className="group flex flex-col items-center gap-2.5 p-4 bg-white dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 text-center"
+                className="group flex items-center gap-3 p-3.5 bg-white dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200"
               >
                 <div
-                  className="w-11 h-11 rounded-xl flex items-center justify-center text-white shadow-md group-hover:scale-110 transition-transform duration-200"
+                  className="w-10 h-10 shrink-0 rounded-xl flex items-center justify-center text-white shadow-md group-hover:scale-110 transition-transform duration-200"
                   style={{ background: tool.gradient }}
                 >
-                  <tool.icon size={20} />
+                  <tool.icon size={18} />
                 </div>
-                <span className="text-[11px] font-black text-slate-700 dark:text-white leading-tight tracking-tight">{tool.title}</span>
+                <div className="min-w-0">
+                  <p className="text-[12px] font-black text-slate-800 dark:text-white leading-tight truncate">{tool.title}</p>
+                  <p className="text-[10px] text-slate-400 dark:text-slate-500 leading-tight mt-0.5 truncate">{tool.desc}</p>
+                </div>
               </a>
             ))}
           </div>

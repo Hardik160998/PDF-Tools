@@ -50,7 +50,7 @@ export default function RootLayout({
                 { label: 'SPLIT PDF', href: '/tool/split' },
                 { label: 'COMPRESS PDF', href: '/tool/compress' },
               ].map(({ label, href }) => (
-                <a key={label} href={href} className="text-xs font-black text-slate-700 dark:text-slate-300 hover:text-red-500 transition-colors uppercase tracking-tight">
+                <a key={label} href={href} className="text-[15px] font-semibold text-slate-500 dark:text-slate-400 hover:text-red-500 transition-colors uppercase tracking-wide whitespace-nowrap">
                   {label}
                 </a>
               ))}

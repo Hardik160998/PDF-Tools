@@ -92,7 +92,7 @@ const SECTIONS = [
   {
     label: "Ecommerce", color: "#f26522", gradient: "linear-gradient(135deg, #f26522, #f59e0b)",
     links: [
-      { href: "/tool/meesho-cropper", label: "Meesho Label Cropper", icon: ShoppingBag },
+      { href: "/tool/meesho-cropper", label: "Meesho Label with Invoice Cropper", icon: ShoppingBag },
     ],
   },
   {
