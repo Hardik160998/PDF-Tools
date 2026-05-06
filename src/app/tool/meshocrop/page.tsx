@@ -116,9 +116,7 @@ export default function MeeshoCropPage() {
 
       {/* ── TOOL ── */}
       <section className="pb-8">
-        <div className="container mx-auto px-4 max-w-7xl">
-          <MeeshoCropLabel id="meshocrop" />
-        </div>
+        <MeeshoCropLabel id="meshocrop" />
       </section>
 
       {/* ── HOW IT WORKS ── */}
