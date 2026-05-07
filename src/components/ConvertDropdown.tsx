@@ -57,7 +57,7 @@ export default function ConvertDropdown() {
               className="convert-dropdown-item"
             >
               <span className="convert-dropdown-icon">
-                <Icon size={14} />
+                <Icon size={11} />
               </span>
               {label}
             </a>

@@ -39,11 +39,11 @@ export default function EcommerceDropdown() {
           <div className="convert-dropdown-arrow" />
           <div className="convert-dropdown-label" style={{ color: '#f26522', borderColor: '#f26522' }}>ECOMMERCE TOOLS</div>
           {ECOMMERCE_TOOLS.map(({ href, label, icon: Icon, gradient }) => (
-            <a key={href} href={href} className="convert-dropdown-item group !whitespace-normal">
-              <span className="convert-dropdown-icon" style={{ background: gradient }}>
-                <Icon size={14} />
+            <a key={href} href={href} className="convert-dropdown-item wrap-text">
+              <span className="convert-dropdown-icon shrink-0 mt-0.5" style={{ background: gradient }}>
+                <Icon size={11} />
               </span>
-              <span className="text-[14px] font-bold text-slate-800 dark:text-white group-hover:text-[#f26522] transition-colors">{label}</span>
+              <span className="text-[0.7rem] font-bold text-slate-800 dark:text-white leading-snug">{label}</span>
             </a>
           ))}
         </div>
