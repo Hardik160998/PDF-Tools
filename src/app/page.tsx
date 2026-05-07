@@ -197,7 +197,7 @@ export default function Home() {
 
           {/* Category Filter */}
           <div className="mt-16 fade-in-up stagger-3 flex justify-center">
-            <div className="hidden md:flex justify-center w-full overflow-x-auto scrollbar-hide">
+            <div className="hidden md:flex justify-center w-full">
               <div className="category-nav">
                 {dbCategories.map(cat => (
                   <button key={cat} onClick={() => setActiveCategory(cat)} className={`filter-tab ${activeCategory === cat ? 'active' : ''}`}>
