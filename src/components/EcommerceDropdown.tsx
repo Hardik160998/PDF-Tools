@@ -13,7 +13,7 @@ const ECOMMERCE_TOOLS = [
   },
   {
     href: "/tool/meshocrop",
-    label: "Meesho Crop Label",
+    label: "Meesho Crop Label (without invoice)",
     desc: "Crop to keep shipping address & barcodes only",
     icon: ShoppingBag,
     gradient: "linear-gradient(135deg, #f26522, #f59e0b)",

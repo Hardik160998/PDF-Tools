@@ -40,7 +40,6 @@ export default function ConvertDropdown() {
           onMouseEnter={show}
           onMouseLeave={hide}
           className="convert-dropdown-panel"
-          style={{ maxHeight: 'none', overflow: 'visible' }}
         >
           {/* Arrow */}
           <div className="convert-dropdown-arrow" />

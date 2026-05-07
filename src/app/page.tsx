@@ -74,7 +74,7 @@ const TOOLS = [
   { id: 'aadhar-crop',      title: 'Aadhar Cropper',          description: 'Perfectly crop Aadhar ID cards from e-Aadhar PDF for high quality printing.',                    category: 'Special',    icon: Wand2        },
   { id: 'crop-pdf',         title: 'Crop PDF',                description: 'Trim margins and crop any pages of your PDF. Select pages, set margins and download instantly.',     category: 'Special',    icon: Crop         },
   { id: 'meesho-cropper',   title: 'Meesho Label with Invoice Cropper',    description: 'Auto-remove the invoice section below "Total" from Meesho shipping label PDFs. Clean labels in one click.', category: 'Ecommerce', icon: ShoppingBag  },
-  { id: 'meshocrop',        title: 'Meesho Crop Label',                    description: 'Crop Meesho labels to keep only shipping address, return address & barcodes. Removes TAX INVOICE section.', category: 'Ecommerce', icon: ShoppingBag  },
+  { id: 'meshocrop', title: 'Meesho Crop Label (without invoice)', description: 'Crop Meesho labels to keep only shipping address, return address & barcodes. Removes TAX INVOICE section.', category: 'Ecommerce', icon: ShoppingBag  },
   { id: 'esign',        title: 'E-Sign PDF',         description: 'Draw or type your signature and place it anywhere on a PDF or image. Download the signed file instantly.', category: 'Sign', icon: PenLine },
   { id: 'edit-pdf',     title: 'Edit PDF',           description: 'Highlight, draw, add text and freehand annotations directly on PDFs. Zero uploads, 100% private.', category: 'Edit', icon: PenLine },
 ];
