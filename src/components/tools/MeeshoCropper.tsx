@@ -267,7 +267,7 @@ export default function MeeshoCropLabel({ id }: { id: string }) {
           <ShoppingBag size={36} className="sm:w-10 sm:h-10" />
         </div>
         <h2 className="text-2xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter">Meesho Label with Invoice Cropper</h2>
-        <p className="text-sm sm:text-base text-slate-500 dark:text-slate-400 font-medium">Auto-remove the invoice section below "Total" from Meesho shipping label PDFs.</p>
+        <p className="text-sm sm:text-base text-slate-500 dark:text-slate-400 font-medium">Auto-crop Meesho shipping labels — removes the invoice section below "Total", keeps the shipping label.</p>
       </div>
 
       {!done ? (

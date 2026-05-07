@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { Upload, Download, Loader2, X, ImageIcon, FileText, CheckCircle2, Sparkles, FolderDown } from 'lucide-react';
 import { PDFDocument } from 'pdf-lib';
 import * as pdfjsLib from 'pdfjs-dist';
@@ -34,6 +34,13 @@ export default function ImageConverter({ id }: { id: string }) {
   const [results, setResults] = useState<string[]>([]);
   const [pdfName, setPdfName] = useState('');
   const accent = ACCENT[id] ?? ACCENT['jpg-to-pdf'];
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  // "Convert More" — keep existing files, clear results, open file picker to add more
+  const handleConvertMore = () => {
+    setResults([]);
+    setTimeout(() => inputRef.current?.click(), 50);
+  };
 
   const isMultiMode = id !== 'pdf-to-jpg'; // all except pdf-to-jpg support multiple files
 
@@ -186,6 +193,7 @@ export default function ImageConverter({ id }: { id: string }) {
             {/* Drop zone */}
             <div className={`relative border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-2xl sm:rounded-3xl p-10 sm:p-16 group ${accent.hover} transition-all cursor-pointer bg-slate-50/50 dark:bg-slate-900/50`}>
               <input
+                ref={inputRef}
                 type="file"
                 multiple={isMultiMode}
                 onChange={onFileChange}
@@ -310,7 +318,7 @@ export default function ImageConverter({ id }: { id: string }) {
                     </div>
                   </>
                 )}
-                <button onClick={() => { setFiles([]); setResults([]); }} className="px-8 py-4 bg-slate-100 hover:bg-slate-200 text-slate-900 rounded-2xl font-bold transition-all">
+                <button onClick={handleConvertMore} className="px-8 py-4 bg-slate-100 hover:bg-slate-200 text-slate-900 rounded-2xl font-bold transition-all">
                   Convert More
                 </button>
               </div>
@@ -330,7 +338,7 @@ export default function ImageConverter({ id }: { id: string }) {
 
                   {/* Convert More */}
                   <button
-                    onClick={() => { setFiles([]); setResults([]); }}
+                    onClick={handleConvertMore}
                     className="sm:w-40 py-4 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 text-slate-900 dark:text-white rounded-2xl font-bold transition-all text-sm"
                   >
                     Convert More
@@ -360,7 +368,7 @@ export default function ImageConverter({ id }: { id: string }) {
             {/* Convert More for jpg-to-pdf */}
             {id === 'jpg-to-pdf' && (
               <button
-                onClick={() => { setFiles([]); setResults([]); }}
+                onClick={handleConvertMore}
                 className="px-8 py-4 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 text-slate-900 dark:text-white rounded-2xl font-bold transition-all"
               >
                 Convert More

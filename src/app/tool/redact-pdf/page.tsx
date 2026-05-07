@@ -39,32 +39,6 @@ export default function RedactPdfPage() {
 
   return (
     <div className="min-h-screen" style={{ background: "linear-gradient(135deg,#fff1f233 0%,#fff0 50%,#fef2f233 100%)" }}>
-
-      {/* HERO */}
-      <section className="pt-16 pb-8 text-center">
-        <div className="container mx-auto px-4 max-w-4xl">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-red-50 dark:bg-red-500/10 text-red-600 dark:text-red-400 border border-red-100 dark:border-red-500/20 text-xs font-black uppercase tracking-widest shadow-sm mb-6">
-            <EyeOff size={13} /> Free PDF Redaction Tool
-          </div>
-          <h1 className="text-4xl md:text-6xl font-black text-slate-900 dark:text-white tracking-tight leading-tight mb-5">
-            Redact PDF{" "}
-            <span style={{ background: "linear-gradient(135deg,#dc2626,#7f1d1d)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
-              Permanently
-            </span>
-          </h1>
-          <p className="text-lg text-slate-500 dark:text-slate-400 font-medium leading-relaxed max-w-2xl mx-auto mb-8">
-            Draw black boxes over sensitive areas or search for text to redact across all pages. Permanently hide names, numbers, signatures, and confidential data — 100% private, runs in your browser.
-          </p>
-          <div className="flex flex-wrap justify-center gap-2 mb-4">
-            {FEATURES.map(f => (
-              <span key={f} className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 rounded-full text-xs font-bold text-slate-600 dark:text-slate-300 shadow-sm">
-                <CheckCircle size={12} className="text-red-500" /> {f}
-              </span>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* TOOL */}
       <section className="pb-8">
         <div className="container mx-auto px-4 max-w-5xl">

@@ -40,32 +40,6 @@ export default function WebpageToPdfPage() {
 
   return (
     <div className="min-h-screen" style={{ background: "linear-gradient(135deg,#f0f9ff33 0%,#fff0 50%,#e0f2fe33 100%)" }}>
-
-      {/* HERO */}
-      <section className="pt-16 pb-8 text-center">
-        <div className="container mx-auto px-4 max-w-4xl">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-sky-50 text-sky-600 border border-sky-100 text-xs font-black uppercase tracking-widest shadow-sm mb-6 dark:bg-sky-500/10 dark:border-sky-500/20 dark:text-sky-400">
-            <Globe size={13} /> Free Webpage to PDF Converter
-          </div>
-          <h1 className="text-4xl md:text-6xl font-black text-slate-900 dark:text-white tracking-tight leading-tight mb-5">
-            Convert Any Webpage{" "}
-            <span style={{ background: "linear-gradient(135deg,#0ea5e9,#0369a1)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
-              to PDF
-            </span>
-          </h1>
-          <p className="text-lg text-slate-500 dark:text-slate-400 font-medium leading-relaxed max-w-2xl mx-auto mb-8">
-            Paste any public URL and get a pixel-perfect PDF in seconds — full CSS, images, and layout preserved exactly as it appears in your browser.
-          </p>
-          <div className="flex flex-wrap justify-center gap-2 mb-4">
-            {FEATURES.map(f => (
-              <span key={f} className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 rounded-full text-xs font-bold text-slate-600 dark:text-slate-300 shadow-sm">
-                <CheckCircle size={12} className="text-sky-500" /> {f}
-              </span>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* TOOL */}
       <section className="pb-8">
         <div className="container mx-auto px-4 max-w-5xl">

@@ -39,32 +39,6 @@ export default function BookmarkPdfPage() {
 
   return (
     <div className="min-h-screen" style={{ background: "linear-gradient(135deg,#fffbeb33 0%,#fff0 50%,#fef3c733 100%)" }}>
-
-      {/* HERO */}
-      <section className="pt-16 pb-8 text-center">
-        <div className="container mx-auto px-4 max-w-4xl">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-amber-50 dark:bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-100 dark:border-amber-500/20 text-xs font-black uppercase tracking-widest shadow-sm mb-6">
-            <Bookmark size={13} /> Free PDF Bookmark Tool
-          </div>
-          <h1 className="text-4xl md:text-6xl font-black text-slate-900 dark:text-white tracking-tight leading-tight mb-5">
-            Add Bookmarks to{" "}
-            <span style={{ background: "linear-gradient(135deg,#f59e0b,#b45309)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
-              PDF Instantly
-            </span>
-          </h1>
-          <p className="text-lg text-slate-500 dark:text-slate-400 font-medium leading-relaxed max-w-2xl mx-auto mb-8">
-            Create a clickable table of contents for any PDF. Add, edit, reorder and delete bookmarks — they appear in the outline panel of Adobe Reader, Chrome, and every major PDF viewer.
-          </p>
-          <div className="flex flex-wrap justify-center gap-2 mb-4">
-            {FEATURES.map(f => (
-              <span key={f} className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 rounded-full text-xs font-bold text-slate-600 dark:text-slate-300 shadow-sm">
-                <CheckCircle size={12} className="text-amber-500" /> {f}
-              </span>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* TOOL */}
       <section className="pb-8">
         <div className="container mx-auto px-4 max-w-5xl">

@@ -24,15 +24,8 @@ const RELATED = [
 export default function HtmlToPdfPage() {
   const mounted = usePageMounted();
   return (
-    <div className="min-h-screen" style={{ background: 'linear-gradient(135deg, #f5f3ff33 0%, #fff0 50%, #ede9fe33 100%)' }}>
-      <section className="pt-16 pb-8 text-center">
-        <div className="container mx-auto px-4 max-w-4xl">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-indigo-50 text-indigo-600 border border-indigo-100 text-xs font-black uppercase tracking-widest shadow-sm mb-6"><Globe size={13} /> Free HTML to PDF Tool</div>
-          <h1 className="text-4xl md:text-6xl font-black text-slate-900 tracking-tight leading-tight mb-5">Convert HTML to PDF{' '}<span style={{ background: 'linear-gradient(135deg, #6366f1, #4338ca)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>Pixel Perfect</span></h1>
-          <p className="text-lg text-slate-500 font-medium leading-relaxed max-w-2xl mx-auto mb-8">Convert any HTML file or web page into a PDF document with full CSS styling, images, and layout preserved — exactly as it appears in a browser.</p>
-          <div className="flex flex-wrap justify-center gap-2 mb-4">{FEATURES.map(f => <span key={f} className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white border border-slate-100 rounded-full text-xs font-bold text-slate-600 shadow-sm"><CheckCircle size={12} className="text-indigo-500" /> {f}</span>)}</div>
-        </div>
-      </section>
+    <div className="min-h-screen">
+  
       <section className="pb-8"><div className="container mx-auto px-4 max-w-7xl"><OfficeTools id="html-to-pdf" /></div></section>
       {!mounted ? <HowItWorksShimmer accent="rgba(99,102,241,0.15)" /> : (
         <section className="py-16 bg-white/60"><div className="container mx-auto px-4 max-w-4xl">

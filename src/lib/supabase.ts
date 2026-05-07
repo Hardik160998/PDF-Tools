@@ -137,6 +137,15 @@ export async function syncToolCategories() {
   }
 }
 
+export async function updateMeeshoToolTitles() {
+  await supabase.from('allpdftools')
+    .update({ title: 'Meesho Label with Invoice Cropper' })
+    .eq('tool_key', 'meesho-cropper');
+  await supabase.from('allpdftools')
+    .update({ title: 'Meesho Label Crop (without invoice)' })
+    .eq('tool_key', 'meshocrop');
+}
+
 export async function insertMeeshoTool() {
 
   const { data: existing } = await supabase

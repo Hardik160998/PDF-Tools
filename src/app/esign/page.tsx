@@ -84,35 +84,6 @@ export default function ESignPage() {
   return (
     <div className="min-h-screen" style={{ background: 'linear-gradient(135deg, #f3e8ff33 0%, #fff0 50%, #fce7f333 100%)' }}>
 
-      {/* ── HERO ── */}
-      <section className="pt-16 pb-8 text-center">
-        <div className="container mx-auto px-4 max-w-4xl">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-purple-50 text-purple-600 border border-purple-100 text-xs font-black uppercase tracking-widest shadow-sm mb-6">
-            <PenLine size={13} />
-            Free E-Signature Tool
-          </div>
-          <h1 className="text-4xl md:text-6xl font-black text-slate-900 tracking-tight leading-tight mb-5">
-            Sign Documents{' '}
-            <span style={{ background: 'linear-gradient(135deg, #8b5cf6, #ec4899)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
-              Instantly
-            </span>
-          </h1>
-          <p className="text-lg text-slate-500 font-medium leading-relaxed max-w-2xl mx-auto mb-8">
-            Upload any PDF or image, draw or type your signature, place it anywhere on the document, and download the signed file — all in your browser.
-          </p>
-
-          {/* Feature Pills */}
-          <div className="flex flex-wrap justify-center gap-2 mb-4">
-            {FEATURES.map((f) => (
-              <span key={f} className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white border border-slate-100 rounded-full text-xs font-bold text-slate-600 shadow-sm">
-                <CheckCircle size={12} className="text-purple-500" />
-                {f}
-              </span>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* ── E-SIGN TOOL ── */}
       <section className="pb-8">
         <ESignTool />

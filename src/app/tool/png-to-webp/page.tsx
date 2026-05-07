@@ -24,27 +24,7 @@ const RELATED = [
 export default function PngToWebpPage() {
   const mounted = usePageMounted();
   return (
-    <div className="min-h-screen" style={{ background: 'linear-gradient(135deg, #ecfeff33 0%, #fff0 50%, #cffafe33 100%)' }}>
-      <section className="pt-16 pb-8 text-center">
-        <div className="container mx-auto px-4 max-w-4xl">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-cyan-50 text-cyan-600 border border-cyan-100 text-xs font-black uppercase tracking-widest shadow-sm mb-6"><ImageIcon size={13} /> Free PNG to WebP Converter</div>
-          <h1 className="text-4xl md:text-6xl font-black text-slate-900 tracking-tight leading-tight mb-5">
-            Convert PNG to WebP{' '}
-            <span style={{ background: 'linear-gradient(135deg, #06b6d4, #0e7490)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>Instantly</span>
-          </h1>
-          <p className="text-lg text-slate-500 font-medium leading-relaxed max-w-2xl mx-auto mb-8">
-            Convert your PNG images to modern WebP format in one click. Preserve transparency while reducing file size by up to 25% — ideal for web performance and faster page loads.
-          </p>
-          <div className="flex flex-wrap justify-center gap-2 mb-4">
-            {FEATURES.map(f => (
-              <span key={f} className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white border border-slate-100 rounded-full text-xs font-bold text-slate-600 shadow-sm">
-                <CheckCircle size={12} className="text-cyan-500" /> {f}
-              </span>
-            ))}
-          </div>
-        </div>
-      </section>
-
+    <div className="min-h-screen">
       <section className="pb-8"><div className="container mx-auto px-4 max-w-7xl"><ImageConverter id="png-to-webp" /></div></section>
 
       {/* Benefits banner */}

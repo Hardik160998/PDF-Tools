@@ -24,15 +24,7 @@ const RELATED = [
 export default function WatermarkPage() {
   const mounted = usePageMounted();
   return (
-    <div className="min-h-screen" style={{ background: 'linear-gradient(135deg, #f5f3ff33 0%, #fff0 50%, #ede9fe33 100%)' }}>
-      <section className="pt-16 pb-8 text-center">
-        <div className="container mx-auto px-4 max-w-4xl">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-purple-50 text-purple-600 border border-purple-100 text-xs font-black uppercase tracking-widest shadow-sm mb-6"><Stamp size={13} /> Free PDF Watermark Tool</div>
-          <h1 className="text-4xl md:text-6xl font-black text-slate-900 tracking-tight leading-tight mb-5">Add Watermark to PDF{' '}<span style={{ background: 'linear-gradient(135deg, #8b5cf6, #6d28d9)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>Instantly</span></h1>
-          <p className="text-lg text-slate-500 font-medium leading-relaxed max-w-2xl mx-auto mb-8">Stamp a text or image watermark on every page of your PDF. Type "CONFIDENTIAL", "DRAFT", or upload your logo — all processed locally in your browser.</p>
-          <div className="flex flex-wrap justify-center gap-2 mb-4">{FEATURES.map(f => <span key={f} className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white border border-slate-100 rounded-full text-xs font-bold text-slate-600 shadow-sm"><CheckCircle size={12} className="text-purple-500" /> {f}</span>)}</div>
-        </div>
-      </section>
+    <div className="min-h-screen">
       <section className="pb-8"><div className="container mx-auto px-4 max-w-7xl"><EditTools id="watermark" /></div></section>
       {!mounted ? <HowItWorksShimmer accent="rgba(139,92,246,0.15)" /> : (
         <section className="py-16 bg-white/60"><div className="container mx-auto px-4 max-w-4xl">

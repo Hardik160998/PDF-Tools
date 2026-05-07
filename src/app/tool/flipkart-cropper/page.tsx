@@ -38,34 +38,7 @@ export default function FlipkartCropperPage() {
   const ACCENT = '#F7941D';
 
   return (
-    <div className="min-h-screen" style={{ background: 'linear-gradient(135deg, #fff7ed33 0%, #fff0 50%, #ffedd533 100%)' }}>
-
-      {/* HERO */}
-      <section className="pt-16 pb-8 text-center">
-        <div className="container mx-auto px-4 max-w-4xl">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border text-xs font-black uppercase tracking-widest shadow-sm mb-6"
-            style={{ background: '#fff7ed', color: ACCENT, borderColor: '#fed7aa' }}>
-            <ShoppingBag size={13} /> Free Flipkart Label Cropper
-          </div>
-          <h1 className="text-4xl md:text-6xl font-black text-slate-900 dark:text-white tracking-tight leading-tight mb-5">
-            Flipkart Label{' '}
-            <span style={{ background: `linear-gradient(135deg, ${ACCENT}, #f59e0b)`, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
-              Smart Cropper
-            </span>
-          </h1>
-          <p className="text-lg text-slate-500 dark:text-slate-400 font-medium leading-relaxed max-w-2xl mx-auto mb-8">
-            Automatically detect and crop Flipkart / E-kart shipping labels. Uses OCR anchors to keep only the courier label — AWB, QR code, address &amp; barcode — and removes invoice, billing &amp; footer.
-          </p>
-          <div className="flex flex-wrap justify-center gap-2 mb-4">
-            {FEATURES.map(f => (
-              <span key={f} className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 rounded-full text-xs font-bold text-slate-600 dark:text-slate-300 shadow-sm">
-                <CheckCircle size={12} style={{ color: ACCENT }} /> {f}
-              </span>
-            ))}
-          </div>
-        </div>
-      </section>
-
+    <div className="min-h-screen">
       {/* TOOL */}
       <section className="pb-8">
         <div className="container mx-auto px-4 max-w-7xl">

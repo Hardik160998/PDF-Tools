@@ -276,7 +276,7 @@ export default function MeeshoCropLabel({ id }: { id: string }) {
         <div className="inline-flex p-4 sm:p-5 rounded-2xl sm:rounded-3xl bg-[#f26522] text-white shadow-lg">
           <ShoppingBag size={36} className="sm:w-10 sm:h-10" />
         </div>
-        <h2 className="text-2xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter">Meesho Crop Label</h2>
+        <h2 className="text-2xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter">Meesho Label Crop (without invoice)</h2>
         <p className="text-sm sm:text-base text-slate-500 dark:text-slate-400 font-medium">Automatically crops Meesho shipping labels — keeps shipping address, return address &amp; barcodes. Removes TAX INVOICE and billing info.</p>
       </div>
 

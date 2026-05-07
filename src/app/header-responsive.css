@@ -24,7 +24,7 @@ html.dark header {
 @media (min-width: 1024px) {
   header > div {
     display: grid !important;
-    grid-template-columns: 150px 1fr 280px;
+    grid-template-columns: 150px 1fr auto;
     align-items: center;
     gap: 0.5rem;
     padding: 0 0.75rem;
@@ -72,6 +72,8 @@ html.dark header {
     align-items: center;
     justify-content: flex-end;
     gap: 0.35rem;
+    flex-shrink: 0;
+    white-space: nowrap;
   }
 
   .desktop-nav-actions button {
@@ -88,7 +90,8 @@ html.dark header {
   }
 
   .nav-search-box {
-    width: 130px !important;
+    width: 160px !important;
+    min-width: 140px !important;
     padding: 0.3rem 0.55rem !important;
   }
 
@@ -102,7 +105,7 @@ html.dark header {
 /* ── MEDIUM DESKTOP (1024px - 1280px) ──────────────────── */
 @media (min-width: 1024px) and (max-width: 1280px) {
   header > div {
-    grid-template-columns: 130px 1fr 260px;
+    grid-template-columns: 130px 1fr auto;
     gap: 0.4rem;
     padding: 0 0.65rem;
   }
@@ -131,7 +134,8 @@ html.dark header {
   }
 
   .nav-search-box {
-    width: 110px !important;
+    width: 150px !important;
+    min-width: 130px !important;
     padding: 0.25rem 0.45rem !important;
   }
 }
@@ -139,7 +143,7 @@ html.dark header {
 /* ── LARGE DESKTOP (1440px+) ────────────────────────────── */
 @media (min-width: 1440px) {
   header > div {
-    grid-template-columns: 160px 1fr 320px;
+    grid-template-columns: 160px 1fr auto;
     gap: 0.75rem;
     padding: 0 1rem;
     max-width: 1600px;
@@ -169,14 +173,15 @@ html.dark header {
   }
 
   .nav-search-box {
-    width: 160px !important;
+    width: 180px !important;
+    min-width: 160px !important;
   }
 }
 
 /* ── EXTRA LARGE DESKTOP (1920px+) ──────────────────────── */
 @media (min-width: 1920px) {
   header > div {
-    grid-template-columns: 200px 1fr 380px;
+    grid-template-columns: 200px 1fr auto;
     gap: 1.25rem;
     padding: 0 1.5rem;
   }
@@ -205,7 +210,8 @@ html.dark header {
   }
 
   .nav-search-box {
-    width: 200px !important;
+    width: 220px !important;
+    min-width: 180px !important;
   }
 }
 

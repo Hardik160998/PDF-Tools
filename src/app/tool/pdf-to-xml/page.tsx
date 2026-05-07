@@ -24,15 +24,7 @@ const RELATED = [
 export default function PdfToXmlPage() {
   const mounted = usePageMounted();
   return (
-    <div className="min-h-screen" style={{ background: 'linear-gradient(135deg, #eff6ff33 0%, #fff0 50%, #dbeafe33 100%)' }}>
-      <section className="pt-16 pb-8 text-center">
-        <div className="container mx-auto px-4 max-w-4xl">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-50 text-blue-600 border border-blue-100 text-xs font-black uppercase tracking-widest shadow-sm mb-6"><FileJson size={13} /> Free PDF to XML Tool</div>
-          <h1 className="text-4xl md:text-6xl font-black text-slate-900 tracking-tight leading-tight mb-5">Convert PDF to XML{' '}<span style={{ background: 'linear-gradient(135deg, #3182ce, #1e3a8a)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>Structured Data</span></h1>
-          <p className="text-lg text-slate-500 font-medium leading-relaxed max-w-2xl mx-auto mb-8">Extract structured, machine-readable XML from any PDF. Perfect for data processing, integrations, and archiving — all processed locally in your browser.</p>
-          <div className="flex flex-wrap justify-center gap-2 mb-4">{FEATURES.map(f => <span key={f} className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white border border-slate-100 rounded-full text-xs font-bold text-slate-600 shadow-sm"><CheckCircle size={12} className="text-blue-500" /> {f}</span>)}</div>
-        </div>
-      </section>
+    <div className="min-h-screen">
       <section className="pb-8"><div className="container mx-auto px-4 max-w-7xl"><ExtractText id="pdf-to-xml" /></div></section>
       {!mounted ? <HowItWorksShimmer accent="rgba(59,130,246,0.15)" /> : (
         <section className="py-16 bg-white/60"><div className="container mx-auto px-4 max-w-4xl">

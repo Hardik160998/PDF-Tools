@@ -1,4 +1,4 @@
-@import "tailwindcss";
+﻿@import "tailwindcss";
 @variant dark (&:is(html.dark *));
 
 .container {
@@ -53,7 +53,7 @@ html.dark {
 }
 
 @layer components {
-  /* Tool Card — base styles (overridden by .tool-card outside @layer) */
+  /* Tool Card  base styles (overridden by .tool-card outside @layer) */
   .tool-card {
     font-family: inherit;
   }
@@ -160,7 +160,6 @@ html.dark {
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
-
   .bg-mesh-premium {
     position: absolute;
     top: 0;
@@ -173,7 +172,6 @@ html.dark {
   }
 
   .bg-mesh-premium::after {
-    content: '';
     position: absolute;
     width: 200%;
     height: 200%;
@@ -258,45 +256,45 @@ html.dark {
     background: #cbd5e1;
   }
 
-  /* All Tools Mega Dropdown - compact, no scroll, fits viewport */
+  /* All Tools Mega Dropdown */
   .all-tools-dropdown {
     position: fixed; top: 64px; left: 0; right: 0; width: 100%;
-    background: #ffffff;
-    border-top: 2px solid #f1f5f9; border-bottom: 2px solid #f1f5f9;
-    box-shadow: 0 24px 48px -12px rgba(0,0,0,0.14);
+    /* height:100%; */
+    background: #fff;
+    border-top: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0;
+    box-shadow: 0 8px 24px -6px rgba(0,0,0,0.10);
     padding: 0.4rem 0; z-index: 100; overflow: hidden;
-    max-height: calc(100vh - 68px);
-    animation: dropdownIn 0.18s cubic-bezier(0.22,1,0.36,1) forwards;
+    animation: dropdownIn 0.15s ease forwards;
   }
-  @keyframes dropdownIn { from{opacity:0;transform:translateY(-6px)} to{opacity:1;transform:translateY(0)} }
-  .all-tools-row { display:flex; flex-flow:row nowrap; align-items:flex-start; width:100%; padding:0 0.75rem; gap:0; }
-  .all-tools-col { display:flex; flex-direction:column; flex:1; min-width:0; padding:0 0.4rem; border-right:1px solid #f1f5f9; }
+  @keyframes dropdownIn { from{opacity:0;transform:translateY(-4px)} to{opacity:1;transform:translateY(0)} }
+  .all-tools-row { display:flex; flex-flow:row nowrap; align-items:flex-start; width:100%; padding:0 1rem; gap:0; }
+  .all-tools-col { display:flex; flex-direction:column; flex:1; min-width:0; padding:0 0.5rem; border-right:1px solid #f1f5f9; }
   .all-tools-col:first-child { padding-left:0; }
   .all-tools-col:last-child { padding-right:0; border-right:none; }
-  .all-tools-col--wide { flex:2; }
-  .all-tools-col--wrap { flex:1.4; min-width:130px; }
-  .all-tools-col--wrap .all-tools-item { white-space: normal; word-break: break-word; line-height: 1.3; align-items: flex-start; }
-  .all-tools-grid2 { display:grid; grid-template-columns:1fr 1fr; }
-  .all-tools-cat-label { font-size:0.48rem; font-weight:900; text-transform:uppercase; letter-spacing:0.12em; padding-bottom:0.2rem; border-bottom:2px solid currentColor; margin-bottom:0.2rem; white-space:nowrap; }
-  .all-tools-item { display:flex; align-items:center; gap:0.28rem; padding:0.15rem 0.25rem; border-radius:0.3rem; font-size:0.62rem; font-weight:600; color:#334155; text-decoration:none; transition:background 0.1s,color 0.1s; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .all-tools-col--wide { flex:2; min-width:0; }
+  .all-tools-col--wrap { flex:1.3; }
+  .all-tools-col--wrap .all-tools-item { white-space:normal; line-height:1.2; align-items:flex-start; }
+  .all-tools-cat-label { font-size:0.55rem; font-weight:900; text-transform:uppercase; letter-spacing:0.1em; padding-bottom:0.2rem; border-bottom:2px solid currentColor; margin-bottom:0.2rem; white-space:nowrap; }
+  .all-tools-item { display:flex; align-items:center; gap:0.3rem; padding:0.18rem 0.25rem; border-radius:0.3rem; font-size:0.7rem; font-weight:600; color:#334155; text-decoration:none; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; line-height:1.3; transition:background 0.1s,color 0.1s; }
   .all-tools-item:hover { background:#f8fafc; color:#0f172a; }
-  .all-tools-icon { width:16px; height:16px; border-radius:4px; display:flex; align-items:center; justify-content:center; color:white; flex-shrink:0; box-shadow:0 1px 3px rgba(0,0,0,0.18); }
+  .all-tools-icon { width:16px; height:16px; border-radius:4px; display:flex; align-items:center; justify-content:center; color:white; flex-shrink:0; box-shadow:0 1px 3px rgba(0,0,0,0.15); }
   html.dark .all-tools-dropdown { background:#0f172a; border-color:#1e293b; }
   html.dark .all-tools-col { border-color:#1e293b; }
   html.dark .all-tools-item { color:#94a3b8; }
   html.dark .all-tools-item:hover { background:#1e293b; color:#f1f5f9; }
   @media (max-width:1400px) {
-    .all-tools-row { padding:0 0.5rem; }
-    .all-tools-col { padding:0 0.28rem; }
-    .all-tools-item { font-size:0.56rem; padding:0.13rem 0.18rem; gap:0.22rem; }
-    .all-tools-icon { width:14px; height:14px; }
-    .all-tools-cat-label { font-size:0.42rem; }
-    .all-tools-col--wrap { min-width:110px; }
+    .all-tools-row { padding:0 0.75rem; }
+    .all-tools-col { padding:0 0.35rem; }
+    .all-tools-item { font-size:0.65rem; padding:0.15rem 0.2rem; gap:0.25rem; }
+    .all-tools-icon { width:15px; height:15px; }
+    .all-tools-cat-label { font-size:0.5rem; }
   }
   @media (max-width:1280px) {
-    .all-tools-item { font-size:0.52rem; padding:0.11rem 0.15rem; gap:0.18rem; }
-    .all-tools-icon { width:13px; height:13px; }
-    .all-tools-cat-label { font-size:0.4rem; }
+    .all-tools-row { padding:0 0.5rem; }
+    .all-tools-col { padding:0 0.25rem; }
+    .all-tools-item { font-size:0.6rem; padding:0.12rem 0.15rem; gap:0.2rem; }
+    .all-tools-icon { width:14px; height:14px; }
+    .all-tools-cat-label { font-size:0.46rem; }
   }
   @media (max-width:1023px) { .all-tools-dropdown { display:none !important; } }
 
@@ -311,11 +309,13 @@ html.dark {
     flex-direction: row;
     gap: 0.5rem;
     width: 160px;
+    min-width: 140px;
     padding: 0.45rem 0.9rem;
     border: 1.5px solid #e2e8f0;
     border-radius: 9999px;
     background: #f8fafc;
     transition: border-color 0.2s, box-shadow 0.2s;
+    flex-shrink: 0;
   }
 
   .nav-search-box:focus-within {
@@ -511,7 +511,6 @@ html.dark {
   }
 }
 
-/* Custom Mesh Gradient */ .bg-mesh { position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: -1; background: linear-gradient(135deg, rgba(186,230,253,0.3) 0%, rgba(255,255,255,0) 50%, rgba(254,202,202,0.3) 100%); }
 
 /* Ensure wrapper clips gradient perfectly to card corners */
 .skeleton-wrapper {
@@ -520,7 +519,7 @@ html.dark {
   padding: 2px;
 }
 
-/* Tool card — gradient border wrapper */
+/* Tool card  gradient border wrapper */
 .tool-card-border {
   border-radius: var(--radius-card);
   padding: 1.5px;
@@ -528,7 +527,7 @@ html.dark {
   transition: background 0.2s ease, box-shadow 0.2s ease;
   box-shadow: var(--shadow-sm);
 }
-/* Desktop only — gradient border + shadow on hover */
+/* Desktop only  gradient border + shadow on hover */
 @media (min-width: 1024px) {
   .tool-card-border:hover {
     background: var(--cat-gradient);
@@ -538,7 +537,7 @@ html.dark {
     box-shadow: 0 8px 28px -4px rgba(0,0,0,0.5), 0 2px 8px -2px rgba(0,0,0,0.3);
   }
 }
-/* Mobile & tablet — no border, no shadow, no highlight on tap */
+/* Mobile & tablet  no border, no shadow, no highlight on tap */
 @media (max-width: 1023px) {
   .tool-card-border,
   .tool-card-border:hover,
@@ -576,17 +575,13 @@ html.dark .tool-card {
   background: var(--bg-sub);
 }
 
-/* â”€â”€ BEAUTIFUL PAGE BACKGROUND (matches screenshot) â”€â”€ */
+/*  BEAUTIFUL PAGE BACKGROUND (matches screenshot)  */
 body {
-  background: #f0f4f8;
-  background-image:
-    radial-gradient(ellipse at 0% 100%, rgba(186, 230, 253, 0.5) 0%, transparent 50%),
-    radial-gradient(ellipse at 100% 0%, rgba(254, 202, 202, 0.4) 0%, transparent 50%),
-    radial-gradient(ellipse at 50% 50%, rgba(255, 255, 255, 0.8) 0%, transparent 70%);
+  background: #f8fafc;
   min-height: 100vh;
 }
 
-/* â”€â”€ TOOL PAGE CARDS â€” clean white, large radius, soft shadow â”€â”€ */
+/*  TOOL PAGE CARDS  clean white, large radius, soft shadow  */
 .bg-white.dark\:bg-slate-800.rounded-\[2\.5rem\],
 .bg-white.dark\:bg-slate-800.rounded-\[2rem\],
 .bg-white.dark\:bg-slate-800.rounded-\[1\.5rem\] {
@@ -596,7 +591,7 @@ body {
   box-shadow: 0 8px 40px -8px rgba(0, 0, 0, 0.10), 0 2px 8px -2px rgba(0, 0, 0, 0.06) !important;
 }
 
-/* â”€â”€ DROP ZONE â€” soft grey fill, no harsh dashed border â”€â”€ */
+/*  DROP ZONE  soft grey fill, no harsh dashed border  */
 .border-2.border-dashed {
   border: 2px dashed #e2e8f0 !important;
   background: #f8fafc !important;
@@ -608,14 +603,14 @@ body {
   background: #fff7f0 !important;
 }
 
-/* â”€â”€ TOOL PAGE TITLES â”€â”€ */
+/*  TOOL PAGE TITLES  */
 .text-4xl.font-black,
 .text-2xl.font-black {
   color: #1a1a2e !important;
   letter-spacing: -0.03em;
 }
 
-/* â”€â”€ UPLOAD ICON BOX â€” white card with shadow â”€â”€ */
+/*  UPLOAD ICON BOX  white card with shadow  */
 .border-2.border-dashed .p-6.bg-white,
 .border-2.border-dashed .p-4.bg-white,
 .border-2.border-dashed .p-5.bg-white {
@@ -624,31 +619,31 @@ body {
   border-radius: 1rem !important;
 }
 
-/* â”€â”€ TOOL PAGE CONTAINER BG â”€â”€ */
+/*  TOOL PAGE CONTAINER BG  */
 .container.mx-auto.px-4.py-4,
 .container.mx-auto.px-4.py-8 {
   background: transparent !important;
 }
 
-/* â”€â”€ FILE CARD ROWS â€” soft bg â”€â”€ */
+/*  FILE CARD ROWS  soft bg  */
 .bg-slate-50,
 .bg-slate-50\/50 {
   background: #f8fafc !important;
 }
 
-/* â”€â”€ CTA BUTTONS â€” keep vibrant â”€â”€ */
+/*  CTA BUTTONS  keep vibrant  */
 .bg-orange-500 { background: #f26522 !important; }
 .bg-green-500  { background: #22c55e !important; }
 .bg-blue-500   { background: #3b82f6 !important; }
 .bg-red-500    { background: #ef4444 !important; }
 
-/* ── CONVERT DROPDOWN ── */
+/* -- CONVERT DROPDOWN -- */
 .convert-dropdown-panel {
   position: absolute;
   top: calc(100% + 14px);
   left: 50%;
   transform: translateX(-50%);
-  width: 180px;
+  width: 360px;
   max-height: calc(100vh - 90px);
   overflow-y: auto;
   background: white;

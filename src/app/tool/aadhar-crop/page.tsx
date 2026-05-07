@@ -24,15 +24,8 @@ const RELATED = [
 export default function AadharCropPage() {
   const mounted = usePageMounted();
   return (
-    <div className="min-h-screen" style={{ background: 'linear-gradient(135deg, #fef2f233 0%, #fff0 50%, #fee2e233 100%)' }}>
-      <section className="pt-16 pb-8 text-center">
-        <div className="container mx-auto px-4 max-w-4xl">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-red-50 text-red-600 border border-red-100 text-xs font-black uppercase tracking-widest shadow-sm mb-6"><Wand2 size={13} /> Free Aadhar Cropper Tool</div>
-          <h1 className="text-4xl md:text-6xl font-black text-slate-900 tracking-tight leading-tight mb-5">Crop Aadhar Card for{' '}<span style={{ background: 'linear-gradient(135deg, #ef4444, #b91c1c)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>Perfect Printing</span></h1>
-          <p className="text-lg text-slate-500 font-medium leading-relaxed max-w-2xl mx-auto mb-8">Upload your e-Aadhar PDF, crop the front and back sides using our visual cropper, and download a print-ready A4 PDF formatted to standard ID card dimensions — 100% private, runs in your browser.</p>
-          <div className="flex flex-wrap justify-center gap-2 mb-4">{FEATURES.map(f => <span key={f} className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white border border-slate-100 rounded-full text-xs font-bold text-slate-600 shadow-sm"><CheckCircle size={12} className="text-red-500" /> {f}</span>)}</div>
-        </div>
-      </section>
+    <div className="min-h-screen">
+    
       <section className="pb-8"><div className="container mx-auto px-4 max-w-7xl"><AadharCropper id="aadhar-crop" /></div></section>
       {!mounted ? <HowItWorksShimmer accent="rgba(239,68,68,0.15)" /> : (
         <section className="py-16 bg-white/60"><div className="container mx-auto px-4 max-w-4xl">

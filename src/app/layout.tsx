@@ -13,7 +13,6 @@ import MobileSearch from "@/components/MobileSearch";
 import ConvertDropdown from "@/components/ConvertDropdown";
 import ThemeToggle from "@/components/ThemeToggle";
 import EcommerceDropdown from "@/components/EcommerceDropdown";
-import ActiveToolNav from "@/components/ActiveToolNav";
 
 const inter = Inter({ subsets: ["latin"], weight: ['400', '500', '600', '700', '800', '900'] });
 
@@ -33,8 +32,6 @@ export default function RootLayout({
          <script dangerouslySetInnerHTML={{ __html: `(function(){try{var t=localStorage.getItem('theme');if(t==='dark'){document.documentElement.classList.add('dark');document.documentElement.style.colorScheme='dark';}}catch(e){}})();` }} />
        </head>
        <body className={`${inter.className} antialiased`} suppressHydrationWarning>
-         <div className="bg-mesh" aria-hidden="true" />
-        
         <div className="page-content">
         <header className="sticky top-0 z-50 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-b border-slate-100 dark:border-slate-800">
           <div className="w-full px-6 h-16 grid items-center" style={{ gridTemplateColumns: '1fr auto 1fr' }}>
@@ -59,7 +56,6 @@ export default function RootLayout({
               <ConvertDropdown />
               <EcommerceDropdown />
               <AllToolsDropdown />
-              <ActiveToolNav />
             </nav>
 
             {/* Right — Actions */}

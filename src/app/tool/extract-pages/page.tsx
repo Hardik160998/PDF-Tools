@@ -88,32 +88,6 @@ export default function ExtractPagesPage() {
 
   return (
     <div className="min-h-screen" style={{ background: "linear-gradient(135deg,#fff7ed33 0%,#fff0 50%,#fef3c733 100%)" }}>
-
-      {/* HERO */}
-      <section className="pt-16 pb-8 text-center">
-        <div className="container mx-auto px-4 max-w-4xl">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-orange-50 text-orange-600 border border-orange-100 text-xs font-black uppercase tracking-widest shadow-sm mb-6">
-            <Layers size={13} /> Free PDF Page Extractor
-          </div>
-          <h1 className="text-4xl md:text-6xl font-black text-slate-900 dark:text-white tracking-tight leading-tight mb-5">
-            Extract PDF Pages{" "}
-            <span style={{ background: "linear-gradient(135deg,#f26522,#f59e0b)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
-              Instantly
-            </span>
-          </h1>
-          <p className="text-lg text-slate-500 dark:text-slate-400 font-medium leading-relaxed max-w-2xl mx-auto mb-8">
-            Pick individual pages or enter a range, and download them as a brand-new PDF — all processed locally in your browser. No uploads, 100% private.
-          </p>
-          <div className="flex flex-wrap justify-center gap-2 mb-4">
-            {FEATURES.map(f => (
-              <span key={f} className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 rounded-full text-xs font-bold text-slate-600 dark:text-slate-300 shadow-sm">
-                <CheckCircle size={12} className="text-orange-500" /> {f}
-              </span>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* TOOL */}
       <section className="pb-8">
         <div className="container mx-auto px-4 max-w-5xl">

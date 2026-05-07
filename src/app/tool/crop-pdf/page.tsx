@@ -103,33 +103,7 @@ export default function CropPdfPage() {
   const mounted = usePageMounted();
 
   return (
-    <div className="min-h-screen" style={{ background: 'linear-gradient(135deg, #fff7ed33 0%, #fff0 50%, #ffedd533 100%)' }}>
-
-      {/* Hero */}
-      <section className="pt-16 pb-8 text-center">
-        <div className="container mx-auto px-4 max-w-4xl">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-orange-50 text-orange-600 border border-orange-100 text-xs font-black uppercase tracking-widest shadow-sm mb-6">
-            <Scissors size={13} /> Free Online PDF Cropper
-          </div>
-          <h1 className="text-4xl md:text-6xl font-black text-slate-900 tracking-tight leading-tight mb-5">
-            Crop PDF Pages{' '}
-            <span style={{ background: 'linear-gradient(135deg, #f97316, #c2410c)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
-              Precisely
-            </span>
-          </h1>
-          <p className="text-lg text-slate-500 font-medium leading-relaxed max-w-2xl mx-auto mb-8">
-            Remove unwanted margins, headers, or footers from your PDF pages. Drag the crop handles to select exactly what to keep — apply to all pages or customize per page. 100% private, runs entirely in your browser.
-          </p>
-          <div className="flex flex-wrap justify-center gap-2 mb-4">
-            {FEATURES.map(f => (
-              <span key={f} className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white border border-slate-100 rounded-full text-xs font-bold text-slate-600 shadow-sm">
-                <CheckCircle size={12} className="text-orange-500" /> {f}
-              </span>
-            ))}
-          </div>
-        </div>
-      </section>
-
+    <div className="min-h-screen">
       {/* Tool */}
       <section className="pb-8">
         <CropPdf id="crop-pdf" />

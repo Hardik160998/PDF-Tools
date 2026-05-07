@@ -24,15 +24,8 @@ const RELATED = [
 export default function ExcelToPdfPage() {
   const mounted = usePageMounted();
   return (
-    <div className="min-h-screen" style={{ background: 'linear-gradient(135deg, #f0fdf433 0%, #fff0 50%, #dcfce733 100%)' }}>
-      <section className="pt-16 pb-8 text-center">
-        <div className="container mx-auto px-4 max-w-4xl">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-green-50 text-green-600 border border-green-100 text-xs font-black uppercase tracking-widest shadow-sm mb-6"><FileSpreadsheet size={13} /> Free Excel to PDF Tool</div>
-          <h1 className="text-4xl md:text-6xl font-black text-slate-900 tracking-tight leading-tight mb-5">Convert Excel to PDF{' '}<span style={{ background: 'linear-gradient(135deg, #22c55e, #15803d)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>Instantly</span></h1>
-          <p className="text-lg text-slate-500 font-medium leading-relaxed max-w-2xl mx-auto mb-8">Convert .xls and .xlsx spreadsheets to PDF with all tables, sheets, and formatting intact. Fast, secure, and free — files deleted within 1 hour.</p>
-          <div className="flex flex-wrap justify-center gap-2 mb-4">{FEATURES.map(f => <span key={f} className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white border border-slate-100 rounded-full text-xs font-bold text-slate-600 shadow-sm"><CheckCircle size={12} className="text-green-500" /> {f}</span>)}</div>
-        </div>
-      </section>
+    <div className="min-h-screen">
+
       <section className="pb-8"><div className="container mx-auto px-4 max-w-7xl"><OfficeTools id="excel-to-pdf" /></div></section>
       {!mounted ? <HowItWorksShimmer accent="rgba(34,197,94,0.15)" /> : (
         <section className="py-16 bg-white/60"><div className="container mx-auto px-4 max-w-4xl">
