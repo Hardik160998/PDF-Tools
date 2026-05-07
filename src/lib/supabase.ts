@@ -21,7 +21,7 @@ export const supabase = new Proxy({} as SupabaseClient, {
   },
 });
 
-const ALWAYS_VERIFIED = ['esign', 'edit-pdf', 'extract-pages', 'delete-pages', 'add-blank-page', 'flatten-pdf', 'optimize-pdf', 'webpage-to-pdf', 'compare-pdf', 'redact-pdf', 'bookmark-pdf', 'docx-to-pdf', 'pdf-to-docx', 'jpg-to-png', 'png-to-jpg', 'jpg-to-webp', 'webp-to-jpg', 'png-to-webp', 'webp-to-png', 'jpg-to-avif', 'avif-to-jpg', 'png-to-avif', 'avif-to-png', 'webp-to-avif', 'avif-to-webp', 'ocr-pdf', 'remove-ocr', 'crop-pdf', 'meesho-cropper'];
+const ALWAYS_VERIFIED = ['esign', 'edit-pdf', 'extract-pages', 'delete-pages', 'add-blank-page', 'flatten-pdf', 'optimize-pdf', 'webpage-to-pdf', 'compare-pdf', 'redact-pdf', 'bookmark-pdf', 'docx-to-pdf', 'pdf-to-docx', 'jpg-to-png', 'png-to-jpg', 'jpg-to-webp', 'webp-to-jpg', 'png-to-webp', 'webp-to-png', 'jpg-to-avif', 'avif-to-jpg', 'png-to-avif', 'avif-to-png', 'webp-to-avif', 'avif-to-webp', 'ocr-pdf', 'remove-ocr', 'crop-pdf', 'meesho-cropper', 'meshocrop'];
 
 // Tools with their category — synced to allpdftools.category column
 const TOOL_CATEGORIES: Record<string, string> = {
@@ -41,6 +41,7 @@ const TOOL_CATEGORIES: Record<string, string> = {
   'redact-pdf': 'Security', 'unlock': 'Security', 'protect': 'Security',
   'aadhar-crop': 'Special', 'crop-pdf': 'Special',
   'meesho-cropper': 'Ecommerce',
+  'meshocrop': 'Ecommerce',
 };
 
 const CATEGORY_ID_MAP: Record<string, number> = {
@@ -151,6 +152,29 @@ export async function insertMeeshoTool() {
     tool_key: 'meesho-cropper',
     title: 'Meesho Label with Invoice Cropper',
     url: '/tool/meesho-cropper',
+    category: 'Ecommerce',
+    category_id: 11,
+    is_verified: true,
+    img_convert: false,
+  }]);
+  return error;
+}
+
+export async function insertMeeshoCropTool() {
+
+  const { data: existing } = await supabase
+    .from('allpdftools')
+    .select('tool_key')
+    .eq('tool_key', 'meshocrop')
+    .single();
+  if (existing) {
+    await supabase.from('allpdftools').update({ category: 'Ecommerce', category_id: 11, is_verified: true }).eq('tool_key', 'meshocrop');
+    return null;
+  }
+  const { error } = await supabase.from('allpdftools').insert([{
+    tool_key: 'meshocrop',
+    title: 'Meesho Label Crop (without invoice)',
+    url: '/tool/meshocrop',
     category: 'Ecommerce',
     category_id: 11,
     is_verified: true,

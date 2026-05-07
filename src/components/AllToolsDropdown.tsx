@@ -88,8 +88,9 @@ const CATEGORIES = [
     tools: [
       { id: "aadhar-crop",    label: "Aadhar Cropper",   icon: Wand2 },
       { id: "crop-pdf",       label: "Crop PDF",          icon: Crop },
-      { id: "meesho-cropper", label: "Meesho Label with Invoice Crop", icon: ShoppingBag },
-      { id: "meshocrop",      label: "Meesho Crop Label (without invoice)", icon: ShoppingBag },
+      { id: "meesho-cropper",   label: "Meesho Label with Invoice Crop",      icon: ShoppingBag },
+      { id: "meshocrop",         label: "Meesho Crop Label (without invoice)", icon: ShoppingBag },
+      { id: "flipkart-cropper",  label: "Flipkart Label Cropper",             icon: ShoppingBag },
     ],
   },
 ] as const;

@@ -18,6 +18,13 @@ const ECOMMERCE_TOOLS = [
     icon: ShoppingBag,
     gradient: "linear-gradient(135deg, #f26522, #f59e0b)",
   },
+  {
+    href: "/tool/flipkart-cropper",
+    label: "Flipkart Label Cropper",
+    desc: "Smart OCR crop for Flipkart / E-kart shipping labels",
+    icon: ShoppingBag,
+    gradient: "linear-gradient(135deg, #F7941D, #f59e0b)",
+  },
 ];
 
 export default function EcommerceDropdown() {
