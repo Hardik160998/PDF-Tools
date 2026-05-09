@@ -3,7 +3,7 @@
 import { useState, useRef } from 'react';
 import { Upload, Download, Loader2, X, CheckCircle2, ShoppingBag, Trash2, FileText, AlertCircle } from 'lucide-react';
 import * as pdfjsLib from 'pdfjs-dist';
-import { PDFDocument } from 'pdf-lib';
+import { PDFDocument, rgb } from 'pdf-lib';
 
 if (typeof window !== 'undefined') {
   pdfjsLib.GlobalWorkerOptions.workerSrc = '/workers/pdf.worker.min.mjs';
@@ -180,7 +180,7 @@ function extractMetadata(
   bounds?: CropBounds,
   pageH?: number,
   scale?: number
-): { awb: string; sellerName: string; qty: number; pincode: string; orderId: string } {
+): { awb: string; sellerName: string; qty: number; pincode: string; orderId: string; skuId: string; skuBounds?: any; qtyBounds?: any } {
   let filteredItems = items;
   if (bounds && pageH !== undefined && scale !== undefined) {
     const labelTopPdf = (pageH - bounds.y) / scale;
@@ -191,10 +191,22 @@ function extractMetadata(
     });
   }
 
-  let awb = '', sellerName = 'ZZZ_UNKNOWN', qty = 1, pincode = '', orderId = '';
+  let awb = '', sellerName = 'ZZZ_UNKNOWN', qty = 1, pincode = '', orderId = '', skuId = 'ZZZ_UNKNOWN';
+  let skuBounds: any = null;
+  let qtyBounds: any = null;
+
+  // Find SKU Header
+  const skuHeader = filteredItems.find(i => (i.str || '').toUpperCase().includes('SKU ID'));
+  const skuHeaderX = skuHeader ? skuHeader.transform[4] : -1;
+  const skuHeaderY = skuHeader ? skuHeader.transform[5] : -1;
+
+  const qtyHeader = filteredItems.find(i => (i.str || '').toUpperCase() === 'QTY');
+  const qtyHeaderX = qtyHeader ? qtyHeader.transform[4] : -1;
+  const qtyHeaderY = qtyHeader ? qtyHeader.transform[5] : -1;
 
   for (let i = 0; i < filteredItems.length; i++) {
-    const text = (filteredItems[i].str || '').trim();
+    const item = filteredItems[i];
+    const text = (item.str || '').trim();
     const up = text.toUpperCase();
     if (!text) continue;
 
@@ -203,7 +215,56 @@ function extractMetadata(
     if (!orderId) { const m = text.match(/\b([A-Z0-9]{10,20})\b/); if (m && up.includes('OD')) orderId = m[1]; }
     
     const qtyMatch = text.match(/Qty[:\s]*([0-9]+)/i);
-    if (qtyMatch) qty = parseInt(qtyMatch[1], 10);
+    if (qtyMatch) {
+      qty = parseInt(qtyMatch[1], 10);
+    } else if (qtyHeader) {
+      const isBelowQty = item.transform[5] < qtyHeaderY && item.transform[5] > qtyHeaderY - 40 && Math.abs(item.transform[4] - qtyHeaderX) < 40;
+      if (isBelowQty && text.match(/^[0-9]+$/)) {
+        qty = parseInt(text, 10);
+        if (pageH && scale) {
+          qtyBounds = {
+            x: (item.transform[4] - 4) * scale,
+            y: pageH - (item.transform[5] + (item.height || 12) + 4) * scale,
+            w: ((item.width || 15) + 8) * scale,
+            h: ((item.height || 12) + 8) * scale
+          };
+        }
+      }
+    }
+
+    // SKU Detection - Robust Heuristic
+    if (skuId === 'ZZZ_UNKNOWN') {
+      const isBelowHeader = skuHeader && item.transform[5] < skuHeaderY && item.transform[5] > skuHeaderY - 60 && Math.abs(item.transform[4] - skuHeaderX) < 150;
+      const looksLikeSku = /^[A-Z0-9]{2,}-[A-Z0-9-]{2,}$/.test(up) || (up.includes('-') && up.length > 5 && !up.includes(' ') && !up.includes(':'));
+      
+      if (isBelowHeader || looksLikeSku) {
+        // Filter out common noise and instructions
+        const isNoise = ['QTY', 'DESCRIPTION', 'PRODUCT', 'SKU ID', 'ITEM', 'TOTAL', 'ORDER', 'PACKAGING', 'TRANSPARENT'].some(k => up.includes(k));
+        if (up.length > 3 && !isNoise) {
+          // Extract clean SKU if it's in a pipe-separated line (e.g. 1 | SKU-ID | Desc)
+          let cleanSku = up;
+          if (up.includes('|')) {
+            const parts = up.split('|');
+            // Try to find the part that looks most like a SKU
+            const skuPart = parts.find(p => p.includes('-') && !p.includes('Description') && p.trim().length > 3);
+            if (skuPart) cleanSku = skuPart.trim();
+            else cleanSku = (parts[1] || parts[0]).trim();
+          }
+          
+          skuId = cleanSku;
+          if (pageH && scale) {
+            const itemW = item.width || (text.length * 7);
+            const itemH = item.height || 12;
+            skuBounds = {
+              x: (item.transform[4] - 4) * scale,
+              y: pageH - (item.transform[5] + itemH + 2) * scale,
+              w: (itemW + 8) * scale,
+              h: (itemH + 4) * scale
+            };
+          }
+        }
+      }
+    }
 
     if (up.includes('SOLD BY') || up.includes('SELLER')) {
       let rawName = '';
@@ -227,7 +288,7 @@ function extractMetadata(
       }
     }
   }
-  return { awb, sellerName, qty, pincode, orderId };
+  return { awb, sellerName, qty, pincode, orderId, skuId, skuBounds, qtyBounds };
 }
 
 interface ProcessedItem {
@@ -237,8 +298,10 @@ interface ProcessedItem {
   qty: number;
   pincode: string;
   orderId: string;
+  skuId: string;
   method: 'ocr' | 'fallback';
   type: 'label' | 'invoice';
+  qtyBounds?: any;
 }
 
 interface ProcessedResult extends PageResult {
@@ -263,6 +326,10 @@ export default function FlipkartCropper({ id }: { id: string }) {
   const [keepInvoice, setKeepInvoice] = useState(false);
   const [sortByAwb, setSortByAwb] = useState(false);
   const [sortBySeller, setSortBySeller] = useState(false);
+  const [sortBySku, setSortBySku] = useState(true);
+  const [sortByQty, setSortByQty] = useState(true);
+  const [labelsPerA4, setLabelsPerA4] = useState(false);
+  const [highlightSku, setHighlightSku] = useState(true);
   const [multiOrderAtBottom, setMultiOrderAtBottom] = useState(true);
   const [fallbackAtBottom, setFallbackAtBottom] = useState(true);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -312,8 +379,29 @@ export default function FlipkartCropper({ id }: { id: string }) {
               const out = document.createElement('canvas');
               out.width = Math.max(1, Math.round(bounds.width));
               out.height = Math.max(1, Math.round(bounds.height));
-              out.getContext('2d')!.drawImage(fullCanvas, bounds.x, bounds.y, bounds.width, bounds.height, 0, 0, out.width, out.height);
+              const ctx = out.getContext('2d')!;
+              ctx.drawImage(fullCanvas, bounds.x, bounds.y, bounds.width, bounds.height, 0, 0, out.width, out.height);
               
+              if (highlightSku && meta.skuBounds) {
+                ctx.strokeStyle = '#2563eb'; // Blue
+                ctx.lineWidth = 4;
+                ctx.strokeRect(meta.skuBounds.x - bounds.x, meta.skuBounds.y - bounds.y, meta.skuBounds.w, meta.skuBounds.h);
+                ctx.fillStyle = 'rgba(37, 99, 235, 0.15)';
+                ctx.fillRect(meta.skuBounds.x - bounds.x, meta.skuBounds.y - bounds.y, meta.skuBounds.w, meta.skuBounds.h);
+              }
+
+              if (highlightSku && meta.qty > 1 && meta.qtyBounds) {
+                ctx.strokeStyle = '#ef4444'; // Red for bulk
+                ctx.lineWidth = 4;
+                ctx.strokeRect(meta.qtyBounds.x - bounds.x, meta.qtyBounds.y - bounds.y, meta.qtyBounds.w, meta.qtyBounds.h);
+                ctx.fillStyle = 'rgba(239, 68, 68, 0.15)';
+                ctx.fillRect(meta.qtyBounds.x - bounds.x, meta.qtyBounds.y - bounds.y, meta.qtyBounds.w, meta.qtyBounds.h);
+                
+                ctx.fillStyle = '#ef4444';
+                ctx.font = 'bold 24px Arial';
+                ctx.fillText(`QTY: ${meta.qty} !!`, meta.qtyBounds.x - bounds.x, meta.qtyBounds.y - bounds.y - 5);
+              }
+
               allLabels.push({ canvas: out, ...meta, method: bounds.method, type: 'label' });
               if (bounds.method === 'fallback') fileMethod = 'fallback';
               lastLabelBottom = Math.max(lastLabelBottom, bounds.y + bounds.height);
@@ -325,8 +413,19 @@ export default function FlipkartCropper({ id }: { id: string }) {
                 const invCanvas = document.createElement('canvas');
                 invCanvas.width = Math.max(1, Math.round(invBounds.width));
                 invCanvas.height = Math.max(1, Math.round(invBounds.height));
-                invCanvas.getContext('2d')!.drawImage(fullCanvas, invBounds.x, invBounds.y, invBounds.width, invBounds.height, 0, 0, invCanvas.width, invCanvas.height);
+                const ctx = invCanvas.getContext('2d')!;
+                ctx.drawImage(fullCanvas, invBounds.x, invBounds.y, invBounds.width, invBounds.height, 0, 0, invCanvas.width, invCanvas.height);
+                
                 const firstLabelMeta = extractMetadata(items, labelBounds[0], viewport.height, 2.5);
+                
+                if (highlightSku && firstLabelMeta.skuBounds) {
+                  ctx.strokeStyle = '#2563eb';
+                  ctx.lineWidth = 4;
+                  ctx.strokeRect(firstLabelMeta.skuBounds.x - invBounds.x, firstLabelMeta.skuBounds.y - invBounds.y, firstLabelMeta.skuBounds.w, firstLabelMeta.skuBounds.h);
+                  ctx.fillStyle = 'rgba(37, 99, 235, 0.1)';
+                  ctx.fillRect(firstLabelMeta.skuBounds.x - invBounds.x, firstLabelMeta.skuBounds.y - invBounds.y, firstLabelMeta.skuBounds.w, firstLabelMeta.skuBounds.h);
+                }
+
                 allInvoices.push({ canvas: invCanvas, ...firstLabelMeta, method: 'ocr', type: 'invoice' });
               } else if (lastLabelBottom < viewport.height * 0.85) {
                 // Fallback to simple bottom crop if precise detection fails
@@ -409,7 +508,7 @@ export default function FlipkartCropper({ id }: { id: string }) {
     });
 
     // ── Sort ───────────────────────────────────────────────────────────────
-    if (sortByAwb || sortBySeller || multiOrderAtBottom || fallbackAtBottom) {
+    if (sortByAwb || sortBySeller || sortBySku || sortByQty || multiOrderAtBottom || fallbackAtBottom) {
       groups.sort((a, b) => {
         if (multiOrderAtBottom) {
           if (a.isMulti && !b.isMulti) return 1;
@@ -418,6 +517,12 @@ export default function FlipkartCropper({ id }: { id: string }) {
         if (fallbackAtBottom) {
           if (a.label.method === 'ocr' && b.label.method === 'fallback') return -1;
           if (a.label.method === 'fallback' && b.label.method === 'ocr') return 1;
+        }
+        if (sortByQty && a.label.qty !== b.label.qty) {
+          return a.label.qty - b.label.qty;
+        }
+        if (sortBySku && a.label.skuId !== b.label.skuId) {
+          return a.label.skuId.localeCompare(b.label.skuId);
         }
         if (sortBySeller && a.label.sellerName !== b.label.sellerName) {
           return a.label.sellerName.localeCompare(b.label.sellerName);
@@ -435,11 +540,54 @@ export default function FlipkartCropper({ id }: { id: string }) {
     });
 
     // Build PDF
-    for (const r of finalResults) {
-      const pngBytes = await canvasToPngBytes(r.canvas);
-      const img = await outDoc.embedPng(pngBytes);
-      const page = outDoc.addPage([img.width, img.height]);
-      page.drawImage(img, { x: 0, y: 0, width: img.width, height: img.height });
+    if (labelsPerA4 && !keepInvoice) {
+      const A4_W = 595.28;
+      const A4_H = 841.89;
+      const margin = 20;
+      const slotW = (A4_W - margin * 3) / 2;
+      const slotH = (A4_H - margin * 3) / 2;
+
+      for (let i = 0; i < finalResults.length; i += 4) {
+        const page = outDoc.addPage([A4_W, A4_H]);
+        for (let j = 0; j < 4 && (i + j) < finalResults.length; j++) {
+          const r = finalResults[i + j];
+          const pngBytes = await canvasToPngBytes(r.canvas);
+          const img = await outDoc.embedPng(pngBytes);
+          
+          // Fit image to slot while maintaining aspect ratio
+          const scale = Math.min(slotW / img.width, slotH / img.height);
+          const drawW = img.width * scale;
+          const drawH = img.height * scale;
+          
+          const col = j % 2;
+          const row = Math.floor(j / 2);
+          
+          const slotX = margin + col * (slotW + margin);
+          const slotYTop = margin + row * (slotH + margin);
+          
+          const x = slotX + (slotW - drawW) / 2;
+          const y = A4_H - (slotYTop + (slotH - drawH) / 2 + drawH);
+          
+          page.drawImage(img, { x, y, width: drawW, height: drawH });
+          
+          // Draw a very faint border for cutting guide
+          page.drawRectangle({
+            x: slotX,
+            y: A4_H - (slotYTop + slotH),
+            width: slotW,
+            height: slotH,
+            borderColor: rgb(0.9, 0.9, 0.9),
+            borderWidth: 0.5
+          });
+        }
+      }
+    } else {
+      for (const r of finalResults) {
+        const pngBytes = await canvasToPngBytes(r.canvas);
+        const img = await outDoc.embedPng(pngBytes);
+        const page = outDoc.addPage([img.width, img.height]);
+        page.drawImage(img, { x: 0, y: 0, width: img.width, height: img.height });
+      }
     }
     const pdfBytes = await outDoc.save();
     setPdfUrl(URL.createObjectURL(new Blob([pdfBytes.buffer as ArrayBuffer], { type: 'application/pdf' })));
@@ -477,8 +625,39 @@ export default function FlipkartCropper({ id }: { id: string }) {
           <h3 className="text-xl font-black text-slate-900 dark:text-white mb-6 uppercase tracking-tight">Settings</h3>
           <div className="space-y-4">
             <label className="flex items-start gap-3 cursor-pointer">
-              <input type="checkbox" checked={keepInvoice} onChange={e => setKeepInvoice(e.target.checked)} className="w-5 h-5 mt-0.5" style={{ accentColor: ACCENT }} />
+              <input type="checkbox" checked={keepInvoice} onChange={e => {
+                setKeepInvoice(e.target.checked);
+                if (e.target.checked) setLabelsPerA4(false);
+              }} className="w-5 h-5 mt-0.5" style={{ accentColor: ACCENT }} />
               <span className="text-sm font-semibold">Keep Invoice <span className="block text-[10px] text-slate-400">Under each label</span></span>
+            </label>
+            <label className={`flex items-start gap-3 cursor-pointer ${keepInvoice ? 'opacity-40 pointer-events-none' : ''}`}>
+              <input type="checkbox" checked={labelsPerA4} onChange={e => setLabelsPerA4(e.target.checked)} className="w-5 h-5 mt-0.5" style={{ accentColor: ACCENT }} />
+              <div className="flex flex-col">
+                <span className="text-sm font-semibold">4 Labels per A4 page</span>
+                <span className="text-[10px] text-slate-400 font-bold uppercase tracking-tighter">2x2 Grid (No Invoice)</span>
+              </div>
+            </label>
+            <label className="flex items-start gap-3 cursor-pointer">
+              <input type="checkbox" checked={sortByQty} onChange={e => setSortByQty(e.target.checked)} className="w-5 h-5 mt-0.5" style={{ accentColor: ACCENT }} />
+              <div className="flex flex-col">
+                <span className="text-sm font-semibold">Sort by Quantity</span>
+                <span className="text-[10px] text-slate-400 font-bold uppercase tracking-tighter">Qty મુજબ સોર્ટ કરો</span>
+              </div>
+            </label>
+            <label className="flex items-start gap-3 cursor-pointer">
+              <input type="checkbox" checked={sortBySku} onChange={e => setSortBySku(e.target.checked)} className="w-5 h-5 mt-0.5" style={{ accentColor: ACCENT }} />
+              <div className="flex flex-col">
+                <span className="text-sm font-semibold">Sort by SKU ID</span>
+                <span className="text-[10px] text-slate-400 font-bold uppercase tracking-tighter">Group identical items</span>
+              </div>
+            </label>
+            <label className="flex items-start gap-3 cursor-pointer">
+              <input type="checkbox" checked={highlightSku} onChange={e => setHighlightSku(e.target.checked)} className="w-5 h-5 mt-0.5" style={{ accentColor: ACCENT }} />
+              <div className="flex flex-col">
+                <span className="text-sm font-semibold">Highlight SKU ID</span>
+                <span className="text-[10px] text-slate-400 font-bold uppercase tracking-tighter">Visible blue boxes</span>
+              </div>
             </label>
             <label className="flex items-start gap-3 cursor-pointer">
               <input type="checkbox" checked={sortBySeller} onChange={e => setSortBySeller(e.target.checked)} className="w-5 h-5 mt-0.5" style={{ accentColor: ACCENT }} />
@@ -504,6 +683,22 @@ export default function FlipkartCropper({ id }: { id: string }) {
             <div className="inline-flex p-4 rounded-2xl text-white shadow-lg" style={{ background: ACCENT }}><ShoppingBag size={32} /></div>
             <h2 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter">Flipkart Label Cropper</h2>
             <p className="text-slate-500 font-medium">Extracts 1st to end label with zero invoice bleed.</p>
+            
+            {/* Steps */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mt-6">
+              {[
+                { step: "1", title: "Upload", desc: "Select labels" },
+                { step: "2", title: "Sort", desc: "By SKU ID" },
+                { step: "3", title: "Highlight", desc: "Check SKU" },
+                { step: "4", title: "Print", desc: "Download PDF" }
+              ].map((s, idx) => (
+                <div key={idx} className="p-3 bg-slate-50 dark:bg-slate-900/50 rounded-2xl border border-slate-100 dark:border-slate-700">
+                  <div className="w-6 h-6 rounded-full bg-orange-500 text-white text-[10px] font-black flex items-center justify-center mb-1 mx-auto">{s.step}</div>
+                  <div className="text-[11px] font-black text-slate-900 dark:text-white">{s.title}</div>
+                  <div className="text-[9px] text-slate-400 font-medium leading-tight mt-0.5">{s.desc}</div>
+                </div>
+              ))}
+            </div>
           </div>
 
           {!done ? (

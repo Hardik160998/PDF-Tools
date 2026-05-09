@@ -26,6 +26,9 @@ interface PageData {
   orderId: string;
   awb: string;
   customerName: string;
+  skuId: string;
+  skuBounds?: any;
+  qtyBounds?: any;
 }
 
 async function findTotalLineY(page: pdfjsLib.PDFPageProxy): Promise<number | null> {
@@ -38,7 +41,7 @@ async function findTotalLineY(page: pdfjsLib.PDFPageProxy): Promise<number | nul
   return totalY;
 }
 
-async function extractPageMetadata(page: pdfjsLib.PDFPageProxy): Promise<{ courierName: string; sellerName: string; qty: number; pincode: string; orderId: string; awb: string; customerName: string }> {
+async function extractPageMetadata(page: pdfjsLib.PDFPageProxy, viewport: any, scale: number): Promise<{ courierName: string; sellerName: string; qty: number; pincode: string; orderId: string; awb: string; customerName: string; skuId: string; skuBounds?: any; qtyBounds?: any }> {
   const content = await page.getTextContent();
   const items = content.items as any[];
   let courierName = 'Unknown';
@@ -48,6 +51,18 @@ async function extractPageMetadata(page: pdfjsLib.PDFPageProxy): Promise<{ couri
   let orderId = '';
   let awb = '';
   let customerName = '';
+  let skuId = 'ZZZ_UNKNOWN';
+  let skuBounds: any = null;
+  let qtyBounds: any = null;
+
+  const pageH = viewport.height;
+  const skuHeader = items.find(i => (i.str || '').trim().toUpperCase() === 'SKU');
+  const skuHeaderX = skuHeader ? skuHeader.transform[4] : -1;
+  const skuHeaderY = skuHeader ? skuHeader.transform[5] : -1;
+
+  const qtyHeader = items.find(i => (i.str || '').trim().toUpperCase() === 'QTY');
+  const qtyHeaderX = qtyHeader ? qtyHeader.transform[4] : -1;
+  const qtyHeaderY = qtyHeader ? qtyHeader.transform[5] : -1;
 
   for (let i = 0; i < items.length; i++) {
     const text = items[i].str?.trim();
@@ -75,7 +90,21 @@ async function extractPageMetadata(page: pdfjsLib.PDFPageProxy): Promise<{ couri
     }
 
     const qtyMatch = text.match(/Qty[:\s]*([0-9]+)/i);
-    if (qtyMatch) qty = parseInt(qtyMatch[1], 10);
+    if (qtyMatch) {
+      qty = parseInt(qtyMatch[1], 10);
+    } else if (qtyHeader) {
+      const isBelowQty = items[i].transform[5] < qtyHeaderY && items[i].transform[5] > qtyHeaderY - 40 && Math.abs(items[i].transform[4] - qtyHeaderX) < 30;
+      if (isBelowQty && text.match(/^[0-9]+$/)) {
+        qty = parseInt(text, 10);
+        const item = items[i];
+        qtyBounds = {
+          x: (item.transform[4] - 5) * scale,
+          y: pageH - (item.transform[5] + (item.height || 10) + 5) * scale,
+          w: ((item.width || 10) + 10) * scale,
+          h: ((item.height || 10) + 10) * scale
+        };
+      }
+    }
 
     const pincodeMatch = text.match(/\b([0-9]{6})\b/);
     if (pincodeMatch && !pincode) pincode = pincodeMatch[1];
@@ -89,9 +118,26 @@ async function extractPageMetadata(page: pdfjsLib.PDFPageProxy): Promise<{ couri
     if (text.match(/^[A-Z][a-z]+\s+[A-Z][a-z]+$/) && !customerName) {
       customerName = text;
     }
+
+    // SKU Detection
+    if (skuId === 'ZZZ_UNKNOWN' && skuHeader) {
+      const isBelowSku = items[i].transform[5] < skuHeaderY && items[i].transform[5] > skuHeaderY - 40 && Math.abs(items[i].transform[4] - skuHeaderX) < 50;
+      if (isBelowSku && text.length > 2) {
+        skuId = text.toUpperCase();
+        const item = items[i];
+        const itemW = item.width || (text.length * 6);
+        const itemH = item.height || 10;
+        skuBounds = {
+          x: (item.transform[4] - 2) * scale,
+          y: pageH - (item.transform[5] + itemH + 2) * scale,
+          w: (itemW + 4) * scale,
+          h: (itemH + 4) * scale
+        };
+      }
+    }
   }
 
-  return { courierName, sellerName, qty, pincode, orderId, awb, customerName };
+  return { courierName, sellerName, qty, pincode, orderId, awb, customerName, skuId, skuBounds, qtyBounds };
 }
 
 async function renderPageCroppedToCanvas(page: pdfjsLib.PDFPageProxy, scale: number, cropBelowY: number | null): Promise<HTMLCanvasElement> {
@@ -104,10 +150,40 @@ async function renderPageCroppedToCanvas(page: pdfjsLib.PDFPageProxy, scale: num
   if (cropBelowY === null) return fullCanvas;
   const cropCanvasY = Math.floor(viewport.height - cropBelowY * scale) + 5;
   const croppedHeight = Math.max(1, cropCanvasY);
+
+  const tempCanvas = document.createElement('canvas');
+  tempCanvas.width = fullCanvas.width;
+  tempCanvas.height = croppedHeight;
+  const tempCtx = tempCanvas.getContext('2d')!;
+  tempCtx.drawImage(fullCanvas, 0, 0, fullCanvas.width, croppedHeight, 0, 0, fullCanvas.width, croppedHeight);
+
+  // Auto-trim horizontal white space
+  const pixels = tempCtx.getImageData(0, 0, tempCanvas.width, tempCanvas.height);
+  const data = pixels.data;
+  let minX = tempCanvas.width, maxX = 0;
+
+  for (let y = 0; y < tempCanvas.height; y++) {
+    for (let x = 0; x < tempCanvas.width; x++) {
+      const idx = (y * tempCanvas.width + x) * 4;
+      const r = data[idx], g = data[idx+1], b = data[idx+2];
+      if (r < 240 || g < 240 || b < 240) { // Not white
+        if (x < minX) minX = x;
+        if (x > maxX) maxX = x;
+      }
+    }
+  }
+
+  const trimPadding = 5;
+  minX = Math.max(0, minX - trimPadding);
+  maxX = Math.min(tempCanvas.width, maxX + trimPadding);
+  const trimmedWidth = maxX - minX;
+
+  if (trimmedWidth <= 0) return tempCanvas;
+
   const out = document.createElement('canvas');
-  out.width = fullCanvas.width;
+  out.width = trimmedWidth;
   out.height = croppedHeight;
-  out.getContext('2d')!.drawImage(fullCanvas, 0, 0, fullCanvas.width, croppedHeight, 0, 0, fullCanvas.width, croppedHeight);
+  out.getContext('2d')!.drawImage(tempCanvas, minX, 0, trimmedWidth, croppedHeight, 0, 0, trimmedWidth, croppedHeight);
   return out;
 }
 
@@ -124,8 +200,11 @@ export default function MeeshoCropLabel({ id }: { id: string }) {
   const [pdfUrls, setPdfUrls] = useState<{ courier: string; url: string }[]>([]);
   const [csvUrl, setCsvUrl] = useState<string | null>(null);
   const [labelCount, setLabelCount] = useState(0);
-  const [sortBySeller, setSortBySeller] = useState(true);
-  const [sortByCourier, setSortByCourier] = useState(true);
+  const [sortBySeller, setSortBySeller] = useState(false);
+  const [sortByCourier, setSortByCourier] = useState(false);
+  const [sortBySku, setSortBySku] = useState(true);
+  const [sortByQty, setSortByQty] = useState(true);
+  const [highlightSku, setHighlightSku] = useState(true);
   const [multiOrderAtBottom, setMultiOrderAtBottom] = useState(true);
   const [splitByCourier, setSplitByCourier] = useState(false);
   const [exportMetadata, setExportMetadata] = useState(false);
@@ -157,9 +236,34 @@ export default function MeeshoCropLabel({ id }: { id: string }) {
         const pdf = await pdfjsLib.getDocument(buf).promise;
         for (let p = 1; p <= pdf.numPages; p++) {
           const page = await pdf.getPage(p);
+          const viewport = page.getViewport({ scale: 2 });
           const totalY = await findTotalLineY(page);
+          const metadata = await extractPageMetadata(page, viewport, 2);
           const canvas = await renderPageCroppedToCanvas(page, 2, totalY);
-          const metadata = await extractPageMetadata(page);
+          
+          if (highlightSku && metadata.skuBounds) {
+            const ctx = canvas.getContext('2d')!;
+            ctx.strokeStyle = '#2563eb';
+            ctx.lineWidth = 3;
+            ctx.strokeRect(metadata.skuBounds.x, metadata.skuBounds.y, metadata.skuBounds.w, metadata.skuBounds.h);
+            ctx.fillStyle = 'rgba(37, 99, 235, 0.1)';
+            ctx.fillRect(metadata.skuBounds.x, metadata.skuBounds.y, metadata.skuBounds.w, metadata.skuBounds.h);
+          }
+
+          if (highlightSku && metadata.qty > 1 && metadata.qtyBounds) {
+            const ctx = canvas.getContext('2d')!;
+            ctx.strokeStyle = '#ef4444'; // Red for bulk
+            ctx.lineWidth = 4;
+            ctx.strokeRect(metadata.qtyBounds.x, metadata.qtyBounds.y, metadata.qtyBounds.w, metadata.qtyBounds.h);
+            ctx.fillStyle = 'rgba(239, 68, 68, 0.15)';
+            ctx.fillRect(metadata.qtyBounds.x, metadata.qtyBounds.y, metadata.qtyBounds.w, metadata.qtyBounds.h);
+            
+            // Add "BULK" tag
+            ctx.fillStyle = '#ef4444';
+            ctx.font = 'bold 24px Arial';
+            ctx.fillText(`QTY: ${metadata.qty} !!`, metadata.qtyBounds.x, metadata.qtyBounds.y - 10);
+          }
+
           allPages.push({ canvas, ...metadata });
         }
         setFiles(prev => prev.map(f => f.id === entry.id ? { ...f, status: 'done', pageCount: pdf.numPages } : f));
@@ -179,7 +283,7 @@ export default function MeeshoCropLabel({ id }: { id: string }) {
       }
     });
 
-    if (sortBySeller || sortByCourier || multiOrderAtBottom) {
+    if (sortBySeller || sortByCourier || sortBySku || sortByQty || multiOrderAtBottom) {
       allPages.sort((a, b) => {
         const aIndex = allPages.indexOf(a);
         const bIndex = allPages.indexOf(b);
@@ -191,6 +295,14 @@ export default function MeeshoCropLabel({ id }: { id: string }) {
           const bIsMulti = b.qty > 1 || bIsDuplicate;
           if (aIsMulti && !bIsMulti) return 1;
           if (!aIsMulti && bIsMulti) return -1;
+        }
+
+        if (sortByQty && a.qty !== b.qty) {
+          return a.qty - b.qty;
+        }
+
+        if (sortBySku && a.skuId !== b.skuId) {
+          return a.skuId.localeCompare(b.skuId);
         }
 
         if (sortByCourier && a.courierName !== b.courierName) {
@@ -268,6 +380,22 @@ export default function MeeshoCropLabel({ id }: { id: string }) {
         </div>
         <h2 className="text-2xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter">Meesho Label with Invoice Cropper</h2>
         <p className="text-sm sm:text-base text-slate-500 dark:text-slate-400 font-medium">Auto-crop Meesho shipping labels — removes the invoice section below "Total", keeps the shipping label.</p>
+        
+        {/* Steps */}
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mt-6">
+          {[
+            { step: "1", title: "Upload", desc: "Select labels" },
+            { step: "2", title: "Sort", desc: "By SKU ID" },
+            { step: "3", title: "Highlight", desc: "Check SKU" },
+            { step: "4", title: "Print", desc: "Download PDF" }
+          ].map((s, idx) => (
+            <div key={idx} className="p-3 bg-white dark:bg-slate-900 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm">
+              <div className="w-6 h-6 rounded-full bg-[#f26522] text-white text-[10px] font-black flex items-center justify-center mb-1 mx-auto">{s.step}</div>
+              <div className="text-[11px] font-black text-slate-900 dark:text-white">{s.title}</div>
+              <div className="text-[9px] text-slate-400 font-medium leading-tight mt-0.5">{s.desc}</div>
+            </div>
+          ))}
+        </div>
       </div>
 
       {!done ? (
@@ -347,6 +475,27 @@ export default function MeeshoCropLabel({ id }: { id: string }) {
             <div className="p-5 sm:p-6">
               <h3 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white mb-6">Settings</h3>
               <div className="space-y-4">
+                <label className="flex items-start gap-3 cursor-pointer group">
+                  <input type="checkbox" checked={sortByQty} onChange={(e) => setSortByQty(e.target.checked)} className="w-5 h-5 mt-0.5 text-[#f26522] bg-white border-2 border-slate-300 rounded focus:ring-2 focus:ring-[#f26522] cursor-pointer flex-shrink-0" />
+                  <div className="flex flex-col">
+                    <span className="text-sm font-semibold text-slate-700 dark:text-slate-300 group-hover:text-slate-900 dark:group-hover:text-white leading-tight">Sort by Quantity</span>
+                    <span className="text-[10px] text-slate-400 font-bold uppercase tracking-tighter">Qty મુજબ સોર્ટ કરો</span>
+                  </div>
+                </label>
+                <label className="flex items-start gap-3 cursor-pointer group">
+                  <input type="checkbox" checked={sortBySku} onChange={(e) => setSortBySku(e.target.checked)} className="w-5 h-5 mt-0.5 text-[#f26522] bg-white border-2 border-slate-300 rounded focus:ring-2 focus:ring-[#f26522] cursor-pointer flex-shrink-0" />
+                  <div className="flex flex-col">
+                    <span className="text-sm font-semibold text-slate-700 dark:text-slate-300 group-hover:text-slate-900 dark:group-hover:text-white leading-tight">Sort by SKU ID</span>
+                    <span className="text-[10px] text-slate-400 font-bold uppercase tracking-tighter">Group identical items</span>
+                  </div>
+                </label>
+                <label className="flex items-start gap-3 cursor-pointer group">
+                  <input type="checkbox" checked={highlightSku} onChange={(e) => setHighlightSku(e.target.checked)} className="w-5 h-5 mt-0.5 text-[#f26522] bg-white border-2 border-slate-300 rounded focus:ring-2 focus:ring-[#f26522] cursor-pointer flex-shrink-0" />
+                  <div className="flex flex-col">
+                    <span className="text-sm font-semibold text-slate-700 dark:text-slate-300 group-hover:text-slate-900 dark:group-hover:text-white leading-tight">Highlight SKU ID</span>
+                    <span className="text-[10px] text-slate-400 font-bold uppercase tracking-tighter">Visible blue boxes</span>
+                  </div>
+                </label>
                 <label className="flex items-start gap-3 cursor-pointer group">
                   <input type="checkbox" checked={sortBySeller} onChange={(e) => setSortBySeller(e.target.checked)} className="w-5 h-5 mt-0.5 text-[#f26522] bg-white border-2 border-slate-300 rounded focus:ring-2 focus:ring-[#f26522] cursor-pointer flex-shrink-0" />
                   <span className="text-sm font-semibold text-slate-700 dark:text-slate-300 group-hover:text-slate-900 dark:group-hover:text-white leading-tight">Sort by <span className="font-black">Sold By</span></span>
