@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { createPortal } from "react-dom";
 import { Menu, X, Heart, Combine, Scissors, Zap, LifeBuoy, Type, FileJson, ImageIcon, FileText, Presentation, FileSpreadsheet, Globe, Stamp, FileDigit, Settings, Unlock, Lock, Wand2, FileSymlink, Search, Layers, GitCompare, Bookmark, EyeOff, PenLine, ScanText, Crop, ShoppingBag } from "lucide-react";
 import ThemeToggle from "@/components/ThemeToggle";
 
@@ -108,6 +109,11 @@ const SECTIONS = [
 export default function MobileNav() {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     if (open) {
@@ -140,71 +146,74 @@ export default function MobileNav() {
         {open ? <X size={22} /> : <Menu size={22} />}
       </button>
 
-      {open && <div className="mob-backdrop" onClick={close} />}
+      {mounted && open && createPortal(
+        <>
+          <div className="mob-backdrop" onClick={close} />
+          <div className={`mob-drawer ${open ? "mob-drawer--open" : ""}`}>
+            <div className="mob-drawer-header">
+              <a href="/" className="mob-drawer-logo" onClick={close}>
+                <span>Smart</span>
+                <Heart className="fill-red-500 text-red-500" size={18} />
+                <span>PDFs</span>
+              </a>
+              <button className="mob-drawer-close" onClick={close}>
+                <X size={20} />
+              </button>
+            </div>
 
-      <div className={`mob-drawer ${open ? "mob-drawer--open" : ""}`}>
-        <div className="mob-drawer-header">
-          <a href="/" className="mob-drawer-logo" onClick={close}>
-            <span>Smart</span>
-            <Heart className="fill-red-500 text-red-500" size={18} />
-            <span>PDFs</span>
-          </a>
-          <button className="mob-drawer-close" onClick={close}>
-            <X size={20} />
-          </button>
-        </div>
+            <div className="mob-drawer-search">
+              <Search size={15} className="mob-drawer-search-icon" />
+              <input
+                type="text"
+                value={query}
+                onChange={e => setQuery(e.target.value)}
+                placeholder="Search tools..."
+                className="mob-drawer-search-input"
+              />
+            </div>
 
-        <div className="mob-drawer-search">
-          <Search size={15} className="mob-drawer-search-icon" />
-          <input
-            type="text"
-            value={query}
-            onChange={e => setQuery(e.target.value)}
-            placeholder="Search tools..."
-            className="mob-drawer-search-input"
-          />
-        </div>
+            <div className="mob-drawer-body">
+              {filtered ? (
+                filtered.length > 0 ? filtered.map(({ href, label, icon: Icon }) => {
+                  const section = SECTIONS.find(s => s.links.some(l => l.href === href));
+                  return (
+                    <a key={href} href={href} className="mob-drawer-item" onClick={close}>
+                      <span className="mob-drawer-item-icon" style={{ background: section?.gradient }}>
+                        <Icon size={13} />
+                      </span>
+                      {label}
+                    </a>
+                  );
+                }) : (
+                  <p className="mob-drawer-empty">No tools found</p>
+                )
+              ) : (
+                SECTIONS.map(section => (
+                  <div key={section.label} className="mob-drawer-section">
+                    <div className="mob-drawer-section-label" style={{ color: section.color }}>
+                      {section.label}
+                    </div>
+                    {section.links.map(({ href, label, icon: Icon }) => (
+                      <a key={href} href={href} className="mob-drawer-item" onClick={close}>
+                        <span className="mob-drawer-item-icon" style={{ background: section.gradient }}>
+                          <Icon size={13} />
+                        </span>
+                        {label}
+                      </a>
+                    ))}
+                  </div>
+                ))
+              )}
+            </div>
 
-        <div className="mob-drawer-body">
-          {filtered ? (
-            filtered.length > 0 ? filtered.map(({ href, label, icon: Icon }) => {
-              const section = SECTIONS.find(s => s.links.some(l => l.href === href));
-              return (
-                <a key={href} href={href} className="mob-drawer-item" onClick={close}>
-                  <span className="mob-drawer-item-icon" style={{ background: section?.gradient }}>
-                    <Icon size={13} />
-                  </span>
-                  {label}
-                </a>
-              );
-            }) : (
-              <p className="mob-drawer-empty">No tools found</p>
-            )
-          ) : (
-            SECTIONS.map(section => (
-              <div key={section.label} className="mob-drawer-section">
-                <div className="mob-drawer-section-label" style={{ color: section.color }}>
-                  {section.label}
-                </div>
-                {section.links.map(({ href, label, icon: Icon }) => (
-                  <a key={href} href={href} className="mob-drawer-item" onClick={close}>
-                    <span className="mob-drawer-item-icon" style={{ background: section.gradient }}>
-                      <Icon size={13} />
-                    </span>
-                    {label}
-                  </a>
-                ))}
-              </div>
-            ))
-          )}
-        </div>
-
-        <div className="mob-drawer-footer">
-          <ThemeToggle />
-          <button className="mob-drawer-login">Login</button>
-          <button className="mob-drawer-signup">Sign Up</button>
-        </div>
-      </div>
+            <div className="mob-drawer-footer">
+              <button className="mob-drawer-login">Login</button>
+              <button className="mob-drawer-signup">Sign Up</button>
+            </div>
+          </div>
+        </>,
+        document.body
+      )}
     </>
   );
 }
