@@ -221,7 +221,20 @@ export default function AmazonCropper({ id }: { id: string }) {
     for (const labelObj of allLabels) {
       const { data, srcDoc, pageIdx } = labelObj;
       const { bounds } = data;
-      const [embeddedPage] = await outDoc.embedPages([srcDoc.getPages()[pageIdx]]);
+      // Calculate PDF coordinates (pdf-lib uses bottom-left origin)
+      const srcPage = srcDoc.getPage(pageIdx);
+      const srcPageH = srcPage.getHeight();
+      
+      // boundingBox for embedding: { x, y, width, height } in bottom-left coordinates
+      const pdfCropBox = {
+        x: bounds.x,
+        y: srcPageH - (bounds.y + bounds.height),
+        width: bounds.width,
+        height: bounds.height
+      };
+
+      // Embed the SPECIFIC part of the page (the label)
+      const embeddedPage = await outDoc.embedPage(srcPage, pdfCropBox);
 
       if (useA4Grid) {
         const maxLabels = 4;
@@ -244,27 +257,16 @@ export default function AmazonCropper({ id }: { id: string }) {
         const offsetX = targetX + (targetW - drawW) / 2;
         const offsetY = targetY + (targetH - drawH) / 2;
 
-        const srcPageH = srcDoc.getPages()[pageIdx].getHeight();
-        const clipBottom = srcPageH - (bounds.y + bounds.height);
-        const clipTop = srcPageH - bounds.y;
-        const clipLeft = bounds.x;
-        const clipRight = bounds.x + bounds.width;
-
         currentPage.drawPage(embeddedPage, {
           x: offsetX, y: offsetY, width: drawW, height: drawH,
-          left: clipLeft, bottom: clipBottom, right: clipRight, top: clipTop,
         });
 
         labelIdxOnPage++;
       } else {
-        // Standard single page output
+        // Standard single page output - size of the page matches the label
         const labelPage = outDoc.addPage([bounds.width, bounds.height]);
         labelPage.drawPage(embeddedPage, {
           x: 0, y: 0, width: bounds.width, height: bounds.height,
-          left: bounds.x,
-          bottom: srcDoc.getPages()[pageIdx].getHeight() - (bounds.y + bounds.height),
-          right: bounds.x + bounds.width,
-          top: srcDoc.getPages()[pageIdx].getHeight() - bounds.y,
         });
       }
       totalProcessed++;
