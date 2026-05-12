@@ -202,10 +202,10 @@ export default function MeeshoCropLabel({ id }: { id: string }) {
   const [labelCount, setLabelCount] = useState(0);
   const [sortBySeller, setSortBySeller] = useState(false);
   const [sortByCourier, setSortByCourier] = useState(false);
-  const [sortBySku, setSortBySku] = useState(true);
-  const [sortByQty, setSortByQty] = useState(true);
-  const [highlightSku, setHighlightSku] = useState(true);
-  const [multiOrderAtBottom, setMultiOrderAtBottom] = useState(true);
+  const [sortBySku, setSortBySku] = useState(false);
+  const [sortByQty, setSortByQty] = useState(false);
+  const [highlightSku, setHighlightSku] = useState(false);
+  const [multiOrderAtBottom, setMultiOrderAtBottom] = useState(false);
   const [splitByCourier, setSplitByCourier] = useState(false);
   const [exportMetadata, setExportMetadata] = useState(false);
   const [showSettings, setShowSettings] = useState(false);

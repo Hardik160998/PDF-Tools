@@ -329,12 +329,12 @@ export default function FlipkartCropper({ id }: { id: string }) {
   const [keepInvoice, setKeepInvoice] = useState(false);
   const [sortByAwb, setSortByAwb] = useState(false);
   const [sortBySeller, setSortBySeller] = useState(false);
-  const [sortBySku, setSortBySku] = useState(true);
-  const [sortByQty, setSortByQty] = useState(true);
+  const [sortBySku, setSortBySku] = useState(false);
+  const [sortByQty, setSortByQty] = useState(false);
   const [labelsPerA4, setLabelsPerA4] = useState(false);
-  const [highlightSku, setHighlightSku] = useState(true);
-  const [multiOrderAtBottom, setMultiOrderAtBottom] = useState(true);
-  const [fallbackAtBottom, setFallbackAtBottom] = useState(true);
+  const [highlightSku, setHighlightSku] = useState(false);
+  const [multiOrderAtBottom, setMultiOrderAtBottom] = useState(false);
+  const [fallbackAtBottom, setFallbackAtBottom] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
