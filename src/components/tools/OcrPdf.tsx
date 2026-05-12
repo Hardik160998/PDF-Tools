@@ -75,6 +75,7 @@ export default function OcrPdf() {
     setPdfFiles([]);
     setProcessing(false);
     setAllDone(false);
+    if (fileInputRef.current) fileInputRef.current.value = "";
     setTimeout(() => { abortRef.current = false; }, 100);
   };
 

@@ -36,10 +36,12 @@ export default function ImageConverter({ id }: { id: string }) {
   const accent = ACCENT[id] ?? ACCENT['jpg-to-pdf'];
   const inputRef = useRef<HTMLInputElement>(null);
 
-  // "Convert More" — keep existing files, clear results, open file picker to add more
+  // "Convert More" — completely reset states to go back to upload screen
   const handleConvertMore = () => {
+    setFiles([]);
+    setPreviews([]);
     setResults([]);
-    setTimeout(() => inputRef.current?.click(), 50);
+    if (inputRef.current) inputRef.current.value = '';
   };
 
   const isMultiMode = id !== 'pdf-to-jpg'; // all except pdf-to-jpg support multiple files

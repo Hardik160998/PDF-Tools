@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { 
   Upload, FileText, Loader2, X, Sparkles, 
   Download, CheckCircle2, FileSpreadsheet, 
@@ -11,6 +11,13 @@ export default function OfficeTools({ id }: { id: string }) {
   const [file, setFile] = useState<File | null>(null);
   const [processing, setProcessing] = useState(false);
   const [resultUrl, setResultUrl] = useState<string | null>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const handleReset = () => {
+    setFile(null);
+    setResultUrl(null);
+    if (inputRef.current) inputRef.current.value = '';
+  };
 
   const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files?.[0]) {
@@ -72,7 +79,7 @@ export default function OfficeTools({ id }: { id: string }) {
           <div className="space-y-8">
             {!file ? (
               <div className="relative border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-2xl sm:rounded-3xl p-10 sm:p-20 group hover:border-blue-500 transition-all cursor-pointer bg-slate-50/50 dark:bg-slate-900/50">
-                <input type="file" onChange={onFileChange} accept={info.ext} className="absolute inset-0 opacity-0 cursor-pointer w-full h-full" />
+                <input ref={inputRef} type="file" onChange={onFileChange} accept={info.ext} className="absolute inset-0 opacity-0 cursor-pointer w-full h-full" />
                 <div className="space-y-4 sm:space-y-6 pointer-events-none">
                   <div className={`p-6 bg-white dark:bg-slate-800 rounded-2xl shadow-xl inline-block text-blue-500 group-hover:scale-110 transition-transform`}>
                     <Upload size={48} />
@@ -130,7 +137,7 @@ export default function OfficeTools({ id }: { id: string }) {
                 >
                    <Download size={28} /> Download Result
                 </a>
-                <button onClick={() => {setFile(null); setResultUrl(null);}} className="px-10 py-5 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 text-slate-900 dark:text-white rounded-2xl font-bold transition-all">
+                <button onClick={handleReset} className="px-10 py-5 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 text-slate-900 dark:text-white rounded-2xl font-bold transition-all">
                    Convert Another
                 </button>
              </div>

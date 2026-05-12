@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { Upload, Download, Loader2, X, Combine, FileText, CheckCircle2, Scissors, GripVertical } from 'lucide-react';
 import { PDFDocument } from 'pdf-lib';
 import {
@@ -75,6 +75,13 @@ export default function MergeSplit({ id }: { id: string }) {
   const [result, setResult] = useState<{ url: string; count: number; filename?: string } | null>(null);
   const [splitMode, setSplitMode] = useState<'parts' | 'extract'>('parts');
   const [splitParts, setSplitParts] = useState<number>(2);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handleReset = () => {
+    setFiles([]);
+    setResult(null);
+    if (fileInputRef.current) fileInputRef.current.value = "";
+  };
 
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 5 } }),
@@ -174,7 +181,7 @@ export default function MergeSplit({ id }: { id: string }) {
           <div className="space-y-6">
             {/* Drop zone */}
             <div className="relative border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-2xl sm:rounded-3xl p-8 sm:p-16 group hover:border-orange-500 transition-all cursor-pointer bg-slate-50/50 dark:bg-slate-900/50">
-              <input type="file" multiple={id === 'merge'} onChange={onFileChange} accept=".pdf" className="absolute inset-0 opacity-0 cursor-pointer w-full h-full" />
+              <input ref={fileInputRef} type="file" multiple={id === 'merge'} onChange={onFileChange} accept=".pdf" className="absolute inset-0 opacity-0 cursor-pointer w-full h-full" />
               <div className="space-y-4 sm:space-y-6 pointer-events-none">
                 <div className="p-4 sm:p-6 bg-white dark:bg-slate-800 rounded-2xl shadow-xl inline-block text-orange-500 group-hover:scale-110 transition-transform">
                   <Upload size={32} className="sm:w-12 sm:h-12" />
@@ -276,7 +283,7 @@ export default function MergeSplit({ id }: { id: string }) {
                 className="flex-1 py-4 sm:py-5 bg-orange-500 hover:bg-orange-600 text-white rounded-2xl text-xl sm:text-2xl font-black shadow-xl flex items-center justify-center gap-4">
                 <Download size={24} /> Download
               </a>
-              <button onClick={() => { setFiles([]); setResult(null); }}
+              <button onClick={handleReset}
                 className="px-10 py-4 sm:py-5 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 text-slate-900 dark:text-white rounded-2xl font-bold transition-all">
                 Start Over
               </button>
