@@ -246,7 +246,7 @@ function extractMetadata(
           if (up.includes('|')) {
             const parts = up.split('|');
             // Try to find the part that looks most like a SKU
-            const skuPart = parts.find(p => p.includes('-') && !p.includes('Description') && p.trim().length > 3);
+            const skuPart = parts.find((p: string) => p.includes('-') && !p.includes('Description') && p.trim().length > 3);
             if (skuPart) cleanSku = skuPart.trim();
             else cleanSku = (parts[1] || parts[0]).trim();
           }
@@ -332,6 +332,7 @@ export default function FlipkartCropper({ id }: { id: string }) {
   const [highlightSku, setHighlightSku] = useState(true);
   const [multiOrderAtBottom, setMultiOrderAtBottom] = useState(true);
   const [fallbackAtBottom, setFallbackAtBottom] = useState(true);
+  const [showSettings, setShowSettings] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
   const addFiles = (fl: FileList | null) => {
@@ -619,10 +620,18 @@ export default function FlipkartCropper({ id }: { id: string }) {
   const ACCENT = '#F7941D';
 
   return (
-    <div className="max-w-7xl mx-auto py-4 sm:py-8 px-3 sm:px-4">
-      <div className="grid grid-cols-1 lg:grid-cols-[320px_1fr] gap-4 sm:gap-6">
-        <div className="bg-white dark:bg-slate-800 rounded-[1.5rem] border border-slate-100 dark:border-slate-700 shadow-lg h-fit sticky top-4 p-6">
-          <h3 className="text-xl font-black text-slate-900 dark:text-white mb-6 uppercase tracking-tight">Settings</h3>
+    <div className="max-w-7xl mx-auto py-4 sm:py-8 px-3 sm:px-6">
+      <div className="grid grid-cols-1 lg:grid-cols-[300px_1fr] gap-4 sm:gap-8">
+        <div className="bg-white dark:bg-slate-800 rounded-3xl border border-slate-100 dark:border-slate-700 shadow-xl h-fit lg:sticky lg:top-4 overflow-hidden">
+          <button 
+            onClick={() => setShowSettings(!showSettings)}
+            className="w-full flex lg:hidden items-center justify-between p-5 font-black text-slate-900 dark:text-white border-b border-slate-50 dark:border-slate-700"
+          >
+            <span className="flex items-center gap-2"><FileText size={20} style={{ color: ACCENT }} /> Settings (સેટિંગ્સ)</span>
+            <Loader2 className={`transition-transform duration-300 ${showSettings ? 'rotate-180' : ''}`} size={20} />
+          </button>
+          <div className={`${showSettings ? 'block' : 'hidden'} lg:block p-6`}>
+            <h3 className="hidden lg:block text-xl font-black text-slate-900 dark:text-white mb-6 uppercase tracking-tight">Settings</h3>
           <div className="space-y-4">
             <label className="flex items-start gap-3 cursor-pointer">
               <input type="checkbox" checked={keepInvoice} onChange={e => {
@@ -677,8 +686,9 @@ export default function FlipkartCropper({ id }: { id: string }) {
             </label>
           </div>
         </div>
+      </div>
 
-        <div className="bg-white dark:bg-slate-800 rounded-[1.5rem] sm:rounded-[2.5rem] p-8 sm:p-12 border border-slate-100 dark:border-slate-700 shadow-2xl text-center">
+      <div className="bg-white dark:bg-slate-800 rounded-3xl p-6 sm:p-12 border border-slate-100 dark:border-slate-700 shadow-2xl text-center">
           <div className="space-y-4 mb-10">
             <div className="inline-flex p-4 rounded-2xl text-white shadow-lg" style={{ background: ACCENT }}><ShoppingBag size={32} /></div>
             <h2 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter">Flipkart Label Cropper</h2>

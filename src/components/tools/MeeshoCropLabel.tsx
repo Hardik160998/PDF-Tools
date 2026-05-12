@@ -218,6 +218,7 @@ export default function MeeshoCropLabel({ id }: { id: string }) {
   const [multiOrderAtBottom, setMultiOrderAtBottom] = useState(true);
   const [splitByCourier, setSplitByCourier] = useState(false);
   const [exportMetadata, setExportMetadata] = useState(false);
+  const [showSettings, setShowSettings] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
   const addFiles = (newFiles: FileList | null) => {
@@ -426,11 +427,11 @@ export default function MeeshoCropLabel({ id }: { id: string }) {
   const ToolContent = () => (
     <>
       <div className="space-y-4">
-        <div className="inline-flex p-4 sm:p-5 rounded-2xl sm:rounded-3xl bg-[#f26522] text-white shadow-lg">
-          <ShoppingBag size={36} className="sm:w-10 sm:h-10" />
+        <div className="inline-flex p-4 rounded-2xl bg-[#f26522] text-white shadow-lg mb-4">
+          <ShoppingBag size={32} />
         </div>
-        <h2 className="text-2xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter">Meesho Label Crop (without invoice)</h2>
-        <p className="text-sm sm:text-base text-slate-500 dark:text-slate-400 font-medium">Automatically crops Meesho shipping labels — keeps shipping address, return address &amp; barcodes. Removes TAX INVOICE and billing info.</p>
+        <h2 className="text-2xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter leading-tight">Meesho Label Crop (without invoice)</h2>
+        <p className="text-sm sm:text-base text-slate-500 dark:text-slate-400 font-medium mt-2">Automatically crops Meesho shipping labels — keeps shipping address, return address &amp; barcodes. Removes TAX INVOICE and billing info.</p>
 
         {/* Steps */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mt-6">
@@ -519,13 +520,20 @@ export default function MeeshoCropLabel({ id }: { id: string }) {
   );
 
   return (
-    <div className="max-w-7xl mx-auto py-4 sm:py-8 px-3 sm:px-4">
+    <div className="max-w-7xl mx-auto py-4 sm:py-8 px-3 sm:px-6">
       {files.length > 0 ? (
-        <div className="grid grid-cols-1 lg:grid-cols-[320px_1fr] gap-4 sm:gap-6">
-          <div className="bg-white dark:bg-slate-800 rounded-[1.5rem] sm:rounded-[2rem] border border-slate-100 dark:border-slate-700 shadow-lg h-fit sticky top-4">
-            <div className="p-5 sm:p-6">
-              <h3 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white mb-6">Settings</h3>
-              <div className="space-y-4">
+        <div className="grid grid-cols-1 lg:grid-cols-[300px_1fr] gap-4 sm:gap-8">
+          <div className="bg-white dark:bg-slate-800 rounded-3xl border border-slate-100 dark:border-slate-700 shadow-xl h-fit lg:sticky lg:top-4 overflow-hidden">
+            <button 
+              onClick={() => setShowSettings(!showSettings)}
+              className="w-full flex lg:hidden items-center justify-between p-5 font-black text-slate-900 dark:text-white border-b border-slate-50 dark:border-slate-700"
+            >
+              <span className="flex items-center gap-2"><FileText size={20} className="text-[#f26522]" /> Settings (સેટિંગ્સ)</span>
+              <Loader2 className={`transition-transform duration-300 ${showSettings ? 'rotate-180' : ''}`} size={20} />
+            </button>
+            <div className={`${showSettings ? 'block' : 'hidden'} lg:block p-6`}>
+              <h3 className="hidden lg:block text-xl font-black text-slate-900 dark:text-white mb-6 uppercase tracking-tight">Settings</h3>
+              <div className="space-y-5">
                 <label className="flex items-start gap-3 cursor-pointer group">
                   <input type="checkbox" checked={labelsPerA4} onChange={(e) => setLabelsPerA4(e.target.checked)} className="w-5 h-5 mt-0.5 text-[#f26522] bg-white border-2 border-slate-300 rounded focus:ring-2 focus:ring-[#f26522] cursor-pointer flex-shrink-0" />
                   <div className="flex flex-col">
@@ -578,13 +586,13 @@ export default function MeeshoCropLabel({ id }: { id: string }) {
               </div>
             </div>
           </div>
-          <div className="bg-white dark:bg-slate-800 rounded-[1.5rem] sm:rounded-[2.5rem] p-5 sm:p-12 border border-slate-100 dark:border-slate-700 shadow-2xl text-center space-y-6 sm:space-y-10">
+          <div className="bg-white dark:bg-slate-800 rounded-3xl p-6 sm:p-12 border border-slate-100 dark:border-slate-700 shadow-2xl text-center space-y-6 sm:space-y-10">
             <ToolContent />
           </div>
         </div>
       ) : (
         <div className="max-w-3xl mx-auto">
-          <div className="bg-white dark:bg-slate-800 rounded-[1.5rem] sm:rounded-[2.5rem] p-5 sm:p-12 border border-slate-100 dark:border-slate-700 shadow-2xl text-center space-y-6 sm:space-y-10">
+          <div className="bg-white dark:bg-slate-800 rounded-3xl p-6 sm:p-12 border border-slate-100 dark:border-slate-700 shadow-2xl text-center space-y-6 sm:space-y-10">
             <ToolContent />
           </div>
         </div>
