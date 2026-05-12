@@ -145,7 +145,7 @@ export default function AmazonCropper({ id }: { id: string }) {
   const [done, setDone] = useState(false);
   const [pdfUrl, setPdfUrl] = useState<string | null>(null);
   const [labelCount, setLabelCount] = useState(0);
-  const [skipEvenPages, setSkipEvenPages] = useState(true);
+  const [skipEvenPages, setSkipEvenPages] = useState(false);
   const [sortByAwb, setSortByAwb] = useState(false);
   const [sortBySku, setSortBySku] = useState(false);
   const [useA4Grid, setUseA4Grid] = useState(false);
