@@ -225,12 +225,12 @@ export default function AmazonCropper({ id }: { id: string }) {
       const srcPage = srcDoc.getPage(pageIdx);
       const srcPageH = srcPage.getHeight();
       
-      // boundingBox for embedding: { x, y, width, height } in bottom-left coordinates
+      // PageBoundingBox for embedding: { left, bottom, right, top } in bottom-left coordinates
       const pdfCropBox = {
-        x: bounds.x,
-        y: srcPageH - (bounds.y + bounds.height),
-        width: bounds.width,
-        height: bounds.height
+        left: bounds.x,
+        bottom: srcPageH - (bounds.y + bounds.height),
+        right: bounds.x + bounds.width,
+        top: srcPageH - bounds.y
       };
 
       // Embed the SPECIFIC part of the page (the label)
