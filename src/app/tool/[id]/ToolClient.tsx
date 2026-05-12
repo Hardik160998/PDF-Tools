@@ -79,7 +79,9 @@ const TOOL_COMPONENTS: Record<string, React.ComponentType<{ id: string }>> = {
   'webp-to-avif': ImageConverter,
   'avif-to-webp': ImageConverter,
   'word-to-pdf': OfficeTools,
+  'docx-to-pdf': OfficeTools,
   'pdf-to-word': OfficeTools,
+  'pdf-to-docx': OfficeTools,
   'excel-to-pdf': OfficeTools,
   'pdf-to-excel': OfficeTools,
   'ppt-to-pdf': OfficeTools,
@@ -101,7 +103,7 @@ export default function ToolClient({ id }: { id: string }) {
   if (!Tool) notFound();
 
   return (
-    <div className="container mx-auto px-4 py-4 sm:py-8 max-w-7xl animate-in fade-in slide-in-from-bottom-8 duration-700">
+    <div className="container mx-auto px-2 sm:px-4 py-4 sm:py-8 max-w-7xl animate-in fade-in slide-in-from-bottom-8 duration-700">
       <Tool id={id} />
     </div>
   );

@@ -87,10 +87,10 @@ export async function POST(request: Request) {
     } else {
       let fromFormat = 'docx';
       let toFormat = 'pdf';
-      if (fromId === 'pdf-to-word')       { fromFormat = 'pdf';  toFormat = 'docx'; }
+      if (fromId === 'pdf-to-word' || fromId === 'pdf-to-docx')       { fromFormat = 'pdf';  toFormat = 'docx'; }
       else if (fromId === 'pdf-to-ppt')   { fromFormat = 'pdf';  toFormat = 'pptx'; }
       else if (fromId === 'pdf-to-excel') { fromFormat = 'pdf';  toFormat = 'xlsx'; }
-      else if (fromId.includes('word'))   { fromFormat = 'docx'; }
+      else if (fromId.includes('word') || fromId.includes('docx')) { fromFormat = 'docx'; }
       else if (fromId.includes('excel'))  { fromFormat = 'xlsx'; }
       else if (fromId.includes('ppt'))    { fromFormat = 'pptx'; }
       else if (fromId.includes('html'))   { fromFormat = 'html'; }

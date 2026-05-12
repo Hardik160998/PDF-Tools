@@ -57,52 +57,52 @@ export default function Compressor({ id }: { id: string }) {
   };
 
   return (
-    <div className="max-w-3xl mx-auto py-4 sm:py-12 px-3 sm:px-4">
-      <div className="bg-white dark:bg-slate-800 rounded-[1.5rem] sm:rounded-[2.5rem] p-5 sm:p-12 border border-slate-100 dark:border-slate-700 shadow-2xl text-center space-y-6 sm:space-y-10">
-        <div className="space-y-4">
-          <div className="inline-flex p-5 rounded-3xl bg-green-500 text-white shadow-lg">
-             <Zap size={40} className="fill-white/20" />
+    <div className="max-w-3xl mx-auto py-4 sm:py-12 px-2 sm:px-4">
+      <div className="bg-white dark:bg-slate-800 rounded-[1.2rem] sm:rounded-[2.5rem] p-4 sm:p-12 border border-slate-100 dark:border-slate-700 shadow-2xl text-center space-y-5 sm:space-y-10">
+        <div className="space-y-2 sm:space-y-4">
+          <div className="inline-flex p-3 sm:p-5 rounded-xl sm:rounded-3xl bg-green-500 text-white shadow-lg">
+             <Zap size={28} className="sm:w-10 sm:h-10 fill-white/20" />
           </div>
-          <h2 className="text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter">Compress PDF</h2>
-          <p className="text-slate-500 font-medium">Reduce file size without losing quality.</p>
+          <h2 className="text-xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tight sm:tracking-tighter">Compress PDF</h2>
+          <p className="text-xs sm:text-base text-slate-500 font-medium px-2">Reduce file size without losing quality.</p>
         </div>
 
         {!result ? (
-          <div className="space-y-8">
+          <div className="space-y-6 sm:space-y-8">
             {!file ? (
-              <div className="relative border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-2xl sm:rounded-3xl p-10 sm:p-20 group hover:border-green-500 transition-all cursor-pointer bg-slate-50/50 dark:bg-slate-900/50">
+              <div className="relative border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-xl sm:rounded-3xl p-6 sm:p-20 group hover:border-green-500 transition-all cursor-pointer bg-slate-50/50 dark:bg-slate-900/50">
                 <input type="file" onChange={onFileChange} accept=".pdf" className="absolute inset-0 opacity-0 cursor-pointer w-full h-full" />
-                <div className="space-y-4 sm:space-y-6 pointer-events-none">
-                  <div className="p-6 bg-white dark:bg-slate-800 rounded-2xl shadow-xl inline-block text-green-500 group-hover:scale-110 transition-transform">
-                    <Upload size={48} />
+                <div className="space-y-3 sm:space-y-6 pointer-events-none">
+                  <div className="p-4 sm:p-6 bg-white dark:bg-slate-800 rounded-xl sm:rounded-2xl shadow-xl inline-block text-green-500 group-hover:scale-110 transition-transform">
+                    <Upload size={32} className="sm:w-12 sm:h-12" />
                   </div>
-                  <div className="text-2xl font-black tracking-tight">Select PDF File</div>
-                  <p className="text-slate-500">or drop PDF here</p>
+                  <div className="text-lg sm:text-2xl font-black tracking-tight">Select PDF File</div>
+                  <p className="text-xs sm:text-base text-slate-500">or drop PDF here</p>
                 </div>
               </div>
             ) : (
-              <div className="space-y-8 animate-in slide-in-from-bottom-4 duration-500">
-                <div className="flex items-center justify-between p-6 bg-green-50 dark:bg-green-500/10 rounded-2xl border border-green-500/20">
-                  <div className="flex items-center gap-4 text-left">
-                    <div className="p-3 bg-white dark:bg-slate-800 rounded-xl shadow-md text-green-500">
-                      <FileText size={24} />
+              <div className="space-y-6 sm:space-y-8 animate-in slide-in-from-bottom-4 duration-500">
+                <div className="flex items-center justify-between p-3 sm:p-6 bg-green-50 dark:bg-green-500/10 rounded-xl sm:rounded-2xl border border-green-500/20">
+                  <div className="flex items-center gap-2 sm:gap-4 text-left min-w-0">
+                    <div className="p-2 sm:p-3 bg-white dark:bg-slate-800 rounded-lg sm:rounded-xl shadow-md text-green-500 shrink-0">
+                      <FileText size={20} className="sm:w-6 sm:h-6" />
                     </div>
-                    <div>
-                      <p className="font-bold text-slate-900 dark:text-white truncate max-w-xs">{file.name}</p>
-                      <p className="text-xs text-slate-500 font-bold uppercase tracking-widest">{formatSize(file.size)}</p>
+                    <div className="min-w-0">
+                      <p className="font-bold text-slate-900 dark:text-white truncate text-xs sm:text-base max-w-[150px] sm:max-w-xs">{file.name}</p>
+                      <p className="text-[10px] sm:text-xs text-slate-500 font-bold uppercase tracking-widest">{formatSize(file.size)}</p>
                     </div>
                   </div>
-                  <button onClick={() => setFile(null)} className="p-2 hover:bg-red-50 dark:hover:bg-red-500/10 text-slate-400 hover:text-red-500 transition-colors rounded-lg">
-                    <X size={24} />
+                  <button onClick={() => setFile(null)} className="p-1.5 sm:p-2 hover:bg-red-50 dark:hover:bg-red-500/10 text-slate-400 hover:text-red-500 transition-colors rounded-lg shrink-0">
+                    <X size={20} className="sm:w-6 sm:h-6" />
                   </button>
                 </div>
 
                 <button 
                   onClick={handleCompress} 
                   disabled={processing}
-                  className="w-full py-5 bg-green-500 hover:bg-green-600 text-white rounded-2xl text-2xl font-black shadow-xl shadow-green-500/20 flex items-center justify-center gap-4 group disabled:opacity-50"
+                  className="w-full py-3.5 sm:py-5 bg-green-500 hover:bg-green-600 text-white rounded-xl sm:rounded-2xl text-base sm:text-2xl font-black shadow-xl shadow-green-500/20 flex items-center justify-center gap-3 sm:gap-4 group disabled:opacity-50"
                 >
-                  {processing ? <Loader2 className="animate-spin" /> : <Zap size={28} className="fill-white/20" />}
+                  {processing ? <Loader2 className="animate-spin" /> : <Zap size={24} className="sm:w-7 sm:h-7 fill-white/20" />}
                   {processing ? 'Compressing...' : 'Compress PDF'}
                 </button>
               </div>

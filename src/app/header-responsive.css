@@ -231,6 +231,10 @@ html.dark header {
     display: none !important;
   }
 
+  .mob-search-btn {
+    display: none !important;
+  }
+
   header > div > div.flex.items-center {
     display: flex;
     align-items: center;
@@ -259,6 +263,10 @@ html.dark header {
 
   .desktop-nav,
   .desktop-nav-actions {
+    display: none !important;
+  }
+
+  .mob-search-btn {
     display: none !important;
   }
 
@@ -299,10 +307,13 @@ html.dark header {
     gap: 0.4rem;
   }
 
-  .mob-hamburger,
-  .mob-search-btn {
+  .mob-hamburger {
     width: 32px !important;
     height: 32px !important;
+  }
+
+  .mob-search-btn {
+    display: none !important;
   }
 
   .mob-theme-toggle .theme-toggle-pill {

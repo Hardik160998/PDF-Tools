@@ -297,7 +297,7 @@ export default function AmazonCropper({ id }: { id: string }) {
               <label className="flex items-start gap-3 cursor-pointer group">
                 <input type="checkbox" checked={skipEvenPages} onChange={e => setSkipEvenPages(e.target.checked)} className="w-5 h-5 mt-0.5 rounded border-slate-300 text-[#FF9900]" style={{ accentColor: ACCENT }} />
                 <div className="flex flex-col">
-                  <span className="text-sm font-bold text-slate-700 dark:text-slate-200 group-hover:text-[#FF9900]">Remove Even Pages</span>
+                  <span className="text-sm font-bold text-slate-700 dark:text-slate-200 group-hover:text-[#FF9900]">Remove Invoice</span>
                   <span className="text-[10px] text-slate-400 font-bold uppercase tracking-tighter">Auto-clear invoices (2, 4, 6...)</span>
                 </div>
               </label>
@@ -358,8 +358,7 @@ export default function AmazonCropper({ id }: { id: string }) {
           <div className="space-y-4 mb-10">
             <div className="inline-flex p-4 rounded-2xl text-white shadow-lg" style={{ background: ACCENT }}><ShoppingBag size={32} /></div>
             <h2 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter italic leading-tight">Amazon Extraction Engine</h2>
-            <p className="text-slate-500 font-medium tracking-tight">Odd pages only (Labels). Even pages removed (Invoices).</p>
-            <p className="text-[10px] font-bold text-[#FF9900] uppercase tracking-widest -mt-2 italic">ફુલ હાઇટ ક્રોપિંગ (Full Height labels)</p>
+            <p className="text-slate-500 font-medium tracking-tight">Shipping Labels Only. Invoice Pages Removed.</p>
           </div>
 
           {!done ? (
@@ -387,8 +386,7 @@ export default function AmazonCropper({ id }: { id: string }) {
               <div className="p-10 rounded-full bg-green-100 dark:bg-green-500/20 text-green-500 inline-block"><CheckCircle2 size={64} /></div>
               <h3 className="text-3xl font-black text-slate-900 dark:text-white uppercase tracking-tight">{labelCount} Labels Extracted</h3>
               <p className="text-slate-500 font-medium -mt-4 italic font-bold text-sm leading-relaxed text-center">
-                Odd pages preserved. Even invoice pages removed.<br />
-                બધા ઓડ પેજ રાખવામાં આવ્યા છે અને ઈવન પેજ કાઢી નાખ્યા છે.
+                Shipping labels preserved. Invoice pages removed.
               </p>
               <a href={pdfUrl!} download="amazon_labels_ready.pdf" className="block py-5 text-white rounded-2xl text-2xl font-black shadow-xl hover:scale-[1.02] transition-all uppercase tracking-tighter" style={{ background: ACCENT }}><Download size={24} className="inline mr-2" /> Download Final PDF</a>
               <button onClick={reset} className="w-full py-4 font-black text-slate-400 uppercase tracking-widest text-xs hover:text-[#FF9900]">Process New Batch</button>

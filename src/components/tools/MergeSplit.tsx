@@ -162,44 +162,44 @@ export default function MergeSplit({ id }: { id: string }) {
   };
 
   return (
-    <div className="max-w-4xl mx-auto py-6 sm:py-12 px-4 text-center">
-      <div className="bg-white dark:bg-slate-800 rounded-[1.5rem] sm:rounded-[2.5rem] p-6 sm:p-12 border border-slate-100 dark:border-slate-700 shadow-2xl space-y-6 sm:space-y-10">
+    <div className="max-w-4xl mx-auto py-4 sm:py-12 px-2 sm:px-4 text-center">
+      <div className="bg-white dark:bg-slate-800 rounded-[1.2rem] sm:rounded-[2.5rem] p-4 sm:p-12 border border-slate-100 dark:border-slate-700 shadow-2xl space-y-5 sm:space-y-10">
         {/* Header */}
-        <div className="space-y-3 sm:space-y-4">
-          <div className="inline-flex p-3 sm:p-5 rounded-2xl sm:rounded-3xl bg-orange-500 text-white shadow-lg">
-            {id === 'merge' ? <Combine size={32} className="sm:w-10 sm:h-10" /> : <Scissors size={32} className="sm:w-10 sm:h-10" />}
+        <div className="space-y-2 sm:space-y-4">
+          <div className="inline-flex p-3 sm:p-5 rounded-xl sm:rounded-3xl bg-orange-500 text-white shadow-lg">
+            {id === 'merge' ? <Combine size={24} className="sm:w-10 sm:h-10" /> : <Scissors size={24} className="sm:w-10 sm:h-10" />}
           </div>
-          <h2 className="text-2xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter">
+          <h2 className="text-xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tight sm:tracking-tighter">
             {id === 'merge' ? 'Merge PDF' : 'Split PDF'}
           </h2>
-          <p className="text-sm sm:text-base text-slate-500 font-medium">
+          <p className="text-xs sm:text-base text-slate-500 font-medium px-2">
             {id === 'merge' ? 'Drag to reorder files, then merge into one PDF.' : 'Combine or separate your documents with ultra-speed.'}
           </p>
         </div>
 
         {!result ? (
-          <div className="space-y-6">
+          <div className="space-y-4 sm:space-y-6">
             {/* Drop zone */}
-            <div className="relative border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-2xl sm:rounded-3xl p-8 sm:p-16 group hover:border-orange-500 transition-all cursor-pointer bg-slate-50/50 dark:bg-slate-900/50">
+            <div className="relative border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-xl sm:rounded-3xl p-6 sm:p-16 group hover:border-orange-500 transition-all cursor-pointer bg-slate-50/50 dark:bg-slate-900/50">
               <input ref={fileInputRef} type="file" multiple={id === 'merge'} onChange={onFileChange} accept=".pdf" className="absolute inset-0 opacity-0 cursor-pointer w-full h-full" />
-              <div className="space-y-4 sm:space-y-6 pointer-events-none">
-                <div className="p-4 sm:p-6 bg-white dark:bg-slate-800 rounded-2xl shadow-xl inline-block text-orange-500 group-hover:scale-110 transition-transform">
-                  <Upload size={32} className="sm:w-12 sm:h-12" />
+              <div className="space-y-3 sm:space-y-6 pointer-events-none">
+                <div className="p-3 sm:p-6 bg-white dark:bg-slate-800 rounded-xl sm:rounded-2xl shadow-xl inline-block text-orange-500 group-hover:scale-110 transition-transform">
+                  <Upload size={24} className="sm:w-12 sm:h-12" />
                 </div>
-                <div className="text-xl sm:text-2xl font-black tracking-tight">Select PDF Files</div>
-                <p className="text-sm sm:text-base text-slate-500">or drop PDF here</p>
+                <div className="text-lg sm:text-2xl font-black tracking-tight">Select PDF Files</div>
+                <p className="text-xs sm:text-base text-slate-500">or drop PDF here</p>
               </div>
             </div>
 
             {files.length > 0 && (
-              <div className="space-y-6 animate-in slide-in-from-bottom-4 duration-500">
+              <div className="space-y-4 sm:space-y-6 animate-in slide-in-from-bottom-4 duration-500">
 
                 {/* Drag-and-drop file list (merge only) */}
                 {id === 'merge' ? (
                   <div className="space-y-2 text-left">
                     {files.length > 1 && (
-                      <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 px-1 flex items-center gap-1.5">
-                        <GripVertical size={12} /> Drag to reorder merge sequence
+                      <p className="text-[9px] sm:text-[10px] font-black uppercase tracking-widest text-slate-400 px-1 flex items-center gap-1.5">
+                        <GripVertical size={10} /> Drag to reorder merge sequence
                       </p>
                     )}
                     <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
@@ -217,17 +217,17 @@ export default function MergeSplit({ id }: { id: string }) {
                   </div>
                 ) : (
                   /* Split — single file, no drag needed */
-                  <div className="grid grid-cols-1 gap-4 text-left">
+                  <div className="grid grid-cols-1 gap-3 text-left">
                     {files.map((file, i) => (
-                      <div key={i} className="flex items-center justify-between p-4 bg-slate-50 dark:bg-slate-700 rounded-2xl border border-slate-100 dark:border-slate-600">
-                        <div className="flex items-center gap-4">
-                          <div className="p-2 bg-white dark:bg-slate-800 rounded-lg shadow-sm text-orange-500">
-                            <FileText size={18} />
+                      <div key={i} className="flex items-center justify-between p-3 sm:p-4 bg-slate-50 dark:bg-slate-700 rounded-xl sm:rounded-2xl border border-slate-100 dark:border-slate-600">
+                        <div className="flex items-center gap-2 sm:gap-4 min-w-0">
+                          <div className="p-1.5 sm:p-2 bg-white dark:bg-slate-800 rounded-lg shadow-sm text-orange-500 shrink-0">
+                            <FileText size={16} className="sm:w-[18px] sm:h-[18px]" />
                           </div>
-                          <p className="font-bold text-slate-900 dark:text-white text-xs truncate max-w-[200px]">{file.name}</p>
+                          <p className="font-bold text-slate-900 dark:text-white text-[11px] sm:text-xs truncate max-w-[150px] sm:max-w-[200px]">{file.name}</p>
                         </div>
-                        <button onClick={() => removeFile(i)} className="p-2 text-slate-400 hover:text-red-500 transition-colors">
-                          <X size={18} />
+                        <button onClick={() => removeFile(i)} className="p-1.5 sm:p-2 text-slate-400 hover:text-red-500 transition-colors shrink-0">
+                          <X size={16} className="sm:w-[18px] sm:h-[18px]" />
                         </button>
                       </div>
                     ))}
@@ -236,13 +236,13 @@ export default function MergeSplit({ id }: { id: string }) {
 
                 {/* Split config */}
                 {id === 'split' && (
-                  <div className="space-y-4 text-left bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm">
-                    <h4 className="font-bold text-slate-900 dark:text-white">Split Configuration</h4>
-                    <div className="flex bg-slate-50 dark:bg-slate-900 p-1 rounded-xl">
+                  <div className="space-y-3 sm:space-y-4 text-left bg-white dark:bg-slate-800 p-4 sm:p-6 rounded-xl sm:rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm">
+                    <h4 className="text-xs sm:text-base font-bold text-slate-900 dark:text-white uppercase tracking-widest text-slate-400">Split Configuration</h4>
+                    <div className="flex bg-slate-50 dark:bg-slate-900 p-1 rounded-lg sm:rounded-xl">
                       {(['parts', 'extract'] as const).map(mode => (
                         <button key={mode} onClick={() => setSplitMode(mode)}
-                          className={`flex-1 py-3 text-xs font-black uppercase tracking-widest rounded-lg transition-all ${splitMode === mode ? 'bg-white dark:bg-slate-800 shadow-sm text-orange-500' : 'text-slate-400 hover:text-slate-900'}`}>
-                          {mode === 'parts' ? 'Divide in Parts' : 'Extract All Pages'}
+                          className={`flex-1 py-2 sm:py-3 text-[10px] sm:text-xs font-black uppercase tracking-widest rounded-md sm:rounded-lg transition-all ${splitMode === mode ? 'bg-white dark:bg-slate-800 shadow-sm text-orange-500' : 'text-slate-400 hover:text-slate-900'}`}>
+                          {mode === 'parts' ? 'Divide' : 'Extract'}
                         </button>
                       ))}
                     </div>
@@ -250,7 +250,7 @@ export default function MergeSplit({ id }: { id: string }) {
                       <div className="flex gap-2">
                         {[2, 3, 4].map(num => (
                           <button key={num} onClick={() => setSplitParts(num)}
-                            className={`flex-1 py-3 rounded-xl border-2 font-black transition-all ${splitParts === num ? 'border-orange-500 bg-orange-50 text-orange-600' : 'border-slate-100 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-slate-500'}`}>
+                            className={`flex-1 py-2 sm:py-3 rounded-lg sm:rounded-xl border-2 font-black text-xs sm:text-sm transition-all ${splitParts === num ? 'border-orange-500 bg-orange-50 text-orange-600' : 'border-slate-100 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-slate-500'}`}>
                             {num} Parts
                           </button>
                         ))}
@@ -260,8 +260,8 @@ export default function MergeSplit({ id }: { id: string }) {
                 )}
 
                 <button onClick={handleProcess} disabled={processing}
-                  className="w-full py-4 sm:py-5 bg-orange-500 hover:bg-orange-600 text-white rounded-2xl text-lg sm:text-2xl font-black shadow-xl shadow-orange-500/20 flex items-center justify-center gap-4 transition-all disabled:opacity-50">
-                  {processing ? <Loader2 className="animate-spin" /> : <Combine size={24} className="fill-white/20" />}
+                  className="w-full py-3.5 sm:py-5 bg-orange-500 hover:bg-orange-600 text-white rounded-xl sm:rounded-2xl text-base sm:text-2xl font-black shadow-xl shadow-orange-500/20 flex items-center justify-center gap-3 sm:gap-4 transition-all disabled:opacity-50">
+                  {processing ? <Loader2 className="animate-spin" /> : <Combine size={20} className="sm:w-[24px] sm:h-[24px] fill-white/20" />}
                   {processing ? 'Processing...' : (id === 'merge' ? 'Merge PDF' : 'Split PDF')}
                 </button>
               </div>

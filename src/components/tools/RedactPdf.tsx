@@ -173,106 +173,108 @@ export default function RedactPdf() {
   const totalRedactions = redactions.length;
 
   return (
-    <div className="max-w-5xl mx-auto py-4 sm:py-10 px-3 sm:px-4">
-      <div className="bg-white dark:bg-slate-800 rounded-[1.5rem] sm:rounded-[2.5rem] p-5 sm:p-10 border border-slate-100 dark:border-slate-700 shadow-2xl space-y-6">
+    <div className="max-w-5xl mx-auto py-2 sm:py-10 px-2 sm:px-4">
+      <div className="bg-white dark:bg-slate-800 rounded-[2rem] sm:rounded-[2.5rem] p-5 sm:p-10 border border-slate-100 dark:border-slate-700 shadow-2xl space-y-6 sm:space-y-8 overflow-hidden">
 
         {/* Header */}
         <div className="text-center space-y-3">
-          <div className="inline-flex p-4 rounded-2xl text-white shadow-lg" style={{ background: "linear-gradient(135deg,#dc2626,#7f1d1d)" }}>
-            <EyeOff size={36} />
+          <div className="inline-flex p-4 rounded-2xl text-white shadow-lg shadow-red-500/20" style={{ background: "linear-gradient(135deg,#dc2626,#7f1d1d)" }}>
+            <EyeOff size={32} className="sm:w-9 sm:h-9" />
           </div>
           <h2 className="text-2xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter">Redact PDF</h2>
-          <p className="text-sm sm:text-base text-slate-500 dark:text-slate-400 font-medium">Draw black boxes or search text to permanently hide sensitive information.</p>
+          <p className="text-sm sm:text-base text-slate-500 dark:text-slate-400 font-medium max-w-md mx-auto leading-relaxed">Draw black boxes or search text to permanently hide sensitive information.</p>
         </div>
 
         {/* Upload */}
         {!file && !loading && (
-          <div className="relative border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-2xl sm:rounded-3xl p-10 sm:p-16 group hover:border-red-500 transition-all cursor-pointer bg-slate-50/50 dark:bg-slate-900/50"
+          <div className="relative border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-2xl sm:rounded-3xl p-8 sm:p-16 group hover:border-red-500 hover:bg-red-50/30 dark:hover:bg-red-500/5 transition-all cursor-pointer bg-slate-50/50 dark:bg-slate-900/50"
             onDragOver={e => e.preventDefault()}
             onDrop={e => { e.preventDefault(); const f = e.dataTransfer.files[0]; if (f) loadFile(f); }}
             onClick={() => fileInputRef.current?.click()}>
             <input ref={fileInputRef} type="file" accept=".pdf" className="hidden" onChange={e => { const f = e.target.files?.[0]; if (f) loadFile(f); e.target.value = ""; }} />
-            <div className="flex flex-col items-center gap-4 pointer-events-none">
-              <div className="p-5 bg-white dark:bg-slate-800 rounded-2xl shadow-xl text-red-500 group-hover:scale-110 transition-transform"><Upload size={36} /></div>
-              <p className="text-xl font-black text-slate-800 dark:text-white">Click or drag & drop your PDF</p>
-              <p className="text-sm text-slate-400 font-medium">Your file stays on your device — always</p>
-              <button className="px-7 py-3 rounded-xl text-white text-sm font-black uppercase tracking-widest shadow-lg" style={{ background: "linear-gradient(135deg,#dc2626,#7f1d1d)" }}>Choose PDF File</button>
+            <div className="flex flex-col items-center gap-4 pointer-events-none text-center">
+              <div className="p-4 sm:p-5 bg-white dark:bg-slate-800 rounded-2xl shadow-xl text-red-500 group-hover:scale-110 transition-transform"><Upload size={32} className="sm:w-9 sm:h-9" /></div>
+              <div>
+                <p className="text-lg sm:text-xl font-black text-slate-800 dark:text-white">Click or drag & drop your PDF</p>
+                <p className="text-xs sm:text-sm text-slate-400 font-medium mt-1">Your file stays on your device — always</p>
+              </div>
+              <button className="px-6 py-2.5 sm:px-7 sm:py-3 rounded-xl text-white text-xs sm:text-sm font-black uppercase tracking-widest shadow-lg active:scale-95 transition-all" style={{ background: "linear-gradient(135deg,#dc2626,#7f1d1d)" }}>Choose PDF File</button>
             </div>
           </div>
         )}
 
         {loading && (
-          <div className="flex flex-col items-center gap-4 py-16">
+          <div className="flex flex-col items-center gap-4 py-12 sm:py-16">
             <Loader2 size={40} className="animate-spin text-red-500" />
             <p className="text-sm font-bold text-slate-500">Loading PDF…</p>
           </div>
         )}
 
         {pdfDoc && !result && (
-          <div className="space-y-5">
+          <div className="space-y-6 sm:space-y-8 animate-in fade-in duration-500">
             {/* File bar */}
-            <div className="flex items-center justify-between gap-3 p-4 bg-slate-50 dark:bg-slate-700/60 rounded-2xl border border-slate-100 dark:border-slate-700">
+            <div className="flex items-center justify-between gap-3 p-3 sm:p-4 bg-slate-50 dark:bg-slate-700/60 rounded-2xl border border-slate-100 dark:border-slate-700">
               <div className="flex items-center gap-3 min-w-0">
                 <div className="p-2 bg-white dark:bg-slate-800 rounded-lg shadow-sm text-red-500 shrink-0"><FileText size={18} /></div>
                 <div className="min-w-0">
-                  <p className="font-bold text-slate-900 dark:text-white text-sm truncate">{file!.name}</p>
-                  <p className="text-xs text-slate-400">{totalPages} pages · {totalRedactions} redaction{totalRedactions !== 1 ? "s" : ""}</p>
+                  <p className="font-bold text-slate-900 dark:text-white text-[13px] sm:text-sm truncate leading-tight">{file!.name}</p>
+                  <p className="text-[10px] sm:text-xs text-slate-400 font-bold uppercase tracking-widest mt-0.5">{totalPages} pages · {totalRedactions} redaction{totalRedactions !== 1 ? "s" : ""}</p>
                 </div>
               </div>
               <button onClick={reset} className="p-2 text-slate-400 hover:text-red-500 transition-colors shrink-0"><X size={18} /></button>
             </div>
 
             {/* Mode + tools */}
-            <div className="flex flex-col sm:flex-row gap-3">
+            <div className="flex flex-col gap-4">
               {/* Mode toggle */}
-              <div className="flex bg-slate-100 dark:bg-slate-700 rounded-xl p-1 gap-1">
-                <button onClick={() => setMode("draw")} className={`flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-black transition-all ${mode === "draw" ? "bg-white dark:bg-slate-600 text-red-600 shadow-sm" : "text-slate-500"}`}>
-                  <EyeOff size={13} /> Draw to Redact
+              <div className="grid grid-cols-2 bg-slate-100 dark:bg-slate-700 rounded-xl p-1 gap-1">
+                <button onClick={() => setMode("draw")} className={`flex items-center justify-center gap-2 px-3 py-2.5 rounded-lg text-[11px] font-black transition-all ${mode === "draw" ? "bg-white dark:bg-slate-600 text-red-600 shadow-sm" : "text-slate-500"}`}>
+                  <EyeOff size={14} /> Draw
                 </button>
-                <button onClick={() => setMode("search")} className={`flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-black transition-all ${mode === "search" ? "bg-white dark:bg-slate-600 text-red-600 shadow-sm" : "text-slate-500"}`}>
-                  <Shield size={13} /> Search & Redact
+                <button onClick={() => setMode("search")} className={`flex items-center justify-center gap-2 px-3 py-2.5 rounded-lg text-[11px] font-black transition-all ${mode === "search" ? "bg-white dark:bg-slate-600 text-red-600 shadow-sm" : "text-slate-500"}`}>
+                  <Shield size={14} /> Search
                 </button>
               </div>
+
+              {/* Search bar */}
+              {mode === "search" && (
+                <div className="space-y-2 animate-in slide-in-from-top-2 duration-300">
+                  <div className="flex gap-2">
+                    <input type="text" value={searchText} onChange={e => { setSearchText(e.target.value); setSearchMsg(""); }}
+                      onKeyDown={e => e.key === "Enter" && handleSearch()}
+                      placeholder="Enter text to redact..."
+                      className="flex-1 px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-800 text-[13px] sm:text-sm font-medium text-slate-800 dark:text-white outline-none focus:border-red-400 transition-colors" />
+                    <button onClick={handleSearch} className="px-4 py-2.5 rounded-xl text-white shadow-lg active:scale-95 transition-all shrink-0" style={{ background: "linear-gradient(135deg,#dc2626,#7f1d1d)" }}>
+                      <Plus size={20} />
+                    </button>
+                  </div>
+                  {searchMsg && <p className={`text-[10px] sm:text-xs font-black uppercase tracking-widest px-2 ${searchMsg.startsWith("✓") ? "text-green-600" : "text-slate-400"}`}>{searchMsg}</p>}
+                </div>
+              )}
             </div>
 
-            {/* Search bar */}
-            {mode === "search" && (
-              <div className="space-y-2">
-                <div className="flex gap-2">
-                  <input type="text" value={searchText} onChange={e => { setSearchText(e.target.value); setSearchMsg(""); }}
-                    onKeyDown={e => e.key === "Enter" && handleSearch()}
-                    placeholder="Enter text to redact (e.g. John Doe, SSN, email…)"
-                    className="flex-1 px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-800 text-sm font-medium text-slate-800 dark:text-white outline-none focus:border-red-400 transition-colors" />
-                  <button onClick={handleSearch} className="px-5 py-2.5 rounded-xl text-white text-sm font-black" style={{ background: "linear-gradient(135deg,#dc2626,#7f1d1d)" }}>
-                    <Plus size={16} />
-                  </button>
-                </div>
-                {searchMsg && <p className={`text-xs font-medium ${searchMsg.startsWith("✓") ? "text-green-600" : "text-slate-400"}`}>{searchMsg}</p>}
-              </div>
-            )}
-
             {/* Page nav */}
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <button onClick={() => setPage(p => Math.max(1, p - 1))} disabled={page === 1} className="p-2 rounded-lg bg-slate-100 dark:bg-slate-700 text-slate-500 disabled:opacity-40 hover:bg-slate-200 transition-colors">‹</button>
-                <span className="text-sm font-bold text-slate-600 dark:text-slate-300">Page {page} / {totalPages}</span>
-                <button onClick={() => setPage(p => Math.min(totalPages, p + 1))} disabled={page === totalPages} className="p-2 rounded-lg bg-slate-100 dark:bg-slate-700 text-slate-500 disabled:opacity-40 hover:bg-slate-200 transition-colors">›</button>
+            <div className="flex items-center justify-between gap-2 px-1">
+              <div className="flex items-center gap-1.5">
+                <button onClick={() => setPage(p => Math.max(1, p - 1))} disabled={page === 1} className="p-2 rounded-lg bg-slate-100 dark:bg-slate-700 text-slate-500 disabled:opacity-30 hover:bg-slate-200 transition-colors">‹</button>
+                <span className="text-xs sm:text-sm font-black text-slate-600 dark:text-slate-300">Pg {page} / {totalPages}</span>
+                <button onClick={() => setPage(p => Math.min(totalPages, p + 1))} disabled={page === totalPages} className="p-2 rounded-lg bg-slate-100 dark:bg-slate-700 text-slate-500 disabled:opacity-30 hover:bg-slate-200 transition-colors">›</button>
               </div>
               <div className="flex items-center gap-2">
                 {pageRedactions.length > 0 && (
-                  <button onClick={clearPage} className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 border border-red-200 dark:border-red-800 transition-colors">
-                    <Trash2 size={12} /> Clear page
+                  <button onClick={clearPage} className="p-2 text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors border border-red-100 dark:border-red-800" title="Clear page">
+                    <Trash2 size={16} />
                   </button>
                 )}
-                <span className="text-xs font-bold text-slate-400">{pageRedactions.length} on this page</span>
+                <span className="text-[10px] sm:text-xs font-black text-slate-400 uppercase tracking-widest">{pageRedactions.length} on page</span>
               </div>
             </div>
 
             {/* Canvas */}
-            <div className="relative rounded-xl overflow-hidden shadow-xl border border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-900">
+            <div className="relative rounded-2xl overflow-hidden shadow-2xl border border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-900">
               {mode === "draw" && (
-                <div className="absolute top-2 left-2 z-10 bg-black/60 text-white text-xs font-bold px-3 py-1.5 rounded-full flex items-center gap-1.5">
-                  <EyeOff size={11} /> Draw a box to redact
+                <div className="absolute top-3 left-3 z-10 bg-black/70 backdrop-blur-md text-white text-[10px] font-black px-4 py-2 rounded-full flex items-center gap-2 border border-white/10 uppercase tracking-widest pointer-events-none">
+                  <EyeOff size={11} /> Draw area
                 </div>
               )}
               <div className="relative inline-block w-full">
@@ -286,14 +288,14 @@ export default function RedactPdf() {
             {/* Redaction list */}
             {totalRedactions > 0 && (
               <div className="space-y-2">
-                <p className="text-xs font-black uppercase tracking-widest text-slate-500 dark:text-slate-400">Redactions ({totalRedactions})</p>
-                <div className="max-h-40 overflow-y-auto space-y-1.5">
+                <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 px-1">Active Redactions ({totalRedactions})</p>
+                <div className="max-h-48 overflow-y-auto space-y-1.5 pr-1 scrollbar-hide">
                   {redactions.map((r, i) => (
-                    <div key={r.id} className="flex items-center justify-between px-3 py-2 bg-slate-50 dark:bg-slate-700/50 rounded-xl border border-slate-100 dark:border-slate-700">
+                    <div key={r.id} className="flex items-center justify-between px-4 py-3 bg-slate-50 dark:bg-slate-700/40 rounded-xl border border-slate-100 dark:border-slate-700 group hover:border-red-200 dark:hover:border-red-800 transition-all">
                       <span className="text-xs font-bold text-slate-600 dark:text-slate-300">
-                        Page {r.page} — Box {i + 1} <span className="text-slate-400">({Math.round(r.w)}×{Math.round(r.h)}px)</span>
+                        Page {r.page} — Area {i + 1} <span className="text-[10px] text-slate-400 font-medium ml-2">{Math.round(r.w)}×{Math.round(r.h)}px</span>
                       </span>
-                      <button onClick={() => removeRedaction(r.id)} className="p-1 text-slate-400 hover:text-red-500 transition-colors"><X size={13} /></button>
+                      <button onClick={() => removeRedaction(r.id)} className="p-1.5 text-slate-300 hover:text-red-500 transition-colors"><X size={16} /></button>
                     </div>
                   ))}
                 </div>
@@ -302,29 +304,29 @@ export default function RedactPdf() {
 
             {/* Apply button */}
             <button onClick={handleApply} disabled={processing || totalRedactions === 0}
-              className="w-full py-4 sm:py-5 text-white rounded-2xl text-xl font-black shadow-xl flex items-center justify-center gap-3 transition-all disabled:opacity-50"
+              className="w-full py-4 sm:py-5 text-white rounded-2xl text-lg sm:text-xl font-black shadow-xl shadow-red-500/20 flex items-center justify-center gap-3 transition-all disabled:opacity-50 active:scale-[0.98]"
               style={{ background: "linear-gradient(135deg,#dc2626,#7f1d1d)" }}>
-              {processing ? <Loader2 className="animate-spin" size={24} /> : <EyeOff size={24} />}
-              {processing ? "Applying Redactions…" : `Apply ${totalRedactions} Redaction${totalRedactions !== 1 ? "s" : ""}`}
+              {processing ? <Loader2 className="animate-spin" size={24} /> : <Shield size={24} />}
+              {processing ? "Applying Changes…" : `Redact ${totalRedactions} Area${totalRedactions !== 1 ? "s" : ""}`}
             </button>
           </div>
         )}
 
         {/* Result */}
         {result && (
-          <div className="space-y-10 text-center animate-in zoom-in duration-500">
-            <div className="inline-flex p-10 rounded-full bg-red-50 dark:bg-red-500/10 text-red-500"><CheckCircle2 size={72} /></div>
+          <div className="space-y-10 text-center animate-in zoom-in duration-600 py-4">
+            <div className="inline-flex p-10 rounded-full bg-green-50 dark:bg-green-500/10 text-green-500 scale-110 border border-green-500/20 shadow-xl shadow-green-500/10"><CheckCircle2 size={72} /></div>
             <div className="space-y-2">
-              <h3 className="text-3xl font-black text-slate-900 dark:text-white">Redaction Complete!</h3>
-              <p className="text-slate-500 dark:text-slate-400 font-bold uppercase tracking-widest text-sm">{totalRedactions} area{totalRedactions !== 1 ? "s" : ""} permanently hidden</p>
+              <h3 className="text-2xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter">PDF Redacted!</h3>
+              <p className="text-xs sm:text-sm text-slate-400 font-black uppercase tracking-widest leading-relaxed px-4">{totalRedactions} area{totalRedactions !== 1 ? "s" : ""} permanently hidden from your file</p>
             </div>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <div className="flex flex-col sm:flex-row gap-4 justify-center max-w-lg mx-auto">
               <a href={result} download={`redacted_${file!.name}`}
-                className="flex-1 py-4 sm:py-5 text-white rounded-2xl text-xl font-black shadow-xl flex items-center justify-center gap-3"
+                className="flex-1 py-4 sm:py-5 text-white rounded-2xl text-lg sm:text-xl font-black shadow-xl shadow-red-500/20 flex items-center justify-center gap-3 active:scale-[0.98] transition-all"
                 style={{ background: "linear-gradient(135deg,#dc2626,#7f1d1d)" }}>
-                <Download size={22} /> Download Redacted PDF
+                <Download size={24} /> Download PDF
               </a>
-              <button onClick={reset} className="px-10 py-4 sm:py-5 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 text-slate-900 dark:text-white rounded-2xl font-bold transition-all">
+              <button onClick={reset} className="px-8 py-4 sm:px-10 sm:py-5 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 text-slate-900 dark:text-white rounded-2xl font-bold transition-all text-sm sm:text-base">
                 Start Over
               </button>
             </div>

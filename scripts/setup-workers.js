@@ -25,6 +25,9 @@ for (const f of coreFiles) {
   copy(src(`tesseract.js-core/${f}`), dst(`tesseract-core/${f}`));
 }
 
+// PDF.js worker
+copy(src("pdfjs-dist/build/pdf.worker.mjs"), dst("pdf.worker.mjs"));
+
 // Decompress eng.traineddata.gz → 4.0.0_best_int/eng.traineddata
 const gzPath = dst("eng.traineddata.gz");
 const tdPath = dst("4.0.0_best_int/eng.traineddata");
