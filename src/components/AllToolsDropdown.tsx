@@ -91,6 +91,7 @@ const CATEGORIES = [
       { id: "meesho-cropper",   label: "Meesho Label with Invoice Crop",      icon: ShoppingBag },
       { id: "meshocrop",         label: "Meesho Crop Label (without invoice)", icon: ShoppingBag },
       { id: "flipkart-cropper",  label: "Flipkart Label Cropper",             icon: ShoppingBag },
+      { id: "amazon-cropper",    label: "Amazon Label Cropper",               icon: ShoppingBag },
     ],
   },
 ] as const;

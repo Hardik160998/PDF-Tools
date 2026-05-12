@@ -32,7 +32,7 @@ export default function RootLayout({
    return (
      <html lang="en" suppressHydrationWarning>
        <head>
-         <script dangerouslySetInnerHTML={{ __html: `(function(){try{var t=localStorage.getItem('theme');var s=window.matchMedia('(prefers-color-scheme: dark)').matches;var d=t==='dark'||(!t&&s);if(d){document.documentElement.classList.add('dark');document.documentElement.setAttribute('data-theme','dark');document.documentElement.style.colorScheme='dark';}else{document.documentElement.classList.remove('dark');document.documentElement.setAttribute('data-theme','light');document.documentElement.style.colorScheme='light';}window.__DARK__=d;}catch(e){}})();` }} />
+         <meta name="color-scheme" content="light dark" />
        </head>
        <body className={`${inter.className} antialiased`} suppressHydrationWarning>
         <ThemeProvider>

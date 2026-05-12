@@ -96,6 +96,7 @@ const SECTIONS = [
       { href: "/tool/meesho-cropper",  label: "Meesho Label with Invoice Cropper",    icon: ShoppingBag },
       { href: "/tool/meshocrop",         label: "Meesho Crop Label (without invoice)",  icon: ShoppingBag },
       { href: "/tool/flipkart-cropper",  label: "Flipkart Label Cropper",               icon: ShoppingBag },
+      { href: "/tool/amazon-cropper",    label: "Amazon Label Cropper",                 icon: ShoppingBag },
     ],
   },
   {

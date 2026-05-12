@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, { createContext, useContext, useEffect, useLayoutEffect, useState } from "react";
 
 type Theme = "light" | "dark";
 
@@ -14,24 +14,25 @@ const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [theme, setTheme] = useState<Theme | null>(null);
 
-  useEffect(() => {
-    // Read initial theme from the DOM or localStorage
+  useLayoutEffect(() => {
     const stored = localStorage.getItem("theme");
-    const isDark = document.documentElement.classList.contains("dark");
-    const initialTheme = stored === "dark" || (stored === null && isDark) ? "dark" : "light";
+    const systemDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    const initialTheme = stored === "dark" || (stored === null && systemDark) ? "dark" : "light";
     
-    // Ensure DOM is in sync with our found initialTheme
     if (initialTheme === "dark") {
       document.documentElement.classList.add("dark");
+      document.documentElement.setAttribute("data-theme", "dark");
       document.documentElement.style.colorScheme = "dark";
     } else {
       document.documentElement.classList.remove("dark");
+      document.documentElement.setAttribute("data-theme", "light");
       document.documentElement.style.colorScheme = "light";
     }
     
     setTheme(initialTheme);
+  }, []);
 
-    // Sync with system preference changes
+  useEffect(() => {
     const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
     const handleChange = (e: MediaQueryListEvent) => {
       const hasStored = localStorage.getItem("theme");

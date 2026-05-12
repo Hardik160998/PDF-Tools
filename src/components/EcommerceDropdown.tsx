@@ -25,6 +25,13 @@ const ECOMMERCE_TOOLS = [
     icon: ShoppingBag,
     gradient: "linear-gradient(135deg, #F7941D, #f59e0b)",
   },
+  {
+    href: "/tool/amazon-cropper",
+    label: "Amazon Label Cropper",
+    desc: "Auto-remove invoice pages and extract full-height labels",
+    icon: ShoppingBag,
+    gradient: "linear-gradient(135deg, #FF9900, #f59e0b)",
+  },
 ];
 
 export default function EcommerceDropdown() {
