@@ -5,6 +5,7 @@ import "./mobileview.css";
 import "./mobilefixes.css";
 import "./darktheme.css";
 import "./header-responsive.css";
+import "./dropdown-fix.css";
 import { Heart } from "lucide-react";
 import AllToolsDropdown from "@/components/AllToolsDropdown";
 import NavSearchBar from "@/components/NavSearchBar";
