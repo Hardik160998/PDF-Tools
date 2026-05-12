@@ -1,4 +1,4 @@
-﻿/* -- NO-TRANSITION ON LOAD (prevents flicker) -- */
+/* -- NO-TRANSITION ON LOAD (prevents flicker) -- */
 .no-transition,.no-transition *,.no-transition *::before,.no-transition *::after{transition:none!important;animation:none!important;}
 
 /* ============================================================
@@ -8,7 +8,9 @@
 
 /* ── BASE BODY & PAGE ── */
 html.dark,
-html.dark body {
+html[data-theme='dark'],
+html.dark body,
+html[data-theme='dark'] body {
   background: #0b1120 !important;
   color: #e2e8f0 !important;
   color-scheme: dark;
@@ -35,6 +37,10 @@ html.dark .bg-mesh-premium { background: #0b1120 !important; }
 /* ── BACKGROUNDS ── */
 html.dark .bg-white { background-color: #1e293b !important; }
 html.dark .bg-white\/95 { background-color: rgba(11,17,32,0.97) !important; }
+html.dark .bg-white\/90 { background-color: rgba(11,17,32,0.9) !important; }
+html.dark .bg-white\/80 { background-color: rgba(11,17,32,0.8) !important; }
+html.dark .bg-white\/70 { background-color: rgba(15,23,42,0.7) !important; }
+html.dark .bg-white\/60 { background-color: rgba(15,23,42,0.6) !important; }
 html.dark .bg-slate-50 { background-color: #0f172a !important; }
 html.dark .bg-slate-50\/50 { background-color: rgba(15,23,42,0.5) !important; }
 html.dark .bg-slate-50\/30 { background-color: rgba(15,23,42,0.3) !important; }

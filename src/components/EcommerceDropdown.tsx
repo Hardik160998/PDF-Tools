@@ -48,9 +48,9 @@ export default function EcommerceDropdown() {
           {ECOMMERCE_TOOLS.map(({ href, label, icon: Icon, gradient }) => (
             <a key={href} href={href} className="convert-dropdown-item wrap-text">
               <span className="convert-dropdown-icon shrink-0 mt-0.5" style={{ background: gradient }}>
-                <Icon size={11} />
+                <Icon size={18} />
               </span>
-              <span className="text-[0.7rem] font-bold text-slate-800 dark:text-white leading-snug">{label}</span>
+              <span className="text-[0.85rem] font-bold text-slate-800 dark:text-white leading-snug">{label}</span>
             </a>
           ))}
         </div>

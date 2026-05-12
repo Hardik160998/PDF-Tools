@@ -127,7 +127,7 @@ export default function AllToolsDropdown() {
                   {cat.tools.map(({ id, label, icon: Icon, href }: any) => (
                     <a key={id} href={href ?? `/tool/${id}`} className="all-tools-item">
                       <span className="all-tools-icon" style={{ background: cat.gradient }}>
-                        <Icon size={14} />
+                        <Icon size={18} />
                       </span>
                       {label}
                     </a>

@@ -14,6 +14,7 @@ import MobileSearch from "@/components/MobileSearch";
 import ConvertDropdown from "@/components/ConvertDropdown";
 import ThemeToggle from "@/components/ThemeToggle";
 import EcommerceDropdown from "@/components/EcommerceDropdown";
+import { ThemeProvider } from "@/context/ThemeContext";
 
 
 const inter = Inter({ subsets: ["latin"], weight: ['400', '500', '600', '700', '800', '900'] });
@@ -31,9 +32,10 @@ export default function RootLayout({
    return (
      <html lang="en" suppressHydrationWarning>
        <head>
-         <script dangerouslySetInnerHTML={{ __html: `(function(){try{var t=localStorage.getItem('theme');if(t==='dark'){document.documentElement.classList.add('dark');document.documentElement.style.colorScheme='dark';}}catch(e){}})();` }} />
+         <script dangerouslySetInnerHTML={{ __html: `(function(){try{var t=localStorage.getItem('theme');var s=window.matchMedia('(prefers-color-scheme: dark)').matches;var d=t==='dark'||(!t&&s);if(d){document.documentElement.classList.add('dark');document.documentElement.setAttribute('data-theme','dark');document.documentElement.style.colorScheme='dark';}else{document.documentElement.classList.remove('dark');document.documentElement.setAttribute('data-theme','light');document.documentElement.style.colorScheme='light';}window.__DARK__=d;}catch(e){}})();` }} />
        </head>
        <body className={`${inter.className} antialiased`} suppressHydrationWarning>
+        <ThemeProvider>
         <div className="page-content">
         <header className="sticky top-0 z-50 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-b border-slate-100 dark:border-slate-800">
           <div className="w-full px-6 h-16 grid items-center" style={{ gridTemplateColumns: '1fr auto 1fr' }}>
@@ -75,7 +77,7 @@ export default function RootLayout({
               </div>
               {/* Mobile actions — hidden on desktop via CSS */}
               <MobileSearch />
-              <span className="mob-only"><ThemeToggle /></span>
+              <div className="mob-theme-toggle"><ThemeToggle /></div>
               <MobileNav />
             </div>
           </div>
@@ -182,6 +184,7 @@ export default function RootLayout({
           </div>
         </footer>
         </div>
+        </ThemeProvider>
       </body>
     </html>
   );

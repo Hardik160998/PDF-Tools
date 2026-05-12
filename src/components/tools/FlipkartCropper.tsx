@@ -196,7 +196,10 @@ function extractMetadata(
   let qtyBounds: any = null;
 
   // Find SKU Header
-  const skuHeader = filteredItems.find(i => (i.str || '').toUpperCase().includes('SKU ID'));
+  const skuHeader = filteredItems.find(i => {
+    const s = (i.str || '').toUpperCase().trim();
+    return s === 'SKU' || s.includes('SKU ID') || s === 'PRODUCT';
+  });
   const skuHeaderX = skuHeader ? skuHeader.transform[4] : -1;
   const skuHeaderY = skuHeader ? skuHeader.transform[5] : -1;
 
@@ -235,7 +238,7 @@ function extractMetadata(
     // SKU Detection - Robust Heuristic
     if (skuId === 'ZZZ_UNKNOWN') {
       const isBelowHeader = skuHeader && item.transform[5] < skuHeaderY && item.transform[5] > skuHeaderY - 60 && Math.abs(item.transform[4] - skuHeaderX) < 150;
-      const looksLikeSku = /^[A-Z0-9]{2,}-[A-Z0-9-]{2,}$/.test(up) || (up.includes('-') && up.length > 5 && !up.includes(' ') && !up.includes(':'));
+      const looksLikeSku = /^[A-Z0-9]{2,}[-_][A-Z0-9_-]{2,}$/.test(up) || ((up.includes('-') || up.includes('_')) && up.length >= 4 && !up.includes(' ') && !up.includes(':'));
       
       if (isBelowHeader || looksLikeSku) {
         // Filter out common noise and instructions
@@ -246,7 +249,7 @@ function extractMetadata(
           if (up.includes('|')) {
             const parts = up.split('|');
             // Try to find the part that looks most like a SKU
-            const skuPart = parts.find((p: string) => p.includes('-') && !p.includes('Description') && p.trim().length > 3);
+            const skuPart = parts.find((p: string) => (p.includes('-') || p.includes('_')) && !p.includes('Description') && p.trim().length >= 3);
             if (skuPart) cleanSku = skuPart.trim();
             else cleanSku = (parts[1] || parts[0]).trim();
           }
@@ -385,10 +388,10 @@ export default function FlipkartCropper({ id }: { id: string }) {
               
               if (highlightSku && meta.skuBounds) {
                 ctx.strokeStyle = '#2563eb'; // Blue
-                ctx.lineWidth = 4;
-                ctx.strokeRect(meta.skuBounds.x - bounds.x, meta.skuBounds.y - bounds.y, meta.skuBounds.w, meta.skuBounds.h);
-                ctx.fillStyle = 'rgba(37, 99, 235, 0.15)';
-                ctx.fillRect(meta.skuBounds.x - bounds.x, meta.skuBounds.y - bounds.y, meta.skuBounds.w, meta.skuBounds.h);
+                ctx.lineWidth = 5;
+                ctx.strokeRect(meta.skuBounds.x - bounds.x - 2, meta.skuBounds.y - bounds.y - 2, meta.skuBounds.w + 4, meta.skuBounds.h + 4);
+                ctx.fillStyle = 'rgba(37, 99, 235, 0.2)';
+                ctx.fillRect(meta.skuBounds.x - bounds.x - 2, meta.skuBounds.y - bounds.y - 2, meta.skuBounds.w + 4, meta.skuBounds.h + 4);
               }
 
               if (highlightSku && meta.qty > 1 && meta.qtyBounds) {
@@ -560,8 +563,8 @@ export default function FlipkartCropper({ id }: { id: string }) {
           const drawW = img.width * scale;
           const drawH = img.height * scale;
           
-          const col = j % 2;
-          const row = Math.floor(j / 2);
+          const row = j % 2;
+          const col = Math.floor(j / 2);
           
           const slotX = margin + col * (slotW + margin);
           const slotYTop = margin + row * (slotH + margin);
