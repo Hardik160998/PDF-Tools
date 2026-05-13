@@ -91,7 +91,7 @@ export default function ExtractPagesPage() {
       {/* TOOL */}
       <section className="pb-8">
         <div className="container mx-auto px-4 max-w-5xl">
-          <ExtractPages />
+          <ExtractPages id="extract-pages" />
         </div>
       </section>
 

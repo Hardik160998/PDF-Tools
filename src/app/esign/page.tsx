@@ -86,7 +86,7 @@ export default function ESignPage() {
 
       {/* ── E-SIGN TOOL ── */}
       <section className="pb-8">
-        <ESignTool />
+        <ESignTool id="esign" />
       </section>
 
       {/* ── HOW IT WORKS ── */}

@@ -38,7 +38,7 @@ export default function RemoveOcrPage() {
       {/* Tool */}
       <section className="pb-8">
         <div className="container mx-auto px-4 max-w-3xl">
-          <RemoveOcr />
+          <RemoveOcr id="remove-ocr" />
         </div>
       </section>
 

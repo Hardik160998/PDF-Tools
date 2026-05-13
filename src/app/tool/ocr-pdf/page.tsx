@@ -39,7 +39,7 @@ export default function OcrPdfPage() {
       {/* Tool */}
       <section className="pb-8">
         <div className="container mx-auto px-4 max-w-3xl">
-          <OcrPdf />
+          <OcrPdf id="ocr-pdf" />
         </div>
       </section>
 
