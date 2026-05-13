@@ -1,15 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import dynamic from "next/dynamic";
-import { GitCompare, Upload, Search, Download, CheckCircle, Combine, Scissors, Zap, FileSymlink, Lock } from "lucide-react";
-import { CenteredCardSkeleton } from "../[id]/skeletons";
-import { HowItWorksShimmer, RelatedToolsShimmer, usePageMounted } from "../_shimmer";
-
-const ComparePdf = dynamic(() => import("@/components/tools/ComparePdf"), {
-  ssr: false,
-  loading: () => <CenteredCardSkeleton accent="rgb(199 210 254)" />,
-});
+import { Upload, Search, GitCompare, FileSymlink, Combine, Scissors, Zap, Lock } from "lucide-react";
+import ComparePdf from "@/components/tools/ComparePdf";
 
 const FEATURES = [
   "Side-by-side page viewer",
@@ -35,12 +28,7 @@ const RELATED = [
   { id: "protect",      title: "Protect PDF",      description: "Encrypt your PDF with a password to keep it secure.",                      icon: Lock,       gradient: "linear-gradient(135deg,#ef4444,#b91c1c)", shadow: "rgba(239,68,68,0.3)",  tag: "Security" },
 ];
 
-function Sh({ className }: { className: string }) {
-  return <div className={`skeleton-shimmer rounded-xl ${className}`} />;
-}
-
 export default function ComparePdfPage() {
-  const mounted = usePageMounted();
 
   return (
     <div className="min-h-screen" style={{ background: "linear-gradient(135deg,#eef2ff33 0%,#fff0 50%,#ede9fe33 100%)" }}>
@@ -52,49 +40,45 @@ export default function ComparePdfPage() {
       </section>
 
       {/* HOW IT WORKS */}
-      {!mounted ? <HowItWorksShimmer accent="rgba(99,102,241,0.15)" /> : (
-        <section className="py-16 bg-white/60 dark:bg-slate-800/40">
-          <div className="container mx-auto px-4 max-w-4xl">
-            <h2 className="text-2xl font-black text-slate-900 dark:text-white tracking-tight mb-8 text-center uppercase">How It Works</h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {STEPS.map((step, i) => (
-                <div key={i} className="bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-sm border border-slate-100 dark:border-slate-700 text-center">
-                  <div className="inline-flex p-4 rounded-2xl bg-indigo-50 dark:bg-indigo-500/10 text-indigo-500 mb-4"><step.icon size={28} /></div>
-                  <div className="text-xs font-black uppercase tracking-widest text-slate-400 mb-1">Step {i + 1}</div>
-                  <h3 className="text-base font-black text-slate-900 dark:text-white mb-2">{step.title}</h3>
-                  <p className="text-sm text-slate-500 dark:text-slate-400 font-medium leading-relaxed">{step.desc}</p>
-                </div>
-              ))}
-            </div>
+      <section className="py-16 bg-white/60 dark:bg-slate-800/40">
+        <div className="container mx-auto px-4 max-w-4xl">
+          <h2 className="text-2xl font-black text-slate-900 dark:text-white tracking-tight mb-8 text-center uppercase">How It Works</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {STEPS.map((step, i) => (
+              <div key={i} className="bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-sm border border-slate-100 dark:border-slate-700 text-center">
+                <div className="inline-flex p-4 rounded-2xl bg-indigo-50 dark:bg-indigo-500/10 text-indigo-500 mb-4"><step.icon size={28} /></div>
+                <div className="text-xs font-black uppercase tracking-widest text-slate-400 mb-1">Step {i + 1}</div>
+                <h3 className="text-base font-black text-slate-900 dark:text-white mb-2">{step.title}</h3>
+                <p className="text-sm text-slate-500 dark:text-slate-400 font-medium leading-relaxed">{step.desc}</p>
+              </div>
+            ))}
           </div>
-        </section>
-      )}
+        </div>
+      </section>
 
       {/* RELATED TOOLS */}
-      {!mounted ? <RelatedToolsShimmer /> : (
-        <section className="py-16">
-          <div className="container mx-auto px-4 max-w-5xl">
-            <h2 className="text-2xl font-black text-slate-900 dark:text-white tracking-tight mb-8 text-center">More PDF Tools</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {RELATED.map(tool => (
-                <a key={tool.id} href={`/tool/${tool.id}`} className="group bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-sm border border-slate-100 dark:border-slate-700 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 flex flex-col gap-4">
-                  <div className="flex items-start justify-between">
-                    <div className="w-14 h-14 rounded-2xl flex items-center justify-center text-white shadow-lg" style={{ background: tool.gradient, boxShadow: `0 8px 20px -4px ${tool.shadow}` }}>
-                      <tool.icon size={26} />
-                    </div>
-                    <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 bg-slate-50 dark:bg-slate-700 px-2 py-1 rounded-full border border-slate-100 dark:border-slate-600">{tool.tag}</span>
+      <section className="py-16">
+        <div className="container mx-auto px-4 max-w-5xl">
+          <h2 className="text-2xl font-black text-slate-900 dark:text-white tracking-tight mb-8 text-center">More PDF Tools</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {RELATED.map(tool => (
+              <a key={tool.id} href={`/tool/${tool.id}`} className="group bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-sm border border-slate-100 dark:border-slate-700 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 flex flex-col gap-4">
+                <div className="flex items-start justify-between">
+                  <div className="w-14 h-14 rounded-2xl flex items-center justify-center text-white shadow-lg" style={{ background: tool.gradient, boxShadow: `0 8px 20px -4px ${tool.shadow}` }}>
+                    <tool.icon size={26} />
                   </div>
-                  <div>
-                    <h3 className="text-base font-black text-slate-900 dark:text-white mb-1 group-hover:text-indigo-500 transition-colors">{tool.title}</h3>
-                    <p className="text-sm text-slate-500 dark:text-slate-400 font-medium leading-relaxed">{tool.description}</p>
-                  </div>
-                  <div className="mt-auto pt-2 text-xs font-bold text-indigo-500 flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">Open tool &#8594;</div>
-                </a>
-              ))}
-            </div>
+                  <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 bg-slate-50 dark:bg-slate-700 px-2 py-1 rounded-full border border-slate-100 dark:border-slate-600">{tool.tag}</span>
+                </div>
+                <div>
+                  <h3 className="text-base font-black text-slate-900 dark:text-white mb-1 group-hover:text-indigo-500 transition-colors">{tool.title}</h3>
+                  <p className="text-sm text-slate-500 dark:text-slate-400 font-medium leading-relaxed">{tool.description}</p>
+                </div>
+                <div className="mt-auto pt-2 text-xs font-bold text-indigo-500 flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">Open tool &#8594;</div>
+              </a>
+            ))}
           </div>
-        </section>
-      )}
+        </div>
+      </section>
     </div>
   );
 }

@@ -2,9 +2,7 @@
 
 import { useState, useRef, useCallback } from "react";
 import { Upload, X, FileText, GitCompare, ChevronLeft, ChevronRight, Loader2, CheckCircle2, AlertCircle, AlignLeft, Eye } from "lucide-react";
-import * as pdfjsLib from "pdfjs-dist";
 
-pdfjsLib.GlobalWorkerOptions.workerSrc = "/workers/pdf.worker.min.mjs";
 
 interface LineDiff { type: "same" | "added" | "removed"; text: string; }
 interface PageResult {
@@ -83,6 +81,8 @@ export default function ComparePdf({ id: _id }: { id: string }) {
   const handleCompare = useCallback(async () => {
     if (!fileA || !fileB) return;
     setLoading(true);
+    const pdfjsLib = await import("pdfjs-dist");
+    pdfjsLib.GlobalWorkerOptions.workerSrc = "/workers/pdf.worker.min.mjs";
     try {
       const [bufA, bufB] = await Promise.all([fileA.arrayBuffer(), fileB.arrayBuffer()]);
       const [docA, docB] = await Promise.all([

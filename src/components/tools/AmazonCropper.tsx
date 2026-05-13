@@ -294,13 +294,7 @@ export default function AmazonCropper({ id }: { id: string }) {
           <div className={`${showSettings ? 'block' : 'hidden'} lg:block p-6`}>
             <h3 className="hidden lg:block text-lg font-black text-slate-900 dark:text-white mb-6 uppercase tracking-tight text-left">Settings</h3>
             <div className="space-y-6 text-left">
-              <label className="flex items-start gap-3 cursor-pointer group">
-                <input type="checkbox" checked={skipEvenPages} onChange={e => setSkipEvenPages(e.target.checked)} className="w-5 h-5 mt-0.5 rounded border-slate-300 text-[#FF9900]" style={{ accentColor: ACCENT }} />
-                <div className="flex flex-col">
-                  <span className="text-sm font-bold text-slate-700 dark:text-slate-200 group-hover:text-[#FF9900]">Remove Invoice</span>
-                  <span className="text-[10px] text-slate-400 font-bold uppercase tracking-tighter">Auto-clear invoices (2, 4, 6...)</span>
-                </div>
-              </label>
+
 
               <div className="space-y-3">
                 <span className="text-xs font-black text-slate-400 uppercase tracking-widest">Sort Batch By</span>
@@ -315,16 +309,7 @@ export default function AmazonCropper({ id }: { id: string }) {
                     />
                     <span className={`text-xs font-bold transition-colors ${sortByAwb ? 'text-[#FF9900]' : 'text-slate-500 group-hover:text-slate-700'}`}>AWB Number</span>
                   </label>
-                  <label className="flex items-center gap-2 cursor-pointer group">
-                    <input
-                      type="checkbox"
-                      checked={sortBySku}
-                      onChange={() => setSortBySku(!sortBySku)}
-                      className="w-4 h-4 rounded border-slate-300 text-[#FF9900]"
-                      style={{ accentColor: ACCENT }}
-                    />
-                    <span className={`text-xs font-bold transition-colors ${sortBySku ? 'text-[#FF9900]' : 'text-slate-500 group-hover:text-slate-700'}`}>Item Type (SKU)</span>
-                  </label>
+
                 </div>
               </div>
 
