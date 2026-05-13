@@ -66,7 +66,7 @@ function diffLines(a: string, b: string): LineDiff[] {
   return result;
 }
 
-export default function ComparePdf() {
+export default function ComparePdf({ id: _id }: { id: string }) {
   const [fileA, setFileA] = useState<File | null>(null);
   const [fileB, setFileB] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);

@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Globe, Download, Loader2, X, CheckCircle2, Link, Sparkles } from "lucide-react";
 
-export default function WebpageToPdf() {
+export default function WebpageToPdf({ id: _id }: { id: string }) {
   const [url, setUrl] = useState("");
   const [processing, setProcessing] = useState(false);
   const [resultUrl, setResultUrl] = useState<string | null>(null);

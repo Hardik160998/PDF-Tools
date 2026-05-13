@@ -17,7 +17,7 @@ async function pageHasTextLayer(pdfPage: pdfjsLib.PDFPageProxy): Promise<boolean
 type PageStatus = "pending" | "processing" | "done" | "error";
 interface PageInfo { num: number; status: PageStatus; }
 
-export default function RemoveOcr() {
+export default function RemoveOcr({ id: _id }: { id: string }) {
   const [file, setFile] = useState<File | null>(null);
   const [pages, setPages] = useState<PageInfo[]>([]);
   const [processing, setProcessing] = useState(false);

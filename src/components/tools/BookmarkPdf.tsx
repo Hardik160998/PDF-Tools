@@ -9,7 +9,7 @@ pdfjsLib.GlobalWorkerOptions.workerSrc = "/workers/pdf.worker.min.mjs";
 
 interface BookmarkItem { id: string; title: string; page: number; }
 
-export default function BookmarkPdf() {
+export default function BookmarkPdf({ id: _id }: { id: string }) {
   const [file, setFile] = useState<File | null>(null);
   const [pdfDoc, setPdfDoc] = useState<pdfjsLib.PDFDocumentProxy | null>(null);
   const [totalPages, setTotalPages] = useState(0);

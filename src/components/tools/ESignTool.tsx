@@ -42,7 +42,7 @@ function getPoint(
 
 // ─── component ──────────────────────────────────────────────────────────────
 
-export default function ESignTool() {
+export default function ESignTool({ id: _id }: { id: string }) {
   const [file, setFile]               = useState<File | null>(null);
   const [processing, setProcessing]   = useState(false);
   const [result, setResult]           = useState<string | null>(null);

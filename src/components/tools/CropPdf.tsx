@@ -13,7 +13,7 @@ pdfjs.GlobalWorkerOptions.workerSrc = '/workers/pdf.worker.mjs';
 
 const DEFAULT_BOX = { x: 0.05, y: 0.05, w: 0.9, h: 0.9 };
 
-export default function CropPdf() {
+export default function CropPdf({ id: _id }: { id: string }) {
   const [step, setStep] = useState(1);
   const [processing, setProcessing] = useState(false);
   const [pages, setPages] = useState<{ dataUrl: string; pdfW: number; pdfH: number }[]>([]);

@@ -61,7 +61,7 @@ interface PdfFile {
   resultBlob?: Blob;
 }
 
-export default function OcrPdf() {
+export default function OcrPdf({ id: _id }: { id: string }) {
   const [pdfFiles, setPdfFiles] = useState<PdfFile[]>([]);
   const [processing, setProcessing] = useState(false);
   const [allDone, setAllDone] = useState(false);

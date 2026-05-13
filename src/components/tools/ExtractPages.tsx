@@ -9,7 +9,7 @@ pdfjsLib.GlobalWorkerOptions.workerSrc = "/workers/pdf.worker.min.mjs";
 
 type PageEntry = { pageNum: number; thumb: string; selected: boolean };
 
-export default function ExtractPages() {
+export default function ExtractPages({ id: _id }: { id: string }) {
   const [file, setFile] = useState<File | null>(null);
   const [pages, setPages] = useState<PageEntry[]>([]);
   const [loading, setLoading] = useState(false);

@@ -9,7 +9,7 @@ pdfjsLib.GlobalWorkerOptions.workerSrc = "/workers/pdf.worker.min.mjs";
 
 interface Redaction { id: string; page: number; x: number; y: number; w: number; h: number; }
 
-export default function RedactPdf() {
+export default function RedactPdf({ id: _id }: { id: string }) {
   const [file, setFile] = useState<File | null>(null);
   const [pdfDoc, setPdfDoc] = useState<pdfjsLib.PDFDocumentProxy | null>(null);
   const [totalPages, setTotalPages] = useState(0);
