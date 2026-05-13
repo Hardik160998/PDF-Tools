@@ -168,7 +168,7 @@ export default function OcrPdf({ id: _id }: { id: string }) {
             mergedDoc.addPage(copiedPage);
           }
           const mergedBytes = await mergedDoc.save();
-          const resultBlob = new Blob([mergedBytes.slice(0)], { type: "application/pdf" });
+          const resultBlob = new Blob([mergedBytes.buffer as ArrayBuffer], { type: "application/pdf" });
           setPdfFiles(prev => prev.map(f => f.id === entry.id ? { ...f, status: "done", progress: 100, resultBlob } : f));
         }
       } catch (err: any) {

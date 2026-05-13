@@ -192,7 +192,7 @@ async function canvasToJpegBytes(canvas: HTMLCanvasElement): Promise<Uint8Array>
   return new Uint8Array(await (await fetch(dataUrl)).arrayBuffer());
 }
 
-export default function MeeshoCropLabel({ id }: { id: string }) {
+export default function MeeshoCropper({ id }: { id: string }) {
   const [files, setFiles] = useState<LabelFile[]>([]);
   const [processing, setProcessing] = useState(false);
   const [done, setDone] = useState(false);

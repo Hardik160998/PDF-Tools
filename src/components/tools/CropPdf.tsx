@@ -107,7 +107,7 @@ export default function CropPdf({ id: _id }: { id: string }) {
       });
 
       const pdfBytes = await pdfDoc.save();
-      const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+      const blob = new Blob([pdfBytes.buffer as ArrayBuffer], { type: 'application/pdf' });
       setResult(URL.createObjectURL(blob));
       setStep(3);
     } catch (err) {
