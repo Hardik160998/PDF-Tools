@@ -1,167 +1,185 @@
-'use client';
+"use client";
 
-import React, { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 import { 
-  Upload, Download, Crop, Loader2, ArrowRight, 
-  CheckCircle2, Info, Maximize2, ZoomIn, ZoomOut, 
-  ChevronUp, ChevronDown, RotateCcw, Zap, MousePointer2,
-  Layers, Shield, RefreshCw
+  Upload, Crop, Download, Loader2, X, Zap, FileText, 
+  CheckCircle2, Settings, ChevronDown, ShieldCheck,
+  Maximize2, RotateCcw, ZoomIn, ZoomOut, ChevronUp, Info,
+  MousePointer2, Shield, RefreshCw, Layers, History
 } from 'lucide-react';
-import { PDFDocument } from 'pdf-lib';
-import type * as PDFJS from 'pdfjs-dist';
+import { PDFDocument, rgb } from 'pdf-lib';
 
-const DEFAULT_BOX = { x: 0.05, y: 0.05, w: 0.9, h: 0.9 };
+type PageData = {
+  pageNum: number;
+  dataUrl: string;
+  pdfW: number;
+  pdfH: number;
+};
+
+type CropBox = { x: number; y: number; w: number; h: number };
+
+const DEFAULT_BOX: CropBox = { x: 0.1, y: 0.1, w: 0.8, h: 0.8 };
+
+interface CropFile {
+  id: string;
+  file: File;
+  pages: PageData[];
+  status: "pending" | "processing" | "done" | "error";
+  resultUrl?: string;
+  cropBox: CropBox;
+}
 
 export default function CropPdf({ id: _id }: { id: string }) {
-  const [step, setStep] = useState(1);
-  const [processing, setProcessing] = useState(false);
-  const [pages, setPages] = useState<{ dataUrl: string; pdfW: number; pdfH: number }[]>([]);
+  const [files, setFiles] = useState<CropFile[]>([]);
+  const [activeFileIdx, setActiveFileIdx] = useState<number>(-1);
   const [activePage, setActivePage] = useState(0);
-  const [cropBox, setCropBox] = useState(DEFAULT_BOX);
-  const [perPage, setPerPage] = useState<Record<number, typeof DEFAULT_BOX>>({});
-  const [zoom, setZoom] = useState(1);
+  const [cropBox, setCropBox] = useState<CropBox>(DEFAULT_BOX);
   const [mode, setMode] = useState<'all' | 'per'>('all');
-  const [result, setResult] = useState<string | null>(null);
-  const [pageInput, setPageInput] = useState('1');
+  const [zoom, setZoom] = useState(0.75);
+  const [processing, setProcessing] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [pageInput, setPageInput] = useState("1");
+  const [step, setStep] = useState(1);
 
-  const fileRef = useRef<HTMLInputElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const previewRef = useRef<HTMLDivElement>(null);
-  const pdfFile = useRef<File | null>(null);
 
-  const pg = pages[activePage];
-  const zoomPct = Math.round(zoom * 100);
+  const ACCENT = "#f97316";
+  const ACCENT_GRADIENT = "linear-gradient(135deg,#f97316,#ea580c)";
 
-  const onFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    pdfFile.current = file;
-    setProcessing(true);
-
+  const loadFile = async (f: File) => {
+    setLoading(true);
     try {
-      const pdfjs = await import('pdfjs-dist');
-      pdfjs.GlobalWorkerOptions.workerSrc = '/workers/pdf.worker.min.mjs';
-      const arrayBuffer = await file.arrayBuffer();
-      const pdf = await pdfjs.getDocument({ data: arrayBuffer }).promise;
-      const infos = [];
-
-      for (let i = 1; i <= pdf.numPages; i++) {
-        const page = await pdf.getPage(i);
-        const viewport = page.getViewport({ scale: 2 });
-        const canvas = document.createElement('canvas');
-        const context = canvas.getContext('2d');
-        canvas.height = viewport.height;
+      const pdfjsLib = await import('pdfjs-dist');
+      pdfjsLib.GlobalWorkerOptions.workerSrc = '/workers/pdf.worker.min.mjs';
+      
+      const buf = await f.arrayBuffer();
+      const doc = await pdfjsLib.getDocument({ data: buf }).promise;
+      const pages: PageData[] = [];
+      
+      for (let i = 1; i <= doc.numPages; i++) {
+        const pg = await doc.getPage(i);
+        const viewport = pg.getViewport({ scale: 1.5 });
+        const canvas = document.createElement("canvas");
         canvas.width = viewport.width;
-        await page.render({ canvasContext: context!, viewport, canvas }).promise;
-        
-        infos.push({
+        canvas.height = viewport.height;
+        await pg.render({ canvasContext: canvas.getContext("2d")!, viewport, canvas }).promise;
+        pages.push({
+          pageNum: i,
           dataUrl: canvas.toDataURL('image/jpeg', 0.8),
-          pdfW: page.view[2],
-          pdfH: page.view[3],
+          pdfW: pg.view[2],
+          pdfH: pg.view[3]
         });
       }
-
-      setPages(infos);
-      setActivePage(0);
-      setCropBox(DEFAULT_BOX);
-      setPerPage({});
-      setPageInput('1');
       
-      if (typeof window !== 'undefined') {
-        const isMobile = window.innerWidth < 768;
-        if (isMobile && infos[0]) {
-          const containerW = window.innerWidth - 32;
-          const fitZoom = +(containerW / infos[0].pdfW).toFixed(2);
-          setZoom(Math.min(1.5, Math.max(0.3, fitZoom)));
-        } else {
-          setZoom(1);
-        }
-      }
+      const newFile: CropFile = {
+        id: Math.random().toString(36).substr(2, 9),
+        file: f,
+        pages,
+        status: "pending",
+        cropBox: DEFAULT_BOX
+      };
       
+      setFiles(prev => [...prev, newFile]);
+      if (activeFileIdx === -1) setActiveFileIdx(files.length);
       setStep(2);
     } catch (err) {
       console.error(err);
-      alert('Error loading PDF.');
+      alert("Error loading PDF.");
     } finally {
-      setProcessing(false);
+      setLoading(false);
     }
+  };
+
+  const handleFiles = (fList: FileList | null) => {
+    if (!fList) return;
+    Array.from(fList).forEach(f => loadFile(f));
   };
 
   const handleCrop = async () => {
-    if (!pdfFile.current) return;
+    if (files.length === 0) return;
     setProcessing(true);
-
     try {
-      const arrayBuffer = await pdfFile.current.arrayBuffer();
-      const pdfDoc = await PDFDocument.load(arrayBuffer);
-      const pdfPages = pdfDoc.getPages();
+      const updatedFiles = [...files];
+      for (let i = 0; i < updatedFiles.length; i++) {
+        const entry = updatedFiles[i];
+        if (entry.status === 'done') continue;
 
-      pdfPages.forEach((page, idx) => {
-        const box = mode === 'all' ? cropBox : (perPage[idx] || cropBox);
-        const { width, height } = page.getSize();
+        const srcDoc = await PDFDocument.load(await entry.file.arrayBuffer());
+        const newDoc = await PDFDocument.create();
+        const pages = srcDoc.getPages();
         
-        page.setCropBox(
-          box.x * width,
-          (1 - box.y - box.h) * height,
-          box.w * width,
-          box.h * height
-        );
-      });
+        for (let pIdx = 0; pIdx < pages.length; pIdx++) {
+          const page = pages[pIdx];
+          const { width, height } = page.getSize();
+          
+          // Use either global cropBox or the one specific to the file
+          const box = mode === 'all' ? cropBox : entry.cropBox;
+          
+          const cropW = width * box.w;
+          const cropH = height * box.h;
+          const cropX = width * box.x;
+          const cropY = height * (1 - box.y - box.h); // PDF coordinate system is bottom-left
 
-      const pdfBytes = await pdfDoc.save();
-      const blob = new Blob([pdfBytes.buffer as ArrayBuffer], { type: 'application/pdf' });
-      setResult(URL.createObjectURL(blob));
+          const [copiedPage] = await newDoc.copyPages(srcDoc, [pIdx]);
+          copiedPage.setCropBox(cropX, cropY, cropW, cropH);
+          newDoc.addPage(copiedPage);
+        }
+        
+        const bytes = await newDoc.save();
+        updatedFiles[i] = {
+          ...entry,
+          status: "done",
+          resultUrl: URL.createObjectURL(new Blob([bytes.buffer as ArrayBuffer], { type: 'application/pdf' }))
+        };
+        setFiles([...updatedFiles]);
+      }
       setStep(3);
     } catch (err) {
       console.error(err);
-      alert('Error cropping PDF.');
+      alert("Crop failed.");
     } finally {
       setProcessing(false);
     }
-  };
-
-  const switchPage = (idx: number) => {
-    if (mode === 'per') {
-      setPerPage(prev => ({ ...prev, [activePage]: cropBox }));
-      setCropBox(perPage[idx] || DEFAULT_BOX);
-    }
-    setActivePage(idx);
-    setPageInput(String(idx + 1));
-  };
-
-  const switchMode = (m: 'all' | 'per') => {
-    if (m === 'all') {
-      setPerPage({});
-    } else {
-      setPerPage({ [activePage]: cropBox });
-    }
-    setMode(m);
   };
 
   const onHandleDown = (e: React.MouseEvent | React.TouchEvent, id: string) => {
     e.preventDefault();
+    const rect = previewRef.current?.getBoundingClientRect();
+    if (!rect) return;
+    
     const startX = 'touches' in e ? e.touches[0].clientX : e.clientX;
     const startY = 'touches' in e ? e.touches[0].clientY : e.clientY;
     const startBox = { ...cropBox };
-    const rect = previewRef.current?.getBoundingClientRect();
-    if (!rect) return;
 
     const onMove = (me: MouseEvent | TouchEvent) => {
       const curX = 'touches' in me ? me.touches[0].clientX : me.clientX;
       const curY = 'touches' in me ? me.touches[0].clientY : me.clientY;
-      const dx = (curX - startX) / (rect.width);
-      const dy = (curY - startY) / (rect.height);
+      const dx = (curX - startX) / rect.width;
+      const dy = (curY - startY) / rect.height;
 
       setCropBox(prev => {
         let { x, y, w, h } = { ...prev };
-        if (id === 'move') { x = Math.max(0, Math.min(1 - w, startBox.x + dx)); y = Math.max(0, Math.min(1 - h, startBox.y + dy)); }
-        else if (id === 'tl') { x = Math.max(0, Math.min(startBox.x + startBox.w - 0.05, startBox.x + dx)); y = Math.max(0, Math.min(startBox.y + startBox.h - 0.05, startBox.y + dy)); w = startBox.w - (x - startBox.x); h = startBox.h - (y - startBox.y); }
-        else if (id === 'tr') { y = Math.max(0, Math.min(startBox.y + startBox.h - 0.05, startBox.y + dy)); w = Math.max(0.05, Math.min(1 - x, startBox.w + dx)); h = startBox.h - (y - startBox.y); }
-        else if (id === 'bl') { x = Math.max(0, Math.min(startBox.x + startBox.w - 0.05, startBox.x + dx)); w = startBox.w - (x - startBox.x); h = Math.max(0.05, Math.min(1 - y, startBox.h + dy)); }
-        else if (id === 'br') { w = Math.max(0.05, Math.min(1 - x, startBox.w + dx)); h = Math.max(0.05, Math.min(1 - y, startBox.h + dy)); }
-        else if (id === 't') { y = Math.max(0, Math.min(startBox.y + startBox.h - 0.05, startBox.y + dy)); h = startBox.h - (y - startBox.y); }
-        else if (id === 'b') { h = Math.max(0.05, Math.min(1 - y, startBox.h + dy)); }
-        else if (id === 'l') { x = Math.max(0, Math.min(startBox.x + startBox.w - 0.05, startBox.x + dx)); w = startBox.w - (x - startBox.x); }
-        else if (id === 'r') { w = Math.max(0.05, Math.min(1 - x, startBox.w + dx)); }
+        if (id === 'move') {
+          x = Math.max(0, Math.min(1 - w, startBox.x + dx));
+          y = Math.max(0, Math.min(1 - h, startBox.y + dy));
+        } else if (id === 'tl') {
+          x = Math.max(0, Math.min(startBox.x + startBox.w - 0.05, startBox.x + dx));
+          y = Math.max(0, Math.min(startBox.y + startBox.h - 0.05, startBox.y + dy));
+          w = startBox.w - (x - startBox.x);
+          h = startBox.h - (y - startBox.y);
+        } else if (id === 'br') {
+          w = Math.max(0.05, Math.min(1 - x, startBox.w + dx));
+          h = Math.max(0.05, Math.min(1 - y, startBox.h + dy));
+        } else if (id === 'tr') {
+          y = Math.max(0, Math.min(startBox.y + startBox.h - 0.05, startBox.y + dy));
+          w = Math.max(0.05, Math.min(1 - x, startBox.w + dx));
+          h = startBox.h - (y - startBox.y);
+        } else if (id === 'bl') {
+          x = Math.max(0, Math.min(startBox.x + startBox.w - 0.05, startBox.x + dx));
+          w = startBox.w - (x - startBox.x);
+          h = Math.max(0.05, Math.min(1 - y, startBox.h + dy));
+        }
         return { x, y, w, h };
       });
     };
@@ -179,16 +197,16 @@ export default function CropPdf({ id: _id }: { id: string }) {
     document.addEventListener('touchend', onUp);
   };
 
-  const handles = [
-    { id: 'tl', cursor: 'nwse-resize', style: { top: 0, left: 0 } },
-    { id: 'tr', cursor: 'nesw-resize', style: { top: 0, right: 0 } },
-    { id: 'bl', cursor: 'nesw-resize', style: { bottom: 0, left: 0 } },
-    { id: 'br', cursor: 'nwse-resize', style: { bottom: 0, right: 0 } },
-    { id: 't', cursor: 'ns-resize', style: { top: 0, left: '50%', transform: 'translateX(-50%)' } },
-    { id: 'b', cursor: 'ns-resize', style: { bottom: 0, left: '50%', transform: 'translateX(-50%)' } },
-    { id: 'l', cursor: 'ew-resize', style: { top: '50%', left: 0, transform: 'translateY(-50%)' } },
-    { id: 'r', cursor: 'ew-resize', style: { top: '50%', right: 0, transform: 'translateY(-50%)' } },
-  ];
+  const reset = () => {
+    files.forEach(f => f.resultUrl && URL.revokeObjectURL(f.resultUrl));
+    setFiles([]);
+    setStep(1);
+    setActiveFileIdx(-1);
+    setCropBox(DEFAULT_BOX);
+  };
+
+  const activeFile = files[activeFileIdx];
+  const activePg = activeFile?.pages[activePage];
 
   const renderStep1 = () => (
     <div className="max-w-7xl mx-auto py-8 sm:py-16 px-4 sm:px-6">
@@ -196,25 +214,25 @@ export default function CropPdf({ id: _id }: { id: string }) {
         <div className="w-full lg:w-[320px] bg-white dark:bg-slate-900 rounded-[32px] border border-slate-100 dark:border-slate-800 shadow-xl p-8 flex-shrink-0 space-y-10">
           <div className="space-y-3 text-left">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-lg bg-orange-50 dark:bg-orange-500/10 text-orange-600 dark:text-orange-400 text-[10px] font-black uppercase tracking-widest">
-              <Zap size={12} /> Tool Capabilities
+              <Zap size={12} /> Capabilities
             </div>
-            <h3 className="text-2xl font-black text-slate-900 dark:text-white uppercase tracking-tight leading-tight">Professional <br/> PDF Cropping</h3>
-            <p className="text-slate-400 text-xs font-medium">All processing occurs locally on your hardware.</p>
+            <h3 className="text-2xl font-black text-slate-900 dark:text-white uppercase tracking-tight leading-tight">Advanced <br/> PDF Cropping</h3>
+            <p className="text-slate-400 text-xs font-medium uppercase tracking-widest">All processing occurs locally.</p>
           </div>
           
           <div className="space-y-6 text-left">
             {[
-              { icon: MousePointer2, title: "Visual Precision", desc: "Pixel-perfect area selection." },
-              { icon: Layers, title: "Batch Engine", desc: "Trim all pages in one click." },
-              { icon: Shield, title: "Privacy First", desc: "Zero data ever leaves your browser." },
-              { icon: RefreshCw, title: "High Speed", desc: "Optimized for large documents." }
+              { icon: MousePointer2, title: "Precision Tool", desc: "Drag to define area." },
+              { icon: Layers, title: "Batch Support", desc: "Crop multiple PDFs." },
+              { icon: Shield, title: "100% Private", desc: "Secure local execution." },
+              { icon: RefreshCw, title: "Fast Engine", desc: "Instant visual feedback." }
             ].map((f, i) => (
-              <div key={i} className="flex items-center gap-4 group">
-                <div className="w-10 h-10 rounded-xl bg-slate-50 dark:bg-slate-800 flex items-center justify-center text-orange-500 shrink-0 group-hover:scale-110 transition-transform">
+              <div key={i} className="flex items-center gap-4">
+                <div className="w-10 h-10 rounded-xl bg-slate-50 dark:bg-slate-800 flex items-center justify-center text-orange-500 shrink-0">
                   <f.icon size={18} />
                 </div>
                 <div>
-                  <p className="text-sm font-black text-slate-900 dark:text-white uppercase tracking-tight leading-none mb-1">{f.title}</p>
+                  <p className="text-xs font-black text-slate-900 dark:text-white uppercase tracking-tight leading-none mb-1">{f.title}</p>
                   <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">{f.desc}</p>
                 </div>
               </div>
@@ -224,41 +242,25 @@ export default function CropPdf({ id: _id }: { id: string }) {
           <div className="pt-8 border-t border-slate-50 dark:border-slate-800 text-left">
             <div className="bg-orange-50 dark:bg-orange-500/5 rounded-2xl p-4 border border-orange-100/50 dark:border-orange-500/10">
               <p className="text-[10px] font-black text-orange-600 dark:text-orange-400 uppercase tracking-widest mb-1">Status</p>
-              <p className="text-[11px] text-orange-700/70 dark:text-orange-400/70 font-medium">System Ready for PDF Processing</p>
+              <p className="text-[11px] text-orange-700/70 dark:text-orange-400/70 font-bold uppercase">Ready to process</p>
             </div>
           </div>
         </div>
 
-        <div className="flex-1 w-full bg-white dark:bg-slate-900 rounded-[40px] p-8 sm:p-20 border border-slate-100 dark:border-slate-800 shadow-2xl text-center min-h-[650px] flex flex-col justify-center relative group">
-          <div className="absolute inset-0 bg-gradient-to-br from-orange-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-[40px]" />
+        <div className="flex-1 w-full bg-white dark:bg-slate-900 rounded-[40px] p-8 sm:p-20 border border-slate-100 dark:border-slate-800 shadow-2xl text-center min-h-[650px] flex flex-col justify-center relative group overflow-hidden">
+          <div className="absolute top-0 right-0 w-64 h-64 bg-orange-500/10 rounded-full blur-3xl -mr-32 -mt-32" />
           
           <div className="relative z-10 space-y-12">
-            <div className="relative group/zone border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-[48px] p-16 sm:p-24 hover:border-orange-400 hover:bg-orange-50/5 transition-all cursor-pointer bg-slate-50/30 dark:bg-slate-900/30">
-              <input ref={fileRef} type="file" accept=".pdf" onChange={onFileChange} className="absolute inset-0 opacity-0 cursor-pointer w-full h-full z-20" />
+            <div className="relative border-2 border-dashed border-slate-200 dark:border-slate-800 rounded-[48px] p-16 sm:p-24 hover:border-orange-400 hover:bg-orange-50/5 transition-all cursor-pointer bg-slate-50/30 dark:bg-slate-900/30 group/zone"
+              onClick={() => fileInputRef.current?.click()}>
               <div className="flex flex-col items-center gap-10">
                 <div className="p-10 bg-white dark:bg-slate-800 rounded-[32px] text-orange-500 shadow-2xl group-hover/zone:scale-110 transition-transform">
                   <Upload size={72} strokeWidth={2.5} />
                 </div>
                 <div>
-                  <h2 className="text-4xl sm:text-6xl font-black text-slate-900 dark:text-white uppercase tracking-tighter mb-4 leading-none">Select PDF</h2>
-                  <p className="text-slate-400 text-lg sm:text-xl font-bold uppercase tracking-widest">or drop your file here to start</p>
+                  <h2 className="text-4xl sm:text-6xl font-black text-slate-900 dark:text-white uppercase tracking-tighter mb-4 leading-none">Select PDFs</h2>
+                  <p className="text-slate-400 text-lg sm:text-xl font-bold uppercase tracking-widest">Drop files here to start</p>
                 </div>
-              </div>
-            </div>
-            <div className="flex items-center justify-center gap-8">
-              <div className="flex flex-col items-center gap-1">
-                <p className="text-xl font-black text-slate-900 dark:text-white tracking-tighter">100%</p>
-                <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">Private</p>
-              </div>
-              <div className="w-px h-8 bg-slate-100 dark:bg-slate-800" />
-              <div className="flex flex-col items-center gap-1">
-                <p className="text-xl font-black text-slate-900 dark:text-white tracking-tighter">SECURE</p>
-                <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">Protocol</p>
-              </div>
-              <div className="w-px h-8 bg-slate-100 dark:bg-slate-800" />
-              <div className="flex flex-col items-center gap-1">
-                <p className="text-xl font-black text-slate-900 dark:text-white tracking-tighter">FREE</p>
-                <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">Forever</p>
               </div>
             </div>
           </div>
@@ -268,156 +270,200 @@ export default function CropPdf({ id: _id }: { id: string }) {
   );
 
   const renderStep2 = () => (
-    <div className="flex flex-col lg:flex-row min-h-[700px] bg-slate-50 dark:bg-slate-950">
-      <div className="flex-1 flex flex-col relative border-b lg:border-b-0 lg:border-r border-slate-100 dark:border-slate-800 overflow-hidden">
-        <div className="flex-1 overflow-auto bg-slate-100/50 dark:bg-slate-900/50 min-h-[600px] scrollbar-hide">
-          <div className="min-h-full min-w-full flex items-center justify-center p-4 sm:p-20 pb-32 lg:pb-20">
-            {pg && (
-              <div ref={previewRef} className="relative select-none shadow-2xl bg-white shrink-0" style={{ width: `${Math.round(pg.pdfW * zoom)}px`, height: `${Math.round(pg.pdfH * zoom)}px` }}>
-                <img src={pg.dataUrl} alt="Page preview" className="w-full h-full object-fill pointer-events-none" draggable={false} />
-                <div className="absolute inset-0 pointer-events-none" style={{ background: `linear-gradient(to bottom, rgba(0,0,0,0.45) ${cropBox.y * 100}%, transparent ${cropBox.y * 100}%, transparent ${(cropBox.y + cropBox.h) * 100}%, rgba(0,0,0,0.45) ${(cropBox.y + cropBox.h) * 100}%)` }} />
-                <div className="absolute pointer-events-none" style={{ top: `${cropBox.y * 100}%`, height: `${cropBox.h * 100}%`, left: 0, width: `${cropBox.x * 100}%`, background: 'rgba(0,0,0,0.45)' }} />
-                <div className="absolute pointer-events-none" style={{ top: `${cropBox.y * 100}%`, height: `${cropBox.h * 100}%`, right: 0, width: `${(1 - cropBox.x - cropBox.w) * 100}%`, background: 'rgba(0,0,0,0.45)' }} />
-                <div className="absolute" style={{ left: `${cropBox.x * 100}%`, top: `${cropBox.y * 100}%`, width: `${cropBox.w * 100}%`, height: `${cropBox.h * 100}%`, cursor: 'move', border: '2px solid #f97316', boxShadow: '0 0 0 9999px rgba(0,0,0,0)' }} onMouseDown={e => onHandleDown(e, 'move')} onTouchStart={e => onHandleDown(e, 'move')}>
-                  <div className="absolute inset-0 pointer-events-none">
-                    {[1, 2].map(n => <div key={`v${n}`} className="absolute top-0 bottom-0" style={{ left: `${n * 33.33}%`, borderLeft: '1px solid rgba(249,115,22,0.3)' }} />)}
-                    {[1, 2].map(n => <div key={`h${n}`} className="absolute left-0 right-0" style={{ top: `${n * 33.33}%`, borderTop: '1px solid rgba(249,115,22,0.3)' }} />)}
+    <div className="flex flex-col lg:flex-row h-screen bg-white dark:bg-slate-950 overflow-hidden">
+      {/* Workspace Sidebar */}
+      <div className="w-full lg:w-96 bg-white dark:bg-slate-900 border-b lg:border-b-0 lg:border-r border-slate-100 dark:border-slate-800 flex flex-col h-fit lg:h-full z-40">
+        <div className="p-8 border-b border-slate-50 dark:border-slate-800 flex items-center justify-between">
+          <h2 className="text-xl font-black text-slate-900 dark:text-white uppercase tracking-tighter">Workspace</h2>
+          <button onClick={reset} className="p-2 text-slate-400 hover:text-red-500 transition-colors"><X size={24} /></button>
+        </div>
+        
+        <div className="flex-1 overflow-y-auto p-8 space-y-10 custom-scrollbar">
+           <div className="space-y-4 text-left">
+              <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Active Queue ({files.length})</span>
+              <div className="space-y-3">
+                {files.map((f, i) => (
+                  <button key={f.id} onClick={() => { setActiveFileIdx(i); setActivePage(0); }} 
+                    className={`w-full flex items-center gap-4 p-4 rounded-2xl border-2 transition-all ${activeFileIdx === i ? 'border-orange-500 bg-orange-50/30 dark:bg-orange-500/5' : 'border-slate-50 dark:border-slate-800 hover:border-slate-100'}`}>
+                    <div className={`p-2 rounded-lg ${activeFileIdx === i ? 'bg-orange-500 text-white shadow-lg' : 'bg-slate-50 dark:bg-slate-800 text-slate-400'}`}>
+                      <FileText size={16} />
+                    </div>
+                    <div className="min-w-0 text-left">
+                       <p className={`text-xs font-black uppercase truncate ${activeFileIdx === i ? 'text-slate-900 dark:text-white' : 'text-slate-500'}`}>{f.file.name}</p>
+                       <p className="text-[9px] font-bold text-slate-400 uppercase">{f.pages.length} Pages</p>
+                    </div>
+                  </button>
+                ))}
+              </div>
+           </div>
+
+           <div className="space-y-4 text-left pt-6 border-t border-slate-50 dark:border-slate-800">
+              <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Configuration</span>
+              <div className="space-y-3">
+                 <button onClick={() => setMode('all')} className={`w-full p-4 rounded-2xl border-2 flex items-center gap-4 transition-all ${mode === 'all' ? 'border-orange-500 bg-orange-50/30 dark:bg-orange-500/5' : 'border-slate-50 dark:border-slate-800'}`}>
+                    <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${mode === 'all' ? 'border-orange-500 bg-orange-500' : 'border-slate-300'}`}>
+                       {mode === 'all' && <div className="w-2 h-2 rounded-full bg-white" />}
+                    </div>
+                    <div>
+                       <p className={`text-xs font-black uppercase ${mode === 'all' ? 'text-slate-900 dark:text-white' : 'text-slate-400'}`}>Global Crop</p>
+                       <p className="text-[9px] font-bold text-slate-400 uppercase">Same box for all pages</p>
+                    </div>
+                 </button>
+                 <button onClick={() => setMode('per')} className={`w-full p-4 rounded-2xl border-2 flex items-center gap-4 transition-all ${mode === 'per' ? 'border-orange-500 bg-orange-50/30 dark:bg-orange-500/5' : 'border-slate-50 dark:border-slate-800'}`}>
+                    <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${mode === 'per' ? 'border-orange-500 bg-orange-500' : 'border-slate-300'}`}>
+                       {mode === 'per' && <div className="w-2 h-2 rounded-full bg-white" />}
+                    </div>
+                    <div>
+                       <p className={`text-xs font-black uppercase ${mode === 'per' ? 'text-slate-900 dark:text-white' : 'text-slate-400'}`}>Individual</p>
+                       <p className="text-[9px] font-bold text-slate-400 uppercase">Custom per document</p>
+                    </div>
+                 </button>
+              </div>
+           </div>
+        </div>
+
+        <div className="p-8 border-t border-slate-50 dark:border-slate-800">
+           <button onClick={handleCrop} disabled={processing} className="w-full py-5 bg-orange-500 text-white rounded-2xl font-black text-lg uppercase tracking-tighter shadow-2xl shadow-orange-500/30 hover:scale-[1.02] active:scale-95 transition-all">
+              {processing ? <Loader2 className="animate-spin mx-auto" size={28} /> : 'Export Batch'}
+           </button>
+        </div>
+      </div>
+
+      {/* Workspace Main Area */}
+      <div className="flex-1 flex flex-col relative bg-slate-50 dark:bg-slate-950 overflow-hidden">
+         {/* Top toolbar */}
+         <div className="h-16 border-b border-slate-100 dark:border-slate-900 bg-white dark:bg-slate-900 flex items-center justify-between px-8 shrink-0">
+            <div className="flex items-center gap-4">
+               <button onClick={() => setActivePage(p => Math.max(0, p - 1))} className="p-2 text-slate-400 hover:text-orange-500"><ChevronUp size={20} /></button>
+               <span className="text-xs font-black uppercase tracking-widest text-slate-900 dark:text-white">Page {activePage + 1} / {activeFile?.pages.length || 0}</span>
+               <button onClick={() => setActivePage(p => Math.min((activeFile?.pages.length || 1) - 1, p + 1))} className="p-2 text-slate-400 hover:text-orange-500 rotate-180"><ChevronUp size={20} /></button>
+            </div>
+            <div className="flex items-center gap-2">
+               <button onClick={() => setZoom(z => Math.max(0.25, z - 0.25))} className="p-2 text-slate-400 hover:text-orange-500"><ZoomOut size={20} /></button>
+               <span className="w-12 text-center text-[10px] font-black uppercase text-slate-900 dark:text-white">{Math.round(zoom * 100)}%</span>
+               <button onClick={() => setZoom(z => Math.min(3, z + 0.25))} className="p-2 text-slate-400 hover:text-orange-500"><ZoomIn size={20} /></button>
+            </div>
+         </div>
+
+         {/* Visual Workspace */}
+         <div className="flex-1 overflow-auto p-10 flex items-center justify-center custom-scrollbar">
+            {activePg && (
+              <div ref={previewRef} className="relative shadow-[0_40px_100px_rgba(0,0,0,0.2)] bg-white shrink-0 group/canvas" style={{ width: activePg.pdfW * zoom, height: activePg.pdfH * zoom }}>
+                <img src={activePg.dataUrl} className="w-full h-full object-fill select-none pointer-events-none" alt="PDF Page" draggable={false} />
+                
+                {/* Overlay Darkener */}
+                <div className="absolute inset-0 bg-black/40 pointer-events-none transition-opacity" />
+
+                {/* Crop Box */}
+                <div className="absolute shadow-[0_0_0_9999px_rgba(0,0,0,0.5)] cursor-move" 
+                  style={{ 
+                    left: `${cropBox.x * 100}%`, 
+                    top: `${cropBox.y * 100}%`, 
+                    width: `${cropBox.w * 100}%`, 
+                    height: `${cropBox.h * 100}%`,
+                    border: '2px solid #f97316'
+                  }}
+                  onMouseDown={e => onHandleDown(e, 'move')}
+                  onTouchStart={e => onHandleDown(e, 'move')}
+                >
+                  <div className="absolute inset-0 flex flex-col justify-evenly pointer-events-none">
+                    <div className="h-px bg-orange-500/30 w-full" />
+                    <div className="h-px bg-orange-500/30 w-full" />
                   </div>
-                  {handles.map(h => (
-                    <div key={h.id} className="absolute w-6 h-6 sm:w-4 sm:h-4 bg-orange-500 rounded-sm shadow-xl z-10 -m-3 sm:-m-2 border-2 border-white" style={{ ...h.style, cursor: h.cursor }} onMouseDown={e => onHandleDown(e, h.id)} onTouchStart={e => onHandleDown(e, h.id)} />
+                  <div className="absolute inset-0 flex justify-evenly pointer-events-none">
+                    <div className="w-px bg-orange-500/30 h-full" />
+                    <div className="w-px bg-orange-500/30 h-full" />
+                  </div>
+
+                  {/* Handles */}
+                  {[
+                    { id: 'tl', style: 'top-0 left-0 -translate-x-1/2 -translate-y-1/2' },
+                    { id: 'tr', style: 'top-0 right-0 translate-x-1/2 -translate-y-1/2' },
+                    { id: 'bl', style: 'bottom-0 left-0 -translate-x-1/2 translate-y-1/2' },
+                    { id: 'br', style: 'bottom-0 right-0 translate-x-1/2 translate-y-1/2' }
+                  ].map(h => (
+                    <div key={h.id} onMouseDown={e => { e.stopPropagation(); onHandleDown(e, h.id); }} onTouchStart={e => { e.stopPropagation(); onHandleDown(e, h.id); }}
+                      className={`absolute w-5 h-5 bg-white border-4 border-orange-500 rounded-full shadow-2xl cursor-pointer hover:scale-150 transition-transform ${h.style} z-10`} />
                   ))}
                 </div>
               </div>
             )}
-          </div>
-        </div>
-        
-        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex items-center gap-4 bg-slate-900/90 backdrop-blur-2xl text-white px-8 py-4 shadow-[0_20px_50px_rgba(0,0,0,0.3)] z-50 rounded-[32px] border border-white/10">
-          <div className="flex items-center gap-2">
-            <button onClick={() => switchPage(Math.max(0, activePage - 1))} disabled={activePage === 0} className="p-2 rounded-xl hover:bg-white/10 disabled:opacity-20 transition-all"><ChevronUp size={22} /></button>
-            <div className="flex items-center gap-3 px-4 py-2 bg-white/5 rounded-2xl border border-white/10">
-              <input type="text" value={pageInput} onChange={e => setPageInput(e.target.value)} onBlur={() => { const n = parseInt(pageInput); if (!isNaN(n) && n >= 1 && n <= pages.length) switchPage(n - 1); else setPageInput(String(activePage + 1)); }} className="w-12 text-center bg-transparent text-lg font-black outline-none text-orange-400" />
-              <span className="text-white/30 text-xs font-black uppercase tracking-widest">/ {pages.length}</span>
-            </div>
-            <button onClick={() => switchPage(Math.min(pages.length - 1, activePage + 1))} disabled={activePage === pages.length - 1} className="p-2 rounded-xl hover:bg-white/10 disabled:opacity-20 transition-all"><ChevronDown size={22} /></button>
-          </div>
-          <div className="w-px h-10 bg-white/10 mx-2" />
-          <div className="flex items-center gap-2">
-            <button onClick={() => setZoom(z => Math.max(0.25, +(z - 0.25).toFixed(2)))} className="p-2 rounded-xl hover:bg-white/10 transition-all"><ZoomOut size={22} /></button>
-            <div className="w-20 text-center">
-              <span className="text-lg font-black text-orange-400 tracking-tighter">{zoomPct}%</span>
-              <p className="text-[8px] font-black uppercase tracking-widest text-white/30">Zoom</p>
-            </div>
-            <button onClick={() => setZoom(z => Math.min(3, +(z + 0.25).toFixed(2)))} className="p-2 rounded-xl hover:bg-white/10 transition-all"><ZoomIn size={22} /></button>
-          </div>
-        </div>
-      </div>
+         </div>
 
-      <div className="w-full lg:w-96 shrink-0 bg-white dark:bg-slate-900 flex flex-col shadow-2xl z-30 overflow-hidden border-t lg:border-t-0 border-slate-100 dark:border-slate-800">
-        <div className="px-8 py-8 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between bg-slate-50/50 dark:bg-slate-900/30">
-          <h2 className="text-xl font-black text-slate-900 dark:text-white uppercase tracking-tight">Crop Settings</h2>
-          <button onClick={() => setCropBox(DEFAULT_BOX)} className="text-[10px] font-black uppercase tracking-widest text-orange-500 hover:text-orange-600 flex items-center gap-1.5 px-4 py-2 rounded-full bg-orange-50 dark:bg-orange-500/10 transition-all active:scale-95">
-            <RotateCcw size={14} /> Reset
-          </button>
-        </div>
-        <div className="flex-1 overflow-y-auto px-8 py-10 space-y-10 scrollbar-hide">
-          <div className="space-y-4 text-left">
-            <p className="text-[11px] font-black uppercase tracking-widest text-slate-400 ml-1">Application Scope</p>
-            <div className="grid grid-cols-1 gap-3">
-              <button onClick={() => switchMode('all')} className={`flex items-center justify-between p-5 rounded-3xl border-2 transition-all group ${mode === 'all' ? 'border-orange-500 bg-orange-50/30 dark:bg-orange-500/5' : 'border-slate-100 dark:border-slate-800 hover:border-slate-200'}`}>
-                <div className="flex items-center gap-4 text-left">
-                  <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all ${mode === 'all' ? 'border-orange-500 bg-orange-500' : 'border-slate-300'}`}>
-                    {mode === 'all' && <div className="w-2.5 h-2.5 rounded-full bg-white shadow-sm" />}
-                  </div>
-                  <div>
-                    <span className={`text-base font-black uppercase tracking-tight block ${mode === 'all' ? 'text-slate-900 dark:text-white' : 'text-slate-500'}`}>Apply to all</span>
-                    <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Global batch crop</span>
-                  </div>
-                </div>
-              </button>
-              <button onClick={() => switchMode('per')} className={`flex items-center justify-between p-5 rounded-3xl border-2 transition-all group ${mode === 'per' ? 'border-orange-500 bg-orange-50/30 dark:bg-orange-500/5' : 'border-slate-100 dark:border-slate-800 hover:border-slate-200'}`}>
-                <div className="flex items-center gap-4 text-left">
-                  <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all ${mode === 'per' ? 'border-orange-500 bg-orange-500' : 'border-slate-300'}`}>
-                    {mode === 'per' && <div className="w-2.5 h-2.5 rounded-full bg-white shadow-sm" />}
-                  </div>
-                  <div>
-                    <span className={`text-base font-black uppercase tracking-tight block ${mode === 'per' ? 'text-slate-900 dark:text-white' : 'text-slate-500'}`}>Current only</span>
-                    <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Custom per page</span>
-                  </div>
-                </div>
-              </button>
+         {/* Bottom Floating Info */}
+         <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex items-center gap-6 px-8 py-4 bg-white/80 dark:bg-slate-900/80 backdrop-blur-2xl rounded-full border border-slate-200 dark:border-slate-800 shadow-2xl pointer-events-none">
+            <div className="flex flex-col items-center">
+               <span className="text-[8px] font-black uppercase text-slate-400">Width</span>
+               <span className="text-sm font-black text-slate-900 dark:text-white uppercase tracking-tighter">{activePg ? Math.round(cropBox.w * activePg.pdfW) : 0} pt</span>
             </div>
-          </div>
-
-          {pg && (
-            <div className="bg-slate-50 dark:bg-slate-800/50 rounded-[32px] p-8 border border-slate-100 dark:border-slate-800 shadow-inner space-y-6">
-              <div className="flex items-center justify-between">
-                <p className="text-[11px] font-black uppercase tracking-widest text-slate-400 flex items-center gap-2">
-                  <Maximize2 size={14} /> Output Size
-                </p>
-                <span className="text-[9px] font-black px-3 py-1 bg-slate-200 dark:bg-slate-700 rounded-lg text-slate-500 uppercase tracking-widest">Points</span>
-              </div>
-              <div className="grid grid-cols-2 gap-4">
-                <div className="bg-white dark:bg-slate-900 p-5 rounded-2xl border border-slate-100 dark:border-slate-800 text-center shadow-sm">
-                  <p className="text-2xl font-black text-slate-900 dark:text-white tracking-tighter">{Math.round(cropBox.w * pg.pdfW)}</p>
-                  <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest mt-1">Width</p>
-                </div>
-                <div className="bg-white dark:bg-slate-900 p-5 rounded-2xl border border-slate-100 dark:border-slate-800 text-center shadow-sm">
-                  <p className="text-2xl font-black text-slate-900 dark:text-white tracking-tighter">{Math.round(cropBox.h * pg.pdfH)}</p>
-                  <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest mt-1">Height</p>
-                </div>
-              </div>
+            <div className="w-px h-6 bg-slate-100 dark:bg-slate-800" />
+            <div className="flex flex-col items-center">
+               <span className="text-[8px] font-black uppercase text-slate-400">Height</span>
+               <span className="text-sm font-black text-slate-900 dark:text-white uppercase tracking-tighter">{activePg ? Math.round(cropBox.h * activePg.pdfH) : 0} pt</span>
             </div>
-          )}
-
-          <div className="p-5 bg-blue-50/50 dark:bg-blue-500/5 rounded-2xl border border-blue-100/50 dark:border-blue-500/10 flex gap-4 text-left">
-            <Info size={18} className="text-blue-500 shrink-0" />
-            <p className="text-xs text-blue-700/70 dark:text-blue-400/70 font-medium leading-relaxed">
-              Selection area is automatically constrained within the original page boundaries.
-            </p>
-          </div>
-        </div>
-        <div className="p-8 border-t border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900">
-          <button 
-            onClick={handleCrop} 
-            disabled={processing} 
-            className="w-full py-6 bg-orange-500 hover:bg-orange-600 disabled:opacity-50 text-white rounded-[24px] font-black text-xl shadow-2xl shadow-orange-500/20 flex items-center justify-center gap-4 transition-all active:scale-[0.98]"
-          >
-            {processing ? <Loader2 className="animate-spin" size={28} /> : <Crop size={28} />}
-            {processing ? 'Processing...' : 'Export Cropped PDF'}
-          </button>
-        </div>
+         </div>
       </div>
     </div>
   );
 
   const renderStep3 = () => (
-    <div className="min-h-[70vh] flex items-center justify-center px-4">
-      <div className="w-full max-w-sm bg-white dark:bg-slate-800 rounded-2xl shadow-xl p-10 flex flex-col items-center gap-5 text-center">
-        <div className="w-20 h-20 rounded-full bg-green-100 dark:bg-green-500/20 flex items-center justify-center">
-          <CheckCircle2 size={44} className="text-green-500" />
-        </div>
-        <div>
-          <h3 className="text-xl font-black text-slate-900 dark:text-white">PDF Cropped!</h3>
-          <p className="text-slate-400 text-sm mt-1">Your PDF is ready to download.</p>
-        </div>
-        <div className="flex flex-col gap-3 w-full">
-          <a href={result!} download="cropped.pdf" className="w-full py-3.5 bg-orange-500 hover:bg-orange-600 text-white rounded-xl font-black text-sm shadow-lg flex items-center justify-center gap-2 transition-all">
-            <Download size={18} /> Download PDF
-          </a>
-          <button onClick={() => { setStep(1); setResult(null); setPages([]); }} className="w-full py-3 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 text-slate-700 dark:text-white rounded-xl font-bold text-sm transition-all">
-            Crop Another
-          </button>
-        </div>
-      </div>
+    <div className="max-w-4xl mx-auto py-16 px-6">
+       <div className="bg-white dark:bg-slate-900 rounded-[40px] p-12 border border-slate-100 dark:border-slate-800 shadow-2xl text-center space-y-10">
+          <div className="w-24 h-24 rounded-full bg-green-50 dark:bg-green-500/10 flex items-center justify-center mx-auto text-green-500 shadow-xl">
+             <CheckCircle2 size={48} />
+          </div>
+          <div>
+             <h2 className="text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter mb-2">Batch Process Ready!</h2>
+             <p className="text-slate-500 font-bold uppercase tracking-widest text-xs">Successfully cropped {files.length} documents.</p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-2xl mx-auto">
+             {files.map((f, i) => (
+               <div key={f.id} className="flex flex-col gap-4 p-6 bg-slate-50 dark:bg-slate-800 rounded-3xl border border-slate-100 dark:border-slate-700">
+                  <div className="flex items-center gap-4 text-left min-w-0">
+                     <div className="p-3 bg-white dark:bg-slate-900 rounded-xl shadow-sm text-orange-500 shrink-0"><FileText size={20} /></div>
+                     <div className="min-w-0 flex-1">
+                        <p className="text-xs font-black uppercase truncate text-slate-900 dark:text-white">{f.file.name}</p>
+                        <p className="text-[9px] font-bold text-slate-400 uppercase">Ready for pickup</p>
+                     </div>
+                  </div>
+                  <a href={f.resultUrl} download={`cropped_${f.file.name}`} className="w-full py-3 bg-slate-900 dark:bg-white text-white dark:text-slate-900 rounded-xl font-black text-[10px] uppercase tracking-widest shadow-lg hover:scale-105 transition-all flex items-center justify-center gap-2">
+                     <Download size={14} /> Download
+                  </a>
+               </div>
+             ))}
+          </div>
+
+          <div className="pt-8 border-t border-slate-50 dark:border-slate-800">
+             <button onClick={reset} className="px-10 py-4 bg-slate-100 dark:bg-slate-800 text-slate-500 rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-slate-200 transition-all">Start New Batch</button>
+          </div>
+       </div>
     </div>
   );
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-950">
+    <div className="min-h-screen bg-slate-50/50 dark:bg-slate-950 font-sans">
+      {loading && (
+        <div className="fixed inset-0 bg-white/80 dark:bg-slate-950/80 backdrop-blur-xl z-[100] flex flex-col items-center justify-center gap-6">
+           <div className="relative">
+              <Loader2 size={64} className="animate-spin text-orange-500" />
+              <Zap className="absolute inset-0 m-auto text-orange-500/20" size={32} />
+           </div>
+           <p className="text-xl font-black text-slate-900 dark:text-white uppercase tracking-tighter animate-pulse">Rendering Engine Booting...</p>
+        </div>
+      )}
       {step === 1 && renderStep1()}
       {step === 2 && renderStep2()}
       {step === 3 && renderStep3()}
+
+      <input ref={fileInputRef} type="file" multiple accept=".pdf" onChange={e => handleFiles(e.target.files)} className="hidden" />
+
+      <style jsx global>{`
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        .dark .custom-scrollbar::-webkit-scrollbar-thumb { background: #1e293b; }
+      `}</style>
     </div>
   );
 }

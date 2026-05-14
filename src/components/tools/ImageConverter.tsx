@@ -4,7 +4,7 @@ import { useState, useRef, useCallback } from "react";
 import { 
   Upload, Download, Loader2, X, FileImage, FileText, 
   CheckCircle2, Settings, ChevronDown, Image as ImageIcon,
-  Zap, ShieldCheck, RefreshCw, Layers
+  Zap, ShieldCheck, RefreshCw, Layers, MousePointer2, Shield
 } from "lucide-react";
 import { PDFDocument } from "pdf-lib";
 import JSZip from "jszip";
@@ -16,6 +16,9 @@ interface ImageFile {
   file: File;
   preview: string;
   status: "pending" | "processing" | "done" | "error";
+  resultUrl?: string;
+  resultName?: string;
+  isProcessing?: boolean;
 }
 
 const TOOL_METADATA: Record<string, { title: string; desc: string; accent: string; gradient: string }> = {
@@ -49,15 +52,33 @@ export default function ImageConverter({ id: toolId }: { id: string }) {
 
   const isPdfToImg = toolId.startsWith("pdf-to-");
   const isImgToPdf = toolId.endsWith("-to-pdf");
-  const isImgToImg = !isPdfToImg && !isImgToPdf;
 
   const ACCENT = meta.accent;
   const ACCENT_GRADIENT = meta.gradient;
 
+  const [sourceFormat] = toolId.split("-to-");
+
   const addFiles = useCallback(async (newFiles: FileList | null) => {
     if (!newFiles) return;
+    
+    const allowedExtensions = isPdfToImg ? ['pdf'] : 
+                              (sourceFormat === 'jpg' || sourceFormat === 'jpeg') ? ['jpg', 'jpeg'] : 
+                              [sourceFormat.toLowerCase()];
+
+    const filteredFiles = Array.from(newFiles).filter(file => {
+      const ext = file.name.split('.').pop()?.toLowerCase() || "";
+      if (!toolId.includes("-to-")) return file.type.startsWith("image/");
+      return allowedExtensions.includes(ext);
+    });
+
+    if (filteredFiles.length < newFiles.length) {
+      alert(`Support for ${sourceFormat.toUpperCase()} files only. Some files were skipped.`);
+    }
+
+    if (filteredFiles.length === 0) return;
+
     const entries: ImageFile[] = await Promise.all(
-      Array.from(newFiles).map(async (file) => ({
+      filteredFiles.map(async (file) => ({
         id: Math.random().toString(36).substr(2, 9),
         file,
         preview: file.type.startsWith("image/") ? URL.createObjectURL(file) : "",
@@ -67,10 +88,15 @@ export default function ImageConverter({ id: toolId }: { id: string }) {
     setFiles((prev) => [...prev, ...entries]);
     setStatus("idle");
     setResultUrl(null);
-  }, []);
+  }, [toolId, isPdfToImg, sourceFormat]);
 
   const removeFile = (id: string) => {
-    setFiles((prev) => prev.filter((f) => f.id !== id));
+    setFiles((prev) => {
+      const target = prev.find(f => f.id === id);
+      if (target?.preview) URL.revokeObjectURL(target.preview);
+      if (target?.resultUrl) URL.revokeObjectURL(target.resultUrl);
+      return prev.filter((f) => f.id !== id);
+    });
   };
 
   const handleConvert = async () => {
@@ -78,33 +104,49 @@ export default function ImageConverter({ id: toolId }: { id: string }) {
     setStatus("processing");
     
     try {
+      const zip = new JSZip();
+      let finalBlob: Blob | null = null;
+
+      const targetFormat = toolId.split("-to-")[1];
+      const mimeMap: Record<string, string> = {
+        'png': 'image/png', 'jpg': 'image/jpeg', 'jpeg': 'image/jpeg',
+        'webp': 'image/webp', 'avif': 'image/avif',
+      };
+      const targetMime = mimeMap[targetFormat] || 'image/png';
+      const targetExt = targetFormat === 'jpeg' ? 'jpg' : targetFormat;
+
+      const updatedFiles = [...files];
+
       if (isPdfToImg) {
         const pdfjsLib = await import('pdfjs-dist');
         pdfjsLib.GlobalWorkerOptions.workerSrc = '/workers/pdf.worker.min.mjs';
 
-        const zip = new JSZip();
-        const format = toolId.split("-to-")[1] === 'png' ? 'image/png' : 'image/jpeg';
-        const ext = format === 'image/png' ? 'png' : 'jpg';
-
-        for (const entry of files) {
+        for (let i = 0; i < updatedFiles.length; i++) {
+          const entry = updatedFiles[i];
           const buf = await entry.file.arrayBuffer();
           const doc = await pdfjsLib.getDocument({ data: buf }).promise;
-          for (let i = 1; i <= doc.numPages; i++) {
-            const page = await doc.getPage(i);
-            const viewport = page.getViewport({ scale: 2 });
-            const canvas = document.createElement("canvas");
-            canvas.width = viewport.width;
-            canvas.height = viewport.height;
-            await page.render({ canvasContext: canvas.getContext("2d")!, viewport, canvas }).promise;
-            const imgData = canvas.toDataURL(format, 0.9).split(",")[1];
-            zip.file(`${entry.file.name.replace(".pdf", "")}_page_${i}.${ext}`, imgData, { base64: true });
-          }
+          
+          const page = await doc.getPage(1);
+          const viewport = page.getViewport({ scale: 2 });
+          const canvas = document.createElement("canvas");
+          canvas.width = viewport.width;
+          canvas.height = viewport.height;
+          await page.render({ canvasContext: canvas.getContext("2d")!, viewport, canvas }).promise;
+          const blob = await new Promise<Blob>(r => canvas.toBlob(b => r(b!), targetMime, 0.95));
+          
+          updatedFiles[i] = {
+            ...entry,
+            status: "done",
+            resultUrl: URL.createObjectURL(blob),
+            resultName: `${entry.file.name.replace(".pdf", "")}.${targetExt}`
+          };
+          
+          zip.file(updatedFiles[i].resultName!, blob);
         }
-        const content = await zip.generateAsync({ type: "blob" });
-        setResultUrl(URL.createObjectURL(content));
       } else if (isImgToPdf) {
         const pdfDoc = await PDFDocument.create();
-        for (const entry of files) {
+        for (let i = 0; i < updatedFiles.length; i++) {
+          const entry = updatedFiles[i];
           const imgBytes = await entry.file.arrayBuffer();
           let img;
           if (entry.file.type === "image/jpeg" || entry.file.type === "image/jpg") {
@@ -112,74 +154,58 @@ export default function ImageConverter({ id: toolId }: { id: string }) {
           } else if (entry.file.type === "image/png") {
             img = await pdfDoc.embedPng(imgBytes);
           } else {
-             // Fallback for other formats: draw to canvas then to JPG
              const canvas = document.createElement('canvas');
              const ctx = canvas.getContext('2d');
-             const image = await new Promise<HTMLImageElement>((resolve, reject) => {
+             const image = await new Promise<HTMLImageElement>((resolve) => {
                 const img = new Image();
                 img.onload = () => resolve(img);
-                img.onerror = reject;
                 img.src = URL.createObjectURL(entry.file);
              });
-             canvas.width = image.width;
-             canvas.height = image.height;
+             canvas.width = image.width; canvas.height = image.height;
              ctx?.drawImage(image, 0, 0);
-             const jpgData = canvas.toDataURL('image/jpeg', 0.9);
-             img = await pdfDoc.embedJpg(await (await fetch(jpgData)).arrayBuffer());
+             img = await pdfDoc.embedJpg(await (await fetch(canvas.toDataURL('image/jpeg'))).arrayBuffer());
           }
           const page = pdfDoc.addPage([img.width, img.height]);
           page.drawImage(img, { x: 0, y: 0, width: img.width, height: img.height });
+          updatedFiles[i] = { ...entry, status: "done" };
         }
         const bytes = await pdfDoc.save();
-        setResultUrl(URL.createObjectURL(new Blob([bytes.buffer as ArrayBuffer], { type: "application/pdf" })));
+        finalBlob = new Blob([bytes.buffer as ArrayBuffer], { type: "application/pdf" });
       } else {
-        // Image to Image conversion
-        const targetFormat = toolId.split("-to-")[1];
-        const mimeMap: Record<string, string> = {
-          'png': 'image/png',
-          'jpg': 'image/jpeg',
-          'jpeg': 'image/jpeg',
-          'webp': 'image/webp',
-          'avif': 'image/avif',
-        };
-        const targetMime = mimeMap[targetFormat] || 'image/png';
-        const targetExt = targetFormat;
-
-        if (files.length === 1) {
-          const entry = files[0];
-          const image = await new Promise<HTMLImageElement>((resolve, reject) => {
+        // Image to Image
+        for (let i = 0; i < updatedFiles.length; i++) {
+          const entry = updatedFiles[i];
+          const image = await new Promise<HTMLImageElement>((resolve) => {
             const img = new Image();
             img.onload = () => resolve(img);
-            img.onerror = reject;
             img.src = URL.createObjectURL(entry.file);
           });
           const canvas = document.createElement('canvas');
           canvas.width = image.width;
           canvas.height = image.height;
           canvas.getContext('2d')?.drawImage(image, 0, 0);
-          const dataUrl = canvas.toDataURL(targetMime, 0.95);
-          const blob = await (await fetch(dataUrl)).blob();
-          setResultUrl(URL.createObjectURL(blob));
-        } else {
-          const zip = new JSZip();
-          for (const entry of files) {
-            const image = await new Promise<HTMLImageElement>((resolve, reject) => {
-              const img = new Image();
-              img.onload = () => resolve(img);
-              img.onerror = reject;
-              img.src = URL.createObjectURL(entry.file);
-            });
-            const canvas = document.createElement('canvas');
-            canvas.width = image.width;
-            canvas.height = image.height;
-            canvas.getContext('2d')?.drawImage(image, 0, 0);
-            const data = canvas.toDataURL(targetMime, 0.95).split(",")[1];
-            zip.file(`${entry.file.name.split('.')[0]}.${targetExt}`, data, { base64: true });
-          }
-          const content = await zip.generateAsync({ type: "blob" });
-          setResultUrl(URL.createObjectURL(content));
+          const blob = await new Promise<Blob>(r => canvas.toBlob(b => r(b!), targetMime, 0.95));
+          
+          updatedFiles[i] = {
+            ...entry,
+            status: "done",
+            resultUrl: URL.createObjectURL(blob),
+            resultName: `${entry.file.name.split('.')[0]}.${targetExt}`
+          };
+          zip.file(updatedFiles[i].resultName!, blob);
         }
       }
+
+      setFiles(updatedFiles);
+      if (isImgToPdf) {
+        setResultUrl(URL.createObjectURL(finalBlob!));
+      } else if (updatedFiles.length > 1) {
+        const content = await zip.generateAsync({ type: "blob" });
+        setResultUrl(URL.createObjectURL(content));
+      } else {
+        setResultUrl(updatedFiles[0].resultUrl || null);
+      }
+      
       setStatus("done");
     } catch (err) {
       console.error(err);
@@ -188,6 +214,10 @@ export default function ImageConverter({ id: toolId }: { id: string }) {
   };
 
   const reset = () => {
+    files.forEach(f => {
+      if (f.preview) URL.revokeObjectURL(f.preview);
+      if (f.resultUrl) URL.revokeObjectURL(f.resultUrl);
+    });
     setFiles([]);
     setStatus("idle");
     setResultUrl(null);
@@ -198,34 +228,50 @@ export default function ImageConverter({ id: toolId }: { id: string }) {
       <div className="flex flex-col lg:flex-row gap-8 items-start">
         
         {/* Sidebar Configuration */}
-        <div className="w-full lg:w-[320px] bg-white dark:bg-slate-800 rounded-3xl border border-slate-100 dark:border-slate-700 shadow-xl overflow-hidden h-fit lg:sticky lg:top-4 flex-shrink-0">
+        <div className="w-full lg:w-[320px] bg-white dark:bg-slate-900 rounded-[32px] border border-slate-100 dark:border-slate-800 shadow-xl overflow-hidden h-fit lg:sticky lg:top-4 flex-shrink-0">
           <button onClick={() => setShowSettings(!showSettings)} className="w-full flex lg:hidden items-center justify-between p-5 font-black text-slate-900 dark:text-white border-b border-slate-50 dark:border-slate-700">
-            <span className="flex items-center gap-2"><Settings size={20} style={{ color: ACCENT }} /> Settings</span>
+            <span className="flex items-center gap-2"><Settings size={20} style={{ color: ACCENT }} /> Configuration</span>
             <ChevronDown className={`transition-transform duration-300 ${showSettings ? 'rotate-180' : ''}`} size={20} />
           </button>
 
-          <div className={`${showSettings ? 'block' : 'hidden'} lg:block p-6`}>
-            <div className="flex items-center justify-between mb-6">
-              <h3 className="hidden lg:block text-lg font-black text-slate-900 dark:text-white uppercase tracking-tight">Configuration</h3>
+          <div className={`${showSettings ? 'block' : 'hidden'} lg:block p-8`}>
+            <div className="flex items-center justify-between mb-8">
+              <h3 className="hidden lg:block text-lg font-black text-slate-900 dark:text-white uppercase tracking-tight">Tools</h3>
               <button onClick={reset} className="text-[10px] font-black uppercase tracking-widest text-red-500 hover:text-red-600 transition-colors">Reset</button>
             </div>
 
-            <div className="space-y-6">
-              <div className="pt-4 border-t border-slate-50 dark:border-slate-700">
-                <div className="bg-slate-50 dark:bg-slate-900/50 rounded-2xl p-4 border border-slate-100 dark:border-slate-800">
+            <div className="space-y-10">
+              <div className="space-y-6">
+                {[
+                  { icon: Zap, title: "Instant", desc: "Local processing engine." },
+                  { icon: Shield, title: "Private", desc: "Files never leave device." },
+                  { icon: RefreshCw, title: "Lossless", desc: "Perfect quality output." }
+                ].map((f, i) => (
+                  <div key={i} className="flex items-center gap-4">
+                    <div className="w-10 h-10 rounded-xl bg-slate-50 dark:bg-slate-800 flex items-center justify-center shrink-0" style={{ color: ACCENT }}>
+                      <f.icon size={18} />
+                    </div>
+                    <div>
+                      <p className="text-xs font-black text-slate-900 dark:text-white uppercase tracking-tight leading-none mb-1">{f.title}</p>
+                      <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">{f.desc}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <div className="pt-8 border-t border-slate-50 dark:border-slate-800">
+                <div className="bg-slate-50 dark:bg-slate-800/50 rounded-2xl p-4 border border-slate-100 dark:border-slate-800 mb-6">
                   <div className="flex items-center gap-3 mb-2">
-                    <div className="p-2 rounded-lg bg-white dark:bg-slate-800 shadow-sm" style={{ color: ACCENT }}>
+                    <div className="p-2 rounded-lg bg-white dark:bg-slate-900 shadow-sm" style={{ color: ACCENT }}>
                       <ImageIcon size={14} />
                     </div>
                     <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Queue Status</span>
                   </div>
                   <p className="text-[11px] font-bold text-slate-600 dark:text-slate-300 uppercase">
-                    {files.length} Item{files.length !== 1 ? 's' : ''} in batch
+                    {files.length} Item{files.length !== 1 ? 's' : ''} ready
                   </p>
                 </div>
-              </div>
 
-              <div className="pt-2">
                 <button
                   onClick={handleConvert}
                   disabled={status === "processing" || files.length === 0}
@@ -233,9 +279,9 @@ export default function ImageConverter({ id: toolId }: { id: string }) {
                   style={{ background: ACCENT_GRADIENT, boxShadow: `0 10px 20px -5px ${ACCENT}44` }}
                 >
                   {status === "processing" ? (
-                    <span className="flex items-center justify-center gap-3"><Loader2 className="animate-spin" /> Processing...</span>
+                    <span className="flex items-center justify-center gap-3"><Loader2 className="animate-spin" /> Working...</span>
                   ) : (
-                    <span className="flex items-center justify-center gap-3">Convert Now <Zap size={24} /></span>
+                    <span className="flex items-center justify-center gap-3">Convert {isImgToPdf ? "to PDF" : "All"} <Zap size={24} /></span>
                   )}
                 </button>
               </div>
@@ -245,103 +291,153 @@ export default function ImageConverter({ id: toolId }: { id: string }) {
 
         {/* Main Workspace */}
         <div className="flex-1 w-full space-y-6">
-          <div className="bg-white dark:bg-slate-800 rounded-[2.5rem] border border-slate-100 dark:border-slate-700 shadow-2xl p-6 sm:p-12 min-h-[600px] flex flex-col relative overflow-hidden">
+          <div className="bg-white dark:bg-slate-900 rounded-[40px] border border-slate-100 dark:border-slate-800 shadow-2xl p-6 sm:p-12 min-h-[650px] flex flex-col relative overflow-hidden">
             
             <div className="absolute top-0 right-0 w-64 h-64 rounded-full -mr-32 -mt-32 blur-3xl opacity-50" style={{ background: ACCENT }} />
             
-            <div className="relative text-center space-y-4 mb-10 text-left sm:text-center">
+            <div className="relative text-center space-y-4 mb-12">
               <div className="inline-flex p-4 rounded-2xl text-white shadow-lg mx-auto" style={{ background: ACCENT_GRADIENT }}>
                 {isPdfToImg ? <FileImage size={32} /> : isImgToPdf ? <FileText size={32} /> : <ImageIcon size={32} />}
               </div>
-              <h2 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter leading-tight">
+              <h2 className="text-3xl sm:text-5xl font-black text-slate-900 dark:text-white uppercase tracking-tighter leading-tight">
                 {meta.title}
               </h2>
-              <p className="text-slate-500 dark:text-slate-400 font-medium tracking-tight max-w-md mx-auto uppercase text-xs">
+              <p className="text-slate-500 dark:text-slate-400 font-medium tracking-tight max-w-md mx-auto uppercase text-[10px] tracking-widest">
                 {meta.desc}
               </p>
             </div>
 
             {files.length === 0 ? (
-              <div className="flex-1 flex flex-col items-center justify-center border-2 border-dashed border-slate-100 dark:border-slate-700 rounded-[2.5rem] p-10 sm:p-20 hover:border-blue-400 cursor-pointer transition-all bg-slate-50/30 dark:bg-slate-900/30 group relative overflow-hidden"
+              <div className="flex-1 flex flex-col items-center justify-center border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-[40px] p-10 sm:p-20 hover:border-blue-400 cursor-pointer transition-all bg-slate-50/30 dark:bg-slate-900/30 group relative overflow-hidden"
                 onClick={() => fileInputRef.current?.click()}>
-                <div className="p-6 bg-white dark:bg-slate-800 rounded-3xl shadow-xl mb-6 group-hover:scale-110 transition-transform relative z-10" style={{ color: ACCENT }}>
-                  <Upload size={48} />
+                <div className="p-8 bg-white dark:bg-slate-800 rounded-[32px] shadow-2xl mb-8 group-hover:scale-110 transition-transform relative z-10" style={{ color: ACCENT }}>
+                  <Upload size={56} strokeWidth={2.5} />
                 </div>
-                <div className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white uppercase tracking-tight text-center relative z-10">
+                <div className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter text-center relative z-10 leading-none">
                   Select {isPdfToImg ? "PDFs" : "Images"}
                 </div>
-                <p className="text-slate-400 text-sm mt-2 font-bold tracking-tight text-center relative z-10 uppercase tracking-widest">
-                  Lossless conversion · 100% Local
+                <p className="text-slate-400 text-sm mt-4 font-bold tracking-tight text-center relative z-10 uppercase tracking-widest">
+                  Secure local processing · zero wait time
                 </p>
-                <button className="mt-8 px-10 py-4 rounded-2xl text-white text-sm font-black uppercase tracking-widest shadow-xl hover:scale-105 transition-all relative z-10" style={{ background: ACCENT_GRADIENT }}>
-                  Choose Files
+                <button className="mt-10 px-12 py-5 rounded-2xl text-white text-base font-black uppercase tracking-widest shadow-xl hover:scale-105 transition-all relative z-10" style={{ background: ACCENT_GRADIENT }}>
+                  Start Now
                 </button>
-                <input ref={fileInputRef} type="file" multiple onChange={e => addFiles(e.target.files)} accept={isPdfToImg ? ".pdf" : "image/*"} className="hidden" />
               </div>
-            ) : status === "done" && resultUrl ? (
-              <div className="flex-1 flex flex-col items-center justify-center text-center space-y-8 animate-in zoom-in fade-in duration-500 relative z-10">
-                <div className="relative">
-                  <div className="absolute inset-0 bg-green-500 blur-3xl opacity-20 animate-pulse"></div>
-                  <div className="relative p-10 rounded-full bg-green-50 dark:bg-green-500/10 text-green-500 shadow-2xl border border-green-100 dark:border-green-500/20">
-                    <CheckCircle2 size={80} />
+            ) : status === "done" ? (
+              <div className="space-y-12 animate-in fade-in slide-in-from-bottom-4 duration-500">
+                <div className="flex flex-col sm:flex-row items-center justify-between gap-6 bg-green-50 dark:bg-green-500/5 p-8 rounded-[2.5rem] border border-green-100 dark:border-green-500/20 text-left">
+                  <div className="flex items-center gap-6">
+                    <div className="p-5 bg-green-500 text-white rounded-2xl shadow-xl shadow-green-500/30">
+                      <CheckCircle2 size={36} />
+                    </div>
+                    <div>
+                      <h3 className="text-3xl font-black text-slate-900 dark:text-white uppercase tracking-tighter leading-none mb-1">Success!</h3>
+                      <p className="text-slate-500 dark:text-slate-400 font-bold uppercase tracking-widest text-[11px]">{files.length} Item{files.length !== 1 ? 's' : ''} processed successfully</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-4 w-full sm:w-auto">
+                    {resultUrl && (
+                      <a href={resultUrl} download={isImgToPdf ? "converted.pdf" : "converted_images.zip"} className="flex-1 sm:flex-none px-10 py-5 bg-slate-900 dark:bg-white text-white dark:text-slate-900 rounded-2xl font-black text-sm uppercase tracking-widest shadow-xl hover:scale-105 transition-all flex items-center justify-center gap-3">
+                        <Download size={20} /> Download {files.length > 1 ? "Batch" : "File"}
+                      </a>
+                    )}
+                    <button onClick={reset} className="p-5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl text-slate-400 hover:text-red-500 transition-all hover:scale-110">
+                      <RefreshCw size={24} />
+                    </button>
                   </div>
                 </div>
-                <div className="space-y-2">
-                  <h3 className="text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter">Conversion Ready!</h3>
-                  <p className="text-slate-500 font-bold uppercase tracking-widest text-xs">
-                    Successfully processed {files.length} item{files.length !== 1 ? 's' : ''}
-                  </p>
-                </div>
-                <div className="flex flex-col sm:flex-row gap-4 w-full max-w-md">
-                  <a href={resultUrl} download={isPdfToImg || files.length > 1 && !isImgToPdf ? "converted_files.zip" : `converted_${toolId}.${toolId.split("-to-")[1] === 'pdf' ? 'pdf' : toolId.split("-to-")[1]}`} className="flex-1 py-5 text-white rounded-2xl text-xl font-black shadow-xl hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-3 uppercase tracking-tighter" style={{ background: ACCENT_GRADIENT }}>
-                    <Download size={24} /> Download Final
-                  </a>
-                  <button onClick={reset} className="px-8 py-5 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 text-slate-900 dark:text-white rounded-2xl font-black uppercase tracking-widest text-xs transition-all">Start Over</button>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                  {files.map((f) => (
+                    <div key={f.id} className="bg-white dark:bg-slate-800 rounded-[2.5rem] p-5 border border-slate-100 dark:border-slate-700 shadow-sm flex flex-col gap-5 group hover:shadow-2xl transition-all relative">
+                      <div className="aspect-square rounded-[2rem] overflow-hidden bg-slate-50 dark:bg-slate-900 relative border border-slate-50 dark:border-slate-700">
+                        {f.preview ? (
+                          <img src={f.preview} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" alt="Preview" />
+                        ) : (
+                          <div className="w-full h-full flex items-center justify-center text-slate-300">
+                             <FileText size={64} />
+                          </div>
+                        )}
+                        <div className="absolute inset-0 bg-slate-900/60 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center gap-4">
+                           <ImageIcon className="text-white/40" size={48} />
+                           <span className="text-white text-[10px] font-black uppercase tracking-widest bg-white/20 px-3 py-1 rounded-full backdrop-blur-md">Preview</span>
+                        </div>
+                      </div>
+                      <div className="flex items-center justify-between gap-4 px-1">
+                        <div className="flex-1 min-w-0 text-left">
+                          <p className="text-xs font-black text-slate-900 dark:text-white uppercase truncate tracking-tight mb-1">{f.resultName || f.file.name}</p>
+                          <div className="flex items-center gap-2">
+                             <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+                             <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Optimized</p>
+                          </div>
+                        </div>
+                        {f.resultUrl && (
+                          <a href={f.resultUrl} download={f.resultName} className="p-4 bg-white dark:bg-slate-900 text-slate-900 dark:text-white border border-slate-100 dark:border-slate-700 rounded-2xl shadow-xl hover:scale-110 transition-all group/btn relative overflow-hidden">
+                            <Download size={20} className="relative z-10" />
+                            <div className="absolute inset-0 bg-orange-500 translate-y-full group-hover/btn:translate-y-0 transition-transform" />
+                          </a>
+                        )}
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </div>
             ) : (
-              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 animate-in fade-in slide-in-from-bottom-4 duration-500">
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
                  {files.map((f) => (
-                    <div key={f.id} className="relative aspect-square rounded-3xl overflow-hidden border border-slate-100 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 group">
+                    <div key={f.id} className="relative aspect-square rounded-[2rem] overflow-hidden border border-slate-100 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 group shadow-sm hover:shadow-xl transition-all">
                       {f.preview ? (
                         <img src={f.preview} className="w-full h-full object-cover" alt="Preview" />
                       ) : (
-                        <div className="w-full h-full flex flex-col items-center justify-center text-slate-300 gap-2">
-                           <FileText size={32} />
-                           <span className="text-[8px] font-black uppercase truncate px-2 w-full text-center">{f.file.name}</span>
+                        <div className="w-full h-full flex flex-col items-center justify-center text-slate-300 gap-3">
+                           <FileText size={40} />
+                           <span className="text-[8px] font-black uppercase truncate px-4 w-full text-center">{f.file.name}</span>
                         </div>
                       )}
-                      <button onClick={() => removeFile(f.id)} className="absolute top-2 right-2 p-1.5 bg-white/90 dark:bg-slate-800/90 rounded-xl text-red-500 shadow-lg opacity-0 group-hover:opacity-100 transition-opacity">
-                         <X size={14} />
+                      <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity" />
+                      <button onClick={() => removeFile(f.id)} className="absolute top-3 right-3 p-2 bg-white dark:bg-slate-800 rounded-xl text-red-500 shadow-2xl opacity-0 group-hover:opacity-100 transition-all hover:scale-110 active:scale-90">
+                         <X size={16} />
                       </button>
                     </div>
                  ))}
-                 <button onClick={() => fileInputRef.current?.click()} className="aspect-square rounded-3xl border-4 border-dashed border-slate-100 dark:border-slate-800 flex flex-col items-center justify-center text-slate-300 hover:text-blue-500 hover:border-blue-500 transition-all bg-slate-50/10">
-                    <RefreshCw size={24} />
-                    <span className="text-[8px] font-black uppercase tracking-widest mt-2">Add More</span>
+                 <button onClick={() => fileInputRef.current?.click()} className="aspect-square rounded-[2rem] border-4 border-dashed border-slate-100 dark:border-slate-800 flex flex-col items-center justify-center text-slate-300 hover:text-blue-500 hover:border-blue-500 transition-all bg-slate-50/10 group relative overflow-hidden">
+                    <div className="p-4 bg-white dark:bg-slate-800 rounded-2xl shadow-xl group-hover:scale-110 transition-transform relative z-10">
+                      <RefreshCw size={24} />
+                    </div>
+                    <span className="text-[9px] font-black uppercase tracking-widest mt-4 relative z-10">Add More</span>
+                    <div className="absolute inset-0 bg-blue-500/5 opacity-0 group-hover:opacity-100 transition-opacity" />
                  </button>
               </div>
             )}
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
             {[
-              { title: "Hardware Logic", desc: "Rendering happens on your GPU/CPU, not our cloud servers.", icon: Layers },
-              { title: "Smart Bundling", desc: "Multiple output files are automatically packaged in ZIP archives.", icon: Zap },
-              { title: "Safe Storage", desc: "Files never leave your local session. Privacy is guaranteed.", icon: ShieldCheck },
+              { title: "Native Engine", desc: "No wait times. Everything happens instantly on your device hardware.", icon: Layers },
+              { title: "Smart Batches", desc: "Process hundreds of items. ZIP archives are created automatically.", icon: Zap },
+              { title: "Ironclad Privacy", desc: "We never see your files. Zero server-side uploads or data logs.", icon: ShieldCheck },
             ].map((feat, i) => (
-              <div key={i} className="p-8 bg-white dark:bg-slate-800 rounded-3xl border border-slate-50 dark:border-slate-700 shadow-sm flex flex-col items-center text-center group hover:shadow-lg transition-all">
-                <div className="w-12 h-12 rounded-2xl bg-slate-50 dark:bg-slate-500/10 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform shadow-inner" style={{ color: ACCENT }}>
-                  <feat.icon size={24} />
+              <div key={i} className="p-10 bg-white dark:bg-slate-900 rounded-[32px] border border-slate-100 dark:border-slate-800 shadow-sm flex flex-col items-center text-center group hover:shadow-xl transition-all">
+                <div className="w-14 h-14 rounded-2xl bg-slate-50 dark:bg-slate-800 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform shadow-inner" style={{ color: ACCENT }}>
+                  <feat.icon size={28} />
                 </div>
-                <h5 className="text-[11px] font-black uppercase tracking-widest text-slate-900 dark:text-white mb-2">{feat.title}</h5>
-                <p className="text-[10px] text-slate-400 font-medium leading-relaxed uppercase">{feat.desc}</p>
+                <h5 className="text-xs font-black uppercase tracking-widest text-slate-900 dark:text-white mb-3 leading-none">{feat.title}</h5>
+                <p className="text-[11px] text-slate-400 font-bold leading-relaxed uppercase tracking-tight">{feat.desc}</p>
               </div>
             ))}
           </div>
         </div>
       </div>
       
+      <input 
+        ref={fileInputRef} 
+        type="file" 
+        multiple 
+        onChange={e => addFiles(e.target.files)} 
+        accept={isPdfToImg ? ".pdf" : (sourceFormat === 'jpg' || sourceFormat === 'jpeg') ? ".jpg,.jpeg" : `.${sourceFormat}`} 
+        className="hidden" 
+      />
+
       <style jsx global>{`
         .custom-scrollbar::-webkit-scrollbar { width: 6px; }
         .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
