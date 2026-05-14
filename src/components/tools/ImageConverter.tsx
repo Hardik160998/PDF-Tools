@@ -219,7 +219,7 @@ export default function ImageConverter({ id: toolId }: { id: string }) {
                     </div>
                     <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Queue Status</span>
                   </div>
-                  <p className="text-[11px] font-bold text-slate-600 dark:text-slate-300 italic uppercase">
+                  <p className="text-[11px] font-bold text-slate-600 dark:text-slate-300 uppercase">
                     {files.length} Item{files.length !== 1 ? 's' : ''} in batch
                   </p>
                 </div>
@@ -229,7 +229,7 @@ export default function ImageConverter({ id: toolId }: { id: string }) {
                 <button
                   onClick={handleConvert}
                   disabled={status === "processing" || files.length === 0}
-                  className="w-full py-5 text-white rounded-[1.5rem] text-xl font-black shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50 disabled:grayscale uppercase tracking-tighter italic"
+                  className="w-full py-5 text-white rounded-[1.5rem] text-xl font-black shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50 disabled:grayscale uppercase tracking-tighter"
                   style={{ background: ACCENT_GRADIENT, boxShadow: `0 10px 20px -5px ${ACCENT}44` }}
                 >
                   {status === "processing" ? (
@@ -253,10 +253,10 @@ export default function ImageConverter({ id: toolId }: { id: string }) {
               <div className="inline-flex p-4 rounded-2xl text-white shadow-lg mx-auto" style={{ background: ACCENT_GRADIENT }}>
                 {isPdfToImg ? <FileImage size={32} /> : isImgToPdf ? <FileText size={32} /> : <ImageIcon size={32} />}
               </div>
-              <h2 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter italic leading-tight">
+              <h2 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter leading-tight">
                 {meta.title}
               </h2>
-              <p className="text-slate-500 dark:text-slate-400 font-medium tracking-tight max-w-md mx-auto italic uppercase text-xs">
+              <p className="text-slate-500 dark:text-slate-400 font-medium tracking-tight max-w-md mx-auto uppercase text-xs">
                 {meta.desc}
               </p>
             </div>
@@ -270,7 +270,7 @@ export default function ImageConverter({ id: toolId }: { id: string }) {
                 <div className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white uppercase tracking-tight text-center relative z-10">
                   Select {isPdfToImg ? "PDFs" : "Images"}
                 </div>
-                <p className="text-slate-400 text-sm mt-2 font-bold italic tracking-tight text-center relative z-10 uppercase tracking-widest">
+                <p className="text-slate-400 text-sm mt-2 font-bold tracking-tight text-center relative z-10 uppercase tracking-widest">
                   Lossless conversion · 100% Local
                 </p>
                 <button className="mt-8 px-10 py-4 rounded-2xl text-white text-sm font-black uppercase tracking-widest shadow-xl hover:scale-105 transition-all relative z-10" style={{ background: ACCENT_GRADIENT }}>
@@ -287,8 +287,8 @@ export default function ImageConverter({ id: toolId }: { id: string }) {
                   </div>
                 </div>
                 <div className="space-y-2">
-                  <h3 className="text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter italic">Conversion Ready!</h3>
-                  <p className="text-slate-500 font-bold uppercase tracking-widest text-xs italic">
+                  <h3 className="text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter">Conversion Ready!</h3>
+                  <p className="text-slate-500 font-bold uppercase tracking-widest text-xs">
                     Successfully processed {files.length} item{files.length !== 1 ? 's' : ''}
                   </p>
                 </div>
@@ -335,7 +335,7 @@ export default function ImageConverter({ id: toolId }: { id: string }) {
                   <feat.icon size={24} />
                 </div>
                 <h5 className="text-[11px] font-black uppercase tracking-widest text-slate-900 dark:text-white mb-2">{feat.title}</h5>
-                <p className="text-[10px] text-slate-400 font-medium leading-relaxed italic uppercase">{feat.desc}</p>
+                <p className="text-[10px] text-slate-400 font-medium leading-relaxed uppercase">{feat.desc}</p>
               </div>
             ))}
           </div>

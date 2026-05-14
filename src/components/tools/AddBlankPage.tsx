@@ -168,7 +168,7 @@ export default function AddBlankPage({ id: _id }: { id: string }) {
             <div className="inline-flex p-4 rounded-2xl text-white shadow-lg shadow-indigo-500/20" style={{ background: ACCENT_GRADIENT }}>
               <FilePlus size={32} />
             </div>
-            <h2 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter italic leading-tight">Add Blank Pages</h2>
+            <h2 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter leading-tight">Add Blank Pages</h2>
             {!file && <p className="text-slate-500 font-medium tracking-tight">Expand your PDF by inserting high-quality blank templates.</p>}
           </div>
 
@@ -184,7 +184,7 @@ export default function AddBlankPage({ id: _id }: { id: string }) {
                 <Upload size={48} />
               </div>
               <div className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white uppercase tracking-tight text-center">Drop PDF to expand</div>
-              <p className="text-slate-400 text-sm mt-2 font-bold italic tracking-tight text-center">Perfect for notes, printing, or spacers</p>
+              <p className="text-slate-400 text-sm mt-2 font-bold tracking-tight text-center">Perfect for notes, printing, or spacers</p>
               <button className="mt-8 px-10 py-4 rounded-2xl text-white text-sm font-black uppercase tracking-widest shadow-xl hover:scale-105 transition-all" style={{ background: ACCENT_GRADIENT }}>
                 Choose PDF
               </button>
@@ -228,7 +228,7 @@ export default function AddBlankPage({ id: _id }: { id: string }) {
 
               <div className="flex gap-4">
                 <button onClick={handleAdd} disabled={processing}
-                  className="flex-1 py-5 text-white rounded-[1.5rem] text-xl font-black shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50 uppercase tracking-tighter italic"
+                  className="flex-1 py-5 text-white rounded-[1.5rem] text-xl font-black shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50 uppercase tracking-tighter"
                   style={{ background: ACCENT_GRADIENT }}
                 >
                   {processing ? (
@@ -252,7 +252,7 @@ export default function AddBlankPage({ id: _id }: { id: string }) {
               </div>
               
               <div className="space-y-2">
-                <h3 className="text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter italic">Document Updated!</h3>
+                <h3 className="text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter">Document Updated!</h3>
                 <p className="text-slate-500 font-bold uppercase tracking-widest text-sm">
                   {blankCount} blank page{blankCount !== 1 ? 's' : ''} added successfully
                 </p>

@@ -332,7 +332,7 @@ export default function MergeSplit({ id }: { id: string }) {
                     </div>
                     <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Status</span>
                   </div>
-                  <p className="text-[11px] font-bold text-slate-600 dark:text-slate-300 italic">
+                  <p className="text-[11px] font-bold text-slate-600 dark:text-slate-300">
                     {files.length === 0 ? 'Waiting for upload...' : processing ? status : `Ready to ${id}`}
                   </p>
                 </div>
@@ -344,7 +344,7 @@ export default function MergeSplit({ id }: { id: string }) {
                   <button
                     onClick={handleProcess}
                     disabled={processing || files.length === 0}
-                    className="w-full py-5 text-white rounded-[1.5rem] text-xl font-black shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50 disabled:grayscale uppercase tracking-tighter italic"
+                    className="w-full py-5 text-white rounded-[1.5rem] text-xl font-black shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50 disabled:grayscale uppercase tracking-tighter"
                     style={{ background: ACCENT_GRADIENT }}
                   >
                     {processing ? (
@@ -357,12 +357,12 @@ export default function MergeSplit({ id }: { id: string }) {
                   <div className="space-y-3">
                     <div className="p-4 bg-green-50 rounded-2xl border border-green-100 flex items-center gap-3">
                       <CheckCircle2 size={24} className="text-green-500" />
-                      <span className="text-xs font-black text-green-700 uppercase tracking-tighter italic leading-tight">Process Completed Successfully!</span>
+                      <span className="text-xs font-black text-green-700 uppercase tracking-tighter leading-tight">Process Completed Successfully!</span>
                     </div>
                     <a
                       href={result.url}
                       download={result.filename || 'download.pdf'}
-                      className="w-full py-5 text-white rounded-[1.5rem] text-xl font-black shadow-xl hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-3 uppercase tracking-tighter italic shadow-orange-500/20"
+                      className="w-full py-5 text-white rounded-[1.5rem] text-xl font-black shadow-xl hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-3 uppercase tracking-tighter shadow-orange-500/20"
                       style={{ background: ACCENT_GRADIENT }}
                     >
                       <Download size={24} /> Download
@@ -387,7 +387,7 @@ export default function MergeSplit({ id }: { id: string }) {
               <div className="inline-flex p-4 rounded-2xl text-white shadow-lg shadow-orange-500/20" style={{ background: ACCENT_GRADIENT }}>
                 {isSplit ? <Scissors size={32} /> : <Combine size={32} />}
               </div>
-              <h2 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter italic leading-tight">
+              <h2 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter leading-tight">
                 {isSplit ? 'Split PDF Document' : 'Merge PDF Documents'}
               </h2>
               <p className="text-slate-500 font-medium tracking-tight max-w-md mx-auto">
@@ -407,7 +407,7 @@ export default function MergeSplit({ id }: { id: string }) {
                 <div className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white uppercase tracking-tight text-center relative z-10">
                   Drop PDF Files Here
                 </div>
-                <p className="text-slate-400 text-sm mt-2 font-bold italic tracking-tight text-center relative z-10">
+                <p className="text-slate-400 text-sm mt-2 font-bold tracking-tight text-center relative z-10">
                   Select {isSplit ? 'a PDF' : 'multiple PDFs'} to begin processing locally
                 </p>
                 <button className="mt-8 px-10 py-4 rounded-2xl text-white text-sm font-black uppercase tracking-widest shadow-xl hover:scale-105 transition-all relative z-10" style={{ background: ACCENT_GRADIENT }}>

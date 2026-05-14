@@ -96,7 +96,7 @@ export default function Compressor({ id: _id }: { id: string }) {
                     </div>
                     <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">File Info</span>
                   </div>
-                  <p className="text-[11px] font-bold text-slate-600 dark:text-slate-300 italic uppercase">
+                  <p className="text-[11px] font-bold text-slate-600 dark:text-slate-300 uppercase">
                     {file ? `Size: ${formatSize(file.size)}` : 'No file selected'}
                   </p>
                 </div>
@@ -108,7 +108,7 @@ export default function Compressor({ id: _id }: { id: string }) {
                   <button
                     onClick={handleCompress}
                     disabled={processing || !file}
-                    className="w-full py-5 text-white rounded-[1.5rem] text-xl font-black shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50 disabled:grayscale uppercase tracking-tighter italic shadow-emerald-500/20"
+                    className="w-full py-5 text-white rounded-[1.5rem] text-xl font-black shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50 disabled:grayscale uppercase tracking-tighter shadow-emerald-500/20"
                     style={{ background: ACCENT_GRADIENT }}
                   >
                     {processing ? (
@@ -120,13 +120,13 @@ export default function Compressor({ id: _id }: { id: string }) {
                 ) : (
                   <div className="space-y-3">
                     <div className="p-4 bg-emerald-50 dark:bg-emerald-500/10 rounded-2xl border border-emerald-100 dark:border-emerald-500/20 text-center animate-in zoom-in">
-                      <p className="text-[10px] font-black text-emerald-600 uppercase tracking-widest mb-1 italic">Space Reclaimed</p>
-                      <p className="text-3xl font-black text-emerald-600 italic tracking-tighter">-{saved}%</p>
+                      <p className="text-[10px] font-black text-emerald-600 uppercase tracking-widest mb-1">Space Reclaimed</p>
+                      <p className="text-3xl font-black text-emerald-600 tracking-tighter">-{saved}%</p>
                     </div>
                     <a
                       href={result.url}
                       download={`compressed_${file?.name || 'document.pdf'}`}
-                      className="w-full py-5 text-white rounded-[1.5rem] text-xl font-black shadow-xl hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-3 uppercase tracking-tighter italic shadow-emerald-500/20"
+                      className="w-full py-5 text-white rounded-[1.5rem] text-xl font-black shadow-xl hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-3 uppercase tracking-tighter shadow-emerald-500/20"
                       style={{ background: ACCENT_GRADIENT }}
                     >
                       <Download size={24} /> Download PDF
@@ -151,7 +151,7 @@ export default function Compressor({ id: _id }: { id: string }) {
               <div className="inline-flex p-4 rounded-2xl text-white shadow-lg shadow-emerald-500/20" style={{ background: ACCENT_GRADIENT }}>
                 <Zap size={32} />
               </div>
-              <h2 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter italic leading-tight">
+              <h2 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter leading-tight">
                 Swift PDF Compressor
               </h2>
               <p className="text-slate-500 font-medium tracking-tight max-w-md mx-auto">
@@ -169,7 +169,7 @@ export default function Compressor({ id: _id }: { id: string }) {
                 <div className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white uppercase tracking-tight text-center relative z-10">
                   Select Large PDF
                 </div>
-                <p className="text-slate-400 text-sm mt-2 font-bold italic tracking-tight text-center relative z-10">
+                <p className="text-slate-400 text-sm mt-2 font-bold tracking-tight text-center relative z-10">
                   Advanced structural optimization without re-rendering pages
                 </p>
                 <button className="mt-8 px-10 py-4 rounded-2xl text-white text-sm font-black uppercase tracking-widest shadow-xl hover:scale-105 transition-all relative z-10" style={{ background: ACCENT_GRADIENT }}>
@@ -186,10 +186,10 @@ export default function Compressor({ id: _id }: { id: string }) {
                         <FileText size={32} />
                       </div>
                       <div className="flex-1 min-w-0">
-                         <h4 className="text-xl font-black text-slate-900 dark:text-white uppercase italic tracking-tighter truncate">{file.name}</h4>
+                         <h4 className="text-xl font-black text-slate-900 dark:text-white uppercase tracking-tighter truncate">{file.name}</h4>
                          <div className="flex flex-wrap justify-center sm:justify-start gap-4 mt-2">
                             <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 bg-white dark:bg-slate-800 px-3 py-1 rounded-full shadow-sm">{formatSize(file.size)}</span>
-                            <span className="text-[10px] font-black uppercase tracking-widest text-emerald-500 bg-emerald-50 dark:bg-emerald-500/10 px-3 py-1 rounded-full italic">Ready to Compress</span>
+                            <span className="text-[10px] font-black uppercase tracking-widest text-emerald-500 bg-emerald-50 dark:bg-emerald-500/10 px-3 py-1 rounded-full">Ready to Compress</span>
                          </div>
                       </div>
                       <button onClick={reset} className="p-3 text-slate-300 hover:text-red-500 hover:bg-white dark:hover:bg-slate-800 rounded-xl transition-all shadow-sm">
@@ -208,7 +208,7 @@ export default function Compressor({ id: _id }: { id: string }) {
                        <Database className="absolute inset-0 m-auto text-emerald-500/20" size={32} />
                     </div>
                     <div>
-                       <h3 className="text-2xl font-black text-slate-900 dark:text-white uppercase italic tracking-tighter animate-pulse">Scanning Cross-Reference Tables...</h3>
+                       <h3 className="text-2xl font-black text-slate-900 dark:text-white uppercase tracking-tighter animate-pulse">Scanning Cross-Reference Tables...</h3>
                        <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-2 leading-relaxed">Optimizing internal object streams and purging redundant metadata</p>
                     </div>
                   </div>
@@ -225,7 +225,7 @@ export default function Compressor({ id: _id }: { id: string }) {
                      <div className="p-6 bg-emerald-50 dark:bg-emerald-500/10 rounded-2xl border border-emerald-100 dark:border-emerald-500/20 text-center">
                         <CheckCircle2 size={24} className="mx-auto text-emerald-500 mb-2" />
                         <p className="text-[10px] font-black text-emerald-600 uppercase tracking-widest">Final Size</p>
-                        <p className="text-xl font-black text-emerald-600 tracking-tighter italic">{formatSize(result.newSize)}</p>
+                        <p className="text-xl font-black text-emerald-600 tracking-tighter">{formatSize(result.newSize)}</p>
                      </div>
                   </div>
                 )}
@@ -245,7 +245,7 @@ export default function Compressor({ id: _id }: { id: string }) {
                   <feat.icon size={24} />
                 </div>
                 <h5 className="text-[11px] font-black uppercase tracking-widest text-slate-900 dark:text-white mb-2">{feat.title}</h5>
-                <p className="text-[10px] text-slate-400 font-medium leading-relaxed italic uppercase">{feat.desc}</p>
+                <p className="text-[10px] text-slate-400 font-medium leading-relaxed uppercase">{feat.desc}</p>
               </div>
             ))}
           </div>

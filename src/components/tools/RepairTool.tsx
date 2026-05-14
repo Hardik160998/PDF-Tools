@@ -137,7 +137,7 @@ export default function RepairTool({ id: _id }: { id: string }) {
                   <ShieldAlert size={14} className="text-red-500" />
                   <span className="text-[10px] font-black text-red-700 dark:text-red-400 uppercase tracking-widest">Repair Info</span>
                 </div>
-                <p className="text-[10px] font-bold text-red-600 dark:text-red-300 leading-relaxed italic">
+                <p className="text-[10px] font-bold text-red-600 dark:text-red-300 leading-relaxed">
                   Corrupted PDFs are analyzed and rebuilt using our restoration engine. Some formats may change if data recovery requires it.
                 </p>
               </div>
@@ -153,7 +153,7 @@ export default function RepairTool({ id: _id }: { id: string }) {
                           <div className={`w-6 h-6 flex items-center justify-center rounded-lg shadow-sm shrink-0 ${f.status === 'completed' ? 'bg-green-500 text-white' : f.status === 'error' ? 'bg-red-500 text-white' : 'bg-white dark:bg-slate-800 text-red-500'}`}>
                              {f.status === 'completed' ? <CheckCircle2 size={12} /> : <FileText size={12} />}
                           </div>
-                          <span className="text-[10px] font-black truncate text-slate-900 dark:text-white uppercase italic">{f.file.name}</span>
+                          <span className="text-[10px] font-black truncate text-slate-900 dark:text-white uppercase">{f.file.name}</span>
                         </div>
                         {f.status === 'completed' ? (
                           <a href={f.resultUrl} download={f.repairedName} className="p-1.5 bg-green-500 text-white rounded-lg shadow-sm hover:scale-110 transition-transform">
@@ -178,7 +178,7 @@ export default function RepairTool({ id: _id }: { id: string }) {
                 <button
                   onClick={handleRepair}
                   disabled={processing || files.length === 0}
-                  className="w-full py-5 text-white rounded-[1.5rem] text-xl font-black shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50 disabled:grayscale uppercase tracking-tighter italic shadow-red-500/20"
+                  className="w-full py-5 text-white rounded-[1.5rem] text-xl font-black shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50 disabled:grayscale uppercase tracking-tighter shadow-red-500/20"
                   style={{ background: ACCENT_GRADIENT }}
                 >
                   {processing ? (
@@ -187,7 +187,7 @@ export default function RepairTool({ id: _id }: { id: string }) {
                     <span className="flex items-center justify-center gap-3">Repair Batch <LifeBuoy size={24} /></span>
                   )}
                 </button>
-                <p className="text-[9px] text-center mt-4 text-slate-400 font-bold uppercase tracking-widest italic leading-relaxed">Secure data recovery engine active</p>
+                <p className="text-[9px] text-center mt-4 text-slate-400 font-bold uppercase tracking-widest leading-relaxed">Secure data recovery engine active</p>
               </div>
             </div>
           </div>
@@ -205,10 +205,10 @@ export default function RepairTool({ id: _id }: { id: string }) {
               <div className="inline-flex p-4 rounded-2xl text-white shadow-lg shadow-red-500/20 mx-auto" style={{ background: ACCENT_GRADIENT }}>
                 <LifeBuoy size={32} />
               </div>
-              <h2 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter italic leading-tight">
+              <h2 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter leading-tight">
                 PDF Repair & Recovery
               </h2>
-              <p className="text-slate-500 font-medium tracking-tight max-w-md mx-auto italic uppercase text-xs">
+              <p className="text-slate-500 font-medium tracking-tight max-w-md mx-auto uppercase text-xs">
                 Recover data from corrupted or unreadable PDF documents. We analyze and rebuild internal structures.
               </p>
             </div>
@@ -223,7 +223,7 @@ export default function RepairTool({ id: _id }: { id: string }) {
                 <div className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white uppercase tracking-tight text-center relative z-10">
                   Drop Damaged PDFs
                 </div>
-                <p className="text-slate-400 text-sm mt-2 font-bold italic tracking-tight text-center relative z-10 uppercase tracking-widest">
+                <p className="text-slate-400 text-sm mt-2 font-bold tracking-tight text-center relative z-10 uppercase tracking-widest">
                   Scan and reconstruct corrupted file tables
                 </p>
                 <button className="mt-8 px-10 py-4 rounded-2xl text-white text-sm font-black uppercase tracking-widest shadow-xl hover:scale-105 transition-all relative z-10" style={{ background: ACCENT_GRADIENT }}>
@@ -256,7 +256,7 @@ export default function RepairTool({ id: _id }: { id: string }) {
                         {f.status === 'processing' && (
                           <div className="absolute inset-0 bg-red-600/80 backdrop-blur-sm flex flex-col items-center justify-center z-10">
                             <Loader2 className="animate-spin text-white mb-2" size={32} />
-                            <span className="text-[10px] font-black text-white uppercase tracking-widest italic animate-pulse">Fixing...</span>
+                            <span className="text-[10px] font-black text-white uppercase tracking-widest animate-pulse">Fixing...</span>
                           </div>
                         )}
 
@@ -271,7 +271,7 @@ export default function RepairTool({ id: _id }: { id: string }) {
 
                         {/* File info overlay */}
                         <div className="absolute bottom-0 inset-x-0 p-3 bg-gradient-to-t from-black/80 to-transparent z-10 text-left">
-                          <p className="text-[10px] text-white font-black truncate uppercase italic tracking-tighter">{f.file.name}</p>
+                          <p className="text-[10px] text-white font-black truncate uppercase tracking-tighter">{f.file.name}</p>
                         </div>
                       </div>
 
@@ -314,7 +314,7 @@ export default function RepairTool({ id: _id }: { id: string }) {
                   <feat.icon size={24} />
                 </div>
                 <h5 className="text-[11px] font-black uppercase tracking-widest text-slate-900 dark:text-white mb-2">{feat.title}</h5>
-                <p className="text-[10px] text-slate-400 font-medium leading-relaxed italic uppercase">{feat.desc}</p>
+                <p className="text-[10px] text-slate-400 font-medium leading-relaxed uppercase">{feat.desc}</p>
               </div>
             ))}
           </div>

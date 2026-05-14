@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Outfit } from "next/font/google";
 import "./globals.css";
 import "./mobileview.css";
 import "./mobilefixes.css";
@@ -18,6 +18,7 @@ import { ThemeProvider } from "@/context/ThemeContext";
 
 
 const inter = Inter({ subsets: ["latin"], weight: ['400', '500', '600', '700', '800', '900'] });
+const outfit = Outfit({ subsets: ["latin"], weight: ['400', '500', '600', '700', '800', '900'] });
 
 export const metadata: Metadata = {
   title: "SmartPDFs Plus | Every tool you need to work with PDFs",
@@ -40,7 +41,7 @@ export default function RootLayout({
         <header className="sticky top-0 z-50 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-b border-slate-100 dark:border-slate-800">
           <div className="w-full px-6 h-16 grid items-center" style={{ gridTemplateColumns: '1fr auto 1fr' }}>
             {/* Left — Logo */}
-            <a href="/" className="flex items-center gap-1.5 font-black text-2xl tracking-tighter hover:opacity-80 transition-opacity justify-self-start">
+            <a href="/" className={`${outfit.className} flex items-center gap-1.5 font-bold text-2xl tracking-tighter hover:opacity-80 transition-opacity justify-self-start`}>
               <span className="text-slate-900 dark:text-white uppercase">Smart</span>
               <Heart className="fill-red-500 text-red-500" size={24} />
               <span className="text-slate-900 dark:text-white uppercase">PDFs</span>
@@ -53,7 +54,7 @@ export default function RootLayout({
                 { label: 'SPLIT PDF', href: '/tool/split' },
                 { label: 'COMPRESS PDF', href: '/tool/compress' },
               ].map(({ label, href }) => (
-                <a key={label} href={href} className="text-[15px] font-semibold text-slate-500 dark:text-slate-400 hover:text-red-500 transition-colors uppercase tracking-wide whitespace-nowrap">
+                <a key={label} href={href} className={`${outfit.className} text-[14px] font-medium text-slate-500 dark:text-slate-400 hover:text-red-500 transition-colors uppercase tracking-wider whitespace-nowrap`}>
                   {label}
                 </a>
               ))}
@@ -68,7 +69,7 @@ export default function RootLayout({
               <div className="desktop-nav-actions">
                 <NavSearchBar />
                 <ThemeToggle />
-                <button className="text-sm font-black text-slate-700 dark:text-slate-300 hover:text-red-500 px-4 py-2 border border-transparent hover:border-slate-100 rounded-lg transition-all">
+                <button className="text-sm font-bold text-slate-700 dark:text-slate-300 hover:text-red-500 px-4 py-2 border border-transparent hover:border-slate-100 rounded-lg transition-all">
                   Login
                 </button>
                 <button className="primary-button text-xs uppercase tracking-widest shadow-lg shadow-red-500/20">
@@ -93,7 +94,7 @@ export default function RootLayout({
 
               {/* Col 1 — Logo + description */}
               <div className="space-y-4">
-                <a href="/" className="flex items-center gap-1.5 font-black text-xl tracking-tighter">
+                <a href="/" className={`${outfit.className} flex items-center gap-1.5 font-bold text-xl tracking-tighter`}>
                   <span className="text-slate-900 dark:text-white uppercase">Smart</span>
                   <Heart className="fill-red-500 text-red-500" size={20} />
                   <span className="text-slate-900 dark:text-white uppercase">PDFs</span>

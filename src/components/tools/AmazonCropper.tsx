@@ -325,7 +325,7 @@ export default function AmazonCropper({ id }: { id: string }) {
                   />
                   <span className={`text-xs font-bold transition-colors ${useA4Grid ? 'text-[#FF9900]' : 'text-slate-500 group-hover:text-slate-700'}`}>4 Labels Per A4 (Grid)</span>
                 </label>
-                <p className="text-[9px] text-slate-400 font-bold italic uppercase tracking-tighter mt-1">
+                <p className="text-[9px] text-slate-400 font-bold uppercase tracking-tighter mt-1">
                   {useA4Grid ? 'Optimal 2x2 Warehouse Grid enabled' : 'Single label per page output'}
                 </p>
               </div>
@@ -342,7 +342,7 @@ export default function AmazonCropper({ id }: { id: string }) {
         <div className="flex-1 bg-white dark:bg-slate-800 rounded-3xl p-6 sm:p-12 border border-slate-100 dark:border-slate-700 shadow-2xl text-center">
           <div className="space-y-4 mb-10">
             <div className="inline-flex p-4 rounded-2xl text-white shadow-lg" style={{ background: ACCENT }}><ShoppingBag size={32} /></div>
-            <h2 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter italic leading-tight">Amazon Extraction Engine</h2>
+            <h2 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter leading-tight">Amazon Extraction Engine</h2>
             <p className="text-slate-500 font-medium tracking-tight">Shipping Labels Only. Invoice Pages Removed.</p>
           </div>
 
@@ -352,7 +352,7 @@ export default function AmazonCropper({ id }: { id: string }) {
                 <input ref={inputRef} type="file" accept=".pdf" multiple className="hidden" onChange={e => addFiles(e.target.files)} />
                 <div className="p-6 bg-white dark:bg-slate-800 rounded-2xl shadow-xl inline-block mb-4" style={{ color: ACCENT }}><Upload size={32} /></div>
                 <div className="text-2xl font-black text-slate-900 dark:text-white">Upload Amazon PDFs</div>
-                <p className="text-slate-400 text-sm mt-4 italic font-bold tracking-tight">Even invoices automatically cleared.</p>
+                <p className="text-slate-400 text-sm mt-4 font-bold tracking-tight">Even invoices automatically cleared.</p>
               </div>
               {files.length > 0 && (
                 <div className="space-y-4">
@@ -370,7 +370,7 @@ export default function AmazonCropper({ id }: { id: string }) {
             <div className="space-y-8 animate-in fade-in zoom-in duration-500 text-center">
               <div className="p-10 rounded-full bg-green-100 dark:bg-green-500/20 text-green-500 inline-block"><CheckCircle2 size={64} /></div>
               <h3 className="text-3xl font-black text-slate-900 dark:text-white uppercase tracking-tight">{labelCount} Labels Extracted</h3>
-              <p className="text-slate-500 font-medium -mt-4 italic font-bold text-sm leading-relaxed text-center">
+              <p className="text-slate-500 font-medium -mt-4 font-bold text-sm leading-relaxed text-center">
                 Shipping labels preserved. Invoice pages removed.
               </p>
               <a href={pdfUrl!} download="amazon_labels_ready.pdf" className="block py-5 text-white rounded-2xl text-2xl font-black shadow-xl hover:scale-[1.02] transition-all uppercase tracking-tighter" style={{ background: ACCENT }}><Download size={24} className="inline mr-2" /> Download Final PDF</a>

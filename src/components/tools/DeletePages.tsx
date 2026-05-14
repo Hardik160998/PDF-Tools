@@ -119,14 +119,14 @@ export default function DeletePages({ id: _id }: { id: string }) {
               {/* Info */}
               <div className="pt-4 border-t border-slate-50 dark:border-slate-700">
                 <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Status</p>
-                <p className="text-[10px] text-red-500 font-bold italic uppercase leading-tight">
+                <p className="text-[10px] text-red-500 font-bold uppercase leading-tight">
                   {selected.size} page{selected.size !== 1 ? 's' : ''} marked for removal
                 </p>
               </div>
 
               <div className="pt-4 border-t border-slate-50 dark:border-slate-700 text-left">
                 <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Technical Info</p>
-                <p className="text-[10px] text-slate-500 font-medium leading-tight italic uppercase tracking-tighter">100% Client-side reconstruction</p>
+                <p className="text-[10px] text-slate-500 font-medium leading-tight uppercase tracking-tighter">100% Client-side reconstruction</p>
               </div>
             </div>
           </div>
@@ -142,7 +142,7 @@ export default function DeletePages({ id: _id }: { id: string }) {
             <div className="inline-flex p-4 rounded-2xl text-white shadow-lg shadow-red-500/20" style={{ background: ACCENT_GRADIENT }}>
               <Trash2 size={32} />
             </div>
-            <h2 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter italic leading-tight">Delete PDF Pages</h2>
+            <h2 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter leading-tight">Delete PDF Pages</h2>
             {!file && <p className="text-slate-500 font-medium tracking-tight max-w-md mx-auto">Pick pages to discard and download the trimmed document instantly.</p>}
           </div>
 
@@ -158,7 +158,7 @@ export default function DeletePages({ id: _id }: { id: string }) {
                 <Upload size={48} />
               </div>
               <div className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white uppercase tracking-tight text-center">Select PDF to clean</div>
-              <p className="text-slate-400 text-sm mt-2 font-bold italic tracking-tight text-center uppercase tracking-widest">Fast, visual page removal</p>
+              <p className="text-slate-400 text-sm mt-2 font-bold tracking-tight text-center uppercase tracking-widest">Fast, visual page removal</p>
               <button className="mt-8 px-10 py-4 rounded-2xl text-white text-sm font-black uppercase tracking-widest shadow-xl hover:scale-105 transition-all" style={{ background: ACCENT_GRADIENT }}>
                 Choose Document
               </button>
@@ -171,7 +171,7 @@ export default function DeletePages({ id: _id }: { id: string }) {
                 <Loader2 size={64} className="animate-spin text-red-500" />
                 <Trash2 className="absolute inset-0 m-auto text-red-500/20" size={32} />
               </div>
-              <p className="text-lg font-black text-slate-400 uppercase tracking-widest animate-pulse italic">Scanning Pages...</p>
+              <p className="text-lg font-black text-slate-400 uppercase tracking-widest animate-pulse">Scanning Pages...</p>
             </div>
           )}
 
@@ -218,7 +218,7 @@ export default function DeletePages({ id: _id }: { id: string }) {
                 <button
                   onClick={handleDelete}
                   disabled={processing || selected.size === 0}
-                  className="w-full py-5 text-white rounded-[1.5rem] text-xl font-black shadow-xl hover:scale-[1.01] active:scale-[0.99] transition-all disabled:opacity-50 disabled:grayscale uppercase tracking-tighter italic shadow-red-500/20"
+                  className="w-full py-5 text-white rounded-[1.5rem] text-xl font-black shadow-xl hover:scale-[1.01] active:scale-[0.99] transition-all disabled:opacity-50 disabled:grayscale uppercase tracking-tighter shadow-red-500/20"
                   style={{ background: ACCENT_GRADIENT }}
                 >
                   {processing ? (
@@ -243,7 +243,7 @@ export default function DeletePages({ id: _id }: { id: string }) {
               </div>
               
               <div className="space-y-2">
-                <h3 className="text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter italic">Cleanup Complete</h3>
+                <h3 className="text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter">Cleanup Complete</h3>
                 <p className="text-slate-500 font-bold uppercase tracking-widest text-sm">
                   {selected.size} page{selected.size !== 1 ? 's' : ''} removed successfully
                 </p>

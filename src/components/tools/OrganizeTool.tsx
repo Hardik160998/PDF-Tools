@@ -285,7 +285,7 @@ export default function OrganizeTool({ id: _id }: { id: string }) {
                         {String.fromCharCode(65 + idx)}
                       </div>
                       <div className="flex-1 min-w-0">
-                        <p className="text-[11px] font-black truncate text-slate-900 dark:text-white uppercase italic">{file.name}</p>
+                        <p className="text-[11px] font-black truncate text-slate-900 dark:text-white uppercase">{file.name}</p>
                         <p className="text-[9px] text-slate-400 font-bold uppercase tracking-tighter">{pages.filter(p => p.fileIndex === idx).length} Pages</p>
                       </div>
                     </div>
@@ -302,7 +302,7 @@ export default function OrganizeTool({ id: _id }: { id: string }) {
                   <button
                     onClick={handleProcess}
                     disabled={processing || pages.length === 0}
-                    className="w-full py-5 text-white rounded-[1.5rem] text-xl font-black shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50 disabled:grayscale uppercase tracking-tighter italic shadow-orange-500/20"
+                    className="w-full py-5 text-white rounded-[1.5rem] text-xl font-black shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50 disabled:grayscale uppercase tracking-tighter shadow-orange-500/20"
                     style={{ background: ACCENT_GRADIENT }}
                   >
                     {processing ? (
@@ -315,12 +315,12 @@ export default function OrganizeTool({ id: _id }: { id: string }) {
                   <div className="space-y-3">
                     <div className="p-4 bg-green-50 rounded-2xl border border-green-100 flex items-center gap-3">
                       <CheckCircle2 size={24} className="text-green-500" />
-                      <span className="text-xs font-black text-green-700 uppercase tracking-tighter italic leading-tight">PDF successfully reconstructed!</span>
+                      <span className="text-xs font-black text-green-700 uppercase tracking-tighter leading-tight">PDF successfully reconstructed!</span>
                     </div>
                     <a
                       href={result.url}
                       download={result.filename}
-                      className="w-full py-5 text-white rounded-[1.5rem] text-xl font-black shadow-xl hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-3 uppercase tracking-tighter italic shadow-orange-500/20"
+                      className="w-full py-5 text-white rounded-[1.5rem] text-xl font-black shadow-xl hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-3 uppercase tracking-tighter shadow-orange-500/20"
                       style={{ background: ACCENT_GRADIENT }}
                     >
                       <Download size={24} /> Download
@@ -345,7 +345,7 @@ export default function OrganizeTool({ id: _id }: { id: string }) {
             <div className="inline-flex p-4 rounded-2xl text-white shadow-lg shadow-orange-500/20" style={{ background: ACCENT_GRADIENT }}>
               <LayoutGrid size={32} />
             </div>
-            <h2 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter italic leading-tight">Organize PDF Pages</h2>
+            <h2 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter leading-tight">Organize PDF Pages</h2>
             {pages.length > 0 && <p className="text-slate-500 font-medium tracking-tight max-w-md mx-auto">Drag and drop to reorder. Rotate or delete individual pages below.</p>}
           </div>
 
@@ -360,7 +360,7 @@ export default function OrganizeTool({ id: _id }: { id: string }) {
                 <Upload size={48} />
               </div>
               <div className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white uppercase tracking-tight text-center">Select PDFs to Organize</div>
-              <p className="text-slate-400 text-sm mt-2 font-bold italic tracking-tight text-center uppercase tracking-widest">Visual batch reorder & merge</p>
+              <p className="text-slate-400 text-sm mt-2 font-bold tracking-tight text-center uppercase tracking-widest">Visual batch reorder & merge</p>
               <button className="mt-8 px-10 py-4 rounded-2xl text-white text-sm font-black uppercase tracking-widest shadow-xl hover:scale-105 transition-all" style={{ background: ACCENT_GRADIENT }}>
                 Upload Files
               </button>
@@ -374,7 +374,7 @@ export default function OrganizeTool({ id: _id }: { id: string }) {
                 <LayoutGrid className="absolute inset-0 m-auto text-orange-500/20" size={32} />
               </div>
               <div className="text-center space-y-2">
-                <p className="text-xl font-black text-slate-900 dark:text-white uppercase tracking-tighter italic animate-pulse">Generating Thumbnails</p>
+                <p className="text-xl font-black text-slate-900 dark:text-white uppercase tracking-tighter animate-pulse">Generating Thumbnails</p>
                 <p className="text-xs font-bold text-slate-400 uppercase tracking-widest leading-none">Scanning locally in your browser</p>
               </div>
             </div>
@@ -423,11 +423,11 @@ export default function OrganizeTool({ id: _id }: { id: string }) {
             <div className="relative z-10 mt-10 pt-8 border-t border-slate-50 dark:border-slate-700 flex flex-col sm:flex-row items-center justify-center gap-6">
               <div className="flex items-center gap-3 text-slate-400">
                 <MousePointer2 size={16} />
-                <span className="text-[10px] font-black uppercase tracking-widest italic">Drag pages to reorder</span>
+                <span className="text-[10px] font-black uppercase tracking-widest">Drag pages to reorder</span>
               </div>
               <div className="flex items-center gap-3 text-slate-400">
                 <RotateCw size={16} />
-                <span className="text-[10px] font-black uppercase tracking-widest italic">Rotate Individual Pages</span>
+                <span className="text-[10px] font-black uppercase tracking-widest">Rotate Individual Pages</span>
               </div>
             </div>
           )}

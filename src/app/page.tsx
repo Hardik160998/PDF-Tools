@@ -233,53 +233,57 @@ export default function Home() {
       {/* -- TOOLS GRID -- */}
       <section ref={toolsGridRef} className="container mx-auto px-4 pb-20">
 
-        {/* Priority Tools — always visible at top */}
-        <div className="mb-10">
-          <div className="flex items-center gap-3 mb-5">
+        {/* Priority Tools — only visible when 'All' is selected */}
+        {displayCategory === 'All' && (
+          <div className="mb-10">
+            <div className="flex items-center gap-3 mb-5">
+              <div className="h-px flex-1 bg-gradient-to-r from-transparent via-slate-200 dark:via-slate-700 to-transparent" />
+              <span className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 dark:text-slate-500 px-3">Most Used Tools</span>
+              <div className="h-px flex-1 bg-gradient-to-l from-transparent via-slate-200 dark:via-slate-700 to-transparent" />
+            </div>
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
+              {[
+                { id: 'merge',       title: 'Merge PDF',     desc: 'Combine multiple PDFs into one.',         icon: Combine,  gradient: 'linear-gradient(135deg,#f26522,#c2410c)' },
+                { id: 'compress',    title: 'Compress PDF',  desc: 'Reduce file size instantly.',             icon: Zap,      gradient: 'linear-gradient(135deg,#22c55e,#15803d)' },
+                { id: 'pdf-to-word', title: 'PDF to Word',   desc: 'Convert PDF to editable DOCX.',           icon: FileText, gradient: 'linear-gradient(135deg,#3182ce,#1e3a8a)' },
+                { id: 'split',       title: 'Split PDF',     desc: 'Divide PDF into separate files.',         icon: Scissors, gradient: 'linear-gradient(135deg,#f26522,#c2410c)' },
+                { id: 'edit-pdf',    title: 'Edit PDF',      desc: 'Annotate, highlight & draw on PDFs.',     icon: PenLine,  gradient: 'linear-gradient(135deg,#E8465D,#843286)', href: '/edit' },
+                { id: 'crop-pdf',    title: 'Crop PDF',      desc: 'Trim margins from any PDF page.',         icon: Crop,     gradient: 'linear-gradient(135deg,#ef4444,#991b1b)' },
+                { id: 'protect',     title: 'Protect PDF',   desc: 'Encrypt PDF with a password.',            icon: Lock,     gradient: 'linear-gradient(135deg,#e53e3e,#7f1d1d)' },
+                { id: 'unlock',      title: 'Unlock PDF',    desc: 'Remove PDF password protection.',         icon: Unlock,   gradient: 'linear-gradient(135deg,#e53e3e,#7f1d1d)' },
+                { id: 'redact-pdf',  title: 'Redact PDF',    desc: 'Permanently hide sensitive content.',     icon: EyeOff,   gradient: 'linear-gradient(135deg,#e53e3e,#7f1d1d)' },
+                { id: 'ocr-pdf',     title: 'OCR PDF',       desc: 'Make scanned PDFs searchable.',           icon: ScanText, gradient: 'linear-gradient(135deg,#3182ce,#1e3a8a)' },
+              ].map(tool => (
+                <a
+                  key={tool.id}
+                  href={tool.href ?? `/tool/${tool.id}`}
+                  onClick={() => trackToolClick(tool.id)}
+                  className="group flex items-center gap-3 p-3.5 bg-white dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200"
+                >
+                  <div
+                    className="w-10 h-10 shrink-0 rounded-xl flex items-center justify-center text-white shadow-md group-hover:scale-110 transition-transform duration-200"
+                    style={{ background: tool.gradient }}
+                  >
+                    <tool.icon size={18} />
+                  </div>
+                  <div className="min-w-0">
+                    <p className="text-[12px] font-black text-slate-800 dark:text-white leading-tight truncate">{tool.title}</p>
+                    <p className="text-[10px] text-slate-400 dark:text-slate-500 leading-tight mt-0.5 truncate">{tool.desc}</p>
+                  </div>
+                </a>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Divider before full grid — only visible when 'All' is selected */}
+        {displayCategory === 'All' && (
+          <div className="flex items-center gap-3 mb-8">
             <div className="h-px flex-1 bg-gradient-to-r from-transparent via-slate-200 dark:via-slate-700 to-transparent" />
-            <span className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 dark:text-slate-500 px-3">Most Used Tools</span>
+            <span className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 dark:text-slate-500 px-3">All Tools</span>
             <div className="h-px flex-1 bg-gradient-to-l from-transparent via-slate-200 dark:via-slate-700 to-transparent" />
           </div>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
-            {[
-              { id: 'merge',       title: 'Merge PDF',     desc: 'Combine multiple PDFs into one.',         icon: Combine,  gradient: 'linear-gradient(135deg,#f26522,#c2410c)' },
-              { id: 'compress',    title: 'Compress PDF',  desc: 'Reduce file size instantly.',             icon: Zap,      gradient: 'linear-gradient(135deg,#22c55e,#15803d)' },
-              { id: 'pdf-to-word', title: 'PDF to Word',   desc: 'Convert PDF to editable DOCX.',           icon: FileText, gradient: 'linear-gradient(135deg,#3182ce,#1e3a8a)' },
-              { id: 'split',       title: 'Split PDF',     desc: 'Divide PDF into separate files.',         icon: Scissors, gradient: 'linear-gradient(135deg,#f26522,#c2410c)' },
-              { id: 'edit-pdf',    title: 'Edit PDF',      desc: 'Annotate, highlight & draw on PDFs.',     icon: PenLine,  gradient: 'linear-gradient(135deg,#E8465D,#843286)', href: '/edit' },
-              { id: 'crop-pdf',    title: 'Crop PDF',      desc: 'Trim margins from any PDF page.',         icon: Crop,     gradient: 'linear-gradient(135deg,#ef4444,#991b1b)' },
-              { id: 'protect',     title: 'Protect PDF',   desc: 'Encrypt PDF with a password.',            icon: Lock,     gradient: 'linear-gradient(135deg,#e53e3e,#7f1d1d)' },
-              { id: 'unlock',      title: 'Unlock PDF',    desc: 'Remove PDF password protection.',         icon: Unlock,   gradient: 'linear-gradient(135deg,#e53e3e,#7f1d1d)' },
-              { id: 'redact-pdf',  title: 'Redact PDF',    desc: 'Permanently hide sensitive content.',     icon: EyeOff,   gradient: 'linear-gradient(135deg,#e53e3e,#7f1d1d)' },
-              { id: 'ocr-pdf',     title: 'OCR PDF',       desc: 'Make scanned PDFs searchable.',           icon: ScanText, gradient: 'linear-gradient(135deg,#3182ce,#1e3a8a)' },
-            ].map(tool => (
-              <a
-                key={tool.id}
-                href={tool.href ?? `/tool/${tool.id}`}
-                onClick={() => trackToolClick(tool.id)}
-                className="group flex items-center gap-3 p-3.5 bg-white dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200"
-              >
-                <div
-                  className="w-10 h-10 shrink-0 rounded-xl flex items-center justify-center text-white shadow-md group-hover:scale-110 transition-transform duration-200"
-                  style={{ background: tool.gradient }}
-                >
-                  <tool.icon size={18} />
-                </div>
-                <div className="min-w-0">
-                  <p className="text-[12px] font-black text-slate-800 dark:text-white leading-tight truncate">{tool.title}</p>
-                  <p className="text-[10px] text-slate-400 dark:text-slate-500 leading-tight mt-0.5 truncate">{tool.desc}</p>
-                </div>
-              </a>
-            ))}
-          </div>
-        </div>
-
-        {/* Divider before full grid */}
-        <div className="flex items-center gap-3 mb-8">
-          <div className="h-px flex-1 bg-gradient-to-r from-transparent via-slate-200 dark:via-slate-700 to-transparent" />
-          <span className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 dark:text-slate-500 px-3">All Tools</span>
-          <div className="h-px flex-1 bg-gradient-to-l from-transparent via-slate-200 dark:via-slate-700 to-transparent" />
-        </div>
+        )}
         {showGridSkeleton ? (
           <SkeletonGrid count={skeletonCount} categories={skeletonCategories} />
         ) : (
@@ -412,7 +416,7 @@ export default function Home() {
                       {[1,2,3].map(i => <div key={i} className="h-2 bg-slate-100 dark:bg-slate-700 rounded-full" style={{ width: `${90 - i * 10}%` }} />)}
                     </div>
                     <div className="mt-6 border-2 border-dashed border-purple-300 dark:border-purple-700 rounded-xl p-4 text-center">
-                      <p className="text-2xl font-bold text-slate-400 italic" style={{ fontFamily: 'cursive' }}>esign</p>
+                      <p className="text-2xl font-bold text-slate-400" style={{ fontFamily: 'cursive' }}>esign</p>
                     </div>
                     <div className="mt-4 flex gap-2">
                       <span className="text-xs font-bold bg-yellow-50 dark:bg-yellow-900/20 text-yellow-700 dark:text-yellow-400 px-3 py-1 rounded-full border border-yellow-200 dark:border-yellow-800">✍ Signature</span>

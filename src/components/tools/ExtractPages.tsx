@@ -153,7 +153,7 @@ export default function ExtractPages({ id: _id }: { id: string }) {
                   >
                     Apply Range
                   </button>
-                  {rangeError && <p className="text-[10px] text-red-500 font-bold italic">{rangeError}</p>}
+                  {rangeError && <p className="text-[10px] text-red-500 font-bold">{rangeError}</p>}
                 </div>
               </div>
 
@@ -173,7 +173,7 @@ export default function ExtractPages({ id: _id }: { id: string }) {
               {/* Info */}
               <div className="pt-4 border-t border-slate-50 dark:border-slate-700">
                 <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Status</p>
-                <p className="text-[10px] text-slate-500 font-bold italic uppercase">
+                <p className="text-[10px] text-slate-500 font-bold uppercase">
                   {selectedPages.length} of {pages.length || 0} pages selected
                 </p>
               </div>
@@ -189,7 +189,7 @@ export default function ExtractPages({ id: _id }: { id: string }) {
             <div className="inline-flex p-4 rounded-2xl text-white shadow-lg" style={{ background: ACCENT_GRADIENT }}>
               <Layers size={32} />
             </div>
-            <h2 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter italic leading-tight">Extract PDF Pages</h2>
+            <h2 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter leading-tight">Extract PDF Pages</h2>
             {!file && <p className="text-slate-500 font-medium tracking-tight">Select specific pages to create a new PDF document.</p>}
           </div>
 
@@ -205,7 +205,7 @@ export default function ExtractPages({ id: _id }: { id: string }) {
                 <Upload size={48} />
               </div>
               <div className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white uppercase tracking-tight text-center">Drop your PDF here</div>
-              <p className="text-slate-400 text-sm mt-2 font-bold italic tracking-tight text-center">Visual page extraction made simple</p>
+              <p className="text-slate-400 text-sm mt-2 font-bold tracking-tight text-center">Visual page extraction made simple</p>
               <button className="mt-8 px-10 py-4 rounded-2xl text-white text-sm font-black uppercase tracking-widest shadow-xl hover:scale-105 transition-all" style={{ background: ACCENT_GRADIENT }}>
                 Choose File
               </button>
@@ -265,7 +265,7 @@ export default function ExtractPages({ id: _id }: { id: string }) {
                 <button
                   onClick={handleExtract}
                   disabled={processing || selectedPages.length === 0}
-                  className="w-full py-5 text-white rounded-[1.5rem] text-xl font-black shadow-xl hover:scale-[1.01] active:scale-[0.99] transition-all disabled:opacity-50 disabled:grayscale uppercase tracking-tighter italic shadow-orange-500/20"
+                  className="w-full py-5 text-white rounded-[1.5rem] text-xl font-black shadow-xl hover:scale-[1.01] active:scale-[0.99] transition-all disabled:opacity-50 disabled:grayscale uppercase tracking-tighter shadow-orange-500/20"
                   style={{ background: ACCENT_GRADIENT }}
                 >
                   {processing ? (
@@ -290,7 +290,7 @@ export default function ExtractPages({ id: _id }: { id: string }) {
               </div>
               
               <div className="space-y-2">
-                <h3 className="text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter italic">Extraction Ready!</h3>
+                <h3 className="text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter">Extraction Ready!</h3>
                 <p className="text-slate-500 font-bold uppercase tracking-widest text-sm">
                   {result.count} high-quality page{result.count !== 1 ? "s" : ""} isolated
                 </p>

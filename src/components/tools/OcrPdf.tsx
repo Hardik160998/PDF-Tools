@@ -249,7 +249,7 @@ export default function OcrPdf({ id: _id }: { id: string }) {
                     <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Job Status</span>
                   </div>
                   <div className="space-y-1">
-                     <p className="text-[11px] font-bold text-slate-600 dark:text-slate-300 italic uppercase">
+                     <p className="text-[11px] font-bold text-slate-600 dark:text-slate-300 uppercase">
                        {pdfFiles.length === 0 ? 'Queue Empty' : `${pdfFiles.length} Documents`}
                      </p>
                   </div>
@@ -262,7 +262,7 @@ export default function OcrPdf({ id: _id }: { id: string }) {
                   <button
                     onClick={runOcr}
                     disabled={processing || pdfFiles.length === 0}
-                    className="w-full py-5 text-white rounded-[1.5rem] text-xl font-black shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50 disabled:grayscale uppercase tracking-tighter italic shadow-blue-500/20"
+                    className="w-full py-5 text-white rounded-[1.5rem] text-xl font-black shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50 disabled:grayscale uppercase tracking-tighter shadow-blue-500/20"
                     style={{ background: ACCENT_GRADIENT }}
                   >
                     {processing ? (
@@ -275,7 +275,7 @@ export default function OcrPdf({ id: _id }: { id: string }) {
                   <div className="space-y-3">
                     <button
                       onClick={downloadAll}
-                      className="w-full py-5 text-white rounded-[1.5rem] text-xl font-black shadow-xl hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-3 uppercase tracking-tighter italic shadow-blue-500/20"
+                      className="w-full py-5 text-white rounded-[1.5rem] text-xl font-black shadow-xl hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-3 uppercase tracking-tighter shadow-blue-500/20"
                       style={{ background: ACCENT_GRADIENT }}
                     >
                       <Download size={24} /> Download All
@@ -300,10 +300,10 @@ export default function OcrPdf({ id: _id }: { id: string }) {
               <div className="inline-flex p-4 rounded-2xl text-white shadow-lg shadow-blue-500/20 mx-auto" style={{ background: ACCENT_GRADIENT }}>
                 <ScanText size={32} />
               </div>
-              <h2 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter italic leading-tight">
+              <h2 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter leading-tight">
                 Optical Character Recognition
               </h2>
-              <p className="text-slate-500 font-medium tracking-tight max-w-md mx-auto italic uppercase text-xs">
+              <p className="text-slate-500 font-medium tracking-tight max-w-md mx-auto uppercase text-xs">
                 Transform scanned PDF documents into fully searchable text layers using local Tesseract engine.
               </p>
             </div>
@@ -318,7 +318,7 @@ export default function OcrPdf({ id: _id }: { id: string }) {
                 <div className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white uppercase tracking-tight text-center relative z-10">
                   Select Scanned PDF
                 </div>
-                <p className="text-slate-400 text-sm mt-2 font-bold italic tracking-tight text-center relative z-10 uppercase tracking-widest">
+                <p className="text-slate-400 text-sm mt-2 font-bold tracking-tight text-center relative z-10 uppercase tracking-widest">
                   Native browser OCR · No cloud upload
                 </p>
                 <button className="mt-8 px-10 py-4 rounded-2xl text-white text-sm font-black uppercase tracking-widest shadow-xl hover:scale-105 transition-all relative z-10" style={{ background: ACCENT_GRADIENT }}>
@@ -360,7 +360,7 @@ export default function OcrPdf({ id: _id }: { id: string }) {
                                  animate={{ width: `${f.progress}%` }}
                                />
                             </div>
-                            <span className="text-[10px] font-black text-blue-600 uppercase tracking-widest italic">{f.progress}% ANALYZED</span>
+                            <span className="text-[10px] font-black text-blue-600 uppercase tracking-widest">{f.progress}% ANALYZED</span>
                          </div>
                        )}
 
@@ -370,7 +370,7 @@ export default function OcrPdf({ id: _id }: { id: string }) {
                              <FileText size={20} />
                           </div>
                           <div className="flex-1 min-w-0">
-                             <p className="text-[11px] font-black text-slate-900 dark:text-white uppercase truncate italic">{f.file.name}</p>
+                             <p className="text-[11px] font-black text-slate-900 dark:text-white uppercase truncate">{f.file.name}</p>
                              <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest leading-none mt-1">{f.numPages} Pages · {(f.file.size / 1024).toFixed(0)} KB</p>
                           </div>
                           <div className="flex gap-2">
@@ -413,7 +413,7 @@ export default function OcrPdf({ id: _id }: { id: string }) {
                   <feat.icon size={24} />
                 </div>
                 <h5 className="text-[11px] font-black uppercase tracking-widest text-slate-900 dark:text-white mb-2">{feat.title}</h5>
-                <p className="text-[10px] text-slate-400 font-medium leading-relaxed italic uppercase">{feat.desc}</p>
+                <p className="text-[10px] text-slate-400 font-medium leading-relaxed uppercase">{feat.desc}</p>
               </div>
             ))}
           </div>

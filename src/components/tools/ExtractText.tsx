@@ -149,7 +149,7 @@ export default function ExtractText({ id: toolId }: { id: string }) {
                     <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Parser Status</span>
                   </div>
                   <div className="space-y-1">
-                     <p className="text-[11px] font-bold text-slate-600 dark:text-slate-300 italic uppercase">
+                     <p className="text-[11px] font-bold text-slate-600 dark:text-slate-300 uppercase">
                        {status === 'idle' ? 'Ready to analyze' : status === 'processing' ? 'Extracting text...' : 'Analysis complete'}
                      </p>
                   </div>
@@ -161,7 +161,7 @@ export default function ExtractText({ id: toolId }: { id: string }) {
                 <button
                   onClick={handleDownload}
                   disabled={status !== 'done'}
-                  className="w-full py-5 text-white rounded-[1.5rem] text-xl font-black shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50 disabled:grayscale uppercase tracking-tighter italic shadow-blue-500/20"
+                  className="w-full py-5 text-white rounded-[1.5rem] text-xl font-black shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50 disabled:grayscale uppercase tracking-tighter shadow-blue-500/20"
                   style={{ background: ACCENT_GRADIENT }}
                 >
                   Download {mode.toUpperCase()}
@@ -184,7 +184,7 @@ export default function ExtractText({ id: toolId }: { id: string }) {
               <div className="inline-flex p-4 rounded-2xl text-white shadow-lg shadow-blue-500/20 mx-auto" style={{ background: ACCENT_GRADIENT }}>
                 {mode === 'text' ? <FileText size={32} /> : <FileJson size={32} />}
               </div>
-              <h2 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter italic leading-tight">
+              <h2 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter leading-tight">
                 {mode === 'text' ? 'Extract PDF Text' : 'PDF to XML Converter'}
               </h2>
               <p className="text-slate-500 font-medium tracking-tight max-w-md mx-auto">
@@ -204,7 +204,7 @@ export default function ExtractText({ id: toolId }: { id: string }) {
                 <div className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white uppercase tracking-tight text-center relative z-10">
                   Select Source PDF
                 </div>
-                <p className="text-slate-400 text-sm mt-2 font-bold italic tracking-tight text-center relative z-10 uppercase tracking-widest">
+                <p className="text-slate-400 text-sm mt-2 font-bold tracking-tight text-center relative z-10 uppercase tracking-widest">
                   Secure local parsing · No cloud upload
                 </p>
                 <button className="mt-8 px-10 py-4 rounded-2xl text-white text-sm font-black uppercase tracking-widest shadow-xl hover:scale-105 transition-all relative z-10" style={{ background: ACCENT_GRADIENT }}>
@@ -218,8 +218,8 @@ export default function ExtractText({ id: toolId }: { id: string }) {
                    <div className="flex items-center gap-4 min-w-0">
                       <div className="p-3 bg-white dark:bg-slate-800 rounded-xl text-blue-500 shadow-sm"><FileText size={20} /></div>
                       <div className="truncate">
-                         <p className="text-[11px] font-black text-slate-900 dark:text-white uppercase truncate italic">{file.name}</p>
-                         <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest italic leading-none mt-1">{(file.size / 1024).toFixed(0)} KB · READY FOR EXPORT</p>
+                         <p className="text-[11px] font-black text-slate-900 dark:text-white uppercase truncate">{file.name}</p>
+                         <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest leading-none mt-1">{(file.size / 1024).toFixed(0)} KB · READY FOR EXPORT</p>
                       </div>
                    </div>
                    <div className="flex gap-2">
@@ -239,7 +239,7 @@ export default function ExtractText({ id: toolId }: { id: string }) {
                             <div className="w-2.5 h-2.5 rounded-full bg-yellow-500/50" />
                             <div className="w-2.5 h-2.5 rounded-full bg-green-500/50" />
                          </div>
-                         <div className="text-[9px] font-black text-slate-500 uppercase tracking-widest italic">{mode === 'text' ? 'Plaintext Output' : 'XML Document Stream'}</div>
+                         <div className="text-[9px] font-black text-slate-500 uppercase tracking-widest">{mode === 'text' ? 'Plaintext Output' : 'XML Document Stream'}</div>
                       </div>
                       
                       {status === 'processing' ? (
@@ -273,7 +273,7 @@ export default function ExtractText({ id: toolId }: { id: string }) {
                   <feat.icon size={24} />
                 </div>
                 <h5 className="text-[11px] font-black uppercase tracking-widest text-slate-900 dark:text-white mb-2">{feat.title}</h5>
-                <p className="text-[10px] text-slate-400 font-medium leading-relaxed italic uppercase">{feat.desc}</p>
+                <p className="text-[10px] text-slate-400 font-medium leading-relaxed uppercase">{feat.desc}</p>
               </div>
             ))}
           </div>

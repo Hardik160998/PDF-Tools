@@ -311,7 +311,7 @@ export default function ComparePdf({ id: _id }: { id: string }) {
                             line.type === "removed" ? "text-red-800 dark:text-red-300 line-through opacity-70" :
                             "text-slate-600 dark:text-slate-300"
                           }`}>
-                            {line.text || <span className="italic text-slate-300">(empty)</span>}
+                            {line.text || <span className="text-slate-300">(empty)</span>}
                           </span>
                         </div>
                       ))}
