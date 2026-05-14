@@ -7,11 +7,6 @@ import {
   TrendingDown, Gauge
 } from 'lucide-react';
 import { PDFDocument } from 'pdf-lib';
-import * as pdfjsLib from 'pdfjs-dist';
-
-if (typeof window !== 'undefined') {
-  pdfjsLib.GlobalWorkerOptions.workerSrc = '/workers/pdf.worker.min.mjs';
-}
 
 const LEVELS = [
   { id: 'low',    label: 'Low',    desc: 'Max quality, minimal size reduction.',   quality: 0.92, scale: 1.5 },
@@ -34,6 +29,8 @@ export default function OptimizePdf({ id: _id }: { id: string }) {
   const loadFile = async (f: File) => {
     setFile(f); setResult(null);
     try {
+      const pdfjsLib = await import('pdfjs-dist');
+      pdfjsLib.GlobalWorkerOptions.workerSrc = '/workers/pdf.worker.min.mjs';
       const pdf = await pdfjsLib.getDocument(await f.arrayBuffer()).promise;
       setPageCount(pdf.numPages);
     } catch { setPageCount(0); }
@@ -43,6 +40,9 @@ export default function OptimizePdf({ id: _id }: { id: string }) {
     if (!file) return;
     setProcessing(true);
     try {
+      const pdfjsLib = await import('pdfjs-dist');
+      pdfjsLib.GlobalWorkerOptions.workerSrc = '/workers/pdf.worker.min.mjs';
+
       const cfg = LEVELS.find(l => l.id === level)!;
       const pdf = await pdfjsLib.getDocument(await file.arrayBuffer()).promise;
       const outDoc = await PDFDocument.create();
@@ -70,7 +70,7 @@ export default function OptimizePdf({ id: _id }: { id: string }) {
   const saved = result ? Math.round((1 - result.newSize / result.origSize) * 100) : 0;
 
   return (
-    <div className="max-w-7xl mx-auto py-4 sm:py-8 px-3 sm:px-6 font-sans">
+    <div className="max-w-7xl mx-auto py-4 sm:py-8 px-3 sm:px-6 font-sans text-left">
       <div className="flex flex-col lg:flex-row gap-8 items-start">
         
         {/* Sidebar Configuration */}
@@ -113,7 +113,7 @@ export default function OptimizePdf({ id: _id }: { id: string }) {
                     </div>
                     <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Analysis</span>
                   </div>
-                  <p className="text-[11px] font-bold text-slate-600 dark:text-slate-300 italic uppercase">
+                  <p className="text-[11px] font-bold text-slate-600 dark:text-slate-300 italic uppercase text-left">
                     {file ? `${pageCount} Pages Loaded` : 'No file selected'}
                   </p>
                 </div>
@@ -164,14 +164,14 @@ export default function OptimizePdf({ id: _id }: { id: string }) {
             <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-50 dark:bg-emerald-900/10 rounded-full -mr-32 -mt-32 blur-3xl opacity-50" />
             
             {/* Header */}
-            <div className="relative text-center space-y-4 mb-10">
-              <div className="inline-flex p-4 rounded-2xl text-white shadow-lg shadow-emerald-500/20" style={{ background: ACCENT_GRADIENT }}>
+            <div className="relative text-center space-y-4 mb-10 text-left sm:text-center">
+              <div className="inline-flex p-4 rounded-2xl text-white shadow-lg shadow-emerald-500/20 mx-auto" style={{ background: ACCENT_GRADIENT }}>
                 <Zap size={32} />
               </div>
               <h2 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter italic leading-tight">
                 High-Fidelity PDF Optimizer
               </h2>
-              <p className="text-slate-500 font-medium tracking-tight max-w-md mx-auto">
+              <p className="text-slate-500 font-medium tracking-tight max-w-md mx-auto italic uppercase text-xs">
                 Re-compress page images to achieve massive file size reductions without sacrificing legibility.
               </p>
             </div>
@@ -186,8 +186,8 @@ export default function OptimizePdf({ id: _id }: { id: string }) {
                 <div className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white uppercase tracking-tight text-center relative z-10">
                   Select Large PDF
                 </div>
-                <p className="text-slate-400 text-sm mt-2 font-bold italic tracking-tight text-center relative z-10">
-                  Re-renders every page into a highly compressed JPEG stream
+                <p className="text-slate-400 text-sm mt-2 font-bold italic tracking-tight text-center relative z-10 uppercase tracking-widest">
+                  Secure local re-encoding stream
                 </p>
                 <button className="mt-8 px-10 py-4 rounded-2xl text-white text-sm font-black uppercase tracking-widest shadow-xl hover:scale-105 transition-all relative z-10" style={{ background: ACCENT_GRADIENT }}>
                   Choose File
@@ -195,7 +195,7 @@ export default function OptimizePdf({ id: _id }: { id: string }) {
                 <input ref={inputRef} type="file" onChange={e => e.target.files?.[0] && loadFile(e.target.files[0])} accept=".pdf" className="hidden" />
               </div>
             ) : (
-              <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
+              <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500 text-left">
                 {/* File Info Card */}
                 <div className="p-8 bg-slate-50 dark:bg-slate-900 rounded-[2rem] border border-slate-100 dark:border-slate-800 shadow-sm relative group overflow-hidden">
                    <div className="flex flex-col sm:flex-row items-center gap-6 relative z-10 text-center sm:text-left">
@@ -258,7 +258,7 @@ export default function OptimizePdf({ id: _id }: { id: string }) {
               { title: "Fast Delivery", desc: "Optimized documents are ready for email instantly.", icon: Zap },
             ].map((feat, i) => (
               <div key={i} className="p-8 bg-white dark:bg-slate-800 rounded-3xl border border-slate-50 dark:border-slate-700 shadow-sm flex flex-col items-center text-center group hover:shadow-lg transition-all">
-                <div className="w-12 h-12 rounded-2xl bg-emerald-50 dark:bg-emerald-500/10 flex items-center justify-center text-emerald-500 mb-4 group-hover:scale-110 transition-transform">
+                <div className="w-12 h-12 rounded-2xl bg-emerald-50 dark:bg-emerald-500/10 flex items-center justify-center text-emerald-500 mb-4 group-hover:scale-110 transition-transform shadow-inner">
                   <feat.icon size={24} />
                 </div>
                 <h5 className="text-[11px] font-black uppercase tracking-widest text-slate-900 dark:text-white mb-2">{feat.title}</h5>
@@ -268,6 +268,13 @@ export default function OptimizePdf({ id: _id }: { id: string }) {
           </div>
         </div>
       </div>
+
+      <style jsx global>{`
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #d1fae5; border-radius: 10px; }
+        .dark .custom-scrollbar::-webkit-scrollbar-thumb { background: #334155; }
+      `}</style>
     </div>
   );
 }

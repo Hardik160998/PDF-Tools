@@ -3,14 +3,10 @@
 import { useState, useRef } from 'react';
 import { 
   Upload, Loader2, X, Download, 
-  CheckCircle2, Plus, Info, LifeBuoy, ArrowRight,
-  Settings, ChevronDown, FileText, AlertCircle, ShieldAlert
+  CheckCircle2, Plus, LifeBuoy, 
+  Settings, ChevronDown, FileText, ShieldAlert
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import * as pdfjsLib from 'pdfjs-dist';
-
-// Configure PDF.js worker
-pdfjsLib.GlobalWorkerOptions.workerSrc = '/workers/pdf.worker.min.mjs';
 
 interface RepairFile {
   id: string;
@@ -32,6 +28,9 @@ export default function RepairTool({ id: _id }: { id: string }) {
 
   const generateThumbnail = async (file: File) => {
     try {
+      const pdfjsLib = await import('pdfjs-dist');
+      pdfjsLib.GlobalWorkerOptions.workerSrc = '/workers/pdf.worker.min.mjs';
+
       const arrayBuffer = await file.arrayBuffer();
       const pdf = await pdfjsLib.getDocument(arrayBuffer).promise;
       const page = await pdf.getPage(1);
@@ -202,14 +201,14 @@ export default function RepairTool({ id: _id }: { id: string }) {
             <div className="absolute top-0 right-0 w-64 h-64 bg-red-50 dark:bg-red-900/10 rounded-full -mr-32 -mt-32 blur-3xl opacity-50" />
             
             {/* Header */}
-            <div className="relative text-center space-y-4 mb-10">
-              <div className="inline-flex p-4 rounded-2xl text-white shadow-lg shadow-red-500/20" style={{ background: ACCENT_GRADIENT }}>
+            <div className="relative text-center space-y-4 mb-10 text-left sm:text-center">
+              <div className="inline-flex p-4 rounded-2xl text-white shadow-lg shadow-red-500/20 mx-auto" style={{ background: ACCENT_GRADIENT }}>
                 <LifeBuoy size={32} />
               </div>
               <h2 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter italic leading-tight">
                 PDF Repair & Recovery
               </h2>
-              <p className="text-slate-500 font-medium tracking-tight max-w-md mx-auto">
+              <p className="text-slate-500 font-medium tracking-tight max-w-md mx-auto italic uppercase text-xs">
                 Recover data from corrupted or unreadable PDF documents. We analyze and rebuild internal structures.
               </p>
             </div>
@@ -233,7 +232,7 @@ export default function RepairTool({ id: _id }: { id: string }) {
                 <input ref={fileInputRef} type="file" multiple onChange={handleFileDrop} accept=".pdf" className="hidden" />
               </div>
             ) : (
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 overflow-y-auto max-h-[700px] pr-2 custom-scrollbar p-1 animate-in fade-in slide-in-from-bottom-4 duration-500 text-center">
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 overflow-y-auto max-h-[700px] pr-2 custom-scrollbar p-1 animate-in fade-in slide-in-from-bottom-4 duration-500 text-center relative z-10">
                 <AnimatePresence>
                   {files.map((f) => (
                     <motion.div
@@ -271,7 +270,7 @@ export default function RepairTool({ id: _id }: { id: string }) {
                         )}
 
                         {/* File info overlay */}
-                        <div className="absolute bottom-0 inset-x-0 p-3 bg-gradient-to-t from-black/80 to-transparent z-10">
+                        <div className="absolute bottom-0 inset-x-0 p-3 bg-gradient-to-t from-black/80 to-transparent z-10 text-left">
                           <p className="text-[10px] text-white font-black truncate uppercase italic tracking-tighter">{f.file.name}</p>
                         </div>
                       </div>
@@ -311,7 +310,7 @@ export default function RepairTool({ id: _id }: { id: string }) {
               { title: "Batch Support", desc: "Repair multiple documents simultaneously with high priority.", icon: FileText },
             ].map((feat, i) => (
               <div key={i} className="p-8 bg-white dark:bg-slate-800 rounded-3xl border border-slate-50 dark:border-slate-700 shadow-sm flex flex-col items-center text-center group hover:shadow-lg transition-all">
-                <div className="w-12 h-12 rounded-2xl bg-red-50 dark:bg-red-500/10 flex items-center justify-center text-red-500 mb-4 group-hover:scale-110 transition-transform">
+                <div className="w-12 h-12 rounded-2xl bg-red-50 dark:bg-red-500/10 flex items-center justify-center text-red-500 mb-4 group-hover:scale-110 transition-transform shadow-inner">
                   <feat.icon size={24} />
                 </div>
                 <h5 className="text-[11px] font-black uppercase tracking-widest text-slate-900 dark:text-white mb-2">{feat.title}</h5>

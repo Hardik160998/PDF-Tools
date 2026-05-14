@@ -7,9 +7,6 @@ import { CenteredCardSkeleton } from './skeletons';
 const EditTools = dynamic(() => import('@/components/tools/EditTools'), {
   ssr: false, loading: () => <CenteredCardSkeleton accent="rgb(221 214 254)" />,
 });
-const ExtractText = dynamic(() => import('@/components/tools/ExtractText'), {
-  ssr: false, loading: () => <CenteredCardSkeleton accent="rgb(191 219 254)" />,
-});
 const ImageConverter = dynamic(() => import('@/components/tools/ImageConverter'), {
   ssr: false, loading: () => <CenteredCardSkeleton accent="rgb(254 240 138)" />,
 });
@@ -30,13 +27,9 @@ const MeeshoCropper = dynamic(() => import('@/components/tools/MeeshoCropper'), 
 });
 
 const TOOL_COMPONENTS: Record<string, React.ComponentType<{ id: string }>> = {
-  'extract-text': ExtractText,
-  'pdf-to-xml': ExtractText,
   'watermark': EditTools,
   'page-numbers': EditTools,
   'metadata': EditTools,
-  'pdf-to-jpg': ImageConverter,
-  'jpg-to-pdf': ImageConverter,
   'jpg-to-png': ImageConverter,
   'png-to-jpg': ImageConverter,
   'jpg-to-webp': ImageConverter,

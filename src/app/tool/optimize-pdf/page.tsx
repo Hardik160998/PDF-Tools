@@ -1,12 +1,8 @@
 "use client";
 
-import dynamic from "next/dynamic";
+import OptimizePdf from "@/components/tools/OptimizePdf";
 
-const OptimizePdf = dynamic(() => import("@/components/tools/OptimizePdf"), {
-  ssr: false,
-});
-
-export default function OptimizePage() {
+export default function OptimizePdfPage() {
   return (
     <div className="min-h-screen bg-slate-50/50 dark:bg-slate-950">
       <div className="max-w-7xl mx-auto px-4 pt-10 sm:pt-16 pb-10">
@@ -15,18 +11,18 @@ export default function OptimizePage() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-16 mb-16">
           {[
             { 
-              title: "Max Efficiency", 
-              desc: "Achieve up to 90% file size reduction by re-encoding images at optimized quality levels.",
+              title: "Adaptive Compression", 
+              desc: "Smart re-encoding of images and structural elements to reduce file size while maintaining legibility.",
               gradient: "linear-gradient(135deg,#10b981,#059669)"
             },
             { 
-              title: "Quality Control", 
-              desc: "Choose between Low, Medium, and High compression to find the perfect balance for your needs.",
+              title: "Visual Quality", 
+              desc: "Preview different compression levels to find the perfect balance between size and visual clarity.",
               gradient: "linear-gradient(135deg,#10b981,#059669)"
             },
             { 
-              title: "Safe Processing", 
-              desc: "Processing happens locally. Your documents never touch a server, ensuring 100% privacy.",
+              title: "Secure & Local", 
+              desc: "Optimization happens entirely in your browser. Your documents never leave your local environment.",
               gradient: "linear-gradient(135deg,#22c55e,#15803d)"
             }
           ].map((feat, i) => (

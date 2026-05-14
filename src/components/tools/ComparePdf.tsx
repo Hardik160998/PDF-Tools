@@ -4,6 +4,8 @@ import { useState, useRef, useCallback } from "react";
 import { Upload, X, FileText, GitCompare, ChevronLeft, ChevronRight, Loader2, CheckCircle2, AlertCircle, AlignLeft, Eye } from "lucide-react";
 
 
+import type * as PDFJS from 'pdfjs-dist';
+
 interface LineDiff { type: "same" | "added" | "removed"; text: string; }
 interface PageResult {
   page: number;
@@ -19,16 +21,16 @@ interface PageResult {
   sameCount: number;
 }
 
-async function renderPage(doc: pdfjsLib.PDFDocumentProxy, pageNum: number, scale = 1.2) {
+async function renderPage(doc: PDFJS.PDFDocumentProxy, pageNum: number, scale = 1.2) {
   const pg = await doc.getPage(pageNum);
   const vp = pg.getViewport({ scale });
   const canvas = document.createElement("canvas");
   canvas.width = vp.width; canvas.height = vp.height;
-  await pg.render({ canvas, viewport: vp }).promise;
+  await pg.render({ canvasContext: canvas.getContext("2d")!, viewport: vp }).promise;
   return canvas;
 }
 
-async function extractText(doc: pdfjsLib.PDFDocumentProxy, pageNum: number): Promise<string> {
+async function extractText(doc: PDFJS.PDFDocumentProxy, pageNum: number): Promise<string> {
   if (pageNum > doc.numPages) return "";
   const pg = await doc.getPage(pageNum);
   const content = await pg.getTextContent();

@@ -1,59 +1,41 @@
 "use client";
-import dynamic from 'next/dynamic';
-import { FileJson, Upload, FileSearch, Download, Type, ImageIcon, FileText, FileSpreadsheet, Globe, CheckCircle } from 'lucide-react';
-import { CenteredCardSkeleton } from '../[id]/skeletons';
-import { HowItWorksShimmer, RelatedToolsShimmer, usePageMounted } from '../_shimmer';
 
-const ExtractText = dynamic(() => import('@/components/tools/ExtractText'), { ssr: false, loading: () => <CenteredCardSkeleton accent="rgb(191 219 254)" /> });
-
-const FEATURES = ['Structured XML output','Page-by-page line elements','Copy XML to clipboard','Download as .xml file','Machine-readable format','100% private — runs in browser'];
-const STEPS = [
-  { icon: Upload,     title: 'Upload Your PDF',       desc: 'Select any PDF file. All processing happens in your browser — your file never leaves your device.' },
-  { icon: FileSearch, title: 'Auto-Convert to XML',   desc: 'Text is extracted and wrapped in structured XML tags with page numbers and line elements.' },
-  { icon: Download,   title: 'Copy or Download',      desc: 'Copy the XML to clipboard or download as a .xml file ready for data processing or integration.' },
-];
-const RELATED = [
-  { id: 'extract-text', title: 'PDF to Text',        description: 'Extract all text content from your PDF into a clean plain-text format.',    icon: Type,           gradient: 'linear-gradient(135deg, #3182ce, #1e3a8a)', shadow: 'rgba(49,130,206,0.3)',  tag: 'Convert' },
-  { id: 'pdf-to-jpg',   title: 'PDF to JPG',         description: 'Convert every PDF page into a high-quality JPG image instantly.',           icon: ImageIcon,      gradient: 'linear-gradient(135deg, #eab308, #a16207)', shadow: 'rgba(234,179,8,0.3)',   tag: 'Convert' },
-  { id: 'pdf-to-word',  title: 'PDF to Word',        description: 'Convert your PDF into an editable DOCX file with high accuracy.',           icon: FileText,       gradient: 'linear-gradient(135deg, #3182ce, #1e3a8a)', shadow: 'rgba(49,130,206,0.3)',  tag: 'Convert' },
-  { id: 'pdf-to-excel', title: 'PDF to Excel',       description: 'Extract tables from your PDF into an editable XLSX spreadsheet.',           icon: FileSpreadsheet,gradient: 'linear-gradient(135deg, #22c55e, #15803d)', shadow: 'rgba(34,197,94,0.3)',   tag: 'Convert' },
-  { id: 'html-to-pdf',  title: 'HTML to PDF',        description: 'Convert any web page or HTML file into a PDF document.',                    icon: Globe,          gradient: 'linear-gradient(135deg, #6366f1, #4338ca)', shadow: 'rgba(99,102,241,0.3)',  tag: 'Convert' },
-  { id: 'word-to-pdf',  title: 'Word to PDF',        description: 'Convert DOCX files to PDF instantly with perfect formatting.',              icon: FileText,       gradient: 'linear-gradient(135deg, #3182ce, #1e3a8a)', shadow: 'rgba(49,130,206,0.3)',  tag: 'Convert' },
-];
+import ExtractText from "@/components/tools/ExtractText";
 
 export default function PdfToXmlPage() {
-  const mounted = usePageMounted();
   return (
-    <div className="min-h-screen">
-      <section className="pb-8"><div className="container mx-auto px-4 max-w-7xl"><ExtractText id="pdf-to-xml" /></div></section>
-      {!mounted ? <HowItWorksShimmer accent="rgba(59,130,246,0.15)" /> : (
-        <section className="py-16 bg-white/60"><div className="container mx-auto px-4 max-w-4xl">
-          <h2 className="text-2xl font-black text-slate-900 tracking-tight mb-8 text-center uppercase">How It Works</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">{STEPS.map((s, i) => (
-            <div key={i} className="bg-white rounded-2xl p-6 shadow-sm border border-slate-100 text-center">
-              <div className="inline-flex p-4 rounded-2xl bg-blue-50 text-blue-500 mb-4"><s.icon size={28} /></div>
-              <div className="text-xs font-black uppercase tracking-widest text-slate-400 mb-1">Step {i + 1}</div>
-              <h3 className="text-base font-black text-slate-900 mb-2">{s.title}</h3>
-              <p className="text-sm text-slate-500 font-medium leading-relaxed">{s.desc}</p>
-            </div>
-          ))}</div>
-        </div></section>
-      )}
-      {!mounted ? <RelatedToolsShimmer /> : (
-        <section className="py-16"><div className="container mx-auto px-4 max-w-5xl">
-          <h2 className="text-2xl font-black text-slate-900 tracking-tight mb-8 text-center">More Convert Tools</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">{RELATED.map(t => (
-            <a key={t.id} href={`/tool/${t.id}`} className="group bg-white rounded-2xl p-6 shadow-sm border border-slate-100 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 flex flex-col gap-4">
-              <div className="flex items-start justify-between">
-                <div className="w-14 h-14 rounded-2xl flex items-center justify-center text-white shadow-lg" style={{ background: t.gradient, boxShadow: `0 8px 20px -4px ${t.shadow}` }}><t.icon size={26} /></div>
-                <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 bg-slate-50 px-2 py-1 rounded-full border border-slate-100">{t.tag}</span>
+    <div className="min-h-screen bg-slate-50/50 dark:bg-slate-950">
+      <div className="max-w-7xl mx-auto px-4 pt-10 sm:pt-16 pb-10">
+        <ExtractText id="pdf-to-xml" />
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-16 mb-16">
+          {[
+            { 
+              title: "Structured XML", 
+              desc: "Transform unstructured PDF data into organized XML tags with page and line attributes.",
+              gradient: "linear-gradient(135deg,#3b82f6,#2563eb)"
+            },
+            { 
+              title: "Schema Valid", 
+              desc: "Generate clean, escaped XML content suitable for direct ingestion into databases or APIs.",
+              gradient: "linear-gradient(135deg,#3b82f6,#2563eb)"
+            },
+            { 
+              title: "Zero Latency", 
+              desc: "No server-side conversion delays. Parse massive documents instantly in your hardware.",
+              gradient: "linear-gradient(135deg,#22c55e,#15803d)"
+            }
+          ].map((feat, i) => (
+            <div key={i} className="bg-white dark:bg-slate-900 p-8 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-xl transition-all group">
+              <div className="w-12 h-12 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform shadow-lg" style={{ background: feat.gradient }}>
+                <div className="text-white font-black">{i + 1}</div>
               </div>
-              <div><h3 className="text-base font-black text-slate-900 mb-1 group-hover:text-blue-500 transition-colors">{t.title}</h3><p className="text-sm text-slate-500 font-medium leading-relaxed">{t.description}</p></div>
-              <div className="mt-auto pt-2 text-xs font-bold text-blue-500 flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">Open tool &#8594;</div>
-            </a>
-          ))}</div>
-        </div></section>
-      )}
+              <h3 className="text-xl font-black text-slate-900 dark:text-white uppercase tracking-tight mb-2">{feat.title}</h3>
+              <p className="text-slate-500 dark:text-slate-400 text-sm leading-relaxed">{feat.desc}</p>
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   );
 }

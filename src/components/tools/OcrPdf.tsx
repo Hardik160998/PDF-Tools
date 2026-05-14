@@ -1,14 +1,14 @@
 "use client";
 
 import { useState, useRef, useCallback } from "react";
-import { Upload, Download, Loader2, X, FileText, ScanText, CheckCircle2, AlertCircle, RefreshCw, Globe } from "lucide-react";
-import * as pdfjsLib from "pdfjs-dist";
+import { 
+  Upload, Download, Loader2, X, FileText, ScanText, 
+  CheckCircle2, AlertCircle, Globe, Settings,
+  ChevronDown, Zap, ShieldCheck, Search
+} from "lucide-react";
 import { PDFDocument } from "pdf-lib";
 import Tesseract from "tesseract.js";
-
-if (typeof window !== "undefined") {
-  pdfjsLib.GlobalWorkerOptions.workerSrc = "/workers/pdf.worker.min.mjs";
-}
+import { motion, AnimatePresence } from "framer-motion";
 
 const LANGUAGES = [
   { code: "eng", label: "English" },
@@ -24,7 +24,7 @@ const LANGUAGES = [
 ];
 
 async function createOcrWorker(lang: string): Promise<Tesseract.Worker> {
-  const base = window.location.origin;
+  const base = typeof window !== "undefined" ? window.location.origin : "";
   return Tesseract.createWorker(lang as any, 1, {
     workerPath: `${base}/workers/worker.min.js`,
     workerBlobURL: false,
@@ -34,19 +34,6 @@ async function createOcrWorker(lang: string): Promise<Tesseract.Worker> {
     gzip: false,
     legacyLang: false,
   });
-}
-
-async function renderPageThumb(pdfJs: pdfjsLib.PDFDocumentProxy, pageNum: number): Promise<string> {
-  const page = await pdfJs.getPage(pageNum);
-  const vp = page.getViewport({ scale: 0.3 });
-  const canvas = document.createElement("canvas");
-  canvas.width = Math.floor(vp.width);
-  canvas.height = Math.floor(vp.height);
-  const ctx = canvas.getContext("2d")!;
-  ctx.fillStyle = "#fff";
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
-  await page.render({ canvas, viewport: vp }).promise;
-  return canvas.toDataURL("image/jpeg", 0.7);
 }
 
 type FileStatus = "pending" | "processing" | "done" | "error";
@@ -65,10 +52,26 @@ export default function OcrPdf({ id: _id }: { id: string }) {
   const [pdfFiles, setPdfFiles] = useState<PdfFile[]>([]);
   const [processing, setProcessing] = useState(false);
   const [allDone, setAllDone] = useState(false);
-  const [dragging, setDragging] = useState(false);
   const [language, setLanguage] = useState("eng");
+  const [showSettings, setShowSettings] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const abortRef = useRef(false);
+
+  const ACCENT = "#3b82f6"; // Blue
+  const ACCENT_GRADIENT = "linear-gradient(135deg,#3b82f6,#2563eb)";
+
+  const renderPageThumb = async (pdfJs: any, pageNum: number): Promise<string> => {
+    const page = await pdfJs.getPage(pageNum);
+    const vp = page.getViewport({ scale: 0.3 });
+    const canvas = document.createElement("canvas");
+    canvas.width = Math.floor(vp.width);
+    canvas.height = Math.floor(vp.height);
+    const ctx = canvas.getContext("2d")!;
+    ctx.fillStyle = "#fff";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    await page.render({ canvasContext: ctx, viewport: vp }).promise;
+    return canvas.toDataURL("image/jpeg", 0.7);
+  };
 
   const reset = () => {
     abortRef.current = true;
@@ -84,31 +87,33 @@ export default function OcrPdf({ id: _id }: { id: string }) {
     if (!pdfs.length) return;
     setAllDone(false);
 
-    const entries: PdfFile[] = await Promise.all(pdfs.map(async (file) => {
-      const id = `${file.name}-${file.size}-${Date.now()}-${Math.random()}`;
-      try {
-        const buf = await file.arrayBuffer();
-        const pdfJs = await pdfjsLib.getDocument({ data: buf }).promise;
-        const numPages = pdfJs.numPages;
-        const thumbCount = Math.min(numPages, 4);
-        const thumbs = await Promise.all(
-          Array.from({ length: thumbCount }, (_, i) => renderPageThumb(pdfJs, i + 1))
-        );
-        return { id, file, numPages, thumbs, status: "pending" as FileStatus, progress: 0 };
-      } catch {
-        return { id, file, numPages: 0, thumbs: [], status: "error" as FileStatus, progress: 0, errorMsg: "Failed to read PDF" };
-      }
-    }));
+    try {
+      const pdfjsLib = await import('pdfjs-dist');
+      pdfjsLib.GlobalWorkerOptions.workerSrc = '/workers/pdf.worker.min.mjs';
 
-    setPdfFiles(prev => [...prev, ...entries]);
+      const entries: PdfFile[] = await Promise.all(pdfs.map(async (file) => {
+        const id = `${file.name}-${file.size}-${Date.now()}-${Math.random()}`;
+        try {
+          const buf = await file.arrayBuffer();
+          const pdfJs = await pdfjsLib.getDocument({ data: buf }).promise;
+          const numPages = pdfJs.numPages;
+          const thumbCount = Math.min(numPages, 4);
+          const thumbs = await Promise.all(
+            Array.from({ length: thumbCount }, (_, i) => renderPageThumb(pdfJs, i + 1))
+          );
+          return { id, file, numPages, thumbs, status: "pending" as FileStatus, progress: 0 };
+        } catch {
+          return { id, file, numPages: 0, thumbs: [], status: "error" as FileStatus, progress: 0, errorMsg: "Failed to read PDF" };
+        }
+      }));
+
+      setPdfFiles(prev => [...prev, ...entries]);
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   const removeFile = (id: string) => setPdfFiles(prev => prev.filter(f => f.id !== id));
-
-  const onDrop = (e: React.DragEvent) => {
-    e.preventDefault(); setDragging(false);
-    addFiles(Array.from(e.dataTransfer.files));
-  };
 
   const runOcr = useCallback(async () => {
     const pending = pdfFiles.filter(f => f.status === "pending");
@@ -116,66 +121,68 @@ export default function OcrPdf({ id: _id }: { id: string }) {
     setProcessing(true); setAllDone(false);
     abortRef.current = false;
 
-    for (const entry of pending) {
-      if (abortRef.current) break;
+    try {
+      const pdfjsLib = await import('pdfjs-dist');
+      pdfjsLib.GlobalWorkerOptions.workerSrc = '/workers/pdf.worker.min.mjs';
 
-      setPdfFiles(prev => prev.map(f => f.id === entry.id ? { ...f, status: "processing", progress: 0 } : f));
+      for (const entry of pending) {
+        if (abortRef.current) break;
 
-      let ocrWorker: Tesseract.Worker | null = null;
-      try {
-        ocrWorker = await createOcrWorker(language);
-        const buf = await entry.file.arrayBuffer();
-        const pdfJs = await pdfjsLib.getDocument({ data: buf }).promise;
-        const numPages = pdfJs.numPages;
+        setPdfFiles(prev => prev.map(f => f.id === entry.id ? { ...f, status: "processing", progress: 0 } : f));
 
-        // Collect per-page PDF bytes from Tesseract's own PDF renderer
-        const pagePdfChunks: Uint8Array[] = [];
+        let ocrWorker: Tesseract.Worker | null = null;
+        try {
+          ocrWorker = await createOcrWorker(language);
+          const buf = await entry.file.arrayBuffer();
+          const pdfJs = await pdfjsLib.getDocument({ data: buf }).promise;
+          const numPages = pdfJs.numPages;
 
-        for (let i = 1; i <= numPages; i++) {
-          if (abortRef.current) break;
+          const pagePdfChunks: Uint8Array[] = [];
 
-          const pdfPage = await pdfJs.getPage(i);
-          const vp2x = pdfPage.getViewport({ scale: 2 });
-          const w = Math.floor(vp2x.width), h = Math.floor(vp2x.height);
+          for (let i = 1; i <= numPages; i++) {
+            if (abortRef.current) break;
 
-          // Render page to canvas at 2x for better OCR accuracy
-          const canvas = document.createElement("canvas");
-          canvas.width = w; canvas.height = h;
-          const ctx = canvas.getContext("2d")!;
-          ctx.fillStyle = "#fff"; ctx.fillRect(0, 0, w, h);
-          await pdfPage.render({ canvas, viewport: vp2x, background: "rgb(255,255,255)" }).promise;
+            const pdfPage = await pdfJs.getPage(i);
+            const vp2x = pdfPage.getViewport({ scale: 2 });
+            const w = Math.floor(vp2x.width), h = Math.floor(vp2x.height);
 
-          // Use Tesseract's built-in PDF output — this produces a proper
-          // searchable PDF with correct invisible text layer (Tr 3) natively
-          const { data } = await ocrWorker.recognize(canvas, {}, { pdf: true });
-          const pdfData = (data as any).pdf as Uint8Array | null;
+            const canvas = document.createElement("canvas");
+            canvas.width = w; canvas.height = h;
+            const ctx = canvas.getContext("2d")!;
+            ctx.fillStyle = "#fff"; ctx.fillRect(0, 0, w, h);
+            await pdfPage.render({ canvasContext: ctx, viewport: vp2x, background: "rgb(255,255,255)" }).promise;
 
-          if (pdfData && pdfData.length > 0) {
-            pagePdfChunks.push(pdfData);
+            const { data } = await ocrWorker.recognize(canvas, {}, { pdf: true });
+            const pdfData = (data as any).pdf as Uint8Array | null;
+
+            if (pdfData && pdfData.length > 0) {
+              pagePdfChunks.push(pdfData);
+            }
+
+            setPdfFiles(prev => prev.map(f => f.id === entry.id ? { ...f, progress: Math.round((i / numPages) * 100) } : f));
           }
 
-          setPdfFiles(prev => prev.map(f => f.id === entry.id ? { ...f, progress: Math.round((i / numPages) * 100) } : f));
-        }
+          await ocrWorker.terminate();
 
-        await ocrWorker.terminate();
-
-        if (!abortRef.current && pagePdfChunks.length > 0) {
-          // Merge all single-page PDFs into one document using pdf-lib
-          const mergedDoc = await PDFDocument.create();
-          for (const chunk of pagePdfChunks) {
-            const pageDoc = await PDFDocument.load(chunk);
-            const [copiedPage] = await mergedDoc.copyPages(pageDoc, [0]);
-            mergedDoc.addPage(copiedPage);
+          if (!abortRef.current && pagePdfChunks.length > 0) {
+            const mergedDoc = await PDFDocument.create();
+            for (const chunk of pagePdfChunks) {
+              const pageDoc = await PDFDocument.load(chunk);
+              const [copiedPage] = await mergedDoc.copyPages(pageDoc, [0]);
+              mergedDoc.addPage(copiedPage);
+            }
+            const mergedBytes = await mergedDoc.save();
+            const resultBlob = new Blob([mergedBytes.buffer as ArrayBuffer], { type: "application/pdf" });
+            setPdfFiles(prev => prev.map(f => f.id === entry.id ? { ...f, status: "done", progress: 100, resultBlob } : f));
           }
-          const mergedBytes = await mergedDoc.save();
-          const resultBlob = new Blob([mergedBytes.buffer as ArrayBuffer], { type: "application/pdf" });
-          setPdfFiles(prev => prev.map(f => f.id === entry.id ? { ...f, status: "done", progress: 100, resultBlob } : f));
+        } catch (err: any) {
+          if (ocrWorker) { try { await ocrWorker.terminate(); } catch { } }
+          const msg = err?.message ?? String(err);
+          setPdfFiles(prev => prev.map(f => f.id === entry.id ? { ...f, status: "error", errorMsg: msg } : f));
         }
-      } catch (err: any) {
-        if (ocrWorker) { try { await ocrWorker.terminate(); } catch { } }
-        const msg = err?.message ?? String(err);
-        setPdfFiles(prev => prev.map(f => f.id === entry.id ? { ...f, status: "error", errorMsg: msg } : f));
       }
+    } catch (err) {
+      console.error(err);
     }
 
     setProcessing(false);
@@ -196,236 +203,231 @@ export default function OcrPdf({ id: _id }: { id: string }) {
     pdfFiles.filter(f => f.status === "done").forEach(f => handleDownload(f));
   };
 
-  const doneFiles = pdfFiles.filter(f => f.status === "done");
-  const errorFiles = pdfFiles.filter(f => f.status === "error");
-  const pendingFiles = pdfFiles.filter(f => f.status === "pending");
-  const processingFile = pdfFiles.find(f => f.status === "processing");
-
-  // ── No files yet ──────────────────────────────────────────────────────────
-  if (!pdfFiles.length) {
-    return (
-      <div className="max-w-4xl mx-auto py-6 sm:py-12 px-4 text-center">
-        <div className="bg-white dark:bg-slate-800 rounded-[1.5rem] sm:rounded-[2.5rem] p-6 sm:p-12 border border-slate-100 dark:border-slate-700 shadow-2xl space-y-6 sm:space-y-10">
-          <div className="space-y-3 sm:space-y-4">
-            <div className="inline-flex p-3 sm:p-5 rounded-2xl sm:rounded-3xl bg-blue-500 text-white shadow-lg">
-              <ScanText size={40} />
-            </div>
-            <h2 className="text-2xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter">OCR PDF</h2>
-            <p className="text-sm sm:text-base text-slate-500 font-medium">Make scanned PDFs searchable and selectable.</p>
-          </div>
-
-          <div
-            onDragOver={e => { e.preventDefault(); setDragging(true); }}
-            onDragLeave={() => setDragging(false)}
-            onDrop={onDrop}
-            onClick={() => fileInputRef.current?.click()}
-            className={`relative border-2 border-dashed rounded-2xl sm:rounded-3xl p-8 sm:p-16 group transition-all cursor-pointer bg-slate-50/50 dark:bg-slate-900/50 ${dragging ? "border-blue-400 bg-blue-50 dark:bg-blue-500/10" : "border-slate-200 dark:border-slate-700 hover:border-blue-500"}`}
-          >
-            <input ref={fileInputRef} type="file" accept=".pdf" multiple className="hidden"
-              onChange={e => { if (e.target.files) { addFiles(Array.from(e.target.files)); e.target.value = ""; } }} />
-            <div className="space-y-4 sm:space-y-6 pointer-events-none">
-              <div className={`p-4 sm:p-6 bg-white dark:bg-slate-800 rounded-2xl shadow-xl inline-block text-blue-500 transition-transform ${dragging ? "scale-110" : "group-hover:scale-110"}`}>
-                <Upload size={48} />
-              </div>
-              <div className="text-xl sm:text-2xl font-black tracking-tight text-slate-800 dark:text-white">
-                {dragging ? "Drop your PDFs here!" : "Select PDF files"}
-              </div>
-              <p className="text-sm sm:text-base text-slate-500">or drop PDFs here · stays in your browser</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  // ── All done ──────────────────────────────────────────────────────────────
-  if (allDone && !processing && doneFiles.length > 0) {
-    return (
-      <div className="max-w-4xl mx-auto py-6 sm:py-12 px-4 text-center">
-        <div className="bg-white dark:bg-slate-800 rounded-[1.5rem] sm:rounded-[2.5rem] p-6 sm:p-12 border border-slate-100 dark:border-slate-700 shadow-2xl space-y-8 sm:space-y-12">
-          <div className="space-y-4">
-            <div className="p-10 sm:p-12 rounded-full bg-blue-50 dark:bg-blue-500/10 text-blue-500 inline-block">
-              <CheckCircle2 size={72} />
-            </div>
-            <h3 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white">OCR Complete!</h3>
-            <p className="text-slate-500 font-bold uppercase tracking-widest text-sm">
-              {doneFiles.length} file{doneFiles.length !== 1 ? "s" : ""} processed{errorFiles.length > 0 ? ` · ${errorFiles.length} failed` : ""}
-            </p>
-          </div>
-
-          {/* Per-file download list */}
-          {pdfFiles.length > 1 && (
-            <div className="space-y-2 text-left">
-              {pdfFiles.map(f => (
-                <div key={f.id} className="flex items-center gap-3 p-4 bg-slate-50 dark:bg-slate-900/50 rounded-2xl border border-slate-100 dark:border-slate-700">
-                  <div className="p-2 rounded-xl bg-white dark:bg-slate-800 shadow-sm shrink-0">
-                    <FileText size={18} className={f.status === "done" ? "text-blue-500" : "text-red-400"} />
-                  </div>
-                  <span className="flex-1 text-sm font-bold text-slate-700 dark:text-slate-200 truncate">{f.file.name}</span>
-                  {f.status === "done" && (
-                    <button onClick={() => handleDownload(f)}
-                      className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-blue-500 text-white text-xs font-bold hover:bg-blue-600 transition-colors">
-                      <Download size={13} /> Download
-                    </button>
-                  )}
-                  {f.status === "error" && (
-                    <span className="text-xs text-red-400 font-medium">{f.errorMsg ?? "Failed"}</span>
-                  )}
-                </div>
-              ))}
-            </div>
-          )}
-
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            {doneFiles.length === 1 ? (
-              <button onClick={() => handleDownload(doneFiles[0])}
-                className="flex-1 py-4 sm:py-5 bg-blue-500 hover:bg-blue-600 text-white rounded-2xl text-xl sm:text-2xl font-black shadow-xl shadow-blue-500/20 flex items-center justify-center gap-4 transition-all">
-                <Download size={24} /> Download PDF
-              </button>
-            ) : (
-              <button onClick={downloadAll}
-                className="flex-1 py-4 sm:py-5 bg-blue-500 hover:bg-blue-600 text-white rounded-2xl text-xl sm:text-2xl font-black shadow-xl shadow-blue-500/20 flex items-center justify-center gap-4 transition-all">
-                <Download size={24} /> Download All
-              </button>
-            )}
-            <button onClick={reset}
-              className="px-10 py-4 sm:py-5 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 text-slate-900 dark:text-white rounded-2xl font-bold transition-all">
-              OCR Another
-            </button>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  // ── Files loaded / processing ─────────────────────────────────────────────
   return (
-    <div className="max-w-4xl mx-auto py-6 sm:py-12 px-4">
-      <div className="bg-white dark:bg-slate-800 rounded-[1.5rem] sm:rounded-[2.5rem] p-6 sm:p-10 border border-slate-100 dark:border-slate-700 shadow-2xl space-y-6 sm:space-y-8">
+    <div className="max-w-7xl mx-auto py-4 sm:py-8 px-3 sm:px-6 font-sans text-left">
+      <div className="flex flex-col lg:flex-row gap-8 items-start">
+        
+        {/* Sidebar Configuration */}
+        <div className="w-full lg:w-[320px] bg-white dark:bg-slate-800 rounded-3xl border border-slate-100 dark:border-slate-700 shadow-xl overflow-hidden h-fit lg:sticky lg:top-4 flex-shrink-0">
+          <button onClick={() => setShowSettings(!showSettings)} className="w-full flex lg:hidden items-center justify-between p-5 font-black text-slate-900 dark:text-white border-b border-slate-50 dark:border-slate-700">
+            <span className="flex items-center gap-2"><Settings size={20} style={{ color: ACCENT }} /> OCR Options</span>
+            <ChevronDown className={`transition-transform duration-300 ${showSettings ? 'rotate-180' : ''}`} size={20} />
+          </button>
 
-        {/* Language selector */}
-        {!processing && (
-          <div className="flex items-center gap-3">
-            <Globe size={16} className="text-slate-400 shrink-0" />
-            <label className="text-xs font-black uppercase tracking-widest text-slate-400 shrink-0">OCR Language</label>
-            <select
-              value={language}
-              onChange={e => setLanguage(e.target.value)}
-              className="flex-1 max-w-xs text-sm font-bold text-slate-700 dark:text-slate-200 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
-            >
-              {LANGUAGES.map(l => (
-                <option key={l.code} value={l.code}>{l.label}</option>
-              ))}
-            </select>
-          </div>
-        )}
+          <div className={`${showSettings ? 'block' : 'hidden'} lg:block p-6`}>
+            <div className="flex items-center justify-between mb-6">
+              <h3 className="hidden lg:block text-lg font-black text-slate-900 dark:text-white uppercase tracking-tight">Configuration</h3>
+              <button onClick={reset} className="text-[10px] font-black uppercase tracking-widest text-red-500 hover:text-red-600 transition-colors">Reset</button>
+            </div>
 
-        {/* File cards with thumbnails */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          {pdfFiles.map(f => (
-            <div key={f.id} className={`relative rounded-2xl border overflow-hidden transition-all ${
-              f.status === "done" ? "border-blue-200 dark:border-blue-500/30 bg-blue-50/50 dark:bg-blue-500/5"
-              : f.status === "error" ? "border-red-200 dark:border-red-500/30 bg-red-50/50 dark:bg-red-500/5"
-              : f.status === "processing" ? "border-blue-300 dark:border-blue-500/50 bg-blue-50 dark:bg-blue-500/10"
-              : "border-slate-100 dark:border-slate-700 bg-slate-50 dark:bg-slate-900/50"
-            }`}>
-              {/* Thumbnail strip */}
-              {f.thumbs.length > 0 && (
-                <div className="flex gap-1 p-2 bg-slate-100 dark:bg-slate-900/60 overflow-hidden">
-                  {f.thumbs.map((thumb, i) => (
-                    <img key={i} src={thumb} alt={`Page ${i + 1}`}
-                      className="h-16 w-auto rounded object-cover shadow-sm border border-slate-200 dark:border-slate-700 shrink-0" />
-                  ))}
-                  {f.numPages > 4 && (
-                    <div className="h-16 w-10 rounded bg-slate-200 dark:bg-slate-700 flex items-center justify-center text-xs font-black text-slate-500 shrink-0">
-                      +{f.numPages - 4}
-                    </div>
-                  )}
+            <div className="space-y-6">
+              {/* Language Selector */}
+              <div className="space-y-3">
+                <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest block">Recognition Language</span>
+                <div className="relative">
+                   <select
+                     value={language}
+                     onChange={e => setLanguage(e.target.value)}
+                     disabled={processing}
+                     className="w-full text-sm font-black text-slate-700 dark:text-slate-200 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-2xl px-4 py-3 appearance-none focus:outline-none focus:ring-2 focus:ring-blue-400 disabled:opacity-50"
+                   >
+                     {LANGUAGES.map(l => (
+                       <option key={l.code} value={l.code}>{l.label}</option>
+                     ))}
+                   </select>
+                   <ChevronDown className="absolute right-4 top-3.5 text-slate-400 pointer-events-none" size={16} />
                 </div>
-              )}
-
-              {/* File info */}
-              <div className="p-3 flex items-center gap-3">
-                <div className="p-2 rounded-xl bg-white dark:bg-slate-800 shadow-sm shrink-0">
-                  <FileText size={16} className={
-                    f.status === "done" ? "text-blue-500"
-                    : f.status === "error" ? "text-red-400"
-                    : "text-slate-400"
-                  } />
-                </div>
-                <div className="flex-1 min-w-0">
-                  <p className="text-xs font-bold text-slate-800 dark:text-white truncate">{f.file.name}</p>
-                  <p className="text-[10px] text-slate-400">{f.numPages} page{f.numPages !== 1 ? "s" : ""} · {(f.file.size / 1024).toFixed(0)} KB</p>
-                </div>
-                {f.status === "pending" && !processing && (
-                  <button onClick={() => removeFile(f.id)} className="p-1.5 rounded-lg hover:bg-red-50 dark:hover:bg-red-500/10 text-slate-400 hover:text-red-500 transition-colors">
-                    <X size={14} />
-                  </button>
-                )}
-                {f.status === "done" && (
-                  <CheckCircle2 size={18} className="text-blue-500 shrink-0" />
-                )}
-                {f.status === "error" && (
-                  <AlertCircle size={18} className="text-red-400 shrink-0" />
-                )}
               </div>
 
-              {/* Progress bar */}
-              {f.status === "processing" && (
-                <div className="px-3 pb-3 space-y-1">
-                  <div className="flex items-center justify-between text-[10px] font-bold text-blue-600 dark:text-blue-400">
-                    <span className="flex items-center gap-1"><Loader2 size={10} className="animate-spin" /> Scanning…</span>
-                    <span>{f.progress}%</span>
+              {/* Status Section */}
+              <div className="pt-4 border-t border-slate-50 dark:border-slate-700">
+                <div className="bg-slate-50 dark:bg-slate-900/50 rounded-2xl p-4 border border-slate-100 dark:border-slate-800">
+                  <div className="flex items-center gap-3 mb-2">
+                    <div className="p-2 rounded-lg bg-white dark:bg-slate-800 shadow-sm text-blue-500">
+                      <Search size={14} />
+                    </div>
+                    <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Job Status</span>
                   </div>
-                  <div className="w-full h-1.5 bg-blue-100 dark:bg-blue-500/20 rounded-full overflow-hidden">
-                    <div className="h-full bg-blue-500 rounded-full transition-all duration-300" style={{ width: `${f.progress}%` }} />
+                  <div className="space-y-1">
+                     <p className="text-[11px] font-bold text-slate-600 dark:text-slate-300 italic uppercase">
+                       {pdfFiles.length === 0 ? 'Queue Empty' : `${pdfFiles.length} Documents`}
+                     </p>
                   </div>
                 </div>
-              )}
+              </div>
 
-              {f.status === "error" && (
-                <p className="px-3 pb-3 text-[10px] text-red-400 font-medium">{f.errorMsg ?? "Failed"}</p>
-              )}
+              {/* Action Button */}
+              <div className="pt-2">
+                {!allDone ? (
+                  <button
+                    onClick={runOcr}
+                    disabled={processing || pdfFiles.length === 0}
+                    className="w-full py-5 text-white rounded-[1.5rem] text-xl font-black shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50 disabled:grayscale uppercase tracking-tighter italic shadow-blue-500/20"
+                    style={{ background: ACCENT_GRADIENT }}
+                  >
+                    {processing ? (
+                      <span className="flex items-center justify-center gap-3"><Loader2 className="animate-spin" /> OCR Active...</span>
+                    ) : (
+                      <span className="flex items-center justify-center gap-3">Start OCR <Zap size={24} /></span>
+                    )}
+                  </button>
+                ) : (
+                  <div className="space-y-3">
+                    <button
+                      onClick={downloadAll}
+                      className="w-full py-5 text-white rounded-[1.5rem] text-xl font-black shadow-xl hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-3 uppercase tracking-tighter italic shadow-blue-500/20"
+                      style={{ background: ACCENT_GRADIENT }}
+                    >
+                      <Download size={24} /> Download All
+                    </button>
+                    <button onClick={reset} className="w-full py-3 bg-slate-100 text-slate-500 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-slate-200 transition-all">Start Over</button>
+                  </div>
+                )}
+              </div>
             </div>
-          ))}
-
-          {/* Add more files card */}
-          {!processing && (
-            <div
-              onClick={() => fileInputRef.current?.click()}
-              className="rounded-2xl border-2 border-dashed border-slate-200 dark:border-slate-700 hover:border-blue-400 transition-all cursor-pointer flex flex-col items-center justify-center gap-2 p-6 text-slate-400 hover:text-blue-500 min-h-[120px]"
-            >
-              <input ref={fileInputRef} type="file" accept=".pdf" multiple className="hidden"
-                onChange={e => { if (e.target.files) { addFiles(Array.from(e.target.files)); e.target.value = ""; } }} />
-              <Upload size={22} />
-              <span className="text-xs font-bold">Add more PDFs</span>
-            </div>
-          )}
+          </div>
         </div>
 
-        {/* Action buttons */}
-        {!processing ? (
-          <div className="flex flex-col sm:flex-row gap-3">
-            <button
-              onClick={runOcr}
-              disabled={!pendingFiles.length}
-              className="flex-1 py-4 sm:py-5 bg-blue-500 hover:bg-blue-600 disabled:opacity-40 text-white rounded-2xl text-lg sm:text-2xl font-black shadow-xl shadow-blue-500/20 flex items-center justify-center gap-4 transition-all"
-            >
-              <ScanText size={24} />
-              {pendingFiles.length > 1 ? `OCR ${pendingFiles.length} PDFs` : "OCR PDF"}
-            </button>
-            <button onClick={reset}
-              className="px-6 py-4 sm:py-5 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 text-slate-600 dark:text-slate-300 rounded-2xl font-bold transition-all flex items-center justify-center gap-2">
-              <RefreshCw size={16} /> Reset
-            </button>
+        {/* Main Workspace */}
+        <div className="flex-1 w-full space-y-6">
+          <div className="bg-white dark:bg-slate-800 rounded-[2.5rem] border border-slate-100 dark:border-slate-700 shadow-2xl p-6 sm:p-12 min-h-[600px] flex flex-col relative overflow-hidden">
+            
+            {/* Decoration */}
+            <div className="absolute top-0 right-0 w-64 h-64 bg-blue-50 dark:bg-blue-900/10 rounded-full -mr-32 -mt-32 blur-3xl opacity-50" />
+            
+            {/* Header */}
+            <div className="relative text-center space-y-4 mb-10 text-left sm:text-center">
+              <div className="inline-flex p-4 rounded-2xl text-white shadow-lg shadow-blue-500/20 mx-auto" style={{ background: ACCENT_GRADIENT }}>
+                <ScanText size={32} />
+              </div>
+              <h2 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter italic leading-tight">
+                Optical Character Recognition
+              </h2>
+              <p className="text-slate-500 font-medium tracking-tight max-w-md mx-auto italic uppercase text-xs">
+                Transform scanned PDF documents into fully searchable text layers using local Tesseract engine.
+              </p>
+            </div>
+
+            {/* Content Area */}
+            {pdfFiles.length === 0 ? (
+              <div className="flex-1 flex flex-col items-center justify-center border-2 border-dashed border-slate-100 dark:border-slate-700 rounded-[2.5rem] p-10 sm:p-20 hover:border-blue-400 cursor-pointer transition-all bg-slate-50/30 dark:bg-slate-900/30 group relative overflow-hidden"
+                onClick={() => fileInputRef.current?.click()}>
+                <div className="p-6 bg-white dark:bg-slate-800 rounded-3xl shadow-xl text-blue-500 mb-6 group-hover:scale-110 transition-transform relative z-10">
+                  <Upload size={48} />
+                </div>
+                <div className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white uppercase tracking-tight text-center relative z-10">
+                  Select Scanned PDF
+                </div>
+                <p className="text-slate-400 text-sm mt-2 font-bold italic tracking-tight text-center relative z-10 uppercase tracking-widest">
+                  Native browser OCR · No cloud upload
+                </p>
+                <button className="mt-8 px-10 py-4 rounded-2xl text-white text-sm font-black uppercase tracking-widest shadow-xl hover:scale-105 transition-all relative z-10" style={{ background: ACCENT_GRADIENT }}>
+                  Choose Files
+                </button>
+                <input ref={fileInputRef} type="file" multiple onChange={e => e.target.files && addFiles(Array.from(e.target.files))} accept=".pdf" className="hidden" />
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 animate-in fade-in slide-in-from-bottom-4 duration-500 overflow-y-auto max-h-[700px] pr-2 custom-scrollbar p-1">
+                 <AnimatePresence>
+                   {pdfFiles.map((f) => (
+                     <motion.div
+                       key={f.id}
+                       layout
+                       initial={{ scale: 0.9, opacity: 0 }}
+                       animate={{ scale: 1, opacity: 1 }}
+                       exit={{ scale: 0.9, opacity: 0 }}
+                       className={`relative rounded-[2rem] border-2 transition-all overflow-hidden ${f.status === 'done' ? 'border-green-500/50 bg-green-50/10' : f.status === 'error' ? 'border-red-500' : 'border-slate-100 dark:border-slate-800 bg-slate-50/30 dark:bg-slate-900/30'}`}
+                     >
+                       {/* Thumbnail Strip */}
+                       <div className="flex gap-1 p-3 bg-white dark:bg-slate-800 border-b border-slate-50 dark:border-slate-700 overflow-x-auto scrollbar-hide">
+                         {f.thumbs.map((thumb, i) => (
+                           <img key={i} src={thumb} className="h-20 w-auto rounded-lg object-cover shadow-sm border border-slate-100 dark:border-slate-700 shrink-0" alt="Preview" />
+                         ))}
+                         {f.numPages > 4 && (
+                           <div className="h-20 w-12 bg-slate-50 dark:bg-slate-900 rounded-lg flex items-center justify-center text-[10px] font-black text-slate-400 shrink-0 border border-slate-100 dark:border-slate-700">
+                             +{f.numPages - 4}
+                           </div>
+                         )}
+                       </div>
+
+                       {/* Progress / Status Overlay */}
+                       {f.status === 'processing' && (
+                         <div className="absolute inset-0 bg-blue-600/10 backdrop-blur-[2px] z-10 flex flex-col items-center justify-center p-6 pt-24">
+                            <div className="w-full bg-white/20 rounded-full h-1 overflow-hidden mb-2">
+                               <motion.div 
+                                 className="h-full bg-blue-500"
+                                 initial={{ width: 0 }}
+                                 animate={{ width: `${f.progress}%` }}
+                               />
+                            </div>
+                            <span className="text-[10px] font-black text-blue-600 uppercase tracking-widest italic">{f.progress}% ANALYZED</span>
+                         </div>
+                       )}
+
+                       {/* File Details */}
+                       <div className="p-5 flex items-center gap-4 relative z-20">
+                          <div className="w-10 h-10 bg-white dark:bg-slate-800 rounded-xl flex items-center justify-center shadow-sm text-blue-500 shrink-0">
+                             <FileText size={20} />
+                          </div>
+                          <div className="flex-1 min-w-0">
+                             <p className="text-[11px] font-black text-slate-900 dark:text-white uppercase truncate italic">{f.file.name}</p>
+                             <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest leading-none mt-1">{f.numPages} Pages · {(f.file.size / 1024).toFixed(0)} KB</p>
+                          </div>
+                          <div className="flex gap-2">
+                             {f.status === 'done' && (
+                                <button onClick={() => handleDownload(f)} className="p-2 bg-green-500 text-white rounded-lg shadow-lg hover:scale-110 transition-transform">
+                                   <Download size={14} />
+                                </button>
+                             )}
+                             {!processing && f.status !== 'done' && (
+                                <button onClick={() => removeFile(f.id)} className="p-2 text-slate-300 hover:text-red-500 transition-colors">
+                                   <X size={18} />
+                                </button>
+                             )}
+                          </div>
+                       </div>
+
+                       {/* Error Message */}
+                       {f.status === 'error' && (
+                         <div className="px-5 pb-5 flex items-center gap-2 text-red-500">
+                            <AlertCircle size={12} />
+                            <span className="text-[9px] font-black uppercase tracking-widest">{f.errorMsg || 'Process failed'}</span>
+                         </div>
+                       )}
+                     </motion.div>
+                   ))}
+                 </AnimatePresence>
+              </div>
+            )}
           </div>
-        ) : (
-          <div className="flex items-center justify-center gap-3 py-4 text-blue-500 font-bold">
-            <Loader2 size={20} className="animate-spin" />
-            <span>Processing{processingFile ? ` "${processingFile.file.name}"` : ""}…</span>
+
+          {/* Feature Highlight */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+            {[
+              { title: "Multi-Language", desc: "Native support for English, Spanish, Japanese, and 10+ major languages.", icon: Globe },
+              { title: "Native Search", desc: "Injects a proper invisible text layer into your reconstructed PDF.", icon: Search },
+              { title: "Total Privacy", desc: "OCR engine runs inside your browser sandbox. No server processing.", icon: ShieldCheck },
+            ].map((feat, i) => (
+              <div key={i} className="p-8 bg-white dark:bg-slate-800 rounded-3xl border border-slate-50 dark:border-slate-700 shadow-sm flex flex-col items-center text-center group hover:shadow-lg transition-all">
+                <div className="w-12 h-12 rounded-2xl bg-blue-50 dark:bg-blue-500/10 flex items-center justify-center text-blue-500 mb-4 group-hover:scale-110 transition-transform shadow-inner">
+                  <feat.icon size={24} />
+                </div>
+                <h5 className="text-[11px] font-black uppercase tracking-widest text-slate-900 dark:text-white mb-2">{feat.title}</h5>
+                <p className="text-[10px] text-slate-400 font-medium leading-relaxed italic uppercase">{feat.desc}</p>
+              </div>
+            ))}
           </div>
-        )}
+        </div>
       </div>
+      
+      <style jsx global>{`
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #dbeafe; border-radius: 10px; }
+        .dark .custom-scrollbar::-webkit-scrollbar-thumb { background: #1e293b; }
+        .scrollbar-hide::-webkit-scrollbar { display: none; }
+        .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+      `}</style>
     </div>
   );
 }

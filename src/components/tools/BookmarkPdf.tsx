@@ -2,16 +2,14 @@
 
 import { useState, useRef, useCallback, useEffect } from "react";
 import { Upload, Download, X, FileText, CheckCircle2, Loader2, Bookmark, Plus, Trash2, Edit3, ChevronUp, ChevronDown, Save } from "lucide-react";
-import * as pdfjsLib from "pdfjs-dist";
 import { PDFDocument, PDFDict, PDFName, PDFNull, PDFNumber, PDFString } from "pdf-lib";
-
-pdfjsLib.GlobalWorkerOptions.workerSrc = "/workers/pdf.worker.min.mjs";
+import type * as PDFJS from 'pdfjs-dist';
 
 interface BookmarkItem { id: string; title: string; page: number; }
 
 export default function BookmarkPdf({ id: _id }: { id: string }) {
   const [file, setFile] = useState<File | null>(null);
-  const [pdfDoc, setPdfDoc] = useState<pdfjsLib.PDFDocumentProxy | null>(null);
+  const [pdfDoc, setPdfDoc] = useState<PDFJS.PDFDocumentProxy | null>(null);
   const [totalPages, setTotalPages] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [scale, setScale] = useState(1.3);
@@ -35,6 +33,8 @@ export default function BookmarkPdf({ id: _id }: { id: string }) {
     setFile(f); setBookmarks([]); setResult(null); setCurrentPage(1);
     const buf = await f.arrayBuffer();
     bufRef.current = buf.slice(0);
+    const pdfjsLib = await import('pdfjs-dist');
+    pdfjsLib.GlobalWorkerOptions.workerSrc = '/workers/pdf.worker.min.mjs';
     const doc = await pdfjsLib.getDocument({ data: buf }).promise;
     setPdfDoc(doc);
     setTotalPages(doc.numPages);

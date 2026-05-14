@@ -1,28 +1,28 @@
 "use client";
 
-import OcrPdf from "@/components/tools/OcrPdf";
+import MergeSplit from "@/components/tools/MergeSplit";
 
-export default function OcrPdfPage() {
+export default function SplitPdfPage() {
   return (
     <div className="min-h-screen bg-slate-50/50 dark:bg-slate-950">
       <div className="max-w-7xl mx-auto px-4 pt-10 sm:pt-16 pb-10">
-        <OcrPdf id="ocr-pdf" />
+        <MergeSplit id="split" />
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-16 mb-16">
           {[
             { 
-              title: "Native OCR", 
-              desc: "Deep-scan scanned documents using the Tesseract engine to unlock unselectable text layers.",
-              gradient: "linear-gradient(135deg,#3b82f6,#2563eb)"
+              title: "Precise Splitting", 
+              desc: "Divide large documents into equal parts or extract individual pages into separate files.",
+              gradient: "linear-gradient(135deg,#8b5cf6,#6d28d9)"
             },
             { 
-              title: "Searchable PDFs", 
-              desc: "Inject an invisible text layer into your PDF, making it fully searchable and selectable in any viewer.",
-              gradient: "linear-gradient(135deg,#3b82f6,#2563eb)"
+              title: "ZIP Packaging", 
+              desc: "Split documents are automatically bundled into a clean ZIP archive for easy downloading.",
+              gradient: "linear-gradient(135deg,#8b5cf6,#6d28d9)"
             },
             { 
-              title: "Total Privacy", 
-              desc: "The OCR engine runs entirely in your browser sandbox. No document data is ever uploaded.",
+              title: "Secure & Local", 
+              desc: "Document extraction happens entirely in your browser. Total data privacy guaranteed.",
               gradient: "linear-gradient(135deg,#22c55e,#15803d)"
             }
           ].map((feat, i) => (

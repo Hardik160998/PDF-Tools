@@ -1,34 +1,28 @@
 "use client";
 
-import dynamic from "next/dynamic";
-
-const DeletePages = dynamic(() => import("@/components/tools/DeletePages"), {
-  ssr: false,
-});
+import DeletePages from "@/components/tools/DeletePages";
 
 export default function DeletePagesPage() {
   return (
     <div className="min-h-screen bg-slate-50/50 dark:bg-slate-950">
       <div className="max-w-7xl mx-auto px-4 pt-10 sm:pt-16 pb-10">
-        {/* The Tool */}
         <DeletePages id="delete-pages" />
 
-        {/* Informational Section */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-16 mb-16">
           {[
             { 
-              title: "Visual Removal", 
-              desc: "See every page before you delete it. Toggle selection with a single click.",
+              title: "Visual Deletion", 
+              desc: "See every page before you delete it. Perfect for removing blank pages or sensitive content.",
               gradient: "linear-gradient(135deg,#ef4444,#b91c1c)"
             },
             { 
-              title: "Quick Clean", 
-              desc: "Delete multiple pages instantly. The tool reconstructs your PDF while keeping high quality.",
+              title: "Precise Removal", 
+              desc: "Permanently discard unwanted pages and generate a clean, trimmed PDF instantly.",
               gradient: "linear-gradient(135deg,#ef4444,#b91c1c)"
             },
             { 
-              title: "Privacy First", 
-              desc: "All processing is done in your browser. Your sensitive documents never touch our servers.",
+              title: "Secure & Local", 
+              desc: "Processing happens entirely in your browser. Your document never touches any server.",
               gradient: "linear-gradient(135deg,#22c55e,#15803d)"
             }
           ].map((feat, i) => (

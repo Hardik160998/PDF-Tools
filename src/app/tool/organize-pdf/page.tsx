@@ -1,28 +1,28 @@
 "use client";
 
-import OcrPdf from "@/components/tools/OcrPdf";
+import OrganizeTool from "@/components/tools/OrganizeTool";
 
-export default function OcrPdfPage() {
+export default function OrganizePdfPage() {
   return (
     <div className="min-h-screen bg-slate-50/50 dark:bg-slate-950">
       <div className="max-w-7xl mx-auto px-4 pt-10 sm:pt-16 pb-10">
-        <OcrPdf id="ocr-pdf" />
+        <OrganizeTool id="organize-pdf" />
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-16 mb-16">
           {[
             { 
-              title: "Native OCR", 
-              desc: "Deep-scan scanned documents using the Tesseract engine to unlock unselectable text layers.",
-              gradient: "linear-gradient(135deg,#3b82f6,#2563eb)"
+              title: "Visual Reordering", 
+              desc: "Drag and drop pages to rearrange your PDF exactly how you want it. Visual previews included.",
+              gradient: "linear-gradient(135deg,#f97316,#ea580c)"
             },
             { 
-              title: "Searchable PDFs", 
-              desc: "Inject an invisible text layer into your PDF, making it fully searchable and selectable in any viewer.",
-              gradient: "linear-gradient(135deg,#3b82f6,#2563eb)"
+              title: "Batch Rotation", 
+              desc: "Correct page orientations instantly. Rotate individual pages or the entire document at once.",
+              gradient: "linear-gradient(135deg,#f97316,#ea580c)"
             },
             { 
-              title: "Total Privacy", 
-              desc: "The OCR engine runs entirely in your browser sandbox. No document data is ever uploaded.",
+              title: "Secure & Local", 
+              desc: "All organization and merging happens in your browser. Your files never touch our servers.",
               gradient: "linear-gradient(135deg,#22c55e,#15803d)"
             }
           ].map((feat, i) => (

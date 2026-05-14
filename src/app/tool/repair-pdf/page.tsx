@@ -1,12 +1,8 @@
 "use client";
 
-import dynamic from "next/dynamic";
+import RepairTool from "@/components/tools/RepairTool";
 
-const RepairTool = dynamic(() => import("@/components/tools/RepairTool"), {
-  ssr: false,
-});
-
-export default function RepairPage() {
+export default function RepairPdfPage() {
   return (
     <div className="min-h-screen bg-slate-50/50 dark:bg-slate-950">
       <div className="max-w-7xl mx-auto px-4 pt-10 sm:pt-16 pb-10">
@@ -15,19 +11,19 @@ export default function RepairPage() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-16 mb-16">
           {[
             { 
-              title: "Deep Recovery", 
-              desc: "Analyzes and reconstructs corrupted file tables and cross-reference streams.",
+              title: "Structure Repair", 
+              desc: "Deep-scan corrupted PDF documents to rebuild cross-reference tables and broken object streams.",
               gradient: "linear-gradient(135deg,#ef4444,#dc2626)"
             },
             { 
-              title: "Structure Restoration", 
-              desc: "Fixes unreadable PDF documents by rebuilding the internal object tree from scratch.",
+              title: "Content Recovery", 
+              desc: "Attempt to recover text, images, and layout from unreadable or partially damaged files.",
               gradient: "linear-gradient(135deg,#ef4444,#dc2626)"
             },
             { 
-              title: "Secure Handling", 
-              desc: "Uses our specialized recovery engine to safely salvage data from damaged files.",
-              gradient: "linear-gradient(135deg,#ef4444,#dc2626)"
+              title: "Privacy First", 
+              desc: "Sensitive recovery analysis happens locally or via secure encrypted endpoints for maximum privacy.",
+              gradient: "linear-gradient(135deg,#22c55e,#15803d)"
             }
           ].map((feat, i) => (
             <div key={i} className="bg-white dark:bg-slate-900 p-8 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-xl transition-all group">

@@ -2,12 +2,8 @@
 
 import { useState, useRef } from 'react';
 import { Upload, Download, Loader2, X, CheckCircle2, ShoppingBag, Trash2, FileText } from 'lucide-react';
-import * as pdfjsLib from 'pdfjs-dist';
+import type * as PDFJS from 'pdfjs-dist';
 import { PDFDocument } from 'pdf-lib';
-
-if (typeof window !== 'undefined') {
-  pdfjsLib.GlobalWorkerOptions.workerSrc = '/workers/pdf.worker.min.mjs';
-}
 
 interface LabelFile {
   id: string;
@@ -31,7 +27,7 @@ interface PageData {
   qtyBounds?: any;
 }
 
-async function findTotalLineY(page: pdfjsLib.PDFPageProxy): Promise<number | null> {
+async function findTotalLineY(page: PDFJS.PDFPageProxy): Promise<number | null> {
   const content = await page.getTextContent();
   const items = content.items as any[];
   let totalY: number | null = null;
@@ -41,7 +37,7 @@ async function findTotalLineY(page: pdfjsLib.PDFPageProxy): Promise<number | nul
   return totalY;
 }
 
-async function extractPageMetadata(page: pdfjsLib.PDFPageProxy, viewport: any, scale: number): Promise<{ courierName: string; sellerName: string; qty: number; pincode: string; orderId: string; awb: string; customerName: string; skuId: string; skuBounds?: any; qtyBounds?: any }> {
+async function extractPageMetadata(page: PDFJS.PDFPageProxy, viewport: any, scale: number): Promise<{ courierName: string; sellerName: string; qty: number; pincode: string; orderId: string; awb: string; customerName: string; skuId: string; skuBounds?: any; qtyBounds?: any }> {
   const content = await page.getTextContent();
   const items = content.items as any[];
   let courierName = 'Unknown';
@@ -140,7 +136,7 @@ async function extractPageMetadata(page: pdfjsLib.PDFPageProxy, viewport: any, s
   return { courierName, sellerName, qty, pincode, orderId, awb, customerName, skuId, skuBounds, qtyBounds };
 }
 
-async function renderPageCroppedToCanvas(page: pdfjsLib.PDFPageProxy, scale: number, cropBelowY: number | null): Promise<HTMLCanvasElement> {
+async function renderPageCroppedToCanvas(page: PDFJS.PDFPageProxy, scale: number, cropBelowY: number | null): Promise<HTMLCanvasElement> {
   const viewport = page.getViewport({ scale });
   const fullCanvas = document.createElement('canvas');
   fullCanvas.width = viewport.width;
@@ -234,6 +230,8 @@ export default function MeeshoCropper({ id }: { id: string }) {
       setFiles(prev => prev.map(f => f.id === entry.id ? { ...f, status: 'processing' } : f));
       try {
         const buf = await entry.file.arrayBuffer();
+        const pdfjsLib = await import('pdfjs-dist');
+        pdfjsLib.GlobalWorkerOptions.workerSrc = '/workers/pdf.worker.min.mjs';
         const pdf = await pdfjsLib.getDocument(buf).promise;
         for (let p = 1; p <= pdf.numPages; p++) {
           const page = await pdf.getPage(p);

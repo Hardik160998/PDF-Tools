@@ -3,11 +3,6 @@
 import { useState, useRef, useCallback } from 'react';
 import { Upload, Download, Loader2, X, Trash2, FileText, CheckCircle2, Settings, ChevronDown, Eye, EyeOff } from 'lucide-react';
 import { PDFDocument } from 'pdf-lib';
-import * as pdfjsLib from 'pdfjs-dist';
-
-if (typeof window !== 'undefined') {
-  pdfjsLib.GlobalWorkerOptions.workerSrc = '/workers/pdf.worker.min.mjs';
-}
 
 export default function DeletePages({ id: _id }: { id: string }) {
   const [file, setFile] = useState<File | null>(null);
@@ -29,6 +24,9 @@ export default function DeletePages({ id: _id }: { id: string }) {
     setSelected(new Set());
     setResult(null);
     try {
+      const pdfjsLib = await import('pdfjs-dist');
+      pdfjsLib.GlobalWorkerOptions.workerSrc = '/workers/pdf.worker.min.mjs';
+
       const pdf = await pdfjsLib.getDocument(await f.arrayBuffer()).promise;
       const pages: string[] = [];
       for (let i = 1; i <= pdf.numPages; i++) {
@@ -91,7 +89,7 @@ export default function DeletePages({ id: _id }: { id: string }) {
   };
 
   return (
-    <div className="max-w-7xl mx-auto py-4 sm:py-8 px-3 sm:px-6 font-sans">
+    <div className="max-w-7xl mx-auto py-4 sm:py-8 px-3 sm:px-6 font-sans text-left">
       <div className="flex flex-col lg:flex-row gap-6 items-start">
         
         {/* Settings Sidebar */}
@@ -122,33 +120,35 @@ export default function DeletePages({ id: _id }: { id: string }) {
               <div className="pt-4 border-t border-slate-50 dark:border-slate-700">
                 <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Status</p>
                 <p className="text-[10px] text-red-500 font-bold italic uppercase leading-tight">
-                  {selected.size} page{selected.size !== 1 ? 's' : ''} marked for permanent removal
+                  {selected.size} page{selected.size !== 1 ? 's' : ''} marked for removal
                 </p>
               </div>
 
               <div className="pt-4 border-t border-slate-50 dark:border-slate-700 text-left">
                 <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Technical Info</p>
-                <p className="text-[10px] text-slate-500 font-medium leading-tight">Pages are removed visually. The remaining pages are reconstructed into a new PDF locally.</p>
+                <p className="text-[10px] text-slate-500 font-medium leading-tight italic uppercase tracking-tighter">100% Client-side reconstruction</p>
               </div>
             </div>
           </div>
         </div>
 
         {/* Main Content Area */}
-        <div className="flex-1 bg-white dark:bg-slate-800 rounded-[2rem] sm:rounded-[3rem] p-6 sm:p-12 border border-slate-100 dark:border-slate-700 shadow-2xl min-h-[500px] flex flex-col w-full">
+        <div className="flex-1 bg-white dark:bg-slate-800 rounded-[2rem] sm:rounded-[3rem] p-6 sm:p-12 border border-slate-100 dark:border-slate-700 shadow-2xl min-h-[500px] flex flex-col w-full relative overflow-hidden">
           
+          <div className="absolute top-0 right-0 w-64 h-64 bg-red-50 dark:bg-red-900/10 rounded-full -mr-32 -mt-32 blur-3xl opacity-50" />
+
           {/* Header */}
-          <div className="text-center space-y-4 mb-10">
+          <div className="relative text-center space-y-4 mb-10">
             <div className="inline-flex p-4 rounded-2xl text-white shadow-lg shadow-red-500/20" style={{ background: ACCENT_GRADIENT }}>
               <Trash2 size={32} />
             </div>
             <h2 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter italic leading-tight">Delete PDF Pages</h2>
-            {!file && <p className="text-slate-500 font-medium tracking-tight">Pick pages to discard and download the trimmed document.</p>}
+            {!file && <p className="text-slate-500 font-medium tracking-tight max-w-md mx-auto">Pick pages to discard and download the trimmed document instantly.</p>}
           </div>
 
           {!file && !loading && (
             <div
-              className="flex-1 flex flex-col items-center justify-center border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-[2rem] p-10 sm:p-20 hover:border-red-500 transition-all cursor-pointer bg-slate-50/50 dark:bg-slate-900/50 group"
+              className="flex-1 flex flex-col items-center justify-center border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-[2rem] p-10 sm:p-20 hover:border-red-500 transition-all cursor-pointer bg-slate-50/50 dark:bg-slate-900/50 group relative z-10"
               onClick={() => inputRef.current?.click()}
               onDragOver={e => e.preventDefault()}
               onDrop={onDrop}
@@ -157,10 +157,10 @@ export default function DeletePages({ id: _id }: { id: string }) {
               <div className="p-6 bg-white dark:bg-slate-800 rounded-3xl shadow-xl text-red-500 mb-6 group-hover:scale-110 transition-transform">
                 <Upload size={48} />
               </div>
-              <div className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white uppercase tracking-tight text-center">Upload PDF to clean</div>
-              <p className="text-slate-400 text-sm mt-2 font-bold italic tracking-tight text-center">Fast, visual page removal in your browser</p>
+              <div className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white uppercase tracking-tight text-center">Select PDF to clean</div>
+              <p className="text-slate-400 text-sm mt-2 font-bold italic tracking-tight text-center uppercase tracking-widest">Fast, visual page removal</p>
               <button className="mt-8 px-10 py-4 rounded-2xl text-white text-sm font-black uppercase tracking-widest shadow-xl hover:scale-105 transition-all" style={{ background: ACCENT_GRADIENT }}>
-                Select PDF
+                Choose Document
               </button>
             </div>
           )}
@@ -171,17 +171,17 @@ export default function DeletePages({ id: _id }: { id: string }) {
                 <Loader2 size={64} className="animate-spin text-red-500" />
                 <Trash2 className="absolute inset-0 m-auto text-red-500/20" size={32} />
               </div>
-              <p className="text-lg font-black text-slate-400 uppercase tracking-widest animate-pulse">Generating Thumbnails...</p>
+              <p className="text-lg font-black text-slate-400 uppercase tracking-widest animate-pulse italic">Scanning Pages...</p>
             </div>
           )}
 
           {!loading && thumbs.length > 0 && !result && (
-            <div className="space-y-8 flex-1 flex flex-col">
+            <div className="space-y-8 flex-1 flex flex-col relative z-10">
               {/* File bar */}
               <div className="flex items-center justify-between p-4 bg-slate-50 dark:bg-slate-700/50 rounded-2xl border border-slate-100 dark:border-slate-600">
                 <div className="flex items-center gap-4 min-w-0">
                   <div className="w-10 h-10 rounded-xl bg-white dark:bg-slate-800 flex items-center justify-center text-red-500 shadow-sm"><FileText size={20} /></div>
-                  <div className="truncate">
+                  <div className="truncate text-left">
                     <p className="font-black text-slate-900 dark:text-white text-sm truncate">{file?.name}</p>
                     <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{thumbs.length} Pages Loaded</p>
                   </div>
@@ -222,10 +222,10 @@ export default function DeletePages({ id: _id }: { id: string }) {
                   style={{ background: ACCENT_GRADIENT }}
                 >
                   {processing ? (
-                    <span className="flex items-center justify-center gap-3"><Loader2 className="animate-spin" /> Cleaning PDF...</span>
+                    <span className="flex items-center justify-center gap-3"><Loader2 className="animate-spin" /> Purging Content...</span>
                   ) : (
                     <span className="flex items-center justify-center gap-3">
-                      {selected.size === 0 ? 'Select pages to delete' : `Remove ${selected.size} ${selected.size === 1 ? 'Page' : 'Pages'}`} <Trash2 size={24} />
+                      {selected.size === 0 ? 'Mark pages to delete' : `Delete ${selected.size} Selected`} <Trash2 size={24} />
                     </span>
                   )}
                 </button>
@@ -234,7 +234,7 @@ export default function DeletePages({ id: _id }: { id: string }) {
           )}
 
           {result && (
-            <div className="flex-1 flex flex-col items-center justify-center text-center space-y-10 animate-in zoom-in fade-in duration-500">
+            <div className="flex-1 flex flex-col items-center justify-center text-center space-y-10 animate-in zoom-in fade-in duration-500 relative z-10">
               <div className="relative">
                 <div className="absolute inset-0 bg-green-500 blur-3xl opacity-20 animate-pulse"></div>
                 <div className="relative p-10 rounded-full bg-green-50 dark:bg-green-500/10 text-green-500 shadow-2xl border border-green-100 dark:border-green-500/20">
@@ -243,7 +243,7 @@ export default function DeletePages({ id: _id }: { id: string }) {
               </div>
               
               <div className="space-y-2">
-                <h3 className="text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter italic">Cleanup Done!</h3>
+                <h3 className="text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter italic">Cleanup Complete</h3>
                 <p className="text-slate-500 font-bold uppercase tracking-widest text-sm">
                   {selected.size} page{selected.size !== 1 ? 's' : ''} removed successfully
                 </p>
@@ -273,7 +273,7 @@ export default function DeletePages({ id: _id }: { id: string }) {
       <style jsx global>{`
         .custom-scrollbar::-webkit-scrollbar { width: 6px; }
         .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: #e2e8f0; border-radius: 10px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #fee2e2; border-radius: 10px; }
         .dark .custom-scrollbar::-webkit-scrollbar-thumb { background: #334155; }
       `}</style>
     </div>

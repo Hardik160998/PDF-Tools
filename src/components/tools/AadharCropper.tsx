@@ -4,12 +4,6 @@ import { useState, useCallback } from 'react';
 import Cropper from 'react-easy-crop';
 import { Download, Loader2, ChevronRight, CheckCircle2, Wand2, FileText } from 'lucide-react';
 import { PDFDocument } from 'pdf-lib';
-import * as pdfjsLib from 'pdfjs-dist';
-
-// Configure PDF.js worker
-if (typeof window !== 'undefined') {
-  pdfjsLib.GlobalWorkerOptions.workerSrc = '/workers/pdf.worker.min.mjs';
-}
 
 const AADHAR_ASPECT = 86 / 54; // Standard ID Card aspect ratio
 
@@ -39,6 +33,8 @@ export default function AadharCropper({ id }: { id: string }) {
         reader.readAsDataURL(selectedFile);
       });
     }
+    const pdfjsLib = await import('pdfjs-dist');
+    pdfjsLib.GlobalWorkerOptions.workerSrc = '/workers/pdf.worker.min.mjs';
     const arrayBuffer = await selectedFile.arrayBuffer();
     const pdf = await pdfjsLib.getDocument(arrayBuffer).promise;
     const page = await pdf.getPage(1);

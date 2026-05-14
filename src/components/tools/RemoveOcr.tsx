@@ -2,14 +2,10 @@
 
 import { useState, useRef, useCallback } from "react";
 import { Upload, Download, Loader2, X, FileText, EyeOff, CheckCircle, AlertCircle, RefreshCw } from "lucide-react";
-import * as pdfjsLib from "pdfjs-dist";
+import type * as PDFJS from "pdfjs-dist";
 import { PDFDocument } from "pdf-lib";
 
-if (typeof window !== "undefined") {
-  pdfjsLib.GlobalWorkerOptions.workerSrc = "/workers/pdf.worker.min.mjs";
-}
-
-async function pageHasTextLayer(pdfPage: pdfjsLib.PDFPageProxy): Promise<boolean> {
+async function pageHasTextLayer(pdfPage: PDFJS.PDFPageProxy): Promise<boolean> {
   const content = await pdfPage.getTextContent();
   return content.items.some((item: any) => item.str?.trim().length > 0);
 }
@@ -43,6 +39,8 @@ export default function RemoveOcr({ id: _id }: { id: string }) {
       abortRef.current = false;
       setFile(f); setDone(false); setResultBlob(null);
       try {
+        const pdfjsLib = await import("pdfjs-dist");
+        pdfjsLib.GlobalWorkerOptions.workerSrc = "/workers/pdf.worker.min.mjs";
         const buf = await f.arrayBuffer();
         const pdfJs = await pdfjsLib.getDocument({ data: buf }).promise;
         const firstPage = await pdfJs.getPage(1);
@@ -58,6 +56,9 @@ export default function RemoveOcr({ id: _id }: { id: string }) {
 
   const runFlatten = useCallback(async (f: File) => {
     setProcessing(true); setDone(false); setResultBlob(null);
+
+    const pdfjsLib = await import("pdfjs-dist");
+    pdfjsLib.GlobalWorkerOptions.workerSrc = "/workers/pdf.worker.min.mjs";
 
     const buf = await f.arrayBuffer();
     const pdfJs = await pdfjsLib.getDocument({ data: buf.slice(0) }).promise;

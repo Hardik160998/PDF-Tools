@@ -3,11 +3,6 @@
 import { useState, useRef } from 'react';
 import { Upload, Download, Loader2, X, Layers, FileText, CheckCircle2, ShieldCheck, ChevronDown } from 'lucide-react';
 import { PDFDocument } from 'pdf-lib';
-import * as pdfjsLib from 'pdfjs-dist';
-
-if (typeof window !== 'undefined') {
-  pdfjsLib.GlobalWorkerOptions.workerSrc = '/workers/pdf.worker.min.mjs';
-}
 
 const FEATURES = [
   { icon: '📝', title: 'Flatten Forms',       desc: 'Form fields become static text — no more editable inputs.' },
@@ -65,6 +60,8 @@ export default function FlattenPdf({ id }: { id: string }) {
   const loadFile = async (f: File) => {
     setFile(f); setResult(null);
     try {
+      const pdfjsLib = await import('pdfjs-dist');
+      pdfjsLib.GlobalWorkerOptions.workerSrc = '/workers/pdf.worker.min.mjs';
       const pdf = await pdfjsLib.getDocument(await f.arrayBuffer()).promise;
       setPageCount(pdf.numPages);
     } catch { setPageCount(0); }
@@ -74,6 +71,8 @@ export default function FlattenPdf({ id }: { id: string }) {
     if (!file) return;
     setProcessing(true);
     try {
+      const pdfjsLib = await import('pdfjs-dist');
+      pdfjsLib.GlobalWorkerOptions.workerSrc = '/workers/pdf.worker.min.mjs';
       const pdf = await pdfjsLib.getDocument(await file.arrayBuffer()).promise;
       const outDoc = await PDFDocument.create();
       for (let i = 1; i <= pdf.numPages; i++) {

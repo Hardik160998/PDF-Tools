@@ -1,11 +1,8 @@
 "use client";
 
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef, useCallback, useEffect } from "react";
 import { Upload, Download, X, FileText, CheckCircle2, Loader2, Layers, Eye, EyeOff, Settings, ChevronDown } from "lucide-react";
-import * as pdfjsLib from "pdfjs-dist";
 import { PDFDocument } from "pdf-lib";
-
-pdfjsLib.GlobalWorkerOptions.workerSrc = "/workers/pdf.worker.min.mjs";
 
 type PageEntry = { pageNum: number; thumb: string; selected: boolean };
 
@@ -31,6 +28,9 @@ export default function ExtractPages({ id: _id }: { id: string }) {
     setRangeError("");
     setLoading(true);
     try {
+      const pdfjsLib = await import('pdfjs-dist');
+      pdfjsLib.GlobalWorkerOptions.workerSrc = '/workers/pdf.worker.min.mjs';
+      
       const buf = await f.arrayBuffer();
       const doc = await pdfjsLib.getDocument({ data: buf }).promise;
       const entries: PageEntry[] = [];
@@ -44,6 +44,9 @@ export default function ExtractPages({ id: _id }: { id: string }) {
         entries.push({ pageNum: i, thumb: canvas.toDataURL(), selected: false });
       }
       setPages(entries);
+    } catch (err) {
+      console.error(err);
+      alert("Error reading PDF.");
     } finally {
       setLoading(false);
     }
@@ -179,7 +182,7 @@ export default function ExtractPages({ id: _id }: { id: string }) {
         </div>
 
         {/* Main Content Area */}
-        <div className="flex-1 bg-white dark:bg-slate-800 rounded-[2rem] sm:rounded-[3rem] p-6 sm:p-12 border border-slate-100 dark:border-slate-700 shadow-2xl min-h-[500px] flex flex-col">
+        <div className="flex-1 bg-white dark:bg-slate-800 rounded-[2rem] sm:rounded-[3rem] p-6 sm:p-12 border border-slate-100 dark:border-slate-700 shadow-2xl min-h-[500px] flex flex-col w-full">
           
           {/* Header */}
           <div className="text-center space-y-4 mb-10">
@@ -201,8 +204,8 @@ export default function ExtractPages({ id: _id }: { id: string }) {
               <div className="p-6 bg-white dark:bg-slate-800 rounded-3xl shadow-xl text-orange-500 mb-6 group-hover:scale-110 transition-transform">
                 <Upload size={48} />
               </div>
-              <div className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white uppercase tracking-tight">Drop your PDF here</div>
-              <p className="text-slate-400 text-sm mt-2 font-bold italic tracking-tight">Visual page extraction made simple</p>
+              <div className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white uppercase tracking-tight text-center">Drop your PDF here</div>
+              <p className="text-slate-400 text-sm mt-2 font-bold italic tracking-tight text-center">Visual page extraction made simple</p>
               <button className="mt-8 px-10 py-4 rounded-2xl text-white text-sm font-black uppercase tracking-widest shadow-xl hover:scale-105 transition-all" style={{ background: ACCENT_GRADIENT }}>
                 Choose File
               </button>
@@ -262,7 +265,7 @@ export default function ExtractPages({ id: _id }: { id: string }) {
                 <button
                   onClick={handleExtract}
                   disabled={processing || selectedPages.length === 0}
-                  className="w-full py-5 text-white rounded-[1.5rem] text-xl font-black shadow-xl hover:scale-[1.01] active:scale-[0.99] transition-all disabled:opacity-50 disabled:grayscale uppercase tracking-tighter italic"
+                  className="w-full py-5 text-white rounded-[1.5rem] text-xl font-black shadow-xl hover:scale-[1.01] active:scale-[0.99] transition-all disabled:opacity-50 disabled:grayscale uppercase tracking-tighter italic shadow-orange-500/20"
                   style={{ background: ACCENT_GRADIENT }}
                 >
                   {processing ? (
@@ -297,7 +300,7 @@ export default function ExtractPages({ id: _id }: { id: string }) {
                 <a
                   href={result.url}
                   download={`extracted_${file!.name}`}
-                  className="flex-1 py-5 text-white rounded-2xl text-xl font-black shadow-xl hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-3 uppercase tracking-tighter"
+                  className="flex-1 py-5 text-white rounded-2xl text-xl font-black shadow-xl hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-3 uppercase tracking-tighter shadow-orange-500/20"
                   style={{ background: ACCENT_GRADIENT }}
                 >
                   <Download size={24} /> Download PDF

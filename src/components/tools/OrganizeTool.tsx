@@ -4,11 +4,10 @@ import { useState, useRef } from 'react';
 import { 
   Upload, Download, Loader2, X, RefreshCw, 
   Trash2, ArrowDownUp, RotateCw, FilePlus, 
-  Settings2, CheckCircle2, LayoutGrid, FileSymlink,
+  CheckCircle2, LayoutGrid, FileSymlink,
   Settings, ChevronDown, MousePointer2
 } from 'lucide-react';
 import { PDFDocument, degrees } from 'pdf-lib';
-import * as pdfjs from 'pdfjs-dist';
 import {
   DndContext,
   closestCenter,
@@ -27,10 +26,6 @@ import {
   useSortable,
 } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-
-if (typeof window !== 'undefined') {
-  pdfjs.GlobalWorkerOptions.workerSrc = '/workers/pdf.worker.min.mjs';
-}
 
 interface PdfPage {
   id: string;
@@ -137,6 +132,9 @@ export default function OrganizeTool({ id: _id }: { id: string }) {
   );
 
   const generateThumbnails = async (file: File, fileIdx: number) => {
+    const pdfjs = await import('pdfjs-dist');
+    pdfjs.GlobalWorkerOptions.workerSrc = '/workers/pdf.worker.min.mjs';
+
     const arrayBuffer = await file.arrayBuffer();
     const pdf = await pdfjs.getDocument({ data: arrayBuffer }).promise;
     const newPages: PdfPage[] = [];
@@ -245,7 +243,7 @@ export default function OrganizeTool({ id: _id }: { id: string }) {
   };
 
   return (
-    <div className="max-w-7xl mx-auto py-4 sm:py-8 px-3 sm:px-6 font-sans">
+    <div className="max-w-7xl mx-auto py-4 sm:py-8 px-3 sm:px-6 font-sans text-left">
       <div className="flex flex-col lg:flex-row gap-6 items-start">
         
         {/* Settings Sidebar */}
@@ -336,22 +334,24 @@ export default function OrganizeTool({ id: _id }: { id: string }) {
         </div>
 
         {/* Workspace */}
-        <div className="flex-1 bg-white dark:bg-slate-800 rounded-[2rem] sm:rounded-[3rem] p-6 sm:p-12 border border-slate-100 dark:border-slate-700 shadow-2xl min-h-[600px] flex flex-col w-full">
+        <div className="flex-1 bg-white dark:bg-slate-800 rounded-[2rem] sm:rounded-[3rem] p-6 sm:p-12 border border-slate-100 dark:border-slate-700 shadow-2xl min-h-[600px] flex flex-col w-full relative overflow-hidden">
           
+          <div className="absolute top-0 right-0 w-64 h-64 bg-orange-50 dark:bg-orange-900/10 rounded-full -mr-32 -mt-32 blur-3xl opacity-50" />
+
           <input type="file" multiple ref={fileInputRef} onChange={onFileChange} accept=".pdf" className="hidden" />
 
           {/* Header */}
-          <div className="text-center space-y-4 mb-10">
+          <div className="relative text-center space-y-4 mb-10">
             <div className="inline-flex p-4 rounded-2xl text-white shadow-lg shadow-orange-500/20" style={{ background: ACCENT_GRADIENT }}>
               <LayoutGrid size={32} />
             </div>
             <h2 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter italic leading-tight">Organize PDF Pages</h2>
-            {pages.length > 0 && <p className="text-slate-500 font-medium tracking-tight">Drag and drop to reorder. Rotate or delete individual pages below.</p>}
+            {pages.length > 0 && <p className="text-slate-500 font-medium tracking-tight max-w-md mx-auto">Drag and drop to reorder. Rotate or delete individual pages below.</p>}
           </div>
 
           {pages.length === 0 && !loadingPages && (
             <div
-              className="flex-1 flex flex-col items-center justify-center border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-[2rem] p-10 sm:p-20 hover:border-orange-500 cursor-pointer transition-all bg-slate-50/50 dark:bg-slate-900/50 group"
+              className="flex-1 flex flex-col items-center justify-center border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-[2rem] p-10 sm:p-20 hover:border-orange-500 transition-all cursor-pointer bg-slate-50/50 dark:bg-slate-900/50 group relative z-10"
               onClick={() => fileInputRef.current?.click()}
               onDragOver={e => e.preventDefault()}
               onDrop={onDrop}
@@ -360,7 +360,7 @@ export default function OrganizeTool({ id: _id }: { id: string }) {
                 <Upload size={48} />
               </div>
               <div className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white uppercase tracking-tight text-center">Select PDFs to Organize</div>
-              <p className="text-slate-400 text-sm mt-2 font-bold italic tracking-tight text-center">Batch reorder, rotate, and merge files visually</p>
+              <p className="text-slate-400 text-sm mt-2 font-bold italic tracking-tight text-center uppercase tracking-widest">Visual batch reorder & merge</p>
               <button className="mt-8 px-10 py-4 rounded-2xl text-white text-sm font-black uppercase tracking-widest shadow-xl hover:scale-105 transition-all" style={{ background: ACCENT_GRADIENT }}>
                 Upload Files
               </button>
@@ -375,7 +375,7 @@ export default function OrganizeTool({ id: _id }: { id: string }) {
               </div>
               <div className="text-center space-y-2">
                 <p className="text-xl font-black text-slate-900 dark:text-white uppercase tracking-tighter italic animate-pulse">Generating Thumbnails</p>
-                <p className="text-xs font-bold text-slate-400 uppercase tracking-widest leading-none">This happens locally in your browser</p>
+                <p className="text-xs font-bold text-slate-400 uppercase tracking-widest leading-none">Scanning locally in your browser</p>
               </div>
             </div>
           )}
@@ -387,7 +387,7 @@ export default function OrganizeTool({ id: _id }: { id: string }) {
               onDragStart={(e) => setActiveId(e.active.id as string)}
               onDragEnd={handleDragEnd}
             >
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 overflow-y-auto max-h-[700px] pr-2 custom-scrollbar p-1">
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 overflow-y-auto max-h-[700px] pr-2 custom-scrollbar p-1 relative z-10">
                 <SortableContext items={pages.map(p => p.id)} strategy={rectSortingStrategy}>
                   {pages.map(page => (
                     <SortableItem key={page.id} page={page} onRotate={rotatePage} onDelete={deletePage} />
@@ -420,7 +420,7 @@ export default function OrganizeTool({ id: _id }: { id: string }) {
 
           {/* Tips footer */}
           {pages.length > 0 && !result && (
-            <div className="mt-10 pt-8 border-t border-slate-50 dark:border-slate-700 flex flex-col sm:flex-row items-center justify-center gap-6">
+            <div className="relative z-10 mt-10 pt-8 border-t border-slate-50 dark:border-slate-700 flex flex-col sm:flex-row items-center justify-center gap-6">
               <div className="flex items-center gap-3 text-slate-400">
                 <MousePointer2 size={16} />
                 <span className="text-[10px] font-black uppercase tracking-widest italic">Drag pages to reorder</span>
@@ -437,7 +437,7 @@ export default function OrganizeTool({ id: _id }: { id: string }) {
       <style jsx global>{`
         .custom-scrollbar::-webkit-scrollbar { width: 6px; }
         .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: #e2e8f0; border-radius: 10px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #ffedd5; border-radius: 10px; }
         .dark .custom-scrollbar::-webkit-scrollbar-thumb { background: #334155; }
       `}</style>
     </div>

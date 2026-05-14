@@ -1,15 +1,13 @@
 'use client';
 
 import React, { useState, useRef, useEffect } from 'react';
-import * as pdfjs from 'pdfjs-dist';
-import { PDFDocument } from 'pdf-lib';
 import { 
   Upload, Download, Crop, Loader2, ArrowRight, 
   CheckCircle2, Info, Maximize2, ZoomIn, ZoomOut, 
   ChevronUp, ChevronDown, RotateCcw 
 } from 'lucide-react';
-
-pdfjs.GlobalWorkerOptions.workerSrc = '/workers/pdf.worker.mjs';
+import { PDFDocument } from 'pdf-lib';
+import type * as PDFJS from 'pdfjs-dist';
 
 const DEFAULT_BOX = { x: 0.05, y: 0.05, w: 0.9, h: 0.9 };
 
@@ -39,6 +37,8 @@ export default function CropPdf({ id: _id }: { id: string }) {
     setProcessing(true);
 
     try {
+      const pdfjs = await import('pdfjs-dist');
+      pdfjs.GlobalWorkerOptions.workerSrc = '/workers/pdf.worker.min.mjs';
       const arrayBuffer = await file.arrayBuffer();
       const pdf = await pdfjs.getDocument({ data: arrayBuffer }).promise;
       const infos = [];

@@ -2,12 +2,8 @@
 
 import { useState, useRef } from 'react';
 import { Upload, Download, Loader2, X, CheckCircle2, ShoppingBag, Trash2, FileText, AlertCircle } from 'lucide-react';
-import * as pdfjsLib from 'pdfjs-dist';
+import type * as PDFJS from 'pdfjs-dist';
 import { PDFDocument, rgb } from 'pdf-lib';
-
-if (typeof window !== 'undefined') {
-  pdfjsLib.GlobalWorkerOptions.workerSrc = '/workers/pdf.worker.min.mjs';
-}
 
 interface LabelFile {
   id: string;
@@ -42,7 +38,7 @@ function normalize(v: string) {
 
 // ── Precise Anchor Detection Engine ──────────────────────────────────────────
 async function detectFlipkartLabels(
-  page: pdfjsLib.PDFPageProxy,
+  page: PDFJS.PDFPageProxy,
   scale: number
 ): Promise<CropBounds[]> {
   const viewport = page.getViewport({ scale });
@@ -361,6 +357,8 @@ export default function FlipkartCropper({ id }: { id: string }) {
       setFiles(prev => prev.map(f => f.id === entry.id ? { ...f, status: 'processing' } : f));
       try {
         const buf = await entry.file.arrayBuffer();
+        const pdfjsLib = await import('pdfjs-dist');
+        pdfjsLib.GlobalWorkerOptions.workerSrc = '/workers/pdf.worker.min.mjs';
         const pdf = await pdfjsLib.getDocument({ data: buf }).promise;
         let fileMethod: 'ocr' | 'fallback' = 'ocr';
 

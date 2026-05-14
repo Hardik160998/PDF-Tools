@@ -2,16 +2,14 @@
 
 import { useState, useRef, useCallback, useEffect } from "react";
 import { Upload, Download, X, FileText, CheckCircle2, Loader2, EyeOff, Trash2, Plus, Shield } from "lucide-react";
-import * as pdfjsLib from "pdfjs-dist";
+import type * as PDFJS from "pdfjs-dist";
 import { PDFDocument, rgb, StandardFonts } from "pdf-lib";
-
-pdfjsLib.GlobalWorkerOptions.workerSrc = "/workers/pdf.worker.min.mjs";
 
 interface Redaction { id: string; page: number; x: number; y: number; w: number; h: number; }
 
 export default function RedactPdf({ id: _id }: { id: string }) {
   const [file, setFile] = useState<File | null>(null);
-  const [pdfDoc, setPdfDoc] = useState<pdfjsLib.PDFDocumentProxy | null>(null);
+  const [pdfDoc, setPdfDoc] = useState<PDFJS.PDFDocumentProxy | null>(null);
   const [totalPages, setTotalPages] = useState(0);
   const [page, setPage] = useState(1);
   const [scale, setScale] = useState(1.4);
@@ -36,6 +34,8 @@ export default function RedactPdf({ id: _id }: { id: string }) {
     setFile(f); setRedactions([]); setResult(null); setPage(1);
     const buf = await f.arrayBuffer();
     bufRef.current = buf.slice(0);
+    const pdfjsLib = await import("pdfjs-dist");
+    pdfjsLib.GlobalWorkerOptions.workerSrc = "/workers/pdf.worker.min.mjs";
     const doc = await pdfjsLib.getDocument({ data: buf }).promise;
     setPdfDoc(doc); setTotalPages(doc.numPages);
     setLoading(false);
@@ -125,6 +125,7 @@ export default function RedactPdf({ id: _id }: { id: string }) {
       const pg = await pdfDoc.getPage(p);
       const vp = pg.getViewport({ scale });
       const content = await pg.getTextContent();
+      const pdfjsLib = await import("pdfjs-dist");
       for (const item of content.items as any[]) {
         if (!item.str || !item.str.toLowerCase().includes(term)) continue;
         const tx = pdfjsLib.Util.transform(vp.transform, item.transform);

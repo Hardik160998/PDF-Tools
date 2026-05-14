@@ -1,10 +1,6 @@
 "use client";
 
-import dynamic from "next/dynamic";
-
-const ExtractPages = dynamic(() => import("@/components/tools/ExtractPages"), {
-  ssr: false,
-});
+import ExtractPages from "@/components/tools/ExtractPages";
 
 export default function ExtractPagesPage() {
   return (
