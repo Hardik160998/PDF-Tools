@@ -72,7 +72,7 @@ export default function ImageConverter({ id: toolId }: { id: string }) {
             const canvas = document.createElement("canvas");
             canvas.width = viewport.width;
             canvas.height = viewport.height;
-            await page.render({ canvasContext: canvas.getContext("2d")!, viewport }).promise;
+            await page.render({ canvasContext: canvas.getContext("2d")!, viewport, canvas }).promise;
             const imgData = canvas.toDataURL("image/jpeg", 0.9).split(",")[1];
             zip.file(`${entry.file.name.replace(".pdf", "")}_page_${i}.jpg`, imgData, { base64: true });
           }

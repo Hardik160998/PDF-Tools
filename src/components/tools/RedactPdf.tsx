@@ -50,7 +50,7 @@ export default function RedactPdf({ id: _id }: { id: string }) {
       const vp = pg.getViewport({ scale });
       const canvas = canvasRef.current!;
       canvas.width = vp.width; canvas.height = vp.height;
-      await pg.render({ canvas, viewport: vp }).promise;
+      await pg.render({ canvasContext: canvas.getContext("2d")!, canvas, viewport: vp }).promise;
       if (!cancelled && overlayRef.current) {
         overlayRef.current.width = vp.width;
         overlayRef.current.height = vp.height;

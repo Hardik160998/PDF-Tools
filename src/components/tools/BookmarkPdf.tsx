@@ -53,7 +53,7 @@ export default function BookmarkPdf({ id: _id }: { id: string }) {
         const canvas = canvasRef.current!;
         canvas.width = vp.width;
         canvas.height = vp.height;
-        const task = pg.render({ canvas, viewport: vp });
+        const task = pg.render({ canvasContext: canvas.getContext("2d")!, canvas, viewport: vp });
         renderTaskRef.current = task;
         await task.promise;
       } catch {}

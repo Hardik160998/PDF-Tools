@@ -40,7 +40,7 @@ export default function ExtractPages({ id: _id }: { id: string }) {
         const canvas = document.createElement("canvas");
         canvas.width = vp.width;
         canvas.height = vp.height;
-        await pg.render({ canvas, viewport: vp }).promise;
+        await pg.render({ canvasContext: canvas.getContext("2d")!, canvas, viewport: vp }).promise;
         entries.push({ pageNum: i, thumb: canvas.toDataURL(), selected: false });
       }
       setPages(entries);

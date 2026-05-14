@@ -69,7 +69,7 @@ export default function OcrPdf({ id: _id }: { id: string }) {
     const ctx = canvas.getContext("2d")!;
     ctx.fillStyle = "#fff";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
-    await page.render({ canvasContext: ctx, viewport: vp }).promise;
+    await page.render({ canvasContext: ctx, viewport: vp, canvas }).promise;
     return canvas.toDataURL("image/jpeg", 0.7);
   };
 
@@ -150,7 +150,7 @@ export default function OcrPdf({ id: _id }: { id: string }) {
             canvas.width = w; canvas.height = h;
             const ctx = canvas.getContext("2d")!;
             ctx.fillStyle = "#fff"; ctx.fillRect(0, 0, w, h);
-            await pdfPage.render({ canvasContext: ctx, viewport: vp2x, background: "rgb(255,255,255)" }).promise;
+            await pdfPage.render({ canvasContext: ctx, viewport: vp2x, background: "rgb(255,255,255)", canvas }).promise;
 
             const { data } = await ocrWorker.recognize(canvas, {}, { pdf: true });
             const pdfData = (data as any).pdf as Uint8Array | null;

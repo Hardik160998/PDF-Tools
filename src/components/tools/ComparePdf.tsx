@@ -26,7 +26,7 @@ async function renderPage(doc: PDFJS.PDFDocumentProxy, pageNum: number, scale = 
   const vp = pg.getViewport({ scale });
   const canvas = document.createElement("canvas");
   canvas.width = vp.width; canvas.height = vp.height;
-  await pg.render({ canvasContext: canvas.getContext("2d")!, viewport: vp }).promise;
+  await pg.render({ canvasContext: canvas.getContext("2d")!, viewport: vp, canvas }).promise;
   return canvas;
 }
 

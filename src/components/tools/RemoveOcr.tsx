@@ -79,7 +79,7 @@ export default function RemoveOcr({ id: _id }: { id: string }) {
         const canvas = document.createElement("canvas");
         canvas.width = Math.floor(vp3x.width);
         canvas.height = Math.floor(vp3x.height);
-        await pdfPage.render({ canvas, viewport: vp3x, intent: "print", background: "rgb(255,255,255)" }).promise;
+        await pdfPage.render({ canvasContext: canvas.getContext("2d")!, canvas: canvas, viewport: vp3x, intent: "print", background: "rgb(255,255,255)" }).promise;
 
         const imgDataUrl = canvas.toDataURL("image/jpeg", 0.95);
         const imgBytes = await fetch(imgDataUrl).then(r => r.arrayBuffer());
