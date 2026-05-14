@@ -1,10 +1,6 @@
 "use client";
 
-import dynamic from "next/dynamic";
-
-const OrganizeTool = dynamic(() => import("@/components/tools/OrganizeTool"), {
-  ssr: false,
-});
+import OrganizeTool from "@/components/tools/OrganizeTool";
 
 export default function OrganizePage() {
   return (

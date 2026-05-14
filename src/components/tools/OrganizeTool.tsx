@@ -247,7 +247,7 @@ export default function OrganizeTool({ id: _id }: { id: string }) {
       <div className="flex flex-col lg:flex-row gap-6 items-start">
         
         {/* Settings Sidebar */}
-        <div className={`w-full lg:w-[320px] bg-white dark:bg-slate-800 rounded-3xl border border-slate-100 dark:border-slate-700 shadow-xl h-fit lg:sticky lg:top-4 overflow-hidden flex-shrink-0`}>
+        <div className={`w-full lg:w-[320px] bg-white dark:bg-slate-900 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-xl h-fit lg:sticky lg:top-4 overflow-hidden flex-shrink-0`}>
           <button onClick={() => setShowSettings(!showSettings)} className="w-full flex lg:hidden items-center justify-between p-5 font-black text-slate-900 dark:text-white border-b border-slate-50 dark:border-slate-700">
             <span className="flex items-center gap-2"><Settings size={20} style={{ color: ACCENT }} /> Organizer Tools</span>
             <ChevronDown className={`transition-transform duration-300 ${showSettings ? 'rotate-180' : ''}`} size={20} />
@@ -298,7 +298,6 @@ export default function OrganizeTool({ id: _id }: { id: string }) {
 
               {/* Action */}
               <div className="pt-6 border-t border-slate-50 dark:border-slate-700">
-                {!result ? (
                   <button
                     onClick={handleProcess}
                     disabled={processing || pages.length === 0}
@@ -311,42 +310,25 @@ export default function OrganizeTool({ id: _id }: { id: string }) {
                       <span className="flex items-center justify-center gap-3">Organize &amp; Save <LayoutGrid size={24} /></span>
                     )}
                   </button>
-                ) : (
-                  <div className="space-y-3">
-                    <div className="p-4 bg-green-50 rounded-2xl border border-green-100 flex items-center gap-3">
-                      <CheckCircle2 size={24} className="text-green-500" />
-                      <span className="text-xs font-black text-green-700 uppercase tracking-tighter leading-tight">PDF successfully reconstructed!</span>
-                    </div>
-                    <a
-                      href={result.url}
-                      download={result.filename}
-                      className="w-full py-5 text-white rounded-[1.5rem] text-xl font-black shadow-xl hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-3 uppercase tracking-tighter shadow-orange-500/20"
-                      style={{ background: ACCENT_GRADIENT }}
-                    >
-                      <Download size={24} /> Download
-                    </a>
-                    <button onClick={resetAll} className="w-full py-3 bg-slate-100 text-slate-500 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-slate-200 transition-all">Start Over</button>
-                  </div>
-                )}
               </div>
             </div>
           </div>
         </div>
 
         {/* Workspace */}
-        <div className="flex-1 bg-white dark:bg-slate-800 rounded-[2rem] sm:rounded-[3rem] p-6 sm:p-12 border border-slate-100 dark:border-slate-700 shadow-2xl min-h-[600px] flex flex-col w-full relative overflow-hidden">
+        <div className="flex-1 bg-white dark:bg-slate-900 rounded-3xl sm:rounded-[2.5rem] p-5 sm:p-10 border border-slate-100 dark:border-slate-800 shadow-2xl min-h-[600px] flex flex-col w-full relative overflow-hidden">
           
           <div className="absolute top-0 right-0 w-64 h-64 bg-orange-50 dark:bg-orange-900/10 rounded-full -mr-32 -mt-32 blur-3xl opacity-50" />
 
           <input type="file" multiple ref={fileInputRef} onChange={onFileChange} accept=".pdf" className="hidden" />
 
           {/* Header */}
-          <div className="relative text-center space-y-4 mb-10">
+          <div className="relative text-center space-y-4 mb-8 sm:mb-10">
             <div className="inline-flex p-4 rounded-2xl text-white shadow-lg shadow-orange-500/20" style={{ background: ACCENT_GRADIENT }}>
               <LayoutGrid size={32} />
             </div>
             <h2 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter leading-tight">Organize PDF Pages</h2>
-            {pages.length > 0 && <p className="text-slate-500 font-medium tracking-tight max-w-md mx-auto">Drag and drop to reorder. Rotate or delete individual pages below.</p>}
+            {pages.length > 0 && <p className="text-slate-500 dark:text-slate-400 font-medium tracking-tight max-w-md mx-auto uppercase text-[10px] tracking-widest leading-relaxed">Drag and drop to reorder. Rotate or delete individual pages below.</p>}
           </div>
 
           {pages.length === 0 && !loadingPages && (
@@ -364,6 +346,26 @@ export default function OrganizeTool({ id: _id }: { id: string }) {
               <button className="mt-8 px-10 py-4 rounded-2xl text-white text-sm font-black uppercase tracking-widest shadow-xl hover:scale-105 transition-all" style={{ background: ACCENT_GRADIENT }}>
                 Upload Files
               </button>
+            </div>
+          )}
+
+          {result && (
+            <div className={`p-6 sm:p-8 rounded-3xl sm:rounded-[2.5rem] border flex flex-col lg:flex-row items-center justify-between gap-6 mb-10 text-center lg:text-left bg-green-50 dark:bg-green-500/5 border-green-100 dark:border-green-500/20 animate-in fade-in slide-in-from-top-4 duration-500`}>
+              <div className="flex flex-col sm:flex-row items-center gap-6">
+                 <div className="p-4 bg-green-500 text-white rounded-2xl shadow-xl shadow-green-500/30"><CheckCircle2 size={32} /></div>
+                 <div>
+                   <h4 className="text-2xl font-black text-slate-900 dark:text-white uppercase tracking-tighter leading-none mb-1">Success!</h4>
+                   <p className="text-[11px] font-bold text-slate-500 uppercase tracking-widest">Reconstructed PDF is ready for download</p>
+                 </div>
+              </div>
+              <div className="flex flex-col sm:flex-row gap-4 w-full lg:w-auto">
+                <a href={result.url} download={result.filename} className="px-10 py-5 bg-slate-900 dark:bg-white text-white dark:text-slate-900 rounded-2xl font-black text-sm uppercase tracking-widest shadow-2xl hover:scale-105 transition-all flex items-center justify-center gap-3 w-full sm:w-auto">
+                  <Download size={18} /> Download PDF
+                </a>
+                <button onClick={resetAll} className="px-10 py-5 bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-400 border-2 border-slate-100 dark:border-slate-700 rounded-2xl font-black text-sm uppercase tracking-widest shadow-xl hover:scale-105 transition-all flex items-center justify-center gap-3 w-full sm:w-auto">
+                   <RefreshCw size={18} /> Start Over
+                </button>
+              </div>
             </div>
           )}
 

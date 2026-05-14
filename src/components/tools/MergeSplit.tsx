@@ -43,6 +43,7 @@ export default function MergeSplit({ id }: { id: string }) {
   const [mergedResult, setMergedResult] = useState<{ url: string; count: number; filename: string } | null>(null);
   const [splitMode, setSplitMode] = useState<'parts' | 'extract'>('parts');
   const [splitParts, setSplitParts] = useState<number>(2);
+  const [splitResults, setSplitResults] = useState<{ url: string; name: string; pageCount: number }[]>([]);
   const [showSettings, setShowSettings] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -54,8 +55,10 @@ export default function MergeSplit({ id }: { id: string }) {
 
   const handleReset = () => {
     files.forEach(f => f.resultUrl && URL.revokeObjectURL(f.resultUrl));
+    splitResults.forEach(r => URL.revokeObjectURL(r.url));
     if (mergedResult) URL.revokeObjectURL(mergedResult.url);
     setFiles([]);
+    setSplitResults([]);
     setMergedResult(null);
     setStatus('');
   };
@@ -75,6 +78,7 @@ export default function MergeSplit({ id }: { id: string }) {
       }));
       setFiles(prev => [...prev, ...newFiles]);
       setMergedResult(null);
+      setSplitResults([]);
       e.target.value = '';
     }
   };
@@ -126,6 +130,7 @@ export default function MergeSplit({ id }: { id: string }) {
       } else {
         const JSZip = (await import('jszip')).default;
         const updatedFiles = [...files];
+        const allResults: { url: string; name: string; pageCount: number }[] = [];
 
         for (let i = 0; i < updatedFiles.length; i++) {
           const entry = updatedFiles[i];
@@ -138,14 +143,28 @@ export default function MergeSplit({ id }: { id: string }) {
           const pdf = await PDFDocument.load(await entry.file.arrayBuffer());
           const totalPages = pdf.getPageCount();
           const zip = new JSZip();
+          const baseName = entry.file.name.replace('.pdf', '');
+
+          let finalBlob: Blob;
+          let finalName: string;
 
           if (splitMode === 'extract') {
             for (let pIdx = 0; pIdx < totalPages; pIdx++) {
               const newPdf = await PDFDocument.create();
               const [p] = await newPdf.copyPages(pdf, [pIdx]);
               newPdf.addPage(p);
-              zip.file(`page_${pIdx + 1}.pdf`, await newPdf.save());
+              const bytes = await newPdf.save();
+              const partName = `${baseName}_pg${pIdx + 1}.pdf`;
+              zip.file(partName, bytes);
+              
+              allResults.push({
+                url: URL.createObjectURL(new Blob([bytes], { type: 'application/pdf' })),
+                name: partName,
+                pageCount: 1
+              });
             }
+            finalBlob = await zip.generateAsync({ type: 'blob' });
+            finalName = `${baseName}_split.zip`;
           } else {
             const pagesPerPart = Math.ceil(totalPages / splitParts);
             let partNum = 1;
@@ -154,19 +173,56 @@ export default function MergeSplit({ id }: { id: string }) {
               const newPdf = await PDFDocument.create();
               const copied = await newPdf.copyPages(pdf, indices);
               copied.forEach(p => newPdf.addPage(p));
-              zip.file(`part_${partNum++}.pdf`, await newPdf.save());
+              const bytes = await newPdf.save();
+              const partName = `${baseName}_part${partNum++}.pdf`;
+              zip.file(partName, bytes);
+              
+              allResults.push({
+                url: URL.createObjectURL(new Blob([bytes], { type: 'application/pdf' })),
+                name: partName,
+                pageCount: indices.length
+              });
             }
+            finalBlob = await zip.generateAsync({ type: 'blob' });
+            finalName = `${baseName}_parts.zip`;
           }
 
-          const zipBlob = await zip.generateAsync({ type: 'blob' });
           updatedFiles[i] = {
             ...entry,
             status: 'done',
-            resultUrl: URL.createObjectURL(zipBlob),
-            resultName: `split_${entry.file.name.replace('.pdf', '')}.zip`,
+            resultUrl: URL.createObjectURL(finalBlob),
+            resultName: finalName,
             pageCount: totalPages
           };
           setFiles([...updatedFiles]);
+        }
+
+        setSplitResults(allResults);
+
+        // Global Zip for all files in queue if multiple
+        if (updatedFiles.length > 1) {
+          const mainZip = new JSZip();
+          for (const f of updatedFiles) {
+            if (f.resultUrl) {
+              const b = await fetch(f.resultUrl).then(r => r.blob());
+              mainZip.file(f.resultName || 'file.pdf', b);
+            }
+          }
+          const mainZipBlob = await mainZip.generateAsync({ type: 'blob' });
+          setMergedResult({
+            url: URL.createObjectURL(mainZipBlob),
+            count: updatedFiles.length,
+            filename: 'all_split_results.zip'
+          });
+        } else if (allResults.length > 1) {
+           const lastFile = updatedFiles[0];
+           if (lastFile?.resultUrl && lastFile.resultName?.endsWith('.zip')) {
+             setMergedResult({
+               url: lastFile.resultUrl,
+               count: allResults.length,
+               filename: lastFile.resultName
+             });
+           }
         }
       }
     } catch (err) {
@@ -178,8 +234,23 @@ export default function MergeSplit({ id }: { id: string }) {
     }
   };
 
+  const downloadIndividually = () => {
+    const list = isSplit ? splitResults : files.filter(f => f.status === 'done' && f.resultUrl).map(f => ({ url: f.resultUrl!, name: f.resultName! }));
+    
+    list.forEach((item, idx) => {
+      setTimeout(() => {
+        const a = document.createElement('a');
+        a.href = item.url;
+        a.download = item.name;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+      }, idx * 250); 
+    });
+  };
+
   return (
-    <div className="max-w-7xl mx-auto py-4 sm:py-8 px-3 sm:px-6 font-sans">
+    <div className="max-w-7xl mx-auto py-2 sm:py-8 px-2 sm:px-6 font-sans">
       <div className="flex flex-col lg:flex-row gap-8 items-start">
         
         {/* Sidebar Configuration */}
@@ -259,8 +330,8 @@ export default function MergeSplit({ id }: { id: string }) {
         </div>
 
         {/* Main Workspace */}
-        <div className="flex-1 w-full space-y-6">
-          <div className="bg-white dark:bg-slate-900 rounded-[2.5rem] border border-slate-100 dark:border-slate-800 shadow-2xl p-6 sm:p-12 min-h-[500px] flex flex-col relative overflow-hidden">
+        <div className="flex-1 w-full space-y-4 sm:space-y-6">
+          <div className="bg-white dark:bg-slate-900 rounded-3xl sm:rounded-[2.5rem] border border-slate-100 dark:border-slate-800 shadow-2xl p-5 sm:p-10 min-h-[500px] flex flex-col relative overflow-hidden">
             
             <div className="absolute top-0 right-0 w-64 h-64 bg-slate-50 dark:bg-slate-900/50 rounded-full -mr-32 -mt-32 blur-3xl opacity-50" />
             
@@ -294,39 +365,82 @@ export default function MergeSplit({ id }: { id: string }) {
               </div>
             ) : (
               <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
-                {id === 'merge' && mergedResult && (
-                  <div className="bg-green-50 dark:bg-green-500/5 p-6 rounded-[2rem] border border-green-100 dark:border-green-500/20 flex flex-col sm:flex-row items-center justify-between gap-4 mb-6 text-left">
-                    <div className="flex items-center gap-4">
-                       <div className="p-3 bg-green-500 text-white rounded-xl shadow-lg"><CheckCircle2 size={24} /></div>
+                {(mergedResult || (isSplit && files.some(f => f.status === 'done'))) && (
+                  <div className={`p-6 sm:p-10 rounded-3xl sm:rounded-[2.5rem] border flex flex-col lg:flex-row items-center lg:items-center justify-between gap-8 mb-8 sm:mb-10 text-center lg:text-left ${isSplit ? 'bg-violet-50 dark:bg-violet-500/5 border-violet-100 dark:border-violet-500/20' : 'bg-green-50 dark:bg-green-500/5 border-green-100 dark:border-green-500/20'}`}>
+                    <div className="flex flex-col sm:flex-row items-center gap-6">
+                       <div className={`p-4 text-white rounded-2xl shadow-xl ${isSplit ? 'bg-violet-500 shadow-violet-500/30' : 'bg-green-500 shadow-green-500/30'}`}><CheckCircle2 size={32} /></div>
                        <div>
-                         <h4 className="font-black text-slate-900 dark:text-white uppercase tracking-tight leading-none">Merge Ready</h4>
-                         <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mt-1">Combined {mergedResult.count} files</p>
+                         <h4 className="text-2xl font-black text-slate-900 dark:text-white uppercase tracking-tighter leading-none mb-1">{isSplit ? 'Processing Complete' : 'Merge Ready'}</h4>
+                         <p className="text-[11px] font-bold text-slate-500 uppercase tracking-widest">
+                           {isSplit ? `Successfully processed ${files.length} documents` : `Your unified PDF is ready for download`}
+                         </p>
                        </div>
                     </div>
-                    <a href={mergedResult.url} download={mergedResult.filename} className="w-full sm:w-auto px-8 py-3 bg-slate-900 dark:bg-white text-white dark:text-slate-900 rounded-xl font-black text-xs uppercase tracking-widest shadow-xl hover:scale-105 transition-all flex items-center justify-center gap-2">
-                      <Download size={14} /> Download Final PDF
-                    </a>
+                    {mergedResult && (
+                      <div className="flex flex-col sm:flex-row gap-4 w-full lg:w-auto">
+                        <a href={mergedResult.url} download={mergedResult.filename} className="px-10 py-5 bg-slate-900 dark:bg-white text-white dark:text-slate-900 rounded-2xl font-black text-sm uppercase tracking-widest shadow-2xl hover:scale-105 transition-all flex items-center justify-center gap-3 w-full sm:w-auto">
+                          <Download size={18} /> {isSplit ? 'Download Batch (ZIP)' : 'Download PDF'}
+                        </a>
+                        {isSplit && (
+                          <button onClick={downloadIndividually} className="px-10 py-5 bg-white dark:bg-slate-800 text-violet-600 dark:text-violet-400 border-2 border-violet-100 dark:border-violet-500/20 rounded-2xl font-black text-sm uppercase tracking-widest shadow-xl hover:scale-105 transition-all flex items-center justify-center gap-3 w-full sm:w-auto">
+                            <FilePlus size={18} /> Individually
+                          </button>
+                        )}
+                      </div>
+                    )}
                   </div>
                 )}
 
-                <div className="flex items-center justify-between px-2">
-                  <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-2">
-                    <History size={14} /> {isSplit ? 'Files Queue' : 'Merging Order'} ({files.length})
-                  </h4>
-                  <button onClick={() => fileInputRef.current?.click()} className="text-[10px] font-black uppercase tracking-widest text-orange-500 hover:opacity-80">
-                    Add More
-                  </button>
-                </div>
+                {isSplit && splitResults.length > 0 ? (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
+                    {splitResults.map((res, i) => (
+                      <div key={i} className="bg-slate-50 dark:bg-slate-800/50 rounded-3xl sm:rounded-[2.5rem] p-4 sm:p-6 border border-slate-100 dark:border-slate-800 flex flex-col gap-4 sm:gap-6 group hover:shadow-2xl transition-all relative">
+                        <div className="aspect-square rounded-[2rem] bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 flex flex-col items-center justify-center relative overflow-hidden group-hover:border-violet-500/50 transition-colors">
+                          <div className="p-5 rounded-2xl bg-slate-50 dark:bg-slate-800 text-violet-500 shadow-inner group-hover:scale-110 transition-transform">
+                            <FileText size={48} />
+                          </div>
+                          <div className="absolute bottom-4 left-0 right-0 px-4">
+                            <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">{res.pageCount || '?'} Pages</p>
+                          </div>
+                          <div className="absolute inset-0 bg-violet-600/5 opacity-0 group-hover:opacity-100 transition-opacity" />
+                        </div>
+                        <div className="flex items-center justify-between gap-4 px-1">
+                          <div className="flex-1 min-w-0 text-left">
+                            <p className="text-xs font-black text-slate-900 dark:text-white uppercase truncate tracking-tight mb-1">{res.name}</p>
+                            <div className="flex items-center gap-2">
+                              <div className="w-1.5 h-1.5 rounded-full bg-violet-500" />
+                              <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Part {i + 1}</p>
+                            </div>
+                          </div>
+                          <a href={res.url} download={res.name} className="p-4 bg-white dark:bg-slate-900 text-slate-900 dark:text-white border border-slate-100 dark:border-slate-800 rounded-2xl shadow-xl hover:scale-110 transition-all hover:bg-violet-500 hover:text-white group/btn">
+                            <Download size={20} />
+                          </a>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <>
+                    <div className="flex items-center justify-between px-2 mb-6">
+                      <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-2">
+                        <History size={14} /> {isSplit ? 'Files Queue' : 'Merging Order'} ({files.length})
+                      </h4>
+                      <button onClick={() => fileInputRef.current?.click()} className="text-[10px] font-black uppercase tracking-widest text-orange-500 hover:opacity-80">
+                        Add More
+                      </button>
+                    </div>
 
-                <div className="space-y-3">
-                  <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
-                    <SortableContext items={files.map(f => f.id)} strategy={verticalListSortingStrategy}>
-                      {files.map((f, i) => (
-                        <SortableFile key={f.id} f={f} i={i} isSplit={isSplit} removeFile={removeFile} />
-                      ))}
-                    </SortableContext>
-                  </DndContext>
-                </div>
+                    <div className="space-y-3">
+                      <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+                        <SortableContext items={files.map(f => f.id)} strategy={verticalListSortingStrategy}>
+                          {files.map((f, i) => (
+                            <SortableFile key={f.id} f={f} i={i} isSplit={isSplit} removeFile={removeFile} />
+                          ))}
+                        </SortableContext>
+                      </DndContext>
+                    </div>
+                  </>
+                )}
               </div>
             )}
           </div>

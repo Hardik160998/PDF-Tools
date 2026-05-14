@@ -94,18 +94,23 @@ export default function RepairTool({ id: _id }: { id: string }) {
 
         const response = await fetch('/api/convert', {
           method: 'POST',
-          body: formData
+          body: formData,
+          // Add a signal for potential timeout in the future if needed
         });
 
-        const data = await response.json();
-        if (!response.ok) throw new Error(data.error || 'Repair failed');
+        if (!response.ok) {
+          const errorData = await response.json().catch(() => ({ error: 'Server responded with an unknown error format' }));
+          throw new Error(errorData.error || `Server Error: ${response.status}`);
+        }
 
+        const data = await response.json();
         updatedFiles[i].resultUrl = data.url;
         updatedFiles[i].repairedName = `repaired_${updatedFiles[i].file.name}`;
         updatedFiles[i].status = 'completed';
-      } catch (err) {
-        console.error(err);
+      } catch (err: any) {
+        console.error('Repair Error:', err);
         updatedFiles[i].status = 'error';
+        // You could also store the error message in the file object to show in the UI
       }
       setFiles([...updatedFiles]);
     }
@@ -187,35 +192,56 @@ export default function RepairTool({ id: _id }: { id: string }) {
                     <span className="flex items-center justify-center gap-3">Repair Batch <LifeBuoy size={24} /></span>
                   )}
                 </button>
-                <p className="text-[9px] text-center mt-4 text-slate-400 font-bold uppercase tracking-widest leading-relaxed">Secure data recovery engine active</p>
               </div>
             </div>
           </div>
         </div>
 
         {/* Main Workspace */}
-        <div className="flex-1 w-full space-y-6">
-          <div className="bg-white dark:bg-slate-800 rounded-[2.5rem] border border-slate-100 dark:border-slate-700 shadow-2xl p-6 sm:p-12 min-h-[600px] flex flex-col relative overflow-hidden">
+        <div className="flex-1 w-full space-y-4 sm:space-y-6">
+          <div className="bg-white dark:bg-slate-900 rounded-3xl sm:rounded-[2.5rem] border border-slate-100 dark:border-slate-800 shadow-2xl p-5 sm:p-10 min-h-[600px] flex flex-col relative overflow-hidden">
             
-            {/* Decoration */}
             <div className="absolute top-0 right-0 w-64 h-64 bg-red-50 dark:bg-red-900/10 rounded-full -mr-32 -mt-32 blur-3xl opacity-50" />
             
+            <input ref={fileInputRef} type="file" multiple onChange={handleFileDrop} accept=".pdf" className="hidden" />
+
             {/* Header */}
-            <div className="relative text-center space-y-4 mb-10 text-left sm:text-center">
+            <div className="relative text-center space-y-4 mb-10">
               <div className="inline-flex p-4 rounded-2xl text-white shadow-lg shadow-red-500/20 mx-auto" style={{ background: ACCENT_GRADIENT }}>
                 <LifeBuoy size={32} />
               </div>
               <h2 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter leading-tight">
                 PDF Repair & Recovery
               </h2>
-              <p className="text-slate-500 font-medium tracking-tight max-w-md mx-auto uppercase text-xs">
+              <p className="text-slate-500 dark:text-slate-400 font-medium tracking-tight max-w-md mx-auto uppercase text-[10px] tracking-widest leading-relaxed">
                 Recover data from corrupted or unreadable PDF documents. We analyze and rebuild internal structures.
               </p>
             </div>
 
+            {/* Success Box */}
+            {files.some(f => f.status === 'completed') && (
+              <div className={`p-6 sm:p-8 rounded-3xl sm:rounded-[2.5rem] border flex flex-col lg:flex-row items-center justify-between gap-6 mb-10 text-center lg:text-left bg-green-50 dark:bg-green-500/5 border-green-100 dark:border-green-500/20 animate-in fade-in slide-in-from-top-4 duration-500`}>
+                <div className="flex flex-col sm:flex-row items-center gap-6">
+                   <div className="p-4 bg-green-500 text-white rounded-2xl shadow-xl shadow-green-500/30"><CheckCircle2 size={32} /></div>
+                   <div>
+                     <h4 className="text-2xl font-black text-slate-900 dark:text-white uppercase tracking-tighter leading-none mb-1">Repaired!</h4>
+                     <p className="text-[11px] font-bold text-slate-500 uppercase tracking-widest">Structural recovery complete for your files</p>
+                   </div>
+                </div>
+                <div className="flex flex-col sm:flex-row gap-4 w-full lg:w-auto">
+                  <button onClick={handleRepair} className="px-10 py-5 bg-slate-900 dark:bg-white text-white dark:text-slate-900 rounded-2xl font-black text-sm uppercase tracking-widest shadow-2xl hover:scale-105 transition-all flex items-center justify-center gap-3 w-full sm:w-auto">
+                    <LifeBuoy size={18} /> Repair Remaining
+                  </button>
+                  <button onClick={resetAll} className="px-10 py-5 bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-400 border-2 border-slate-100 dark:border-slate-700 rounded-2xl font-black text-sm uppercase tracking-widest shadow-xl hover:scale-105 transition-all flex items-center justify-center gap-3 w-full sm:w-auto">
+                     <X size={18} /> Start Over
+                  </button>
+                </div>
+              </div>
+            )}
+
             {/* Upload Area */}
             {files.length === 0 ? (
-              <div className="flex-1 flex flex-col items-center justify-center border-2 border-dashed border-slate-100 dark:border-slate-700 rounded-[2.5rem] p-10 sm:p-20 hover:border-red-400 cursor-pointer transition-all bg-slate-50/30 dark:bg-slate-900/30 group relative overflow-hidden"
+              <div className="flex-1 flex flex-col items-center justify-center border-2 border-dashed border-slate-100 dark:border-slate-700 rounded-3xl sm:rounded-[2.5rem] p-10 sm:p-20 hover:border-red-400 cursor-pointer transition-all bg-slate-50/30 dark:bg-slate-900/30 group relative overflow-hidden"
                 onClick={() => fileInputRef.current?.click()}>
                 <div className="p-6 bg-white dark:bg-slate-800 rounded-3xl shadow-xl text-red-500 mb-6 group-hover:scale-110 transition-transform relative z-10">
                   <Upload size={48} />
@@ -229,7 +255,6 @@ export default function RepairTool({ id: _id }: { id: string }) {
                 <button className="mt-8 px-10 py-4 rounded-2xl text-white text-sm font-black uppercase tracking-widest shadow-xl hover:scale-105 transition-all relative z-10" style={{ background: ACCENT_GRADIENT }}>
                   Choose Files
                 </button>
-                <input ref={fileInputRef} type="file" multiple onChange={handleFileDrop} accept=".pdf" className="hidden" />
               </div>
             ) : (
               <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 overflow-y-auto max-h-[700px] pr-2 custom-scrollbar p-1 animate-in fade-in slide-in-from-bottom-4 duration-500 text-center relative z-10">
