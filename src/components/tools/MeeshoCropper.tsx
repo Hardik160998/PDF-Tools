@@ -25,6 +25,10 @@ interface PageData {
   skuId: string;
   skuBounds?: any;
   qtyBounds?: any;
+  pdfPage?: any;
+  pdfBox?: { left: number; bottom: number; right: number; top: number };
+  skuPdfBounds?: { x: number; y: number; w: number; h: number };
+  qtyPdfBounds?: { x: number; y: number; w: number; h: number };
 }
 
 async function findTotalLineY(page: PDFJS.PDFPageProxy): Promise<number | null> {
@@ -37,7 +41,7 @@ async function findTotalLineY(page: PDFJS.PDFPageProxy): Promise<number | null> 
   return totalY;
 }
 
-async function extractPageMetadata(page: PDFJS.PDFPageProxy, viewport: any, scale: number): Promise<{ courierName: string; sellerName: string; qty: number; pincode: string; orderId: string; awb: string; customerName: string; skuId: string; skuBounds?: any; qtyBounds?: any }> {
+async function extractPageMetadata(page: PDFJS.PDFPageProxy, viewport: any, scale: number): Promise<{ courierName: string; sellerName: string; qty: number; pincode: string; orderId: string; awb: string; customerName: string; skuId: string; skuBounds?: any; qtyBounds?: any; skuPdfBounds?: any; qtyPdfBounds?: any }> {
   const content = await page.getTextContent();
   const items = content.items as any[];
   let courierName = 'Unknown';
@@ -50,6 +54,8 @@ async function extractPageMetadata(page: PDFJS.PDFPageProxy, viewport: any, scal
   let skuId = 'ZZZ_UNKNOWN';
   let skuBounds: any = null;
   let qtyBounds: any = null;
+  let skuPdfBounds: any = null;
+  let qtyPdfBounds: any = null;
 
   const pageH = viewport.height;
   const skuHeader = items.find(i => (i.str || '').trim().toUpperCase() === 'SKU');
@@ -99,6 +105,14 @@ async function extractPageMetadata(page: PDFJS.PDFPageProxy, viewport: any, scal
           w: ((item.width || 10) + 10) * scale,
           h: ((item.height || 10) + 10) * scale
         };
+        const [pdfLeft, pdfTop] = viewport.convertToPdfPoint(qtyBounds.x, qtyBounds.y);
+        const [pdfRight, pdfBottom] = viewport.convertToPdfPoint(qtyBounds.x + qtyBounds.w, qtyBounds.y + qtyBounds.h);
+        qtyPdfBounds = {
+          x: Math.min(pdfLeft, pdfRight),
+          y: Math.min(pdfTop, pdfBottom),
+          w: Math.abs(pdfRight - pdfLeft),
+          h: Math.abs(pdfBottom - pdfTop)
+        };
       }
     }
 
@@ -129,21 +143,29 @@ async function extractPageMetadata(page: PDFJS.PDFPageProxy, viewport: any, scal
           w: (itemW + 4) * scale,
           h: (itemH + 4) * scale
         };
+        const [pdfLeft, pdfTop] = viewport.convertToPdfPoint(skuBounds.x, skuBounds.y);
+        const [pdfRight, pdfBottom] = viewport.convertToPdfPoint(skuBounds.x + skuBounds.w, skuBounds.y + skuBounds.h);
+        skuPdfBounds = {
+          x: Math.min(pdfLeft, pdfRight),
+          y: Math.min(pdfTop, pdfBottom),
+          w: Math.abs(pdfRight - pdfLeft),
+          h: Math.abs(pdfBottom - pdfTop)
+        };
       }
     }
   }
 
-  return { courierName, sellerName, qty, pincode, orderId, awb, customerName, skuId, skuBounds, qtyBounds };
+  return { courierName, sellerName, qty, pincode, orderId, awb, customerName, skuId, skuBounds, qtyBounds, skuPdfBounds, qtyPdfBounds };
 }
 
-async function renderPageCroppedToCanvas(page: PDFJS.PDFPageProxy, scale: number, cropBelowY: number | null): Promise<HTMLCanvasElement> {
+async function renderPageCroppedToCanvas(page: PDFJS.PDFPageProxy, scale: number, cropBelowY: number | null): Promise<{ canvas: HTMLCanvasElement; minX: number; maxX: number; croppedHeight: number }> {
   const viewport = page.getViewport({ scale });
   const fullCanvas = document.createElement('canvas');
   fullCanvas.width = viewport.width;
   fullCanvas.height = viewport.height;
   const ctx = fullCanvas.getContext('2d')!;
   await page.render({ canvasContext: ctx, viewport, canvas: fullCanvas }).promise;
-  if (cropBelowY === null) return fullCanvas;
+  if (cropBelowY === null) return { canvas: fullCanvas, minX: 0, maxX: viewport.width, croppedHeight: viewport.height };
   const cropCanvasY = Math.floor(viewport.height - cropBelowY * scale) + 5;
   const croppedHeight = Math.max(1, cropCanvasY);
 
@@ -174,13 +196,13 @@ async function renderPageCroppedToCanvas(page: PDFJS.PDFPageProxy, scale: number
   maxX = Math.min(tempCanvas.width, maxX + trimPadding);
   const trimmedWidth = maxX - minX;
 
-  if (trimmedWidth <= 0) return tempCanvas;
+  if (trimmedWidth <= 0) return { canvas: tempCanvas, minX: 0, maxX: tempCanvas.width, croppedHeight };
 
   const out = document.createElement('canvas');
   out.width = trimmedWidth;
   out.height = croppedHeight;
   out.getContext('2d')!.drawImage(tempCanvas, minX, 0, trimmedWidth, croppedHeight, 0, 0, trimmedWidth, croppedHeight);
-  return out;
+  return { canvas: out, minX, maxX, croppedHeight };
 }
 
 async function canvasToJpegBytes(canvas: HTMLCanvasElement): Promise<Uint8Array> {
@@ -230,6 +252,7 @@ export default function MeeshoCropper({ id }: { id: string }) {
       setFiles(prev => prev.map(f => f.id === entry.id ? { ...f, status: 'processing' } : f));
       try {
         const buf = await entry.file.arrayBuffer();
+        const srcDoc = await PDFDocument.load(buf);
         const pdfjsLib = await import('pdfjs-dist');
         pdfjsLib.GlobalWorkerOptions.workerSrc = '/workers/pdf.worker.min.mjs';
         const pdf = await pdfjsLib.getDocument(buf).promise;
@@ -238,7 +261,16 @@ export default function MeeshoCropper({ id }: { id: string }) {
           const viewport = page.getViewport({ scale: 2 });
           const totalY = await findTotalLineY(page);
           const metadata = await extractPageMetadata(page, viewport, 2);
-          const canvas = await renderPageCroppedToCanvas(page, 2, totalY);
+          const { canvas, minX, maxX, croppedHeight } = await renderPageCroppedToCanvas(page, 2, totalY);
+          
+          const [pdfLeft, pdfTop] = viewport.convertToPdfPoint(minX, 0);
+          const [pdfRight, pdfBottom] = viewport.convertToPdfPoint(maxX, croppedHeight);
+          const pdfBox = {
+            left: Math.min(pdfLeft, pdfRight),
+            bottom: Math.min(pdfTop, pdfBottom),
+            right: Math.max(pdfLeft, pdfRight),
+            top: Math.max(pdfTop, pdfBottom)
+          };
           
           if (highlightSku && metadata.skuBounds) {
             const ctx = canvas.getContext('2d')!;
@@ -263,7 +295,7 @@ export default function MeeshoCropper({ id }: { id: string }) {
             ctx.fillText(`QTY: ${metadata.qty} !!`, metadata.qtyBounds.x, metadata.qtyBounds.y - 10);
           }
 
-          allPages.push({ canvas, ...metadata });
+          allPages.push({ canvas, pdfPage: srcDoc.getPages()[p - 1], pdfBox, ...metadata });
         }
         setFiles(prev => prev.map(f => f.id === entry.id ? { ...f, status: 'done', pageCount: pdf.numPages } : f));
       } catch {
@@ -329,12 +361,40 @@ export default function MeeshoCropper({ id }: { id: string }) {
       for (const [courier, pages] of courierGroups) {
         const courierDoc = await PDFDocument.create();
         for (const pageData of pages) {
-          const jpegBytes = await canvasToJpegBytes(pageData.canvas);
-          const img = await courierDoc.embedJpg(jpegBytes);
+          if (!pageData.pdfPage || !pageData.pdfBox) continue;
+          
+          const embedded = await courierDoc.embedPage(pageData.pdfPage, pageData.pdfBox);
           const A4W = 595.28;
-          const pageH = (img.height / img.width) * A4W;
+          const scale = A4W / embedded.width;
+          const pageH = embedded.height * scale;
           const outPage = courierDoc.addPage([A4W, pageH]);
-          outPage.drawImage(img, { x: 0, y: 0, width: A4W, height: pageH });
+          outPage.drawPage(embedded, { x: 0, y: 0, width: A4W, height: pageH });
+          
+          if (highlightSku && pageData.skuPdfBounds) {
+            outPage.drawRectangle({
+              x: (pageData.skuPdfBounds.x - pageData.pdfBox.left) * scale,
+              y: (pageData.skuPdfBounds.y - pageData.pdfBox.bottom) * scale,
+              width: pageData.skuPdfBounds.w * scale,
+              height: pageData.skuPdfBounds.h * scale,
+              borderColor: rgb(0.145, 0.388, 0.921),
+              borderWidth: 3,
+              color: rgb(0.145, 0.388, 0.921),
+              opacity: 0.2
+            });
+          }
+
+          if (highlightSku && pageData.qty > 1 && pageData.qtyPdfBounds) {
+            outPage.drawRectangle({
+              x: (pageData.qtyPdfBounds.x - pageData.pdfBox.left) * scale,
+              y: (pageData.qtyPdfBounds.y - pageData.pdfBox.bottom) * scale,
+              width: pageData.qtyPdfBounds.w * scale,
+              height: pageData.qtyPdfBounds.h * scale,
+              borderColor: rgb(0.937, 0.266, 0.266),
+              borderWidth: 4,
+              color: rgb(0.937, 0.266, 0.266),
+              opacity: 0.15
+            });
+          }
         }
         const pdfBytes = await courierDoc.save();
         const blob = new Blob([pdfBytes.buffer as ArrayBuffer], { type: 'application/pdf' });
@@ -343,12 +403,40 @@ export default function MeeshoCropper({ id }: { id: string }) {
       setPdfUrls(urls);
     } else {
       for (const pageData of allPages) {
-        const jpegBytes = await canvasToJpegBytes(pageData.canvas);
-        const img = await outDoc.embedJpg(jpegBytes);
+        if (!pageData.pdfPage || !pageData.pdfBox) continue;
+        
+        const embedded = await outDoc.embedPage(pageData.pdfPage, pageData.pdfBox);
         const A4W = 595.28;
-        const pageH = (img.height / img.width) * A4W;
+        const scale = A4W / embedded.width;
+        const pageH = embedded.height * scale;
         const outPage = outDoc.addPage([A4W, pageH]);
-        outPage.drawImage(img, { x: 0, y: 0, width: A4W, height: pageH });
+        outPage.drawPage(embedded, { x: 0, y: 0, width: A4W, height: pageH });
+        
+        if (highlightSku && pageData.skuPdfBounds) {
+          outPage.drawRectangle({
+            x: (pageData.skuPdfBounds.x - pageData.pdfBox.left) * scale,
+            y: (pageData.skuPdfBounds.y - pageData.pdfBox.bottom) * scale,
+            width: pageData.skuPdfBounds.w * scale,
+            height: pageData.skuPdfBounds.h * scale,
+            borderColor: rgb(0.145, 0.388, 0.921),
+            borderWidth: 3,
+            color: rgb(0.145, 0.388, 0.921),
+            opacity: 0.2
+          });
+        }
+
+        if (highlightSku && pageData.qty > 1 && pageData.qtyPdfBounds) {
+          outPage.drawRectangle({
+            x: (pageData.qtyPdfBounds.x - pageData.pdfBox.left) * scale,
+            y: (pageData.qtyPdfBounds.y - pageData.pdfBox.bottom) * scale,
+            width: pageData.qtyPdfBounds.w * scale,
+            height: pageData.qtyPdfBounds.h * scale,
+            borderColor: rgb(0.937, 0.266, 0.266),
+            borderWidth: 4,
+            color: rgb(0.937, 0.266, 0.266),
+            opacity: 0.15
+          });
+        }
       }
       const pdfBytes = await outDoc.save();
       const blob = new Blob([pdfBytes.buffer as ArrayBuffer], { type: 'application/pdf' });

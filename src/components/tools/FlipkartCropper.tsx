@@ -366,9 +366,10 @@ export default function FlipkartCropper({ id }: { id: string }) {
           const page = await pdf.getPage(p);
           const content = await page.getTextContent();
           const items = content.items as any[];
-          const viewport = page.getViewport({ scale: 2.5 });
+          const RENDER_SCALE = 5.0;
+          const viewport = page.getViewport({ scale: RENDER_SCALE });
           
-          const labelBounds = await detectFlipkartLabels(page, 2.5);
+          const labelBounds = await detectFlipkartLabels(page, RENDER_SCALE);
           const fullCanvas = document.createElement('canvas');
           fullCanvas.width = viewport.width;
           fullCanvas.height = viewport.height;
@@ -377,7 +378,7 @@ export default function FlipkartCropper({ id }: { id: string }) {
           if (labelBounds.length > 0 && labelBounds[0].method === 'ocr') {
             let lastLabelBottom = 0;
             for (const bounds of labelBounds) {
-              const meta = extractMetadata(items, bounds, viewport.height, 2.5);
+              const meta = extractMetadata(items, bounds, viewport.height, RENDER_SCALE);
               const out = document.createElement('canvas');
               out.width = Math.max(1, Math.round(bounds.width));
               out.height = Math.max(1, Math.round(bounds.height));
@@ -410,7 +411,7 @@ export default function FlipkartCropper({ id }: { id: string }) {
             }
 
             if (keepInvoice) {
-              const invBounds = await detectFlipkartInvoiceBounds(items, viewport, 2.5);
+              const invBounds = await detectFlipkartInvoiceBounds(items, viewport, RENDER_SCALE);
               if (invBounds) {
                 const invCanvas = document.createElement('canvas');
                 invCanvas.width = Math.max(1, Math.round(invBounds.width));
@@ -418,7 +419,7 @@ export default function FlipkartCropper({ id }: { id: string }) {
                 const ctx = invCanvas.getContext('2d')!;
                 ctx.drawImage(fullCanvas, invBounds.x, invBounds.y, invBounds.width, invBounds.height, 0, 0, invCanvas.width, invCanvas.height);
                 
-                const firstLabelMeta = extractMetadata(items, labelBounds[0], viewport.height, 2.5);
+                const firstLabelMeta = extractMetadata(items, labelBounds[0], viewport.height, RENDER_SCALE);
                 
                 if (highlightSku && firstLabelMeta.skuBounds) {
                   ctx.strokeStyle = '#2563eb';
@@ -437,7 +438,7 @@ export default function FlipkartCropper({ id }: { id: string }) {
                   invCanvas.width = viewport.width;
                   invCanvas.height = invH;
                   invCanvas.getContext('2d')!.drawImage(fullCanvas, 0, lastLabelBottom, viewport.width, invH, 0, 0, viewport.width, invH);
-                  const firstLabelMeta = extractMetadata(items, labelBounds[0], viewport.height, 2.5);
+                  const firstLabelMeta = extractMetadata(items, labelBounds[0], viewport.height, RENDER_SCALE);
                   allInvoices.push({ canvas: invCanvas, ...firstLabelMeta, method: 'ocr', type: 'invoice' });
                 }
               }
@@ -446,7 +447,7 @@ export default function FlipkartCropper({ id }: { id: string }) {
             // Check if it's an invoice page
             const pageText = items.map(i => i.str).join(' ').toUpperCase();
             if (pageText.includes('INVOICE') || pageText.includes('ORDER ID') || pageText.includes('TAX')) {
-              const invBounds = await detectFlipkartInvoiceBounds(items, viewport, 2.5);
+              const invBounds = await detectFlipkartInvoiceBounds(items, viewport, RENDER_SCALE);
               if (invBounds) {
                 const invCanvas = document.createElement('canvas');
                 invCanvas.width = Math.max(1, Math.round(invBounds.width));
@@ -587,8 +588,10 @@ export default function FlipkartCropper({ id }: { id: string }) {
       for (const r of finalResults) {
         const pngBytes = await canvasToPngBytes(r.canvas);
         const img = await outDoc.embedPng(pngBytes);
-        const page = outDoc.addPage([img.width, img.height]);
-        page.drawImage(img, { x: 0, y: 0, width: img.width, height: img.height });
+        const origW = img.width / 5.0;
+        const origH = img.height / 5.0;
+        const page = outDoc.addPage([origW, origH]);
+        page.drawImage(img, { x: 0, y: 0, width: origW, height: origH });
       }
     }
     const pdfBytes = await outDoc.save();
