@@ -96,7 +96,7 @@ export default function ImageConverter({ id: toolId }: { id: string }) {
           page.drawImage(img, { x: 0, y: 0, width: img.width, height: img.height });
         }
         const bytes = await pdfDoc.save();
-        setResultUrl(URL.createObjectURL(new Blob([bytes], { type: "application/pdf" })));
+        setResultUrl(URL.createObjectURL(new Blob([bytes.buffer as ArrayBuffer], { type: "application/pdf" })));
       }
       setStatus("done");
     } catch (err) {
