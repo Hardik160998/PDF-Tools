@@ -4,7 +4,8 @@ import React, { useState, useRef, useEffect } from 'react';
 import { 
   Upload, Download, Crop, Loader2, ArrowRight, 
   CheckCircle2, Info, Maximize2, ZoomIn, ZoomOut, 
-  ChevronUp, ChevronDown, RotateCcw 
+  ChevronUp, ChevronDown, RotateCcw, Zap, MousePointer2,
+  Layers, Shield, RefreshCw
 } from 'lucide-react';
 import { PDFDocument } from 'pdf-lib';
 import type * as PDFJS from 'pdfjs-dist';
@@ -190,22 +191,76 @@ export default function CropPdf({ id: _id }: { id: string }) {
   ];
 
   const renderStep1 = () => (
-    <div className="min-h-[70vh] flex items-center justify-center px-4">
-      <div className="w-full max-w-lg">
-        <div className="relative group border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-2xl p-16 hover:border-orange-400 hover:bg-orange-50/20 dark:hover:bg-orange-500/5 transition-all cursor-pointer text-center bg-white dark:bg-slate-800 shadow-xl">
-          <input ref={fileRef} type="file" accept=".pdf" onChange={onFileChange} className="absolute inset-0 opacity-0 cursor-pointer w-full h-full" />
-          <div className="pointer-events-none flex flex-col items-center gap-4">
-            {processing ? <Loader2 className="animate-spin text-orange-500" size={44} /> : (
-              <>
-                <div className="p-4 bg-orange-50 dark:bg-orange-500/10 rounded-2xl text-orange-500 group-hover:scale-110 transition-transform">
-                  <Crop size={40} />
+    <div className="max-w-7xl mx-auto py-8 sm:py-16 px-4 sm:px-6">
+      <div className="flex flex-col lg:flex-row gap-8 items-start">
+        <div className="w-full lg:w-[320px] bg-white dark:bg-slate-900 rounded-[32px] border border-slate-100 dark:border-slate-800 shadow-xl p-8 flex-shrink-0 space-y-10">
+          <div className="space-y-3 text-left">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-lg bg-orange-50 dark:bg-orange-500/10 text-orange-600 dark:text-orange-400 text-[10px] font-black uppercase tracking-widest">
+              <Zap size={12} /> Tool Capabilities
+            </div>
+            <h3 className="text-2xl font-black text-slate-900 dark:text-white uppercase tracking-tight leading-tight">Professional <br/> PDF Cropping</h3>
+            <p className="text-slate-400 text-xs font-medium">All processing occurs locally on your hardware.</p>
+          </div>
+          
+          <div className="space-y-6 text-left">
+            {[
+              { icon: MousePointer2, title: "Visual Precision", desc: "Pixel-perfect area selection." },
+              { icon: Layers, title: "Batch Engine", desc: "Trim all pages in one click." },
+              { icon: Shield, title: "Privacy First", desc: "Zero data ever leaves your browser." },
+              { icon: RefreshCw, title: "High Speed", desc: "Optimized for large documents." }
+            ].map((f, i) => (
+              <div key={i} className="flex items-center gap-4 group">
+                <div className="w-10 h-10 rounded-xl bg-slate-50 dark:bg-slate-800 flex items-center justify-center text-orange-500 shrink-0 group-hover:scale-110 transition-transform">
+                  <f.icon size={18} />
                 </div>
                 <div>
-                  <p className="text-lg font-bold text-slate-800 dark:text-white">Select PDF file</p>
-                  <p className="text-slate-400 text-sm mt-1">or drop PDF here</p>
+                  <p className="text-sm font-black text-slate-900 dark:text-white uppercase tracking-tight leading-none mb-1">{f.title}</p>
+                  <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">{f.desc}</p>
                 </div>
-              </>
-            )}
+              </div>
+            ))}
+          </div>
+
+          <div className="pt-8 border-t border-slate-50 dark:border-slate-800 text-left">
+            <div className="bg-orange-50 dark:bg-orange-500/5 rounded-2xl p-4 border border-orange-100/50 dark:border-orange-500/10">
+              <p className="text-[10px] font-black text-orange-600 dark:text-orange-400 uppercase tracking-widest mb-1">Status</p>
+              <p className="text-[11px] text-orange-700/70 dark:text-orange-400/70 font-medium">System Ready for PDF Processing</p>
+            </div>
+          </div>
+        </div>
+
+        <div className="flex-1 w-full bg-white dark:bg-slate-900 rounded-[40px] p-8 sm:p-20 border border-slate-100 dark:border-slate-800 shadow-2xl text-center min-h-[650px] flex flex-col justify-center relative group">
+          <div className="absolute inset-0 bg-gradient-to-br from-orange-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-[40px]" />
+          
+          <div className="relative z-10 space-y-12">
+            <div className="relative group/zone border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-[48px] p-16 sm:p-24 hover:border-orange-400 hover:bg-orange-50/5 transition-all cursor-pointer bg-slate-50/30 dark:bg-slate-900/30">
+              <input ref={fileRef} type="file" accept=".pdf" onChange={onFileChange} className="absolute inset-0 opacity-0 cursor-pointer w-full h-full z-20" />
+              <div className="flex flex-col items-center gap-10">
+                <div className="p-10 bg-white dark:bg-slate-800 rounded-[32px] text-orange-500 shadow-2xl group-hover/zone:scale-110 transition-transform">
+                  <Upload size={72} strokeWidth={2.5} />
+                </div>
+                <div>
+                  <h2 className="text-4xl sm:text-6xl font-black text-slate-900 dark:text-white uppercase tracking-tighter mb-4 leading-none">Select PDF</h2>
+                  <p className="text-slate-400 text-lg sm:text-xl font-bold uppercase tracking-widest">or drop your file here to start</p>
+                </div>
+              </div>
+            </div>
+            <div className="flex items-center justify-center gap-8">
+              <div className="flex flex-col items-center gap-1">
+                <p className="text-xl font-black text-slate-900 dark:text-white tracking-tighter">100%</p>
+                <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">Private</p>
+              </div>
+              <div className="w-px h-8 bg-slate-100 dark:bg-slate-800" />
+              <div className="flex flex-col items-center gap-1">
+                <p className="text-xl font-black text-slate-900 dark:text-white tracking-tighter">SECURE</p>
+                <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">Protocol</p>
+              </div>
+              <div className="w-px h-8 bg-slate-100 dark:bg-slate-800" />
+              <div className="flex flex-col items-center gap-1">
+                <p className="text-xl font-black text-slate-900 dark:text-white tracking-tighter">FREE</p>
+                <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">Forever</p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -213,10 +268,10 @@ export default function CropPdf({ id: _id }: { id: string }) {
   );
 
   const renderStep2 = () => (
-    <div className="flex flex-col lg:flex-row h-[calc(100vh-64px)] overflow-hidden bg-slate-100 dark:bg-slate-900">
-      <div className="h-[65vh] lg:h-auto flex-1 flex flex-col overflow-hidden relative border-b lg:border-b-0 lg:border-r border-slate-200 dark:border-slate-800">
-        <div className="flex-1 overflow-auto bg-slate-200 dark:bg-slate-900/50 scrollbar-hide">
-          <div className="min-h-full min-w-full flex items-center justify-center p-4 sm:p-12 pb-24 lg:pb-12">
+    <div className="flex flex-col lg:flex-row min-h-[700px] bg-slate-50 dark:bg-slate-950">
+      <div className="flex-1 flex flex-col relative border-b lg:border-b-0 lg:border-r border-slate-100 dark:border-slate-800 overflow-hidden">
+        <div className="flex-1 overflow-auto bg-slate-100/50 dark:bg-slate-900/50 min-h-[600px] scrollbar-hide">
+          <div className="min-h-full min-w-full flex items-center justify-center p-4 sm:p-20 pb-32 lg:pb-20">
             {pg && (
               <div ref={previewRef} className="relative select-none shadow-2xl bg-white shrink-0" style={{ width: `${Math.round(pg.pdfW * zoom)}px`, height: `${Math.round(pg.pdfH * zoom)}px` }}>
                 <img src={pg.dataUrl} alt="Page preview" className="w-full h-full object-fill pointer-events-none" draggable={false} />
@@ -225,75 +280,111 @@ export default function CropPdf({ id: _id }: { id: string }) {
                 <div className="absolute pointer-events-none" style={{ top: `${cropBox.y * 100}%`, height: `${cropBox.h * 100}%`, right: 0, width: `${(1 - cropBox.x - cropBox.w) * 100}%`, background: 'rgba(0,0,0,0.45)' }} />
                 <div className="absolute" style={{ left: `${cropBox.x * 100}%`, top: `${cropBox.y * 100}%`, width: `${cropBox.w * 100}%`, height: `${cropBox.h * 100}%`, cursor: 'move', border: '2px solid #f97316', boxShadow: '0 0 0 9999px rgba(0,0,0,0)' }} onMouseDown={e => onHandleDown(e, 'move')} onTouchStart={e => onHandleDown(e, 'move')}>
                   <div className="absolute inset-0 pointer-events-none">
-                    {[1,2].map(n => <div key={`v${n}`} className="absolute top-0 bottom-0" style={{ left: `${n*33.33}%`, borderLeft: '1px solid rgba(249,115,22,0.3)' }} />)}
-                    {[1,2].map(n => <div key={`h${n}`} className="absolute left-0 right-0" style={{ top: `${n*33.33}%`, borderTop: '1px solid rgba(249,115,22,0.3)' }} />)}
+                    {[1, 2].map(n => <div key={`v${n}`} className="absolute top-0 bottom-0" style={{ left: `${n * 33.33}%`, borderLeft: '1px solid rgba(249,115,22,0.3)' }} />)}
+                    {[1, 2].map(n => <div key={`h${n}`} className="absolute left-0 right-0" style={{ top: `${n * 33.33}%`, borderTop: '1px solid rgba(249,115,22,0.3)' }} />)}
                   </div>
                   {handles.map(h => (
-                    <div key={h.id} className="absolute w-5 h-5 sm:w-3 sm:h-3 bg-orange-500 rounded-sm shadow-md z-10 -m-2.5 sm:-m-1.5 border border-white" style={{ ...h.style, cursor: h.cursor }} onMouseDown={e => onHandleDown(e, h.id)} onTouchStart={e => onHandleDown(e, h.id)} />
+                    <div key={h.id} className="absolute w-6 h-6 sm:w-4 sm:h-4 bg-orange-500 rounded-sm shadow-xl z-10 -m-3 sm:-m-2 border-2 border-white" style={{ ...h.style, cursor: h.cursor }} onMouseDown={e => onHandleDown(e, h.id)} onTouchStart={e => onHandleDown(e, h.id)} />
                   ))}
                 </div>
               </div>
             )}
           </div>
         </div>
-        <div className="absolute bottom-3 left-1/2 -translate-x-1/2 lg:static lg:translate-x-0 shrink-0 bg-slate-900/95 backdrop-blur-lg text-white flex items-center justify-center gap-1 px-3 sm:px-4 py-2 sm:py-2.5 shadow-2xl z-50 rounded-full lg:rounded-none border border-white/10 lg:border-0 lg:border-t lg:w-full">
-          <div className="flex items-center gap-0.5">
-            <button onClick={() => switchPage(Math.max(0, activePage - 1))} disabled={activePage === 0} className="p-1.5 sm:p-2 rounded-full hover:bg-white/10 disabled:opacity-20"><ChevronUp size={18} className="sm:w-4 sm:h-4" /></button>
-            <button onClick={() => switchPage(Math.min(pages.length - 1, activePage + 1))} disabled={activePage === pages.length - 1} className="p-1.5 sm:p-2 rounded-full hover:bg-white/10 disabled:opacity-20"><ChevronDown size={18} className="sm:w-4 sm:h-4" /></button>
+        
+        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex items-center gap-4 bg-slate-900/90 backdrop-blur-2xl text-white px-8 py-4 shadow-[0_20px_50px_rgba(0,0,0,0.3)] z-50 rounded-[32px] border border-white/10">
+          <div className="flex items-center gap-2">
+            <button onClick={() => switchPage(Math.max(0, activePage - 1))} disabled={activePage === 0} className="p-2 rounded-xl hover:bg-white/10 disabled:opacity-20 transition-all"><ChevronUp size={22} /></button>
+            <div className="flex items-center gap-3 px-4 py-2 bg-white/5 rounded-2xl border border-white/10">
+              <input type="text" value={pageInput} onChange={e => setPageInput(e.target.value)} onBlur={() => { const n = parseInt(pageInput); if (!isNaN(n) && n >= 1 && n <= pages.length) switchPage(n - 1); else setPageInput(String(activePage + 1)); }} className="w-12 text-center bg-transparent text-lg font-black outline-none text-orange-400" />
+              <span className="text-white/30 text-xs font-black uppercase tracking-widest">/ {pages.length}</span>
+            </div>
+            <button onClick={() => switchPage(Math.min(pages.length - 1, activePage + 1))} disabled={activePage === pages.length - 1} className="p-2 rounded-xl hover:bg-white/10 disabled:opacity-20 transition-all"><ChevronDown size={22} /></button>
           </div>
-          <div className="flex items-center gap-1 mx-1.5 sm:mx-3">
-            <input type="text" value={pageInput} onChange={e => setPageInput(e.target.value)} onBlur={() => { const n = parseInt(pageInput); if (!isNaN(n) && n >= 1 && n <= pages.length) switchPage(n - 1); else setPageInput(String(activePage + 1)); }} className="w-8 sm:w-12 text-center bg-white/10 border border-white/20 rounded-md text-[10px] sm:text-sm py-0.5 sm:py-1 outline-none focus:border-orange-400" />
-            <span className="text-white/30 text-[10px] sm:text-sm font-bold">/ {pages.length}</span>
+          <div className="w-px h-10 bg-white/10 mx-2" />
+          <div className="flex items-center gap-2">
+            <button onClick={() => setZoom(z => Math.max(0.25, +(z - 0.25).toFixed(2)))} className="p-2 rounded-xl hover:bg-white/10 transition-all"><ZoomOut size={22} /></button>
+            <div className="w-20 text-center">
+              <span className="text-lg font-black text-orange-400 tracking-tighter">{zoomPct}%</span>
+              <p className="text-[8px] font-black uppercase tracking-widest text-white/30">Zoom</p>
+            </div>
+            <button onClick={() => setZoom(z => Math.min(3, +(z + 0.25).toFixed(2)))} className="p-2 rounded-xl hover:bg-white/10 transition-all"><ZoomIn size={22} /></button>
           </div>
-          <div className="w-px h-5 bg-white/10 mx-1" />
-          <div className="flex items-center gap-0.5">
-            <button onClick={() => setZoom(z => Math.max(0.25, +(z - 0.25).toFixed(2)))} className="p-1.5 sm:p-2 rounded-full hover:bg-white/10"><ZoomOut size={18} className="sm:w-4 sm:h-4" /></button>
-            <button onClick={() => setZoom(z => Math.min(3, +(z + 0.25).toFixed(2)))} className="p-1.5 sm:p-2 rounded-full hover:bg-white/10"><ZoomIn size={18} className="sm:w-4 sm:h-4" /></button>
-          </div>
-          <span className="text-[10px] sm:text-sm w-9 sm:w-14 text-center text-white/70 font-black tracking-tight">{zoomPct}%</span>
         </div>
       </div>
 
-      <div className="w-full lg:w-80 shrink-0 bg-white dark:bg-slate-800 flex flex-col shadow-2xl z-30 overflow-hidden border-t lg:border-t-0 border-slate-100 dark:border-slate-700">
-        <div className="px-5 py-2.5 lg:py-4 border-b border-slate-100 dark:border-slate-700 flex items-center justify-between bg-slate-50/50 dark:bg-slate-900/20">
-          <h2 className="text-[11px] lg:text-base font-black text-slate-900 dark:text-white uppercase tracking-wider truncate mr-2">Crop Options</h2>
-          <button onClick={() => setCropBox(DEFAULT_BOX)} className="shrink-0 text-[10px] lg:text-xs font-bold text-orange-500 hover:text-orange-600 flex items-center gap-1 px-2 py-0.5 rounded-lg bg-orange-50 dark:bg-orange-500/10 transition-colors"><RotateCcw size={12} /> Reset</button>
+      <div className="w-full lg:w-96 shrink-0 bg-white dark:bg-slate-900 flex flex-col shadow-2xl z-30 overflow-hidden border-t lg:border-t-0 border-slate-100 dark:border-slate-800">
+        <div className="px-8 py-8 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between bg-slate-50/50 dark:bg-slate-900/30">
+          <h2 className="text-xl font-black text-slate-900 dark:text-white uppercase tracking-tight">Crop Settings</h2>
+          <button onClick={() => setCropBox(DEFAULT_BOX)} className="text-[10px] font-black uppercase tracking-widest text-orange-500 hover:text-orange-600 flex items-center gap-1.5 px-4 py-2 rounded-full bg-orange-50 dark:bg-orange-500/10 transition-all active:scale-95">
+            <RotateCcw size={14} /> Reset
+          </button>
         </div>
-        <div className="flex-1 overflow-y-auto px-4 lg:px-5 py-3 lg:py-6 space-y-4 lg:space-y-6 scrollbar-hide">
-          <div className="space-y-2 lg:space-y-3">
-            <p className="text-[10px] lg:text-xs font-black uppercase tracking-widest text-slate-400">Apply to:</p>
-            <div className="grid grid-cols-2 lg:grid-cols-1 gap-2">
-              <button onClick={() => switchMode('all')} className={`flex items-center gap-2 lg:gap-3 p-2 lg:p-3 rounded-xl border-2 transition-all ${mode === 'all' ? 'border-orange-500 bg-orange-50/50 dark:bg-orange-500/5' : 'border-slate-100 dark:border-slate-700 hover:border-slate-200'}`}>
-                <div className={`w-3.5 h-3.5 rounded-full border-2 flex items-center justify-center ${mode === 'all' ? 'border-orange-500 bg-orange-500' : 'border-slate-300'}`}>{mode === 'all' && <div className="w-1.5 h-1.5 rounded-full bg-white" />}</div>
-                <span className={`text-[11px] sm:text-sm font-bold ${mode === 'all' ? 'text-orange-600 dark:text-orange-400' : 'text-slate-600 dark:text-slate-400'}`}>All Pages</span>
+        <div className="flex-1 overflow-y-auto px-8 py-10 space-y-10 scrollbar-hide">
+          <div className="space-y-4 text-left">
+            <p className="text-[11px] font-black uppercase tracking-widest text-slate-400 ml-1">Application Scope</p>
+            <div className="grid grid-cols-1 gap-3">
+              <button onClick={() => switchMode('all')} className={`flex items-center justify-between p-5 rounded-3xl border-2 transition-all group ${mode === 'all' ? 'border-orange-500 bg-orange-50/30 dark:bg-orange-500/5' : 'border-slate-100 dark:border-slate-800 hover:border-slate-200'}`}>
+                <div className="flex items-center gap-4 text-left">
+                  <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all ${mode === 'all' ? 'border-orange-500 bg-orange-500' : 'border-slate-300'}`}>
+                    {mode === 'all' && <div className="w-2.5 h-2.5 rounded-full bg-white shadow-sm" />}
+                  </div>
+                  <div>
+                    <span className={`text-base font-black uppercase tracking-tight block ${mode === 'all' ? 'text-slate-900 dark:text-white' : 'text-slate-500'}`}>Apply to all</span>
+                    <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Global batch crop</span>
+                  </div>
+                </div>
               </button>
-              <button onClick={() => switchMode('per')} className={`flex items-center gap-2 lg:gap-3 p-2 lg:p-3 rounded-xl border-2 transition-all ${mode === 'per' ? 'border-orange-500 bg-orange-50/50 dark:bg-orange-500/5' : 'border-slate-100 dark:border-slate-700 hover:border-slate-200'}`}>
-                <div className={`w-3.5 h-3.5 rounded-full border-2 flex items-center justify-center ${mode === 'per' ? 'border-orange-500 bg-orange-500' : 'border-slate-300'}`}>{mode === 'per' && <div className="w-1.5 h-1.5 rounded-full bg-white" />}</div>
-                <span className={`text-[11px] sm:text-sm font-bold ${mode === 'per' ? 'text-orange-600 dark:text-orange-400' : 'text-slate-600 dark:text-slate-400'}`}>Current Only</span>
+              <button onClick={() => switchMode('per')} className={`flex items-center justify-between p-5 rounded-3xl border-2 transition-all group ${mode === 'per' ? 'border-orange-500 bg-orange-50/30 dark:bg-orange-500/5' : 'border-slate-100 dark:border-slate-800 hover:border-slate-200'}`}>
+                <div className="flex items-center gap-4 text-left">
+                  <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all ${mode === 'per' ? 'border-orange-500 bg-orange-500' : 'border-slate-300'}`}>
+                    {mode === 'per' && <div className="w-2.5 h-2.5 rounded-full bg-white shadow-sm" />}
+                  </div>
+                  <div>
+                    <span className={`text-base font-black uppercase tracking-tight block ${mode === 'per' ? 'text-slate-900 dark:text-white' : 'text-slate-500'}`}>Current only</span>
+                    <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Custom per page</span>
+                  </div>
+                </div>
               </button>
             </div>
           </div>
+
           {pg && (
-            <div className="bg-slate-50 dark:bg-slate-900/50 rounded-2xl p-3 lg:p-4 border border-slate-100 dark:border-slate-700 shadow-inner">
-              <div className="flex items-center justify-between mb-2 lg:mb-3">
-                <div className="flex items-center gap-2"><Maximize2 size={12} className="text-slate-400" /><p className="text-[10px] lg:text-xs font-black uppercase tracking-widest text-slate-400">Dimensions</p></div>
-                <div className="px-1 py-0.5 rounded bg-orange-100 dark:bg-orange-500/20 text-[8px] font-black text-orange-600 dark:text-orange-400">PT</div>
+            <div className="bg-slate-50 dark:bg-slate-800/50 rounded-[32px] p-8 border border-slate-100 dark:border-slate-800 shadow-inner space-y-6">
+              <div className="flex items-center justify-between">
+                <p className="text-[11px] font-black uppercase tracking-widest text-slate-400 flex items-center gap-2">
+                  <Maximize2 size={14} /> Output Size
+                </p>
+                <span className="text-[9px] font-black px-3 py-1 bg-slate-200 dark:bg-slate-700 rounded-lg text-slate-500 uppercase tracking-widest">Points</span>
               </div>
-              <div className="flex items-center justify-center gap-3">
-                <div className="text-center flex-1"><p className="text-[13px] lg:text-base font-black text-slate-900 dark:text-white leading-none">{Math.round(cropBox.w * pg.pdfW)}</p><p className="text-[8px] font-bold text-slate-400 uppercase mt-1">Width</p></div>
-                <div className="w-px h-6 bg-slate-200 dark:bg-slate-700" /><div className="text-center flex-1"><p className="text-[13px] lg:text-base font-black text-slate-900 dark:text-white leading-none">{Math.round(cropBox.h * pg.pdfH)}</p><p className="text-[8px] font-bold text-slate-400 uppercase mt-1">Height</p></div>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="bg-white dark:bg-slate-900 p-5 rounded-2xl border border-slate-100 dark:border-slate-800 text-center shadow-sm">
+                  <p className="text-2xl font-black text-slate-900 dark:text-white tracking-tighter">{Math.round(cropBox.w * pg.pdfW)}</p>
+                  <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest mt-1">Width</p>
+                </div>
+                <div className="bg-white dark:bg-slate-900 p-5 rounded-2xl border border-slate-100 dark:border-slate-800 text-center shadow-sm">
+                  <p className="text-2xl font-black text-slate-900 dark:text-white tracking-tighter">{Math.round(cropBox.h * pg.pdfH)}</p>
+                  <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest mt-1">Height</p>
+                </div>
               </div>
             </div>
           )}
-          <div className="flex gap-2 bg-blue-50 dark:bg-blue-500/5 border border-blue-100/50 dark:border-blue-500/10 rounded-xl p-2.5 lg:p-3">
-            <Info size={12} className="text-blue-500 shrink-0 mt-0.5" />
-            <p className="text-[9px] lg:text-xs text-blue-700/60 dark:text-blue-300/60 leading-relaxed font-medium">Drag handles to select area.</p>
+
+          <div className="p-5 bg-blue-50/50 dark:bg-blue-500/5 rounded-2xl border border-blue-100/50 dark:border-blue-500/10 flex gap-4 text-left">
+            <Info size={18} className="text-blue-500 shrink-0" />
+            <p className="text-xs text-blue-700/70 dark:text-blue-400/70 font-medium leading-relaxed">
+              Selection area is automatically constrained within the original page boundaries.
+            </p>
           </div>
         </div>
-        <div className="px-5 py-3 lg:py-4 border-t border-slate-100 dark:border-slate-700 bg-white dark:bg-slate-800">
-          <button onClick={handleCrop} disabled={processing} className="w-full py-3.5 lg:py-4 bg-orange-500 hover:bg-orange-600 disabled:opacity-50 text-white rounded-xl font-black text-[13px] lg:text-lg shadow-xl shadow-orange-500/20 flex items-center justify-center gap-2 lg:gap-3 transition-all active:scale-[0.98]">
-            {processing ? <Loader2 className="animate-spin" size={18} /> : <ArrowRight size={18} />}
-            {processing ? 'Processing...' : 'Crop PDF Now'}
+        <div className="p-8 border-t border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900">
+          <button 
+            onClick={handleCrop} 
+            disabled={processing} 
+            className="w-full py-6 bg-orange-500 hover:bg-orange-600 disabled:opacity-50 text-white rounded-[24px] font-black text-xl shadow-2xl shadow-orange-500/20 flex items-center justify-center gap-4 transition-all active:scale-[0.98]"
+          >
+            {processing ? <Loader2 className="animate-spin" size={28} /> : <Crop size={28} />}
+            {processing ? 'Processing...' : 'Export Cropped PDF'}
           </button>
         </div>
       </div>
