@@ -203,16 +203,16 @@ export default function AddBlankPage({ id: _id }: { id: string }) {
                   </div>
                 </div>
 
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="p-4 bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-50 dark:border-slate-700">
-                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">New Total</p>
-                    <p className="text-2xl font-black text-slate-900 dark:text-white">
+                <div className="grid grid-cols-2 gap-3 sm:gap-4 w-full">
+                  <div className="min-w-0 p-3 sm:p-4 bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800">
+                    <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1 truncate">New Total</p>
+                    <p className="text-base sm:text-2xl font-black text-slate-900 dark:text-white tracking-tighter truncate">
                       {position === 'after-every' ? pageCount * blankCount + pageCount : pageCount + blankCount}
                     </p>
                   </div>
-                  <div className="p-4 bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-50 dark:border-slate-700">
-                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Page Size</p>
-                    <p className="text-2xl font-black text-slate-900 dark:text-white uppercase tracking-tighter">
+                  <div className="min-w-0 p-3 sm:p-4 bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800">
+                    <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1 truncate">Page Size</p>
+                    <p className="text-[13px] sm:text-2xl font-black text-slate-900 dark:text-white uppercase tracking-tighter truncate">
                       {pageSize === 'same' ? 'Matched' : pageSize}
                     </p>
                   </div>
