@@ -1,12 +1,16 @@
-"use client";
-
+import { Suspense } from "react";
 import AddBlankPage from "@/components/tools/AddBlankPage";
+
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
 export default function AddBlankPagePage() {
   return (
     <div className="min-h-screen bg-slate-50/50 dark:bg-slate-950">
       <div className="max-w-7xl mx-auto px-4 pt-10 sm:pt-16 pb-10">
-        <AddBlankPage id="add-blank-page" />
+        <Suspense fallback={<div className="h-[600px] bg-white dark:bg-slate-900 rounded-3xl animate-pulse" />}>
+          <AddBlankPage id="add-blank-page" />
+        </Suspense>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-16 mb-16">
           {[
