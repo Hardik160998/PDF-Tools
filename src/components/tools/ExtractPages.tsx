@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useRef, useEffect, useCallback } from "react";
-import { Upload, Download, X, FileText, CheckCircle2, Loader2, Layers, Eye, EyeOff } from "lucide-react";
+import { useState, useRef, useCallback } from "react";
+import { Upload, Download, X, FileText, CheckCircle2, Loader2, Layers, Eye, EyeOff, Settings, ChevronDown } from "lucide-react";
 import * as pdfjsLib from "pdfjs-dist";
 import { PDFDocument } from "pdf-lib";
 
@@ -17,7 +17,11 @@ export default function ExtractPages({ id: _id }: { id: string }) {
   const [result, setResult] = useState<{ url: string; count: number } | null>(null);
   const [rangeInput, setRangeInput] = useState("");
   const [rangeError, setRangeError] = useState("");
+  const [showSettings, setShowSettings] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const ACCENT = "#f26522";
+  const ACCENT_GRADIENT = "linear-gradient(135deg,#f26522,#c2410c)";
 
   const loadFile = useCallback(async (f: File) => {
     if (!f.name.endsWith(".pdf")) return;
@@ -112,154 +116,210 @@ export default function ExtractPages({ id: _id }: { id: string }) {
   };
 
   return (
-    <div className="max-w-5xl mx-auto py-4 sm:py-12 px-2 sm:px-4">
-      <div className="bg-white dark:bg-slate-800 rounded-[1.2rem] sm:rounded-[2.5rem] p-4 sm:p-10 border border-slate-100 dark:border-slate-700 shadow-2xl space-y-6 sm:space-y-8">
+    <div className="max-w-7xl mx-auto py-4 sm:py-8 px-3 sm:px-6 font-sans">
+      <div className="flex flex-col lg:flex-row gap-6 items-start">
+        
+        {/* Settings Sidebar */}
+        <div className={`w-full lg:w-[280px] bg-white dark:bg-slate-800 rounded-3xl border border-slate-100 dark:border-slate-700 shadow-xl h-fit lg:sticky lg:top-4 overflow-hidden flex-shrink-0`}>
+          <button onClick={() => setShowSettings(!showSettings)} className="w-full flex lg:hidden items-center justify-between p-5 font-black text-slate-900 dark:text-white border-b border-slate-50 dark:border-slate-700">
+            <span className="flex items-center gap-2"><Settings size={20} style={{ color: ACCENT }} /> Settings</span>
+            <ChevronDown className={`transition-transform duration-300 ${showSettings ? 'rotate-180' : ''}`} size={20} />
+          </button>
 
-        {/* Header */}
-        <div className="text-center space-y-2 sm:space-y-3">
-          <div className="inline-flex p-3 sm:p-4 rounded-xl sm:rounded-2xl text-white shadow-lg" style={{ background: "linear-gradient(135deg,#f26522,#c2410c)" }}>
-            <Layers size={28} className="sm:w-[36px] sm:h-[36px]" />
-          </div>
-          <h2 className="text-xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tight sm:tracking-tighter">Extract PDF Pages</h2>
-          <p className="text-xs sm:text-base text-slate-500 dark:text-slate-400 font-medium px-2">Select pages visually or by range, then download as a new PDF.</p>
-        </div>
-
-        {!file && !loading && (
-          <div
-            className="relative border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-xl sm:rounded-3xl p-6 sm:p-16 group hover:border-orange-500 transition-all cursor-pointer bg-slate-50/50 dark:bg-slate-900/50"
-            onDragOver={e => e.preventDefault()}
-            onDrop={onDrop}
-            onClick={() => fileInputRef.current?.click()}
-          >
-            <input ref={fileInputRef} type="file" accept=".pdf" className="hidden" onChange={e => { const f = e.target.files?.[0]; if (f) loadFile(f); e.target.value = ""; }} />
-            <div className="flex flex-col items-center gap-3 sm:gap-4 pointer-events-none text-center">
-              <div className="p-4 sm:p-5 bg-white dark:bg-slate-800 rounded-xl sm:rounded-2xl shadow-xl text-orange-500 group-hover:scale-110 transition-transform">
-                <Upload size={28} className="sm:w-[36px] sm:h-[36px]" />
-              </div>
-              <p className="text-lg sm:text-xl font-black text-slate-800 dark:text-white">Click or drag &amp; drop PDF</p>
-              <p className="text-[10px] sm:text-sm text-slate-400 font-medium">Your file stays on your device — always</p>
-              <button className="px-5 sm:px-7 py-2.5 sm:py-3 rounded-lg sm:rounded-xl text-white text-[10px] sm:text-sm font-black uppercase tracking-widest shadow-lg" style={{ background: "linear-gradient(135deg,#f26522,#c2410c)" }}>
-                Choose PDF File
-              </button>
-            </div>
-          </div>
-        )}
-
-        {loading && (
-          <div className="flex flex-col items-center gap-3 py-12 sm:py-16">
-            <Loader2 size={32} className="animate-spin text-orange-500 sm:w-[40px] sm:h-[40px]" />
-            <p className="text-xs sm:text-sm font-bold text-slate-500 dark:text-slate-400">Loading pages…</p>
-          </div>
-        )}
-
-        {!loading && pages.length > 0 && !result && (
-          <div className="space-y-4 sm:space-y-6">
-            {/* File info + reset */}
-            <div className="flex items-center justify-between gap-3 p-3 sm:p-4 bg-slate-50 dark:bg-slate-700/60 rounded-xl sm:rounded-2xl border border-slate-100 dark:border-slate-700">
-              <div className="flex items-center gap-2 sm:gap-3 min-w-0">
-                <div className="p-1.5 sm:p-2 bg-white dark:bg-slate-800 rounded-lg shadow-sm text-orange-500 shrink-0"><FileText size={16} className="sm:w-[18px] sm:h-[18px]" /></div>
-                <div className="min-w-0">
-                  <p className="font-bold text-slate-900 dark:text-white text-xs sm:text-sm truncate">{file!.name}</p>
-                  <p className="text-[10px] sm:text-xs text-slate-400">{pages.length} pages</p>
+          <div className={`${showSettings ? 'block' : 'hidden'} lg:block p-6`}>
+            <h3 className="hidden lg:block text-lg font-black text-slate-900 dark:text-white mb-6 uppercase tracking-tight text-left">Extraction Settings</h3>
+            
+            <div className="space-y-6 text-left">
+              {/* Range Input */}
+              <div className="space-y-3">
+                <span className="text-xs font-black text-slate-400 uppercase tracking-widest">Select by Range</span>
+                <div className="flex flex-col gap-2">
+                  <input
+                    type="text"
+                    value={rangeInput}
+                    onChange={e => { setRangeInput(e.target.value); setRangeError(""); }}
+                    placeholder={`e.g. 1,3,5-8`}
+                    disabled={!file}
+                    className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-900 text-sm font-bold text-slate-800 dark:text-white outline-none focus:border-orange-500 transition-colors"
+                  />
+                  <button 
+                    onClick={applyRange} 
+                    disabled={!file}
+                    className="w-full py-2.5 rounded-xl text-white text-xs font-black uppercase tracking-widest shadow-md hover:scale-[1.02] transition-all"
+                    style={{ background: ACCENT_GRADIENT }}
+                  >
+                    Apply Range
+                  </button>
+                  {rangeError && <p className="text-[10px] text-red-500 font-bold italic">{rangeError}</p>}
                 </div>
               </div>
-              <button onClick={reset} className="p-1.5 text-slate-400 hover:text-red-500 transition-colors shrink-0"><X size={16} className="sm:w-[18px] sm:h-[18px]" /></button>
-            </div>
 
-            {/* Range input */}
-            <div className="bg-slate-50 dark:bg-slate-700/40 rounded-xl sm:rounded-2xl p-3 sm:p-4 space-y-2 sm:space-y-3 border border-slate-100 dark:border-slate-700">
-              <p className="text-[10px] font-black uppercase tracking-widest text-slate-500 dark:text-slate-400">Select by Range</p>
-              <div className="flex gap-2">
-                <input
-                  type="text"
-                  value={rangeInput}
-                  onChange={e => { setRangeInput(e.target.value); setRangeError(""); }}
-                  placeholder={`e.g. 1,3,5-8 (max ${pages.length})`}
-                  className="flex-1 min-w-0 px-3 sm:px-4 py-2 sm:py-2.5 rounded-lg sm:rounded-xl border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-800 text-[11px] sm:text-sm font-medium text-slate-800 dark:text-white outline-none focus:border-orange-400 transition-colors"
-                />
-                <button onClick={applyRange} className="px-4 sm:px-5 py-2 sm:py-2.5 rounded-lg sm:rounded-xl text-white text-[11px] sm:text-sm font-black whitespace-nowrap" style={{ background: "linear-gradient(135deg,#f26522,#c2410c)" }}>
-                  Apply
-                </button>
+              {/* Quick Selection */}
+              <div className="space-y-3 pt-4 border-t border-slate-50 dark:border-slate-700">
+                <span className="text-xs font-black text-slate-400 uppercase tracking-widest">Quick Selection</span>
+                <div className="flex gap-2">
+                  <button onClick={selectAll} disabled={!file} className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl text-[11px] font-black uppercase tracking-widest text-slate-600 dark:text-slate-300 bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 hover:bg-slate-100 transition-colors">
+                    <Eye size={14} /> All
+                  </button>
+                  <button onClick={deselectAll} disabled={!file} className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl text-[11px] font-black uppercase tracking-widest text-slate-600 dark:text-slate-300 bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 hover:bg-slate-100 transition-colors">
+                    <EyeOff size={14} /> None
+                  </button>
+                </div>
               </div>
-              {rangeError && <p className="text-[10px] text-red-500 font-medium">{rangeError}</p>}
-            </div>
 
-            {/* Select all / deselect */}
-            <div className="flex items-center justify-between gap-2">
-              <p className="text-[11px] sm:text-sm font-bold text-slate-600 dark:text-slate-300">
-                {selectedPages.length} of {pages.length} selected
-              </p>
-              <div className="flex gap-1.5">
-                <button onClick={selectAll} className="flex items-center gap-1 px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg text-[10px] sm:text-xs font-bold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-600 transition-colors">
-                  <Eye size={12} className="sm:w-[13px] sm:h-[13px]" /> All
-                </button>
-                <button onClick={deselectAll} className="flex items-center gap-1 px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg text-[10px] sm:text-xs font-bold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-600 transition-colors">
-                  <EyeOff size={12} className="sm:w-[13px] sm:h-[13px]" /> None
-                </button>
+              {/* Info */}
+              <div className="pt-4 border-t border-slate-50 dark:border-slate-700">
+                <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Status</p>
+                <p className="text-[10px] text-slate-500 font-bold italic uppercase">
+                  {selectedPages.length} of {pages.length || 0} pages selected
+                </p>
               </div>
             </div>
-
-            {/* Page grid */}
-            <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-2 sm:gap-3">
-              {pages.map((p, i) => (
-                <button
-                  key={i}
-                  onClick={() => togglePage(i)}
-                  className={`relative rounded-lg sm:rounded-xl overflow-hidden border-2 transition-all group ${p.selected ? "border-orange-500 ring-2 ring-orange-500/30 scale-[1.03]" : "border-slate-200 dark:border-slate-700 hover:border-orange-300"}`}
-                >
-                  <img src={p.thumb} alt={`Page ${p.pageNum}`} className="w-full h-auto block" />
-                  <div className={`absolute inset-0 transition-all ${p.selected ? "bg-orange-500/15" : "bg-transparent group-hover:bg-orange-500/5"}`} />
-                  <div className={`absolute top-1 sm:top-1.5 right-1 sm:right-1.5 w-4 h-4 sm:w-5 sm:h-5 rounded-full border-2 flex items-center justify-center transition-all ${p.selected ? "bg-orange-500 border-orange-500" : "bg-white/80 border-slate-300"}`}>
-                    {p.selected && <svg width="8" height="8" viewBox="0 0 12 12" fill="none" className="sm:w-[10px] sm:h-[10px]"><path d="M2 6l3 3 5-5" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>}
-                  </div>
-                  <div className="absolute bottom-0 left-0 right-0 bg-black/40 text-white text-[9px] sm:text-[10px] font-black text-center py-0.5">{p.pageNum}</div>
-                </button>
-              ))}
-            </div>
-
-            {/* Extract button */}
-            <button
-              onClick={handleExtract}
-              disabled={processing || selectedPages.length === 0}
-              className="w-full py-3.5 sm:py-5 text-white rounded-xl sm:rounded-2xl text-base sm:text-2xl font-black shadow-xl flex items-center justify-center gap-3 sm:gap-4 transition-all disabled:opacity-50"
-              style={{ background: "linear-gradient(135deg,#f26522,#c2410c)" }}
-            >
-              {processing ? <Loader2 className="animate-spin" /> : <Layers size={20} className="sm:w-[24px] sm:h-[24px]" />}
-              {processing ? "Extracting…" : `Extract ${selectedPages.length > 0 ? selectedPages.length : ""} Page${selectedPages.length !== 1 ? "s" : ""}`}
-            </button>
           </div>
-        )}
+        </div>
 
-        {result && (
-          <div className="space-y-10 text-center animate-in zoom-in duration-500">
-            <div className="inline-flex p-10 rounded-full bg-orange-50 dark:bg-orange-500/10 text-orange-500">
-              <CheckCircle2 size={72} />
+        {/* Main Content Area */}
+        <div className="flex-1 bg-white dark:bg-slate-800 rounded-[2rem] sm:rounded-[3rem] p-6 sm:p-12 border border-slate-100 dark:border-slate-700 shadow-2xl min-h-[500px] flex flex-col">
+          
+          {/* Header */}
+          <div className="text-center space-y-4 mb-10">
+            <div className="inline-flex p-4 rounded-2xl text-white shadow-lg" style={{ background: ACCENT_GRADIENT }}>
+              <Layers size={32} />
             </div>
-            <div className="space-y-2">
-              <h3 className="text-3xl font-black text-slate-900 dark:text-white">Extraction Complete!</h3>
-              <p className="text-slate-500 dark:text-slate-400 font-bold uppercase tracking-widest text-sm">
-                {result.count} page{result.count !== 1 ? "s" : ""} extracted
-              </p>
-            </div>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <a
-                href={result.url}
-                download={`extracted_${file!.name}`}
-                className="flex-1 py-4 sm:py-5 text-white rounded-2xl text-xl font-black shadow-xl flex items-center justify-center gap-3"
-                style={{ background: "linear-gradient(135deg,#f26522,#c2410c)" }}
-              >
-                <Download size={22} /> Download PDF
-              </a>
-              <button
-                onClick={reset}
-                className="px-10 py-4 sm:py-5 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 text-slate-900 dark:text-white rounded-2xl font-bold transition-all"
-              >
-                Start Over
+            <h2 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter italic leading-tight">Extract PDF Pages</h2>
+            {!file && <p className="text-slate-500 font-medium tracking-tight">Select specific pages to create a new PDF document.</p>}
+          </div>
+
+          {!file && !loading && (
+            <div
+              className="flex-1 flex flex-col items-center justify-center border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-[2rem] p-10 sm:p-20 hover:border-orange-500 transition-all cursor-pointer bg-slate-50/50 dark:bg-slate-900/50 group"
+              onClick={() => fileInputRef.current?.click()}
+              onDragOver={e => e.preventDefault()}
+              onDrop={onDrop}
+            >
+              <input ref={fileInputRef} type="file" accept=".pdf" className="hidden" onChange={e => { const f = e.target.files?.[0]; if (f) loadFile(f); e.target.value = ""; }} />
+              <div className="p-6 bg-white dark:bg-slate-800 rounded-3xl shadow-xl text-orange-500 mb-6 group-hover:scale-110 transition-transform">
+                <Upload size={48} />
+              </div>
+              <div className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white uppercase tracking-tight">Drop your PDF here</div>
+              <p className="text-slate-400 text-sm mt-2 font-bold italic tracking-tight">Visual page extraction made simple</p>
+              <button className="mt-8 px-10 py-4 rounded-2xl text-white text-sm font-black uppercase tracking-widest shadow-xl hover:scale-105 transition-all" style={{ background: ACCENT_GRADIENT }}>
+                Choose File
               </button>
             </div>
-          </div>
-        )}
+          )}
+
+          {loading && (
+            <div className="flex-1 flex flex-col items-center justify-center gap-4">
+              <div className="relative">
+                <Loader2 size={64} className="animate-spin text-orange-500" />
+                <Layers className="absolute inset-0 m-auto text-orange-500/20" size={32} />
+              </div>
+              <p className="text-lg font-black text-slate-400 uppercase tracking-widest animate-pulse">Analyzing Document...</p>
+            </div>
+          )}
+
+          {!loading && pages.length > 0 && !result && (
+            <div className="space-y-8 flex-1 flex flex-col">
+              {/* File bar */}
+              <div className="flex items-center justify-between p-4 bg-slate-50 dark:bg-slate-700/50 rounded-2xl border border-slate-100 dark:border-slate-600">
+                <div className="flex items-center gap-4 min-w-0">
+                  <div className="w-10 h-10 rounded-xl bg-white dark:bg-slate-800 flex items-center justify-center text-orange-500 shadow-sm"><FileText size={20} /></div>
+                  <div className="truncate">
+                    <p className="font-black text-slate-900 dark:text-white text-sm truncate">{file?.name}</p>
+                    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{pages.length} Pages Found</p>
+                  </div>
+                </div>
+                <button onClick={reset} className="w-10 h-10 rounded-xl flex items-center justify-center text-slate-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10 transition-all"><X size={20} /></button>
+              </div>
+
+              {/* Grid */}
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-5 gap-4 overflow-y-auto max-h-[600px] pr-2 custom-scrollbar p-1">
+                {pages.map((p, i) => (
+                  <button
+                    key={i}
+                    onClick={() => togglePage(i)}
+                    className={`relative aspect-[3/4] rounded-2xl overflow-hidden border-4 transition-all group shadow-sm ${p.selected ? "border-orange-500 ring-4 ring-orange-500/20 scale-[1.02]" : "border-slate-100 dark:border-slate-700 hover:border-orange-200"}`}
+                  >
+                    <img src={p.thumb} alt={`Page ${p.pageNum}`} className="w-full h-full object-cover" />
+                    <div className={`absolute inset-0 transition-all ${p.selected ? "bg-orange-500/10" : "bg-transparent group-hover:bg-orange-500/5"}`} />
+                    
+                    {/* Checkbox badge */}
+                    <div className={`absolute top-3 right-3 w-6 h-6 rounded-full border-2 flex items-center justify-center shadow-lg transition-all ${p.selected ? "bg-orange-500 border-orange-500 scale-110" : "bg-white/90 border-slate-200"}`}>
+                      {p.selected && <CheckCircle2 size={14} className="text-white" />}
+                    </div>
+
+                    {/* Page Number Label */}
+                    <div className="absolute bottom-3 left-3 px-3 py-1 bg-black/60 backdrop-blur-md text-white text-[10px] font-black rounded-full border border-white/20 tracking-tighter">
+                      PAGE {p.pageNum}
+                    </div>
+                  </button>
+                ))}
+              </div>
+
+              {/* Footer Action */}
+              <div className="mt-auto pt-8 border-t border-slate-50 dark:border-slate-700">
+                <button
+                  onClick={handleExtract}
+                  disabled={processing || selectedPages.length === 0}
+                  className="w-full py-5 text-white rounded-[1.5rem] text-xl font-black shadow-xl hover:scale-[1.01] active:scale-[0.99] transition-all disabled:opacity-50 disabled:grayscale uppercase tracking-tighter italic"
+                  style={{ background: ACCENT_GRADIENT }}
+                >
+                  {processing ? (
+                    <span className="flex items-center justify-center gap-3"><Loader2 className="animate-spin" /> Finalizing PDF...</span>
+                  ) : (
+                    <span className="flex items-center justify-center gap-3">
+                      Extract {selectedPages.length} {selectedPages.length === 1 ? 'Page' : 'Pages'} <Download size={24} />
+                    </span>
+                  )}
+                </button>
+              </div>
+            </div>
+          )}
+
+          {result && (
+            <div className="flex-1 flex flex-col items-center justify-center text-center space-y-10 animate-in zoom-in fade-in duration-500">
+              <div className="relative">
+                <div className="absolute inset-0 bg-green-500 blur-3xl opacity-20 animate-pulse"></div>
+                <div className="relative p-10 rounded-full bg-green-50 dark:bg-green-500/10 text-green-500 shadow-2xl border border-green-100 dark:border-green-500/20">
+                  <CheckCircle2 size={80} />
+                </div>
+              </div>
+              
+              <div className="space-y-2">
+                <h3 className="text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter italic">Extraction Ready!</h3>
+                <p className="text-slate-500 font-bold uppercase tracking-widest text-sm">
+                  {result.count} high-quality page{result.count !== 1 ? "s" : ""} isolated
+                </p>
+              </div>
+
+              <div className="flex flex-col sm:flex-row gap-4 w-full max-w-md">
+                <a
+                  href={result.url}
+                  download={`extracted_${file!.name}`}
+                  className="flex-1 py-5 text-white rounded-2xl text-xl font-black shadow-xl hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-3 uppercase tracking-tighter"
+                  style={{ background: ACCENT_GRADIENT }}
+                >
+                  <Download size={24} /> Download PDF
+                </a>
+                <button
+                  onClick={reset}
+                  className="px-8 py-5 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 text-slate-900 dark:text-white rounded-2xl font-black uppercase tracking-widest text-xs transition-all"
+                >
+                  Start Over
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
       </div>
+
+      <style jsx global>{`
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #e2e8f0; border-radius: 10px; }
+        .dark .custom-scrollbar::-webkit-scrollbar-thumb { background: #334155; }
+      `}</style>
     </div>
   );
 }

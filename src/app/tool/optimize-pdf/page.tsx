@@ -2,31 +2,31 @@
 
 import dynamic from "next/dynamic";
 
-const OrganizeTool = dynamic(() => import("@/components/tools/OrganizeTool"), {
+const OptimizePdf = dynamic(() => import("@/components/tools/OptimizePdf"), {
   ssr: false,
 });
 
-export default function OrganizePage() {
+export default function OptimizePage() {
   return (
     <div className="min-h-screen bg-slate-50/50 dark:bg-slate-950">
       <div className="max-w-7xl mx-auto px-4 pt-10 sm:pt-16 pb-10">
-        <OrganizeTool id="organize" />
+        <OptimizePdf id="optimize-pdf" />
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-16 mb-16">
           {[
             { 
-              title: "Visual Reordering", 
-              desc: "Simply drag and drop pages to change their order. See exactly how your final PDF will look.",
-              gradient: "linear-gradient(135deg,#f97316,#ea580c)"
+              title: "Max Efficiency", 
+              desc: "Achieve up to 90% file size reduction by re-encoding images at optimized quality levels.",
+              gradient: "linear-gradient(135deg,#10b981,#059669)"
             },
             { 
-              title: "Multi-File Support", 
-              desc: "Upload multiple PDFs and merge them into a single organized document in one step.",
-              gradient: "linear-gradient(135deg,#f97316,#ea580c)"
+              title: "Quality Control", 
+              desc: "Choose between Low, Medium, and High compression to find the perfect balance for your needs.",
+              gradient: "linear-gradient(135deg,#10b981,#059669)"
             },
             { 
-              title: "Local Processing", 
-              desc: "All page manipulation happens in your browser. Your data stays 100% private.",
+              title: "Safe Processing", 
+              desc: "Processing happens locally. Your documents never touch a server, ensuring 100% privacy.",
               gradient: "linear-gradient(135deg,#22c55e,#15803d)"
             }
           ].map((feat, i) => (

@@ -1,7 +1,11 @@
 "use client";
 
 import { useState, useRef } from 'react';
-import { Upload, Download, Loader2, X, Combine, FileText, CheckCircle2, Scissors, GripVertical } from 'lucide-react';
+import { 
+  Upload, Download, Loader2, X, Combine, FileText, 
+  CheckCircle2, Scissors, GripVertical, Settings, 
+  ChevronDown, FilePlus, Zap, History, LayoutGrid
+} from 'lucide-react';
 import { PDFDocument, rgb } from 'pdf-lib';
 
 import {
@@ -23,8 +27,6 @@ import {
 } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 
-
-
 // Sortable file row
 function SortableFile({ file, index, onRemove, status }: { file: File; index: number; onRemove: (i: number) => void, status?: string }) {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: file.name + index });
@@ -40,26 +42,25 @@ function SortableFile({ file, index, onRemove, status }: { file: File; index: nu
     <div
       ref={setNodeRef}
       style={style}
-      className="flex items-center justify-between p-4 bg-slate-50 dark:bg-slate-700 rounded-2xl border border-slate-100 dark:border-slate-600"
+      className="flex items-center justify-between p-4 bg-slate-50 dark:bg-slate-900 rounded-2xl border border-slate-100 dark:border-slate-800 transition-all hover:border-orange-200 group"
     >
       <div className="flex items-center flex-1 min-w-0">
         <button
           {...attributes}
           {...listeners}
-          className="p-1 text-slate-300 hover:text-slate-500 cursor-grab active:cursor-grabbing touch-none mr-2 shrink-0"
-          aria-label="Drag to reorder"
+          className="p-1 text-slate-300 hover:text-orange-400 cursor-grab active:cursor-grabbing touch-none mr-3 shrink-0"
         >
           <GripVertical size={18} />
         </button>
 
         <div className="flex items-center gap-3 text-left flex-1 min-w-0">
-          <div className="w-7 h-7 flex items-center justify-center bg-white dark:bg-slate-800 rounded-lg text-[10px] font-black text-orange-500 shadow-sm shrink-0">
+          <div className="w-8 h-8 flex items-center justify-center bg-white dark:bg-slate-800 rounded-xl text-[10px] font-black text-orange-500 shadow-sm shrink-0">
             {index + 1}
           </div>
-          <div className="p-2 bg-white dark:bg-slate-800 rounded-lg shadow-sm text-orange-500 shrink-0">
-            <FileText size={16} />
+          <div className="flex-1 min-w-0">
+            <p className="font-black text-slate-900 dark:text-white text-[11px] uppercase truncate tracking-tight">{file.name}</p>
+            <p className="text-[9px] text-slate-400 font-bold uppercase tracking-widest leading-none mt-0.5">{(file.size / 1024 / 1024).toFixed(2)} MB</p>
           </div>
-          <p className="font-bold text-slate-900 dark:text-white text-xs truncate">{file.name}</p>
         </div>
       </div>
 
@@ -68,7 +69,7 @@ function SortableFile({ file, index, onRemove, status }: { file: File; index: nu
         {status === 'done' && <CheckCircle2 size={16} className="text-green-500" />}
         <button
           onClick={() => onRemove(index)}
-          className="p-2 text-slate-400 hover:text-red-500 transition-colors"
+          className="p-2 text-slate-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10 rounded-lg transition-all"
           disabled={status === 'processing'}
         >
           <X size={16} />
@@ -86,7 +87,14 @@ export default function MergeSplit({ id }: { id: string }) {
   const [splitMode, setSplitMode] = useState<'parts' | 'extract'>('parts');
   const [splitParts, setSplitParts] = useState<number>(2);
   const [fileStatuses, setFileStatuses] = useState<Record<string, 'pending' | 'processing' | 'done' | 'error'>>({});
+  const [showSettings, setShowSettings] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const isSplit = id === 'split';
+  const ACCENT = isSplit ? "#8b5cf6" : "#f97316"; // Violet for split, Orange for merge
+  const ACCENT_GRADIENT = isSplit 
+    ? "linear-gradient(135deg,#8b5cf6,#6d28d9)" 
+    : "linear-gradient(135deg,#f97316,#ea580c)";
 
   const handleReset = () => {
     setFiles([]);
@@ -105,7 +113,7 @@ export default function MergeSplit({ id }: { id: string }) {
   const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       const newFiles = Array.from(e.target.files);
-      if (id === 'split') {
+      if (isSplit) {
         setFiles([newFiles[0]]);
       } else {
         setFiles(prev => [...prev, ...newFiles]);
@@ -267,135 +275,210 @@ export default function MergeSplit({ id }: { id: string }) {
   };
 
   return (
-    <div className="max-w-4xl mx-auto py-4 sm:py-12 px-2 sm:px-4 text-center">
-      <div className="bg-white dark:bg-slate-800 rounded-[1.2rem] sm:rounded-[2.5rem] p-4 sm:p-12 border border-slate-100 dark:border-slate-700 shadow-2xl space-y-5 sm:space-y-10">
-        <div className="space-y-2 sm:space-y-4">
-          <div className="inline-flex p-3 sm:p-5 rounded-xl sm:rounded-3xl bg-orange-500 text-white shadow-lg">
-            {id === 'merge' ? <Combine size={24} className="sm:w-10 sm:h-10" /> : <Scissors size={24} className="sm:w-10 sm:h-10" />}
-          </div>
-          <h2 className="text-xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tight sm:tracking-tighter">
-            {id === 'merge' ? 'Merge PDF' : 'Split PDF'}
-          </h2>
-          <p className="text-xs sm:text-base text-slate-500 font-medium px-2">
-            {id === 'merge' ? 'Drag to reorder files, then merge into one PDF.' : 'Combine or separate your documents with ultra-speed.'}
-          </p>
-        </div>
+    <div className="max-w-7xl mx-auto py-4 sm:py-8 px-3 sm:px-6 font-sans">
+      <div className="flex flex-col lg:flex-row gap-8 items-start">
+        
+        {/* Sidebar Configuration */}
+        <div className="w-full lg:w-[320px] bg-white dark:bg-slate-800 rounded-3xl border border-slate-100 dark:border-slate-700 shadow-xl overflow-hidden h-fit lg:sticky lg:top-4 flex-shrink-0">
+          <button onClick={() => setShowSettings(!showSettings)} className="w-full flex lg:hidden items-center justify-between p-5 font-black text-slate-900 dark:text-white border-b border-slate-50 dark:border-slate-700">
+            <span className="flex items-center gap-2"><Settings size={20} style={{ color: ACCENT }} /> Tool Settings</span>
+            <ChevronDown className={`transition-transform duration-300 ${showSettings ? 'rotate-180' : ''}`} size={20} />
+          </button>
 
-        <div className="space-y-6 sm:space-y-10">
-          {/* Result Section */}
-          {result && (
-            <div className="p-6 sm:p-10 bg-orange-50 dark:bg-orange-500/10 rounded-[1.5rem] sm:rounded-[2.5rem] border-2 border-orange-200 dark:border-orange-500/20 animate-in zoom-in duration-500">
-              <div className="flex flex-col sm:flex-row items-center gap-6 text-center sm:text-left">
-                <div className="p-4 rounded-2xl bg-white dark:bg-slate-800 text-orange-500 shadow-lg">
-                  <CheckCircle2 size={40} />
-                </div>
-                <div className="flex-1 space-y-1">
-                  <h3 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white uppercase tracking-tight">{id === 'merge' ? 'Merge Successful!' : 'Archive Ready!'}</h3>
-                  <p className="text-sm font-bold text-slate-500 uppercase tracking-widest">{id === 'merge' ? `${result.count} files enriched & combined.` : `${result.count} files extracted.`}</p>
-                </div>
-                <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
-                  <a href={result.url} download={result.filename || 'download'}
-                    className="flex-1 py-4 px-8 bg-orange-500 hover:bg-orange-600 text-white rounded-xl text-lg font-black shadow-lg flex items-center justify-center gap-3 transition-all active:scale-95">
-                    <Download size={20} /> Download
-                  </a>
-                  <button onClick={handleReset}
-                    className="py-4 px-8 bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 text-slate-900 dark:text-white rounded-xl font-bold transition-all active:scale-95">
-                    Clear Batch
-                  </button>
-                </div>
-              </div>
-            </div>
-          )}
-
-          <div className="space-y-4 sm:space-y-6 relative">
-            {/* Drop zone */}
-            <div className={`relative border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-xl sm:rounded-3xl p-6 sm:p-16 group hover:border-orange-500 transition-all bg-slate-50/50 dark:bg-slate-900/50 ${processing ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}>
-              <input ref={fileInputRef} type="file" multiple={id === 'merge'} onChange={onFileChange} accept=".pdf" disabled={processing} className="absolute inset-0 opacity-0 cursor-pointer w-full h-full disabled:cursor-not-allowed" />
-              <div className="space-y-3 sm:space-y-6 pointer-events-none">
-                <div className="p-3 sm:p-6 bg-white dark:bg-slate-800 rounded-xl sm:rounded-2xl shadow-xl inline-block text-orange-500 group-hover:scale-110 transition-transform">
-                  <Upload size={24} className="sm:w-12 sm:h-12" />
-                </div>
-                <div className="text-lg sm:text-2xl font-black tracking-tight">Select PDF Files</div>
-                <p className="text-xs sm:text-base text-slate-500">or drop PDF here</p>
-              </div>
+          <div className={`${showSettings ? 'block' : 'hidden'} lg:block p-6`}>
+            <div className="flex items-center justify-between mb-6">
+              <h3 className="hidden lg:block text-lg font-black text-slate-900 dark:text-white uppercase tracking-tight">Configuration</h3>
+              <button onClick={handleReset} className="text-[10px] font-black uppercase tracking-widest text-red-500 hover:text-red-600 transition-colors">Reset</button>
             </div>
 
-            {/* Individual File List */}
-            {files.length > 0 && (
-              <div className="space-y-4 sm:space-y-6 animate-in slide-in-from-bottom-4 duration-500">
-                {id === 'merge' ? (
-                  <div className="space-y-2 text-left">
-                    <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
-                      <SortableContext items={files.map((f, i) => f.name + i)} strategy={verticalListSortingStrategy}>
-                        <div className="space-y-2">
-                          {files.map((file, i) => (
-                            <SortableFile key={file.name + i} file={file} index={i} onRemove={removeFile} status={fileStatuses[file.name + i]} />
-                          ))}
-                        </div>
-                      </SortableContext>
-                    </DndContext>
-                  </div>
-                ) : (
-                  <div className="grid grid-cols-1 gap-3 text-left">
-                    {files.map((file, i) => (
-                      <div key={i} className="flex items-center justify-between p-3 sm:p-4 bg-slate-50 dark:bg-slate-700 rounded-xl sm:rounded-2xl border border-slate-100 dark:border-slate-600">
-                        <div className="flex items-center gap-2 sm:gap-4 min-w-0">
-                          <div className="p-1.5 sm:p-2 bg-white dark:bg-slate-800 rounded-lg shadow-sm text-orange-500 shrink-0">
-                            <FileText size={16} className="sm:w-[18px] sm:h-[18px]" />
-                          </div>
-                          <p className="font-bold text-slate-900 dark:text-white text-[11px] sm:text-xs truncate max-w-[150px] sm:max-w-[200px]">{file.name}</p>
-                        </div>
-                        <div className="flex items-center gap-2">
-                          {processing && <Loader2 size={16} className="animate-spin text-orange-500" />}
-                          <button onClick={() => removeFile(i)} className="p-1.5 sm:p-2 text-slate-400 hover:text-red-500 transition-colors shrink-0" disabled={processing}>
-                            <X size={16} className="sm:w-[18px] sm:h-[18px]" />
-                          </button>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                )}
-
-                {id === 'split' && (
-                  <div className="space-y-3 sm:space-y-4 text-left bg-white dark:bg-slate-800 p-4 sm:p-6 rounded-xl sm:rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm">
-                    <h4 className="text-xs sm:text-base font-bold text-slate-900 dark:text-white uppercase tracking-widest text-slate-400">Split Configuration</h4>
-                    <div className="flex bg-slate-50 dark:bg-slate-900 p-1 rounded-lg sm:rounded-xl">
+            <div className="space-y-6 text-left">
+              {/* Tool specific settings */}
+              {isSplit && files.length > 0 && (
+                <div className="space-y-4 animate-in slide-in-from-top-4 duration-300">
+                  <div className="space-y-2">
+                    <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Split Mode</span>
+                    <div className="flex bg-slate-50 dark:bg-slate-900 p-1.5 rounded-2xl border border-slate-100 dark:border-slate-800">
                       {(['parts', 'extract'] as const).map(mode => (
                         <button key={mode} onClick={() => setSplitMode(mode)}
-                          className={`flex-1 py-2 sm:py-3 text-[10px] sm:text-xs font-black uppercase tracking-widest rounded-md sm:rounded-lg transition-all ${splitMode === mode ? 'bg-white dark:bg-slate-800 shadow-sm text-orange-500' : 'text-slate-400 hover:text-slate-900'}`}>
-                          {mode === 'parts' ? 'Divide' : 'Extract'}
+                          className={`flex-1 py-3 text-[10px] font-black uppercase tracking-widest rounded-xl transition-all ${splitMode === mode ? 'bg-white dark:bg-slate-800 shadow-xl text-violet-600' : 'text-slate-400 hover:text-slate-600'}`}>
+                          {mode === 'parts' ? 'Divide into Parts' : 'Extract All Pages'}
                         </button>
                       ))}
                     </div>
-                    {splitMode === 'parts' && (
-                      <div className="flex gap-2">
+                  </div>
+
+                  {splitMode === 'parts' && (
+                    <div className="space-y-2">
+                      <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Target Parts</span>
+                      <div className="grid grid-cols-3 gap-2">
                         {[2, 3, 4].map(num => (
                           <button key={num} onClick={() => setSplitParts(num)}
-                            className={`flex-1 py-2 sm:py-3 rounded-lg sm:rounded-xl border-2 font-black text-xs sm:text-sm transition-all ${splitParts === num ? 'border-orange-500 bg-orange-50 text-orange-600' : 'border-slate-100 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-slate-500'}`}>
-                            {num} Parts
+                            className={`py-4 rounded-2xl border-2 font-black text-sm transition-all ${splitParts === num ? 'border-violet-500 bg-violet-50 dark:bg-violet-500/10 text-violet-600' : 'border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-900 text-slate-400'}`}>
+                            {num}
                           </button>
                         ))}
                       </div>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* Status Section */}
+              <div className="pt-4 border-t border-slate-50 dark:border-slate-700">
+                <div className="bg-slate-50 dark:bg-slate-900/50 rounded-2xl p-4 border border-slate-100 dark:border-slate-800">
+                  <div className="flex items-center gap-3 mb-2">
+                    <div className="p-2 rounded-lg bg-white dark:bg-slate-800 shadow-sm text-slate-400">
+                      <Zap size={14} />
+                    </div>
+                    <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Status</span>
+                  </div>
+                  <p className="text-[11px] font-bold text-slate-600 dark:text-slate-300 italic">
+                    {files.length === 0 ? 'Waiting for upload...' : processing ? status : `Ready to ${id}`}
+                  </p>
+                </div>
+              </div>
+
+              {/* Action Button */}
+              <div className="pt-2">
+                {!result ? (
+                  <button
+                    onClick={handleProcess}
+                    disabled={processing || files.length === 0}
+                    className="w-full py-5 text-white rounded-[1.5rem] text-xl font-black shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50 disabled:grayscale uppercase tracking-tighter italic"
+                    style={{ background: ACCENT_GRADIENT }}
+                  >
+                    {processing ? (
+                      <span className="flex items-center justify-center gap-3"><Loader2 className="animate-spin" /> {id === 'merge' ? 'Merging...' : 'Splitting...'}</span>
+                    ) : (
+                      <span className="flex items-center justify-center gap-3">{id === 'merge' ? 'Merge Now' : 'Split Now'} {isSplit ? <Scissors size={24} /> : <Combine size={24} />}</span>
                     )}
+                  </button>
+                ) : (
+                  <div className="space-y-3">
+                    <div className="p-4 bg-green-50 rounded-2xl border border-green-100 flex items-center gap-3">
+                      <CheckCircle2 size={24} className="text-green-500" />
+                      <span className="text-xs font-black text-green-700 uppercase tracking-tighter italic leading-tight">Process Completed Successfully!</span>
+                    </div>
+                    <a
+                      href={result.url}
+                      download={result.filename || 'download.pdf'}
+                      className="w-full py-5 text-white rounded-[1.5rem] text-xl font-black shadow-xl hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-3 uppercase tracking-tighter italic shadow-orange-500/20"
+                      style={{ background: ACCENT_GRADIENT }}
+                    >
+                      <Download size={24} /> Download
+                    </a>
+                    <button onClick={handleReset} className="w-full py-3 bg-slate-100 text-slate-500 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-slate-200 transition-all">Start Over</button>
                   </div>
                 )}
+              </div>
+            </div>
+          </div>
+        </div>
 
-                {!result && (
-                  <button onClick={handleProcess} disabled={processing}
-                    className="w-full py-3.5 sm:py-5 bg-orange-500 hover:bg-orange-600 text-white rounded-xl sm:rounded-2xl text-base sm:text-2xl font-black shadow-xl flex items-center justify-center gap-3 sm:gap-4 transition-all disabled:opacity-50">
-                    {processing ? (
-                      <div className="flex flex-col items-center">
-                        <Loader2 size={20} className="animate-spin mb-1" />
-                        <span className="text-[10px] font-bold uppercase tracking-tighter opacity-80">{status}</span>
+        {/* Main Workspace */}
+        <div className="flex-1 w-full space-y-6">
+          <div className="bg-white dark:bg-slate-800 rounded-[2.5rem] border border-slate-100 dark:border-slate-700 shadow-2xl p-6 sm:p-12 min-h-[500px] flex flex-col relative overflow-hidden">
+            
+            {/* Background Decoration */}
+            <div className="absolute top-0 right-0 w-64 h-64 bg-slate-50 dark:bg-slate-900/50 rounded-full -mr-32 -mt-32 blur-3xl opacity-50" />
+            
+            {/* Header */}
+            <div className="relative text-center space-y-4 mb-10">
+              <div className="inline-flex p-4 rounded-2xl text-white shadow-lg shadow-orange-500/20" style={{ background: ACCENT_GRADIENT }}>
+                {isSplit ? <Scissors size={32} /> : <Combine size={32} />}
+              </div>
+              <h2 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter italic leading-tight">
+                {isSplit ? 'Split PDF Document' : 'Merge PDF Documents'}
+              </h2>
+              <p className="text-slate-500 font-medium tracking-tight max-w-md mx-auto">
+                {isSplit 
+                  ? 'Extract pages into separate files or divide your PDF into smaller parts instantly.' 
+                  : 'Combine multiple PDF files into one single document with enriched metadata.'}
+              </p>
+            </div>
+
+            {/* Upload Area */}
+            {files.length === 0 ? (
+              <div className="flex-1 flex flex-col items-center justify-center border-2 border-dashed border-slate-100 dark:border-slate-700 rounded-[2.5rem] p-10 sm:p-20 hover:border-orange-400 cursor-pointer transition-all bg-slate-50/30 dark:bg-slate-900/30 group relative overflow-hidden"
+                onClick={() => fileInputRef.current?.click()}>
+                <div className="p-6 bg-white dark:bg-slate-800 rounded-3xl shadow-xl text-orange-500 mb-6 group-hover:scale-110 transition-transform relative z-10">
+                  <Upload size={48} style={{ color: ACCENT }} />
+                </div>
+                <div className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white uppercase tracking-tight text-center relative z-10">
+                  Drop PDF Files Here
+                </div>
+                <p className="text-slate-400 text-sm mt-2 font-bold italic tracking-tight text-center relative z-10">
+                  Select {isSplit ? 'a PDF' : 'multiple PDFs'} to begin processing locally
+                </p>
+                <button className="mt-8 px-10 py-4 rounded-2xl text-white text-sm font-black uppercase tracking-widest shadow-xl hover:scale-105 transition-all relative z-10" style={{ background: ACCENT_GRADIENT }}>
+                  Choose Files
+                </button>
+                <input ref={fileInputRef} type="file" multiple={!isSplit} onChange={onFileChange} accept=".pdf" className="hidden" />
+              </div>
+            ) : (
+              <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
+                <div className="flex items-center justify-between px-2">
+                  <h4 className="text-xs font-black text-slate-400 uppercase tracking-widest flex items-center gap-2">
+                    <History size={14} /> Selected Files ({files.length})
+                  </h4>
+                  {!isSplit && (
+                    <button onClick={() => fileInputRef.current?.click()} className="text-[10px] font-black uppercase tracking-widest text-orange-500 hover:opacity-80">
+                      Add More
+                    </button>
+                  )}
+                </div>
+
+                {isSplit ? (
+                  <div className="grid grid-cols-1 gap-3">
+                    {files.map((file, i) => (
+                      <div key={i} className="flex items-center justify-between p-5 bg-slate-50 dark:bg-slate-900 rounded-[1.5rem] border border-slate-100 dark:border-slate-800 shadow-sm group hover:border-violet-200 transition-all">
+                        <div className="flex items-center gap-4 min-w-0">
+                          <div className="p-3 bg-white dark:bg-slate-800 rounded-2xl shadow-sm text-violet-500 shrink-0">
+                            <FileText size={20} />
+                          </div>
+                          <div className="min-w-0">
+                            <p className="font-black text-slate-900 dark:text-white text-xs uppercase truncate">{file.name}</p>
+                            <p className="text-[9px] text-slate-400 font-bold uppercase tracking-widest leading-none mt-1">{(file.size / 1024 / 1024).toFixed(2)} MB • READY TO SPLIT</p>
+                          </div>
+                        </div>
+                        <button onClick={() => removeFile(i)} className="p-2 text-slate-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10 rounded-xl transition-all">
+                          <X size={20} />
+                        </button>
                       </div>
-                    ) : (
-                      <Combine size={20} className="sm:w-[24px] sm:h-[24px] fill-white/20" />
-                    )}
-                    {processing ? 'Extracting SKU...' : (id === 'merge' ? 'Merge PDF' : 'Split PDF')}
-                  </button>
+                    ))}
+                  </div>
+                ) : (
+                  <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+                    <SortableContext items={files.map((f, i) => f.name + i)} strategy={verticalListSortingStrategy}>
+                      <div className="space-y-3">
+                        {files.map((file, i) => (
+                          <SortableFile key={file.name + i} file={file} index={i} onRemove={removeFile} status={fileStatuses[file.name + i]} />
+                        ))}
+                      </div>
+                    </SortableContext>
+                  </DndContext>
                 )}
+                
+                <input ref={fileInputRef} type="file" multiple={!isSplit} onChange={onFileChange} accept=".pdf" className="hidden" />
               </div>
             )}
+          </div>
+
+          {/* Feature Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {[
+              { title: "Ultra Fast", desc: "Native browser processing means zero wait time for server uploads.", icon: Zap },
+              { title: "Safe & Private", desc: "Your sensitive documents never leave your local machine.", icon: CheckCircle2 },
+              { title: "No File Limit", desc: "Handle large documents with our optimized memory management.", icon: LayoutGrid },
+            ].map((feat, i) => (
+              <div key={i} className="p-6 bg-white dark:bg-slate-800 rounded-3xl border border-slate-50 dark:border-slate-700 shadow-sm flex flex-col items-center text-center group hover:shadow-lg transition-all">
+                <div className="w-10 h-10 rounded-xl bg-slate-50 dark:bg-slate-900 flex items-center justify-center text-slate-400 mb-4 group-hover:scale-110 transition-transform shadow-inner">
+                  <feat.icon size={20} />
+                </div>
+                <h5 className="text-[11px] font-black uppercase tracking-widest text-slate-900 dark:text-white mb-2">{feat.title}</h5>
+                <p className="text-[10px] text-slate-400 font-medium leading-relaxed">{feat.desc}</p>
+              </div>
+            ))}
           </div>
         </div>
       </div>

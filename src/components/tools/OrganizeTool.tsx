@@ -4,7 +4,8 @@ import { useState, useRef } from 'react';
 import { 
   Upload, Download, Loader2, X, RefreshCw, 
   Trash2, ArrowDownUp, RotateCw, FilePlus, 
-  Settings2, CheckCircle2, LayoutGrid, FileSymlink
+  Settings2, CheckCircle2, LayoutGrid, FileSymlink,
+  Settings, ChevronDown, MousePointer2
 } from 'lucide-react';
 import { PDFDocument, degrees } from 'pdf-lib';
 import * as pdfjs from 'pdfjs-dist';
@@ -63,10 +64,10 @@ function SortableItem({ page, onRotate, onDelete }: {
     <div
       ref={setNodeRef}
       style={style}
-      className="relative aspect-[3/4] bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden select-none"
+      className="relative aspect-[3/4] bg-white dark:bg-slate-800 rounded-2xl shadow-sm border-2 border-slate-100 dark:border-slate-700 overflow-hidden select-none group hover:border-orange-200 transition-all"
     >
       {/* Thumbnail */}
-      <div className="absolute inset-0 flex items-center justify-center p-2 bg-slate-50 dark:bg-slate-900">
+      <div className="absolute inset-0 flex items-center justify-center p-2 bg-slate-50/50 dark:bg-slate-900/50">
         <img
           src={page.thumbnail}
           alt={`Page ${page.pageIndex + 1}`}
@@ -76,63 +77,59 @@ function SortableItem({ page, onRotate, onDelete }: {
         />
       </div>
 
-      {/* Dedicated drag handle at bottom center — touch-friendly */}
+      {/* Drag handle overlay */}
       <div
         {...attributes}
         {...listeners}
-        className="absolute bottom-0 inset-x-0 z-20 h-8 flex items-center justify-center cursor-grab active:cursor-grabbing touch-none bg-gradient-to-t from-black/60 to-transparent"
-      >
-        <div className="flex gap-0.5">
-          {[0,1,2].map(i => (
-            <div key={i} className="w-0.5 h-3 bg-white/70 rounded-full" />
-          ))}
-        </div>
+        className="absolute inset-0 z-10 cursor-grab active:cursor-grabbing"
+      />
+
+      {/* Page number badge */}
+      <div className="absolute bottom-3 left-3 z-20 px-3 py-1 bg-black/60 backdrop-blur-md text-white text-[10px] font-black rounded-full border border-white/20 tracking-tighter">
+        PAGE {page.pageIndex + 1}
       </div>
 
-      {/* Page number */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 px-2 py-0.5 bg-slate-900/80 text-white text-[10px] font-bold rounded-full">
-        {page.pageIndex + 1}
-      </div>
-
-      {/* Action buttons — always visible */}
-      <div className="absolute top-1 right-1 z-30 flex flex-col gap-1">
+      {/* Action buttons */}
+      <div className="absolute top-2 right-2 z-30 flex flex-col gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
         <button
           onPointerDown={e => e.stopPropagation()}
           onTouchStart={e => e.stopPropagation()}
           onClick={(e) => { e.stopPropagation(); onRotate(page.id); }}
-          className="p-1.5 bg-white dark:bg-slate-800 rounded-lg shadow-lg text-slate-600 hover:text-orange-500 transition-colors"
+          className="w-8 h-8 flex items-center justify-center bg-white dark:bg-slate-800 rounded-xl shadow-xl text-slate-600 hover:text-orange-500 hover:scale-110 transition-all"
         >
-          <RotateCw size={12} />
+          <RotateCw size={14} />
         </button>
         <button
           onPointerDown={e => e.stopPropagation()}
           onTouchStart={e => e.stopPropagation()}
           onClick={(e) => { e.stopPropagation(); onDelete(page.id); }}
-          className="p-1.5 bg-white dark:bg-slate-800 rounded-lg shadow-lg text-slate-600 hover:text-red-500 transition-colors"
+          className="w-8 h-8 flex items-center justify-center bg-white dark:bg-slate-800 rounded-xl shadow-xl text-slate-600 hover:text-red-500 hover:scale-110 transition-all"
         >
-          <Trash2 size={12} />
+          <Trash2 size={14} />
         </button>
       </div>
 
-      {/* File label */}
-      <div className="absolute top-1 left-1 z-20 px-1.5 py-0.5 bg-orange-500 text-white text-[8px] font-black rounded uppercase">
-        {page.fileName.slice(0, 1)}
+      {/* File origin badge */}
+      <div className="absolute top-2 left-2 z-20 px-2 py-0.5 bg-orange-500 text-white text-[9px] font-black rounded-lg uppercase tracking-widest shadow-sm">
+        {page.fileName.slice(0, 3)}
       </div>
     </div>
   );
 }
 
-export default function OrganizeTool({ id }: { id: string }) {
+export default function OrganizeTool({ id: _id }: { id: string }) {
   const [files, setFiles] = useState<LoadedFile[]>([]);
   const [pages, setPages] = useState<PdfPage[]>([]);
   const [processing, setProcessing] = useState(false);
   const [loadingPages, setLoadingPages] = useState(false);
   const [result, setResult] = useState<{ url: string; filename: string } | null>(null);
   const [activeId, setActiveId] = useState<string | null>(null);
+  const [showSettings, setShowSettings] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  // Mobile: only TouchSensor with longer delay to distinguish scroll vs drag
-  // Desktop: PointerSensor with small distance threshold
+  const ACCENT = "#f97316";
+  const ACCENT_GRADIENT = "linear-gradient(135deg,#f97316,#ea580c)";
+
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 10 } }),
     useSensor(TouchSensor, { activationConstraint: { delay: 250, tolerance: 5 } }),
@@ -181,8 +178,26 @@ export default function OrganizeTool({ id }: { id: string }) {
     setPages(prev => [...prev, ...allNewPages]);
     setLoadingPages(false);
     setResult(null);
-    // Reset input so same file can be re-selected
     e.target.value = '';
+  };
+
+  const onDrop = async (e: React.DragEvent) => {
+    e.preventDefault();
+    if (!e.dataTransfer.files.length) return;
+    setLoadingPages(true);
+    const newFiles = Array.from(e.dataTransfer.files).filter(f => f.name.toLowerCase().endsWith(".pdf"));
+    const updatedFilesList = [...files];
+    let allNewPages: PdfPage[] = [];
+    for (const file of newFiles) {
+      const fileIdx = updatedFilesList.length;
+      updatedFilesList.push({ file, name: file.name });
+      const rendered = await generateThumbnails(file, fileIdx);
+      allNewPages = [...allNewPages, ...rendered];
+    }
+    setFiles(updatedFilesList);
+    setPages(prev => [...prev, ...allNewPages]);
+    setLoadingPages(false);
+    setResult(null);
   };
 
   const handleDragEnd = (event: any) => {
@@ -230,73 +245,168 @@ export default function OrganizeTool({ id }: { id: string }) {
   };
 
   return (
-    <div className="flex flex-col lg:flex-row gap-6 items-start">
-      {/* Main Workspace */}
-      <div className="flex-1 w-full">
-        <div className="relative bg-white dark:bg-slate-800 rounded-[1.5rem] border border-slate-100 dark:border-slate-700 shadow-sm p-4 sm:p-8 min-h-[400px] flex flex-col gap-5">
-          {/* Header */}
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="p-2 bg-orange-500 rounded-xl text-white shadow-lg">
-                <LayoutGrid size={20} />
-              </div>
-              <h2 className="text-lg sm:text-2xl font-black text-slate-900 dark:text-white uppercase tracking-tighter">
-                Visual Organizer
-              </h2>
-            </div>
-            {pages.length > 0 && (
-              <div className="flex items-center gap-1 sm:gap-2">
-                <button onClick={rotateAll} className="p-2 text-slate-500 hover:text-orange-500 transition-colors flex items-center gap-1 text-[10px] font-bold">
-                  <RefreshCw size={13} /> <span className="hidden sm:inline">Rotate All</span>
-                </button>
-                <div className="w-px h-4 bg-slate-200 dark:bg-slate-700" />
-                <button onClick={reverseOrder} className="p-2 text-slate-500 hover:text-orange-500 transition-colors flex items-center gap-1 text-[10px] font-bold">
-                  <ArrowDownUp size={13} /> <span className="hidden sm:inline">Reverse</span>
-                </button>
-              </div>
-            )}
-          </div>
+    <div className="max-w-7xl mx-auto py-4 sm:py-8 px-3 sm:px-6 font-sans">
+      <div className="flex flex-col lg:flex-row gap-6 items-start">
+        
+        {/* Settings Sidebar */}
+        <div className={`w-full lg:w-[320px] bg-white dark:bg-slate-800 rounded-3xl border border-slate-100 dark:border-slate-700 shadow-xl h-fit lg:sticky lg:top-4 overflow-hidden flex-shrink-0`}>
+          <button onClick={() => setShowSettings(!showSettings)} className="w-full flex lg:hidden items-center justify-between p-5 font-black text-slate-900 dark:text-white border-b border-slate-50 dark:border-slate-700">
+            <span className="flex items-center gap-2"><Settings size={20} style={{ color: ACCENT }} /> Organizer Tools</span>
+            <ChevronDown className={`transition-transform duration-300 ${showSettings ? 'rotate-180' : ''}`} size={20} />
+          </button>
 
+          <div className={`${showSettings ? 'block' : 'hidden'} lg:block p-6`}>
+            <div className="flex items-center justify-between mb-6">
+              <h3 className="hidden lg:block text-lg font-black text-slate-900 dark:text-white uppercase tracking-tight">Tools</h3>
+              <button onClick={resetAll} className="text-[10px] font-black uppercase tracking-widest text-red-500 hover:text-red-600 transition-colors">Reset All</button>
+            </div>
+            
+            <div className="space-y-6 text-left">
+              {/* Batch Controls */}
+              <div className="space-y-3">
+                <span className="text-xs font-black text-slate-400 uppercase tracking-widest">Global Actions</span>
+                <div className="grid grid-cols-2 gap-2">
+                  <button onClick={rotateAll} disabled={pages.length === 0} className="flex flex-col items-center justify-center gap-2 py-4 rounded-xl text-[10px] font-black uppercase tracking-widest text-slate-600 dark:text-slate-300 bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 hover:bg-slate-100 transition-colors disabled:opacity-50">
+                    <RefreshCw size={16} /> Rotate All
+                  </button>
+                  <button onClick={reverseOrder} disabled={pages.length === 0} className="flex flex-col items-center justify-center gap-2 py-4 rounded-xl text-[10px] font-black uppercase tracking-widest text-slate-600 dark:text-slate-300 bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 hover:bg-slate-100 transition-colors disabled:opacity-50">
+                    <ArrowDownUp size={16} /> Reverse
+                  </button>
+                </div>
+              </div>
+
+              {/* File list */}
+              <div className="space-y-3 pt-4 border-t border-slate-50 dark:border-slate-700">
+                <span className="text-xs font-black text-slate-400 uppercase tracking-widest flex items-center gap-2">
+                  <FileSymlink size={14} /> Sources ({files.length})
+                </span>
+                <div className="space-y-2 max-h-[300px] overflow-y-auto pr-1 custom-scrollbar">
+                  {files.map((file, idx) => (
+                    <div key={idx} className="flex items-center gap-3 p-3 bg-slate-50 dark:bg-slate-900 rounded-2xl border border-slate-100 dark:border-slate-800 transition-all hover:border-orange-200">
+                      <div className="w-8 h-8 flex items-center justify-center bg-white dark:bg-slate-800 rounded-xl text-[10px] font-black text-orange-500 shadow-sm shrink-0">
+                        {String.fromCharCode(65 + idx)}
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-[11px] font-black truncate text-slate-900 dark:text-white uppercase italic">{file.name}</p>
+                        <p className="text-[9px] text-slate-400 font-bold uppercase tracking-tighter">{pages.filter(p => p.fileIndex === idx).length} Pages</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                <button onClick={() => fileInputRef.current?.click()} className="w-full flex items-center justify-center gap-2 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest text-orange-600 bg-orange-50 border border-orange-100 hover:bg-orange-100 transition-colors mt-2">
+                  <FilePlus size={14} /> Add More Files
+                </button>
+              </div>
+
+              {/* Action */}
+              <div className="pt-6 border-t border-slate-50 dark:border-slate-700">
+                {!result ? (
+                  <button
+                    onClick={handleProcess}
+                    disabled={processing || pages.length === 0}
+                    className="w-full py-5 text-white rounded-[1.5rem] text-xl font-black shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50 disabled:grayscale uppercase tracking-tighter italic shadow-orange-500/20"
+                    style={{ background: ACCENT_GRADIENT }}
+                  >
+                    {processing ? (
+                      <span className="flex items-center justify-center gap-3"><Loader2 className="animate-spin" /> Finalizing...</span>
+                    ) : (
+                      <span className="flex items-center justify-center gap-3">Organize &amp; Save <LayoutGrid size={24} /></span>
+                    )}
+                  </button>
+                ) : (
+                  <div className="space-y-3">
+                    <div className="p-4 bg-green-50 rounded-2xl border border-green-100 flex items-center gap-3">
+                      <CheckCircle2 size={24} className="text-green-500" />
+                      <span className="text-xs font-black text-green-700 uppercase tracking-tighter italic leading-tight">PDF successfully reconstructed!</span>
+                    </div>
+                    <a
+                      href={result.url}
+                      download={result.filename}
+                      className="w-full py-5 text-white rounded-[1.5rem] text-xl font-black shadow-xl hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-3 uppercase tracking-tighter italic shadow-orange-500/20"
+                      style={{ background: ACCENT_GRADIENT }}
+                    >
+                      <Download size={24} /> Download
+                    </a>
+                    <button onClick={resetAll} className="w-full py-3 bg-slate-100 text-slate-500 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-slate-200 transition-all">Start Over</button>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Workspace */}
+        <div className="flex-1 bg-white dark:bg-slate-800 rounded-[2rem] sm:rounded-[3rem] p-6 sm:p-12 border border-slate-100 dark:border-slate-700 shadow-2xl min-h-[600px] flex flex-col w-full">
+          
           <input type="file" multiple ref={fileInputRef} onChange={onFileChange} accept=".pdf" className="hidden" />
 
-          {!pages.length ? (
+          {/* Header */}
+          <div className="text-center space-y-4 mb-10">
+            <div className="inline-flex p-4 rounded-2xl text-white shadow-lg shadow-orange-500/20" style={{ background: ACCENT_GRADIENT }}>
+              <LayoutGrid size={32} />
+            </div>
+            <h2 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter italic leading-tight">Organize PDF Pages</h2>
+            {pages.length > 0 && <p className="text-slate-500 font-medium tracking-tight">Drag and drop to reorder. Rotate or delete individual pages below.</p>}
+          </div>
+
+          {pages.length === 0 && !loadingPages && (
             <div
+              className="flex-1 flex flex-col items-center justify-center border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-[2rem] p-10 sm:p-20 hover:border-orange-500 cursor-pointer transition-all bg-slate-50/50 dark:bg-slate-900/50 group"
               onClick={() => fileInputRef.current?.click()}
-              className="flex-1 border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-2xl flex flex-col items-center justify-center gap-4 group hover:border-orange-500 cursor-pointer transition-all bg-slate-50/50 p-8 min-h-[280px]"
+              onDragOver={e => e.preventDefault()}
+              onDrop={onDrop}
             >
-              <div className="p-5 bg-white dark:bg-slate-800 rounded-2xl shadow-xl text-orange-500 group-hover:scale-110 transition-transform">
-                <Upload size={32} />
+              <div className="p-6 bg-white dark:bg-slate-800 rounded-3xl shadow-xl text-orange-500 mb-6 group-hover:scale-110 transition-transform">
+                <Upload size={48} />
               </div>
-              <div className="text-center">
-                <div className="text-lg sm:text-2xl font-black tracking-tight mb-1">Select PDF Files</div>
-                <p className="text-sm text-slate-500 font-medium">Tap to browse or drop PDFs here</p>
+              <div className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white uppercase tracking-tight text-center">Select PDFs to Organize</div>
+              <p className="text-slate-400 text-sm mt-2 font-bold italic tracking-tight text-center">Batch reorder, rotate, and merge files visually</p>
+              <button className="mt-8 px-10 py-4 rounded-2xl text-white text-sm font-black uppercase tracking-widest shadow-xl hover:scale-105 transition-all" style={{ background: ACCENT_GRADIENT }}>
+                Upload Files
+              </button>
+            </div>
+          )}
+
+          {loadingPages && (
+            <div className="flex-1 flex flex-col items-center justify-center gap-6">
+              <div className="relative">
+                <Loader2 size={64} className="animate-spin text-orange-500" />
+                <LayoutGrid className="absolute inset-0 m-auto text-orange-500/20" size={32} />
+              </div>
+              <div className="text-center space-y-2">
+                <p className="text-xl font-black text-slate-900 dark:text-white uppercase tracking-tighter italic animate-pulse">Generating Thumbnails</p>
+                <p className="text-xs font-bold text-slate-400 uppercase tracking-widest leading-none">This happens locally in your browser</p>
               </div>
             </div>
-          ) : (
+          )}
+
+          {!loadingPages && pages.length > 0 && (
             <DndContext
               sensors={sensors}
               collisionDetection={closestCenter}
               onDragStart={(e) => setActiveId(e.active.id as string)}
               onDragEnd={handleDragEnd}
             >
-              <div className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-5 gap-2 sm:gap-4">
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 overflow-y-auto max-h-[700px] pr-2 custom-scrollbar p-1">
                 <SortableContext items={pages.map(p => p.id)} strategy={rectSortingStrategy}>
                   {pages.map(page => (
                     <SortableItem key={page.id} page={page} onRotate={rotatePage} onDelete={deletePage} />
                   ))}
                 </SortableContext>
+                
+                {/* Add more button in grid */}
                 <button
                   onClick={() => fileInputRef.current?.click()}
-                  className="aspect-[3/4] border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-xl flex flex-col items-center justify-center gap-2 text-slate-400 hover:border-orange-500 hover:text-orange-500 transition-all bg-slate-50/30"
+                  className="aspect-[3/4] border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-2xl flex flex-col items-center justify-center gap-3 text-slate-300 hover:border-orange-500 hover:text-orange-500 transition-all bg-slate-50/20 group shadow-sm"
                 >
-                  <FilePlus size={24} />
-                  <span className="text-[9px] font-black uppercase tracking-widest">Add</span>
+                  <div className="p-3 bg-white dark:bg-slate-800 rounded-xl shadow-md transition-transform group-hover:scale-110"><FilePlus size={24} /></div>
+                  <span className="text-[10px] font-black uppercase tracking-widest opacity-60 group-hover:opacity-100">Add More</span>
                 </button>
               </div>
 
-              <DragOverlay>
+              <DragOverlay adjustScale={true}>
                 {activeId ? (
-                  <div className="aspect-[3/4] w-24 bg-white rounded-xl shadow-2xl border-2 border-orange-500 overflow-hidden opacity-90 pointer-events-none">
+                  <div className="aspect-[3/4] w-32 bg-white rounded-2xl shadow-2xl border-4 border-orange-500 overflow-hidden opacity-90 pointer-events-none ring-8 ring-orange-500/20">
                     <img
                       src={pages.find(p => p.id === activeId)?.thumbnail}
                       className="w-full h-full object-contain p-1"
@@ -308,75 +418,28 @@ export default function OrganizeTool({ id }: { id: string }) {
             </DndContext>
           )}
 
-          {/* Loading overlay */}
-          {loadingPages && (
-            <div className="absolute inset-0 bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm z-50 flex flex-col items-center justify-center gap-4 rounded-[1.5rem]">
-              <Loader2 className="animate-spin text-orange-500" size={40} />
-              <p className="font-black text-slate-900 dark:text-white text-sm uppercase tracking-widest">Generating Thumbnails...</p>
+          {/* Tips footer */}
+          {pages.length > 0 && !result && (
+            <div className="mt-10 pt-8 border-t border-slate-50 dark:border-slate-700 flex flex-col sm:flex-row items-center justify-center gap-6">
+              <div className="flex items-center gap-3 text-slate-400">
+                <MousePointer2 size={16} />
+                <span className="text-[10px] font-black uppercase tracking-widest italic">Drag pages to reorder</span>
+              </div>
+              <div className="flex items-center gap-3 text-slate-400">
+                <RotateCw size={16} />
+                <span className="text-[10px] font-black uppercase tracking-widest italic">Rotate Individual Pages</span>
+              </div>
             </div>
           )}
         </div>
       </div>
 
-      {/* Sidebar */}
-      <div className="w-full lg:w-72 xl:w-80">
-        <div className="bg-white dark:bg-slate-800 rounded-[1.5rem] border border-slate-100 dark:border-slate-700 shadow-sm p-5 sm:p-6 space-y-5 lg:sticky lg:top-8">
-          <div className="flex items-center justify-between">
-            <h3 className="text-lg font-black tracking-tight">Organize PDF</h3>
-            <button onClick={resetAll} className="text-xs font-black uppercase tracking-widest text-red-500 hover:text-red-600">
-              Reset all
-            </button>
-          </div>
-
-          {/* File list */}
-          <div className="space-y-3">
-            <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 flex items-center gap-2">
-              <FileSymlink size={12} /> Files ({files.length})
-            </label>
-            <div className="space-y-2 max-h-[200px] lg:max-h-[300px] overflow-y-auto pr-1 custom-scrollbar">
-              {files.map((file, idx) => (
-                <div key={idx} className="flex items-center gap-3 p-3 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-100 dark:border-slate-800">
-                  <div className="w-6 h-6 flex items-center justify-center bg-white dark:bg-slate-800 rounded-lg text-[10px] font-black text-orange-500 shadow-sm shrink-0">
-                    {String.fromCharCode(65 + idx)}
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-[11px] font-bold truncate text-slate-900 dark:text-white">{file.name}</p>
-                    <p className="text-[9px] text-slate-400 font-medium">{pages.filter(p => p.fileIndex === idx).length} pages</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* CTA */}
-          <div className="pt-3 border-t border-slate-100 dark:border-white/5">
-            {!result ? (
-              <button
-                onClick={handleProcess}
-                disabled={processing || pages.length === 0}
-                className="w-full py-4 bg-orange-500 hover:bg-orange-600 disabled:opacity-50 disabled:grayscale text-white rounded-2xl text-base font-black shadow-xl shadow-orange-500/20 flex items-center justify-center gap-3 transition-all active:scale-95"
-              >
-                {processing ? <Loader2 className="animate-spin" size={20} /> : <Settings2 size={20} />}
-                {processing ? 'Organizing...' : 'Organize PDF'}
-              </button>
-            ) : (
-              <div className="space-y-3">
-                <div className="p-4 bg-green-500/10 border border-green-500/20 rounded-2xl text-center">
-                  <CheckCircle2 className="mx-auto text-green-500 mb-2" size={28} />
-                  <p className="font-black text-green-600 text-xs uppercase tracking-widest">Organized!</p>
-                </div>
-                <a
-                  href={result.url}
-                  download={result.filename}
-                  className="w-full py-4 bg-orange-500 hover:bg-orange-600 text-white rounded-2xl text-base font-black shadow-xl flex items-center justify-center gap-3 transition-all"
-                >
-                  <Download size={20} /> Download
-                </a>
-              </div>
-            )}
-          </div>
-        </div>
-      </div>
+      <style jsx global>{`
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #e2e8f0; border-radius: 10px; }
+        .dark .custom-scrollbar::-webkit-scrollbar-thumb { background: #334155; }
+      `}</style>
     </div>
   );
 }

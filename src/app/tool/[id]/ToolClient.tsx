@@ -2,20 +2,8 @@
 
 import dynamic from 'next/dynamic';
 import { notFound } from 'next/navigation';
-import { OrganizeSkeletonA, MergeSplitSkeletonA, RepairSkeleton, CenteredCardSkeleton } from './skeletons';
+import { CenteredCardSkeleton } from './skeletons';
 
-const OrganizeTool = dynamic(() => import('@/components/tools/OrganizeTool'), {
-  ssr: false, loading: () => <OrganizeSkeletonA />,
-});
-const MergeSplit = dynamic(() => import('@/components/tools/MergeSplit'), {
-  ssr: false, loading: () => <MergeSplitSkeletonA />,
-});
-const RepairTool = dynamic(() => import('@/components/tools/RepairTool'), {
-  ssr: false, loading: () => <RepairSkeleton />,
-});
-const Compressor = dynamic(() => import('@/components/tools/Compressor'), {
-  ssr: false, loading: () => <CenteredCardSkeleton accent="rgb(187 247 208)" />,
-});
 const EditTools = dynamic(() => import('@/components/tools/EditTools'), {
   ssr: false, loading: () => <CenteredCardSkeleton accent="rgb(221 214 254)" />,
 });
@@ -34,36 +22,19 @@ const SecurityTools = dynamic(() => import('@/components/tools/SecurityTools'), 
 const AadharCropper = dynamic(() => import('@/components/tools/AadharCropper'), {
   ssr: false, loading: () => <CenteredCardSkeleton accent="rgb(254 202 202)" />,
 });
-const CropPdf = dynamic(() => import('@/components/tools/CropPdf'), {
-  ssr: false, loading: () => <CenteredCardSkeleton accent="rgb(254 215 170)" />,
-});
-const DeletePages = dynamic(() => import('@/components/tools/DeletePages'), {
-  ssr: false, loading: () => <CenteredCardSkeleton accent="rgb(254 202 202)" />,
-});
 const FlattenPdf = dynamic(() => import('@/components/tools/FlattenPdf'), {
   ssr: false, loading: () => <CenteredCardSkeleton accent="rgb(221 214 254)" />,
-});
-const OptimizePdf = dynamic(() => import('@/components/tools/OptimizePdf'), {
-  ssr: false, loading: () => <CenteredCardSkeleton accent="rgb(187 247 208)" />,
-});
-const AddBlankPage = dynamic(() => import('@/components/tools/AddBlankPage'), {
-  ssr: false, loading: () => <CenteredCardSkeleton accent="rgb(199 210 254)" />,
 });
 const MeeshoCropper = dynamic(() => import('@/components/tools/MeeshoCropper'), {
   ssr: false, loading: () => <CenteredCardSkeleton accent="rgb(254 215 170)" />,
 });
 
 const TOOL_COMPONENTS: Record<string, React.ComponentType<{ id: string }>> = {
-  'organize': OrganizeTool,
-  'merge': MergeSplit,
-  'split': MergeSplit,
   'extract-text': ExtractText,
   'pdf-to-xml': ExtractText,
   'watermark': EditTools,
   'page-numbers': EditTools,
   'metadata': EditTools,
-  'compress': Compressor,
-  'repair-pdf': RepairTool,
   'pdf-to-jpg': ImageConverter,
   'jpg-to-pdf': ImageConverter,
   'jpg-to-png': ImageConverter,
@@ -87,12 +58,8 @@ const TOOL_COMPONENTS: Record<string, React.ComponentType<{ id: string }>> = {
   'ppt-to-pdf': OfficeTools,
   'pdf-to-ppt': OfficeTools,
   'html-to-pdf': OfficeTools,
-  'delete-pages': DeletePages,
-  'add-blank-page': AddBlankPage,
   'flatten-pdf': FlattenPdf,
-  'optimize-pdf': OptimizePdf,
   'aadhar-crop': AadharCropper,
-  'crop-pdf': CropPdf,
   'meesho-cropper': MeeshoCropper,
   'unlock': SecurityTools,
   'protect': SecurityTools,

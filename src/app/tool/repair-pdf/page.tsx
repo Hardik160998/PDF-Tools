@@ -1,145 +1,45 @@
 "use client";
 
-import { useState, useEffect } from 'react';
-import dynamic from 'next/dynamic';
-import { LifeBuoy, Upload, Wrench, Download, Combine, Scissors, Zap, LayoutGrid, Lock, CheckCircle } from 'lucide-react';
-import { RepairSkeleton } from '../[id]/skeletons';
+import dynamic from "next/dynamic";
 
-const RepairTool = dynamic(() => import('@/components/tools/RepairTool'), {
+const RepairTool = dynamic(() => import("@/components/tools/RepairTool"), {
   ssr: false,
-  loading: () => <RepairSkeleton />,
 });
 
-const FEATURES = [
-  'Recovers corrupted PDFs',
-  'Repairs damaged file structure',
-  'Supports multiple files at once',
-  'Powered by cloud repair engine',
-  'Files deleted within 1 hour',
-  'Encrypted HTTPS transfer',
-];
-
-const STEPS = [
-  { icon: Upload,   title: 'Upload Damaged PDF',     desc: 'Select one or more corrupted or damaged PDF files. Drop them into the workspace to get started.' },
-  { icon: Wrench,   title: 'Repair Automatically',   desc: 'Our cloud repair engine analyses the file structure and recovers as much content as possible.' },
-  { icon: Download, title: 'Download Repaired PDF',  desc: 'Once repaired, download each file individually. Files are permanently deleted from our servers within 1 hour.' },
-];
-
-const RELATED_TOOLS = [
-  { id: 'compress',  title: 'Compress PDF',   description: 'Reduce PDF file size while keeping quality sharp and text crisp.',            icon: Zap,      gradient: 'linear-gradient(135deg, #22c55e, #15803d)', shadow: 'rgba(34,197,94,0.3)',   tag: 'Optimize' },
-  { id: 'merge',     title: 'Merge PDF',      description: 'Combine multiple PDF files into one document in the order you choose.',      icon: Combine,  gradient: 'linear-gradient(135deg, #f26522, #c2410c)', shadow: 'rgba(242,101,34,0.3)',  tag: 'Organize' },
-  { id: 'split',     title: 'Split PDF',      description: 'Divide a PDF into separate parts or extract every page individually.',        icon: Scissors, gradient: 'linear-gradient(135deg, #f26522, #c2410c)', shadow: 'rgba(242,101,34,0.3)',  tag: 'Organize' },
-  { id: 'organize',  title: 'Organize PDF',   description: 'Reorder, rotate, and delete pages visually with drag-and-drop ease.',         icon: LayoutGrid, gradient: 'linear-gradient(135deg, #f26522, #c2410c)', shadow: 'rgba(242,101,34,0.3)', tag: 'Organize' },
-  { id: 'protect',   title: 'Protect PDF',    description: 'Encrypt your repaired PDF with a password to keep it secure.',                icon: Lock,     gradient: 'linear-gradient(135deg, #ef4444, #b91c1c)', shadow: 'rgba(239,68,68,0.3)',   tag: 'Security' },
-  { id: 'unlock',    title: 'Unlock PDF',     description: 'Remove password protection from a PDF and restore full access.',              icon: LifeBuoy, gradient: 'linear-gradient(135deg, #f97316, #c2410c)', shadow: 'rgba(249,115,22,0.3)',  tag: 'Security' },
-];
-
-function Sh({ className }: { className: string }) {
-  return <div className={`skeleton-shimmer rounded-xl ${className}`} />;
-}
-
-function HowItWorksShimmer() {
+export default function RepairPage() {
   return (
-    <section className="py-16 bg-white/60">
-      <div className="container mx-auto px-4 max-w-4xl">
-        <Sh className="h-7 w-40 mx-auto mb-8" />
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {[0, 1, 2].map(i => (
-            <div key={i} className="bg-white rounded-2xl p-6 shadow-sm border border-slate-100 flex flex-col items-center gap-3">
-              <Sh className="w-16 h-16 rounded-2xl" />
-              <Sh className="h-3 w-16" />
-              <Sh className="h-5 w-3/4" />
-              <Sh className="h-3 w-full" />
-              <Sh className="h-3 w-5/6" />
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
+    <div className="min-h-screen bg-slate-50/50 dark:bg-slate-950">
+      <div className="max-w-7xl mx-auto px-4 pt-10 sm:pt-16 pb-10">
+        <RepairTool id="repair-pdf" />
 
-function RelatedToolsShimmer() {
-  return (
-    <section className="py-16">
-      <div className="container mx-auto px-4 max-w-5xl">
-        <Sh className="h-7 w-64 mx-auto mb-8" />
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {[0, 1, 2, 3, 4, 5].map(i => (
-            <div key={i} className="bg-white rounded-2xl p-6 shadow-sm border border-slate-100 flex flex-col gap-4">
-              <div className="flex items-start justify-between">
-                <Sh className="w-14 h-14 rounded-2xl" />
-                <Sh className="h-5 w-16 rounded-full" />
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-16 mb-16">
+          {[
+            { 
+              title: "Deep Recovery", 
+              desc: "Analyzes and reconstructs corrupted file tables and cross-reference streams.",
+              gradient: "linear-gradient(135deg,#ef4444,#dc2626)"
+            },
+            { 
+              title: "Structure Restoration", 
+              desc: "Fixes unreadable PDF documents by rebuilding the internal object tree from scratch.",
+              gradient: "linear-gradient(135deg,#ef4444,#dc2626)"
+            },
+            { 
+              title: "Secure Handling", 
+              desc: "Uses our specialized recovery engine to safely salvage data from damaged files.",
+              gradient: "linear-gradient(135deg,#ef4444,#dc2626)"
+            }
+          ].map((feat, i) => (
+            <div key={i} className="bg-white dark:bg-slate-900 p-8 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-xl transition-all group">
+              <div className="w-12 h-12 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform shadow-lg" style={{ background: feat.gradient }}>
+                <div className="text-white font-black">{i + 1}</div>
               </div>
-              <Sh className="h-5 w-3/4" />
-              <Sh className="h-3 w-full" />
-              <Sh className="h-3 w-5/6" />
+              <h3 className="text-xl font-black text-slate-900 dark:text-white uppercase tracking-tight mb-2">{feat.title}</h3>
+              <p className="text-slate-500 dark:text-slate-400 text-sm leading-relaxed">{feat.desc}</p>
             </div>
           ))}
         </div>
       </div>
-    </section>
-  );
-}
-
-export default function RepairPdfPage() {
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => { setMounted(true); }, []);
-
-  return (
-    <div className="min-h-screen">
-      {/* TOOL */}
-      <section className="pb-8">
-        <div className="container mx-auto px-4 max-w-7xl">
-          <RepairTool id="repair-pdf" />
-        </div>
-      </section>
-
-      {/* HOW IT WORKS */}
-      {!mounted ? <HowItWorksShimmer /> : (
-        <section className="py-16 bg-white/60">
-          <div className="container mx-auto px-4 max-w-4xl">
-            <h2 className="text-2xl font-black text-slate-900 tracking-tight mb-8 text-center uppercase">How It Works</h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {STEPS.map((step, i) => (
-                <div key={i} className="bg-white rounded-2xl p-6 shadow-sm border border-slate-100 text-center">
-                  <div className="inline-flex p-4 rounded-2xl bg-red-50 text-red-500 mb-4"><step.icon size={28} /></div>
-                  <div className="text-xs font-black uppercase tracking-widest text-slate-400 mb-1">Step {i + 1}</div>
-                  <h3 className="text-base font-black text-slate-900 mb-2">{step.title}</h3>
-                  <p className="text-sm text-slate-500 font-medium leading-relaxed">{step.desc}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* RELATED TOOLS */}
-      {!mounted ? <RelatedToolsShimmer /> : (
-        <section className="py-16">
-          <div className="container mx-auto px-4 max-w-5xl">
-            <h2 className="text-2xl font-black text-slate-900 tracking-tight mb-8 text-center">More PDF Tools You May Need</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {RELATED_TOOLS.map((tool) => (
-                <a key={tool.id} href={`/tool/${tool.id}`} className="group bg-white rounded-2xl p-6 shadow-sm border border-slate-100 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 flex flex-col gap-4">
-                  <div className="flex items-start justify-between">
-                    <div className="w-14 h-14 rounded-2xl flex items-center justify-center text-white shadow-lg" style={{ background: tool.gradient, boxShadow: `0 8px 20px -4px ${tool.shadow}` }}>
-                      <tool.icon size={26} />
-                    </div>
-                    <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 bg-slate-50 px-2 py-1 rounded-full border border-slate-100">{tool.tag}</span>
-                  </div>
-                  <div>
-                    <h3 className="text-base font-black text-slate-900 mb-1 group-hover:text-red-500 transition-colors">{tool.title}</h3>
-                    <p className="text-sm text-slate-500 font-medium leading-relaxed">{tool.description}</p>
-                  </div>
-                  <div className="mt-auto pt-2 text-xs font-bold text-red-500 flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">Open tool &#8594;</div>
-                </a>
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
-
     </div>
   );
 }

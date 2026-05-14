@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useRef } from 'react';
-import { Upload, Download, Loader2, X, Trash2, FileText, CheckCircle2 } from 'lucide-react';
+import { useState, useRef, useCallback } from 'react';
+import { Upload, Download, Loader2, X, Trash2, FileText, CheckCircle2, Settings, ChevronDown, Eye, EyeOff } from 'lucide-react';
 import { PDFDocument } from 'pdf-lib';
 import * as pdfjsLib from 'pdfjs-dist';
 
@@ -16,9 +16,14 @@ export default function DeletePages({ id: _id }: { id: string }) {
   const [processing, setProcessing] = useState(false);
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<string | null>(null);
+  const [showSettings, setShowSettings] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
+  const ACCENT = "#ef4444";
+  const ACCENT_GRADIENT = "linear-gradient(135deg,#ef4444,#b91c1c)";
+
   const loadFile = async (f: File) => {
+    if (!f.name.toLowerCase().endsWith(".pdf")) return;
     setLoading(true);
     setFile(f);
     setSelected(new Set());
@@ -36,8 +41,18 @@ export default function DeletePages({ id: _id }: { id: string }) {
         pages.push(canvas.toDataURL('image/jpeg', 0.7));
       }
       setThumbs(pages);
-    } catch { alert('Could not read PDF.'); setFile(null); }
-    finally { setLoading(false); }
+    } catch { 
+      alert('Could not read PDF.'); 
+      setFile(null); 
+    } finally { 
+      setLoading(false); 
+    }
+  };
+
+  const onDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    const f = e.dataTransfer.files[0];
+    if (f) loadFile(f);
   };
 
   const toggle = (i: number) => setSelected(prev => {
@@ -61,132 +76,206 @@ export default function DeletePages({ id: _id }: { id: string }) {
       copied.forEach(p => out.addPage(p));
       const bytes = await out.save();
       setResult(URL.createObjectURL(new Blob([bytes.buffer as ArrayBuffer], { type: 'application/pdf' })));
-    } catch { alert('Error deleting pages.'); }
-    finally { setProcessing(false); }
+    } catch { 
+      alert('Error deleting pages.'); 
+    } finally { 
+      setProcessing(false); 
+    }
   };
 
-  const reset = () => { setFile(null); setThumbs([]); setSelected(new Set()); setResult(null); };
+  const reset = () => { 
+    setFile(null); 
+    setThumbs([]); 
+    setSelected(new Set()); 
+    setResult(null); 
+  };
 
   return (
-    <div className="max-w-5xl mx-auto py-6 sm:py-12 px-4 text-center">
-      <div className="bg-white dark:bg-slate-800 rounded-[1.5rem] sm:rounded-[2.5rem] p-6 sm:p-12 border border-slate-100 dark:border-slate-700 shadow-2xl space-y-8">
+    <div className="max-w-7xl mx-auto py-4 sm:py-8 px-3 sm:px-6 font-sans">
+      <div className="flex flex-col lg:flex-row gap-6 items-start">
+        
+        {/* Settings Sidebar */}
+        <div className={`w-full lg:w-[280px] bg-white dark:bg-slate-800 rounded-3xl border border-slate-100 dark:border-slate-700 shadow-xl h-fit lg:sticky lg:top-4 overflow-hidden flex-shrink-0`}>
+          <button onClick={() => setShowSettings(!showSettings)} className="w-full flex lg:hidden items-center justify-between p-5 font-black text-slate-900 dark:text-white border-b border-slate-50 dark:border-slate-700">
+            <span className="flex items-center gap-2"><Settings size={20} style={{ color: ACCENT }} /> Settings</span>
+            <ChevronDown className={`transition-transform duration-300 ${showSettings ? 'rotate-180' : ''}`} size={20} />
+          </button>
 
-        {/* Header */}
-        <div className="space-y-3">
-          <div className="inline-flex p-4 sm:p-5 rounded-2xl sm:rounded-3xl bg-red-500 text-white shadow-lg shadow-red-500/30">
-            <Trash2 size={36} />
-          </div>
-          <h2 className="text-2xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter">Delete PDF Pages</h2>
-          <p className="text-sm sm:text-base text-slate-500 font-medium">Select pages to remove, then download the cleaned PDF.</p>
-        </div>
-
-        {result ? (
-          <div className="space-y-8 animate-in zoom-in duration-500">
-            <div className="inline-flex p-6 rounded-full bg-green-50 text-green-500">
-              <CheckCircle2 size={64} />
-            </div>
-            <div>
-              <h3 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white">Done!</h3>
-              <p className="text-slate-500 font-medium mt-1">{selected.size} page{selected.size > 1 ? 's' : ''} deleted · {thumbs.length - selected.size} page{thumbs.length - selected.size > 1 ? 's' : ''} remaining</p>
-            </div>
-            <div className="flex flex-col sm:flex-row gap-3 justify-center">
-              <a href={result} download={`deleted_${file?.name || 'pages.pdf'}`}
-                className="flex-1 py-4 bg-red-500 hover:bg-red-600 text-white rounded-2xl text-lg font-black shadow-xl shadow-red-500/20 flex items-center justify-center gap-3 transition-all">
-                <Download size={22} /> Download PDF
-              </a>
-              <button onClick={reset} className="px-8 py-4 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 text-slate-900 dark:text-white rounded-2xl font-bold transition-all">
-                Start Over
-              </button>
-            </div>
-          </div>
-        ) : !file ? (
-          <div
-            className="relative border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-2xl sm:rounded-3xl p-10 sm:p-16 group hover:border-red-400 transition-all cursor-pointer bg-slate-50/50 dark:bg-slate-900/50"
-            onClick={() => inputRef.current?.click()}
-          >
-            <input ref={inputRef} type="file" accept=".pdf" className="hidden" onChange={e => e.target.files?.[0] && loadFile(e.target.files[0])} />
-            <div className="space-y-4 pointer-events-none">
-              <div className="p-5 bg-white dark:bg-slate-800 rounded-2xl shadow-xl inline-block text-red-500 group-hover:scale-110 transition-transform">
-                <Upload size={36} />
-              </div>
-              <div className="text-xl sm:text-2xl font-black tracking-tight text-slate-900 dark:text-white">Select PDF File</div>
-              <p className="text-sm text-slate-500">or drop PDF here</p>
-            </div>
-          </div>
-        ) : loading ? (
-          <div className="py-16 flex flex-col items-center gap-4 text-slate-400">
-            <Loader2 size={40} className="animate-spin text-red-500" />
-            <p className="font-bold">Loading pages...</p>
-          </div>
-        ) : (
-          <div className="space-y-6 animate-in slide-in-from-bottom-4 duration-500">
-            {/* File info + controls */}
-            <div className="flex flex-col sm:flex-row items-center justify-between gap-3 p-4 bg-slate-50 dark:bg-slate-700/50 rounded-2xl border border-slate-100 dark:border-slate-600">
-              <div className="flex items-center gap-3">
-                <div className="p-2 bg-white dark:bg-slate-800 rounded-xl shadow-sm text-red-500"><FileText size={18} /></div>
-                <div className="text-left">
-                  <p className="font-black text-slate-900 dark:text-white text-sm truncate max-w-[200px]">{file.name}</p>
-                  <p className="text-xs text-slate-400">{thumbs.length} pages total</p>
+          <div className={`${showSettings ? 'block' : 'hidden'} lg:block p-6`}>
+            <h3 className="hidden lg:block text-lg font-black text-slate-900 dark:text-white mb-6 uppercase tracking-tight text-left">Removal Settings</h3>
+            
+            <div className="space-y-6 text-left">
+              {/* Quick Selection */}
+              <div className="space-y-3">
+                <span className="text-xs font-black text-slate-400 uppercase tracking-widest">Selection Controls</span>
+                <div className="flex flex-col gap-2">
+                  <button onClick={selectAll} disabled={!file} className="w-full flex items-center justify-center gap-2 py-3 rounded-xl text-xs font-black uppercase tracking-widest text-slate-600 dark:text-slate-300 bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 hover:bg-slate-100 transition-colors">
+                    <Eye size={14} /> Select All
+                  </button>
+                  <button onClick={clearAll} disabled={!file} className="w-full flex items-center justify-center gap-2 py-3 rounded-xl text-xs font-black uppercase tracking-widest text-slate-600 dark:text-slate-300 bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 hover:bg-slate-100 transition-colors">
+                    <EyeOff size={14} /> Deselect All
+                  </button>
                 </div>
               </div>
-              <div className="flex items-center gap-2">
-                <button onClick={selectAll} className="text-xs font-black px-3 py-1.5 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition-all">Select All</button>
-                <button onClick={clearAll} className="text-xs font-black px-3 py-1.5 bg-slate-100 dark:bg-slate-600 text-slate-600 dark:text-slate-300 rounded-lg hover:bg-slate-200 transition-all">Clear</button>
-                <button onClick={reset} className="p-1.5 text-slate-400 hover:text-red-500 transition-colors"><X size={16} /></button>
+
+              {/* Info */}
+              <div className="pt-4 border-t border-slate-50 dark:border-slate-700">
+                <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Status</p>
+                <p className="text-[10px] text-red-500 font-bold italic uppercase leading-tight">
+                  {selected.size} page{selected.size !== 1 ? 's' : ''} marked for permanent removal
+                </p>
+              </div>
+
+              <div className="pt-4 border-t border-slate-50 dark:border-slate-700 text-left">
+                <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Technical Info</p>
+                <p className="text-[10px] text-slate-500 font-medium leading-tight">Pages are removed visually. The remaining pages are reconstructed into a new PDF locally.</p>
               </div>
             </div>
-
-            {/* Selection info */}
-            {selected.size > 0 && (
-              <div className="flex items-center justify-center gap-2 py-2 px-4 bg-red-50 dark:bg-red-900/20 rounded-xl border border-red-100 dark:border-red-800">
-                <Trash2 size={14} className="text-red-500" />
-                <span className="text-sm font-black text-red-600 dark:text-red-400">{selected.size} page{selected.size > 1 ? 's' : ''} selected for deletion</span>
-              </div>
-            )}
-
-            {/* Page thumbnails grid */}
-            <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-3">
-              {thumbs.map((src, i) => (
-                <button
-                  key={i}
-                  onClick={() => toggle(i)}
-                  className={`relative group rounded-xl overflow-hidden border-2 transition-all ${
-                    selected.has(i)
-                      ? 'border-red-500 shadow-lg shadow-red-500/20 scale-95'
-                      : 'border-slate-200 dark:border-slate-600 hover:border-red-300'
-                  }`}
-                >
-                  <img src={src} alt={`Page ${i + 1}`} className="w-full aspect-[3/4] object-cover" />
-                  {/* Overlay when selected */}
-                  {selected.has(i) && (
-                    <div className="absolute inset-0 bg-red-500/30 flex items-center justify-center">
-                      <div className="bg-red-500 rounded-full p-1.5 shadow-lg">
-                        <X size={14} className="text-white" />
-                      </div>
-                    </div>
-                  )}
-                  {/* Page number */}
-                  <div className={`absolute bottom-1 left-1/2 -translate-x-1/2 text-[10px] font-black px-2 py-0.5 rounded-full ${
-                    selected.has(i) ? 'bg-red-500 text-white' : 'bg-black/50 text-white'
-                  }`}>
-                    {i + 1}
-                  </div>
-                </button>
-              ))}
-            </div>
-
-            {/* Delete button */}
-            <button
-              onClick={handleDelete}
-              disabled={processing || selected.size === 0}
-              className="w-full py-4 sm:py-5 bg-red-500 hover:bg-red-600 disabled:opacity-40 text-white rounded-2xl text-lg sm:text-2xl font-black shadow-xl shadow-red-500/20 flex items-center justify-center gap-3 transition-all"
-            >
-              {processing ? <Loader2 className="animate-spin" size={24} /> : <Trash2 size={24} />}
-              {processing ? 'Deleting...' : selected.size === 0 ? 'Select pages to delete' : `Delete ${selected.size} Page${selected.size > 1 ? 's' : ''}`}
-            </button>
           </div>
-        )}
+        </div>
+
+        {/* Main Content Area */}
+        <div className="flex-1 bg-white dark:bg-slate-800 rounded-[2rem] sm:rounded-[3rem] p-6 sm:p-12 border border-slate-100 dark:border-slate-700 shadow-2xl min-h-[500px] flex flex-col w-full">
+          
+          {/* Header */}
+          <div className="text-center space-y-4 mb-10">
+            <div className="inline-flex p-4 rounded-2xl text-white shadow-lg shadow-red-500/20" style={{ background: ACCENT_GRADIENT }}>
+              <Trash2 size={32} />
+            </div>
+            <h2 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter italic leading-tight">Delete PDF Pages</h2>
+            {!file && <p className="text-slate-500 font-medium tracking-tight">Pick pages to discard and download the trimmed document.</p>}
+          </div>
+
+          {!file && !loading && (
+            <div
+              className="flex-1 flex flex-col items-center justify-center border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-[2rem] p-10 sm:p-20 hover:border-red-500 transition-all cursor-pointer bg-slate-50/50 dark:bg-slate-900/50 group"
+              onClick={() => inputRef.current?.click()}
+              onDragOver={e => e.preventDefault()}
+              onDrop={onDrop}
+            >
+              <input ref={inputRef} type="file" accept=".pdf" className="hidden" onChange={e => { const f = e.target.files?.[0]; if (f) loadFile(f); e.target.value = ""; }} />
+              <div className="p-6 bg-white dark:bg-slate-800 rounded-3xl shadow-xl text-red-500 mb-6 group-hover:scale-110 transition-transform">
+                <Upload size={48} />
+              </div>
+              <div className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white uppercase tracking-tight text-center">Upload PDF to clean</div>
+              <p className="text-slate-400 text-sm mt-2 font-bold italic tracking-tight text-center">Fast, visual page removal in your browser</p>
+              <button className="mt-8 px-10 py-4 rounded-2xl text-white text-sm font-black uppercase tracking-widest shadow-xl hover:scale-105 transition-all" style={{ background: ACCENT_GRADIENT }}>
+                Select PDF
+              </button>
+            </div>
+          )}
+
+          {loading && (
+            <div className="flex-1 flex flex-col items-center justify-center gap-4">
+              <div className="relative">
+                <Loader2 size={64} className="animate-spin text-red-500" />
+                <Trash2 className="absolute inset-0 m-auto text-red-500/20" size={32} />
+              </div>
+              <p className="text-lg font-black text-slate-400 uppercase tracking-widest animate-pulse">Generating Thumbnails...</p>
+            </div>
+          )}
+
+          {!loading && thumbs.length > 0 && !result && (
+            <div className="space-y-8 flex-1 flex flex-col">
+              {/* File bar */}
+              <div className="flex items-center justify-between p-4 bg-slate-50 dark:bg-slate-700/50 rounded-2xl border border-slate-100 dark:border-slate-600">
+                <div className="flex items-center gap-4 min-w-0">
+                  <div className="w-10 h-10 rounded-xl bg-white dark:bg-slate-800 flex items-center justify-center text-red-500 shadow-sm"><FileText size={20} /></div>
+                  <div className="truncate">
+                    <p className="font-black text-slate-900 dark:text-white text-sm truncate">{file?.name}</p>
+                    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{thumbs.length} Pages Loaded</p>
+                  </div>
+                </div>
+                <button onClick={reset} className="w-10 h-10 rounded-xl flex items-center justify-center text-slate-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10 transition-all"><X size={20} /></button>
+              </div>
+
+              {/* Grid */}
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-5 gap-4 overflow-y-auto max-h-[600px] pr-2 custom-scrollbar p-1">
+                {thumbs.map((src, i) => (
+                  <button
+                    key={i}
+                    onClick={() => toggle(i)}
+                    className={`relative aspect-[3/4] rounded-2xl overflow-hidden border-4 transition-all group shadow-sm ${selected.has(i) ? "border-red-500 ring-4 ring-red-500/20 scale-[0.95] grayscale-[0.5]" : "border-slate-100 dark:border-slate-700 hover:border-red-200"}`}
+                  >
+                    <img src={src} alt={`Page ${i + 1}`} className="w-full h-full object-cover" />
+                    <div className={`absolute inset-0 transition-all ${selected.has(i) ? "bg-red-500/20" : "bg-transparent group-hover:bg-red-500/5"}`} />
+                    
+                    {/* Delete badge */}
+                    <div className={`absolute top-3 right-3 w-6 h-6 rounded-full border-2 flex items-center justify-center shadow-lg transition-all ${selected.has(i) ? "bg-red-500 border-red-500 scale-110" : "bg-white/90 border-slate-200"}`}>
+                      {selected.has(i) && <X size={14} className="text-white" />}
+                    </div>
+
+                    {/* Page Number Label */}
+                    <div className={`absolute bottom-3 left-3 px-3 py-1 backdrop-blur-md text-white text-[10px] font-black rounded-full border border-white/20 tracking-tighter ${selected.has(i) ? 'bg-red-600' : 'bg-black/60'}`}>
+                      PAGE {i + 1}
+                    </div>
+                  </button>
+                ))}
+              </div>
+
+              {/* Footer Action */}
+              <div className="mt-auto pt-8 border-t border-slate-50 dark:border-slate-700">
+                <button
+                  onClick={handleDelete}
+                  disabled={processing || selected.size === 0}
+                  className="w-full py-5 text-white rounded-[1.5rem] text-xl font-black shadow-xl hover:scale-[1.01] active:scale-[0.99] transition-all disabled:opacity-50 disabled:grayscale uppercase tracking-tighter italic shadow-red-500/20"
+                  style={{ background: ACCENT_GRADIENT }}
+                >
+                  {processing ? (
+                    <span className="flex items-center justify-center gap-3"><Loader2 className="animate-spin" /> Cleaning PDF...</span>
+                  ) : (
+                    <span className="flex items-center justify-center gap-3">
+                      {selected.size === 0 ? 'Select pages to delete' : `Remove ${selected.size} ${selected.size === 1 ? 'Page' : 'Pages'}`} <Trash2 size={24} />
+                    </span>
+                  )}
+                </button>
+              </div>
+            </div>
+          )}
+
+          {result && (
+            <div className="flex-1 flex flex-col items-center justify-center text-center space-y-10 animate-in zoom-in fade-in duration-500">
+              <div className="relative">
+                <div className="absolute inset-0 bg-green-500 blur-3xl opacity-20 animate-pulse"></div>
+                <div className="relative p-10 rounded-full bg-green-50 dark:bg-green-500/10 text-green-500 shadow-2xl border border-green-100 dark:border-green-500/20">
+                  <CheckCircle2 size={80} />
+                </div>
+              </div>
+              
+              <div className="space-y-2">
+                <h3 className="text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter italic">Cleanup Done!</h3>
+                <p className="text-slate-500 font-bold uppercase tracking-widest text-sm">
+                  {selected.size} page{selected.size !== 1 ? 's' : ''} removed successfully
+                </p>
+              </div>
+
+              <div className="flex flex-col sm:flex-row gap-4 w-full max-w-md">
+                <a
+                  href={result}
+                  download={`deleted_${file!.name}`}
+                  className="flex-1 py-5 text-white rounded-2xl text-xl font-black shadow-xl hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-3 uppercase tracking-tighter shadow-red-500/20"
+                  style={{ background: ACCENT_GRADIENT }}
+                >
+                  <Download size={24} /> Download PDF
+                </a>
+                <button
+                  onClick={reset}
+                  className="px-8 py-5 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 text-slate-900 dark:text-white rounded-2xl font-black uppercase tracking-widest text-xs transition-all"
+                >
+                  Start Over
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
       </div>
+
+      <style jsx global>{`
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #e2e8f0; border-radius: 10px; }
+        .dark .custom-scrollbar::-webkit-scrollbar-thumb { background: #334155; }
+      `}</style>
     </div>
   );
 }

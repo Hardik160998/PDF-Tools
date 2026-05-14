@@ -2,31 +2,31 @@
 
 import dynamic from "next/dynamic";
 
-const OrganizeTool = dynamic(() => import("@/components/tools/OrganizeTool"), {
+const AddBlankPage = dynamic(() => import("@/components/tools/AddBlankPage"), {
   ssr: false,
 });
 
-export default function OrganizePage() {
+export default function AddBlankPagePage() {
   return (
     <div className="min-h-screen bg-slate-50/50 dark:bg-slate-950">
       <div className="max-w-7xl mx-auto px-4 pt-10 sm:pt-16 pb-10">
-        <OrganizeTool id="organize" />
+        <AddBlankPage id="add-blank-page" />
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-16 mb-16">
           {[
             { 
-              title: "Visual Reordering", 
-              desc: "Simply drag and drop pages to change their order. See exactly how your final PDF will look.",
-              gradient: "linear-gradient(135deg,#f97316,#ea580c)"
+              title: "Precise Positioning", 
+              desc: "Insert pages at the start, end, or after any specific page. Perfect for document flow.",
+              gradient: "linear-gradient(135deg,#6366f1,#4f46e5)"
             },
             { 
-              title: "Multi-File Support", 
-              desc: "Upload multiple PDFs and merge them into a single organized document in one step.",
-              gradient: "linear-gradient(135deg,#f97316,#ea580c)"
+              title: "Batch Insertion", 
+              desc: "Add up to 10 pages at once or insert spacers after every single page in the document.",
+              gradient: "linear-gradient(135deg,#6366f1,#4f46e5)"
             },
             { 
-              title: "Local Processing", 
-              desc: "All page manipulation happens in your browser. Your data stays 100% private.",
+              title: "Privacy Guaranteed", 
+              desc: "Your files never leave your computer. All page manipulation happens 100% locally.",
               gradient: "linear-gradient(135deg,#22c55e,#15803d)"
             }
           ].map((feat, i) => (

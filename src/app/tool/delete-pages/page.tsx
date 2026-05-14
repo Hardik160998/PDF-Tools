@@ -2,31 +2,33 @@
 
 import dynamic from "next/dynamic";
 
-const OrganizeTool = dynamic(() => import("@/components/tools/OrganizeTool"), {
+const DeletePages = dynamic(() => import("@/components/tools/DeletePages"), {
   ssr: false,
 });
 
-export default function OrganizePage() {
+export default function DeletePagesPage() {
   return (
     <div className="min-h-screen bg-slate-50/50 dark:bg-slate-950">
       <div className="max-w-7xl mx-auto px-4 pt-10 sm:pt-16 pb-10">
-        <OrganizeTool id="organize" />
+        {/* The Tool */}
+        <DeletePages id="delete-pages" />
 
+        {/* Informational Section */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-16 mb-16">
           {[
             { 
-              title: "Visual Reordering", 
-              desc: "Simply drag and drop pages to change their order. See exactly how your final PDF will look.",
-              gradient: "linear-gradient(135deg,#f97316,#ea580c)"
+              title: "Visual Removal", 
+              desc: "See every page before you delete it. Toggle selection with a single click.",
+              gradient: "linear-gradient(135deg,#ef4444,#b91c1c)"
             },
             { 
-              title: "Multi-File Support", 
-              desc: "Upload multiple PDFs and merge them into a single organized document in one step.",
-              gradient: "linear-gradient(135deg,#f97316,#ea580c)"
+              title: "Quick Clean", 
+              desc: "Delete multiple pages instantly. The tool reconstructs your PDF while keeping high quality.",
+              gradient: "linear-gradient(135deg,#ef4444,#b91c1c)"
             },
             { 
-              title: "Local Processing", 
-              desc: "All page manipulation happens in your browser. Your data stays 100% private.",
+              title: "Privacy First", 
+              desc: "All processing is done in your browser. Your sensitive documents never touch our servers.",
               gradient: "linear-gradient(135deg,#22c55e,#15803d)"
             }
           ].map((feat, i) => (

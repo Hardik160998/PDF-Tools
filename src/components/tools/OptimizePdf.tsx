@@ -1,7 +1,11 @@
 "use client";
 
 import { useState, useRef } from 'react';
-import { Upload, Download, Loader2, X, Zap, FileText, CheckCircle2, ChevronDown } from 'lucide-react';
+import { 
+  Upload, Download, Loader2, X, Zap, FileText, 
+  CheckCircle2, ChevronDown, Settings, ShieldCheck,
+  TrendingDown, Gauge
+} from 'lucide-react';
 import { PDFDocument } from 'pdf-lib';
 import * as pdfjsLib from 'pdfjs-dist';
 
@@ -15,44 +19,17 @@ const LEVELS = [
   { id: 'high',   label: 'High',   desc: 'Smallest size, some quality reduction.', quality: 0.55, scale: 1.0 },
 ];
 
-const FEATURES = [
-  { icon: '🖼️', title: 'Image Compression',  desc: 'Re-encodes page images at your chosen quality level.' },
-  { icon: '⚡', title: 'Fast Processing',     desc: 'Runs entirely in your browser — no upload needed.' },
-  { icon: '📉', title: 'Smaller File Size',   desc: 'Reduce PDF size for email, web, or storage.' },
-  { icon: '🔒', title: '100% Private',        desc: 'Your file never leaves your device.' },
-];
-
-const FAQS = [
-  { q: 'How does PDF optimization work?',
-    a: 'Each page is rendered to a canvas and re-encoded as a compressed JPEG image, then assembled into a new PDF. This reduces file size by compressing image data.' },
-  { q: 'Will text still be selectable after optimization?',
-    a: 'Since pages are converted to images, text will no longer be selectable. Use Low compression to preserve the best visual quality.' },
-  { q: 'What is the difference between Optimize and Compress?',
-    a: 'Compress PDF uses pdf-lib\'s built-in compression on the existing content. Optimize PDF re-renders each page as an image, which can achieve greater size reductions for image-heavy PDFs.' },
-  { q: 'Is my file safe?',
-    a: 'Yes. Everything runs in your browser using PDF.js and pdf-lib. Your file is never uploaded to any server.' },
-];
-
-function FAQ({ q, a }: { q: string; a: string }) {
-  const [open, setOpen] = useState(false);
-  return (
-    <div className="border border-slate-100 dark:border-slate-700 rounded-2xl overflow-hidden">
-      <button onClick={() => setOpen(!open)} className="w-full flex items-center justify-between p-5 text-left bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors">
-        <span className="font-black text-sm text-slate-900 dark:text-white pr-4">{q}</span>
-        <ChevronDown size={16} className={`text-slate-400 shrink-0 transition-transform duration-200 ${open ? 'rotate-180' : ''}`} />
-      </button>
-      {open && <div className="px-5 pb-5 text-sm text-slate-500 dark:text-slate-400 leading-relaxed bg-white dark:bg-slate-800">{a}</div>}
-    </div>
-  );
-}
-
-export default function OptimizePdf({ id }: { id: string }) {
+export default function OptimizePdf({ id: _id }: { id: string }) {
   const [file, setFile] = useState<File | null>(null);
   const [level, setLevel] = useState('medium');
   const [processing, setProcessing] = useState(false);
   const [result, setResult] = useState<{ url: string; origSize: number; newSize: number } | null>(null);
   const [pageCount, setPageCount] = useState(0);
+  const [showSettings, setShowSettings] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
+
+  const ACCENT = "#10b981"; // Emerald
+  const ACCENT_GRADIENT = "linear-gradient(135deg,#10b981,#059669)";
 
   const loadFile = async (f: File) => {
     setFile(f); setResult(null);
@@ -93,167 +70,204 @@ export default function OptimizePdf({ id }: { id: string }) {
   const saved = result ? Math.round((1 - result.newSize / result.origSize) * 100) : 0;
 
   return (
-    <div className="py-6 sm:py-10 space-y-6">
+    <div className="max-w-7xl mx-auto py-4 sm:py-8 px-3 sm:px-6 font-sans">
+      <div className="flex flex-col lg:flex-row gap-8 items-start">
+        
+        {/* Sidebar Configuration */}
+        <div className="w-full lg:w-[320px] bg-white dark:bg-slate-800 rounded-3xl border border-slate-100 dark:border-slate-700 shadow-xl overflow-hidden h-fit lg:sticky lg:top-4 flex-shrink-0">
+          <button onClick={() => setShowSettings(!showSettings)} className="w-full flex lg:hidden items-center justify-between p-5 font-black text-slate-900 dark:text-white border-b border-slate-50 dark:border-slate-700">
+            <span className="flex items-center gap-2"><Settings size={20} style={{ color: ACCENT }} /> Quality Settings</span>
+            <ChevronDown className={`transition-transform duration-300 ${showSettings ? 'rotate-180' : ''}`} size={20} />
+          </button>
 
-      {/* ── TOOL CARD ── */}
-      <div className="bg-white dark:bg-slate-800 rounded-[1.5rem] sm:rounded-[2.5rem] p-6 sm:p-12 border border-slate-100 dark:border-slate-700 shadow-2xl space-y-8">
-        <div className="text-center space-y-3">
-          <div className="inline-flex p-4 sm:p-5 rounded-2xl sm:rounded-3xl bg-green-500 text-white shadow-lg shadow-green-500/30">
-            <Zap size={36} />
-          </div>
-          <h1 className="text-2xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter">Optimize PDF</h1>
-          <p className="text-sm sm:text-base text-slate-500 font-medium max-w-lg mx-auto">
-            Reduce PDF file size by re-compressing page content. Choose your quality level. 100% private — runs in your browser.
-          </p>
-        </div>
+          <div className={`${showSettings ? 'block' : 'hidden'} lg:block p-6`}>
+            <div className="flex items-center justify-between mb-6">
+              <h3 className="hidden lg:block text-lg font-black text-slate-900 dark:text-white uppercase tracking-tight">Optimization</h3>
+              <button onClick={reset} className="text-[10px] font-black uppercase tracking-widest text-red-500 hover:text-red-600 transition-colors">Clear</button>
+            </div>
 
-        {result ? (
-          <div className="space-y-6 text-center animate-in zoom-in duration-500">
-            <div className="inline-flex p-6 rounded-full bg-green-50 dark:bg-green-900/20 text-green-500">
-              <CheckCircle2 size={64} />
-            </div>
-            <div>
-              <h3 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white">Optimization Complete!</h3>
-              <p className="text-slate-500 font-medium mt-1">{pageCount} pages processed</p>
-            </div>
-            {/* Size comparison */}
-            <div className="grid grid-cols-3 gap-3 max-w-sm mx-auto">
-              <div className="p-3 bg-slate-50 dark:bg-slate-700 rounded-xl">
-                <p className="text-[10px] font-black uppercase text-slate-400 tracking-widest">Original</p>
-                <p className="font-black text-slate-900 dark:text-white text-sm mt-1">{fmt(result.origSize)}</p>
-              </div>
-              <div className="p-3 bg-green-50 dark:bg-green-900/20 rounded-xl">
-                <p className="text-[10px] font-black uppercase text-green-600 tracking-widest">Saved</p>
-                <p className="font-black text-green-600 text-sm mt-1">{saved}%</p>
-              </div>
-              <div className="p-3 bg-slate-50 dark:bg-slate-700 rounded-xl">
-                <p className="text-[10px] font-black uppercase text-slate-400 tracking-widest">New Size</p>
-                <p className="font-black text-slate-900 dark:text-white text-sm mt-1">{fmt(result.newSize)}</p>
-              </div>
-            </div>
-            <div className="flex flex-col sm:flex-row gap-3 justify-center">
-              <a href={result.url} download={`optimized_${file?.name || 'document.pdf'}`}
-                className="flex-1 py-4 bg-green-500 hover:bg-green-600 text-white rounded-2xl text-lg font-black shadow-xl shadow-green-500/20 flex items-center justify-center gap-3 transition-all">
-                <Download size={22} /> Download Optimized PDF
-              </a>
-              <button onClick={reset} className="px-8 py-4 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 text-slate-900 dark:text-white rounded-2xl font-bold transition-all">
-                Optimize Another
-              </button>
-            </div>
-          </div>
-
-        ) : !file ? (
-          <div className="space-y-6">
-            <div className="relative border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-2xl sm:rounded-3xl p-10 sm:p-16 group hover:border-green-400 transition-all cursor-pointer bg-slate-50/50 dark:bg-slate-900/50"
-              onClick={() => inputRef.current?.click()}>
-              <input ref={inputRef} type="file" accept=".pdf" className="hidden" onChange={e => e.target.files?.[0] && loadFile(e.target.files[0])} />
-              <div className="space-y-4 pointer-events-none text-center">
-                <div className="p-5 bg-white dark:bg-slate-800 rounded-2xl shadow-xl inline-block text-green-500 group-hover:scale-110 transition-transform">
-                  <Upload size={36} />
-                </div>
-                <div className="text-xl sm:text-2xl font-black tracking-tight text-slate-900 dark:text-white">Select PDF File</div>
-                <p className="text-sm text-slate-500">or drop PDF here</p>
-              </div>
-            </div>
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-              {FEATURES.map(f => (
-                <div key={f.title} className="p-4 bg-slate-50 dark:bg-slate-700/50 rounded-2xl border border-slate-100 dark:border-slate-600 text-left space-y-2">
-                  <span className="text-2xl">{f.icon}</span>
-                  <p className="text-xs font-black text-slate-900 dark:text-white">{f.title}</p>
-                  <p className="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed">{f.desc}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-
-        ) : (
-          <div className="space-y-6 animate-in slide-in-from-bottom-4 duration-500">
-            <div className="flex items-center justify-between p-4 bg-slate-50 dark:bg-slate-700/50 rounded-2xl border border-slate-100 dark:border-slate-600">
-              <div className="flex items-center gap-3">
-                <div className="p-2 bg-white dark:bg-slate-800 rounded-xl shadow-sm text-green-500"><FileText size={20} /></div>
-                <div>
-                  <p className="font-black text-slate-900 dark:text-white text-sm truncate max-w-[220px]">{file.name}</p>
-                  <p className="text-xs text-slate-400">{pageCount} pages · {fmt(file.size)}</p>
+            <div className="space-y-6 text-left">
+              {/* Level selection */}
+              <div className="space-y-3">
+                <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Compression Level</span>
+                <div className="space-y-2">
+                  {LEVELS.map(l => (
+                    <button key={l.id} onClick={() => setLevel(l.id)}
+                      className={`w-full p-4 rounded-2xl border-2 text-left transition-all relative overflow-hidden group ${level === l.id ? 'border-emerald-500 bg-emerald-50 dark:bg-emerald-500/10' : 'border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-900 hover:border-emerald-200'}`}>
+                      <div className="flex items-center justify-between relative z-10">
+                        <p className={`font-black text-xs uppercase tracking-tighter italic ${level === l.id ? 'text-emerald-600' : 'text-slate-900 dark:text-white'}`}>{l.label}</p>
+                        {level === l.id && <CheckCircle2 size={16} className="text-emerald-500" />}
+                      </div>
+                      <p className="text-[9px] text-slate-400 font-bold mt-1 leading-relaxed relative z-10 uppercase tracking-widest">{l.desc}</p>
+                    </button>
+                  ))}
                 </div>
               </div>
-              <button onClick={reset} className="p-2 text-slate-400 hover:text-red-500 transition-colors"><X size={16} /></button>
-            </div>
 
-            {/* Compression level */}
-            <div className="space-y-3">
-              <p className="text-sm font-black text-slate-900 dark:text-white">Optimization Level</p>
-              <div className="grid grid-cols-3 gap-3">
-                {LEVELS.map(l => (
-                  <button key={l.id} onClick={() => setLevel(l.id)}
-                    className={`p-4 rounded-2xl border-2 text-left transition-all ${level === l.id ? 'border-green-500 bg-green-50 dark:bg-green-900/20' : 'border-slate-100 dark:border-slate-700 bg-slate-50 dark:bg-slate-700/50 hover:border-green-300'}`}>
-                    <p className={`font-black text-sm ${level === l.id ? 'text-green-600' : 'text-slate-900 dark:text-white'}`}>{l.label}</p>
-                    <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">{l.desc}</p>
+              {/* Status Section */}
+              <div className="pt-4 border-t border-slate-50 dark:border-slate-700">
+                <div className="bg-slate-50 dark:bg-slate-900/50 rounded-2xl p-4 border border-slate-100 dark:border-slate-800">
+                  <div className="flex items-center gap-3 mb-2">
+                    <div className="p-2 rounded-lg bg-white dark:bg-slate-800 shadow-sm text-emerald-500">
+                      <Gauge size={14} />
+                    </div>
+                    <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Analysis</span>
+                  </div>
+                  <p className="text-[11px] font-bold text-slate-600 dark:text-slate-300 italic uppercase">
+                    {file ? `${pageCount} Pages Loaded` : 'No file selected'}
+                  </p>
+                </div>
+              </div>
+
+              {/* Action Button */}
+              <div className="pt-2">
+                {!result ? (
+                  <button
+                    onClick={handleOptimize}
+                    disabled={processing || !file}
+                    className="w-full py-5 text-white rounded-[1.5rem] text-xl font-black shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50 disabled:grayscale uppercase tracking-tighter italic shadow-emerald-500/20"
+                    style={{ background: ACCENT_GRADIENT }}
+                  >
+                    {processing ? (
+                      <span className="flex items-center justify-center gap-3"><Loader2 className="animate-spin" /> Optimizing...</span>
+                    ) : (
+                      <span className="flex items-center justify-center gap-3">Run Optimizer <Zap size={24} /></span>
+                    )}
                   </button>
-                ))}
+                ) : (
+                  <div className="space-y-3">
+                    <div className="p-4 bg-emerald-50 dark:bg-emerald-500/10 rounded-2xl border border-emerald-100 dark:border-emerald-500/20 text-center animate-in zoom-in">
+                      <p className="text-[10px] font-black text-emerald-600 uppercase tracking-widest mb-1 italic">Efficiency Score</p>
+                      <p className="text-3xl font-black text-emerald-600 italic tracking-tighter">-{saved}%</p>
+                    </div>
+                    <a
+                      href={result.url}
+                      download={`optimized_${file?.name || 'document.pdf'}`}
+                      className="w-full py-5 text-white rounded-[1.5rem] text-xl font-black shadow-xl hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-3 uppercase tracking-tighter italic shadow-emerald-500/20"
+                      style={{ background: ACCENT_GRADIENT }}
+                    >
+                      <Download size={24} /> Download PDF
+                    </a>
+                    <button onClick={reset} className="w-full py-3 bg-slate-100 text-slate-500 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-slate-200 transition-all">Optimize Another</button>
+                  </div>
+                )}
               </div>
             </div>
-
-            <button onClick={handleOptimize} disabled={processing}
-              className="w-full py-4 sm:py-5 bg-green-500 hover:bg-green-600 disabled:opacity-50 text-white rounded-2xl text-lg sm:text-2xl font-black shadow-xl shadow-green-500/20 flex items-center justify-center gap-3 transition-all">
-              {processing ? <Loader2 className="animate-spin" size={24} /> : <Zap size={24} />}
-              {processing ? `Optimizing ${pageCount} pages...` : 'Optimize PDF'}
-            </button>
           </div>
-        )}
-      </div>
+        </div>
 
-      {/* ── HOW IT WORKS ── */}
-      <div className="bg-white dark:bg-slate-800 rounded-2xl p-6 sm:p-10 border border-slate-100 dark:border-slate-700 shadow-sm space-y-4">
-        <h2 className="text-xl font-black text-slate-900 dark:text-white tracking-tight">How to Optimize a PDF</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          {[
-            { n: '1', t: 'Upload your PDF',        d: 'Select any PDF file you want to reduce in size.' },
-            { n: '2', t: 'Choose quality level',   d: 'Pick Low, Medium or High compression based on your needs.' },
-            { n: '3', t: 'Download optimized PDF', d: 'Get a smaller PDF ready for sharing, email or storage.' },
-          ].map(s => (
-            <div key={s.n} className="flex gap-4 items-start p-4 bg-slate-50 dark:bg-slate-700/50 rounded-2xl border border-slate-100 dark:border-slate-600">
-              <div className="w-9 h-9 rounded-full bg-green-500 text-white font-black text-sm flex items-center justify-center shrink-0">{s.n}</div>
-              <div>
-                <p className="font-black text-slate-900 dark:text-white text-sm">{s.t}</p>
-                <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5 leading-relaxed">{s.d}</p>
+        {/* Main Workspace */}
+        <div className="flex-1 w-full space-y-6">
+          <div className="bg-white dark:bg-slate-800 rounded-[2.5rem] border border-slate-100 dark:border-slate-700 shadow-2xl p-6 sm:p-12 min-h-[500px] flex flex-col relative overflow-hidden">
+            
+            {/* Decoration */}
+            <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-50 dark:bg-emerald-900/10 rounded-full -mr-32 -mt-32 blur-3xl opacity-50" />
+            
+            {/* Header */}
+            <div className="relative text-center space-y-4 mb-10">
+              <div className="inline-flex p-4 rounded-2xl text-white shadow-lg shadow-emerald-500/20" style={{ background: ACCENT_GRADIENT }}>
+                <Zap size={32} />
               </div>
+              <h2 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter italic leading-tight">
+                High-Fidelity PDF Optimizer
+              </h2>
+              <p className="text-slate-500 font-medium tracking-tight max-w-md mx-auto">
+                Re-compress page images to achieve massive file size reductions without sacrificing legibility.
+              </p>
             </div>
-          ))}
+
+            {/* Upload Area */}
+            {!file ? (
+              <div className="flex-1 flex flex-col items-center justify-center border-2 border-dashed border-slate-100 dark:border-slate-700 rounded-[2.5rem] p-10 sm:p-20 hover:border-emerald-400 cursor-pointer transition-all bg-slate-50/30 dark:bg-slate-900/30 group relative overflow-hidden"
+                onClick={() => inputRef.current?.click()}>
+                <div className="p-6 bg-white dark:bg-slate-800 rounded-3xl shadow-xl text-emerald-500 mb-6 group-hover:scale-110 transition-transform relative z-10">
+                  <Upload size={48} />
+                </div>
+                <div className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white uppercase tracking-tight text-center relative z-10">
+                  Select Large PDF
+                </div>
+                <p className="text-slate-400 text-sm mt-2 font-bold italic tracking-tight text-center relative z-10">
+                  Re-renders every page into a highly compressed JPEG stream
+                </p>
+                <button className="mt-8 px-10 py-4 rounded-2xl text-white text-sm font-black uppercase tracking-widest shadow-xl hover:scale-105 transition-all relative z-10" style={{ background: ACCENT_GRADIENT }}>
+                  Choose File
+                </button>
+                <input ref={inputRef} type="file" onChange={e => e.target.files?.[0] && loadFile(e.target.files[0])} accept=".pdf" className="hidden" />
+              </div>
+            ) : (
+              <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
+                {/* File Info Card */}
+                <div className="p-8 bg-slate-50 dark:bg-slate-900 rounded-[2rem] border border-slate-100 dark:border-slate-800 shadow-sm relative group overflow-hidden">
+                   <div className="flex flex-col sm:flex-row items-center gap-6 relative z-10 text-center sm:text-left">
+                      <div className="w-16 h-16 bg-white dark:bg-slate-800 rounded-2xl flex items-center justify-center text-emerald-500 shadow-xl shrink-0 group-hover:rotate-12 transition-transform">
+                        <FileText size={32} />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                         <h4 className="text-xl font-black text-slate-900 dark:text-white uppercase italic tracking-tighter truncate">{file.name}</h4>
+                         <div className="flex flex-wrap justify-center sm:justify-start gap-4 mt-2">
+                            <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 bg-white dark:bg-slate-800 px-3 py-1 rounded-full shadow-sm">{fmt(file.size)}</span>
+                            <span className="text-[10px] font-black uppercase tracking-widest text-emerald-500 bg-emerald-50 dark:bg-emerald-500/10 px-3 py-1 rounded-full">{pageCount} Pages Loaded</span>
+                         </div>
+                      </div>
+                      <button onClick={reset} className="p-3 text-slate-300 hover:text-red-500 hover:bg-white dark:hover:bg-slate-800 rounded-xl transition-all shadow-sm">
+                        <X size={24} />
+                      </button>
+                   </div>
+                   {/* Background icon decoration */}
+                   <Zap size={120} className="absolute -bottom-10 -right-10 text-slate-200/20 dark:text-slate-700/20 -rotate-12 pointer-events-none" />
+                </div>
+
+                {/* Processing Visualization */}
+                {processing && (
+                  <div className="p-10 text-center space-y-6">
+                    <div className="relative inline-block">
+                       <Loader2 size={80} className="animate-spin text-emerald-500 mx-auto" strokeWidth={1} />
+                       <Gauge className="absolute inset-0 m-auto text-emerald-500/20" size={32} />
+                    </div>
+                    <div>
+                       <h3 className="text-2xl font-black text-slate-900 dark:text-white uppercase italic tracking-tighter animate-pulse">Rendering Pixel Buffers...</h3>
+                       <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-2 leading-relaxed">Processing every page through our local JPEG pipeline</p>
+                    </div>
+                  </div>
+                )}
+
+                {/* Post-Process stats */}
+                {result && !processing && (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 animate-in slide-in-from-top-4">
+                     <div className="p-6 bg-slate-50 dark:bg-slate-900 rounded-2xl border border-slate-100 dark:border-slate-800 text-center">
+                        <TrendingDown size={24} className="mx-auto text-emerald-500 mb-2" />
+                        <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Original Volume</p>
+                        <p className="text-xl font-black text-slate-900 dark:text-white tracking-tighter">{fmt(result.origSize)}</p>
+                     </div>
+                     <div className="p-6 bg-emerald-50 dark:bg-emerald-500/10 rounded-2xl border border-emerald-100 dark:border-emerald-500/20 text-center">
+                        <CheckCircle2 size={24} className="mx-auto text-emerald-500 mb-2" />
+                        <p className="text-[10px] font-black text-emerald-600 uppercase tracking-widest">Optimized Volume</p>
+                        <p className="text-xl font-black text-emerald-600 tracking-tighter italic">{fmt(result.newSize)}</p>
+                     </div>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+
+          {/* Feature Highlight */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+            {[
+              { title: "Local Privacy", desc: "No data is sent to servers. Everything stays on your machine.", icon: ShieldCheck },
+              { title: "Smart Compression", desc: "Adaptive JPEG re-encoding balances quality and size.", icon: Gauge },
+              { title: "Fast Delivery", desc: "Optimized documents are ready for email instantly.", icon: Zap },
+            ].map((feat, i) => (
+              <div key={i} className="p-8 bg-white dark:bg-slate-800 rounded-3xl border border-slate-50 dark:border-slate-700 shadow-sm flex flex-col items-center text-center group hover:shadow-lg transition-all">
+                <div className="w-12 h-12 rounded-2xl bg-emerald-50 dark:bg-emerald-500/10 flex items-center justify-center text-emerald-500 mb-4 group-hover:scale-110 transition-transform">
+                  <feat.icon size={24} />
+                </div>
+                <h5 className="text-[11px] font-black uppercase tracking-widest text-slate-900 dark:text-white mb-2">{feat.title}</h5>
+                <p className="text-[10px] text-slate-400 font-medium leading-relaxed italic uppercase">{feat.desc}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
-
-      {/* ── FAQ ── */}
-      <div className="bg-white dark:bg-slate-800 rounded-2xl p-6 sm:p-10 border border-slate-100 dark:border-slate-700 shadow-sm space-y-4">
-        <h2 className="text-xl font-black text-slate-900 dark:text-white tracking-tight">Frequently Asked Questions</h2>
-        <div className="space-y-2">{FAQS.map(f => <FAQ key={f.q} q={f.q} a={f.a} />)}</div>
-      </div>
-
-      {/* ── RELATED TOOLS ── */}
-      <div className="bg-white dark:bg-slate-800 rounded-2xl p-6 sm:p-10 border border-slate-100 dark:border-slate-700 shadow-sm space-y-4">
-        <h2 className="text-xl font-black text-slate-900 dark:text-white tracking-tight">Related PDF Tools</h2>
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-          {[
-            { id: 'compress',     label: 'Compress PDF',  color: '#22c55e', desc: 'Built-in PDF compression.' },
-            { id: 'flatten-pdf',  label: 'Flatten PDF',   color: '#7c3aed', desc: 'Merge all layers.' },
-            { id: 'repair-pdf',   label: 'Repair PDF',    color: '#22c55e', desc: 'Fix corrupted PDFs.' },
-            { id: 'delete-pages', label: 'Delete Pages',  color: '#f26522', desc: 'Remove unwanted pages.' },
-            { id: 'split',        label: 'Split PDF',     color: '#f26522', desc: 'Split into smaller files.' },
-            { id: 'merge',        label: 'Merge PDF',     color: '#f26522', desc: 'Combine multiple PDFs.' },
-          ].map(t => (
-            <a key={t.id} href={`/tool/${t.id}`}
-              className="flex items-center gap-3 p-4 bg-slate-50 dark:bg-slate-700/50 rounded-2xl border border-slate-100 dark:border-slate-600 hover:border-green-300 hover:shadow-md transition-all group">
-              <div className="w-9 h-9 rounded-xl flex items-center justify-center text-white shrink-0 shadow-sm" style={{ background: t.color }}>
-                <Zap size={16} />
-              </div>
-              <div className="text-left">
-                <p className="font-black text-slate-900 dark:text-white text-xs group-hover:text-green-600 transition-colors">{t.label}</p>
-                <p className="text-[11px] text-slate-400 mt-0.5">{t.desc}</p>
-              </div>
-            </a>
-          ))}
-        </div>
-      </div>
-
     </div>
   );
 }
