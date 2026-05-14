@@ -1,7 +1,9 @@
-"use client";
-
+import { Suspense } from "react";
 import Compressor from "@/components/tools/Compressor";
-import { Merge, SplitSquareHorizontal, FileText, ImageIcon, Lock, Unlock, Zap } from "lucide-react";
+import { Merge, SplitSquareHorizontal, FileText, ImageIcon, Lock, Unlock } from "lucide-react";
+
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
 const RELATED = [
   { id: 'merge', title: 'Merge PDF', description: 'Combine multiple PDF files into one document in seconds.', icon: Merge, gradient: 'linear-gradient(135deg, #f97316, #c2410c)', shadow: 'rgba(249,115,22,0.3)', tag: 'Organize' },
@@ -16,7 +18,9 @@ export default function CompressPage() {
   return (
     <div className="min-h-screen bg-slate-50/50 dark:bg-slate-950">
       <div className="max-w-7xl mx-auto px-4 pt-10 sm:pt-16 pb-10">
-        <Compressor id="compress" />
+        <Suspense fallback={<div className="h-[600px] bg-white dark:bg-slate-900 rounded-3xl animate-pulse" />}>
+          <Compressor id="compress" />
+        </Suspense>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-16 mb-16">
           {[
