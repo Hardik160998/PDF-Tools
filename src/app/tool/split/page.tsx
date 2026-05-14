@@ -1,10 +1,6 @@
 "use client";
 
-import dynamic from "next/dynamic";
-
-const MergeSplit = dynamic(() => import("@/components/tools/MergeSplit"), {
-  ssr: false,
-});
+import MergeSplit from "@/components/tools/MergeSplit";
 
 export default function SplitPage() {
   return (

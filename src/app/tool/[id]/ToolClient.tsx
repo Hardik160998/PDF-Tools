@@ -1,30 +1,12 @@
 "use client";
-
-import dynamic from 'next/dynamic';
 import { notFound } from 'next/navigation';
-import { CenteredCardSkeleton } from './skeletons';
-
-const EditTools = dynamic(() => import('@/components/tools/EditTools'), {
-  ssr: false, loading: () => <CenteredCardSkeleton accent="rgb(221 214 254)" />,
-});
-const ImageConverter = dynamic(() => import('@/components/tools/ImageConverter'), {
-  ssr: false, loading: () => <CenteredCardSkeleton accent="rgb(254 240 138)" />,
-});
-const OfficeTools = dynamic(() => import('@/components/tools/OfficeTools'), {
-  ssr: false, loading: () => <CenteredCardSkeleton accent="rgb(191 219 254)" />,
-});
-const SecurityTools = dynamic(() => import('@/components/tools/SecurityTools'), {
-  ssr: false, loading: () => <CenteredCardSkeleton accent="rgb(254 202 202)" />,
-});
-const AadharCropper = dynamic(() => import('@/components/tools/AadharCropper'), {
-  ssr: false, loading: () => <CenteredCardSkeleton accent="rgb(254 202 202)" />,
-});
-const FlattenPdf = dynamic(() => import('@/components/tools/FlattenPdf'), {
-  ssr: false, loading: () => <CenteredCardSkeleton accent="rgb(221 214 254)" />,
-});
-const MeeshoCropper = dynamic(() => import('@/components/tools/MeeshoCropper'), {
-  ssr: false, loading: () => <CenteredCardSkeleton accent="rgb(254 215 170)" />,
-});
+import EditTools from '@/components/tools/EditTools';
+import ImageConverter from '@/components/tools/ImageConverter';
+import OfficeTools from '@/components/tools/OfficeTools';
+import SecurityTools from '@/components/tools/SecurityTools';
+import AadharCropper from '@/components/tools/AadharCropper';
+import FlattenPdf from '@/components/tools/FlattenPdf';
+import MeeshoCropper from '@/components/tools/MeeshoCropper';
 
 const TOOL_COMPONENTS: Record<string, React.ComponentType<{ id: string }>> = {
   'watermark': EditTools,

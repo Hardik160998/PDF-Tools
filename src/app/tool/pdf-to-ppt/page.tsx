@@ -1,12 +1,8 @@
 "use client";
-import dynamic from 'next/dynamic';
 import { Presentation, Upload, Sparkles, Download, FileText, FileSpreadsheet, Type, Zap, Lock, CheckCircle } from 'lucide-react';
-import { CenteredCardSkeleton } from '../[id]/skeletons';
 import { HowItWorksShimmer, RelatedToolsShimmer, usePageMounted } from '../_shimmer';
+import OfficeTools from "@/components/tools/OfficeTools";
 
-const OfficeTools = dynamic(() => import('@/components/tools/OfficeTools'), { ssr: false, loading: () => <CenteredCardSkeleton accent="rgb(254 215 170)" /> });
-
-const FEATURES = ['Converts PDF to editable PPTX','Each page becomes a slide','Images & text preserved','Fast cloud conversion','Files deleted within 1 hour','Encrypted HTTPS transfer'];
 const STEPS = [
   { icon: Upload,   title: 'Upload Your PDF',  desc: 'Select your PDF file. It is securely uploaded over HTTPS to our cloud conversion engine.' },
   { icon: Sparkles, title: 'Convert to PPTX',  desc: 'Each PDF page is converted into an editable PowerPoint slide with text and images intact.' },
@@ -25,7 +21,6 @@ export default function PdfToPptPage() {
   const mounted = usePageMounted();
   return (
     <div className="min-h-screen">
-
       <section className="pb-8"><div className="container mx-auto px-4 max-w-7xl"><OfficeTools id="pdf-to-ppt" /></div></section>
       {!mounted ? <HowItWorksShimmer accent="rgba(249,115,22,0.15)" /> : (
         <section className="py-16 bg-white/60"><div className="container mx-auto px-4 max-w-4xl">

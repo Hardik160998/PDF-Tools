@@ -1,12 +1,8 @@
 "use client";
-import dynamic from 'next/dynamic';
 import { FileSpreadsheet, Upload, Sparkles, Download, FileText, Presentation, Type, Zap, Lock, CheckCircle } from 'lucide-react';
-import { CenteredCardSkeleton } from '../[id]/skeletons';
 import { HowItWorksShimmer, RelatedToolsShimmer, usePageMounted } from '../_shimmer';
+import OfficeTools from "@/components/tools/OfficeTools";
 
-const OfficeTools = dynamic(() => import('@/components/tools/OfficeTools'), { ssr: false, loading: () => <CenteredCardSkeleton accent="rgb(187 247 208)" /> });
-
-const FEATURES = ['Extracts tables to XLSX','Preserves rows & columns','Multiple sheets supported','Fast cloud conversion','Files deleted within 1 hour','Encrypted HTTPS transfer'];
 const STEPS = [
   { icon: Upload,   title: 'Upload Your PDF',    desc: 'Select the PDF containing tables or data. It is securely uploaded over HTTPS for cloud conversion.' },
   { icon: Sparkles, title: 'Extract to Excel',   desc: 'Our engine detects tables and data structures and recreates them as editable XLSX spreadsheet rows.' },
@@ -25,7 +21,6 @@ export default function PdfToExcelPage() {
   const mounted = usePageMounted();
   return (
     <div className="min-h-screen">
-
       <section className="pb-8"><div className="container mx-auto px-4 max-w-7xl"><OfficeTools id="pdf-to-excel" /></div></section>
       {!mounted ? <HowItWorksShimmer accent="rgba(34,197,94,0.15)" /> : (
         <section className="py-16 bg-white/60"><div className="container mx-auto px-4 max-w-4xl">

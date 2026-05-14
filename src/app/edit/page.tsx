@@ -1,21 +1,6 @@
 "use client";
-
-import dynamic from 'next/dynamic';
 import { PenLine, Stamp, FileDigit, Settings, EyeOff, Bookmark, Layers, CheckCircle } from 'lucide-react';
-
-const EditTools = dynamic(() => import('@/components/tools/EditTools'), {
-  ssr: false,
-  loading: () => (
-    <div className="max-w-4xl mx-auto py-6 sm:py-10 px-4">
-      <div className="bg-white rounded-[2rem] p-10 border border-slate-100 shadow-2xl flex items-center justify-center min-h-[300px]">
-        <div className="flex flex-col items-center gap-4 text-slate-400">
-          <div className="w-10 h-10 border-4 border-pink-200 border-t-pink-500 rounded-full animate-spin" />
-          <p className="text-sm font-bold">Loading Edit PDF Tool…</p>
-        </div>
-      </div>
-    </div>
-  ),
-});
+import EditTools from '@/components/tools/EditTools';
 
 const RELATED_TOOLS = [
   { id: 'watermark',    title: 'Watermark PDF',  description: 'Stamp a text or image watermark over every page of your PDF.',        icon: Stamp,    gradient: 'linear-gradient(135deg, #8b5cf6, #6d28d9)', shadow: 'rgba(139,92,246,0.3)', tag: 'Edit' },
@@ -37,67 +22,35 @@ const FEATURES = [
 
 export default function EditPage() {
   return (
-    <div className="min-h-screen">
-
-      {/* ── TOOL ── */}
-      <section className="pb-8">
+    <div className="min-h-screen bg-slate-50/50 dark:bg-slate-950">
+      <div className="max-w-7xl mx-auto px-4 pt-10 sm:pt-16 pb-10">
         <EditTools id="edit-pdf" />
-      </section>
 
-      {/* ── FEATURES ── */}
-      <section className="py-8">
-        <div className="container mx-auto px-4 max-w-4xl">
-          <div className="flex flex-wrap justify-center gap-2">
-            {FEATURES.map((f) => (
-              <span key={f} className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white border border-slate-100 rounded-full text-xs font-bold text-slate-600 shadow-sm">
-                <CheckCircle size={12} className="text-pink-500" /> {f}
-              </span>
-            ))}
-          </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-16 mb-16">
+          {FEATURES.slice(0, 3).map((f, i) => (
+            <div key={i} className="bg-white dark:bg-slate-900 p-8 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-xl transition-all group">
+              <div className="w-12 h-12 rounded-2xl bg-slate-50 dark:bg-slate-800 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                <CheckCircle className="text-pink-500" size={24} />
+              </div>
+              <h3 className="text-xl font-black text-slate-900 dark:text-white uppercase tracking-tight mb-2">{f}</h3>
+              <p className="text-slate-500 dark:text-slate-400 text-sm leading-relaxed">Professional PDF editing tool to {f.toLowerCase()} directly in your browser.</p>
+            </div>
+          ))}
         </div>
-      </section>
 
-      {/* ── RELATED TOOLS ── */}
-      <section className="py-16">
-        <div className="container mx-auto px-4 max-w-5xl">
-          <h2 className="text-2xl font-black text-slate-900 tracking-tight mb-8 text-center">
-            More PDF Editing Tools
-          </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {RELATED_TOOLS.map((tool) => (
-              <a
-                key={tool.id}
-                href={`/tool/${tool.id}`}
-                className="group bg-white rounded-2xl p-6 shadow-sm border border-slate-100 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 flex flex-col gap-4"
-              >
-                <div className="flex items-start justify-between">
-                  <div
-                    className="w-14 h-14 rounded-2xl flex items-center justify-center text-white shadow-lg"
-                    style={{ background: tool.gradient, boxShadow: `0 8px 20px -4px ${tool.shadow}` }}
-                  >
-                    <tool.icon size={26} />
-                  </div>
-                  <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 bg-slate-50 px-2 py-1 rounded-full border border-slate-100">
-                    {tool.tag}
-                  </span>
-                </div>
-                <div>
-                  <h3 className="text-base font-black text-slate-900 mb-1 group-hover:text-pink-500 transition-colors">
-                    {tool.title}
-                  </h3>
-                  <p className="text-sm text-slate-500 font-medium leading-relaxed">
-                    {tool.description}
-                  </p>
-                </div>
-                <div className="mt-auto pt-2 text-xs font-bold text-pink-500 flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                  Open tool &#8594;
-                </div>
-              </a>
-            ))}
-          </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {RELATED_TOOLS.map((tool) => (
+            <a key={tool.id} href={`/tool/${tool.id}`} className="group bg-white dark:bg-slate-900 rounded-3xl p-6 shadow-sm border border-slate-100 dark:border-slate-800 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 flex flex-col gap-4">
+              <div className="flex items-start justify-between">
+                <div className="w-14 h-14 rounded-2xl flex items-center justify-center text-white shadow-lg" style={{ background: tool.gradient, boxShadow: `0 8px 20px -4px ${tool.shadow}` }}><tool.icon size={26} /></div>
+                <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 bg-slate-50 dark:bg-slate-800 px-2 py-1 rounded-full border border-slate-100 dark:border-slate-700">{tool.tag}</span>
+              </div>
+              <div><h3 className="text-base font-black text-slate-900 dark:text-white mb-1 group-hover:text-pink-500 transition-colors">{tool.title}</h3><p className="text-sm text-slate-500 dark:text-slate-400 font-medium leading-relaxed">{tool.description}</p></div>
+              <div className="mt-auto pt-2 text-xs font-bold text-pink-500 flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">Open tool &#8594;</div>
+            </a>
+          ))}
         </div>
-      </section>
-
+      </div>
     </div>
   );
 }

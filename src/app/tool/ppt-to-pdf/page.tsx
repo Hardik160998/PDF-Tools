@@ -1,12 +1,8 @@
 "use client";
-import dynamic from 'next/dynamic';
 import { Presentation, Upload, Sparkles, Download, FileText, FileSpreadsheet, Globe, Zap, Lock, CheckCircle } from 'lucide-react';
-import { CenteredCardSkeleton } from '../[id]/skeletons';
 import { HowItWorksShimmer, RelatedToolsShimmer, usePageMounted } from '../_shimmer';
+import OfficeTools from "@/components/tools/OfficeTools";
 
-const OfficeTools = dynamic(() => import('@/components/tools/OfficeTools'), { ssr: false, loading: () => <CenteredCardSkeleton accent="rgb(254 215 170)" /> });
-
-const FEATURES = ['Supports .ppt & .pptx','All slides converted','Images & animations preserved','Fast cloud conversion','Files deleted within 1 hour','Encrypted HTTPS transfer'];
 const STEPS = [
   { icon: Upload,   title: 'Upload Presentation', desc: 'Select your .ppt or .pptx file. It is securely uploaded over HTTPS for cloud conversion.' },
   { icon: Sparkles, title: 'Convert to PDF',      desc: 'Every slide is converted to a PDF page with all visuals, text, and layouts perfectly preserved.' },

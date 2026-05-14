@@ -1,24 +1,7 @@
 "use client";
-
-import { useState, useEffect } from "react";
-import dynamic from "next/dynamic";
 import { Globe, Upload, Download, CheckCircle, FileText, Zap, Lock, ImageIcon, FileSpreadsheet, Presentation } from "lucide-react";
-import { CenteredCardSkeleton } from "../[id]/skeletons";
 import { HowItWorksShimmer, RelatedToolsShimmer, usePageMounted } from "../_shimmer";
-
-const WebpageToPdf = dynamic(() => import("@/components/tools/WebpageToPdf"), {
-  ssr: false,
-  loading: () => <CenteredCardSkeleton accent="rgb(186 230 253)" />,
-});
-
-const FEATURES = [
-  "Any public webpage URL",
-  "Full CSS & layout preserved",
-  "Images & fonts included",
-  "Fast cloud rendering",
-  "No browser extension needed",
-  "Encrypted HTTPS transfer",
-];
+import WebpageToPdf from "@/components/tools/WebpageToPdf";
 
 const STEPS = [
   { icon: Globe,    title: "Enter a URL",       desc: "Paste any public webpage URL — news articles, blogs, documentation, or any website." },

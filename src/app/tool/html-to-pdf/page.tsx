@@ -1,12 +1,8 @@
 "use client";
-import dynamic from 'next/dynamic';
 import { Globe, Upload, Sparkles, Download, FileText, FileSpreadsheet, Presentation, ImageIcon, Zap, Lock, CheckCircle } from 'lucide-react';
-import { CenteredCardSkeleton } from '../[id]/skeletons';
 import { HowItWorksShimmer, RelatedToolsShimmer, usePageMounted } from '../_shimmer';
+import OfficeTools from "@/components/tools/OfficeTools";
 
-const OfficeTools = dynamic(() => import('@/components/tools/OfficeTools'), { ssr: false, loading: () => <CenteredCardSkeleton accent="rgb(221 214 254)" /> });
-
-const FEATURES = ['Supports .html & .htm files','Preserves styles & layout','Images & links included','Fast cloud conversion','Files deleted within 1 hour','Encrypted HTTPS transfer'];
 const STEPS = [
   { icon: Upload,   title: 'Upload HTML File', desc: 'Select your .html or .htm file. It is securely uploaded over HTTPS for cloud conversion.' },
   { icon: Sparkles, title: 'Render to PDF',    desc: 'Our engine renders the HTML with full CSS styling, images, and layout — just like a browser would.' },
@@ -25,7 +21,6 @@ export default function HtmlToPdfPage() {
   const mounted = usePageMounted();
   return (
     <div className="min-h-screen">
-  
       <section className="pb-8"><div className="container mx-auto px-4 max-w-7xl"><OfficeTools id="html-to-pdf" /></div></section>
       {!mounted ? <HowItWorksShimmer accent="rgba(99,102,241,0.15)" /> : (
         <section className="py-16 bg-white/60"><div className="container mx-auto px-4 max-w-4xl">

@@ -1,23 +1,8 @@
 "use client";
-
 import { useState, useEffect } from 'react';
-import dynamic from 'next/dynamic';
 import { ShoppingBag, Upload, Scissors, Download, CheckCircle, Zap, FileText, Wand2, Crop, Combine, Lock } from 'lucide-react';
-import { CenteredCardSkeleton } from '../[id]/skeletons';
-
-const MeeshoCropLabel = dynamic(() => import('@/components/tools/MeeshoCropLabel'), {
-  ssr: false,
-  loading: () => <CenteredCardSkeleton accent="rgb(254 215 170)" />,
-});
-
-const FEATURES = [
-  'Auto-detects "TAX INVOICE" text',
-  'Crops from top to above TAX INVOICE',
-  'Keeps shipping & return address',
-  '100% private — runs in browser',
-  'Batch PDF support',
-  'One-click download',
-];
+import MeeshoCropLabel from '@/components/tools/MeeshoCropLabel';
+import { updateMeeshoToolTitles } from '@/lib/supabase';
 
 const STEPS = [
   { icon: Upload,   title: 'Upload Meesho Labels',   desc: 'Drop one or multiple Meesho shipping label PDFs. Everything runs in your browser — no uploads to any server.' },
@@ -34,70 +19,17 @@ const RELATED_TOOLS = [
   { id: 'compress',        title: 'Compress PDF',            description: 'Reduce PDF file size while keeping text sharp and content intact.',                            icon: Zap,         gradient: 'linear-gradient(135deg, #22c55e, #15803d)', shadow: 'rgba(34,197,94,0.3)',   tag: 'Optimize' },
 ];
 
-function Sh({ className }: { className: string }) {
-  return <div className={`skeleton-shimmer rounded-xl ${className}`} />;
-}
-
-function HowItWorksShimmer() {
-  return (
-    <section className="py-16 bg-white/60 dark:bg-slate-900/60">
-      <div className="container mx-auto px-4 max-w-4xl">
-        <Sh className="h-7 w-40 mx-auto mb-8" />
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {[0, 1, 2].map(i => (
-            <div key={i} className="bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-sm border border-slate-100 dark:border-slate-700 flex flex-col items-center gap-3">
-              <Sh className="w-16 h-16 rounded-2xl" />
-              <Sh className="h-3 w-16" />
-              <Sh className="h-5 w-3/4" />
-              <Sh className="h-3 w-full" />
-              <Sh className="h-3 w-5/6" />
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function RelatedToolsShimmer() {
-  return (
-    <section className="py-16">
-      <div className="container mx-auto px-4 max-w-5xl">
-        <Sh className="h-7 w-64 mx-auto mb-8" />
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {[0, 1, 2, 3, 4, 5].map(i => (
-            <div key={i} className="bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-sm border border-slate-100 dark:border-slate-700 flex flex-col gap-4">
-              <div className="flex items-start justify-between">
-                <Sh className="w-14 h-14 rounded-2xl" />
-                <Sh className="h-5 w-16 rounded-full" />
-              </div>
-              <Sh className="h-5 w-3/4" />
-              <Sh className="h-3 w-full" />
-              <Sh className="h-3 w-5/6" />
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-import { updateMeeshoToolTitles } from '@/lib/supabase';
-
 export default function MeeshoCropPage() {
   const [mounted, setMounted] = useState(false);
   useEffect(() => { setMounted(true); updateMeeshoToolTitles(); }, []);
 
   return (
     <div className="min-h-screen">
-
-      {/* ── TOOL ── */}
       <section className="pb-8">
         <MeeshoCropLabel id="meshocrop" />
       </section>
 
-      {/* ── HOW IT WORKS ── */}
-      {!mounted ? <HowItWorksShimmer /> : (
+      {mounted && (
         <section className="py-16 bg-white/60 dark:bg-slate-900/60">
           <div className="container mx-auto px-4 max-w-4xl">
             <h2 className="text-2xl font-black text-slate-900 dark:text-white tracking-tight mb-8 text-center uppercase">How It Works</h2>
@@ -117,7 +49,6 @@ export default function MeeshoCropPage() {
         </section>
       )}
 
-      {/* ── WHY USE THIS TOOL ── */}
       {mounted && (
         <section className="py-16 dark:bg-slate-900">
           <div className="container mx-auto px-4 max-w-4xl">
@@ -144,8 +75,7 @@ export default function MeeshoCropPage() {
         </section>
       )}
 
-      {/* ── RELATED TOOLS ── */}
-      {!mounted ? <RelatedToolsShimmer /> : (
+      {mounted && (
         <section className="py-16">
           <div className="container mx-auto px-4 max-w-5xl">
             <h2 className="text-2xl font-black text-slate-900 dark:text-white tracking-tight mb-8 text-center">More PDF Tools You May Need</h2>
@@ -169,7 +99,6 @@ export default function MeeshoCropPage() {
           </div>
         </section>
       )}
-
     </div>
   );
 }

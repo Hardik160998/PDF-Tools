@@ -1,12 +1,8 @@
 "use client";
-import dynamic from 'next/dynamic';
 import { Stamp, Upload, Type, Download, Hash, Settings, Lock, Unlock, PenLine, Combine, CheckCircle } from 'lucide-react';
-import { CenteredCardSkeleton } from '../[id]/skeletons';
 import { HowItWorksShimmer, RelatedToolsShimmer, usePageMounted } from '../_shimmer';
+import EditTools from '@/components/tools/EditTools';
 
-const EditTools = dynamic(() => import('@/components/tools/EditTools'), { ssr: false, loading: () => <CenteredCardSkeleton accent="rgb(221 214 254)" /> });
-
-const FEATURES = ['Text or image watermark','Centered on every page','Adjustable transparency','Supports PNG & JPG logos','Instant download','100% private — runs in browser'];
 const STEPS = [
   { icon: Upload,   title: 'Upload Your PDF',          desc: 'Select any PDF file. All processing happens entirely in your browser — your file never leaves your device.' },
   { icon: Type,     title: 'Set Your Watermark',       desc: 'Type a text watermark like "CONFIDENTIAL" or upload a logo image. Choose text or image mode.' },

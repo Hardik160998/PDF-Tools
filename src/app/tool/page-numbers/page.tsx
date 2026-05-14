@@ -1,12 +1,8 @@
 "use client";
-import dynamic from 'next/dynamic';
 import { Hash, Upload, AlignRight, Download, Stamp, Settings, Lock, Unlock, PenLine, Combine, CheckCircle } from 'lucide-react';
-import { CenteredCardSkeleton } from '../[id]/skeletons';
 import { HowItWorksShimmer, RelatedToolsShimmer, usePageMounted } from '../_shimmer';
+import EditTools from '@/components/tools/EditTools';
 
-const EditTools = dynamic(() => import('@/components/tools/EditTools'), { ssr: false, loading: () => <CenteredCardSkeleton accent="rgb(199 210 254)" /> });
-
-const FEATURES = ['Numbers every page automatically','Placed bottom-right corner','Clean professional font','Works on any PDF','Instant download','100% private — runs in browser'];
 const STEPS = [
   { icon: Upload,     title: 'Upload Your PDF',        desc: 'Select any PDF file. All processing happens entirely in your browser — your file never leaves your device.' },
   { icon: AlignRight, title: 'Auto-Number Pages',      desc: 'Page numbers are automatically added to the bottom-right corner of every page in a clean, professional style.' },
@@ -25,7 +21,6 @@ export default function PageNumbersPage() {
   const mounted = usePageMounted();
   return (
     <div className="min-h-screen">
-
       <section className="pb-8"><div className="container mx-auto px-4 max-w-7xl"><EditTools id="page-numbers" /></div></section>
       {!mounted ? <HowItWorksShimmer accent="rgba(99,102,241,0.15)" /> : (
         <section className="py-16 bg-white/60"><div className="container mx-auto px-4 max-w-4xl">

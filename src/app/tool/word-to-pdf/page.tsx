@@ -1,12 +1,8 @@
 "use client";
-import dynamic from 'next/dynamic';
 import { FileText, Upload, Sparkles, Download, FileSpreadsheet, Presentation, Globe, ImageIcon, Lock, CheckCircle } from 'lucide-react';
-import { CenteredCardSkeleton } from '../[id]/skeletons';
 import { HowItWorksShimmer, RelatedToolsShimmer, usePageMounted } from '../_shimmer';
+import OfficeTools from "@/components/tools/OfficeTools";
 
-const OfficeTools = dynamic(() => import('@/components/tools/OfficeTools'), { ssr: false, loading: () => <CenteredCardSkeleton accent="rgb(191 219 254)" /> });
-
-const FEATURES = ['Supports .doc & .docx','Preserves fonts & formatting','Tables, images & styles kept','Fast cloud conversion','Files deleted within 1 hour','Encrypted HTTPS transfer'];
 const STEPS = [
   { icon: Upload,   title: 'Upload Word File', desc: 'Select your .doc or .docx file. It is securely uploaded over HTTPS for cloud conversion.' },
   { icon: Sparkles, title: 'Convert to PDF',   desc: 'Our conversion engine preserves all fonts, images, tables, and formatting from your Word document.' },

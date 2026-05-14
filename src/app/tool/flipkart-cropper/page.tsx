@@ -1,22 +1,7 @@
 "use client";
-import dynamic from 'next/dynamic';
 import { ShoppingBag, Upload, Scissors, Download, Wand2, Crop, Combine, Zap, Lock, CheckCircle } from 'lucide-react';
-import { CenteredCardSkeleton } from '../[id]/skeletons';
 import { HowItWorksShimmer, RelatedToolsShimmer, usePageMounted } from '../_shimmer';
-
-const FlipkartCropper = dynamic(() => import('@/components/tools/FlipkartCropper'), {
-  ssr: false,
-  loading: () => <CenteredCardSkeleton accent="rgb(254 215 170)" />,
-});
-
-const FEATURES = [
-  'Auto-detects E-kart Logistics anchor',
-  'Crops above "Not for resale"',
-  'Keeps AWB, QR code & barcode',
-  'Removes invoice & billing section',
-  'PNG fallback if OCR fails',
-  '100% private — runs in browser',
-];
+import FlipkartCropper from '@/components/tools/FlipkartCropper';
 
 const STEPS = [
   { icon: Upload,   title: 'Upload Flipkart Label PDF',  desc: 'Drop one or multiple Flipkart shipping label PDFs. Everything runs in your browser — no uploads to any server.' },

@@ -1,23 +1,7 @@
 "use client";
-
-import dynamic from "next/dynamic";
 import { Bookmark, Upload, Download, CheckCircle, Layers, GitCompare, EyeOff, Lock, Combine, Settings } from "lucide-react";
-import { CenteredCardSkeleton } from "../[id]/skeletons";
 import { HowItWorksShimmer, RelatedToolsShimmer, usePageMounted } from "../_shimmer";
-
-const BookmarkPdf = dynamic(() => import("@/components/tools/BookmarkPdf"), {
-  ssr: false,
-  loading: () => <CenteredCardSkeleton accent="rgb(253 230 138)" />,
-});
-
-const FEATURES = [
-  "Add unlimited bookmarks",
-  "Set title & destination page",
-  "Reorder bookmarks freely",
-  "Edit or delete any bookmark",
-  "Opens bookmark panel in PDF viewers",
-  "100% private — runs in browser",
-];
+import BookmarkPdf from "@/components/tools/BookmarkPdf";
 
 const STEPS = [
   { icon: Upload,   title: "Upload Your PDF",      desc: "Select any PDF file. It loads instantly in your browser with page thumbnails for easy navigation." },

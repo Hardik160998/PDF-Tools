@@ -18,6 +18,21 @@ interface ImageFile {
   status: "pending" | "processing" | "done" | "error";
 }
 
+const TOOL_METADATA: Record<string, { title: string; desc: string; accent: string; gradient: string }> = {
+  'pdf-to-jpg': { title: 'PDF to JPG', desc: 'Transform PDF pages into high-resolution JPG images instantly.', accent: '#facc15', gradient: 'linear-gradient(135deg,#facc15,#eab308)' },
+  'pdf-to-png': { title: 'PDF to PNG', desc: 'Convert PDF pages to transparent PNG images with high fidelity.', accent: '#facc15', gradient: 'linear-gradient(135deg,#facc15,#eab308)' },
+  'jpg-to-pdf': { title: 'JPG to PDF', desc: 'Merge multiple JPG images into a single, professional PDF document.', accent: '#3b82f6', gradient: 'linear-gradient(135deg,#3b82f6,#2563eb)' },
+  'png-to-pdf': { title: 'PNG to PDF', desc: 'Convert PNG images into a clean, searchable PDF document.', accent: '#3b82f6', gradient: 'linear-gradient(135deg,#3b82f6,#2563eb)' },
+  'jpg-to-png': { title: 'JPG to PNG', desc: 'Convert JPG images to PNG format to preserve transparency and quality.', accent: '#10b981', gradient: 'linear-gradient(135deg,#10b981,#059669)' },
+  'png-to-jpg': { title: 'PNG to JPG', desc: 'Convert PNG images to JPG format for smaller file sizes and compatibility.', accent: '#f59e0b', gradient: 'linear-gradient(135deg,#f59e0b,#d97706)' },
+  'jpg-to-webp': { title: 'JPG to WebP', desc: 'Optimize JPG images for the web by converting them to WebP format.', accent: '#06b6d4', gradient: 'linear-gradient(135deg,#06b6d4,#0891b2)' },
+  'webp-to-jpg': { title: 'WebP to JPG', desc: 'Convert WebP images back to JPG for wider software support.', accent: '#f43f5e', gradient: 'linear-gradient(135deg,#f43f5e,#e11d48)' },
+  'png-to-webp': { title: 'PNG to WebP', desc: 'Convert PNG to WebP for modern, highly efficient web graphics.', accent: '#8b5cf6', gradient: 'linear-gradient(135deg,#8b5cf6,#7c3aed)' },
+  'webp-to-png': { title: 'WebP to PNG', desc: 'Convert WebP images to PNG to restore lossless editing capability.', accent: '#6366f1', gradient: 'linear-gradient(135deg,#6366f1,#4f46e5)' },
+  'jpg-to-avif': { title: 'JPG to AVIF', desc: 'Convert JPG to AVIF for the next generation of image compression.', accent: '#ec4899', gradient: 'linear-gradient(135deg,#ec4899,#db2777)' },
+  'avif-to-jpg': { title: 'AVIF to JPG', desc: 'Convert AVIF images to JPG for legacy system compatibility.', accent: '#64748b', gradient: 'linear-gradient(135deg,#64748b,#475569)' },
+};
+
 export default function ImageConverter({ id: toolId }: { id: string }) {
   const [files, setFiles] = useState<ImageFile[]>([]);
   const [status, setStatus] = useState<ConversionStatus>("idle");
@@ -25,14 +40,19 @@ export default function ImageConverter({ id: toolId }: { id: string }) {
   const [showSettings, setShowSettings] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  // Determine theme and mode based on toolId
+  const meta = TOOL_METADATA[toolId] || { 
+    title: toolId.replace(/-/g, ' ').toUpperCase(), 
+    desc: 'Professional image conversion tool running 100% in your browser.',
+    accent: '#3b82f6',
+    gradient: 'linear-gradient(135deg,#3b82f6,#2563eb)'
+  };
+
   const isPdfToImg = toolId.startsWith("pdf-to-");
   const isImgToPdf = toolId.endsWith("-to-pdf");
-  
-  const ACCENT = isPdfToImg ? "#facc15" : "#3b82f6"; // Yellow for PDF->Img, Blue for Img->PDF
-  const ACCENT_GRADIENT = isPdfToImg 
-    ? "linear-gradient(135deg,#facc15,#eab308)" 
-    : "linear-gradient(135deg,#3b82f6,#2563eb)";
+  const isImgToImg = !isPdfToImg && !isImgToPdf;
+
+  const ACCENT = meta.accent;
+  const ACCENT_GRADIENT = meta.gradient;
 
   const addFiles = useCallback(async (newFiles: FileList | null) => {
     if (!newFiles) return;
@@ -63,6 +83,9 @@ export default function ImageConverter({ id: toolId }: { id: string }) {
         pdfjsLib.GlobalWorkerOptions.workerSrc = '/workers/pdf.worker.min.mjs';
 
         const zip = new JSZip();
+        const format = toolId.split("-to-")[1] === 'png' ? 'image/png' : 'image/jpeg';
+        const ext = format === 'image/png' ? 'png' : 'jpg';
+
         for (const entry of files) {
           const buf = await entry.file.arrayBuffer();
           const doc = await pdfjsLib.getDocument({ data: buf }).promise;
@@ -73,14 +96,13 @@ export default function ImageConverter({ id: toolId }: { id: string }) {
             canvas.width = viewport.width;
             canvas.height = viewport.height;
             await page.render({ canvasContext: canvas.getContext("2d")!, viewport, canvas }).promise;
-            const imgData = canvas.toDataURL("image/jpeg", 0.9).split(",")[1];
-            zip.file(`${entry.file.name.replace(".pdf", "")}_page_${i}.jpg`, imgData, { base64: true });
+            const imgData = canvas.toDataURL(format, 0.9).split(",")[1];
+            zip.file(`${entry.file.name.replace(".pdf", "")}_page_${i}.${ext}`, imgData, { base64: true });
           }
         }
         const content = await zip.generateAsync({ type: "blob" });
         setResultUrl(URL.createObjectURL(content));
-      } else {
-        // Image to PDF logic (standard)
+      } else if (isImgToPdf) {
         const pdfDoc = await PDFDocument.create();
         for (const entry of files) {
           const imgBytes = await entry.file.arrayBuffer();
@@ -90,13 +112,73 @@ export default function ImageConverter({ id: toolId }: { id: string }) {
           } else if (entry.file.type === "image/png") {
             img = await pdfDoc.embedPng(imgBytes);
           } else {
-            continue;
+             // Fallback for other formats: draw to canvas then to JPG
+             const canvas = document.createElement('canvas');
+             const ctx = canvas.getContext('2d');
+             const image = await new Promise<HTMLImageElement>((resolve, reject) => {
+                const img = new Image();
+                img.onload = () => resolve(img);
+                img.onerror = reject;
+                img.src = URL.createObjectURL(entry.file);
+             });
+             canvas.width = image.width;
+             canvas.height = image.height;
+             ctx?.drawImage(image, 0, 0);
+             const jpgData = canvas.toDataURL('image/jpeg', 0.9);
+             img = await pdfDoc.embedJpg(await (await fetch(jpgData)).arrayBuffer());
           }
           const page = pdfDoc.addPage([img.width, img.height]);
           page.drawImage(img, { x: 0, y: 0, width: img.width, height: img.height });
         }
         const bytes = await pdfDoc.save();
         setResultUrl(URL.createObjectURL(new Blob([bytes.buffer as ArrayBuffer], { type: "application/pdf" })));
+      } else {
+        // Image to Image conversion
+        const targetFormat = toolId.split("-to-")[1];
+        const mimeMap: Record<string, string> = {
+          'png': 'image/png',
+          'jpg': 'image/jpeg',
+          'jpeg': 'image/jpeg',
+          'webp': 'image/webp',
+          'avif': 'image/avif',
+        };
+        const targetMime = mimeMap[targetFormat] || 'image/png';
+        const targetExt = targetFormat;
+
+        if (files.length === 1) {
+          const entry = files[0];
+          const image = await new Promise<HTMLImageElement>((resolve, reject) => {
+            const img = new Image();
+            img.onload = () => resolve(img);
+            img.onerror = reject;
+            img.src = URL.createObjectURL(entry.file);
+          });
+          const canvas = document.createElement('canvas');
+          canvas.width = image.width;
+          canvas.height = image.height;
+          canvas.getContext('2d')?.drawImage(image, 0, 0);
+          const dataUrl = canvas.toDataURL(targetMime, 0.95);
+          const blob = await (await fetch(dataUrl)).blob();
+          setResultUrl(URL.createObjectURL(blob));
+        } else {
+          const zip = new JSZip();
+          for (const entry of files) {
+            const image = await new Promise<HTMLImageElement>((resolve, reject) => {
+              const img = new Image();
+              img.onload = () => resolve(img);
+              img.onerror = reject;
+              img.src = URL.createObjectURL(entry.file);
+            });
+            const canvas = document.createElement('canvas');
+            canvas.width = image.width;
+            canvas.height = image.height;
+            canvas.getContext('2d')?.drawImage(image, 0, 0);
+            const data = canvas.toDataURL(targetMime, 0.95).split(",")[1];
+            zip.file(`${entry.file.name.split('.')[0]}.${targetExt}`, data, { base64: true });
+          }
+          const content = await zip.generateAsync({ type: "blob" });
+          setResultUrl(URL.createObjectURL(content));
+        }
       }
       setStatus("done");
     } catch (err) {
@@ -129,7 +211,6 @@ export default function ImageConverter({ id: toolId }: { id: string }) {
             </div>
 
             <div className="space-y-6">
-              {/* Info Section */}
               <div className="pt-4 border-t border-slate-50 dark:border-slate-700">
                 <div className="bg-slate-50 dark:bg-slate-900/50 rounded-2xl p-4 border border-slate-100 dark:border-slate-800">
                   <div className="flex items-center gap-3 mb-2">
@@ -138,15 +219,12 @@ export default function ImageConverter({ id: toolId }: { id: string }) {
                     </div>
                     <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Queue Status</span>
                   </div>
-                  <div className="space-y-1">
-                     <p className="text-[11px] font-bold text-slate-600 dark:text-slate-300 italic uppercase">
-                       {files.length} Item{files.length !== 1 ? 's' : ''} in batch
-                     </p>
-                  </div>
+                  <p className="text-[11px] font-bold text-slate-600 dark:text-slate-300 italic uppercase">
+                    {files.length} Item{files.length !== 1 ? 's' : ''} in batch
+                  </p>
                 </div>
               </div>
 
-              {/* Actions */}
               <div className="pt-2">
                 <button
                   onClick={handleConvert}
@@ -169,25 +247,20 @@ export default function ImageConverter({ id: toolId }: { id: string }) {
         <div className="flex-1 w-full space-y-6">
           <div className="bg-white dark:bg-slate-800 rounded-[2.5rem] border border-slate-100 dark:border-slate-700 shadow-2xl p-6 sm:p-12 min-h-[600px] flex flex-col relative overflow-hidden">
             
-            {/* Decoration */}
             <div className="absolute top-0 right-0 w-64 h-64 rounded-full -mr-32 -mt-32 blur-3xl opacity-50" style={{ background: ACCENT }} />
             
-            {/* Header */}
             <div className="relative text-center space-y-4 mb-10 text-left sm:text-center">
               <div className="inline-flex p-4 rounded-2xl text-white shadow-lg mx-auto" style={{ background: ACCENT_GRADIENT }}>
-                {isPdfToImg ? <FileImage size={32} /> : <FileText size={32} />}
+                {isPdfToImg ? <FileImage size={32} /> : isImgToPdf ? <FileText size={32} /> : <ImageIcon size={32} />}
               </div>
               <h2 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter italic leading-tight">
-                {isPdfToImg ? "PDF to Image Converter" : "Image to PDF Converter"}
+                {meta.title}
               </h2>
-              <p className="text-slate-500 font-medium tracking-tight max-w-md mx-auto italic uppercase text-xs">
-                {isPdfToImg 
-                  ? "Transform PDF pages into high-resolution JPG/PNG image assets instantly." 
-                  : "Merge multiple image formats into a single, professional PDF document."}
+              <p className="text-slate-500 dark:text-slate-400 font-medium tracking-tight max-w-md mx-auto italic uppercase text-xs">
+                {meta.desc}
               </p>
             </div>
 
-            {/* Content Area */}
             {files.length === 0 ? (
               <div className="flex-1 flex flex-col items-center justify-center border-2 border-dashed border-slate-100 dark:border-slate-700 rounded-[2.5rem] p-10 sm:p-20 hover:border-blue-400 cursor-pointer transition-all bg-slate-50/30 dark:bg-slate-900/30 group relative overflow-hidden"
                 onClick={() => fileInputRef.current?.click()}>
@@ -214,13 +287,13 @@ export default function ImageConverter({ id: toolId }: { id: string }) {
                   </div>
                 </div>
                 <div className="space-y-2">
-                  <h3 className="text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter italic">Batch Ready!</h3>
+                  <h3 className="text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter italic">Conversion Ready!</h3>
                   <p className="text-slate-500 font-bold uppercase tracking-widest text-xs italic">
                     Successfully processed {files.length} item{files.length !== 1 ? 's' : ''}
                   </p>
                 </div>
                 <div className="flex flex-col sm:flex-row gap-4 w-full max-w-md">
-                  <a href={resultUrl} download={isPdfToImg ? "images_batch.zip" : "converted_images.pdf"} className="flex-1 py-5 text-white rounded-2xl text-xl font-black shadow-xl hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-3 uppercase tracking-tighter" style={{ background: ACCENT_GRADIENT }}>
+                  <a href={resultUrl} download={isPdfToImg || files.length > 1 && !isImgToPdf ? "converted_files.zip" : `converted_${toolId}.${toolId.split("-to-")[1] === 'pdf' ? 'pdf' : toolId.split("-to-")[1]}`} className="flex-1 py-5 text-white rounded-2xl text-xl font-black shadow-xl hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-3 uppercase tracking-tighter" style={{ background: ACCENT_GRADIENT }}>
                     <Download size={24} /> Download Final
                   </a>
                   <button onClick={reset} className="px-8 py-5 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 text-slate-900 dark:text-white rounded-2xl font-black uppercase tracking-widest text-xs transition-all">Start Over</button>
@@ -229,7 +302,7 @@ export default function ImageConverter({ id: toolId }: { id: string }) {
             ) : (
               <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 animate-in fade-in slide-in-from-bottom-4 duration-500">
                  {files.map((f) => (
-                   <div key={f.id} className="relative aspect-square rounded-3xl overflow-hidden border border-slate-100 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 group">
+                    <div key={f.id} className="relative aspect-square rounded-3xl overflow-hidden border border-slate-100 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 group">
                       {f.preview ? (
                         <img src={f.preview} className="w-full h-full object-cover" alt="Preview" />
                       ) : (
@@ -241,7 +314,7 @@ export default function ImageConverter({ id: toolId }: { id: string }) {
                       <button onClick={() => removeFile(f.id)} className="absolute top-2 right-2 p-1.5 bg-white/90 dark:bg-slate-800/90 rounded-xl text-red-500 shadow-lg opacity-0 group-hover:opacity-100 transition-opacity">
                          <X size={14} />
                       </button>
-                   </div>
+                    </div>
                  ))}
                  <button onClick={() => fileInputRef.current?.click()} className="aspect-square rounded-3xl border-4 border-dashed border-slate-100 dark:border-slate-800 flex flex-col items-center justify-center text-slate-300 hover:text-blue-500 hover:border-blue-500 transition-all bg-slate-50/10">
                     <RefreshCw size={24} />
@@ -251,11 +324,10 @@ export default function ImageConverter({ id: toolId }: { id: string }) {
             )}
           </div>
 
-          {/* Feature Highlight */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
             {[
               { title: "Hardware Logic", desc: "Rendering happens on your GPU/CPU, not our cloud servers.", icon: Layers },
-              { title: "ZIP Bundling", desc: "PDF-to-Image conversions are automatically packaged in ZIP archives.", icon: Zap },
+              { title: "Smart Bundling", desc: "Multiple output files are automatically packaged in ZIP archives.", icon: Zap },
               { title: "Safe Storage", desc: "Files never leave your local session. Privacy is guaranteed.", icon: ShieldCheck },
             ].map((feat, i) => (
               <div key={i} className="p-8 bg-white dark:bg-slate-800 rounded-3xl border border-slate-50 dark:border-slate-700 shadow-sm flex flex-col items-center text-center group hover:shadow-lg transition-all">

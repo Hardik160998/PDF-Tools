@@ -1,17 +1,13 @@
 "use client";
-import dynamic from 'next/dynamic';
-import { ImageIcon, Upload, SlidersHorizontal, Download, Zap, CheckCircle } from 'lucide-react';
-import { CenteredCardSkeleton } from '../[id]/skeletons';
-import { HowItWorksShimmer, RelatedToolsShimmer, usePageMounted } from '../_shimmer';
+import { ImageIcon, Upload, SlidersHorizontal, Download, Zap } from 'lucide-react';
+import ImageConverter from '@/components/tools/ImageConverter';
 
-const ImageConverter = dynamic(() => import('@/components/tools/ImageConverter'), { ssr: false, loading: () => <CenteredCardSkeleton accent="rgb(251 207 232)" /> });
-
-const FEATURES = ['WebP to JPG / JPEG', 'Universal compatibility', 'White background fill for transparency', 'Original resolution kept', 'Instant download', '100% private — runs in browser'];
 const STEPS = [
   { icon: Upload,            title: 'Upload WebP',    desc: 'Select any WebP image from your device.' },
   { icon: SlidersHorizontal, title: 'Auto Convert',   desc: 'Your WebP is converted to JPG with white background fill instantly.' },
   { icon: Download,          title: 'Download JPG',   desc: 'Download the converted JPG — universally compatible with all apps.' },
 ];
+
 const RELATED = [
   { id: 'jpg-to-webp', title: 'JPG to WebP', description: 'Convert JPG images to modern WebP for smaller file sizes.',                   icon: ImageIcon, gradient: 'linear-gradient(135deg, #7c3aed, #4c1d95)', shadow: 'rgba(124,58,237,0.3)',  tag: 'Image Convert' },
   { id: 'webp-to-png', title: 'WebP to PNG', description: 'Convert WebP images to lossless PNG for maximum compatibility.',               icon: ImageIcon, gradient: 'linear-gradient(135deg, #14b8a6, #0f766e)', shadow: 'rgba(20,184,166,0.3)',  tag: 'Image Convert' },
@@ -22,62 +18,57 @@ const RELATED = [
 ];
 
 export default function WebpToJpgPage() {
-  const mounted = usePageMounted();
   return (
-    <div className="min-h-screen">
-      <section className="pb-8"><div className="container mx-auto px-4 max-w-7xl"><ImageConverter id="webp-to-jpg" /></div></section>
+    <div className="min-h-screen bg-slate-50/50 dark:bg-slate-950">
+      <div className="max-w-7xl mx-auto px-4 pt-10 sm:pt-16 pb-10">
+        <ImageConverter id="webp-to-jpg" />
 
-      {/* Use case banner */}
-      <section className="py-10">
-        <div className="container mx-auto px-4 max-w-4xl">
-          <div className="bg-gradient-to-r from-pink-50 to-rose-50 border border-pink-100 rounded-3xl p-8">
-            <h2 className="text-xl font-black text-slate-900 mb-4 text-center">When to Use WebP → JPG</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 text-center">
-              {[
-                { icon: '📧', label: 'Email Attachments', sub: 'JPG works everywhere' },
-                { icon: '🖨️', label: 'Printing', sub: 'Print shops prefer JPG' },
-                { icon: '📱', label: 'Legacy Apps', sub: 'Older apps need JPG' },
-              ].map(({ icon, label, sub }) => (
-                <div key={label} className="space-y-1">
-                  <div className="text-3xl">{icon}</div>
-                  <div className="text-sm font-black text-slate-900">{label}</div>
-                  <div className="text-xs text-slate-500">{sub}</div>
-                </div>
-              ))}
+        <section className="py-10">
+          <div className="max-w-4xl mx-auto">
+            <div className="bg-gradient-to-r from-pink-50 to-rose-50 dark:from-pink-900/10 dark:to-rose-900/10 border border-pink-100 dark:border-rose-800 rounded-3xl p-8">
+              <h2 className="text-xl font-black text-slate-900 dark:text-white mb-4 text-center">When to Use WebP → JPG</h2>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 text-center">
+                {[
+                  { icon: '📧', label: 'Email Attachments', sub: 'JPG works everywhere' },
+                  { icon: '🖨️', label: 'Printing', sub: 'Print shops prefer JPG' },
+                  { icon: '📱', label: 'Legacy Apps', sub: 'Older apps need JPG' },
+                ].map(({ icon, label, sub }) => (
+                  <div key={label} className="space-y-1">
+                    <div className="text-3xl">{icon}</div>
+                    <div className="text-sm font-black text-slate-900 dark:text-white">{label}</div>
+                    <div className="text-xs text-slate-500 dark:text-slate-400">{sub}</div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {!mounted ? <HowItWorksShimmer accent="rgba(236,72,153,0.15)" /> : (
-        <section className="py-16 bg-white/60"><div className="container mx-auto px-4 max-w-4xl">
-          <h2 className="text-2xl font-black text-slate-900 tracking-tight mb-8 text-center uppercase">How It Works</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">{STEPS.map((s, i) => (
-            <div key={i} className="bg-white rounded-2xl p-6 shadow-sm border border-slate-100 text-center">
-              <div className="inline-flex p-4 rounded-2xl bg-pink-50 text-pink-500 mb-4"><s.icon size={28} /></div>
-              <div className="text-xs font-black uppercase tracking-widest text-slate-400 mb-1">Step {i + 1}</div>
-              <h3 className="text-base font-black text-slate-900 mb-2">{s.title}</h3>
-              <p className="text-sm text-slate-500 font-medium leading-relaxed">{s.desc}</p>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-16 mb-16">
+          {STEPS.map((s, i) => (
+            <div key={i} className="bg-white dark:bg-slate-900 p-8 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-xl transition-all group">
+              <div className="w-12 h-12 rounded-2xl bg-slate-50 dark:bg-slate-800 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                <s.icon className="text-pink-500" size={24} />
+              </div>
+              <h3 className="text-xl font-black text-slate-900 dark:text-white uppercase tracking-tight mb-2">{s.title}</h3>
+              <p className="text-slate-500 dark:text-slate-400 text-sm leading-relaxed">{s.desc}</p>
             </div>
-          ))}</div>
-        </div></section>
-      )}
+          ))}
+        </div>
 
-      {!mounted ? <RelatedToolsShimmer /> : (
-        <section className="py-16"><div className="container mx-auto px-4 max-w-5xl">
-          <h2 className="text-2xl font-black text-slate-900 tracking-tight mb-8 text-center">More Image Tools</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">{RELATED.map(t => (
-            <a key={t.id} href={`/tool/${t.id}`} className="group bg-white rounded-2xl p-6 shadow-sm border border-slate-100 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 flex flex-col gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {RELATED.map(t => (
+            <a key={t.id} href={`/tool/${t.id}`} className="group bg-white dark:bg-slate-900 rounded-3xl p-6 shadow-sm border border-slate-100 dark:border-slate-800 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 flex flex-col gap-4">
               <div className="flex items-start justify-between">
                 <div className="w-14 h-14 rounded-2xl flex items-center justify-center text-white shadow-lg" style={{ background: t.gradient, boxShadow: `0 8px 20px -4px ${t.shadow}` }}><t.icon size={26} /></div>
-                <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 bg-slate-50 px-2 py-1 rounded-full border border-slate-100">{t.tag}</span>
+                <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 bg-slate-50 dark:bg-slate-800 px-2 py-1 rounded-full border border-slate-100 dark:border-slate-700">{t.tag}</span>
               </div>
-              <div><h3 className="text-base font-black text-slate-900 mb-1 group-hover:text-pink-500 transition-colors">{t.title}</h3><p className="text-sm text-slate-500 font-medium leading-relaxed">{t.description}</p></div>
+              <div><h3 className="text-base font-black text-slate-900 dark:text-white mb-1 group-hover:text-pink-500 transition-colors">{t.title}</h3><p className="text-sm text-slate-500 dark:text-slate-400 font-medium leading-relaxed">{t.description}</p></div>
               <div className="mt-auto pt-2 text-xs font-bold text-pink-500 flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">Open tool &#8594;</div>
             </a>
-          ))}</div>
-        </div></section>
-      )}
+          ))}
+        </div>
+      </div>
     </div>
   );
 }

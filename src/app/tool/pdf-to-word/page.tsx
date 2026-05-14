@@ -1,12 +1,8 @@
 "use client";
-import dynamic from 'next/dynamic';
 import { FileText, Upload, Sparkles, Download, FileSpreadsheet, Presentation, Type, ImageIcon, Lock, CheckCircle } from 'lucide-react';
-import { CenteredCardSkeleton } from '../[id]/skeletons';
 import { HowItWorksShimmer, RelatedToolsShimmer, usePageMounted } from '../_shimmer';
+import OfficeTools from "@/components/tools/OfficeTools";
 
-const OfficeTools = dynamic(() => import('@/components/tools/OfficeTools'), { ssr: false, loading: () => <CenteredCardSkeleton accent="rgb(191 219 254)" /> });
-
-const FEATURES = ['Converts PDF to editable DOCX','Preserves layout & formatting','Tables and images retained','Fast cloud conversion','Files deleted within 1 hour','Encrypted HTTPS transfer'];
 const STEPS = [
   { icon: Upload,   title: 'Upload Your PDF',  desc: 'Select your PDF file. It is securely uploaded over HTTPS to our cloud conversion engine.' },
   { icon: Sparkles, title: 'Convert to Word',  desc: 'Our engine analyses the PDF structure and recreates it as an editable DOCX with high fidelity.' },
@@ -25,7 +21,6 @@ export default function PdfToWordPage() {
   const mounted = usePageMounted();
   return (
     <div className="min-h-screen">
-
       <section className="pb-8"><div className="container mx-auto px-4 max-w-7xl"><OfficeTools id="pdf-to-word" /></div></section>
       {!mounted ? <HowItWorksShimmer accent="rgba(59,130,246,0.15)" /> : (
         <section className="py-16 bg-white/60"><div className="container mx-auto px-4 max-w-4xl">
