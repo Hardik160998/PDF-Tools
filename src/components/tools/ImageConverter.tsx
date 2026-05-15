@@ -229,7 +229,7 @@ export default function ImageConverter({ id: toolId }: { id: string }) {
         
         {/* Sidebar Configuration */}
         <div className="w-full lg:w-[320px] bg-white dark:bg-slate-900 rounded-[32px] border border-slate-100 dark:border-slate-800 shadow-xl overflow-hidden h-fit lg:sticky lg:top-4 flex-shrink-0">
-          <button onClick={() => setShowSettings(!showSettings)} className="w-full flex lg:hidden items-center justify-between p-5 font-black text-slate-900 dark:text-white border-b border-slate-50 dark:border-slate-700">
+          <button onClick={() => setShowSettings(!showSettings)} className="w-full flex lg:hidden items-center justify-between p-5 font-medium text-slate-900 dark:text-white border-b border-slate-50 dark:border-slate-700">
             <span className="flex items-center gap-2"><Settings size={20} style={{ color: ACCENT }} /> Configuration</span>
             <ChevronDown className={`transition-transform duration-300 ${showSettings ? 'rotate-180' : ''}`} size={20} />
           </button>
@@ -237,7 +237,7 @@ export default function ImageConverter({ id: toolId }: { id: string }) {
           <div className={`${showSettings ? 'block' : 'hidden'} lg:block p-8`}>
             <div className="flex items-center justify-between mb-8">
               <h3 className="hidden lg:block font-outfit text-xl font-black text-slate-900 dark:text-white uppercase tracking-tighter">Tools</h3>
-              <button onClick={reset} className="font-outfit text-[11px] font-black uppercase tracking-widest text-red-500 hover:text-red-600 transition-colors">Reset</button>
+              <button onClick={reset} className="font-outfit text-[11px] font-medium uppercase tracking-widest text-red-500 hover:text-red-600 transition-colors">Reset</button>
             </div>
 
             <div className="space-y-10">
@@ -252,8 +252,8 @@ export default function ImageConverter({ id: toolId }: { id: string }) {
                       <f.icon size={18} />
                     </div>
                     <div>
-                      <p className="text-xs font-black text-slate-900 dark:text-white uppercase tracking-tighter leading-none mb-1">{f.title}</p>
-                      <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">{f.desc}</p>
+                      <p className="text-xs font-medium text-slate-900 dark:text-white uppercase tracking-tighter leading-none mb-1">{f.title}</p>
+                      <p className="text-[10px] text-slate-400 font-medium uppercase tracking-widest">{f.desc}</p>
                     </div>
                   </div>
                 ))}
@@ -265,9 +265,9 @@ export default function ImageConverter({ id: toolId }: { id: string }) {
                     <div className="p-2 rounded-lg bg-white dark:bg-slate-900 shadow-sm" style={{ color: ACCENT }}>
                       <ImageIcon size={14} />
                     </div>
-                    <span className="font-outfit text-[11px] font-black text-slate-400 uppercase tracking-widest">Queue Status</span>
+                    <span className="font-outfit text-[11px] font-medium text-slate-400 uppercase tracking-widest">Queue Status</span>
                   </div>
-                  <p className="font-outfit text-xs font-black text-slate-700 dark:text-slate-200 uppercase tracking-tight">
+                  <p className="font-outfit text-xs font-medium text-slate-700 dark:text-slate-200 uppercase tracking-tight">
                     {files.length} Item{files.length !== 1 ? 's' : ''} ready
                   </p>
                 </div>
@@ -275,7 +275,7 @@ export default function ImageConverter({ id: toolId }: { id: string }) {
                 <button
                   onClick={handleConvert}
                   disabled={status === "processing" || files.length === 0}
-                  className="w-full py-5 text-white rounded-[1.5rem] text-lg sm:text-xl font-black shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50 disabled:grayscale uppercase tracking-widest"
+                  className="w-full py-5 text-white rounded-[1.5rem] text-lg sm:text-xl font-medium shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50 disabled:grayscale uppercase tracking-widest"
                   style={{ background: ACCENT_GRADIENT, boxShadow: `0 10px 20px -5px ${ACCENT}44` }}
                 >
                   {status === "processing" ? (
@@ -313,13 +313,13 @@ export default function ImageConverter({ id: toolId }: { id: string }) {
                 <div className="p-8 bg-white dark:bg-slate-800 rounded-[32px] shadow-2xl mb-8 group-hover:scale-110 transition-transform relative z-10" style={{ color: ACCENT }}>
                   <Upload size={32} strokeWidth={2.5} />
                 </div>
-                <div className="text-lg sm:text-lg sm:text-xl font-black text-slate-800 dark:text-white mb-1 relative z-10">
+                <div className="text-lg sm:text-lg sm:text-xl font-medium text-slate-800 dark:text-white mb-1 relative z-10">
                   Select {isPdfToImg ? "PDFs" : "Images"}
                 </div>
                 <p className="text-xs sm:text-sm text-slate-400 font-medium relative z-10 text-center">
                   Secure local processing · zero wait time
                 </p>
-                <button className="mt-10 px-12 py-5 rounded-2xl text-white text-base font-black uppercase tracking-widest shadow-xl hover:scale-105 transition-all relative z-10" style={{ background: ACCENT_GRADIENT }}>
+                <button className="mt-10 px-12 py-5 rounded-2xl text-white text-base font-medium uppercase tracking-widest shadow-xl hover:scale-105 transition-all relative z-10" style={{ background: ACCENT_GRADIENT }}>
                   Start Now
                 </button>
               </div>
@@ -332,12 +332,12 @@ export default function ImageConverter({ id: toolId }: { id: string }) {
                     </div>
                     <div>
                       <h3 className="text-3xl font-black text-slate-900 dark:text-white uppercase tracking-widest leading-none mb-1">Success!</h3>
-                      <p className="text-slate-500 dark:text-slate-400 font-bold uppercase tracking-widest text-[11px]">{files.length} Item{files.length !== 1 ? 's' : ''} processed successfully</p>
+                      <p className="text-slate-500 dark:text-slate-400 font-medium uppercase tracking-widest text-[11px]">{files.length} Item{files.length !== 1 ? 's' : ''} processed successfully</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-4 w-full sm:w-auto">
                     {resultUrl && (
-                      <a href={resultUrl} download={isImgToPdf ? "converted.pdf" : "converted_images.zip"} className="flex-1 sm:flex-none px-10 py-5 bg-slate-900 dark:bg-white text-white dark:text-slate-900 rounded-2xl font-black text-sm uppercase tracking-widest shadow-xl hover:scale-105 transition-all flex items-center justify-center gap-3">
+                      <a href={resultUrl} download={isImgToPdf ? "converted.pdf" : "converted_images.zip"} className="flex-1 sm:flex-none px-10 py-5 bg-slate-900 dark:bg-white text-white dark:text-slate-900 rounded-2xl font-medium text-sm uppercase tracking-widest shadow-xl hover:scale-105 transition-all flex items-center justify-center gap-3">
                         <Download size={20} /> Download {files.length > 1 ? "Batch" : "File"}
                       </a>
                     )}
@@ -360,15 +360,15 @@ export default function ImageConverter({ id: toolId }: { id: string }) {
                         )}
                         <div className="absolute inset-0 bg-slate-900/60 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center gap-4">
                            <ImageIcon className="text-white/40" size={48} />
-                           <span className="text-white font-outfit text-[11px] font-black uppercase tracking-widest bg-white/20 px-3 py-1 rounded-full backdrop-blur-md">Preview</span>
+                           <span className="text-white font-outfit text-[11px] font-medium uppercase tracking-widest bg-white/20 px-3 py-1 rounded-full backdrop-blur-md">Preview</span>
                         </div>
                       </div>
                       <div className="flex items-center justify-between gap-4 px-1">
                         <div className="flex-1 min-w-0 text-left">
-                          <p className="text-xs font-black text-slate-900 dark:text-white uppercase truncate tracking-tighter mb-1">{f.resultName || f.file.name}</p>
+                          <p className="text-xs font-medium text-slate-900 dark:text-white uppercase truncate tracking-tighter mb-1">{f.resultName || f.file.name}</p>
                           <div className="flex items-center gap-2">
                              <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-                             <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Optimized</p>
+                             <p className="text-[9px] font-medium text-slate-400 uppercase tracking-widest">Optimized</p>
                           </div>
                         </div>
                         {f.resultUrl && (
@@ -391,7 +391,7 @@ export default function ImageConverter({ id: toolId }: { id: string }) {
                       ) : (
                         <div className="w-full h-full flex flex-col items-center justify-center text-slate-300 gap-3">
                            <FileText size={40} />
-                           <span className="text-[8px] font-black uppercase truncate px-4 w-full text-center">{f.file.name}</span>
+                           <span className="text-[8px] font-medium uppercase truncate px-4 w-full text-center">{f.file.name}</span>
                         </div>
                       )}
                       <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -404,7 +404,7 @@ export default function ImageConverter({ id: toolId }: { id: string }) {
                     <div className="p-4 bg-white dark:bg-slate-800 rounded-2xl shadow-xl group-hover:scale-110 transition-transform relative z-10">
                       <RefreshCw size={24} />
                     </div>
-                    <span className="text-[9px] font-black uppercase tracking-widest mt-4 relative z-10">Add More</span>
+                    <span className="text-[9px] font-medium uppercase tracking-widest mt-4 relative z-10">Add More</span>
                     <div className="absolute inset-0 bg-blue-500/5 opacity-0 group-hover:opacity-100 transition-opacity" />
                  </button>
               </div>
@@ -422,7 +422,7 @@ export default function ImageConverter({ id: toolId }: { id: string }) {
                   <feat.icon size={28} />
                 </div>
                 <h5 className="text-xs font-black uppercase tracking-widest text-slate-900 dark:text-white mb-3 leading-none">{feat.title}</h5>
-                <p className="text-[11px] text-slate-400 font-bold leading-relaxed uppercase tracking-tighter">{feat.desc}</p>
+                <p className="text-[11px] text-slate-400 font-medium leading-relaxed uppercase tracking-tighter">{feat.desc}</p>
               </div>
             ))}
           </div>
@@ -447,3 +447,6 @@ export default function ImageConverter({ id: toolId }: { id: string }) {
     </div>
   );
 }
+
+
+

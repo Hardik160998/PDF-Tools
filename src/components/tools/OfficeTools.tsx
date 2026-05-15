@@ -86,7 +86,7 @@ export default function OfficeTools({ id }: { id: string }) {
                   <div className={`p-4 sm:p-6 bg-white dark:bg-slate-800 rounded-xl sm:rounded-2xl shadow-xl inline-block text-blue-500 group-hover:scale-110 transition-transform`}>
                     <Upload size={32} />
                   </div>
-                  <div className="text-lg sm:text-lg sm:text-xl font-black text-slate-800 dark:text-white mb-1 relative z-10">Select {info.type} File</div>
+                  <div className="text-lg sm:text-lg sm:text-xl font-medium text-slate-800 dark:text-white mb-1 relative z-10">Select {info.type} File</div>
                   <p className="text-xs sm:text-sm text-slate-400 font-medium relative z-10">or drop {info.ext} here</p>
                 </div>
               </div>
@@ -98,8 +98,8 @@ export default function OfficeTools({ id }: { id: string }) {
                       <FileText size={20} className="sm:w-6 sm:h-6" />
                     </div>
                     <div className="min-w-0 flex-1">
-                      <p className="font-bold text-slate-900 dark:text-white truncate text-xs sm:text-base max-w-[150px] sm:max-w-xs">{file.name}</p>
-                      <p className="text-[10px] sm:text-xs text-slate-500 font-bold uppercase tracking-widest">{info.type} Document</p>
+                      <p className="font-medium text-slate-900 dark:text-white truncate text-xs sm:text-base max-w-[150px] sm:max-w-xs">{file.name}</p>
+                      <p className="text-[10px] sm:text-xs text-slate-500 font-medium uppercase tracking-widest">{info.type} Document</p>
                     </div>
                   </div>
                   <button onClick={() => setFile(null)} className="p-1.5 sm:p-2 hover:bg-red-50 dark:hover:bg-red-500/10 text-slate-400 hover:text-red-500 transition-colors rounded-lg shrink-0">
@@ -110,7 +110,7 @@ export default function OfficeTools({ id }: { id: string }) {
                 <button 
                   onClick={handleConvert} 
                   disabled={processing}
-                  className="w-full py-3.5 sm:py-5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl sm:rounded-2xl text-base sm:text-2xl font-black shadow-xl shadow-blue-500/20 flex items-center justify-center gap-3 sm:gap-4 group transition-all"
+                  className="w-full py-3.5 sm:py-5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl sm:rounded-2xl text-base sm:text-2xl font-medium shadow-xl shadow-blue-500/20 flex items-center justify-center gap-3 sm:gap-4 group transition-all"
                 >
                   {processing ? <Loader2 className="animate-spin" /> : <Sparkles size={24} className="sm:w-7 sm:h-7 fill-white/20" />}
                   {processing ? 'Converting File...' : 'Convert to PDF'}
@@ -126,7 +126,7 @@ export default function OfficeTools({ id }: { id: string }) {
              
              <div className="space-y-2 sm:space-y-4">
                 <h3 className="text-2xl sm:text-4xl font-black">Success!</h3>
-                <p className="text-xs sm:text-base text-slate-500 font-bold uppercase tracking-widest px-2">
+                <p className="text-xs sm:text-base text-slate-500 font-medium uppercase tracking-widest px-2">
                    {file?.name} has been processed flawlessly.
                 </p>
              </div>
@@ -135,11 +135,11 @@ export default function OfficeTools({ id }: { id: string }) {
                 <a 
                    href={resultUrl} 
                    download={`converted_${file?.name}`}
-                   className={`flex-1 py-3.5 sm:py-5 ${info.color} hover:opacity-90 text-white rounded-xl sm:rounded-2xl text-base sm:text-2xl font-black shadow-xl flex items-center justify-center gap-3 sm:gap-4 transition-all`}
+                   className={`flex-1 py-3.5 sm:py-5 ${info.color} hover:opacity-90 text-white rounded-xl sm:rounded-2xl text-base sm:text-2xl font-medium shadow-xl flex items-center justify-center gap-3 sm:gap-4 transition-all`}
                 >
                    <Download size={24} className="sm:w-7 sm:h-7" /> Download Result
                 </a>
-                <button onClick={handleReset} className="px-6 sm:px-10 py-3.5 sm:py-5 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 text-slate-900 dark:text-white rounded-xl sm:rounded-2xl font-bold transition-all text-sm sm:text-base">
+                <button onClick={handleReset} className="px-6 sm:px-10 py-3.5 sm:py-5 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 text-slate-900 dark:text-white rounded-xl sm:rounded-2xl font-medium transition-all text-sm sm:text-base">
                    Convert Another
                 </button>
              </div>
@@ -149,3 +149,6 @@ export default function OfficeTools({ id }: { id: string }) {
     </div>
   );
 }
+
+
+

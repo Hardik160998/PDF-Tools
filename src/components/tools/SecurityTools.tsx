@@ -78,7 +78,7 @@ export default function SecurityTools({ id }: { id: string }) {
                     <Upload size={32} />
                   </div>
                   <div>
-                    <div className="text-lg sm:text-lg sm:text-xl font-black text-slate-800 dark:text-white mb-1 relative z-10">Select PDF File</div>
+                    <div className="text-lg sm:text-lg sm:text-xl font-medium text-slate-800 dark:text-white mb-1 relative z-10">Select PDF File</div>
                     <p className="text-xs sm:text-sm text-slate-400 font-medium relative z-10">or drop PDF here</p>
                   </div>
                 </div>
@@ -91,8 +91,8 @@ export default function SecurityTools({ id }: { id: string }) {
                       <FileText size={20} className="sm:w-6 sm:h-6" />
                     </div>
                     <div className="min-w-0">
-                      <p className="font-bold text-slate-900 dark:text-white truncate text-sm sm:text-base">{file.name}</p>
-                      <p className="text-[10px] text-red-500/70 font-black uppercase tracking-widest">{id === 'unlock' ? 'Encrypted PDF' : 'Standard PDF'}</p>
+                      <p className="font-medium text-slate-900 dark:text-white truncate text-sm sm:text-base">{file.name}</p>
+                      <p className="text-[10px] text-red-500/70 font-medium uppercase tracking-widest">{id === 'unlock' ? 'Encrypted PDF' : 'Standard PDF'}</p>
                     </div>
                   </div>
                   <button onClick={() => setFile(null)} className="p-2 hover:bg-white dark:hover:bg-slate-700 text-slate-400 hover:text-red-500 transition-colors rounded-lg shrink-0">
@@ -101,7 +101,7 @@ export default function SecurityTools({ id }: { id: string }) {
                 </div>
 
                 <div className="space-y-3 sm:space-y-4 text-left bg-slate-50/50 dark:bg-slate-900/50 p-4 sm:p-6 rounded-2xl border border-slate-100 dark:border-slate-700">
-                   <label className="text-[10px] sm:text-xs font-black uppercase tracking-widest text-slate-400 px-1">
+                   <label className="text-[10px] sm:text-xs font-medium uppercase tracking-widest text-slate-400 px-1">
                      {id === 'unlock' ? 'Current Password' : 'New Password'}
                    </label>
                    <div className="relative">
@@ -112,7 +112,7 @@ export default function SecurityTools({ id }: { id: string }) {
                        onChange={(e) => setPassword(e.target.value)}
                        onKeyDown={(e) => e.key === 'Enter' && handleProcess()}
                        placeholder={id === 'unlock' ? 'Enter password' : 'Type a strong password'}
-                       className="w-full pl-11 pr-4 py-3.5 sm:py-4 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 outline-none focus:ring-2 ring-red-500/20 font-black tracking-widest text-sm sm:text-base"
+                       className="w-full pl-11 pr-4 py-3.5 sm:py-4 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 outline-none focus:ring-2 ring-red-500/20 font-medium tracking-widest text-sm sm:text-base"
                      />
                    </div>
                 </div>
@@ -120,7 +120,7 @@ export default function SecurityTools({ id }: { id: string }) {
                 <button 
                   onClick={handleProcess} 
                   disabled={processing || !password.trim()}
-                  className="w-full py-4 sm:py-5 bg-red-600 hover:bg-red-700 disabled:opacity-50 text-white rounded-2xl text-lg sm:text-lg sm:text-xl font-black shadow-xl shadow-red-500/20 flex items-center justify-center gap-3 sm:gap-4 transition-all active:scale-[0.98]"
+                  className="w-full py-4 sm:py-5 bg-red-600 hover:bg-red-700 disabled:opacity-50 text-white rounded-2xl text-lg sm:text-lg sm:text-xl font-medium shadow-xl shadow-red-500/20 flex items-center justify-center gap-3 sm:gap-4 transition-all active:scale-[0.98]"
                 >
                   {processing ? <Loader2 className="animate-spin" size={24} /> : <info.icon size={24} className="sm:w-7 sm:h-7" />}
                   {processing ? 'Processing...' : info.action}
@@ -136,7 +136,7 @@ export default function SecurityTools({ id }: { id: string }) {
              
              <div className="space-y-2 sm:space-y-4">
                 <h3 className="font-outfit text-2xl sm:text-4xl font-black text-slate-900 dark:text-white">{id === 'unlock' ? 'PDF Unlocked!' : 'PDF Protected!'}</h3>
-                <p className="text-xs sm:text-sm text-slate-500 font-bold uppercase tracking-widest px-4">
+                <p className="text-xs sm:text-sm text-slate-500 font-medium uppercase tracking-widest px-4">
                    {file?.name} is ready for download.
                 </p>
              </div>
@@ -144,14 +144,14 @@ export default function SecurityTools({ id }: { id: string }) {
              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
                 <a 
                    href={resultUrl} 
-                   className={`flex-1 py-4 sm:py-5 ${info.color} hover:opacity-90 text-white rounded-2xl text-lg sm:text-lg sm:text-xl font-black shadow-xl flex items-center justify-center gap-3 sm:gap-4 transition-all active:scale-[0.98]`}
+                   className={`flex-1 py-4 sm:py-5 ${info.color} hover:opacity-90 text-white rounded-2xl text-lg sm:text-lg sm:text-xl font-medium shadow-xl flex items-center justify-center gap-3 sm:gap-4 transition-all active:scale-[0.98]`}
                    target="_blank"
                    rel="noreferrer"
                    download={id === 'unlock' ? `unlocked_${file?.name}` : `protected_${file?.name}`}
                 >
                    <Download size={24} className="sm:w-7 sm:h-7" /> Download
                 </a>
-                <button onClick={() => {setFile(null); setResultUrl(null); setPassword('');}} className="px-8 sm:px-10 py-4 sm:py-5 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 text-slate-900 dark:text-white rounded-2xl font-bold transition-all text-sm sm:text-base">
+                <button onClick={() => {setFile(null); setResultUrl(null); setPassword('');}} className="px-8 sm:px-10 py-4 sm:py-5 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 text-slate-900 dark:text-white rounded-2xl font-medium transition-all text-sm sm:text-base">
                    {id === 'unlock' ? 'Unlock Another' : 'Protect Another'}
                 </button>
              </div>
@@ -161,3 +161,6 @@ export default function SecurityTools({ id }: { id: string }) {
     </div>
   );
 }
+
+
+

@@ -108,7 +108,7 @@ export default function ExtractText({ id: toolId }: { id: string }) {
         
         {/* Sidebar Configuration */}
         <div className="w-full lg:w-[320px] bg-white dark:bg-slate-800 rounded-3xl border border-slate-100 dark:border-slate-700 shadow-xl overflow-hidden h-fit lg:sticky lg:top-4 flex-shrink-0">
-          <button onClick={() => setShowSettings(!showSettings)} className="w-full flex lg:hidden items-center justify-between p-5 font-black text-slate-900 dark:text-white border-b border-slate-50 dark:border-slate-700">
+          <button onClick={() => setShowSettings(!showSettings)} className="w-full flex lg:hidden items-center justify-between p-5 font-medium text-slate-900 dark:text-white border-b border-slate-50 dark:border-slate-700">
             <span className="flex items-center gap-2"><Settings size={20} style={{ color: ACCENT }} /> Configuration</span>
             <ChevronDown className={`transition-transform duration-300 ${showSettings ? 'rotate-180' : ''}`} size={20} />
           </button>
@@ -116,23 +116,23 @@ export default function ExtractText({ id: toolId }: { id: string }) {
           <div className={`${showSettings ? 'block' : 'hidden'} lg:block p-6`}>
             <div className="flex items-center justify-between mb-6">
               <h3 className="hidden lg:block font-outfit text-xl font-black text-slate-900 dark:text-white uppercase tracking-tighter">Export Options</h3>
-              <button onClick={reset} className="font-outfit text-[11px] font-black uppercase tracking-widest text-red-500 hover:text-red-600 transition-colors">Reset</button>
+              <button onClick={reset} className="font-outfit text-[11px] font-medium uppercase tracking-widest text-red-500 hover:text-red-600 transition-colors">Reset</button>
             </div>
 
             <div className="space-y-6">
               {/* Mode Toggle */}
               <div className="space-y-3">
-                <span className="font-outfit text-[11px] font-black text-slate-400 uppercase tracking-widest block">Output Format</span>
+                <span className="font-outfit text-[11px] font-medium text-slate-400 uppercase tracking-widest block">Output Format</span>
                 <div className="grid grid-cols-2 gap-2 bg-slate-100 dark:bg-slate-900 p-1.5 rounded-2xl border border-slate-200 dark:border-slate-700">
                   <button 
                     onClick={() => setMode('text')} 
-                    className={`flex items-center justify-center gap-2 py-2.5 font-outfit rounded-xl text-xs font-black transition-all ${mode === 'text' ? 'bg-white dark:bg-slate-800 text-blue-500 shadow-sm' : 'text-slate-400 hover:text-slate-600'}`}
+                    className={`flex items-center justify-center gap-2 py-2.5 font-outfit rounded-xl text-xs font-medium transition-all ${mode === 'text' ? 'bg-white dark:bg-slate-800 text-blue-500 shadow-sm' : 'text-slate-400 hover:text-slate-600'}`}
                   >
                     <FileText size={14} /> TEXT
                   </button>
                   <button 
                     onClick={() => setMode('xml')} 
-                    className={`flex items-center justify-center gap-2 py-2.5 font-outfit rounded-xl text-xs font-black transition-all ${mode === 'xml' ? 'bg-white dark:bg-slate-800 text-blue-500 shadow-sm' : 'text-slate-400 hover:text-slate-600'}`}
+                    className={`flex items-center justify-center gap-2 py-2.5 font-outfit rounded-xl text-xs font-medium transition-all ${mode === 'xml' ? 'bg-white dark:bg-slate-800 text-blue-500 shadow-sm' : 'text-slate-400 hover:text-slate-600'}`}
                   >
                     <FileJson size={14} /> XML
                   </button>
@@ -146,10 +146,10 @@ export default function ExtractText({ id: toolId }: { id: string }) {
                     <div className="p-2 rounded-lg bg-white dark:bg-slate-800 shadow-sm text-blue-500">
                       <Terminal size={14} />
                     </div>
-                    <span className="font-outfit text-[11px] font-black text-slate-400 uppercase tracking-widest">Parser Status</span>
+                    <span className="font-outfit text-[11px] font-medium text-slate-400 uppercase tracking-widest">Parser Status</span>
                   </div>
                   <div className="space-y-1">
-                     <p className="font-outfit text-xs font-black text-slate-700 dark:text-slate-200 uppercase tracking-tight">
+                     <p className="font-outfit text-xs font-medium text-slate-700 dark:text-slate-200 uppercase tracking-tight">
                        {status === 'idle' ? 'Ready to analyze' : status === 'processing' ? 'Extracting text...' : 'Analysis complete'}
                      </p>
                   </div>
@@ -161,12 +161,12 @@ export default function ExtractText({ id: toolId }: { id: string }) {
                 <button
                   onClick={handleDownload}
                   disabled={status !== 'done'}
-                  className="w-full py-5 text-white rounded-[1.5rem] text-lg sm:text-xl font-black shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50 disabled:grayscale uppercase tracking-widest shadow-blue-500/20"
+                  className="w-full py-5 text-white rounded-[1.5rem] text-lg sm:text-xl font-medium shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50 disabled:grayscale uppercase tracking-widest shadow-blue-500/20"
                   style={{ background: ACCENT_GRADIENT }}
                 >
                   Download {mode.toUpperCase()}
                 </button>
-                <p className="font-outfit text-[10px] text-center text-slate-400 font-black uppercase tracking-widest mt-4">Local Extraction Engine v2.0</p>
+                <p className="font-outfit text-[10px] text-center text-slate-400 font-medium uppercase tracking-widest mt-4">Local Extraction Engine v2.0</p>
               </div>
             </div>
           </div>
@@ -201,13 +201,13 @@ export default function ExtractText({ id: toolId }: { id: string }) {
                 <div className="p-6 bg-white dark:bg-slate-800 rounded-3xl shadow-xl text-blue-500 mb-6 group-hover:scale-110 transition-transform relative z-10">
                   <Upload size={32} />
                 </div>
-                <div className="text-lg sm:text-lg sm:text-xl font-black text-slate-800 dark:text-white mb-1 relative z-10">
+                <div className="text-lg sm:text-lg sm:text-xl font-medium text-slate-800 dark:text-white mb-1 relative z-10">
                   Select Source PDF
                 </div>
                 <p className="text-xs sm:text-sm text-slate-400 font-medium relative z-10">
                   Secure local parsing · No cloud upload
                 </p>
-                <button className="mt-8 px-10 py-4 rounded-2xl text-white text-sm font-black uppercase tracking-widest shadow-xl hover:scale-105 transition-all relative z-10" style={{ background: ACCENT_GRADIENT }}>
+                <button className="mt-8 px-10 py-4 rounded-2xl text-white text-sm font-medium uppercase tracking-widest shadow-xl hover:scale-105 transition-all relative z-10" style={{ background: ACCENT_GRADIENT }}>
                   Choose Files
                 </button>
                 <input ref={fileInputRef} type="file" onChange={e => e.target.files && loadFile(e.target.files[0])} accept=".pdf" className="hidden" />
@@ -218,12 +218,12 @@ export default function ExtractText({ id: toolId }: { id: string }) {
                    <div className="flex items-center gap-4 min-w-0">
                       <div className="p-3 bg-white dark:bg-slate-800 rounded-xl text-blue-500 shadow-sm"><FileText size={20} /></div>
                       <div className="truncate">
-                         <p className="text-[11px] font-black text-slate-900 dark:text-white uppercase truncate">{file.name}</p>
-                         <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest leading-none mt-1">{(file.size / 1024).toFixed(0)} KB · READY FOR EXPORT</p>
+                         <p className="text-[11px] font-medium text-slate-900 dark:text-white uppercase truncate">{file.name}</p>
+                         <p className="text-[9px] font-medium text-slate-400 uppercase tracking-widest leading-none mt-1">{(file.size / 1024).toFixed(0)} KB · READY FOR EXPORT</p>
                       </div>
                    </div>
                    <div className="flex gap-2">
-                      <button onClick={handleCopy} className={`p-3 rounded-xl transition-all flex items-center gap-2 text-xs font-black uppercase ${copied ? 'bg-green-500 text-white' : 'bg-white dark:bg-slate-800 text-slate-400 hover:text-blue-500 shadow-sm'}`}>
+                      <button onClick={handleCopy} className={`p-3 rounded-xl transition-all flex items-center gap-2 text-xs font-medium uppercase ${copied ? 'bg-green-500 text-white' : 'bg-white dark:bg-slate-800 text-slate-400 hover:text-blue-500 shadow-sm'}`}>
                          {copied ? <CheckCircle2 size={16} /> : <Copy size={16} />}
                          <span className="hidden sm:inline">{copied ? 'Copied' : 'Copy'}</span>
                       </button>
@@ -239,13 +239,13 @@ export default function ExtractText({ id: toolId }: { id: string }) {
                             <div className="w-2.5 h-2.5 rounded-full bg-yellow-500/50" />
                             <div className="w-2.5 h-2.5 rounded-full bg-green-500/50" />
                          </div>
-                         <div className="text-[9px] font-black text-slate-500 uppercase tracking-widest">{mode === 'text' ? 'Plaintext Output' : 'XML Document Stream'}</div>
+                         <div className="text-[9px] font-medium text-slate-500 uppercase tracking-widest">{mode === 'text' ? 'Plaintext Output' : 'XML Document Stream'}</div>
                       </div>
                       
                       {status === 'processing' ? (
                         <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 bg-slate-950/80 backdrop-blur-sm z-20">
                            <Loader2 className="animate-spin text-blue-500" size={32} />
-                           <p className="text-[10px] font-black text-blue-500 uppercase tracking-widest animate-pulse">Parsing Binary Stream...</p>
+                           <p className="text-[10px] font-medium text-blue-500 uppercase tracking-widest animate-pulse">Parsing Binary Stream...</p>
                         </div>
                       ) : (
                         <textarea
@@ -289,3 +289,6 @@ export default function ExtractText({ id: toolId }: { id: string }) {
     </div>
   );
 }
+
+
+

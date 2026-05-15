@@ -174,7 +174,7 @@ export default function EditTools({ id }: { id: string }) {
                     <Upload size={32} />
                   </div>
                   <div>
-                    <div className="text-lg sm:text-lg sm:text-xl font-black text-slate-800 dark:text-white mb-1">Select PDF File</div>
+                    <div className="text-lg sm:text-lg sm:text-xl font-medium text-slate-800 dark:text-white mb-1">Select PDF File</div>
                     <p className="text-xs sm:text-sm text-slate-400 font-medium mt-1">or drop PDF here</p>
                   </div>
                 </div>
@@ -186,7 +186,7 @@ export default function EditTools({ id }: { id: string }) {
                     <div className="p-2 bg-white dark:bg-slate-800 rounded-lg shadow-sm text-purple-500 shrink-0">
                       <FileText size={16} />
                     </div>
-                    <p className="font-bold text-slate-900 dark:text-white text-[11px] sm:text-sm truncate leading-tight">{file.name}</p>
+                    <p className="font-medium text-slate-900 dark:text-white text-[11px] sm:text-sm truncate leading-tight">{file.name}</p>
                   </div>
                   <button onClick={() => setFile(null)} className="p-2 text-slate-400 hover:text-red-500 transition-colors shrink-0 rounded-lg">
                     <X size={16} />
@@ -198,7 +198,7 @@ export default function EditTools({ id }: { id: string }) {
                     <div className="flex bg-slate-100 dark:bg-slate-800 p-1 rounded-xl">
                       {(['text', 'image'] as const).map(type => (
                         <button key={type} onClick={() => setWatermarkType(type)}
-                          className={`flex-1 py-2.5 flex items-center justify-center gap-2 text-[10px] sm:text-xs font-black uppercase tracking-widest rounded-lg transition-all ${watermarkType === type ? 'bg-white dark:bg-slate-700 shadow-sm text-purple-500' : 'text-slate-400 hover:text-slate-600 dark:hover:text-slate-200'}`}>
+                          className={`flex-1 py-2.5 flex items-center justify-center gap-2 text-[10px] sm:text-xs font-medium uppercase tracking-widest rounded-lg transition-all ${watermarkType === type ? 'bg-white dark:bg-slate-700 shadow-sm text-purple-500' : 'text-slate-400 hover:text-slate-600 dark:hover:text-slate-200'}`}>
                           {type === 'text' ? <Type size={14} /> : <ImageIcon size={14} />} {type}
                         </button>
                       ))}
@@ -206,23 +206,23 @@ export default function EditTools({ id }: { id: string }) {
 
                     {watermarkType === 'text' ? (
                       <div className="space-y-2 px-1">
-                        <label className="font-outfit text-[11px] font-black uppercase tracking-widest text-slate-400">Watermark Text</label>
+                        <label className="font-outfit text-[11px] font-medium uppercase tracking-widest text-slate-400">Watermark Text</label>
                         <input
                           type="text"
                           value={watermarkText || ''}
                           onChange={(e) => setWatermarkText(e.target.value)}
-                          className="w-full px-4 py-3.5 sm:py-4 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 outline-none focus:ring-2 ring-purple-500/20 font-black text-sm sm:text-base tracking-widest"
+                          className="w-full px-4 py-3.5 sm:py-4 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 outline-none focus:ring-2 ring-purple-500/20 font-medium text-sm sm:text-base tracking-widest"
                         />
                       </div>
                     ) : (
                       <div className="space-y-2 px-1">
-                        <label className="font-outfit text-[11px] font-black uppercase tracking-widest text-slate-400">Upload Image Logo</label>
+                        <label className="font-outfit text-[11px] font-medium uppercase tracking-widest text-slate-400">Upload Image Logo</label>
                         <div className="relative">
                           <input
                             type="file"
                             accept="image/png, image/jpeg"
                             onChange={(e) => setWatermarkImage(e.target.files?.[0] || null)}
-                            className="w-full text-[11px] sm:text-sm text-slate-500 file:mr-3 sm:file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-[10px] file:font-black file:bg-purple-50 file:text-purple-700 hover:file:bg-purple-100 cursor-pointer bg-white dark:bg-slate-800 p-2 rounded-xl border border-slate-200 dark:border-slate-700"
+                            className="w-full text-[11px] sm:text-sm text-slate-500 file:mr-3 sm:file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-[10px] file:font-medium file:bg-purple-50 file:text-purple-700 hover:file:bg-purple-100 cursor-pointer bg-white dark:bg-slate-800 p-2 rounded-xl border border-slate-200 dark:border-slate-700"
                           />
                         </div>
                       </div>
@@ -237,9 +237,9 @@ export default function EditTools({ id }: { id: string }) {
                       return (
                         <div key={key} className="bg-slate-50/50 dark:bg-slate-900/30 p-3 sm:p-4 rounded-2xl border border-slate-100 dark:border-slate-700 space-y-1.5 sm:space-y-2">
                           <div className="flex items-center justify-between gap-2">
-                            <label className="text-[9px] font-black uppercase tracking-widest text-slate-400 truncate">{key.replace('_', ' ')}</label>
+                            <label className="text-[9px] font-medium uppercase tracking-widest text-slate-400 truncate">{key.replace('_', ' ')}</label>
                             {origMetadata[key] && (
-                              <span className="text-[8px] font-black text-slate-400 truncate shrink-0" title={origMetadata[key]}>
+                              <span className="text-[8px] font-medium text-slate-400 truncate shrink-0" title={origMetadata[key]}>
                                 Original: {origMetadata[key]}
                               </span>
                             )}
@@ -249,7 +249,7 @@ export default function EditTools({ id }: { id: string }) {
                             value={value || ''}
                             onChange={(e) => setMetadata({ ...metadata, [key]: e.target.value || '' })}
                             placeholder={`Enter ${key}...`}
-                            className="w-full px-3 py-2.5 sm:py-3 text-[11px] sm:text-xs rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 outline-none focus:ring-2 ring-indigo-500/20 font-bold transition-all"
+                            className="w-full px-3 py-2.5 sm:py-3 text-[11px] sm:text-xs rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 outline-none focus:ring-2 ring-indigo-500/20 font-medium transition-all"
                           />
                         </div>
                       );
@@ -260,7 +260,7 @@ export default function EditTools({ id }: { id: string }) {
                 <button
                   onClick={handleProcess}
                   disabled={processing}
-                  className={`w-full py-4 sm:py-5 ${info.color} hover:opacity-90 text-white rounded-2xl text-base sm:text-2xl font-black shadow-xl shadow-indigo-500/10 flex items-center justify-center gap-3 sm:gap-4 transition-all active:scale-[0.98] disabled:opacity-50`}
+                  className={`w-full py-4 sm:py-5 ${info.color} hover:opacity-90 text-white rounded-2xl text-base sm:text-2xl font-medium shadow-xl shadow-indigo-500/10 flex items-center justify-center gap-3 sm:gap-4 transition-all active:scale-[0.98] disabled:opacity-50`}
                 >
                   {processing ? <Loader2 className="animate-spin" size={24} /> : <info.icon size={24} className="sm:w-7 sm:h-7" />}
                   {processing ? 'Processing...' : `Apply ${info.title}`}
@@ -275,11 +275,11 @@ export default function EditTools({ id }: { id: string }) {
             </div>
             <div className="space-y-2 sm:space-y-4">
               <h3 className="font-outfit text-2xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter">Changes Applied!</h3>
-              <p className="text-xs sm:text-sm text-slate-400 font-black uppercase tracking-widest leading-relaxed">Document optimized and ready for use.</p>
+              <p className="text-xs sm:text-sm text-slate-400 font-medium uppercase tracking-widest leading-relaxed">Document optimized and ready for use.</p>
             </div>
             <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center max-w-lg mx-auto">
               <a href={result} download={`edited_${file?.name}`}
-                className={`flex-1 py-4 sm:py-5 ${info.color} text-white rounded-2xl text-lg sm:text-lg sm:text-xl font-black shadow-xl flex items-center justify-center gap-3 active:scale-[0.98] transition-all`}>
+                className={`flex-1 py-4 sm:py-5 ${info.color} text-white rounded-2xl text-lg sm:text-lg sm:text-xl font-medium shadow-xl flex items-center justify-center gap-3 active:scale-[0.98] transition-all`}>
                 <Download size={24} className="sm:w-7 sm:h-7" /> Download
               </a>
               <button
@@ -297,7 +297,7 @@ export default function EditTools({ id }: { id: string }) {
                     language: '', creator_tool: '', create_date: '', modify_date: '', metadata_date: ''
                   });
                 }}
-                className="px-8 py-4 sm:py-5 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 text-slate-900 dark:text-white rounded-2xl font-bold transition-all text-sm sm:text-base"
+                className="px-8 py-4 sm:py-5 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 text-slate-900 dark:text-white rounded-2xl font-medium transition-all text-sm sm:text-base"
               >
                 Start Over
               </button>
@@ -308,3 +308,6 @@ export default function EditTools({ id }: { id: string }) {
     </div>
   );
 }
+
+
+

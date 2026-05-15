@@ -196,10 +196,10 @@ export default function RedactPdf({ id: _id }: { id: string }) {
             <div className="flex flex-col items-center gap-4 pointer-events-none text-center">
               <div className="p-4 sm:p-5 bg-white dark:bg-slate-800 rounded-2xl shadow-xl text-red-500 group-hover:scale-110 transition-transform"><Upload size={32} className="sm:w-9 sm:h-9" /></div>
               <div>
-                <p className="text-lg sm:text-lg sm:text-xl font-black text-slate-800 dark:text-white">Click or drag & drop your PDF</p>
+                <p className="text-lg sm:text-lg sm:text-xl font-medium text-slate-800 dark:text-white">Click or drag & drop your PDF</p>
                 <p className="text-xs sm:text-sm text-slate-400 font-medium mt-1">Your file stays on your device — always</p>
               </div>
-              <button className="px-6 py-2.5 sm:px-7 sm:py-3 rounded-xl text-white text-xs sm:text-sm font-black uppercase tracking-widest shadow-lg active:scale-95 transition-all" style={{ background: "linear-gradient(135deg,#dc2626,#7f1d1d)" }}>Choose PDF File</button>
+              <button className="px-6 py-2.5 sm:px-7 sm:py-3 rounded-xl text-white text-xs sm:text-sm font-medium uppercase tracking-widest shadow-lg active:scale-95 transition-all" style={{ background: "linear-gradient(135deg,#dc2626,#7f1d1d)" }}>Choose PDF File</button>
             </div>
           </div>
         )}
@@ -207,7 +207,7 @@ export default function RedactPdf({ id: _id }: { id: string }) {
         {loading && (
           <div className="flex flex-col items-center gap-4 py-12 sm:py-16">
             <Loader2 size={40} className="animate-spin text-red-500" />
-            <p className="text-sm font-bold text-slate-500">Loading PDF…</p>
+            <p className="text-sm font-medium text-slate-500">Loading PDF…</p>
           </div>
         )}
 
@@ -218,8 +218,8 @@ export default function RedactPdf({ id: _id }: { id: string }) {
               <div className="flex items-center gap-3 min-w-0">
                 <div className="p-2 bg-white dark:bg-slate-800 rounded-lg shadow-sm text-red-500 shrink-0"><FileText size={18} /></div>
                 <div className="min-w-0">
-                  <p className="font-bold text-slate-900 dark:text-white text-[13px] sm:text-sm truncate leading-tight">{file!.name}</p>
-                  <p className="text-[10px] sm:text-xs text-slate-400 font-bold uppercase tracking-widest mt-0.5">{totalPages} pages · {totalRedactions} redaction{totalRedactions !== 1 ? "s" : ""}</p>
+                  <p className="font-medium text-slate-900 dark:text-white text-[13px] sm:text-sm truncate leading-tight">{file!.name}</p>
+                  <p className="text-[10px] sm:text-xs text-slate-400 font-medium uppercase tracking-widest mt-0.5">{totalPages} pages · {totalRedactions} redaction{totalRedactions !== 1 ? "s" : ""}</p>
                 </div>
               </div>
               <button onClick={reset} className="p-2 text-slate-400 hover:text-red-500 transition-colors shrink-0"><X size={18} /></button>
@@ -229,10 +229,10 @@ export default function RedactPdf({ id: _id }: { id: string }) {
             <div className="flex flex-col gap-4">
               {/* Mode toggle */}
               <div className="grid grid-cols-2 bg-slate-100 dark:bg-slate-700 rounded-xl p-1 gap-1">
-                <button onClick={() => setMode("draw")} className={`flex items-center justify-center gap-2 px-3 py-2.5 rounded-lg text-[11px] font-black transition-all ${mode === "draw" ? "bg-white dark:bg-slate-600 text-red-600 shadow-sm" : "text-slate-500"}`}>
+                <button onClick={() => setMode("draw")} className={`flex items-center justify-center gap-2 px-3 py-2.5 rounded-lg text-[11px] font-medium transition-all ${mode === "draw" ? "bg-white dark:bg-slate-600 text-red-600 shadow-sm" : "text-slate-500"}`}>
                   <EyeOff size={14} /> Draw
                 </button>
-                <button onClick={() => setMode("search")} className={`flex items-center justify-center gap-2 px-3 py-2.5 rounded-lg text-[11px] font-black transition-all ${mode === "search" ? "bg-white dark:bg-slate-600 text-red-600 shadow-sm" : "text-slate-500"}`}>
+                <button onClick={() => setMode("search")} className={`flex items-center justify-center gap-2 px-3 py-2.5 rounded-lg text-[11px] font-medium transition-all ${mode === "search" ? "bg-white dark:bg-slate-600 text-red-600 shadow-sm" : "text-slate-500"}`}>
                   <Shield size={14} /> Search
                 </button>
               </div>
@@ -249,7 +249,7 @@ export default function RedactPdf({ id: _id }: { id: string }) {
                       <Plus size={20} />
                     </button>
                   </div>
-                  {searchMsg && <p className={`text-[10px] sm:text-xs font-black uppercase tracking-widest px-2 ${searchMsg.startsWith("✓") ? "text-green-600" : "text-slate-400"}`}>{searchMsg}</p>}
+                  {searchMsg && <p className={`text-[10px] sm:text-xs font-medium uppercase tracking-widest px-2 ${searchMsg.startsWith("✓") ? "text-green-600" : "text-slate-400"}`}>{searchMsg}</p>}
                 </div>
               )}
             </div>
@@ -258,7 +258,7 @@ export default function RedactPdf({ id: _id }: { id: string }) {
             <div className="flex items-center justify-between gap-2 px-1">
               <div className="flex items-center gap-1.5">
                 <button onClick={() => setPage(p => Math.max(1, p - 1))} disabled={page === 1} className="p-2 rounded-lg bg-slate-100 dark:bg-slate-700 text-slate-500 disabled:opacity-30 hover:bg-slate-200 transition-colors">‹</button>
-                <span className="text-xs sm:text-sm font-black text-slate-600 dark:text-slate-300">Pg {page} / {totalPages}</span>
+                <span className="text-xs sm:text-sm font-medium text-slate-600 dark:text-slate-300">Pg {page} / {totalPages}</span>
                 <button onClick={() => setPage(p => Math.min(totalPages, p + 1))} disabled={page === totalPages} className="p-2 rounded-lg bg-slate-100 dark:bg-slate-700 text-slate-500 disabled:opacity-30 hover:bg-slate-200 transition-colors">›</button>
               </div>
               <div className="flex items-center gap-2">
@@ -267,14 +267,14 @@ export default function RedactPdf({ id: _id }: { id: string }) {
                     <Trash2 size={16} />
                   </button>
                 )}
-                <span className="text-[10px] sm:text-xs font-black text-slate-400 uppercase tracking-widest">{pageRedactions.length} on page</span>
+                <span className="text-[10px] sm:text-xs font-medium text-slate-400 uppercase tracking-widest">{pageRedactions.length} on page</span>
               </div>
             </div>
 
             {/* Canvas */}
             <div className="relative rounded-2xl overflow-hidden shadow-2xl border border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-900">
               {mode === "draw" && (
-                <div className="absolute top-3 left-3 z-10 bg-black/70 backdrop-blur-md text-white text-[10px] font-black px-4 py-2 rounded-full flex items-center gap-2 border border-white/10 uppercase tracking-widest pointer-events-none">
+                <div className="absolute top-3 left-3 z-10 bg-black/70 backdrop-blur-md text-white text-[10px] font-medium px-4 py-2 rounded-full flex items-center gap-2 border border-white/10 uppercase tracking-widest pointer-events-none">
                   <EyeOff size={11} /> Draw area
                 </div>
               )}
@@ -289,11 +289,11 @@ export default function RedactPdf({ id: _id }: { id: string }) {
             {/* Redaction list */}
             {totalRedactions > 0 && (
               <div className="space-y-2">
-                <p className="font-outfit text-[11px] font-black uppercase tracking-widest text-slate-400 px-1">Active Redactions ({totalRedactions})</p>
+                <p className="font-outfit text-[11px] font-medium uppercase tracking-widest text-slate-400 px-1">Active Redactions ({totalRedactions})</p>
                 <div className="max-h-48 overflow-y-auto space-y-1.5 pr-1 scrollbar-hide">
                   {redactions.map((r, i) => (
                     <div key={r.id} className="flex items-center justify-between px-4 py-3 bg-slate-50 dark:bg-slate-700/40 rounded-xl border border-slate-100 dark:border-slate-700 group hover:border-red-200 dark:hover:border-red-800 transition-all">
-                      <span className="text-xs font-bold text-slate-600 dark:text-slate-300">
+                      <span className="text-xs font-medium text-slate-600 dark:text-slate-300">
                         Page {r.page} — Area {i + 1} <span className="text-[10px] text-slate-400 font-medium ml-2">{Math.round(r.w)}×{Math.round(r.h)}px</span>
                       </span>
                       <button onClick={() => removeRedaction(r.id)} className="p-1.5 text-slate-300 hover:text-red-500 transition-colors"><X size={16} /></button>
@@ -305,7 +305,7 @@ export default function RedactPdf({ id: _id }: { id: string }) {
 
             {/* Apply button */}
             <button onClick={handleApply} disabled={processing || totalRedactions === 0}
-              className="w-full py-4 sm:py-5 text-white rounded-2xl text-lg sm:text-lg sm:text-xl font-black shadow-xl shadow-red-500/20 flex items-center justify-center gap-3 transition-all disabled:opacity-50 active:scale-[0.98]"
+              className="w-full py-4 sm:py-5 text-white rounded-2xl text-lg sm:text-lg sm:text-xl font-medium shadow-xl shadow-red-500/20 flex items-center justify-center gap-3 transition-all disabled:opacity-50 active:scale-[0.98]"
               style={{ background: "linear-gradient(135deg,#dc2626,#7f1d1d)" }}>
               {processing ? <Loader2 className="animate-spin" size={24} /> : <Shield size={24} />}
               {processing ? "Applying Changes…" : `Redact ${totalRedactions} Area${totalRedactions !== 1 ? "s" : ""}`}
@@ -319,15 +319,15 @@ export default function RedactPdf({ id: _id }: { id: string }) {
             <div className="inline-flex p-10 rounded-full bg-green-50 dark:bg-green-500/10 text-green-500 scale-110 border border-green-500/20 shadow-xl shadow-green-500/10"><CheckCircle2 size={72} /></div>
             <div className="space-y-2">
               <h3 className="font-outfit text-2xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter">PDF Redacted!</h3>
-              <p className="text-xs sm:text-sm text-slate-400 font-black uppercase tracking-widest leading-relaxed px-4">{totalRedactions} area{totalRedactions !== 1 ? "s" : ""} permanently hidden from your file</p>
+              <p className="text-xs sm:text-sm text-slate-400 font-medium uppercase tracking-widest leading-relaxed px-4">{totalRedactions} area{totalRedactions !== 1 ? "s" : ""} permanently hidden from your file</p>
             </div>
             <div className="flex flex-col sm:flex-row gap-4 justify-center max-w-lg mx-auto">
               <a href={result} download={`redacted_${file!.name}`}
-                className="flex-1 py-4 sm:py-5 text-white rounded-2xl text-lg sm:text-lg sm:text-xl font-black shadow-xl shadow-red-500/20 flex items-center justify-center gap-3 active:scale-[0.98] transition-all"
+                className="flex-1 py-4 sm:py-5 text-white rounded-2xl text-lg sm:text-lg sm:text-xl font-medium shadow-xl shadow-red-500/20 flex items-center justify-center gap-3 active:scale-[0.98] transition-all"
                 style={{ background: "linear-gradient(135deg,#dc2626,#7f1d1d)" }}>
                 <Download size={24} /> Download PDF
               </a>
-              <button onClick={reset} className="px-8 py-4 sm:px-10 sm:py-5 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 text-slate-900 dark:text-white rounded-2xl font-bold transition-all text-sm sm:text-base">
+              <button onClick={reset} className="px-8 py-4 sm:px-10 sm:py-5 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 text-slate-900 dark:text-white rounded-2xl font-medium transition-all text-sm sm:text-base">
                 Start Over
               </button>
             </div>
@@ -337,3 +337,6 @@ export default function RedactPdf({ id: _id }: { id: string }) {
     </div>
   );
 }
+
+
+

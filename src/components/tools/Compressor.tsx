@@ -107,7 +107,7 @@ export default function Compressor({ id: _id }: { id: string }) {
         
         {/* Sidebar Configuration */}
         <div className="w-full lg:w-[320px] bg-white dark:bg-slate-900 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-xl overflow-hidden h-fit lg:sticky lg:top-4 flex-shrink-0">
-          <button onClick={() => setShowSettings(!showSettings)} className="w-full flex lg:hidden items-center justify-between p-5 font-black text-slate-900 dark:text-white border-b border-slate-50 dark:border-slate-700">
+          <button onClick={() => setShowSettings(!showSettings)} className="w-full flex lg:hidden items-center justify-between p-5 font-medium text-slate-900 dark:text-white border-b border-slate-50 dark:border-slate-700">
             <span className="flex items-center gap-2"><Settings size={20} style={{ color: ACCENT }} /> Compressor Tools</span>
             <ChevronDown className={`transition-transform duration-300 ${showSettings ? 'rotate-180' : ''}`} size={20} />
           </button>
@@ -115,7 +115,7 @@ export default function Compressor({ id: _id }: { id: string }) {
           <div className={`${showSettings ? 'block' : 'hidden'} lg:block p-6`}>
             <div className="flex items-center justify-between mb-6">
               <h3 className="hidden lg:block font-outfit text-xl font-black text-slate-900 dark:text-white uppercase tracking-tighter text-emerald-500">Configuration</h3>
-              <button onClick={reset} className="font-outfit text-[11px] font-black uppercase tracking-widest text-red-500 hover:text-red-600 transition-colors">Reset</button>
+              <button onClick={reset} className="font-outfit text-[11px] font-medium uppercase tracking-widest text-red-500 hover:text-red-600 transition-colors">Reset</button>
             </div>
 
             <div className="space-y-6">
@@ -130,8 +130,8 @@ export default function Compressor({ id: _id }: { id: string }) {
                       <f.icon size={18} />
                     </div>
                     <div>
-                      <p className="text-xs font-black text-slate-900 dark:text-white uppercase tracking-tighter leading-none mb-1">{f.title}</p>
-                      <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">{f.desc}</p>
+                      <p className="text-xs font-medium text-slate-900 dark:text-white uppercase tracking-tighter leading-none mb-1">{f.title}</p>
+                      <p className="text-[10px] text-slate-400 font-medium uppercase tracking-widest">{f.desc}</p>
                     </div>
                   </div>
                 ))}
@@ -143,9 +143,9 @@ export default function Compressor({ id: _id }: { id: string }) {
                     <div className="p-2 rounded-lg bg-white dark:bg-slate-900 shadow-sm" style={{ color: ACCENT }}>
                       <Database size={14} />
                     </div>
-                    <span className="font-outfit text-[11px] font-black text-slate-400 uppercase tracking-widest">Queue Status</span>
+                    <span className="font-outfit text-[11px] font-medium text-slate-400 uppercase tracking-widest">Queue Status</span>
                   </div>
-                  <p className="font-outfit text-xs font-black text-slate-700 dark:text-slate-200 uppercase tracking-tight">
+                  <p className="font-outfit text-xs font-medium text-slate-700 dark:text-slate-200 uppercase tracking-tight">
                     {files.length === 0 ? 'Empty Queue' : `${files.length} Document${files.length !== 1 ? 's' : ''} Ready`}
                   </p>
                 </div>
@@ -153,7 +153,7 @@ export default function Compressor({ id: _id }: { id: string }) {
                 <button
                   onClick={handleCompress}
                   disabled={processing || files.length === 0 || files.every(f => f.status === 'done')}
-                  className="w-full py-5 text-white rounded-[1.5rem] text-lg sm:text-xl font-black shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50 disabled:grayscale uppercase tracking-widest shadow-emerald-500/20"
+                  className="w-full py-5 text-white rounded-[1.5rem] text-lg sm:text-xl font-medium shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50 disabled:grayscale uppercase tracking-widest shadow-emerald-500/20"
                   style={{ background: ACCENT_GRADIENT }}
                 >
                   {processing ? (
@@ -192,11 +192,11 @@ export default function Compressor({ id: _id }: { id: string }) {
                    <div className="p-4 bg-green-500 text-white rounded-2xl shadow-xl shadow-green-500/30"><CheckCircle2 size={32} /></div>
                    <div>
                      <h4 className="text-2xl font-black text-slate-900 dark:text-white uppercase tracking-widest leading-none mb-1">Shrink Complete</h4>
-                     <p className="text-[11px] font-bold text-slate-500 uppercase tracking-widest">Optimized documents are ready for local download</p>
+                     <p className="text-[11px] font-medium text-slate-500 uppercase tracking-widest">Optimized documents are ready for local download</p>
                    </div>
                 </div>
                 <div className="flex flex-col sm:flex-row gap-4 w-full lg:w-auto">
-                  <button onClick={reset} className="px-10 py-5 bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-400 border-2 border-slate-100 dark:border-slate-700 rounded-2xl font-black text-sm uppercase tracking-widest shadow-xl hover:scale-105 transition-all flex items-center justify-center gap-3 w-full sm:w-auto">
+                  <button onClick={reset} className="px-10 py-5 bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-400 border-2 border-slate-100 dark:border-slate-700 rounded-2xl font-medium text-sm uppercase tracking-widest shadow-xl hover:scale-105 transition-all flex items-center justify-center gap-3 w-full sm:w-auto">
                      <RefreshCw size={18} /> Start Over
                   </button>
                 </div>
@@ -209,13 +209,13 @@ export default function Compressor({ id: _id }: { id: string }) {
                 <div className="p-6 bg-white dark:bg-slate-800 rounded-3xl shadow-xl text-emerald-500 mb-6 group-hover:scale-110 transition-transform relative z-10">
                   <Upload size={32} />
                 </div>
-                <div className="text-lg sm:text-lg sm:text-xl font-black text-slate-800 dark:text-white mb-1 relative z-10">
+                <div className="text-lg sm:text-lg sm:text-xl font-medium text-slate-800 dark:text-white mb-1 relative z-10">
                   Select PDF Files
                 </div>
                 <p className="text-xs sm:text-sm text-slate-400 font-medium relative z-10">
                   Secure local processing · Zero server lag
                 </p>
-                <button className="mt-10 px-12 py-5 rounded-2xl text-white text-base font-black uppercase tracking-widest shadow-xl hover:scale-105 transition-all relative z-10" style={{ background: ACCENT_GRADIENT }}>
+                <button className="mt-10 px-12 py-5 rounded-2xl text-white text-base font-medium uppercase tracking-widest shadow-xl hover:scale-105 transition-all relative z-10" style={{ background: ACCENT_GRADIENT }}>
                   Choose Files
                 </button>
               </div>
@@ -231,11 +231,11 @@ export default function Compressor({ id: _id }: { id: string }) {
                         <div className="text-left min-w-0 flex-1">
                           <h4 className="text-[13px] sm:text-sm font-black text-slate-900 dark:text-white uppercase truncate tracking-tighter mb-1">{f.file.name}</h4>
                           <div className="flex flex-wrap items-center gap-3">
-                            <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">{formatSize(f.oldSize)}</span>
+                            <span className="text-[9px] font-medium text-slate-400 uppercase tracking-widest">{formatSize(f.oldSize)}</span>
                             {f.newSize && (
                               <div className="flex items-center gap-2">
                                 <span className="text-slate-300">→</span>
-                                <span className="text-[9px] font-black text-emerald-500 uppercase tracking-widest bg-emerald-500/10 px-2 py-0.5 rounded-full">
+                                <span className="text-[9px] font-medium text-emerald-500 uppercase tracking-widest bg-emerald-500/10 px-2 py-0.5 rounded-full">
                                   {formatSize(f.newSize)} (-{Math.round((1 - f.newSize / f.oldSize) * 100)}%)
                                 </span>
                               </div>
@@ -245,7 +245,7 @@ export default function Compressor({ id: _id }: { id: string }) {
                       </div>
                       <div className="flex items-center gap-3 w-full sm:w-auto">
                         {f.resultUrl && (
-                          <a href={f.resultUrl} download={`compressed_${f.file.name}`} className="flex-1 sm:flex-none px-6 sm:px-8 py-3.5 bg-slate-900 dark:bg-white text-white dark:text-slate-900 rounded-2xl font-black text-[10px] uppercase tracking-widest shadow-xl hover:scale-105 transition-all flex items-center justify-center gap-2">
+                          <a href={f.resultUrl} download={`compressed_${f.file.name}`} className="flex-1 sm:flex-none px-6 sm:px-8 py-3.5 bg-slate-900 dark:bg-white text-white dark:text-slate-900 rounded-2xl font-medium text-[10px] uppercase tracking-widest shadow-xl hover:scale-105 transition-all flex items-center justify-center gap-2">
                             <Download size={14} /> Download
                           </a>
                         )}
@@ -264,7 +264,7 @@ export default function Compressor({ id: _id }: { id: string }) {
                   <div className="p-3 bg-white dark:bg-slate-800 rounded-xl shadow-lg group-hover:scale-110 transition-transform">
                     <FilePlus size={24} />
                   </div>
-                  <span className="text-xs font-black uppercase tracking-widest">Add More Documents</span>
+                  <span className="text-xs font-medium uppercase tracking-widest">Add More Documents</span>
                 </button>
               </div>
             )}
@@ -281,7 +281,7 @@ export default function Compressor({ id: _id }: { id: string }) {
                   <feat.icon size={28} />
                 </div>
                 <h5 className="text-xs font-black uppercase tracking-widest text-slate-900 dark:text-white mb-3 leading-none">{feat.title}</h5>
-                <p className="text-[11px] text-slate-400 font-bold leading-relaxed uppercase tracking-tighter">{feat.desc}</p>
+                <p className="text-[11px] text-slate-400 font-medium leading-relaxed uppercase tracking-tighter">{feat.desc}</p>
               </div>
             ))}
           </div>
@@ -302,3 +302,6 @@ export default function Compressor({ id: _id }: { id: string }) {
     </div>
   );
 }
+
+
+

@@ -209,7 +209,7 @@ export default function OcrPdf({ id: _id }: { id: string }) {
         
         {/* Sidebar Configuration */}
         <div className="w-full lg:w-[320px] bg-white dark:bg-slate-800 rounded-3xl border border-slate-100 dark:border-slate-700 shadow-xl overflow-hidden h-fit lg:sticky lg:top-4 flex-shrink-0">
-          <button onClick={() => setShowSettings(!showSettings)} className="w-full flex lg:hidden items-center justify-between p-5 font-black text-slate-900 dark:text-white border-b border-slate-50 dark:border-slate-700">
+          <button onClick={() => setShowSettings(!showSettings)} className="w-full flex lg:hidden items-center justify-between p-5 font-medium text-slate-900 dark:text-white border-b border-slate-50 dark:border-slate-700">
             <span className="flex items-center gap-2"><Settings size={20} style={{ color: ACCENT }} /> OCR Options</span>
             <ChevronDown className={`transition-transform duration-300 ${showSettings ? 'rotate-180' : ''}`} size={20} />
           </button>
@@ -217,19 +217,19 @@ export default function OcrPdf({ id: _id }: { id: string }) {
           <div className={`${showSettings ? 'block' : 'hidden'} lg:block p-6`}>
             <div className="flex items-center justify-between mb-6">
               <h3 className="hidden lg:block font-outfit text-xl font-black text-slate-900 dark:text-white uppercase tracking-tighter">Configuration</h3>
-              <button onClick={reset} className="font-outfit text-[11px] font-black uppercase tracking-widest text-red-500 hover:text-red-600 transition-colors">Reset</button>
+              <button onClick={reset} className="font-outfit text-[11px] font-medium uppercase tracking-widest text-red-500 hover:text-red-600 transition-colors">Reset</button>
             </div>
 
             <div className="space-y-6">
               {/* Language Selector */}
               <div className="space-y-3">
-                <span className="font-outfit text-[11px] font-black text-slate-400 uppercase tracking-widest block">Recognition Language</span>
+                <span className="font-outfit text-[11px] font-medium text-slate-400 uppercase tracking-widest block">Recognition Language</span>
                 <div className="relative">
                    <select
                      value={language}
                      onChange={e => setLanguage(e.target.value)}
                      disabled={processing}
-                     className="w-full text-sm font-black text-slate-700 dark:text-slate-200 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-2xl px-4 py-3 appearance-none focus:outline-none focus:ring-2 focus:ring-blue-400 disabled:opacity-50"
+                     className="w-full text-sm font-medium text-slate-700 dark:text-slate-200 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-2xl px-4 py-3 appearance-none focus:outline-none focus:ring-2 focus:ring-blue-400 disabled:opacity-50"
                    >
                      {LANGUAGES.map(l => (
                        <option key={l.code} value={l.code}>{l.label}</option>
@@ -246,10 +246,10 @@ export default function OcrPdf({ id: _id }: { id: string }) {
                     <div className="p-2 rounded-lg bg-white dark:bg-slate-800 shadow-sm text-blue-500">
                       <Search size={14} />
                     </div>
-                    <span className="font-outfit text-[11px] font-black text-slate-400 uppercase tracking-widest">Job Status</span>
+                    <span className="font-outfit text-[11px] font-medium text-slate-400 uppercase tracking-widest">Job Status</span>
                   </div>
                   <div className="space-y-1">
-                     <p className="font-outfit text-xs font-black text-slate-700 dark:text-slate-200 uppercase tracking-tight">
+                     <p className="font-outfit text-xs font-medium text-slate-700 dark:text-slate-200 uppercase tracking-tight">
                        {pdfFiles.length === 0 ? 'Queue Empty' : `${pdfFiles.length} Documents`}
                      </p>
                   </div>
@@ -262,7 +262,7 @@ export default function OcrPdf({ id: _id }: { id: string }) {
                   <button
                     onClick={runOcr}
                     disabled={processing || pdfFiles.length === 0}
-                    className="w-full py-5 text-white rounded-[1.5rem] text-lg sm:text-xl font-black shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50 disabled:grayscale uppercase tracking-widest shadow-blue-500/20"
+                    className="w-full py-5 text-white rounded-[1.5rem] text-lg sm:text-xl font-medium shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50 disabled:grayscale uppercase tracking-widest shadow-blue-500/20"
                     style={{ background: ACCENT_GRADIENT }}
                   >
                     {processing ? (
@@ -275,12 +275,12 @@ export default function OcrPdf({ id: _id }: { id: string }) {
                   <div className="space-y-3">
                     <button
                       onClick={downloadAll}
-                      className="w-full py-5 text-white rounded-[1.5rem] text-lg sm:text-xl font-black shadow-xl hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-3 uppercase tracking-widest shadow-blue-500/20"
+                      className="w-full py-5 text-white rounded-[1.5rem] text-lg sm:text-xl font-medium shadow-xl hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-3 uppercase tracking-widest shadow-blue-500/20"
                       style={{ background: ACCENT_GRADIENT }}
                     >
                       <Download size={24} /> Download All
                     </button>
-                    <button onClick={reset} className="w-full py-3 bg-slate-100 text-slate-500 rounded-xl font-outfit text-[11px] font-black uppercase tracking-widest hover:bg-slate-200 transition-all">Start Over</button>
+                    <button onClick={reset} className="w-full py-3 bg-slate-100 text-slate-500 rounded-xl font-outfit text-[11px] font-medium uppercase tracking-widest hover:bg-slate-200 transition-all">Start Over</button>
                   </div>
                 )}
               </div>
@@ -315,13 +315,13 @@ export default function OcrPdf({ id: _id }: { id: string }) {
                 <div className="p-6 bg-white dark:bg-slate-800 rounded-3xl shadow-xl text-blue-500 mb-6 group-hover:scale-110 transition-transform relative z-10">
                   <Upload size={32} />
                 </div>
-                <div className="text-lg sm:text-lg sm:text-xl font-black text-slate-800 dark:text-white mb-1 relative z-10">
+                <div className="text-lg sm:text-lg sm:text-xl font-medium text-slate-800 dark:text-white mb-1 relative z-10">
                   Select Scanned PDF
                 </div>
                 <p className="text-xs sm:text-sm text-slate-400 font-medium relative z-10">
                   Native browser OCR · No cloud upload
                 </p>
-                <button className="mt-8 px-10 py-4 rounded-2xl text-white text-sm font-black uppercase tracking-widest shadow-xl hover:scale-105 transition-all relative z-10" style={{ background: ACCENT_GRADIENT }}>
+                <button className="mt-8 px-10 py-4 rounded-2xl text-white text-sm font-medium uppercase tracking-widest shadow-xl hover:scale-105 transition-all relative z-10" style={{ background: ACCENT_GRADIENT }}>
                   Choose Files
                 </button>
                 <input ref={fileInputRef} type="file" multiple onChange={e => e.target.files && addFiles(Array.from(e.target.files))} accept=".pdf" className="hidden" />
@@ -344,7 +344,7 @@ export default function OcrPdf({ id: _id }: { id: string }) {
                            <img key={i} src={thumb} className="h-20 w-auto rounded-lg object-cover shadow-sm border border-slate-100 dark:border-slate-700 shrink-0" alt="Preview" />
                          ))}
                          {f.numPages > 4 && (
-                           <div className="h-20 w-12 bg-slate-50 dark:bg-slate-900 rounded-lg flex items-center justify-center text-[10px] font-black text-slate-400 shrink-0 border border-slate-100 dark:border-slate-700">
+                           <div className="h-20 w-12 bg-slate-50 dark:bg-slate-900 rounded-lg flex items-center justify-center text-[10px] font-medium text-slate-400 shrink-0 border border-slate-100 dark:border-slate-700">
                              +{f.numPages - 4}
                            </div>
                          )}
@@ -360,7 +360,7 @@ export default function OcrPdf({ id: _id }: { id: string }) {
                                  animate={{ width: `${f.progress}%` }}
                                />
                             </div>
-                            <span className="text-[10px] font-black text-blue-600 uppercase tracking-widest">{f.progress}% ANALYZED</span>
+                            <span className="text-[10px] font-medium text-blue-600 uppercase tracking-widest">{f.progress}% ANALYZED</span>
                          </div>
                        )}
 
@@ -370,8 +370,8 @@ export default function OcrPdf({ id: _id }: { id: string }) {
                              <FileText size={20} />
                           </div>
                           <div className="flex-1 min-w-0">
-                             <p className="text-[11px] font-black text-slate-900 dark:text-white uppercase truncate">{f.file.name}</p>
-                             <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest leading-none mt-1">{f.numPages} Pages · {(f.file.size / 1024).toFixed(0)} KB</p>
+                             <p className="text-[11px] font-medium text-slate-900 dark:text-white uppercase truncate">{f.file.name}</p>
+                             <p className="text-[9px] font-medium text-slate-400 uppercase tracking-widest leading-none mt-1">{f.numPages} Pages · {(f.file.size / 1024).toFixed(0)} KB</p>
                           </div>
                           <div className="flex gap-2">
                              {f.status === 'done' && (
@@ -391,7 +391,7 @@ export default function OcrPdf({ id: _id }: { id: string }) {
                        {f.status === 'error' && (
                          <div className="px-5 pb-5 flex items-center gap-2 text-red-500">
                             <AlertCircle size={12} />
-                            <span className="text-[9px] font-black uppercase tracking-widest">{f.errorMsg || 'Process failed'}</span>
+                            <span className="text-[9px] font-medium uppercase tracking-widest">{f.errorMsg || 'Process failed'}</span>
                          </div>
                        )}
                      </motion.div>
@@ -431,3 +431,6 @@ export default function OcrPdf({ id: _id }: { id: string }) {
     </div>
   );
 }
+
+
+

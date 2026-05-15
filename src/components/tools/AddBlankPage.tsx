@@ -95,18 +95,18 @@ export default function AddBlankPage({ id: _id }: { id: string }) {
         
         {/* Settings Sidebar */}
         <div className={`w-full lg:w-[300px] bg-white dark:bg-slate-800 rounded-3xl border border-slate-100 dark:border-slate-700 shadow-xl h-fit lg:sticky lg:top-4 overflow-hidden flex-shrink-0`}>
-          <button onClick={() => setShowSettings(!showSettings)} className="w-full flex lg:hidden items-center justify-between p-5 font-black text-slate-900 dark:text-white border-b border-slate-50 dark:border-slate-700">
+          <button onClick={() => setShowSettings(!showSettings)} className="w-full flex lg:hidden items-center justify-between p-5 font-medium text-slate-900 dark:text-white border-b border-slate-50 dark:border-slate-700">
             <span className="flex items-center gap-2"><Settings size={20} style={{ color: ACCENT }} /> Page Settings</span>
             <ChevronDown className={`transition-transform duration-300 ${showSettings ? 'rotate-180' : ''}`} size={20} />
           </button>
 
           <div className={`${showSettings ? 'block' : 'hidden'} lg:block p-6`}>
-            <h3 className="hidden lg:block text-lg font-black text-slate-900 dark:text-white mb-6 uppercase tracking-tighter text-left">Configuration</h3>
+            <h3 className="font-outfit hidden lg:block text-xl font-black text-slate-900 dark:text-white mb-6 uppercase tracking-tighter text-left">Configuration</h3>
             
             <div className="space-y-6 text-left">
               {/* Position */}
               <div className="space-y-3">
-                <span className="text-xs font-black text-slate-400 uppercase tracking-widest">Insertion Point</span>
+                <span className="font-outfit text-[11px] font-medium text-slate-400 uppercase tracking-widest">Insertion Point</span>
                 <div className="grid grid-cols-1 gap-2">
                   {([
                     { val: 'beginning',  label: 'At Beginning' },
@@ -115,7 +115,7 @@ export default function AddBlankPage({ id: _id }: { id: string }) {
                     { val: 'after-every',label: 'After Every Page' },
                   ] as const).map(p => (
                     <button key={p.val} onClick={() => setPosition(p.val)} disabled={!file}
-                      className={`py-2.5 px-4 rounded-xl border-2 text-xs font-black transition-all text-left ${position === p.val ? 'border-indigo-500 bg-indigo-50 dark:bg-indigo-900/20 text-indigo-600' : 'border-slate-100 dark:border-slate-700 text-slate-500 dark:text-slate-400 hover:border-indigo-300'}`}>
+                      className={`py-2.5 px-4 rounded-xl border-2 font-outfit text-[11px] font-medium transition-all text-left ${position === p.val ? 'border-indigo-500 bg-indigo-50 dark:bg-indigo-900/20 text-indigo-600' : 'border-slate-100 dark:border-slate-700 text-slate-500 dark:text-slate-400 hover:border-indigo-300'}`}>
                       {p.label}
                     </button>
                   ))}
@@ -125,10 +125,10 @@ export default function AddBlankPage({ id: _id }: { id: string }) {
               {/* After Page Input */}
               {position === 'after' && (
                 <div className="space-y-3 pt-4 border-t border-slate-50 dark:border-slate-700">
-                  <span className="text-xs font-black text-slate-400 uppercase tracking-widest">Target Page</span>
+                  <span className="font-outfit text-[11px] font-medium text-slate-400 uppercase tracking-widest">Target Page</span>
                   <div className="flex items-center justify-between bg-slate-50 dark:bg-slate-900 rounded-xl p-2 border border-slate-100 dark:border-slate-700">
                     <button onClick={() => setAfterPage(p => Math.max(1, p - 1))} className="w-8 h-8 rounded-lg bg-white dark:bg-slate-800 flex items-center justify-center shadow-sm text-slate-600"><Minus size={14} /></button>
-                    <span className="font-black text-slate-900 dark:text-white text-sm">{afterPage} <span className="text-[10px] text-slate-400">/ {pageCount}</span></span>
+                    <span className="font-outfit font-medium text-slate-900 dark:text-white text-xs uppercase tracking-tight">{afterPage} <span className="text-[10px] text-slate-400">/ {pageCount}</span></span>
                     <button onClick={() => setAfterPage(p => Math.min(pageCount, p + 1))} className="w-8 h-8 rounded-lg bg-white dark:bg-slate-800 flex items-center justify-center shadow-sm text-slate-600"><Plus size={14} /></button>
                   </div>
                 </div>
@@ -136,21 +136,21 @@ export default function AddBlankPage({ id: _id }: { id: string }) {
 
               {/* Page Count */}
               <div className="space-y-3 pt-4 border-t border-slate-50 dark:border-slate-700">
-                <span className="text-xs font-black text-slate-400 uppercase tracking-widest">Number of Pages</span>
+                <span className="font-outfit text-[11px] font-medium text-slate-400 uppercase tracking-widest">Number of Pages</span>
                 <div className="flex items-center justify-between bg-slate-50 dark:bg-slate-900 rounded-xl p-2 border border-slate-100 dark:border-slate-700">
                   <button onClick={() => setBlankCount(c => Math.max(1, c - 1))} className="w-8 h-8 rounded-lg bg-white dark:bg-slate-800 flex items-center justify-center shadow-sm text-slate-600"><Minus size={14} /></button>
-                  <span className="font-black text-slate-900 dark:text-white text-sm">{blankCount} {blankCount === 1 ? 'Page' : 'Pages'}</span>
+                  <span className="font-outfit font-medium text-slate-900 dark:text-white text-xs uppercase tracking-tight">{blankCount} {blankCount === 1 ? 'Page' : 'Pages'}</span>
                   <button onClick={() => setBlankCount(c => Math.min(10, c + 1))} className="w-8 h-8 rounded-lg bg-white dark:bg-slate-800 flex items-center justify-center shadow-sm text-slate-600"><Plus size={14} /></button>
                 </div>
               </div>
 
               {/* Page Size */}
               <div className="space-y-3 pt-4 border-t border-slate-50 dark:border-slate-700">
-                <span className="text-xs font-black text-slate-400 uppercase tracking-widest">Dimensions</span>
+                <span className="font-outfit text-[11px] font-medium text-slate-400 uppercase tracking-widest">Dimensions</span>
                 <div className="grid grid-cols-2 gap-2">
                   {PAGE_SIZES.map(s => (
                     <button key={s.value} onClick={() => setPageSize(s.value)} disabled={!file}
-                      className={`py-2 px-1 rounded-lg border-2 text-[10px] font-black transition-all ${pageSize === s.value ? 'border-indigo-500 bg-indigo-50 dark:bg-indigo-900/20 text-indigo-600' : 'border-slate-100 dark:border-slate-700 text-slate-500 dark:text-slate-400 hover:border-indigo-300'}`}>
+                      className={`py-2 px-1 rounded-lg border-2 font-outfit text-[11px] font-medium transition-all ${pageSize === s.value ? 'border-indigo-500 bg-indigo-50 dark:bg-indigo-900/20 text-indigo-600' : 'border-slate-100 dark:border-slate-700 text-slate-500 dark:text-slate-400 hover:border-indigo-300'}`}>
                       {s.label}
                     </button>
                   ))}
@@ -183,9 +183,9 @@ export default function AddBlankPage({ id: _id }: { id: string }) {
               <div className="p-6 bg-white dark:bg-slate-800 rounded-3xl shadow-xl text-indigo-500 mb-6 group-hover:scale-110 transition-transform">
                 <Upload size={32} />
               </div>
-              <div className="text-lg sm:text-lg sm:text-xl font-black text-slate-800 dark:text-white mb-1">Drop PDF to expand</div>
+              <div className="text-lg sm:text-lg sm:text-xl font-medium text-slate-800 dark:text-white mb-1">Drop PDF to expand</div>
               <p className="text-xs sm:text-sm text-slate-400 font-medium">Perfect for notes, printing, or spacers</p>
-              <button className="mt-8 px-10 py-4 rounded-2xl text-white text-sm font-black uppercase tracking-widest shadow-xl hover:scale-105 transition-all" style={{ background: ACCENT_GRADIENT }}>
+              <button className="mt-8 px-10 py-4 rounded-2xl text-white text-sm font-medium uppercase tracking-widest shadow-xl hover:scale-105 transition-all" style={{ background: ACCENT_GRADIENT }}>
                 Choose PDF
               </button>
             </div>
@@ -198,21 +198,21 @@ export default function AddBlankPage({ id: _id }: { id: string }) {
                 <div className="flex items-center gap-4">
                   <div className="w-16 h-16 rounded-2xl bg-white dark:bg-slate-800 flex items-center justify-center text-indigo-500 shadow-xl border border-slate-50 dark:border-slate-700"><FileText size={32} /></div>
                   <div className="min-w-0">
-                    <p className="font-black text-slate-900 dark:text-white text-xl truncate">{file.name}</p>
-                    <p className="text-xs font-black text-slate-400 uppercase tracking-widest">Current Document: {pageCount} Pages</p>
+                    <p className="font-medium text-slate-900 dark:text-white text-xl truncate">{file.name}</p>
+                    <p className="text-xs font-medium text-slate-400 uppercase tracking-widest">Current Document: {pageCount} Pages</p>
                   </div>
                 </div>
 
                 <div className="grid grid-cols-2 gap-3 sm:gap-4 w-full">
                   <div className="min-w-0 p-3 sm:p-4 bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800">
-                    <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1 truncate">New Total</p>
-                    <p className="text-base sm:text-2xl font-black text-slate-900 dark:text-white tracking-widest truncate">
+                    <p className="text-[9px] font-medium text-slate-400 uppercase tracking-widest mb-1 truncate">New Total</p>
+                    <p className="text-base sm:text-2xl font-medium text-slate-900 dark:text-white tracking-widest truncate">
                       {position === 'after-every' ? pageCount * blankCount + pageCount : pageCount + blankCount}
                     </p>
                   </div>
                   <div className="min-w-0 p-3 sm:p-4 bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800">
-                    <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1 truncate">Page Size</p>
-                    <p className="text-[13px] sm:text-2xl font-black text-slate-900 dark:text-white uppercase tracking-widest truncate">
+                    <p className="text-[9px] font-medium text-slate-400 uppercase tracking-widest mb-1 truncate">Page Size</p>
+                    <p className="text-[13px] sm:text-2xl font-medium text-slate-900 dark:text-white uppercase tracking-widest truncate">
                       {pageSize === 'same' ? 'Matched' : pageSize}
                     </p>
                   </div>
@@ -220,7 +220,7 @@ export default function AddBlankPage({ id: _id }: { id: string }) {
 
                 <div className="flex items-center gap-3 p-4 bg-indigo-50 dark:bg-indigo-900/20 rounded-xl border border-indigo-100 dark:border-indigo-800/50">
                   <div className="w-2 h-2 rounded-full bg-indigo-500 animate-pulse" />
-                  <p className="text-xs font-bold text-indigo-700 dark:text-indigo-300">
+                  <p className="text-xs font-medium text-indigo-700 dark:text-indigo-300">
                     Will insert {blankCount} {blankCount === 1 ? 'page' : 'pages'} {position === 'beginning' ? 'at the very start' : position === 'end' ? 'at the very end' : position === 'after' ? `after page ${afterPage}` : 'after every single page'}.
                   </p>
                 </div>
@@ -228,7 +228,7 @@ export default function AddBlankPage({ id: _id }: { id: string }) {
 
               <div className="flex gap-4">
                 <button onClick={handleAdd} disabled={processing}
-                  className="flex-1 py-5 text-white rounded-[1.5rem] text-lg sm:text-xl font-black shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50 uppercase tracking-widest"
+                  className="flex-1 py-5 text-white rounded-[1.5rem] text-lg sm:text-xl font-medium shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50 uppercase tracking-widest"
                   style={{ background: ACCENT_GRADIENT }}
                 >
                   {processing ? (
@@ -253,7 +253,7 @@ export default function AddBlankPage({ id: _id }: { id: string }) {
               
               <div className="space-y-2">
                 <h3 className="text-4xl font-black text-slate-900 dark:text-white uppercase tracking-widest">Document Updated!</h3>
-                <p className="text-slate-500 font-bold uppercase tracking-widest text-sm">
+                <p className="text-slate-500 font-medium uppercase tracking-widest text-sm">
                   {blankCount} blank page{blankCount !== 1 ? 's' : ''} added successfully
                 </p>
               </div>
@@ -262,14 +262,14 @@ export default function AddBlankPage({ id: _id }: { id: string }) {
                 <a
                   href={result}
                   download={`blank_added_${file!.name}`}
-                  className="flex-1 py-5 text-white rounded-2xl text-lg sm:text-xl font-black shadow-xl hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-3 uppercase tracking-widest shadow-indigo-500/20"
+                  className="flex-1 py-5 text-white rounded-2xl text-lg sm:text-xl font-medium shadow-xl hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-3 uppercase tracking-widest shadow-indigo-500/20"
                   style={{ background: ACCENT_GRADIENT }}
                 >
                   <Download size={24} /> Download PDF
                 </a>
                 <button
                   onClick={reset}
-                  className="px-8 py-5 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 text-slate-900 dark:text-white rounded-2xl font-black uppercase tracking-widest text-xs transition-all"
+                  className="px-8 py-5 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 text-slate-900 dark:text-white rounded-2xl font-medium uppercase tracking-widest text-xs transition-all"
                 >
                   Start Over
                 </button>
@@ -281,3 +281,6 @@ export default function AddBlankPage({ id: _id }: { id: string }) {
     </div>
   );
 }
+
+
+

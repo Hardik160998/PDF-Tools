@@ -183,7 +183,7 @@ export default function Home() {
       {/* -- HERO -- */}
       <section className="container mx-auto px-4 py-24 text-center relative z-10">
           <div className="max-w-6xl mx-auto space-y-8">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-red-50 text-red-600 border border-red-100 text-xs font-black uppercase tracking-widest shadow-sm fade-in-up mb-4">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-red-50 text-red-600 border border-red-100 text-xs font-medium uppercase tracking-widest shadow-sm fade-in-up mb-4">
               <Sparkles size={14} className="fill-red-500" />
               100% Free &amp; Secure PDF Tools
             </div>
@@ -213,14 +213,14 @@ export default function Home() {
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                 className="w-full flex items-center justify-between px-6 py-4 bg-white/80 dark:bg-slate-800/80 backdrop-blur-md border border-slate-200 dark:border-slate-700 rounded-2xl shadow-lg focus:outline-none transition-all active:scale-[0.98]"
               >
-                <span className="text-sm font-black uppercase tracking-widest text-slate-900 dark:text-white">{activeCategory}</span>
+                <span className="text-sm font-medium uppercase tracking-widest text-slate-900 dark:text-white">{activeCategory}</span>
                 <ChevronDown size={20} className={`text-slate-400 transition-transform duration-300 ${isMobileMenuOpen ? 'rotate-180' : ''}`} />
               </button>
               {isMobileMenuOpen && (
                 <div className="absolute top-full left-4 right-4 mt-2 py-2 glass-dropdown mobile-dropdown-shadow rounded-2xl animate-in fade-in slide-in-from-top-2 duration-200 overflow-hidden z-[60]">
                   {dbCategories.map(cat => (
                     <button key={cat} onClick={() => { setActiveCategory(cat); setIsMobileMenuOpen(false); }}
-                      className={`w-full text-left px-6 py-3 text-sm font-bold transition-colors ${activeCategory === cat ? 'bg-red-50 text-red-600 dark:bg-red-900/20 dark:text-red-400' : 'text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-700/50'}`}>
+                      className={`w-full text-left px-6 py-3 text-sm font-medium transition-colors ${activeCategory === cat ? 'bg-red-50 text-red-600 dark:bg-red-900/20 dark:text-red-400' : 'text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-700/50'}`}>
                       {cat}
                     </button>
                   ))}
@@ -238,7 +238,7 @@ export default function Home() {
           <div className="mb-10">
             <div className="flex items-center gap-3 mb-5">
               <div className="h-px flex-1 bg-gradient-to-r from-transparent via-slate-200 dark:via-slate-700 to-transparent" />
-              <span className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 dark:text-slate-500 px-3">Most Used Tools</span>
+              <span className="text-[10px] font-medium uppercase tracking-[0.2em] text-slate-400 dark:text-slate-500 px-3">Most Used Tools</span>
               <div className="h-px flex-1 bg-gradient-to-l from-transparent via-slate-200 dark:via-slate-700 to-transparent" />
             </div>
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
@@ -267,7 +267,7 @@ export default function Home() {
                     <tool.icon size={18} />
                   </div>
                   <div className="min-w-0">
-                    <p className="font-outfit text-[12px] font-black text-slate-800 dark:text-white leading-tight truncate">{tool.title}</p>
+                    <p className="font-outfit text-[12px] font-medium text-slate-800 dark:text-white leading-tight truncate">{tool.title}</p>
                     <p className="text-[10px] text-slate-400 dark:text-slate-500 leading-tight mt-0.5 truncate">{tool.desc}</p>
                   </div>
                 </a>
@@ -280,7 +280,7 @@ export default function Home() {
         {displayCategory === 'All' && (
           <div className="flex items-center gap-3 mb-8">
             <div className="h-px flex-1 bg-gradient-to-r from-transparent via-slate-200 dark:via-slate-700 to-transparent" />
-            <span className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 dark:text-slate-500 px-3">All Tools</span>
+            <span className="text-[10px] font-medium uppercase tracking-[0.2em] text-slate-400 dark:text-slate-500 px-3">All Tools</span>
             <div className="h-px flex-1 bg-gradient-to-l from-transparent via-slate-200 dark:via-slate-700 to-transparent" />
           </div>
         )}
@@ -355,7 +355,7 @@ export default function Home() {
                 </p>
                 <button
                   onClick={() => { setActiveCategory('All'); toolsGridRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }); }}
-                  className="inline-flex items-center gap-2 text-blue-600 dark:text-blue-400 font-bold text-base hover:gap-3 transition-all cursor-pointer"
+                  className="inline-flex items-center gap-2 text-blue-600 dark:text-blue-400 font-medium text-base hover:gap-3 transition-all cursor-pointer"
                 >
                   View all PDF tools &#8594;
                 </button>
@@ -368,15 +368,15 @@ export default function Home() {
                         {[1,2,3,4,5].map(i => <div key={i} className="h-2 bg-slate-100 dark:bg-slate-700 rounded-full" style={{ width: `${100 - i * 8}%` }} />)}
                       </div>
                       <div className="absolute top-4 right-4">
-                        <span className="inline-block px-3 py-1 bg-red-500 text-white text-xs font-black rounded-lg shadow-lg">PDF</span>
+                        <span className="inline-block px-3 py-1 bg-red-500 text-white text-xs font-medium rounded-lg shadow-lg">PDF</span>
                       </div>
                     </div>
-                    <div className="absolute -top-6 -right-6 bg-blue-500 text-white px-4 py-2 rounded-xl shadow-xl font-black text-sm z-20 transform rotate-12 animate-bounce" style={{ animationDuration: '3s' }}>DOC</div>
-                    <div className="absolute top-1/3 -left-8 bg-orange-500 text-white px-4 py-2 rounded-xl shadow-xl font-black text-sm z-20 transform -rotate-12">PPT</div>
-                    <div className="absolute bottom-8 -right-4 bg-green-500 text-white px-4 py-2 rounded-xl shadow-xl font-black text-sm z-20 transform rotate-6">XLS</div>
+                    <div className="absolute -top-6 -right-6 bg-blue-500 text-white px-4 py-2 rounded-xl shadow-xl font-medium text-sm z-20 transform rotate-12 animate-bounce" style={{ animationDuration: '3s' }}>DOC</div>
+                    <div className="absolute top-1/3 -left-8 bg-orange-500 text-white px-4 py-2 rounded-xl shadow-xl font-medium text-sm z-20 transform -rotate-12">PPT</div>
+                    <div className="absolute bottom-8 -right-4 bg-green-500 text-white px-4 py-2 rounded-xl shadow-xl font-medium text-sm z-20 transform rotate-6">XLS</div>
                     <div className="absolute -bottom-4 left-1/2 transform -translate-x-1/2 flex gap-3 z-30">
                       {[{ label: 'PDF', bg: '#ef4444' }, { label: 'DOC', bg: '#8b5cf6' }, { label: 'XLS', bg: '#f59e0b' }, { label: 'PPT', bg: '#3b82f6' }].map((item, i) => (
-                        <div key={i} className="w-12 h-12 rounded-xl shadow-2xl flex items-center justify-center text-[10px] font-black text-white transform hover:scale-110 transition-transform" style={{ backgroundColor: item.bg }}>{item.label}</div>
+                        <div key={i} className="w-12 h-12 rounded-xl shadow-2xl flex items-center justify-center text-[10px] font-medium text-white transform hover:scale-110 transition-transform" style={{ backgroundColor: item.bg }}>{item.label}</div>
                       ))}
                     </div>
                   </div>
@@ -403,7 +403,7 @@ export default function Home() {
                 <p className="text-base text-slate-500 dark:text-slate-400 font-medium leading-relaxed">
                   Fill in forms, e-sign contracts, and close deals in a few simple steps. You can also request e-signatures and track your document every step of the way.
                 </p>
-                <a href="/esign" className="inline-flex items-center gap-2 text-purple-600 dark:text-purple-400 font-bold text-base hover:gap-3 transition-all">Try eSign &#8594;</a>
+                <a href="/esign" className="inline-flex items-center gap-2 text-purple-600 dark:text-purple-400 font-medium text-base hover:gap-3 transition-all">Try eSign &#8594;</a>
               </div>
               <div className="hidden md:flex flex-1 justify-center">
                 <div className="relative w-full max-w-md">
@@ -416,13 +416,13 @@ export default function Home() {
                       {[1,2,3].map(i => <div key={i} className="h-2 bg-slate-100 dark:bg-slate-700 rounded-full" style={{ width: `${90 - i * 10}%` }} />)}
                     </div>
                     <div className="mt-6 border-2 border-dashed border-purple-300 dark:border-purple-700 rounded-xl p-4 text-center">
-                      <p className="text-2xl font-bold text-slate-400" style={{ fontFamily: 'cursive' }}>esign</p>
+                      <p className="text-2xl font-medium text-slate-400" style={{ fontFamily: 'cursive' }}>esign</p>
                     </div>
                     <div className="mt-4 flex gap-2">
-                      <span className="text-xs font-bold bg-yellow-50 dark:bg-yellow-900/20 text-yellow-700 dark:text-yellow-400 px-3 py-1 rounded-full border border-yellow-200 dark:border-yellow-800">✍ Signature</span>
-                      <span className="text-xs font-bold bg-slate-50 dark:bg-slate-700 text-slate-500 dark:text-slate-300 px-3 py-1 rounded-full border border-slate-200 dark:border-slate-600">AB Initials</span>
+                      <span className="text-xs font-medium bg-yellow-50 dark:bg-yellow-900/20 text-yellow-700 dark:text-yellow-400 px-3 py-1 rounded-full border border-yellow-200 dark:border-yellow-800">✍ Signature</span>
+                      <span className="text-xs font-medium bg-slate-50 dark:bg-slate-700 text-slate-500 dark:text-slate-300 px-3 py-1 rounded-full border border-slate-200 dark:border-slate-600">AB Initials</span>
                     </div>
-                    <button className="mt-4 w-full py-2 bg-blue-600 text-white text-sm font-bold rounded-xl">Review &amp; Send</button>
+                    <button className="mt-4 w-full py-2 bg-blue-600 text-white text-sm font-medium rounded-xl">Review &amp; Send</button>
                   </div>
                 </div>
               </div>
@@ -447,7 +447,7 @@ export default function Home() {
                  <p className="text-base text-slate-500 dark:text-slate-400 font-medium leading-relaxed">
                    Do more than just view PDFs. Highlight and add text, freehand annotations, and more — all processed locally in your browser. Zero uploads, 100% private.
                  </p>
-                 <a href="/edit" className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-white font-black text-sm uppercase tracking-widest shadow-lg transition-all hover:scale-105 hover:shadow-xl" style={{ background: 'linear-gradient(135deg,#3b82f6,#8b5cf6)' }}>
+                 <a href="/edit" className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-white font-medium text-sm uppercase tracking-widest shadow-lg transition-all hover:scale-105 hover:shadow-xl" style={{ background: 'linear-gradient(135deg,#3b82f6,#8b5cf6)' }}>
                    Open &amp; Edit a PDF &#8594;
                  </a>
                </div>
@@ -463,7 +463,7 @@ export default function Home() {
                      </div>
                      <div className="mt-4 flex items-center gap-2">
                        <div className="border-2 border-blue-400 rounded-lg px-3 py-1.5">
-                         <p className="text-sm font-bold text-slate-700 dark:text-slate-300">Hello!</p>
+                         <p className="text-sm font-medium text-slate-700 dark:text-slate-300">Hello!</p>
                        </div>
                        <div className="h-6 w-16 rounded" style={{ background: 'rgba(251,191,36,0.35)' }} />
                      </div>
@@ -479,7 +479,7 @@ export default function Home() {
        <section className="py-20 bg-white dark:bg-slate-900">
          <div className="container mx-auto px-4">
            <div className="text-center max-w-3xl mx-auto mb-12">
-             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-red-50 text-red-600 border border-red-100 text-xs font-black uppercase tracking-widest shadow-sm mb-6">
+             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-red-50 text-red-600 border border-red-100 text-xs font-medium uppercase tracking-widest shadow-sm mb-6">
                <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" /></svg>
                Latest from Blog
              </div>
@@ -505,7 +505,7 @@ export default function Home() {
                        <path d="M12 8v4M8 12h4" />
                      </svg>
                    </div>
-                   <span className="text-[10px] font-black uppercase tracking-widest px-2 py-1 rounded-full bg-red-100 text-red-700 dark:bg-red-900/20 dark:text-red-400">
+                   <span className="text-[10px] font-medium uppercase tracking-widest px-2 py-1 rounded-full bg-red-100 text-red-700 dark:bg-red-900/20 dark:text-red-400">
                      Tutorial
                    </span>
                  </div>
@@ -528,7 +528,7 @@ export default function Home() {
                      </span>
                      <span>Apr 8, 2026</span>
                    </div>
-                   <span className="text-xs font-black text-red-500 flex items-center gap-1 group-hover:gap-2 transition-all">
+                   <span className="text-xs font-medium text-red-500 flex items-center gap-1 group-hover:gap-2 transition-all">
                      Read <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
                    </span>
                  </div>
@@ -549,7 +549,7 @@ export default function Home() {
                        <polyline points="10 9 9 9 8 9" />
                      </svg>
                    </div>
-                   <span className="text-[10px] font-black uppercase tracking-widest px-2 py-1 rounded-full bg-blue-100 text-blue-700 dark:bg-blue-900/20 dark:text-blue-400">
+                   <span className="text-[10px] font-medium uppercase tracking-widest px-2 py-1 rounded-full bg-blue-100 text-blue-700 dark:bg-blue-900/20 dark:text-blue-400">
                      Guide
                    </span>
                  </div>
@@ -572,7 +572,7 @@ export default function Home() {
                      </span>
                      <span>Apr 15, 2026</span>
                    </div>
-                   <span className="text-xs font-black text-red-500 flex items-center gap-1 group-hover:gap-2 transition-all">
+                   <span className="text-xs font-medium text-red-500 flex items-center gap-1 group-hover:gap-2 transition-all">
                      Read <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
                    </span>
                  </div>
@@ -582,7 +582,7 @@ export default function Home() {
 
            {/* View All Blog Posts Button */}
            <div className="text-center">
-             <a href="/blog" className="inline-flex items-center gap-2 px-8 py-4 bg-slate-900 dark:bg-white text-white dark:text-slate-900 rounded-xl font-black text-sm uppercase tracking-widest shadow-lg hover:shadow-xl transition-all hover:scale-105 hover:bg-slate-700 dark:hover:bg-slate-100">
+             <a href="/blog" className="inline-flex items-center gap-2 px-8 py-4 bg-slate-900 dark:bg-white text-white dark:text-slate-900 rounded-xl font-medium text-sm uppercase tracking-widest shadow-lg hover:shadow-xl transition-all hover:scale-105 hover:bg-slate-700 dark:hover:bg-slate-100">
                View All Blog Posts
                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                  <path d="M5 12h14M12 5l7 7-7 7" />
@@ -609,7 +609,7 @@ export default function Home() {
                   <ellipse cx="24" cy="46" rx="16" ry="10" fill="white" fillOpacity="0.9" />
                   <ellipse cx="40" cy="44" rx="13" ry="8" fill="white" fillOpacity="0.6" />
                 </svg>
-                <span className="absolute -bottom-2 -right-2 bg-red-500 text-white text-[9px] font-black px-1.5 py-0.5 rounded-md shadow">1M+</span>
+                <span className="absolute -bottom-2 -right-2 bg-red-500 text-white text-[9px] font-medium px-1.5 py-0.5 rounded-md shadow">1M+</span>
               </div>
               <h3 className="text-lg font-black text-slate-900">People Trust Us</h3>
               <p className="text-sm text-slate-600 leading-relaxed">
@@ -681,7 +681,7 @@ export default function Home() {
                   <circle cx="32" cy="44" r="5" fill="white" fillOpacity="0.9" />
                   <rect x="30" y="44" width="4" height="6" rx="1" fill="white" fillOpacity="0.4" />
                 </svg>
-                <span className="absolute -top-2 -right-2 bg-yellow-400 text-[9px] font-black text-slate-900 px-1.5 py-0.5 rounded shadow">256-bit</span>
+                <span className="absolute -top-2 -right-2 bg-yellow-400 text-[9px] font-medium text-slate-900 px-1.5 py-0.5 rounded shadow">256-bit</span>
               </div>
               <h3 className="text-lg font-black text-slate-900">256-Bit TLS Encryption</h3>
               <p className="text-sm text-slate-600 leading-relaxed">
@@ -710,3 +710,5 @@ export default function Home() {
     </div>
   );
 }
+
+

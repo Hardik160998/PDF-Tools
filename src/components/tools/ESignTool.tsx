@@ -355,7 +355,7 @@ export default function ESignTool({ id: _id }: { id: string }) {
               <Upload size={32} />
             </div>
             <div className="text-center">
-              <div className="text-lg sm:text-lg sm:text-xl font-black text-slate-800 dark:text-white mb-1">Click or drag & drop to upload</div>
+              <div className="text-lg sm:text-lg sm:text-xl font-medium text-slate-800 dark:text-white mb-1">Click or drag & drop to upload</div>
               <p className="text-xs sm:text-sm text-slate-400 font-medium">PDF · PNG · JPG · WebP</p>
             </div>
           </label>
@@ -368,7 +368,7 @@ export default function ESignTool({ id: _id }: { id: string }) {
             {/* Left — document preview */}
             <div className="space-y-3">
               <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2 text-sm font-bold text-slate-700">
+                <div className="flex items-center gap-2 text-sm font-medium text-slate-700">
                   <FileText size={16} className="text-purple-500" />
                   <span className="truncate max-w-[220px]">{file?.name}</span>
                 </div>
@@ -381,10 +381,10 @@ export default function ESignTool({ id: _id }: { id: string }) {
               {pageImages.length > 1 && (
                 <div className="flex items-center justify-center gap-3">
                   <button onClick={() => setCurrentPage(p => Math.max(0, p - 1))} disabled={currentPage === 0}
-                    className="px-3 py-1.5 bg-slate-100 rounded-lg text-xs font-bold disabled:opacity-40">← Prev</button>
-                  <span className="text-xs font-bold text-slate-500">Page {currentPage + 1} / {pageImages.length}</span>
+                    className="px-3 py-1.5 bg-slate-100 rounded-lg text-xs font-medium disabled:opacity-40">← Prev</button>
+                  <span className="text-xs font-medium text-slate-500">Page {currentPage + 1} / {pageImages.length}</span>
                   <button onClick={() => setCurrentPage(p => Math.min(pageImages.length - 1, p + 1))} disabled={currentPage === pageImages.length - 1}
-                    className="px-3 py-1.5 bg-slate-100 rounded-lg text-xs font-bold disabled:opacity-40">Next →</button>
+                    className="px-3 py-1.5 bg-slate-100 rounded-lg text-xs font-medium disabled:opacity-40">Next →</button>
                 </div>
               )}
 
@@ -439,13 +439,13 @@ export default function ESignTool({ id: _id }: { id: string }) {
             {/* Right — signature creator */}
             <div className="space-y-4">
               <div className="bg-slate-50 rounded-2xl p-4 sm:p-5 border border-slate-200 space-y-4">
-                <p className="text-xs sm:text-sm font-black text-slate-700 uppercase tracking-widest">Create Signature</p>
+                <p className="text-xs sm:text-sm font-medium text-slate-700 uppercase tracking-widest">Create Signature</p>
 
                 {/* Draw / Type toggle */}
                 <div className="flex bg-white border border-slate-200 p-1 rounded-xl">
                   {(['draw', 'type'] as const).map(m => (
                     <button key={m} onClick={() => { setSignMode(m); setSignatureData(null); }}
-                      className={`flex-1 py-2.5 sm:py-2 flex items-center justify-center gap-1.5 text-[10px] sm:text-xs font-black uppercase tracking-widest rounded-lg transition-all ${signMode === m ? 'bg-purple-500 text-white shadow' : 'text-slate-400 hover:text-slate-700'}`}>
+                      className={`flex-1 py-2.5 sm:py-2 flex items-center justify-center gap-1.5 text-[10px] sm:text-xs font-medium uppercase tracking-widest rounded-lg transition-all ${signMode === m ? 'bg-purple-500 text-white shadow' : 'text-slate-400 hover:text-slate-700'}`}>
                       {m === 'draw' ? <PenLine className="w-3.5 h-3.5" /> : <Type className="w-3.5 h-3.5" />} {m}
                     </button>
                   ))}
@@ -454,15 +454,15 @@ export default function ESignTool({ id: _id }: { id: string }) {
                 {/* Pen options */}
                 <div className="flex flex-col gap-4">
                   <div className="flex items-center gap-3">
-                    <label className="font-outfit text-[11px] font-black uppercase tracking-widest text-slate-400 w-10">Color</label>
+                    <label className="font-outfit text-[11px] font-medium uppercase tracking-widest text-slate-400 w-10">Color</label>
                     <input type="color" value={penColor} onChange={e => setPenColor(e.target.value)}
                       className="w-10 h-10 rounded-lg border border-slate-200 cursor-pointer p-0.5 bg-white shadow-sm" />
                   </div>
                   <div className="flex items-center gap-3">
-                    <label className="font-outfit text-[11px] font-black uppercase tracking-widest text-slate-400 w-10">Size</label>
+                    <label className="font-outfit text-[11px] font-medium uppercase tracking-widest text-slate-400 w-10">Size</label>
                     <input type="range" min={1} max={6} step={0.5} value={penSize} onChange={e => setPenSize(Number(e.target.value))}
                       className="flex-1 accent-purple-500 h-6" />
-                    <span className="text-xs font-bold text-slate-500 w-6 text-right">{penSize}</span>
+                    <span className="text-xs font-medium text-slate-500 w-6 text-right">{penSize}</span>
                   </div>
                 </div>
 
@@ -485,7 +485,7 @@ export default function ESignTool({ id: _id }: { id: string }) {
                       style={{ touchAction: 'none', display: 'block' }}
                     />
                     <button onClick={clearCanvas}
-                      className="flex items-center gap-1.5 px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-xs font-bold text-slate-500 hover:text-red-500 hover:border-red-200 transition-colors">
+                      className="flex items-center gap-1.5 px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-xs font-medium text-slate-500 hover:text-red-500 hover:border-red-200 transition-colors">
                       <Eraser size={13} /> Clear
                     </button>
                   </div>
@@ -506,7 +506,7 @@ export default function ESignTool({ id: _id }: { id: string }) {
                 {/* Signature preview */}
                 {signatureData && (
                   <div className="border-2 border-dashed border-purple-200 rounded-xl p-2 bg-white">
-                    <p className="font-outfit text-[11px] font-black uppercase tracking-widest text-slate-400 mb-1">Preview</p>
+                    <p className="font-outfit text-[11px] font-medium uppercase tracking-widest text-slate-400 mb-1">Preview</p>
                     <img src={signatureData} alt="preview" className="max-h-16 mx-auto" />
                   </div>
                 )}
@@ -514,12 +514,12 @@ export default function ESignTool({ id: _id }: { id: string }) {
                 {/* Buttons */}
                 <div className="flex flex-col gap-2">
                   <button onClick={createSignature}
-                    className="w-full py-2.5 bg-purple-500 hover:bg-purple-600 text-white rounded-xl font-black text-sm transition-colors">
+                    className="w-full py-2.5 bg-purple-500 hover:bg-purple-600 text-white rounded-xl font-medium text-sm transition-colors">
                     ✓ Create Signature
                   </button>
                   {signatureData && (
                     <button onClick={placeSignature}
-                      className="w-full py-2.5 bg-green-500 hover:bg-green-600 text-white rounded-xl font-black text-sm transition-colors flex items-center justify-center gap-2">
+                      className="w-full py-2.5 bg-green-500 hover:bg-green-600 text-white rounded-xl font-medium text-sm transition-colors flex items-center justify-center gap-2">
                       <Move size={14} /> Place on Document
                     </button>
                   )}
@@ -529,7 +529,7 @@ export default function ESignTool({ id: _id }: { id: string }) {
               {/* Download */}
               {signatures.length > 0 && (
                 <button onClick={handleDownload} disabled={processing}
-                  className="w-full py-4 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white rounded-2xl font-black text-base shadow-lg flex items-center justify-center gap-3 transition-all disabled:opacity-60">
+                  className="w-full py-4 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white rounded-2xl font-medium text-base shadow-lg flex items-center justify-center gap-3 transition-all disabled:opacity-60">
                   {processing
                     ? <><Loader2 className="animate-spin" size={20} /> Processing…</>
                     : <><Download size={20} /> Download Signed PDF</>}
@@ -551,11 +551,11 @@ export default function ESignTool({ id: _id }: { id: string }) {
             </div>
             <div className="flex flex-col sm:flex-row gap-4 justify-center max-w-md mx-auto">
               <a href={result!} download={`signed_${file?.name ?? 'document.pdf'}`}
-                className="flex-1 py-4 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-2xl font-black text-lg flex items-center justify-center gap-3 shadow-lg">
+                className="flex-1 py-4 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-2xl font-medium text-lg flex items-center justify-center gap-3 shadow-lg">
                 <Download size={22} /> Download
               </a>
               <button onClick={reset}
-                className="px-8 py-4 bg-slate-100 hover:bg-slate-200 text-slate-800 rounded-2xl font-bold transition-all">
+                className="px-8 py-4 bg-slate-100 hover:bg-slate-200 text-slate-800 rounded-2xl font-medium transition-all">
                 Sign Another
               </button>
             </div>
@@ -566,3 +566,6 @@ export default function ESignTool({ id: _id }: { id: string }) {
     </div>
   );
 }
+
+
+

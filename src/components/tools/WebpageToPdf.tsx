@@ -61,7 +61,7 @@ export default function WebpageToPdf({ id: _id }: { id: string }) {
           <div className="space-y-4 sm:space-y-6">
             {/* URL Input */}
             <div className="space-y-2 sm:space-y-3 text-left">
-              <label className="font-outfit text-[11px] font-black uppercase tracking-widest text-slate-400">Website URL</label>
+              <label className="font-outfit text-[11px] font-medium uppercase tracking-widest text-slate-400">Website URL</label>
               <div className={`flex items-center gap-2 sm:gap-3 p-3 sm:p-4 rounded-xl sm:rounded-2xl border-2 transition-all bg-slate-50 dark:bg-slate-900/50 ${error ? "border-red-400" : "border-slate-200 dark:border-slate-700 focus-within:border-sky-400"}`}>
                 <Link size={16} className="text-slate-400 shrink-0 sm:w-5 sm:h-5" />
                 <input
@@ -87,7 +87,7 @@ export default function WebpageToPdf({ id: _id }: { id: string }) {
             <div className="flex flex-wrap gap-1.5 sm:gap-2 justify-center">
               {["wikipedia.org", "github.com", "news.ycombinator.com"].map(ex => (
                 <button key={ex} onClick={() => { setUrl(`https://${ex}`); setError(""); }}
-                  className="px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full text-[10px] sm:text-xs font-bold text-sky-600 dark:text-sky-400 bg-sky-50 dark:bg-sky-500/10 border border-sky-100 dark:border-sky-500/20 hover:bg-sky-100 transition-colors">
+                  className="px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full text-[10px] sm:text-xs font-medium text-sky-600 dark:text-sky-400 bg-sky-50 dark:bg-sky-500/10 border border-sky-100 dark:border-sky-500/20 hover:bg-sky-100 transition-colors">
                   {ex}
                 </button>
               ))}
@@ -97,7 +97,7 @@ export default function WebpageToPdf({ id: _id }: { id: string }) {
             <button
               onClick={handleConvert}
               disabled={processing || !url.trim()}
-              className="w-full py-3.5 sm:py-5 text-white rounded-xl sm:rounded-2xl text-base sm:text-2xl font-black shadow-xl flex items-center justify-center gap-3 sm:gap-4 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full py-3.5 sm:py-5 text-white rounded-xl sm:rounded-2xl text-base sm:text-2xl font-medium shadow-xl flex items-center justify-center gap-3 sm:gap-4 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
               style={{ background: "linear-gradient(135deg,#0ea5e9,#0369a1)", boxShadow: "0 8px 32px -8px rgba(14,165,233,0.4)" }}
             >
               {processing ? <Loader2 className="animate-spin" size={20} /> : <Sparkles size={20} className="sm:w-7 sm:h-7 fill-white/20" />}
@@ -122,18 +122,18 @@ export default function WebpageToPdf({ id: _id }: { id: string }) {
             </div>
             <div className="space-y-1 sm:space-y-2">
               <h3 className="text-xl sm:text-3xl font-black text-slate-900 dark:text-white">Conversion Complete!</h3>
-              <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 font-bold uppercase tracking-widest">{hostname} → PDF</p>
+              <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 font-medium uppercase tracking-widest">{hostname} → PDF</p>
             </div>
             <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
               <a
                 href={resultUrl}
                 download={`${hostname}.pdf`}
-                className="flex-1 py-3.5 sm:py-5 text-white rounded-xl sm:rounded-2xl text-base sm:text-lg sm:text-xl font-black shadow-xl flex items-center justify-center gap-2 sm:gap-3 transition-all"
+                className="flex-1 py-3.5 sm:py-5 text-white rounded-xl sm:rounded-2xl text-base sm:text-lg sm:text-xl font-medium shadow-xl flex items-center justify-center gap-2 sm:gap-3 transition-all"
                 style={{ background: "linear-gradient(135deg,#0ea5e9,#0369a1)" }}
               >
                 <Download size={20} className="sm:w-6 sm:h-6" /> Download PDF
               </a>
-              <button onClick={reset} className="px-6 sm:px-10 py-3.5 sm:py-5 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 text-slate-900 dark:text-white rounded-xl sm:rounded-2xl font-bold transition-all text-sm sm:text-base">
+              <button onClick={reset} className="px-6 sm:px-10 py-3.5 sm:py-5 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 text-slate-900 dark:text-white rounded-xl sm:rounded-2xl font-medium transition-all text-sm sm:text-base">
                 Convert Another
               </button>
             </div>
@@ -143,3 +143,6 @@ export default function WebpageToPdf({ id: _id }: { id: string }) {
     </div>
   );
 }
+
+
+

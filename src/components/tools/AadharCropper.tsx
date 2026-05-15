@@ -189,7 +189,7 @@ export default function AadharCropper({ id }: { id: string }) {
           {/* Step Indicator */}
           <div className="flex items-center gap-2 bg-slate-50 dark:bg-slate-900/50 px-3 py-2 rounded-xl border border-slate-100 dark:border-slate-800 shrink-0">
             {[1, 2, 3].map(s => (
-              <div key={s} className={`w-7 h-7 rounded-full flex items-center justify-center font-black text-xs transition-all ${
+              <div key={s} className={`w-7 h-7 rounded-full flex items-center justify-center font-medium text-xs transition-all ${
                 step >= s + 1 || (step === 4 && s === 3) ? 'bg-green-500 text-white' :
                 step === s ? 'bg-red-500 text-white animate-pulse' :
                 'bg-slate-200 dark:bg-slate-700 text-slate-400'
@@ -230,12 +230,12 @@ export default function AadharCropper({ id }: { id: string }) {
                         </div>
                       )}
                       <div>
-                        <div className="text-lg sm:text-lg sm:text-xl font-black text-slate-800 dark:text-white mb-1">
+                        <div className="text-lg sm:text-lg sm:text-xl font-medium text-slate-800 dark:text-white mb-1">
                           {preview ? `${slot === 'front' ? 'Front' : 'Back'} Uploaded ✓` : `Add ${slot === 'front' ? 'Front' : 'Back'} View`}
                         </div>
                         <p className="text-xs sm:text-sm text-slate-400 font-medium">{slot === 'front' ? 'Front side of Aadhar card' : 'Back side of Aadhar card'}</p>
                       </div>
-                      <span className={`px-3 py-1 bg-${color}-50 text-${color}-500 text-xs font-black rounded-full border border-${color}-100`}>
+                      <span className={`px-3 py-1 bg-${color}-50 text-${color}-500 text-xs font-medium rounded-full border border-${color}-100`}>
                         PDF / Image
                       </span>
                     </div>
@@ -248,7 +248,7 @@ export default function AadharCropper({ id }: { id: string }) {
               <button
                 onClick={startCropping}
                 disabled={!frontPage}
-                className="w-full py-3 bg-red-500 hover:bg-red-600 disabled:opacity-50 text-white rounded-xl font-black text-base shadow-lg shadow-red-500/20 flex items-center justify-center gap-2 transition-all"
+                className="w-full py-3 bg-red-500 hover:bg-red-600 disabled:opacity-50 text-white rounded-xl font-medium text-base shadow-lg shadow-red-500/20 flex items-center justify-center gap-2 transition-all"
               >
                 <ChevronRight size={18} />
                 {frontPage && backPage ? 'Crop Both Sides' : 'Crop Front Side Only'}
@@ -277,7 +277,7 @@ export default function AadharCropper({ id }: { id: string }) {
             <div className="flex flex-col sm:flex-row items-center gap-4">
               {/* Zoom slider */}
               <div className="flex items-center gap-3 flex-1 w-full bg-slate-50 dark:bg-slate-900 rounded-xl px-4 py-3 border border-slate-100 dark:border-slate-800">
-                <span className="font-outfit text-[11px] font-black uppercase tracking-widest text-slate-400 whitespace-nowrap">Zoom</span>
+                <span className="font-outfit text-[11px] font-medium uppercase tracking-widest text-slate-400 whitespace-nowrap">Zoom</span>
                 <input
                   type="range"
                   min={1}
@@ -287,18 +287,18 @@ export default function AadharCropper({ id }: { id: string }) {
                   onChange={(e) => setZoom(Number(e.target.value))}
                   className="flex-1 h-1.5 bg-slate-200 dark:bg-slate-700 rounded-lg appearance-none cursor-pointer accent-red-500"
                 />
-                <span className="font-outfit text-xs font-black text-slate-400 w-8 text-right">{zoom.toFixed(1)}x</span>
+                <span className="font-outfit text-xs font-medium text-slate-400 w-8 text-right">{zoom.toFixed(1)}x</span>
               </div>
 
               {/* Step label + Next button */}
               <div className="flex items-center gap-3 w-full sm:w-auto">
-                <span className="font-outfit text-sm font-black text-slate-700 dark:text-white whitespace-nowrap">
+                <span className="font-outfit text-sm font-medium text-slate-700 dark:text-white whitespace-nowrap">
                   {step === 2 ? 'Crop Front Side' : 'Crop Back Side'}
                 </span>
                 <button
                   onClick={nextStep}
                   disabled={processing}
-                  className="flex-1 sm:flex-none py-3 px-8 bg-red-500 hover:bg-red-600 text-white rounded-xl text-base font-black shadow-lg shadow-red-500/20 flex items-center justify-center gap-2 transition-all disabled:opacity-50"
+                  className="flex-1 sm:flex-none py-3 px-8 bg-red-500 hover:bg-red-600 text-white rounded-xl text-base font-medium shadow-lg shadow-red-500/20 flex items-center justify-center gap-2 transition-all disabled:opacity-50"
                 >
                   {processing ? <Loader2 className="animate-spin" size={18} /> : <ChevronRight size={18} />}
                   {step === 2 ? 'Next' : 'Finalize'}
@@ -319,11 +319,11 @@ export default function AadharCropper({ id }: { id: string }) {
             </div>
             <div className="flex flex-col gap-3">
               <a href={result} download="Aadhar_Card_Print.pdf"
-                className="w-full py-3.5 sm:py-4 bg-green-500 hover:bg-green-600 text-white rounded-2xl text-base sm:text-lg font-black shadow-xl flex items-center justify-center gap-2 transition-all">
+                className="w-full py-3.5 sm:py-4 bg-green-500 hover:bg-green-600 text-white rounded-2xl text-base sm:text-lg font-medium shadow-xl flex items-center justify-center gap-2 transition-all">
                 <Download size={20} /> Download Printable PDF
               </a>
               <button onClick={() => { setStep(1); setPages([]); setFrontImage(null); setBackImage(null); setResult(null); setUploadMode(null); setZoom(1); setCrop({ x: 0, y: 0 }); setFrontPage(null); setBackPage(null); }}
-                className="w-full py-3.5 sm:py-4 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 text-slate-900 dark:text-white rounded-2xl font-bold transition-all text-sm sm:text-base">
+                className="w-full py-3.5 sm:py-4 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 text-slate-900 dark:text-white rounded-2xl font-medium transition-all text-sm sm:text-base">
                 Crop Another
               </button>
             </div>
@@ -333,3 +333,6 @@ export default function AadharCropper({ id }: { id: string }) {
     </div>
   );
 }
+
+
+

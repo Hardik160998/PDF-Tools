@@ -42,7 +42,7 @@ function FAQ({ q, a }: { q: string; a: string }) {
   return (
     <div className="border border-slate-100 dark:border-slate-700 rounded-2xl overflow-hidden">
       <button onClick={() => setOpen(!open)} className="w-full flex items-center justify-between p-5 text-left bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors">
-        <span className="font-black text-sm text-slate-900 dark:text-white pr-4">{q}</span>
+        <span className="font-medium text-sm text-slate-900 dark:text-white pr-4">{q}</span>
         <ChevronDown size={16} className={`text-slate-400 shrink-0 transition-transform duration-200 ${open ? 'rotate-180' : ''}`} />
       </button>
       {open && <div className="px-5 pb-5 text-sm text-slate-500 dark:text-slate-400 leading-relaxed bg-white dark:bg-slate-800">{a}</div>}
@@ -121,10 +121,10 @@ export default function FlattenPdf({ id }: { id: string }) {
             </div>
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
               <a href={result} download={`flattened_${file?.name || 'document.pdf'}`}
-                className="flex-1 py-4 bg-violet-600 hover:bg-violet-700 text-white rounded-2xl text-lg font-black shadow-xl shadow-violet-500/20 flex items-center justify-center gap-3 transition-all">
+                className="flex-1 py-4 bg-violet-600 hover:bg-violet-700 text-white rounded-2xl text-lg font-medium shadow-xl shadow-violet-500/20 flex items-center justify-center gap-3 transition-all">
                 <Download size={22} /> Download Flattened PDF
               </a>
-              <button onClick={reset} className="px-8 py-4 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 text-slate-900 dark:text-white rounded-2xl font-bold transition-all">
+              <button onClick={reset} className="px-8 py-4 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 text-slate-900 dark:text-white rounded-2xl font-medium transition-all">
                 Flatten Another
               </button>
             </div>
@@ -139,7 +139,7 @@ export default function FlattenPdf({ id }: { id: string }) {
                 <div className="p-5 bg-white dark:bg-slate-800 rounded-2xl shadow-xl inline-block text-violet-600 group-hover:scale-110 transition-transform">
                   <Upload size={32} />
                 </div>
-                <div className="text-lg sm:text-lg sm:text-xl font-black text-slate-800 dark:text-white mb-1">Select PDF File</div>
+                <div className="text-lg sm:text-lg sm:text-xl font-medium text-slate-800 dark:text-white mb-1">Select PDF File</div>
                 <p className="text-xs sm:text-sm text-slate-400 font-medium">or drop PDF here</p>
               </div>
             </div>
@@ -147,7 +147,7 @@ export default function FlattenPdf({ id }: { id: string }) {
               {FEATURES.map(f => (
                 <div key={f.title} className="p-4 bg-slate-50 dark:bg-slate-700/50 rounded-2xl border border-slate-100 dark:border-slate-600 text-left space-y-2">
                   <span className="text-2xl">{f.icon}</span>
-                  <p className="text-xs font-black text-slate-900 dark:text-white">{f.title}</p>
+                  <p className="text-xs font-medium text-slate-900 dark:text-white">{f.title}</p>
                   <p className="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed">{f.desc}</p>
                 </div>
               ))}
@@ -160,7 +160,7 @@ export default function FlattenPdf({ id }: { id: string }) {
               <div className="flex items-center gap-3">
                 <div className="p-2 bg-white dark:bg-slate-800 rounded-xl shadow-sm text-violet-600"><FileText size={20} /></div>
                 <div>
-                  <p className="font-black text-slate-900 dark:text-white text-sm truncate max-w-[220px]">{file.name}</p>
+                  <p className="font-medium text-slate-900 dark:text-white text-sm truncate max-w-[220px]">{file.name}</p>
                   <p className="text-xs text-slate-400">{pageCount} page{pageCount !== 1 ? 's' : ''}</p>
                 </div>
               </div>
@@ -173,7 +173,7 @@ export default function FlattenPdf({ id }: { id: string }) {
               </p>
             </div>
             <button onClick={handleFlatten} disabled={processing}
-              className="w-full py-4 sm:py-5 bg-violet-600 hover:bg-violet-700 disabled:opacity-50 text-white rounded-2xl text-lg sm:text-lg sm:text-xl font-black shadow-xl shadow-violet-500/20 flex items-center justify-center gap-3 transition-all">
+              className="w-full py-4 sm:py-5 bg-violet-600 hover:bg-violet-700 disabled:opacity-50 text-white rounded-2xl text-lg sm:text-lg sm:text-xl font-medium shadow-xl shadow-violet-500/20 flex items-center justify-center gap-3 transition-all">
               {processing ? <Loader2 className="animate-spin" size={24} /> : <Layers size={24} />}
               {processing ? `Flattening ${pageCount} pages...` : 'Flatten PDF'}
             </button>
@@ -187,9 +187,9 @@ export default function FlattenPdf({ id }: { id: string }) {
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           {STEPS.map(s => (
             <div key={s.n} className="flex gap-4 items-start p-4 bg-slate-50 dark:bg-slate-700/50 rounded-2xl border border-slate-100 dark:border-slate-600">
-              <div className="w-9 h-9 rounded-full bg-violet-600 text-white font-black text-sm flex items-center justify-center shrink-0">{s.n}</div>
+              <div className="w-9 h-9 rounded-full bg-violet-600 text-white font-medium text-sm flex items-center justify-center shrink-0">{s.n}</div>
               <div>
-                <p className="font-black text-slate-900 dark:text-white text-sm">{s.title}</p>
+                <p className="font-medium text-slate-900 dark:text-white text-sm">{s.title}</p>
                 <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5 leading-relaxed">{s.desc}</p>
               </div>
             </div>
@@ -212,7 +212,7 @@ export default function FlattenPdf({ id }: { id: string }) {
             <div key={item.t} className="flex items-start gap-3 p-4 bg-slate-50 dark:bg-slate-700/50 rounded-xl border border-slate-100 dark:border-slate-600">
               <span className="text-xl shrink-0">{item.icon}</span>
               <div>
-                <p className="font-black text-slate-900 dark:text-white text-sm">{item.t}</p>
+                <p className="font-medium text-slate-900 dark:text-white text-sm">{item.t}</p>
                 <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5 leading-relaxed">{item.d}</p>
               </div>
             </div>
@@ -239,7 +239,7 @@ export default function FlattenPdf({ id }: { id: string }) {
                 <Layers size={16} />
               </div>
               <div className="text-left">
-                <p className="font-black text-slate-900 dark:text-white text-xs group-hover:text-violet-600 transition-colors">{t.label}</p>
+                <p className="font-medium text-slate-900 dark:text-white text-xs group-hover:text-violet-600 transition-colors">{t.label}</p>
                 <p className="text-[11px] text-slate-400 mt-0.5">{t.desc}</p>
               </div>
             </a>
@@ -250,3 +250,6 @@ export default function FlattenPdf({ id }: { id: string }) {
     </div>
   );
 }
+
+
+

@@ -629,7 +629,7 @@ export default function FlipkartCropper({ id }: { id: string }) {
         <div className="bg-white dark:bg-slate-800 rounded-3xl border border-slate-100 dark:border-slate-700 shadow-xl h-fit lg:sticky lg:top-4 overflow-hidden">
           <button 
             onClick={() => setShowSettings(!showSettings)}
-            className="w-full flex lg:hidden items-center justify-between p-5 font-black text-slate-900 dark:text-white border-b border-slate-50 dark:border-slate-700"
+            className="w-full flex lg:hidden items-center justify-between p-5 font-medium text-slate-900 dark:text-white border-b border-slate-50 dark:border-slate-700"
           >
             <span className="flex items-center gap-2"><FileText size={20} style={{ color: ACCENT }} /> Settings (સેટિંગ્સ)</span>
             <Loader2 className={`transition-transform duration-300 ${showSettings ? 'rotate-180' : ''}`} size={20} />
@@ -648,28 +648,28 @@ export default function FlipkartCropper({ id }: { id: string }) {
               <input type="checkbox" checked={labelsPerA4} onChange={e => setLabelsPerA4(e.target.checked)} className="w-5 h-5 mt-0.5" style={{ accentColor: ACCENT }} />
               <div className="flex flex-col">
                 <span className="text-sm font-semibold">4 Labels per A4 page</span>
-                <span className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">2x2 Grid (No Invoice)</span>
+                <span className="text-[10px] text-slate-400 font-medium uppercase tracking-widest">2x2 Grid (No Invoice)</span>
               </div>
             </label>
             <label className="flex items-start gap-3 cursor-pointer">
               <input type="checkbox" checked={sortByQty} onChange={e => setSortByQty(e.target.checked)} className="w-5 h-5 mt-0.5" style={{ accentColor: ACCENT }} />
               <div className="flex flex-col">
                 <span className="text-sm font-semibold">Sort by Quantity</span>
-                <span className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Qty મુજબ સોર્ટ કરો</span>
+                <span className="text-[10px] text-slate-400 font-medium uppercase tracking-widest">Qty મુજબ સોર્ટ કરો</span>
               </div>
             </label>
             <label className="flex items-start gap-3 cursor-pointer">
               <input type="checkbox" checked={sortBySku} onChange={e => setSortBySku(e.target.checked)} className="w-5 h-5 mt-0.5" style={{ accentColor: ACCENT }} />
               <div className="flex flex-col">
                 <span className="text-sm font-semibold">Sort by SKU ID</span>
-                <span className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Group identical items</span>
+                <span className="text-[10px] text-slate-400 font-medium uppercase tracking-widest">Group identical items</span>
               </div>
             </label>
             <label className="flex items-start gap-3 cursor-pointer">
               <input type="checkbox" checked={highlightSku} onChange={e => setHighlightSku(e.target.checked)} className="w-5 h-5 mt-0.5" style={{ accentColor: ACCENT }} />
               <div className="flex flex-col">
                 <span className="text-sm font-semibold">Highlight SKU ID</span>
-                <span className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Visible blue boxes</span>
+                <span className="text-[10px] text-slate-400 font-medium uppercase tracking-widest">Visible blue boxes</span>
               </div>
             </label>
             <label className="flex items-start gap-3 cursor-pointer">
@@ -707,8 +707,8 @@ export default function FlipkartCropper({ id }: { id: string }) {
                 { step: "4", title: "Print", desc: "Download PDF" }
               ].map((s, idx) => (
                 <div key={idx} className="p-3 bg-slate-50 dark:bg-slate-900/50 rounded-2xl border border-slate-100 dark:border-slate-700">
-                  <div className="w-6 h-6 rounded-full bg-orange-500 text-white text-[10px] font-black flex items-center justify-center mb-1 mx-auto">{s.step}</div>
-                  <div className="text-[11px] font-black text-slate-900 dark:text-white">{s.title}</div>
+                  <div className="w-6 h-6 rounded-full bg-orange-500 text-white text-[10px] font-medium flex items-center justify-center mb-1 mx-auto">{s.step}</div>
+                  <div className="text-[11px] font-medium text-slate-900 dark:text-white">{s.title}</div>
                   <div className="text-[9px] text-slate-400 font-medium leading-tight mt-0.5">{s.desc}</div>
                 </div>
               ))}
@@ -720,18 +720,18 @@ export default function FlipkartCropper({ id }: { id: string }) {
               <div className="border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-2xl sm:rounded-3xl p-8 sm:p-16 hover:border-[#F7941D] transition-all cursor-pointer bg-slate-50/50 dark:bg-slate-900/50" onClick={() => inputRef.current?.click()} onDragOver={e => e.preventDefault()} onDrop={e => { e.preventDefault(); addFiles(e.dataTransfer.files); }}>
                 <input ref={inputRef} type="file" accept=".pdf" multiple className="hidden" onChange={e => addFiles(e.target.files)} />
                 <div className="p-6 bg-white dark:bg-slate-800 rounded-2xl shadow-xl inline-block mb-4" style={{ color: ACCENT }}><Upload size={32} /></div>
-                <div className="text-lg sm:text-lg sm:text-xl font-black text-slate-800 dark:text-white mb-1">Drop Flipkart PDFs</div>
+                <div className="text-lg sm:text-lg sm:text-xl font-medium text-slate-800 dark:text-white mb-1">Drop Flipkart PDFs</div>
                 <p className="text-xs sm:text-sm text-slate-400 font-medium">Automatic label detection engine</p>
               </div>
               {files.length > 0 && (
                 <div className="space-y-4">
                   {files.map(f => (
                     <div key={f.id} className="flex items-center justify-between p-4 bg-slate-50 dark:bg-slate-700 rounded-2xl">
-                      <div className="flex items-center gap-3"><FileText size={16} /><span className="text-xs font-bold">{f.name}</span></div>
+                      <div className="flex items-center gap-3"><FileText size={16} /><span className="text-xs font-medium">{f.name}</span></div>
                       {f.status === 'processing' ? <Loader2 size={16} className="animate-spin" /> : <button onClick={() => removeFile(f.id)}><X size={16} /></button>}
                     </div>
                   ))}
-                  <button onClick={processAll} disabled={processing} className="w-full py-5 text-white rounded-2xl text-2xl font-black shadow-xl" style={{ background: ACCENT }}>{processing ? 'Processing...' : 'Start Extraction'}</button>
+                  <button onClick={processAll} disabled={processing} className="w-full py-5 text-white rounded-2xl text-2xl font-medium shadow-xl" style={{ background: ACCENT }}>{processing ? 'Processing...' : 'Start Extraction'}</button>
                 </div>
               )}
             </div>
@@ -739,8 +739,8 @@ export default function FlipkartCropper({ id }: { id: string }) {
             <div className="space-y-8">
               <div className="p-10 rounded-full bg-green-100 dark:bg-green-500/20 text-green-500 inline-block"><CheckCircle2 size={64} /></div>
               <h3 className="text-3xl font-black text-slate-900 dark:text-white">{labelCount} Labels Extracted</h3>
-              <a href={pdfUrl!} download="flipkart_labels.pdf" className="block py-5 text-white rounded-2xl text-2xl font-black shadow-xl" style={{ background: ACCENT }}><Download size={24} className="inline mr-2" /> Download PDF</a>
-              <button onClick={reset} className="w-full py-4 font-bold text-slate-500">Extract More</button>
+              <a href={pdfUrl!} download="flipkart_labels.pdf" className="block py-5 text-white rounded-2xl text-2xl font-medium shadow-xl" style={{ background: ACCENT }}><Download size={24} className="inline mr-2" /> Download PDF</a>
+              <button onClick={reset} className="w-full py-4 font-medium text-slate-500">Extract More</button>
             </div>
           )}
         </div>
@@ -748,3 +748,6 @@ export default function FlipkartCropper({ id }: { id: string }) {
     </div>
   );
 }
+
+
+

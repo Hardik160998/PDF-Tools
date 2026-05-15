@@ -213,7 +213,7 @@ export default function CropPdf({ id: _id }: { id: string }) {
       <div className="flex flex-col lg:flex-row gap-8 items-start">
         <div className="w-full lg:w-[320px] bg-white dark:bg-slate-900 rounded-[32px] border border-slate-100 dark:border-slate-800 shadow-xl p-8 flex-shrink-0 space-y-10">
           <div className="space-y-3 text-left">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-lg bg-orange-50 dark:bg-orange-500/10 text-orange-600 dark:text-orange-400 font-outfit text-[11px] font-black uppercase tracking-widest">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-lg bg-orange-50 dark:bg-orange-500/10 text-orange-600 dark:text-orange-400 font-outfit text-[11px] font-medium uppercase tracking-widest">
               <Zap size={12} /> Capabilities
             </div>
             <h3 className="font-outfit text-2xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter leading-tight">Advanced <br/> PDF Cropping</h3>
@@ -232,8 +232,8 @@ export default function CropPdf({ id: _id }: { id: string }) {
                   <f.icon size={18} />
                 </div>
                 <div>
-                  <p className="text-xs font-black text-slate-900 dark:text-white uppercase tracking-tighter leading-none mb-1">{f.title}</p>
-                  <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">{f.desc}</p>
+                  <p className="text-xs font-medium text-slate-900 dark:text-white uppercase tracking-tighter leading-none mb-1">{f.title}</p>
+                  <p className="text-[10px] text-slate-400 font-medium uppercase tracking-widest">{f.desc}</p>
                 </div>
               </div>
             ))}
@@ -241,8 +241,8 @@ export default function CropPdf({ id: _id }: { id: string }) {
 
           <div className="pt-8 border-t border-slate-50 dark:border-slate-800 text-left">
             <div className="bg-orange-50 dark:bg-orange-500/5 rounded-2xl p-4 border border-orange-100/50 dark:border-orange-500/10">
-              <p className="text-[10px] font-black text-orange-600 dark:text-orange-400 uppercase tracking-widest mb-1">Status</p>
-              <p className="text-[11px] text-orange-700/70 dark:text-orange-400/70 font-bold uppercase">Ready to process</p>
+              <p className="text-[10px] font-medium text-orange-600 dark:text-orange-400 uppercase tracking-widest mb-1">Status</p>
+              <p className="text-[11px] text-orange-700/70 dark:text-orange-400/70 font-medium uppercase">Ready to process</p>
             </div>
           </div>
         </div>
@@ -280,7 +280,7 @@ export default function CropPdf({ id: _id }: { id: string }) {
         
         <div className="flex-1 overflow-y-auto p-8 space-y-10 custom-scrollbar">
            <div className="space-y-4 text-left">
-              <span className="font-outfit text-[11px] font-black text-slate-400 uppercase tracking-widest">Active Queue ({files.length})</span>
+              <span className="font-outfit text-[11px] font-medium text-slate-400 uppercase tracking-widest">Active Queue ({files.length})</span>
               <div className="space-y-3">
                 {files.map((f, i) => (
                   <button key={f.id} onClick={() => { setActiveFileIdx(i); setActivePage(0); }} 
@@ -289,8 +289,8 @@ export default function CropPdf({ id: _id }: { id: string }) {
                       <FileText size={16} />
                     </div>
                     <div className="min-w-0 text-left">
-                       <p className={`text-xs font-black uppercase truncate ${activeFileIdx === i ? 'text-slate-900 dark:text-white' : 'text-slate-500'}`}>{f.file.name}</p>
-                       <p className="text-[9px] font-bold text-slate-400 uppercase">{f.pages.length} Pages</p>
+                       <p className={`text-xs font-medium uppercase truncate ${activeFileIdx === i ? 'text-slate-900 dark:text-white' : 'text-slate-500'}`}>{f.file.name}</p>
+                       <p className="text-[9px] font-medium text-slate-400 uppercase">{f.pages.length} Pages</p>
                     </div>
                   </button>
                 ))}
@@ -298,15 +298,15 @@ export default function CropPdf({ id: _id }: { id: string }) {
            </div>
 
            <div className="space-y-4 text-left pt-6 border-t border-slate-50 dark:border-slate-800">
-              <span className="font-outfit text-[11px] font-black text-slate-400 uppercase tracking-widest">Configuration</span>
+              <span className="font-outfit text-[11px] font-medium text-slate-400 uppercase tracking-widest">Configuration</span>
               <div className="space-y-3">
                  <button onClick={() => setMode('all')} className={`w-full p-4 rounded-2xl border-2 flex items-center gap-4 transition-all ${mode === 'all' ? 'border-orange-500 bg-orange-50/30 dark:bg-orange-500/5' : 'border-slate-50 dark:border-slate-800'}`}>
                     <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${mode === 'all' ? 'border-orange-500 bg-orange-500' : 'border-slate-300'}`}>
                        {mode === 'all' && <div className="w-2 h-2 rounded-full bg-white" />}
                     </div>
                     <div>
-                       <p className={`text-xs font-black uppercase ${mode === 'all' ? 'text-slate-900 dark:text-white' : 'text-slate-400'}`}>Global Crop</p>
-                       <p className="text-[9px] font-bold text-slate-400 uppercase">Same box for all pages</p>
+                       <p className={`text-xs font-medium uppercase ${mode === 'all' ? 'text-slate-900 dark:text-white' : 'text-slate-400'}`}>Global Crop</p>
+                       <p className="text-[9px] font-medium text-slate-400 uppercase">Same box for all pages</p>
                     </div>
                  </button>
                  <button onClick={() => setMode('per')} className={`w-full p-4 rounded-2xl border-2 flex items-center gap-4 transition-all ${mode === 'per' ? 'border-orange-500 bg-orange-50/30 dark:bg-orange-500/5' : 'border-slate-50 dark:border-slate-800'}`}>
@@ -314,8 +314,8 @@ export default function CropPdf({ id: _id }: { id: string }) {
                        {mode === 'per' && <div className="w-2 h-2 rounded-full bg-white" />}
                     </div>
                     <div>
-                       <p className={`text-xs font-black uppercase ${mode === 'per' ? 'text-slate-900 dark:text-white' : 'text-slate-400'}`}>Individual</p>
-                       <p className="text-[9px] font-bold text-slate-400 uppercase">Custom per document</p>
+                       <p className={`text-xs font-medium uppercase ${mode === 'per' ? 'text-slate-900 dark:text-white' : 'text-slate-400'}`}>Individual</p>
+                       <p className="text-[9px] font-medium text-slate-400 uppercase">Custom per document</p>
                     </div>
                  </button>
               </div>
@@ -323,7 +323,7 @@ export default function CropPdf({ id: _id }: { id: string }) {
         </div>
 
         <div className="p-8 border-t border-slate-50 dark:border-slate-800">
-           <button onClick={handleCrop} disabled={processing} className="w-full py-5 bg-orange-500 text-white rounded-2xl font-black text-lg uppercase tracking-widest shadow-2xl shadow-orange-500/30 hover:scale-[1.02] active:scale-95 transition-all">
+           <button onClick={handleCrop} disabled={processing} className="w-full py-5 bg-orange-500 text-white rounded-2xl font-medium text-lg uppercase tracking-widest shadow-2xl shadow-orange-500/30 hover:scale-[1.02] active:scale-95 transition-all">
               {processing ? <Loader2 className="animate-spin mx-auto" size={28} /> : 'Export Batch'}
            </button>
         </div>
@@ -335,12 +335,12 @@ export default function CropPdf({ id: _id }: { id: string }) {
          <div className="h-16 border-b border-slate-100 dark:border-slate-900 bg-white dark:bg-slate-900 flex items-center justify-between px-8 shrink-0">
             <div className="flex items-center gap-4">
                <button onClick={() => setActivePage(p => Math.max(0, p - 1))} className="p-2 text-slate-400 hover:text-orange-500"><ChevronUp size={20} /></button>
-               <span className="text-xs font-black uppercase tracking-widest text-slate-900 dark:text-white">Page {activePage + 1} / {activeFile?.pages.length || 0}</span>
+               <span className="text-xs font-medium uppercase tracking-widest text-slate-900 dark:text-white">Page {activePage + 1} / {activeFile?.pages.length || 0}</span>
                <button onClick={() => setActivePage(p => Math.min((activeFile?.pages.length || 1) - 1, p + 1))} className="p-2 text-slate-400 hover:text-orange-500 rotate-180"><ChevronUp size={20} /></button>
             </div>
             <div className="flex items-center gap-2">
                <button onClick={() => setZoom(z => Math.max(0.25, z - 0.25))} className="p-2 text-slate-400 hover:text-orange-500"><ZoomOut size={20} /></button>
-               <span className="w-12 text-center text-[10px] font-black uppercase text-slate-900 dark:text-white">{Math.round(zoom * 100)}%</span>
+               <span className="w-12 text-center text-[10px] font-medium uppercase text-slate-900 dark:text-white">{Math.round(zoom * 100)}%</span>
                <button onClick={() => setZoom(z => Math.min(3, z + 0.25))} className="p-2 text-slate-400 hover:text-orange-500"><ZoomIn size={20} /></button>
             </div>
          </div>
@@ -393,13 +393,13 @@ export default function CropPdf({ id: _id }: { id: string }) {
          {/* Bottom Floating Info */}
          <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex items-center gap-6 px-8 py-4 bg-white/80 dark:bg-slate-900/80 backdrop-blur-2xl rounded-full border border-slate-200 dark:border-slate-800 shadow-2xl pointer-events-none">
             <div className="flex flex-col items-center">
-               <span className="text-[8px] font-black uppercase text-slate-400">Width</span>
-               <span className="text-sm font-black text-slate-900 dark:text-white uppercase tracking-widest">{activePg ? Math.round(cropBox.w * activePg.pdfW) : 0} pt</span>
+               <span className="text-[8px] font-medium uppercase text-slate-400">Width</span>
+               <span className="text-sm font-medium text-slate-900 dark:text-white uppercase tracking-widest">{activePg ? Math.round(cropBox.w * activePg.pdfW) : 0} pt</span>
             </div>
             <div className="w-px h-6 bg-slate-100 dark:bg-slate-800" />
             <div className="flex flex-col items-center">
-               <span className="text-[8px] font-black uppercase text-slate-400">Height</span>
-               <span className="text-sm font-black text-slate-900 dark:text-white uppercase tracking-widest">{activePg ? Math.round(cropBox.h * activePg.pdfH) : 0} pt</span>
+               <span className="text-[8px] font-medium uppercase text-slate-400">Height</span>
+               <span className="text-sm font-medium text-slate-900 dark:text-white uppercase tracking-widest">{activePg ? Math.round(cropBox.h * activePg.pdfH) : 0} pt</span>
             </div>
          </div>
       </div>
@@ -414,7 +414,7 @@ export default function CropPdf({ id: _id }: { id: string }) {
           </div>
           <div>
              <h2 className="text-4xl font-black text-slate-900 dark:text-white uppercase tracking-widest mb-2">Batch Process Ready!</h2>
-             <p className="text-slate-500 font-bold uppercase tracking-widest text-xs">Successfully cropped {files.length} documents.</p>
+             <p className="text-slate-500 font-medium uppercase tracking-widest text-xs">Successfully cropped {files.length} documents.</p>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-2xl mx-auto">
@@ -423,11 +423,11 @@ export default function CropPdf({ id: _id }: { id: string }) {
                   <div className="flex items-center gap-4 text-left min-w-0">
                      <div className="p-3 bg-white dark:bg-slate-900 rounded-xl shadow-sm text-orange-500 shrink-0"><FileText size={20} /></div>
                      <div className="min-w-0 flex-1">
-                        <p className="text-xs font-black uppercase truncate text-slate-900 dark:text-white">{f.file.name}</p>
-                        <p className="text-[9px] font-bold text-slate-400 uppercase">Ready for pickup</p>
+                        <p className="text-xs font-medium uppercase truncate text-slate-900 dark:text-white">{f.file.name}</p>
+                        <p className="text-[9px] font-medium text-slate-400 uppercase">Ready for pickup</p>
                      </div>
                   </div>
-                  <a href={f.resultUrl} download={`cropped_${f.file.name}`} className="w-full py-3 bg-slate-900 dark:bg-white text-white dark:text-slate-900 rounded-xl font-black text-[10px] uppercase tracking-widest shadow-lg hover:scale-105 transition-all flex items-center justify-center gap-2">
+                  <a href={f.resultUrl} download={`cropped_${f.file.name}`} className="w-full py-3 bg-slate-900 dark:bg-white text-white dark:text-slate-900 rounded-xl font-medium text-[10px] uppercase tracking-widest shadow-lg hover:scale-105 transition-all flex items-center justify-center gap-2">
                      <Download size={14} /> Download
                   </a>
                </div>
@@ -435,7 +435,7 @@ export default function CropPdf({ id: _id }: { id: string }) {
           </div>
 
           <div className="pt-8 border-t border-slate-50 dark:border-slate-800">
-             <button onClick={reset} className="px-10 py-4 bg-slate-100 dark:bg-slate-800 text-slate-500 rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-slate-200 transition-all">Start New Batch</button>
+             <button onClick={reset} className="px-10 py-4 bg-slate-100 dark:bg-slate-800 text-slate-500 rounded-2xl font-medium text-xs uppercase tracking-widest hover:bg-slate-200 transition-all">Start New Batch</button>
           </div>
        </div>
     </div>
@@ -449,7 +449,7 @@ export default function CropPdf({ id: _id }: { id: string }) {
               <Loader2 size={64} className="animate-spin text-orange-500" />
               <Zap className="absolute inset-0 m-auto text-orange-500/20" size={32} />
            </div>
-           <p className="text-lg sm:text-xl font-black text-slate-900 dark:text-white uppercase tracking-widest animate-pulse">Rendering Engine Booting...</p>
+           <p className="text-lg sm:text-xl font-medium text-slate-900 dark:text-white uppercase tracking-widest animate-pulse">Rendering Engine Booting...</p>
         </div>
       )}
       {step === 1 && renderStep1()}
@@ -467,3 +467,6 @@ export default function CropPdf({ id: _id }: { id: string }) {
     </div>
   );
 }
+
+
+

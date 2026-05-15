@@ -140,7 +140,7 @@ export default function ComparePdf({ id: _id }: { id: string }) {
         <div className="p-5 flex items-center gap-3">
           <div className="p-2.5 rounded-xl text-white shrink-0" style={{ background: grad }}><FileText size={20} /></div>
           <div className="flex-1 min-w-0">
-            <p className="font-black text-slate-900 dark:text-white text-sm truncate">{file.name}</p>
+            <p className="font-medium text-slate-900 dark:text-white text-sm truncate">{file.name}</p>
             <p className="text-xs text-slate-400">{(file.size / 1024).toFixed(0)} KB</p>
           </div>
           <button onClick={e => { e.stopPropagation(); label === "A" ? setFileA(null) : setFileB(null); }} className="p-1.5 text-slate-400 hover:text-red-500 shrink-0"><X size={16} /></button>
@@ -148,7 +148,7 @@ export default function ComparePdf({ id: _id }: { id: string }) {
       ) : (
         <div className="p-8 flex flex-col items-center gap-3 pointer-events-none">
           <div className="p-4 rounded-2xl text-white shadow-lg group-hover:scale-110 transition-transform" style={{ background: grad }}><Upload size={28} /></div>
-          <div className="text-lg sm:text-lg sm:text-xl font-black text-slate-800 dark:text-white mb-1">PDF {label}</div>
+          <div className="text-lg sm:text-lg sm:text-xl font-medium text-slate-800 dark:text-white mb-1">PDF {label}</div>
           <p className="text-xs sm:text-sm text-slate-400 font-medium mt-1 text-center">Click or drag &amp; drop</p>
         </div>
       )}
@@ -182,7 +182,7 @@ export default function ComparePdf({ id: _id }: { id: string }) {
         {/* Compare button */}
         {!done && (
           <button onClick={handleCompare} disabled={!fileA || !fileB || loading}
-            className="w-full py-4 sm:py-5 text-white rounded-2xl text-lg sm:text-xl font-black shadow-xl flex items-center justify-center gap-3 transition-all disabled:opacity-50"
+            className="w-full py-4 sm:py-5 text-white rounded-2xl text-lg sm:text-xl font-medium shadow-xl flex items-center justify-center gap-3 transition-all disabled:opacity-50"
             style={{ background: "linear-gradient(135deg,#6366f1,#4f46e5)" }}>
             {loading ? <Loader2 className="animate-spin" size={26} /> : <GitCompare size={26} />}
             {loading ? "Comparing pages…" : "Compare PDFs"}
@@ -203,31 +203,31 @@ export default function ComparePdf({ id: _id }: { id: string }) {
             {/* Summary cards */}
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
               <div className="rounded-2xl p-4 text-center bg-slate-50 dark:bg-slate-700/40 border border-slate-100 dark:border-slate-700">
-                <p className="text-2xl font-black text-slate-900 dark:text-white">{pages.length}</p>
-                <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mt-1">Total Pages</p>
+                <p className="text-2xl font-medium text-slate-900 dark:text-white">{pages.length}</p>
+                <p className="text-xs font-medium text-slate-400 uppercase tracking-widest mt-1">Total Pages</p>
               </div>
               <div className="rounded-2xl p-4 text-center bg-red-50 dark:bg-red-500/10 border border-red-100 dark:border-red-500/20">
-                <p className="text-2xl font-black text-red-500">{totalDiff}</p>
-                <p className="text-xs font-bold text-red-400 uppercase tracking-widest mt-1">Changed Pages</p>
+                <p className="text-2xl font-medium text-red-500">{totalDiff}</p>
+                <p className="text-xs font-medium text-red-400 uppercase tracking-widest mt-1">Changed Pages</p>
               </div>
               <div className="rounded-2xl p-4 text-center bg-green-50 dark:bg-green-500/10 border border-green-100 dark:border-green-500/20">
-                <p className="text-2xl font-black text-green-500">+{totalAdded}</p>
-                <p className="text-xs font-bold text-green-400 uppercase tracking-widest mt-1">Lines Added</p>
+                <p className="text-2xl font-medium text-green-500">+{totalAdded}</p>
+                <p className="text-xs font-medium text-green-400 uppercase tracking-widest mt-1">Lines Added</p>
               </div>
               <div className="rounded-2xl p-4 text-center bg-orange-50 dark:bg-orange-500/10 border border-orange-100 dark:border-orange-500/20">
-                <p className="text-2xl font-black text-orange-500">-{totalRemoved}</p>
-                <p className="text-xs font-bold text-orange-400 uppercase tracking-widest mt-1">Lines Removed</p>
+                <p className="text-2xl font-medium text-orange-500">-{totalRemoved}</p>
+                <p className="text-xs font-medium text-orange-400 uppercase tracking-widest mt-1">Lines Removed</p>
               </div>
             </div>
 
             {/* Page list */}
             <div className="space-y-2">
               <div className="flex items-center justify-between flex-wrap gap-2">
-                <p className="text-xs font-black uppercase tracking-widest text-slate-500 dark:text-slate-400">Pages</p>
+                <p className="text-xs font-medium uppercase tracking-widest text-slate-500 dark:text-slate-400">Pages</p>
                 <div className="flex gap-1">
                   {(["all","diff","same"] as const).map(m => (
                     <button key={m} onClick={() => setFilterMode(m)}
-                      className={`px-3 py-1 rounded-lg text-xs font-bold transition-all ${filterMode === m ? "bg-indigo-500 text-white" : "bg-slate-100 dark:bg-slate-700 text-slate-500 hover:bg-slate-200"}`}>
+                      className={`px-3 py-1 rounded-lg text-xs font-medium transition-all ${filterMode === m ? "bg-indigo-500 text-white" : "bg-slate-100 dark:bg-slate-700 text-slate-500 hover:bg-slate-200"}`}>
                       {m === "all" ? "All" : m === "diff" ? "Changed" : "Identical"}
                     </button>
                   ))}
@@ -239,7 +239,7 @@ export default function ComparePdf({ id: _id }: { id: string }) {
                     className={`shrink-0 rounded-xl overflow-hidden border-2 transition-all ${currentPage === p.page - 1 ? "border-indigo-500 ring-2 ring-indigo-500/30 scale-105" : p.identical ? "border-green-300 dark:border-green-600" : "border-red-300 dark:border-red-600"}`}
                     style={{ width: 64 }}>
                     {p.thumbA ? <img src={p.thumbA} alt={`Page ${p.page}`} className="w-full h-auto block" /> : <div className="w-16 h-20 bg-slate-100 dark:bg-slate-700" />}
-                    <div className={`text-center py-0.5 text-[10px] font-black ${p.identical ? "bg-green-50 dark:bg-green-900/30 text-green-600" : "bg-red-50 dark:bg-red-900/30 text-red-500"}`}>
+                    <div className={`text-center py-0.5 text-[10px] font-medium ${p.identical ? "bg-green-50 dark:bg-green-900/30 text-green-600" : "bg-red-50 dark:bg-red-900/30 text-red-500"}`}>
                       {p.identical ? "✓" : "≠"} {p.page}
                     </div>
                   </button>
@@ -253,25 +253,25 @@ export default function ComparePdf({ id: _id }: { id: string }) {
                 {/* Page header */}
                 <div className="flex items-center justify-between flex-wrap gap-2">
                   <div className="flex items-center gap-2 flex-wrap">
-                    <span className="text-sm font-black text-slate-700 dark:text-slate-200">Page {cur.page}</span>
+                    <span className="text-sm font-medium text-slate-700 dark:text-slate-200">Page {cur.page}</span>
                     {cur.identical
-                      ? <span className="flex items-center gap-1 text-xs font-bold text-green-600 bg-green-50 dark:bg-green-900/30 px-2 py-0.5 rounded-full"><CheckCircle2 size={11} /> Identical</span>
-                      : <span className="flex items-center gap-1 text-xs font-bold text-red-500 bg-red-50 dark:bg-red-900/30 px-2 py-0.5 rounded-full"><AlertCircle size={11} /> {Math.round((1 - cur.similarity) * 100)}% different</span>
+                      ? <span className="flex items-center gap-1 text-xs font-medium text-green-600 bg-green-50 dark:bg-green-900/30 px-2 py-0.5 rounded-full"><CheckCircle2 size={11} /> Identical</span>
+                      : <span className="flex items-center gap-1 text-xs font-medium text-red-500 bg-red-50 dark:bg-red-900/30 px-2 py-0.5 rounded-full"><AlertCircle size={11} /> {Math.round((1 - cur.similarity) * 100)}% different</span>
                     }
                     {!cur.identical && (
                       <>
-                        <span className="text-xs font-bold text-green-600 bg-green-50 dark:bg-green-900/20 px-2 py-0.5 rounded-full">+{cur.addedCount} added</span>
-                        <span className="text-xs font-bold text-red-500 bg-red-50 dark:bg-red-900/20 px-2 py-0.5 rounded-full">-{cur.removedCount} removed</span>
+                        <span className="text-xs font-medium text-green-600 bg-green-50 dark:bg-green-900/20 px-2 py-0.5 rounded-full">+{cur.addedCount} added</span>
+                        <span className="text-xs font-medium text-red-500 bg-red-50 dark:bg-red-900/20 px-2 py-0.5 rounded-full">-{cur.removedCount} removed</span>
                       </>
                     )}
                   </div>
                   <div className="flex items-center gap-2">
                     {/* View toggle */}
                     <div className="flex bg-slate-100 dark:bg-slate-700 rounded-xl p-1 gap-1">
-                      <button onClick={() => setViewMode("text")} className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${viewMode === "text" ? "bg-white dark:bg-slate-600 text-indigo-600 shadow-sm" : "text-slate-500"}`}>
+                      <button onClick={() => setViewMode("text")} className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${viewMode === "text" ? "bg-white dark:bg-slate-600 text-indigo-600 shadow-sm" : "text-slate-500"}`}>
                         <AlignLeft size={13} /> Text Diff
                       </button>
-                      <button onClick={() => setViewMode("visual")} className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${viewMode === "visual" ? "bg-white dark:bg-slate-600 text-indigo-600 shadow-sm" : "text-slate-500"}`}>
+                      <button onClick={() => setViewMode("visual")} className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${viewMode === "visual" ? "bg-white dark:bg-slate-600 text-indigo-600 shadow-sm" : "text-slate-500"}`}>
                         <Eye size={13} /> Visual
                       </button>
                     </div>
@@ -285,9 +285,9 @@ export default function ComparePdf({ id: _id }: { id: string }) {
                   <div className="rounded-2xl border border-slate-200 dark:border-slate-700 overflow-hidden">
                     {/* Legend */}
                     <div className="flex items-center gap-4 px-4 py-2.5 bg-slate-50 dark:bg-slate-700/50 border-b border-slate-200 dark:border-slate-700">
-                      <span className="flex items-center gap-1.5 text-xs font-bold text-green-600"><span className="w-3 h-3 rounded bg-green-200 dark:bg-green-800 inline-block" /> Added in PDF B</span>
-                      <span className="flex items-center gap-1.5 text-xs font-bold text-red-500"><span className="w-3 h-3 rounded bg-red-200 dark:bg-red-900 inline-block" /> Removed from PDF A</span>
-                      <span className="flex items-center gap-1.5 text-xs font-bold text-slate-400"><span className="w-3 h-3 rounded bg-slate-200 dark:bg-slate-600 inline-block" /> Unchanged</span>
+                      <span className="flex items-center gap-1.5 text-xs font-medium text-green-600"><span className="w-3 h-3 rounded bg-green-200 dark:bg-green-800 inline-block" /> Added in PDF B</span>
+                      <span className="flex items-center gap-1.5 text-xs font-medium text-red-500"><span className="w-3 h-3 rounded bg-red-200 dark:bg-red-900 inline-block" /> Removed from PDF A</span>
+                      <span className="flex items-center gap-1.5 text-xs font-medium text-slate-400"><span className="w-3 h-3 rounded bg-slate-200 dark:bg-slate-600 inline-block" /> Unchanged</span>
                     </div>
                     {/* Diff lines */}
                     <div className="max-h-96 overflow-y-auto divide-y divide-slate-100 dark:divide-slate-700/50">
@@ -299,7 +299,7 @@ export default function ComparePdf({ id: _id }: { id: string }) {
                           line.type === "removed" ? "bg-red-50 dark:bg-red-900/20" :
                           "bg-white dark:bg-slate-800"
                         }`}>
-                          <span className={`shrink-0 w-5 text-center font-black text-xs mt-0.5 ${
+                          <span className={`shrink-0 w-5 text-center font-medium text-xs mt-0.5 ${
                             line.type === "added"   ? "text-green-500" :
                             line.type === "removed" ? "text-red-500" :
                             "text-slate-300 dark:text-slate-600"
@@ -327,10 +327,10 @@ export default function ComparePdf({ id: _id }: { id: string }) {
                       <div key={label} className="space-y-2">
                         <div className="flex items-center gap-2">
                           <div className="w-3 h-3 rounded-full" style={{ background: color }} />
-                          <span className="text-xs font-black text-slate-600 dark:text-slate-300 uppercase tracking-widest truncate">{label} — {name}</span>
+                          <span className="text-xs font-medium text-slate-600 dark:text-slate-300 uppercase tracking-widest truncate">{label} — {name}</span>
                         </div>
                         <div className={`rounded-xl overflow-hidden border-2 ${!cur.identical ? "border-red-300 dark:border-red-600" : "border-green-200 dark:border-green-700"}`}>
-                          {thumb ? <img src={thumb} alt={label} className="w-full h-auto block" /> : <div className="w-full h-48 bg-slate-100 dark:bg-slate-700 flex items-center justify-center text-slate-400 text-sm font-bold">No page</div>}
+                          {thumb ? <img src={thumb} alt={label} className="w-full h-auto block" /> : <div className="w-full h-48 bg-slate-100 dark:bg-slate-700 flex items-center justify-center text-slate-400 text-sm font-medium">No page</div>}
                         </div>
                       </div>
                     ))}
@@ -339,7 +339,7 @@ export default function ComparePdf({ id: _id }: { id: string }) {
               </div>
             )}
 
-            <button onClick={reset} className="w-full py-3 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 text-slate-700 dark:text-white rounded-2xl font-bold transition-all text-sm">
+            <button onClick={reset} className="w-full py-3 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 text-slate-700 dark:text-white rounded-2xl font-medium transition-all text-sm">
               Compare New Files
             </button>
           </div>
@@ -348,3 +348,6 @@ export default function ComparePdf({ id: _id }: { id: string }) {
     </div>
   );
 }
+
+
+

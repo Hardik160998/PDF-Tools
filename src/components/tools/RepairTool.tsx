@@ -124,7 +124,7 @@ export default function RepairTool({ id: _id }: { id: string }) {
         
         {/* Sidebar Configuration */}
         <div className="w-full lg:w-[320px] bg-white dark:bg-slate-800 rounded-3xl border border-slate-100 dark:border-slate-700 shadow-xl overflow-hidden h-fit lg:sticky lg:top-4 flex-shrink-0">
-          <button onClick={() => setShowSettings(!showSettings)} className="w-full flex lg:hidden items-center justify-between p-5 font-black text-slate-900 dark:text-white border-b border-slate-50 dark:border-slate-700">
+          <button onClick={() => setShowSettings(!showSettings)} className="w-full flex lg:hidden items-center justify-between p-5 font-medium text-slate-900 dark:text-white border-b border-slate-50 dark:border-slate-700">
             <span className="flex items-center gap-2"><Settings size={20} style={{ color: ACCENT }} /> Repair Tools</span>
             <ChevronDown className={`transition-transform duration-300 ${showSettings ? 'rotate-180' : ''}`} size={20} />
           </button>
@@ -132,7 +132,7 @@ export default function RepairTool({ id: _id }: { id: string }) {
           <div className={`${showSettings ? 'block' : 'hidden'} lg:block p-6`}>
             <div className="flex items-center justify-between mb-6">
               <h3 className="hidden lg:block font-outfit text-xl font-black text-slate-900 dark:text-white uppercase tracking-tighter">Recovery</h3>
-              <button onClick={resetAll} className="font-outfit text-[11px] font-black uppercase tracking-widest text-red-500 hover:text-red-600 transition-colors">Reset</button>
+              <button onClick={resetAll} className="font-outfit text-[11px] font-medium uppercase tracking-widest text-red-500 hover:text-red-600 transition-colors">Reset</button>
             </div>
 
             <div className="space-y-6">
@@ -140,9 +140,9 @@ export default function RepairTool({ id: _id }: { id: string }) {
               <div className="p-4 bg-red-50 dark:bg-red-500/10 rounded-2xl border border-red-100 dark:border-red-500/20">
                 <div className="flex items-center gap-2 mb-2">
                   <ShieldAlert size={14} className="text-red-500" />
-                  <span className="font-outfit text-[11px] font-black text-red-700 dark:text-red-400 uppercase tracking-widest">Repair Info</span>
+                  <span className="font-outfit text-[11px] font-medium text-red-700 dark:text-red-400 uppercase tracking-widest">Repair Info</span>
                 </div>
-                <p className="text-[10px] font-bold text-red-600 dark:text-red-300 leading-relaxed">
+                <p className="text-[10px] font-medium text-red-600 dark:text-red-300 leading-relaxed">
                   Corrupted PDFs are analyzed and rebuilt using our restoration engine. Some formats may change if data recovery requires it.
                 </p>
               </div>
@@ -150,7 +150,7 @@ export default function RepairTool({ id: _id }: { id: string }) {
               {/* Selection List */}
               {files.length > 0 && (
                 <div className="space-y-3 pt-4 border-t border-slate-50 dark:border-slate-700">
-                  <span className="font-outfit text-[11px] font-black text-slate-400 uppercase tracking-widest block">Selected Files ({files.length})</span>
+                  <span className="font-outfit text-[11px] font-medium text-slate-400 uppercase tracking-widest block">Selected Files ({files.length})</span>
                   <div className="space-y-2 max-h-[300px] overflow-y-auto pr-1 custom-scrollbar">
                     {files.map(f => (
                       <div key={f.id} className="flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-900 rounded-2xl border border-slate-100 dark:border-slate-800 transition-all hover:border-red-200">
@@ -158,7 +158,7 @@ export default function RepairTool({ id: _id }: { id: string }) {
                           <div className={`w-6 h-6 flex items-center justify-center rounded-lg shadow-sm shrink-0 ${f.status === 'completed' ? 'bg-green-500 text-white' : f.status === 'error' ? 'bg-red-500 text-white' : 'bg-white dark:bg-slate-800 text-red-500'}`}>
                              {f.status === 'completed' ? <CheckCircle2 size={12} /> : <FileText size={12} />}
                           </div>
-                          <span className="text-[10px] font-black truncate text-slate-900 dark:text-white uppercase">{f.file.name}</span>
+                          <span className="text-[10px] font-medium truncate text-slate-900 dark:text-white uppercase">{f.file.name}</span>
                         </div>
                         {f.status === 'completed' ? (
                           <a href={f.resultUrl} download={f.repairedName} className="p-1.5 bg-green-500 text-white rounded-lg shadow-sm hover:scale-110 transition-transform">
@@ -172,7 +172,7 @@ export default function RepairTool({ id: _id }: { id: string }) {
                       </div>
                     ))}
                   </div>
-                  <button onClick={() => fileInputRef.current?.click()} className="w-full flex items-center justify-center gap-2 py-3 rounded-xl font-outfit text-[11px] font-black uppercase tracking-widest text-red-600 bg-red-50 border border-red-100 hover:bg-red-100 transition-colors">
+                  <button onClick={() => fileInputRef.current?.click()} className="w-full flex items-center justify-center gap-2 py-3 rounded-xl font-outfit text-[11px] font-medium uppercase tracking-widest text-red-600 bg-red-50 border border-red-100 hover:bg-red-100 transition-colors">
                     <Plus size={14} /> Add More
                   </button>
                 </div>
@@ -183,7 +183,7 @@ export default function RepairTool({ id: _id }: { id: string }) {
                 <button
                   onClick={handleRepair}
                   disabled={processing || files.length === 0}
-                  className="w-full py-5 text-white rounded-[1.5rem] text-lg sm:text-xl font-black shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50 disabled:grayscale uppercase tracking-widest shadow-red-500/20"
+                  className="w-full py-5 text-white rounded-[1.5rem] text-lg sm:text-xl font-medium shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50 disabled:grayscale uppercase tracking-widest shadow-red-500/20"
                   style={{ background: ACCENT_GRADIENT }}
                 >
                   {processing ? (
@@ -225,14 +225,14 @@ export default function RepairTool({ id: _id }: { id: string }) {
                    <div className="p-4 bg-green-500 text-white rounded-2xl shadow-xl shadow-green-500/30"><CheckCircle2 size={32} /></div>
                    <div>
                      <h4 className="text-2xl font-black text-slate-900 dark:text-white uppercase tracking-widest leading-none mb-1">Repaired!</h4>
-                     <p className="text-[11px] font-bold text-slate-500 uppercase tracking-widest">Structural recovery complete for your files</p>
+                     <p className="text-[11px] font-medium text-slate-500 uppercase tracking-widest">Structural recovery complete for your files</p>
                    </div>
                 </div>
                 <div className="flex flex-col sm:flex-row gap-4 w-full lg:w-auto">
-                  <button onClick={handleRepair} className="px-10 py-5 bg-slate-900 dark:bg-white text-white dark:text-slate-900 rounded-2xl font-black text-sm uppercase tracking-widest shadow-2xl hover:scale-105 transition-all flex items-center justify-center gap-3 w-full sm:w-auto">
+                  <button onClick={handleRepair} className="px-10 py-5 bg-slate-900 dark:bg-white text-white dark:text-slate-900 rounded-2xl font-medium text-sm uppercase tracking-widest shadow-2xl hover:scale-105 transition-all flex items-center justify-center gap-3 w-full sm:w-auto">
                     <LifeBuoy size={18} /> Repair Remaining
                   </button>
-                  <button onClick={resetAll} className="px-10 py-5 bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-400 border-2 border-slate-100 dark:border-slate-700 rounded-2xl font-black text-sm uppercase tracking-widest shadow-xl hover:scale-105 transition-all flex items-center justify-center gap-3 w-full sm:w-auto">
+                  <button onClick={resetAll} className="px-10 py-5 bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-400 border-2 border-slate-100 dark:border-slate-700 rounded-2xl font-medium text-sm uppercase tracking-widest shadow-xl hover:scale-105 transition-all flex items-center justify-center gap-3 w-full sm:w-auto">
                      <X size={18} /> Start Over
                   </button>
                 </div>
@@ -246,13 +246,13 @@ export default function RepairTool({ id: _id }: { id: string }) {
                 <div className="p-6 bg-white dark:bg-slate-800 rounded-3xl shadow-xl text-red-500 mb-6 group-hover:scale-110 transition-transform relative z-10">
                   <Upload size={32} />
                 </div>
-                <div className="text-lg sm:text-lg sm:text-xl font-black text-slate-800 dark:text-white mb-1 relative z-10">
+                <div className="text-lg sm:text-lg sm:text-xl font-medium text-slate-800 dark:text-white mb-1 relative z-10">
                   Drop Damaged PDFs
                 </div>
                 <p className="text-xs sm:text-sm text-slate-400 font-medium relative z-10">
                   Scan and reconstruct corrupted file tables
                 </p>
-                <button className="mt-8 px-10 py-4 rounded-2xl text-white text-sm font-black uppercase tracking-widest shadow-xl hover:scale-105 transition-all relative z-10" style={{ background: ACCENT_GRADIENT }}>
+                <button className="mt-8 px-10 py-4 rounded-2xl text-white text-sm font-medium uppercase tracking-widest shadow-xl hover:scale-105 transition-all relative z-10" style={{ background: ACCENT_GRADIENT }}>
                   Choose Files
                 </button>
               </div>
@@ -281,7 +281,7 @@ export default function RepairTool({ id: _id }: { id: string }) {
                         {f.status === 'processing' && (
                           <div className="absolute inset-0 bg-red-600/80 backdrop-blur-sm flex flex-col items-center justify-center z-10">
                             <Loader2 className="animate-spin text-white mb-2" size={32} />
-                            <span className="text-[10px] font-black text-white uppercase tracking-widest animate-pulse">Fixing...</span>
+                            <span className="text-[10px] font-medium text-white uppercase tracking-widest animate-pulse">Fixing...</span>
                           </div>
                         )}
 
@@ -296,7 +296,7 @@ export default function RepairTool({ id: _id }: { id: string }) {
 
                         {/* File info overlay */}
                         <div className="absolute bottom-0 inset-x-0 p-3 bg-gradient-to-t from-black/80 to-transparent z-10 text-left">
-                          <p className="text-[10px] text-white font-black truncate uppercase tracking-widest">{f.file.name}</p>
+                          <p className="text-[10px] text-white font-medium truncate uppercase tracking-widest">{f.file.name}</p>
                         </div>
                       </div>
 
@@ -321,7 +321,7 @@ export default function RepairTool({ id: _id }: { id: string }) {
                   className="aspect-[3/4] rounded-2xl border-4 border-dashed border-slate-100 dark:border-slate-800 flex flex-col items-center justify-center text-slate-200 hover:text-red-500 hover:border-red-500 transition-all bg-slate-50/20 dark:bg-slate-900/20 group"
                 >
                   <Plus size={48} className="group-hover:scale-110 transition-transform" />
-                  <span className="font-outfit text-[11px] font-black uppercase tracking-widest mt-4">Add More</span>
+                  <span className="font-outfit text-[11px] font-medium uppercase tracking-widest mt-4">Add More</span>
                 </button>
               </div>
             )}
@@ -355,3 +355,6 @@ export default function RepairTool({ id: _id }: { id: string }) {
     </div>
   );
 }
+
+
+

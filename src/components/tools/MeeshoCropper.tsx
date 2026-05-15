@@ -477,8 +477,8 @@ export default function MeeshoCropper({ id }: { id: string }) {
             { step: "4", title: "Print", desc: "Download PDF" }
           ].map((s, idx) => (
             <div key={idx} className="p-3 bg-white dark:bg-slate-900 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm">
-              <div className="w-6 h-6 rounded-full bg-[#f26522] text-white text-[10px] font-black flex items-center justify-center mb-1 mx-auto">{s.step}</div>
-              <div className="text-[11px] font-black text-slate-900 dark:text-white">{s.title}</div>
+              <div className="w-6 h-6 rounded-full bg-[#f26522] text-white text-[10px] font-medium flex items-center justify-center mb-1 mx-auto">{s.step}</div>
+              <div className="text-[11px] font-medium text-slate-900 dark:text-white">{s.title}</div>
               <div className="text-[9px] text-slate-400 font-medium leading-tight mt-0.5">{s.desc}</div>
             </div>
           ))}
@@ -491,7 +491,7 @@ export default function MeeshoCropper({ id }: { id: string }) {
             <input ref={inputRef} type="file" accept=".pdf" multiple className="hidden" onChange={e => addFiles(e.target.files)} />
               <div className="space-y-4 pointer-events-none">
                 <div className="p-4 sm:p-6 bg-white dark:bg-slate-800 rounded-2xl shadow-xl inline-block text-[#f26522] group-hover:scale-110 transition-transform"><Upload size={32} className="sm:w-12 sm:h-12" /></div>
-                <div className="text-lg sm:text-lg sm:text-xl font-black text-slate-800 dark:text-white">Drop Meesho Label PDFs here</div>
+                <div className="text-lg sm:text-lg sm:text-xl font-medium text-slate-800 dark:text-white">Drop Meesho Label PDFs here</div>
                 <p className="text-xs sm:text-sm text-slate-400 font-medium mt-1">or click to browse · Multiple PDFs supported</p>
               </div>
           </div>
@@ -504,7 +504,7 @@ export default function MeeshoCropper({ id }: { id: string }) {
                     <div className="flex items-center gap-3 flex-1 min-w-0">
                       <div className="p-2 bg-white dark:bg-slate-800 rounded-lg shadow-sm text-[#f26522] shrink-0"><FileText size={16} /></div>
                       <div className="min-w-0">
-                        <p className="font-bold text-slate-900 dark:text-white text-xs truncate">{f.name}</p>
+                        <p className="font-medium text-slate-900 dark:text-white text-xs truncate">{f.name}</p>
                         <p className="text-[10px] text-slate-400 font-medium">{(f.file.size / 1024).toFixed(0)} KB{f.pageCount ? ` · ${f.pageCount} page${f.pageCount > 1 ? 's' : ''}` : ''}</p>
                       </div>
                     </div>
@@ -519,11 +519,11 @@ export default function MeeshoCropper({ id }: { id: string }) {
               </div>
 
               <div className="flex gap-3">
-                <button onClick={processAll} disabled={processing} className="flex-1 py-4 sm:py-5 bg-[#f26522] hover:bg-[#d4541a] text-white rounded-2xl text-lg sm:text-lg sm:text-xl font-black shadow-xl shadow-orange-500/20 flex items-center justify-center gap-3 disabled:opacity-60 transition-all">
+                <button onClick={processAll} disabled={processing} className="flex-1 py-4 sm:py-5 bg-[#f26522] hover:bg-[#d4541a] text-white rounded-2xl text-lg sm:text-lg sm:text-xl font-medium shadow-xl shadow-orange-500/20 flex items-center justify-center gap-3 disabled:opacity-60 transition-all">
                   {processing ? <Loader2 className="animate-spin" size={24} /> : <ShoppingBag size={24} />}
                   {processing ? 'Processing Labels…' : `Crop ${files.length} PDF${files.length > 1 ? 's' : ''}`}
                 </button>
-                <button onClick={reset} disabled={processing} className="px-5 py-4 sm:py-5 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 text-slate-700 dark:text-white rounded-2xl font-bold transition-all"><Trash2 size={20} /></button>
+                <button onClick={reset} disabled={processing} className="px-5 py-4 sm:py-5 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 text-slate-700 dark:text-white rounded-2xl font-medium transition-all"><Trash2 size={20} /></button>
               </div>
             </div>
           )}
@@ -534,19 +534,19 @@ export default function MeeshoCropper({ id }: { id: string }) {
             <div className="p-10 sm:p-12 rounded-full bg-green-100 dark:bg-green-500/20 text-green-500 inline-block"><CheckCircle2 size={72} /></div>
             <div className="space-y-4">
               <h3 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white">{labelCount} Label{labelCount !== 1 ? 's' : ''} Ready!</h3>
-              <p className="text-slate-500 dark:text-slate-400 font-bold uppercase tracking-widest text-sm">Invoice section removed. Clean labels packed into PDF{pdfUrls.length > 1 ? 's' : ''}.</p>
+              <p className="text-slate-500 dark:text-slate-400 font-medium uppercase tracking-widest text-sm">Invoice section removed. Clean labels packed into PDF{pdfUrls.length > 1 ? 's' : ''}.</p>
             </div>
             <div className="space-y-4">
-              {pdfUrl && <a href={pdfUrl} download="meesho_labels.pdf" className="block py-4 sm:py-5 bg-[#f26522] hover:bg-[#d4541a] text-white rounded-2xl text-xl sm:text-2xl font-black shadow-xl flex items-center justify-center gap-3"><Download size={24} /> Download PDF</a>}
+              {pdfUrl && <a href={pdfUrl} download="meesho_labels.pdf" className="block py-4 sm:py-5 bg-[#f26522] hover:bg-[#d4541a] text-white rounded-2xl text-xl sm:text-2xl font-medium shadow-xl flex items-center justify-center gap-3"><Download size={24} /> Download PDF</a>}
               {pdfUrls.length > 0 && (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
                   {pdfUrls.map(({ courier, url }) => (
-                    <a key={courier} href={url} download={`${courier}_Labels.pdf`} className="py-4 bg-[#f26522] hover:bg-[#d4541a] text-white rounded-2xl text-lg font-black shadow-xl flex items-center justify-center gap-2"><Download size={20} /> {courier} Labels</a>
+                    <a key={courier} href={url} download={`${courier}_Labels.pdf`} className="py-4 bg-[#f26522] hover:bg-[#d4541a] text-white rounded-2xl text-lg font-medium shadow-xl flex items-center justify-center gap-2"><Download size={20} /> {courier} Labels</a>
                   ))}
                 </div>
               )}
-              {csvUrl && <a href={csvUrl} download="meesho_labels_metadata.csv" className="block py-4 bg-green-600 hover:bg-green-700 text-white rounded-2xl text-lg font-black shadow-xl flex items-center justify-center gap-3"><Download size={20} /> Download CSV</a>}
-              <button onClick={reset} className="w-full px-10 py-4 sm:py-5 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 text-slate-900 dark:text-white rounded-2xl font-bold transition-all">Crop More</button>
+              {csvUrl && <a href={csvUrl} download="meesho_labels_metadata.csv" className="block py-4 bg-green-600 hover:bg-green-700 text-white rounded-2xl text-lg font-medium shadow-xl flex items-center justify-center gap-3"><Download size={20} /> Download CSV</a>}
+              <button onClick={reset} className="w-full px-10 py-4 sm:py-5 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 text-slate-900 dark:text-white rounded-2xl font-medium transition-all">Crop More</button>
             </div>
           </div>
         )
@@ -561,7 +561,7 @@ export default function MeeshoCropper({ id }: { id: string }) {
           <div className="bg-white dark:bg-slate-800 rounded-3xl border border-slate-100 dark:border-slate-700 shadow-xl h-fit lg:sticky lg:top-4 overflow-hidden">
             <button 
               onClick={() => setShowSettings(!showSettings)}
-              className="w-full flex lg:hidden items-center justify-between p-5 font-black text-slate-900 dark:text-white border-b border-slate-50 dark:border-slate-700"
+              className="w-full flex lg:hidden items-center justify-between p-5 font-medium text-slate-900 dark:text-white border-b border-slate-50 dark:border-slate-700"
             >
               <span className="flex items-center gap-2"><FileText size={20} className="text-[#f26522]" /> Settings (સેટિંગ્સ)</span>
               <Loader2 className={`transition-transform duration-300 ${showSettings ? 'rotate-180' : ''}`} size={20} />
@@ -572,27 +572,27 @@ export default function MeeshoCropper({ id }: { id: string }) {
                 <label className="flex items-start gap-3 cursor-pointer group">
                   <input type="checkbox" checked={sortByQty} onChange={(e) => setSortByQty(e.target.checked)} className="w-5 h-5 mt-0.5 text-[#f26522] bg-white border-2 border-slate-300 rounded focus:ring-2 focus:ring-[#f26522] cursor-pointer flex-shrink-0" />
                   <div className="flex flex-col">
-                    <span className="font-outfit text-sm font-bold text-slate-700 dark:text-slate-300 group-hover:text-slate-900 dark:group-hover:text-white leading-tight">Sort by Quantity</span>
-                    <span className="font-outfit text-[11px] text-slate-400 font-black uppercase tracking-widest leading-none">Qty મુજબ સોર્ટ કરો</span>
+                    <span className="font-outfit text-sm font-medium text-slate-700 dark:text-slate-300 group-hover:text-slate-900 dark:group-hover:text-white leading-tight">Sort by Quantity</span>
+                    <span className="font-outfit text-[11px] text-slate-400 font-medium uppercase tracking-widest leading-none">Qty મુજબ સોર્ટ કરો</span>
                   </div>
                 </label>
                 <label className="flex items-start gap-3 cursor-pointer group">
                   <input type="checkbox" checked={sortBySku} onChange={(e) => setSortBySku(e.target.checked)} className="w-5 h-5 mt-0.5 text-[#f26522] bg-white border-2 border-slate-300 rounded focus:ring-2 focus:ring-[#f26522] cursor-pointer flex-shrink-0" />
                   <div className="flex flex-col">
-                    <span className="font-outfit text-sm font-bold text-slate-700 dark:text-slate-300 group-hover:text-slate-900 dark:group-hover:text-white leading-tight">Sort by SKU ID</span>
-                    <span className="font-outfit text-[11px] text-slate-400 font-black uppercase tracking-widest leading-none">Group identical items</span>
+                    <span className="font-outfit text-sm font-medium text-slate-700 dark:text-slate-300 group-hover:text-slate-900 dark:group-hover:text-white leading-tight">Sort by SKU ID</span>
+                    <span className="font-outfit text-[11px] text-slate-400 font-medium uppercase tracking-widest leading-none">Group identical items</span>
                   </div>
                 </label>
                 <label className="flex items-start gap-3 cursor-pointer group">
                   <input type="checkbox" checked={highlightSku} onChange={(e) => setHighlightSku(e.target.checked)} className="w-5 h-5 mt-0.5 text-[#f26522] bg-white border-2 border-slate-300 rounded focus:ring-2 focus:ring-[#f26522] cursor-pointer flex-shrink-0" />
                   <div className="flex flex-col">
-                    <span className="font-outfit text-sm font-bold text-slate-700 dark:text-slate-300 group-hover:text-slate-900 dark:group-hover:text-white leading-tight">Highlight SKU ID</span>
-                    <span className="font-outfit text-[11px] text-slate-400 font-black uppercase tracking-widest leading-none">Visible blue boxes</span>
+                    <span className="font-outfit text-sm font-medium text-slate-700 dark:text-slate-300 group-hover:text-slate-900 dark:group-hover:text-white leading-tight">Highlight SKU ID</span>
+                    <span className="font-outfit text-[11px] text-slate-400 font-medium uppercase tracking-widest leading-none">Visible blue boxes</span>
                   </div>
                 </label>
                 <label className="flex items-start gap-3 cursor-pointer group">
                   <input type="checkbox" checked={sortBySeller} onChange={(e) => setSortBySeller(e.target.checked)} className="w-5 h-5 mt-0.5 text-[#f26522] bg-white border-2 border-slate-300 rounded focus:ring-2 focus:ring-[#f26522] cursor-pointer flex-shrink-0" />
-                  <span className="text-sm font-semibold text-slate-700 dark:text-slate-300 group-hover:text-slate-900 dark:group-hover:text-white leading-tight">Sort by <span className="font-black">Sold By</span></span>
+                  <span className="text-sm font-semibold text-slate-700 dark:text-slate-300 group-hover:text-slate-900 dark:group-hover:text-white leading-tight">Sort by <span className="font-medium">Sold By</span></span>
                 </label>
                 <label className="flex items-start gap-3 cursor-pointer group">
                   <input type="checkbox" checked={sortByCourier} onChange={(e) => setSortByCourier(e.target.checked)} className="w-5 h-5 mt-0.5 text-[#f26522] bg-white border-2 border-slate-300 rounded focus:ring-2 focus:ring-[#f26522] cursor-pointer flex-shrink-0" />
@@ -628,3 +628,6 @@ export default function MeeshoCropper({ id }: { id: string }) {
     </div>
   );
 }
+
+
+

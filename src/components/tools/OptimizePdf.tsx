@@ -75,7 +75,7 @@ export default function OptimizePdf({ id: _id }: { id: string }) {
         
         {/* Sidebar Configuration */}
         <div className="w-full lg:w-[320px] bg-white dark:bg-slate-800 rounded-3xl border border-slate-100 dark:border-slate-700 shadow-xl overflow-hidden h-fit lg:sticky lg:top-4 flex-shrink-0">
-          <button onClick={() => setShowSettings(!showSettings)} className="w-full flex lg:hidden items-center justify-between p-5 font-black text-slate-900 dark:text-white border-b border-slate-50 dark:border-slate-700">
+          <button onClick={() => setShowSettings(!showSettings)} className="w-full flex lg:hidden items-center justify-between p-5 font-medium text-slate-900 dark:text-white border-b border-slate-50 dark:border-slate-700">
             <span className="flex items-center gap-2"><Settings size={20} style={{ color: ACCENT }} /> Quality Settings</span>
             <ChevronDown className={`transition-transform duration-300 ${showSettings ? 'rotate-180' : ''}`} size={20} />
           </button>
@@ -83,22 +83,22 @@ export default function OptimizePdf({ id: _id }: { id: string }) {
           <div className={`${showSettings ? 'block' : 'hidden'} lg:block p-6`}>
             <div className="flex items-center justify-between mb-6">
               <h3 className="hidden lg:block font-outfit text-xl font-black text-slate-900 dark:text-white uppercase tracking-tighter">Optimization</h3>
-              <button onClick={reset} className="font-outfit text-[11px] font-black uppercase tracking-widest text-red-500 hover:text-red-600 transition-colors">Clear</button>
+              <button onClick={reset} className="font-outfit text-[11px] font-medium uppercase tracking-widest text-red-500 hover:text-red-600 transition-colors">Clear</button>
             </div>
 
             <div className="space-y-6 text-left">
               {/* Level selection */}
               <div className="space-y-3">
-                <span className="font-outfit text-[11px] font-black text-slate-400 uppercase tracking-widest">Compression Level</span>
+                <span className="font-outfit text-[11px] font-medium text-slate-400 uppercase tracking-widest">Compression Level</span>
                 <div className="space-y-2">
                   {LEVELS.map(l => (
                     <button key={l.id} onClick={() => setLevel(l.id)}
                       className={`w-full p-4 rounded-2xl border-2 text-left transition-all relative overflow-hidden group ${level === l.id ? 'border-emerald-500 bg-emerald-50 dark:bg-emerald-500/10' : 'border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-900 hover:border-emerald-200'}`}>
                       <div className="flex items-center justify-between relative z-10">
-                        <p className={`font-black text-xs uppercase tracking-widest ${level === l.id ? 'text-emerald-600' : 'text-slate-900 dark:text-white'}`}>{l.label}</p>
+                        <p className={`font-medium text-xs uppercase tracking-widest ${level === l.id ? 'text-emerald-600' : 'text-slate-900 dark:text-white'}`}>{l.label}</p>
                         {level === l.id && <CheckCircle2 size={16} className="text-emerald-500" />}
                       </div>
-                      <p className="text-[9px] text-slate-400 font-bold mt-1 leading-relaxed relative z-10 uppercase tracking-widest">{l.desc}</p>
+                      <p className="text-[9px] text-slate-400 font-medium mt-1 leading-relaxed relative z-10 uppercase tracking-widest">{l.desc}</p>
                     </button>
                   ))}
                 </div>
@@ -111,9 +111,9 @@ export default function OptimizePdf({ id: _id }: { id: string }) {
                     <div className="p-2 rounded-lg bg-white dark:bg-slate-800 shadow-sm text-emerald-500">
                       <Gauge size={14} />
                     </div>
-                    <span className="font-outfit text-[11px] font-black text-slate-400 uppercase tracking-widest">Analysis</span>
+                    <span className="font-outfit text-[11px] font-medium text-slate-400 uppercase tracking-widest">Analysis</span>
                   </div>
-                  <p className="font-outfit text-xs font-black text-slate-700 dark:text-slate-200 uppercase tracking-tight text-left">
+                  <p className="font-outfit text-xs font-medium text-slate-700 dark:text-slate-200 uppercase tracking-tight text-left">
                     {file ? `${pageCount} Pages Loaded` : 'No file selected'}
                   </p>
                 </div>
@@ -125,7 +125,7 @@ export default function OptimizePdf({ id: _id }: { id: string }) {
                   <button
                     onClick={handleOptimize}
                     disabled={processing || !file}
-                    className="w-full py-5 text-white rounded-[1.5rem] text-lg sm:text-xl font-black shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50 disabled:grayscale uppercase tracking-widest shadow-emerald-500/20"
+                    className="w-full py-5 text-white rounded-[1.5rem] text-lg sm:text-xl font-medium shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50 disabled:grayscale uppercase tracking-widest shadow-emerald-500/20"
                     style={{ background: ACCENT_GRADIENT }}
                   >
                     {processing ? (
@@ -137,18 +137,18 @@ export default function OptimizePdf({ id: _id }: { id: string }) {
                 ) : (
                   <div className="space-y-3">
                     <div className="p-4 bg-emerald-50 dark:bg-emerald-500/10 rounded-2xl border border-emerald-100 dark:border-emerald-500/20 text-center animate-in zoom-in">
-                      <p className="text-[10px] font-black text-emerald-600 uppercase tracking-widest mb-1">Efficiency Score</p>
-                      <p className="text-3xl font-black text-emerald-600 tracking-widest">-{saved}%</p>
+                      <p className="text-[10px] font-medium text-emerald-600 uppercase tracking-widest mb-1">Efficiency Score</p>
+                      <p className="text-3xl font-medium text-emerald-600 tracking-widest">-{saved}%</p>
                     </div>
                     <a
                       href={result.url}
                       download={`optimized_${file?.name || 'document.pdf'}`}
-                      className="w-full py-5 text-white rounded-[1.5rem] text-lg sm:text-xl font-black shadow-xl hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-3 uppercase tracking-widest shadow-emerald-500/20"
+                      className="w-full py-5 text-white rounded-[1.5rem] text-lg sm:text-xl font-medium shadow-xl hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-3 uppercase tracking-widest shadow-emerald-500/20"
                       style={{ background: ACCENT_GRADIENT }}
                     >
                       <Download size={24} /> Download PDF
                     </a>
-                    <button onClick={reset} className="w-full py-3 bg-slate-100 text-slate-500 rounded-xl font-outfit text-[11px] font-black uppercase tracking-widest hover:bg-slate-200 transition-all">Optimize Another</button>
+                    <button onClick={reset} className="w-full py-3 bg-slate-100 text-slate-500 rounded-xl font-outfit text-[11px] font-medium uppercase tracking-widest hover:bg-slate-200 transition-all">Optimize Another</button>
                   </div>
                 )}
               </div>
@@ -183,13 +183,13 @@ export default function OptimizePdf({ id: _id }: { id: string }) {
                 <div className="p-6 bg-white dark:bg-slate-800 rounded-3xl shadow-xl text-emerald-500 mb-6 group-hover:scale-110 transition-transform relative z-10">
                   <Upload size={32} />
                 </div>
-                <div className="text-lg sm:text-lg sm:text-xl font-black text-slate-800 dark:text-white mb-1 relative z-10">
+                <div className="text-lg sm:text-lg sm:text-xl font-medium text-slate-800 dark:text-white mb-1 relative z-10">
                   Select Large PDF
                 </div>
                 <p className="text-xs sm:text-sm text-slate-400 font-medium relative z-10">
                   Secure local re-encoding stream
                 </p>
-                <button className="mt-8 px-10 py-4 rounded-2xl text-white text-sm font-black uppercase tracking-widest shadow-xl hover:scale-105 transition-all relative z-10" style={{ background: ACCENT_GRADIENT }}>
+                <button className="mt-8 px-10 py-4 rounded-2xl text-white text-sm font-medium uppercase tracking-widest shadow-xl hover:scale-105 transition-all relative z-10" style={{ background: ACCENT_GRADIENT }}>
                   Choose File
                 </button>
                 <input ref={inputRef} type="file" onChange={e => e.target.files?.[0] && loadFile(e.target.files[0])} accept=".pdf" className="hidden" />
@@ -205,8 +205,8 @@ export default function OptimizePdf({ id: _id }: { id: string }) {
                       <div className="flex-1 min-w-0">
                          <h4 className="text-lg sm:text-xl font-black text-slate-900 dark:text-white uppercase tracking-widest truncate">{file.name}</h4>
                          <div className="flex flex-wrap justify-center sm:justify-start gap-4 mt-2">
-                            <span className="font-outfit text-[11px] font-black uppercase tracking-widest text-slate-400 bg-white dark:bg-slate-800 px-3 py-1 rounded-full shadow-sm">{fmt(file.size)}</span>
-                            <span className="font-outfit text-[11px] font-black uppercase tracking-widest text-emerald-500 bg-emerald-50 dark:bg-emerald-500/10 px-3 py-1 rounded-full">{pageCount} Pages Loaded</span>
+                            <span className="font-outfit text-[11px] font-medium uppercase tracking-widest text-slate-400 bg-white dark:bg-slate-800 px-3 py-1 rounded-full shadow-sm">{fmt(file.size)}</span>
+                            <span className="font-outfit text-[11px] font-medium uppercase tracking-widest text-emerald-500 bg-emerald-50 dark:bg-emerald-500/10 px-3 py-1 rounded-full">{pageCount} Pages Loaded</span>
                          </div>
                       </div>
                       <button onClick={reset} className="p-3 text-slate-300 hover:text-red-500 hover:bg-white dark:hover:bg-slate-800 rounded-xl transition-all shadow-sm">
@@ -226,7 +226,7 @@ export default function OptimizePdf({ id: _id }: { id: string }) {
                     </div>
                     <div>
                        <h3 className="text-2xl font-black text-slate-900 dark:text-white uppercase tracking-widest animate-pulse">Rendering Pixel Buffers...</h3>
-                       <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-2 leading-relaxed">Processing every page through our local JPEG pipeline</p>
+                       <p className="text-[10px] text-slate-400 font-medium uppercase tracking-widest mt-2 leading-relaxed">Processing every page through our local JPEG pipeline</p>
                     </div>
                   </div>
                 )}
@@ -236,13 +236,13 @@ export default function OptimizePdf({ id: _id }: { id: string }) {
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 animate-in slide-in-from-top-4">
                      <div className="p-6 bg-slate-50 dark:bg-slate-900 rounded-2xl border border-slate-100 dark:border-slate-800 text-center">
                         <TrendingDown size={24} className="mx-auto text-emerald-500 mb-2" />
-                        <p className="font-outfit text-[11px] font-black text-slate-400 uppercase tracking-widest">Original Volume</p>
-                        <p className="text-lg sm:text-xl font-black text-slate-900 dark:text-white tracking-widest">{fmt(result.origSize)}</p>
+                        <p className="font-outfit text-[11px] font-medium text-slate-400 uppercase tracking-widest">Original Volume</p>
+                        <p className="text-lg sm:text-xl font-medium text-slate-900 dark:text-white tracking-widest">{fmt(result.origSize)}</p>
                      </div>
                      <div className="p-6 bg-emerald-50 dark:bg-emerald-500/10 rounded-2xl border border-emerald-100 dark:border-emerald-500/20 text-center">
                         <CheckCircle2 size={24} className="mx-auto text-emerald-500 mb-2" />
-                        <p className="text-[10px] font-black text-emerald-600 uppercase tracking-widest">Optimized Volume</p>
-                        <p className="text-lg sm:text-xl font-black text-emerald-600 tracking-widest">{fmt(result.newSize)}</p>
+                        <p className="text-[10px] font-medium text-emerald-600 uppercase tracking-widest">Optimized Volume</p>
+                        <p className="text-lg sm:text-xl font-medium text-emerald-600 tracking-widest">{fmt(result.newSize)}</p>
                      </div>
                   </div>
                 )}
@@ -278,3 +278,6 @@ export default function OptimizePdf({ id: _id }: { id: string }) {
     </div>
   );
 }
+
+
+

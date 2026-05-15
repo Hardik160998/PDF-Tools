@@ -168,10 +168,10 @@ export default function BookmarkPdf({ id: _id }: { id: string }) {
             <div className="flex flex-col items-center gap-4 pointer-events-none text-center">
               <div className="p-4 sm:p-5 bg-white dark:bg-slate-800 rounded-2xl shadow-xl text-amber-500 group-hover:scale-110 transition-transform"><Upload size={32} /></div>
               <div>
-                <div className="text-lg sm:text-lg sm:text-xl font-black text-slate-800 dark:text-white mb-1">Click or drag &amp; drop PDF</div>
+                <div className="text-lg sm:text-lg sm:text-xl font-medium text-slate-800 dark:text-white mb-1">Click or drag &amp; drop PDF</div>
                 <p className="text-xs sm:text-sm text-slate-400 font-medium mt-1">Your file stays on your device — always</p>
               </div>
-              <button className="px-6 py-2.5 sm:px-7 sm:py-3 rounded-xl text-white text-xs sm:text-sm font-black uppercase tracking-widest shadow-lg active:scale-95 transition-all" style={{ background: "linear-gradient(135deg,#f59e0b,#b45309)" }}>Choose PDF File</button>
+              <button className="px-6 py-2.5 sm:px-7 sm:py-3 rounded-xl text-white text-xs sm:text-sm font-medium uppercase tracking-widest shadow-lg active:scale-95 transition-all" style={{ background: "linear-gradient(135deg,#f59e0b,#b45309)" }}>Choose PDF File</button>
             </div>
           </div>
         </div>
@@ -183,7 +183,7 @@ export default function BookmarkPdf({ id: _id }: { id: string }) {
     return (
       <div className="max-w-5xl mx-auto py-12 sm:py-20 px-4 flex flex-col items-center gap-4">
         <Loader2 size={40} className="animate-spin text-amber-500" />
-        <p className="text-sm font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest">Loading PDF…</p>
+        <p className="text-sm font-medium text-slate-500 dark:text-slate-400 uppercase tracking-widest">Loading PDF…</p>
       </div>
     );
   }
@@ -195,15 +195,15 @@ export default function BookmarkPdf({ id: _id }: { id: string }) {
           <div className="inline-flex p-10 rounded-full bg-amber-50 dark:bg-amber-500/10 text-amber-500 scale-110 border border-amber-500/20 shadow-xl shadow-amber-500/10"><CheckCircle2 size={72} /></div>
           <div className="space-y-3">
             <h3 className="font-outfit text-2xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter">Bookmarks Added!</h3>
-            <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 font-black uppercase tracking-widest px-4 leading-relaxed">{bookmarks.length} bookmark{bookmarks.length !== 1 ? "s" : ""} added to your PDF successfully</p>
+            <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 font-medium uppercase tracking-widest px-4 leading-relaxed">{bookmarks.length} bookmark{bookmarks.length !== 1 ? "s" : ""} added to your PDF successfully</p>
           </div>
           <div className="flex flex-col sm:flex-row gap-4 justify-center max-w-lg mx-auto">
             <a href={result} download={`bookmarked_${file!.name}`}
-              className="flex-1 py-4 sm:py-5 text-white rounded-2xl text-lg sm:text-lg sm:text-xl font-black shadow-xl shadow-amber-500/20 flex items-center justify-center gap-3 active:scale-[0.98] transition-all"
+              className="flex-1 py-4 sm:py-5 text-white rounded-2xl text-lg sm:text-lg sm:text-xl font-medium shadow-xl shadow-amber-500/20 flex items-center justify-center gap-3 active:scale-[0.98] transition-all"
               style={{ background: "linear-gradient(135deg,#f59e0b,#b45309)" }}>
               <Download size={24} /> Download PDF
             </a>
-            <button onClick={reset} className="px-8 py-4 sm:px-10 sm:py-5 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 text-slate-900 dark:text-white rounded-2xl font-bold transition-all text-sm sm:text-base">
+            <button onClick={reset} className="px-8 py-4 sm:px-10 sm:py-5 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 text-slate-900 dark:text-white rounded-2xl font-medium transition-all text-sm sm:text-base">
               Start Over
             </button>
           </div>
@@ -224,25 +224,25 @@ export default function BookmarkPdf({ id: _id }: { id: string }) {
               <Bookmark size={18} />
             </button>
             <div className="hidden sm:block min-w-0">
-              <p className="font-black text-slate-800 dark:text-white text-[13px] truncate max-w-[150px]">{file!.name}</p>
+              <p className="font-medium text-slate-800 dark:text-white text-[13px] truncate max-w-[150px]">{file!.name}</p>
             </div>
           </div>
           
           <div className="flex items-center gap-1.5 sm:gap-2">
             <div className="flex items-center bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 p-0.5 shadow-sm">
               <button onClick={() => setCurrentPage(p => Math.max(1, p - 1))} disabled={currentPage === 1} className="p-1.5 text-slate-500 disabled:opacity-30">‹</button>
-              <span className="text-[10px] sm:text-xs font-black text-slate-600 dark:text-slate-300 px-1">{currentPage} / {totalPages}</span>
+              <span className="text-[10px] sm:text-xs font-medium text-slate-600 dark:text-slate-300 px-1">{currentPage} / {totalPages}</span>
               <button onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))} disabled={currentPage === totalPages} className="p-1.5 text-slate-500 disabled:opacity-30">›</button>
             </div>
             
             <div className="hidden md:flex items-center bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 p-0.5 shadow-sm">
               <button onClick={() => setScale(s => Math.max(0.3, +(s - 0.2).toFixed(1)))} className="p-1.5 text-slate-500">−</button>
-              <span className="text-[10px] font-black text-slate-400 w-9 text-center">{Math.round(scale * 100)}%</span>
+              <span className="text-[10px] font-medium text-slate-400 w-9 text-center">{Math.round(scale * 100)}%</span>
               <button onClick={() => setScale(s => Math.min(3, +(s + 0.2).toFixed(1)))} className="p-1.5 text-slate-500">+</button>
             </div>
 
             <button onClick={handleApply} disabled={processing || bookmarks.length === 0}
-              className="flex items-center gap-2 px-3 sm:px-5 py-2 rounded-xl text-white text-[11px] sm:text-xs font-black disabled:opacity-50 transition-all shadow-lg active:scale-95 shrink-0"
+              className="flex items-center gap-2 px-3 sm:px-5 py-2 rounded-xl text-white text-[11px] sm:text-xs font-medium disabled:opacity-50 transition-all shadow-lg active:scale-95 shrink-0"
               style={{ background: "linear-gradient(135deg,#f59e0b,#b45309)" }}>
               {processing ? <Loader2 size={14} className="animate-spin" /> : <Save size={14} />}
               <span className="hidden sm:inline">{processing ? "Saving…" : "Save PDF"}</span>
@@ -259,7 +259,7 @@ export default function BookmarkPdf({ id: _id }: { id: string }) {
           <div className={`absolute md:relative z-20 h-full w-64 border-r border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 flex flex-col shadow-2xl md:shadow-none transition-transform duration-300 ease-in-out ${showSidebar ? 'translate-x-0' : '-translate-x-full md:hidden'}`}>
             {/* Sidebar header */}
             <div className="flex items-center justify-between px-4 py-3 border-b border-slate-100 dark:border-slate-700/50 bg-slate-50/50 dark:bg-slate-900/20">
-              <span className="font-outfit text-[11px] font-black uppercase tracking-widest text-slate-400">Document Outline</span>
+              <span className="font-outfit text-[11px] font-medium uppercase tracking-widest text-slate-400">Document Outline</span>
               <button onClick={() => setAddingNew(true)} className="p-1.5 rounded-lg text-amber-500 hover:bg-amber-50 dark:hover:bg-amber-500/10 transition-colors">
                 <Plus size={16} />
               </button>
@@ -273,13 +273,13 @@ export default function BookmarkPdf({ id: _id }: { id: string }) {
                   placeholder="Enter outline title…"
                   className="w-full px-3 py-2 rounded-xl border border-amber-200 dark:border-amber-500/30 bg-white dark:bg-slate-800 text-[13px] font-medium text-slate-800 dark:text-white outline-none focus:ring-2 ring-amber-500/20" />
                 <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-1.5 text-[10px] text-slate-400 font-black uppercase tracking-wider">
+                  <div className="flex items-center gap-1.5 text-[10px] text-slate-400 font-medium uppercase tracking-wider">
                     <span>At Page:</span>
                     <span className="text-amber-600">{currentPage}</span>
                   </div>
                   <div className="flex gap-2">
-                    <button onClick={() => { setAddingNew(false); setNewTitle(""); }} className="px-3 py-1.5 rounded-lg text-slate-400 font-outfit text-[11px] font-black uppercase tracking-widest hover:text-slate-600">Cancel</button>
-                    <button onClick={addBookmark} disabled={!newTitle.trim()} className="px-4 py-1.5 rounded-lg text-white font-outfit text-[11px] font-black uppercase tracking-widest shadow-md disabled:opacity-50" style={{ background: "linear-gradient(135deg,#f59e0b,#b45309)" }}>Add</button>
+                    <button onClick={() => { setAddingNew(false); setNewTitle(""); }} className="px-3 py-1.5 rounded-lg text-slate-400 font-outfit text-[11px] font-medium uppercase tracking-widest hover:text-slate-600">Cancel</button>
+                    <button onClick={addBookmark} disabled={!newTitle.trim()} className="px-4 py-1.5 rounded-lg text-white font-outfit text-[11px] font-medium uppercase tracking-widest shadow-md disabled:opacity-50" style={{ background: "linear-gradient(135deg,#f59e0b,#b45309)" }}>Add</button>
                   </div>
                 </div>
               </div>
@@ -291,7 +291,7 @@ export default function BookmarkPdf({ id: _id }: { id: string }) {
                 <div className="flex flex-col items-center justify-center h-48 gap-3 px-4 text-center opacity-40">
                   <Bookmark size={32} className="text-slate-300" />
                   <div>
-                    <p className="text-[11px] font-black uppercase tracking-widest">No Outlines Yet</p>
+                    <p className="text-[11px] font-medium uppercase tracking-widest">No Outlines Yet</p>
                     <p className="text-[10px] font-medium mt-1">Navigate to a page and click +</p>
                   </div>
                 </div>
@@ -308,7 +308,7 @@ export default function BookmarkPdf({ id: _id }: { id: string }) {
                             <span className="text-[10px] text-slate-400">Page</span>
                             <input type="number" min={1} max={totalPages} value={editPage}
                               onChange={e => setEditPage(Math.min(totalPages, Math.max(1, Number(e.target.value))))}
-                              className="w-14 px-2 py-1 rounded-lg border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-800 text-xs font-bold text-center outline-none" />
+                              className="w-14 px-2 py-1 rounded-lg border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-800 text-xs font-medium text-center outline-none" />
                             <button onClick={saveEdit} className="ml-auto p-1 rounded-lg text-amber-500 hover:bg-amber-100 dark:hover:bg-amber-500/20 transition-colors"><Save size={13} /></button>
                             <button onClick={() => setEditId(null)} className="p-1 rounded-lg text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"><X size={13} /></button>
                           </div>
@@ -319,7 +319,7 @@ export default function BookmarkPdf({ id: _id }: { id: string }) {
                           className={`group flex items-center gap-2 px-3 py-2 cursor-pointer transition-colors hover:bg-amber-50 dark:hover:bg-amber-500/10 ${currentPage === b.page ? "bg-amber-50 dark:bg-amber-500/10 border-l-2 border-amber-400" : "border-l-2 border-transparent"}`}>
                           <Bookmark size={12} className={`shrink-0 ${currentPage === b.page ? "text-amber-500" : "text-slate-400"}`} />
                           <div className="flex-1 min-w-0">
-                            <p className={`text-xs font-bold truncate ${currentPage === b.page ? "text-amber-700 dark:text-amber-400" : "text-slate-700 dark:text-slate-300"}`}>{b.title}</p>
+                            <p className={`text-xs font-medium truncate ${currentPage === b.page ? "text-amber-700 dark:text-amber-400" : "text-slate-700 dark:text-slate-300"}`}>{b.title}</p>
                             <p className="text-[10px] text-slate-400">Page {b.page}</p>
                           </div>
                           <div className="hidden group-hover:flex items-center gap-0.5 shrink-0">
@@ -339,7 +339,7 @@ export default function BookmarkPdf({ id: _id }: { id: string }) {
             {/* Sidebar footer */}
             <div className="px-4 py-4 border-t border-slate-100 dark:border-slate-700/50 bg-slate-50/30">
               <button onClick={() => { setAddingNew(true); }}
-                className="w-full flex items-center justify-center gap-2 py-3 rounded-xl text-white text-[11px] font-black uppercase tracking-widest shadow-lg active:scale-[0.98] transition-all"
+                className="w-full flex items-center justify-center gap-2 py-3 rounded-xl text-white text-[11px] font-medium uppercase tracking-widest shadow-lg active:scale-[0.98] transition-all"
                 style={{ background: "linear-gradient(135deg,#f59e0b,#b45309)" }}>
                 <Plus size={14} /> Add Outline
               </button>
@@ -357,3 +357,6 @@ export default function BookmarkPdf({ id: _id }: { id: string }) {
     </div>
   );
 }
+
+
+

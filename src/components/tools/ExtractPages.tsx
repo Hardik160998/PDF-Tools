@@ -124,18 +124,18 @@ export default function ExtractPages({ id: _id }: { id: string }) {
         
         {/* Settings Sidebar */}
         <div className={`w-full lg:w-[280px] bg-white dark:bg-slate-800 rounded-3xl border border-slate-100 dark:border-slate-700 shadow-xl h-fit lg:sticky lg:top-4 overflow-hidden flex-shrink-0`}>
-          <button onClick={() => setShowSettings(!showSettings)} className="w-full flex lg:hidden items-center justify-between p-5 font-black text-slate-900 dark:text-white border-b border-slate-50 dark:border-slate-700">
+          <button onClick={() => setShowSettings(!showSettings)} className="w-full flex lg:hidden items-center justify-between p-5 font-medium text-slate-900 dark:text-white border-b border-slate-50 dark:border-slate-700">
             <span className="flex items-center gap-2"><Settings size={20} style={{ color: ACCENT }} /> Settings</span>
             <ChevronDown className={`transition-transform duration-300 ${showSettings ? 'rotate-180' : ''}`} size={20} />
           </button>
 
           <div className={`${showSettings ? 'block' : 'hidden'} lg:block p-6`}>
-            <h3 className="hidden lg:block text-lg font-black text-slate-900 dark:text-white mb-6 uppercase tracking-tighter text-left">Extraction Settings</h3>
+            <h3 className="font-outfit hidden lg:block text-xl font-black text-slate-900 dark:text-white mb-6 uppercase tracking-tighter text-left">Extraction Settings</h3>
             
             <div className="space-y-6 text-left">
               {/* Range Input */}
               <div className="space-y-3">
-                <span className="text-xs font-black text-slate-400 uppercase tracking-widest">Select by Range</span>
+                <span className="font-outfit text-[11px] font-medium text-slate-400 uppercase tracking-widest">Select by Range</span>
                 <div className="flex flex-col gap-2">
                   <input
                     type="text"
@@ -143,28 +143,28 @@ export default function ExtractPages({ id: _id }: { id: string }) {
                     onChange={e => { setRangeInput(e.target.value); setRangeError(""); }}
                     placeholder={`e.g. 1,3,5-8`}
                     disabled={!file}
-                    className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-900 text-sm font-bold text-slate-800 dark:text-white outline-none focus:border-orange-500 transition-colors"
+                    className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-900 text-sm font-medium text-slate-800 dark:text-white outline-none focus:border-orange-500 transition-colors"
                   />
                   <button 
                     onClick={applyRange} 
                     disabled={!file}
-                    className="w-full py-2.5 rounded-xl text-white text-xs font-black uppercase tracking-widest shadow-md hover:scale-[1.02] transition-all"
+                    className="w-full py-2.5 font-outfit rounded-xl text-white text-[11px] font-medium uppercase tracking-widest shadow-md hover:scale-[1.02] transition-all"
                     style={{ background: ACCENT_GRADIENT }}
                   >
                     Apply Range
                   </button>
-                  {rangeError && <p className="text-[10px] text-red-500 font-bold">{rangeError}</p>}
+                  {rangeError && <p className="text-[10px] text-red-500 font-medium">{rangeError}</p>}
                 </div>
               </div>
 
               {/* Quick Selection */}
               <div className="space-y-3 pt-4 border-t border-slate-50 dark:border-slate-700">
-                <span className="text-xs font-black text-slate-400 uppercase tracking-widest">Quick Selection</span>
+                <span className="font-outfit text-[11px] font-medium text-slate-400 uppercase tracking-widest">Quick Selection</span>
                 <div className="flex gap-2">
-                  <button onClick={selectAll} disabled={!file} className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl text-[11px] font-black uppercase tracking-widest text-slate-600 dark:text-slate-300 bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 hover:bg-slate-100 transition-colors">
+                  <button onClick={selectAll} disabled={!file} className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl text-[11px] font-medium uppercase tracking-widest text-slate-600 dark:text-slate-300 bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 hover:bg-slate-100 transition-colors">
                     <Eye size={14} /> All
                   </button>
-                  <button onClick={deselectAll} disabled={!file} className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl text-[11px] font-black uppercase tracking-widest text-slate-600 dark:text-slate-300 bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 hover:bg-slate-100 transition-colors">
+                  <button onClick={deselectAll} disabled={!file} className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl text-[11px] font-medium uppercase tracking-widest text-slate-600 dark:text-slate-300 bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 hover:bg-slate-100 transition-colors">
                     <EyeOff size={14} /> None
                   </button>
                 </div>
@@ -172,8 +172,8 @@ export default function ExtractPages({ id: _id }: { id: string }) {
 
               {/* Info */}
               <div className="pt-4 border-t border-slate-50 dark:border-slate-700">
-                <p className="font-outfit text-[11px] font-black text-slate-400 uppercase tracking-widest mb-1">Status</p>
-                <p className="text-[10px] text-slate-500 font-bold uppercase">
+                <p className="font-outfit text-[11px] font-medium text-slate-400 uppercase tracking-widest mb-1">Status</p>
+                <p className="font-outfit text-xs font-medium text-slate-500 uppercase tracking-tight">
                   {selectedPages.length} of {pages.length || 0} pages selected
                 </p>
               </div>
@@ -204,9 +204,9 @@ export default function ExtractPages({ id: _id }: { id: string }) {
               <div className="p-6 bg-white dark:bg-slate-800 rounded-3xl shadow-xl text-orange-500 mb-6 group-hover:scale-110 transition-transform">
                 <Upload size={32} />
               </div>
-              <div className="text-lg sm:text-lg sm:text-xl font-black text-slate-800 dark:text-white mb-1 relative z-10">Drop your PDF here</div>
+              <div className="text-lg sm:text-lg sm:text-xl font-medium text-slate-800 dark:text-white mb-1 relative z-10">Drop your PDF here</div>
               <p className="text-xs sm:text-sm text-slate-400 font-medium relative z-10">Visual page extraction made simple</p>
-              <button className="mt-8 px-10 py-4 rounded-2xl text-white text-sm font-black uppercase tracking-widest shadow-xl hover:scale-105 transition-all" style={{ background: ACCENT_GRADIENT }}>
+              <button className="mt-8 px-10 py-4 rounded-2xl text-white text-sm font-medium uppercase tracking-widest shadow-xl hover:scale-105 transition-all" style={{ background: ACCENT_GRADIENT }}>
                 Choose File
               </button>
             </div>
@@ -218,7 +218,7 @@ export default function ExtractPages({ id: _id }: { id: string }) {
                 <Loader2 size={64} className="animate-spin text-orange-500" />
                 <Layers className="absolute inset-0 m-auto text-orange-500/20" size={32} />
               </div>
-              <p className="text-lg font-black text-slate-400 uppercase tracking-widest animate-pulse">Analyzing Document...</p>
+              <p className="text-lg font-medium text-slate-400 uppercase tracking-widest animate-pulse">Analyzing Document...</p>
             </div>
           )}
 
@@ -229,8 +229,8 @@ export default function ExtractPages({ id: _id }: { id: string }) {
                 <div className="flex items-center gap-4 min-w-0">
                   <div className="w-10 h-10 rounded-xl bg-white dark:bg-slate-800 flex items-center justify-center text-orange-500 shadow-sm"><FileText size={20} /></div>
                   <div className="truncate">
-                    <p className="font-black text-slate-900 dark:text-white text-sm truncate">{file?.name}</p>
-                    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{pages.length} Pages Found</p>
+                    <p className="font-medium text-slate-900 dark:text-white text-sm truncate">{file?.name}</p>
+                    <p className="text-[10px] font-medium text-slate-400 uppercase tracking-widest">{pages.length} Pages Found</p>
                   </div>
                 </div>
                 <button onClick={reset} className="w-10 h-10 rounded-xl flex items-center justify-center text-slate-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10 transition-all"><X size={20} /></button>
@@ -253,7 +253,7 @@ export default function ExtractPages({ id: _id }: { id: string }) {
                     </div>
 
                     {/* Page Number Label */}
-                    <div className="absolute bottom-3 left-3 px-3 py-1 bg-black/60 backdrop-blur-md text-white text-[10px] font-black rounded-full border border-white/20 tracking-widest">
+                    <div className="absolute bottom-3 left-3 px-3 py-1 bg-black/60 backdrop-blur-md text-white text-[10px] font-medium rounded-full border border-white/20 tracking-widest">
                       PAGE {p.pageNum}
                     </div>
                   </button>
@@ -265,7 +265,7 @@ export default function ExtractPages({ id: _id }: { id: string }) {
                 <button
                   onClick={handleExtract}
                   disabled={processing || selectedPages.length === 0}
-                  className="w-full py-5 text-white rounded-[1.5rem] text-lg sm:text-xl font-black shadow-xl hover:scale-[1.01] active:scale-[0.99] transition-all disabled:opacity-50 disabled:grayscale uppercase tracking-widest shadow-orange-500/20"
+                  className="w-full py-5 text-white rounded-[1.5rem] text-lg sm:text-xl font-medium shadow-xl hover:scale-[1.01] active:scale-[0.99] transition-all disabled:opacity-50 disabled:grayscale uppercase tracking-widest shadow-orange-500/20"
                   style={{ background: ACCENT_GRADIENT }}
                 >
                   {processing ? (
@@ -291,7 +291,7 @@ export default function ExtractPages({ id: _id }: { id: string }) {
               
               <div className="space-y-2">
                 <h3 className="text-4xl font-black text-slate-900 dark:text-white uppercase tracking-widest">Extraction Ready!</h3>
-                <p className="text-slate-500 font-bold uppercase tracking-widest text-sm">
+                <p className="text-slate-500 font-medium uppercase tracking-widest text-sm">
                   {result.count} high-quality page{result.count !== 1 ? "s" : ""} isolated
                 </p>
               </div>
@@ -300,14 +300,14 @@ export default function ExtractPages({ id: _id }: { id: string }) {
                 <a
                   href={result.url}
                   download={`extracted_${file!.name}`}
-                  className="flex-1 py-5 text-white rounded-2xl text-lg sm:text-xl font-black shadow-xl hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-3 uppercase tracking-widest shadow-orange-500/20"
+                  className="flex-1 py-5 text-white rounded-2xl text-lg sm:text-xl font-medium shadow-xl hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-3 uppercase tracking-widest shadow-orange-500/20"
                   style={{ background: ACCENT_GRADIENT }}
                 >
                   <Download size={24} /> Download PDF
                 </a>
                 <button
                   onClick={reset}
-                  className="px-8 py-5 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 text-slate-900 dark:text-white rounded-2xl font-black uppercase tracking-widest text-xs transition-all"
+                  className="px-8 py-5 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 text-slate-900 dark:text-white rounded-2xl font-medium uppercase tracking-widest text-xs transition-all"
                 >
                   Start Over
                 </button>
@@ -326,3 +326,6 @@ export default function ExtractPages({ id: _id }: { id: string }) {
     </div>
   );
 }
+
+
+

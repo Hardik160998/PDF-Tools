@@ -154,7 +154,7 @@ export default function RemoveOcr({ id: _id }: { id: string }) {
                 <Upload size={32} className="text-white" />
               </div>
               <div className="text-center">
-                <div className="text-lg sm:text-lg sm:text-xl font-black text-slate-800 dark:text-white mb-1">{dragging ? "Drop your PDF here!" : "Click or drag & drop PDF"}</div>
+                <div className="text-lg sm:text-lg sm:text-xl font-medium text-slate-800 dark:text-white mb-1">{dragging ? "Drop your PDF here!" : "Click or drag & drop PDF"}</div>
                 <p className="text-xs sm:text-sm text-slate-400 font-medium">Your file stays in your browser — never uploaded</p>
               </div>
             </div>
@@ -162,7 +162,7 @@ export default function RemoveOcr({ id: _id }: { id: string }) {
             <div className="flex items-center gap-3 p-4 bg-slate-50 dark:bg-slate-900/50 rounded-2xl border border-slate-100 dark:border-slate-700">
               <div className="p-2.5 rounded-xl bg-red-50 dark:bg-red-500/10 shrink-0"><FileText size={20} className="text-red-500" /></div>
               <div className="flex-1 min-w-0">
-                <p className="font-bold text-slate-800 dark:text-white text-sm truncate">{file.name}</p>
+                <p className="font-medium text-slate-800 dark:text-white text-sm truncate">{file.name}</p>
                 <p className="text-xs text-slate-400">{(file.size / 1024).toFixed(0)} KB</p>
               </div>
               {!processing && (
@@ -182,7 +182,7 @@ export default function RemoveOcr({ id: _id }: { id: string }) {
           {/* Process button */}
           {file && !processing && !done && !blocked && (
             <button onClick={() => runFlatten(file)}
-              className="w-full py-4 rounded-2xl font-black text-white text-sm uppercase tracking-widest shadow-lg transition-all hover:scale-[1.02] active:scale-[0.98]"
+              className="w-full py-4 rounded-2xl font-medium text-white text-sm uppercase tracking-widest shadow-lg transition-all hover:scale-[1.02] active:scale-[0.98]"
               style={{ background: "linear-gradient(135deg,#8b5cf6,#6d28d9)", boxShadow: "0 8px 20px -4px rgba(139,92,246,0.4)" }}>
               Remove OCR — Flatten to Image
             </button>
@@ -191,7 +191,7 @@ export default function RemoveOcr({ id: _id }: { id: string }) {
           {/* Progress */}
           {processing && (
             <div className="space-y-3">
-              <div className="flex items-center justify-between text-sm font-bold text-slate-600 dark:text-slate-300">
+              <div className="flex items-center justify-between text-sm font-medium text-slate-600 dark:text-slate-300">
                 <span className="flex items-center gap-2">
                   <Loader2 size={14} className="animate-spin text-violet-500" />
                   Flattening page {Math.min(doneCount + errorCount + 1, pages.length)} of {pages.length}…
@@ -212,10 +212,10 @@ export default function RemoveOcr({ id: _id }: { id: string }) {
                 <div className="rounded-2xl p-5 flex flex-col items-center gap-3 text-center bg-red-50 dark:bg-red-500/10 border border-red-100 dark:border-red-500/20">
                   <AlertCircle size={28} className="text-red-500" />
                   <div>
-                    <p className="font-black text-sm text-slate-800 dark:text-white">Flattening failed</p>
+                    <p className="font-medium text-sm text-slate-800 dark:text-white">Flattening failed</p>
                     <p className="text-xs text-slate-500 mt-1">Could not process this PDF. It may be encrypted or corrupted.</p>
                   </div>
-                  <button onClick={reset} className="flex items-center gap-2 px-5 py-2.5 rounded-xl font-bold text-sm bg-red-500 text-white hover:bg-red-600 transition-colors">
+                  <button onClick={reset} className="flex items-center gap-2 px-5 py-2.5 rounded-xl font-medium text-sm bg-red-500 text-white hover:bg-red-600 transition-colors">
                     <RefreshCw size={14} /> Try Another File
                   </button>
                 </div>
@@ -224,7 +224,7 @@ export default function RemoveOcr({ id: _id }: { id: string }) {
                   <div className={`rounded-2xl p-4 flex items-center gap-3 ${errorCount === 0 ? "bg-green-50 dark:bg-green-500/10 border border-green-100 dark:border-green-500/20" : "bg-yellow-50 dark:bg-yellow-500/10 border border-yellow-100 dark:border-yellow-500/20"}`}>
                     {errorCount === 0 ? <CheckCircle size={20} className="text-green-500 shrink-0" /> : <AlertCircle size={20} className="text-yellow-500 shrink-0" />}
                     <div className="flex-1">
-                      <p className="font-black text-sm text-slate-800 dark:text-white">{errorCount === 0 ? "Flattening complete!" : `${doneCount} of ${pages.length} pages processed`}</p>
+                      <p className="font-medium text-sm text-slate-800 dark:text-white">{errorCount === 0 ? "Flattening complete!" : `${doneCount} of ${pages.length} pages processed`}</p>
                       <p className="text-xs text-slate-500 mt-0.5">
                         {errorCount === 0 ? `${doneCount} page${doneCount !== 1 ? "s" : ""} flattened — text layer removed` : `${doneCount} flattened · ${errorCount} failed`}
                       </p>
@@ -232,11 +232,11 @@ export default function RemoveOcr({ id: _id }: { id: string }) {
                   </div>
                   <div className="flex gap-3">
                     <button onClick={handleDownload}
-                      className="flex-1 flex items-center justify-center gap-2 py-3.5 rounded-2xl font-black text-white text-sm shadow-lg transition-all hover:scale-[1.02] active:scale-[0.98]"
+                      className="flex-1 flex items-center justify-center gap-2 py-3.5 rounded-2xl font-medium text-white text-sm shadow-lg transition-all hover:scale-[1.02] active:scale-[0.98]"
                       style={{ background: "linear-gradient(135deg,#8b5cf6,#6d28d9)", boxShadow: "0 8px 20px -4px rgba(139,92,246,0.4)" }}>
                       <Download size={16} /> Download PDF
                     </button>
-                    <button onClick={reset} className="px-5 py-3.5 rounded-2xl font-bold text-sm bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors">
+                    <button onClick={reset} className="px-5 py-3.5 rounded-2xl font-medium text-sm bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors">
                       New File
                     </button>
                   </div>
@@ -259,7 +259,7 @@ export default function RemoveOcr({ id: _id }: { id: string }) {
                   {p.status === "processing" && <Loader2 size={14} className="animate-spin text-violet-500" />}
                   {p.status === "done" && <CheckCircle size={14} className="text-green-500" />}
                   {p.status === "error" && <AlertCircle size={14} className="text-red-400" />}
-                  <span className="text-[10px] font-bold text-slate-500 dark:text-slate-400">{p.num}</span>
+                  <span className="text-[10px] font-medium text-slate-500 dark:text-slate-400">{p.num}</span>
                 </div>
               ))}
             </div>
@@ -269,3 +269,6 @@ export default function RemoveOcr({ id: _id }: { id: string }) {
     </div>
   );
 }
+
+
+
