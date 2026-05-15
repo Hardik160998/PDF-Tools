@@ -331,32 +331,32 @@ export default function ESignTool({ id: _id }: { id: string }) {
   // ── render ───────────────────────────────────────────────────────────────
 
   return (
-    <div className="max-w-6xl mx-auto py-6 sm:py-10 px-4">
-      <div className="bg-white rounded-[2rem] p-6 sm:p-10 border border-slate-100 shadow-2xl space-y-8">
+    <div className="max-w-6xl mx-auto py-4 sm:py-10 px-2 sm:px-4">
+      <div className="bg-white rounded-[1.5rem] sm:rounded-[2rem] p-4 sm:p-10 border border-slate-100 shadow-2xl space-y-6 sm:space-y-8">
 
         {/* Header */}
         <div className="text-center space-y-2">
-          <div className="inline-flex p-4 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-500 text-white shadow-lg">
-            <PenLine size={32} />
+          <div className="inline-flex p-3 sm:p-4 rounded-xl sm:rounded-2xl bg-gradient-to-br from-purple-500 to-pink-500 text-white shadow-lg">
+            <PenLine className="w-6 h-6 sm:w-8 sm:h-8" />
           </div>
-          <h2 className="text-3xl sm:text-4xl font-black text-slate-900 uppercase tracking-tighter">
+          <h2 className="text-2xl sm:text-4xl font-black text-slate-900 uppercase tracking-tighter">
             E-Signature Tool
           </h2>
-          <p className="text-sm text-slate-500 font-medium">
+          <p className="text-xs sm:text-sm text-slate-500 font-medium">
             Upload · Sign · Download — entirely in your browser
           </p>
         </div>
 
         {/* ── UPLOAD ── */}
         {mode === 'upload' && (
-          <label className="relative flex flex-col items-center justify-center gap-4 border-2 border-dashed border-slate-200 rounded-3xl p-16 cursor-pointer hover:border-purple-400 hover:bg-purple-50/30 transition-all group">
+          <label className="relative flex flex-col items-center justify-center gap-4 border-2 border-dashed border-slate-200 rounded-2xl sm:rounded-3xl p-8 sm:p-16 cursor-pointer hover:border-purple-400 hover:bg-purple-50/30 transition-all group">
             <input type="file" onChange={onFileChange} accept=".pdf,image/png,image/jpeg,image/jpg" className="sr-only" />
-            <div className="p-5 bg-white rounded-2xl shadow-lg text-purple-500 group-hover:scale-110 transition-transform">
-              <Upload size={40} />
+            <div className="p-4 sm:p-5 bg-white rounded-xl sm:rounded-2xl shadow-lg text-purple-500 group-hover:scale-110 transition-transform">
+              <Upload className="w-8 h-8 sm:w-10 sm:h-10" />
             </div>
             <div className="text-center">
-              <p className="text-xl font-black text-slate-800">Click or drag to upload</p>
-              <p className="text-sm text-slate-400 mt-1">PDF · PNG · JPG</p>
+              <p className="text-lg sm:text-xl font-black text-slate-800">Click or drag to upload</p>
+              <p className="text-xs sm:text-sm text-slate-400 mt-1">PDF · PNG · JPG</p>
             </div>
           </label>
         )}
@@ -438,28 +438,32 @@ export default function ESignTool({ id: _id }: { id: string }) {
 
             {/* Right — signature creator */}
             <div className="space-y-4">
-              <div className="bg-slate-50 rounded-2xl p-5 border border-slate-200 space-y-4">
-                <p className="text-sm font-black text-slate-700 uppercase tracking-widest">Create Signature</p>
+              <div className="bg-slate-50 rounded-2xl p-4 sm:p-5 border border-slate-200 space-y-4">
+                <p className="text-xs sm:text-sm font-black text-slate-700 uppercase tracking-widest">Create Signature</p>
 
                 {/* Draw / Type toggle */}
                 <div className="flex bg-white border border-slate-200 p-1 rounded-xl">
                   {(['draw', 'type'] as const).map(m => (
                     <button key={m} onClick={() => { setSignMode(m); setSignatureData(null); }}
-                      className={`flex-1 py-2 flex items-center justify-center gap-1.5 text-xs font-black uppercase tracking-widest rounded-lg transition-all ${signMode === m ? 'bg-purple-500 text-white shadow' : 'text-slate-400 hover:text-slate-700'}`}>
-                      {m === 'draw' ? <PenLine size={13} /> : <Type size={13} />} {m}
+                      className={`flex-1 py-2.5 sm:py-2 flex items-center justify-center gap-1.5 text-[10px] sm:text-xs font-black uppercase tracking-widest rounded-lg transition-all ${signMode === m ? 'bg-purple-500 text-white shadow' : 'text-slate-400 hover:text-slate-700'}`}>
+                      {m === 'draw' ? <PenLine className="w-3.5 h-3.5" /> : <Type className="w-3.5 h-3.5" />} {m}
                     </button>
                   ))}
                 </div>
 
                 {/* Pen options */}
-                <div className="flex items-center gap-3">
-                  <label className="text-[10px] font-black uppercase tracking-widest text-slate-400">Color</label>
-                  <input type="color" value={penColor} onChange={e => setPenColor(e.target.value)}
-                    className="w-8 h-8 rounded-lg border border-slate-200 cursor-pointer p-0.5 bg-white" />
-                  <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-2">Size</label>
-                  <input type="range" min={1} max={6} step={0.5} value={penSize} onChange={e => setPenSize(Number(e.target.value))}
-                    className="flex-1 accent-purple-500" />
-                  <span className="text-xs font-bold text-slate-500 w-5">{penSize}</span>
+                <div className="flex flex-col gap-4">
+                  <div className="flex items-center gap-3">
+                    <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 w-10">Color</label>
+                    <input type="color" value={penColor} onChange={e => setPenColor(e.target.value)}
+                      className="w-10 h-10 rounded-lg border border-slate-200 cursor-pointer p-0.5 bg-white shadow-sm" />
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 w-10">Size</label>
+                    <input type="range" min={1} max={6} step={0.5} value={penSize} onChange={e => setPenSize(Number(e.target.value))}
+                      className="flex-1 accent-purple-500 h-6" />
+                    <span className="text-xs font-bold text-slate-500 w-6 text-right">{penSize}</span>
+                  </div>
                 </div>
 
                 {/* Draw canvas */}
@@ -468,7 +472,7 @@ export default function ESignTool({ id: _id }: { id: string }) {
                     <canvas
                       ref={canvasRef}
                       width={700}
-                      height={200}
+                      height={180}
                       onMouseDown={startDrawing}
                       onMouseMove={draw}
                       onMouseUp={stopDrawing}
@@ -477,7 +481,7 @@ export default function ESignTool({ id: _id }: { id: string }) {
                       onTouchMove={draw}
                       onTouchEnd={stopDrawing}
                       onTouchCancel={stopDrawing}
-                      className="w-full rounded-xl border-2 border-slate-200 bg-white cursor-crosshair"
+                      className="w-full h-[120px] sm:h-[150px] rounded-xl border-2 border-slate-200 bg-white cursor-crosshair"
                       style={{ touchAction: 'none', display: 'block' }}
                     />
                     <button onClick={clearCanvas}
@@ -537,13 +541,13 @@ export default function ESignTool({ id: _id }: { id: string }) {
 
         {/* ── DONE ── */}
         {mode === 'done' && (
-          <div className="text-center space-y-8 py-6">
-            <div className="inline-flex p-8 rounded-full bg-green-100 text-green-500">
-              <CheckCircle2 size={56} />
+          <div className="text-center space-y-6 sm:space-y-8 py-4 sm:py-6">
+            <div className="inline-flex p-6 sm:p-8 rounded-full bg-green-100 text-green-500">
+              <CheckCircle2 className="w-10 h-10 sm:w-14 sm:h-14" />
             </div>
             <div>
-              <h3 className="text-3xl font-black text-slate-900">Document Signed!</h3>
-              <p className="text-slate-500 font-medium mt-1">Your signed PDF is ready to download.</p>
+              <h3 className="text-2xl sm:text-3xl font-black text-slate-900">Document Signed!</h3>
+              <p className="text-sm text-slate-500 font-medium mt-1 px-4">Your signed PDF is ready to download.</p>
             </div>
             <div className="flex flex-col sm:flex-row gap-4 justify-center max-w-md mx-auto">
               <a href={result!} download={`signed_${file?.name ?? 'document.pdf'}`}

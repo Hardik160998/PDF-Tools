@@ -158,7 +158,7 @@ export default function MergeSplit({ id }: { id: string }) {
               zip.file(partName, bytes);
               
               allResults.push({
-                url: URL.createObjectURL(new Blob([bytes], { type: 'application/pdf' })),
+                url: URL.createObjectURL(new Blob([bytes.buffer as ArrayBuffer], { type: 'application/pdf' })),
                 name: partName,
                 pageCount: 1
               });
@@ -178,7 +178,7 @@ export default function MergeSplit({ id }: { id: string }) {
               zip.file(partName, bytes);
               
               allResults.push({
-                url: URL.createObjectURL(new Blob([bytes], { type: 'application/pdf' })),
+                url: URL.createObjectURL(new Blob([bytes.buffer as ArrayBuffer], { type: 'application/pdf' })),
                 name: partName,
                 pageCount: indices.length
               });
