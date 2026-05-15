@@ -90,17 +90,48 @@ export async function POST(request: Request) {
     } else {
       let fromFormat = 'docx';
       let toFormat = 'pdf';
-      if (fromId === 'pdf-to-word' || fromId === 'pdf-to-docx')       { fromFormat = 'pdf';  toFormat = 'docx'; }
-      else if (fromId === 'pdf-to-ppt')   { fromFormat = 'pdf';  toFormat = 'pptx'; }
-      else if (fromId === 'pdf-to-excel') { fromFormat = 'pdf';  toFormat = 'xlsx'; }
-      else if (fromId.includes('word') || fromId.includes('docx')) { fromFormat = 'docx'; }
-      else if (fromId.includes('excel'))  { fromFormat = 'xlsx'; }
-      else if (fromId.includes('ppt'))    { fromFormat = 'pptx'; }
-      else if (fromId.includes('html'))   { fromFormat = 'html'; }
+      
+      if (fromId === 'pdf-to-word' || fromId === 'pdf-to-docx') { 
+        fromFormat = 'pdf';  
+        toFormat = 'docx'; 
+      } else if (fromId === 'pdf-to-ppt') { 
+        fromFormat = 'pdf';  
+        toFormat = 'pptx'; 
+      } else if (fromId === 'pdf-to-excel') { 
+        fromFormat = 'pdf';  
+        toFormat = 'xlsx'; 
+      } else if (fromId.includes('word') || fromId.includes('docx')) { 
+        fromFormat = 'docx'; 
+      } else if (fromId.includes('excel')) { 
+        fromFormat = 'xlsx'; 
+      } else if (fromId.includes('ppt')) { 
+        fromFormat = 'pptx'; 
+      } else if (fromId.includes('html')) { 
+        fromFormat = 'html'; 
+      }
+
+      // Optimization Parameters for high-fidelity conversion
+      if (toFormat === 'pdf') {
+        if (fromFormat === 'xlsx' || fromFormat === 'xls') {
+          convertApiParams.push({ Name: 'AutoPageFit', Value: true });
+          convertApiParams.push({ Name: 'AutoColumnFit', Value: true });
+          convertApiParams.push({ Name: 'PageSize', Value: 'A4' });
+          convertApiParams.push({ Name: 'Scale', Value: 100 });
+        } else if (fromFormat === 'docx' || fromFormat === 'doc' || fromFormat === 'html' || fromFormat === 'pptx') {
+          convertApiParams.push({ Name: 'PageSize', Value: 'A4' });
+          if (fromFormat === 'html') {
+            convertApiParams.push({ Name: 'MarginTop', Value: 10 });
+            convertApiParams.push({ Name: 'MarginBottom', Value: 10 });
+            convertApiParams.push({ Name: 'MarginLeft', Value: 10 });
+            convertApiParams.push({ Name: 'MarginRight', Value: 10 });
+          }
+        }
+      }
+
       actionEndpoint = `https://v2.convertapi.com/convert/${fromFormat}/to/${toFormat}?Secret=${safeSecret}`;
     }
 
-    console.log(`Processing Tool: ${fromId} | Endpoint: ${actionEndpoint}`);
+    console.log(`Processing Tool: ${fromId} | Endpoint: ${actionEndpoint} | Params:`, JSON.stringify(convertApiParams.filter(p => p.Name !== 'File')));
 
     const response = await fetch(actionEndpoint, {
       method: 'POST',

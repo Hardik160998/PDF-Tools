@@ -99,13 +99,18 @@ export default function ImageConverter({ id: toolId }: { id: string }) {
     });
   };
 
+  const [results, setResults] = useState<{ url: string; name: string; preview: string }[]>([]);
+
   const handleConvert = async () => {
     if (files.length === 0) return;
     setStatus("processing");
+    setResults([]);
     
     try {
-      const zip = new JSZip();
+      const globalZip = new JSZip();
       let finalBlob: Blob | null = null;
+      let totalOutputCount = 0;
+      const allResults: { url: string; name: string; preview: string }[] = [];
 
       const targetFormat = toolId.split("-to-")[1];
       const mimeMap: Record<string, string> = {
@@ -125,23 +130,54 @@ export default function ImageConverter({ id: toolId }: { id: string }) {
           const entry = updatedFiles[i];
           const buf = await entry.file.arrayBuffer();
           const doc = await pdfjsLib.getDocument({ data: buf }).promise;
+          const baseName = entry.file.name.replace(/\.pdf$/i, "");
           
-          const page = await doc.getPage(1);
-          const viewport = page.getViewport({ scale: 2 });
-          const canvas = document.createElement("canvas");
-          canvas.width = viewport.width;
-          canvas.height = viewport.height;
-          await page.render({ canvasContext: canvas.getContext("2d")!, viewport, canvas }).promise;
-          const blob = await new Promise<Blob>(r => canvas.toBlob(b => r(b!), targetMime, 0.95));
-          
-          updatedFiles[i] = {
-            ...entry,
-            status: "done",
-            resultUrl: URL.createObjectURL(blob),
-            resultName: `${entry.file.name.replace(".pdf", "")}.${targetExt}`
-          };
-          
-          zip.file(updatedFiles[i].resultName!, blob);
+          const entryZip = doc.numPages > 1 ? new JSZip() : null;
+          let firstPageUrl: string | null = null;
+
+          for (let p = 1; p <= doc.numPages; p++) {
+            const page = await doc.getPage(p);
+            const viewport = page.getViewport({ scale: 2 });
+            const canvas = document.createElement("canvas");
+            const ctx = canvas.getContext("2d", { alpha: false })!;
+            canvas.width = viewport.width;
+            canvas.height = viewport.height;
+            
+            ctx.fillStyle = "white";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            await page.render({ canvasContext: ctx, viewport, canvas }).promise;
+            const blob = await new Promise<Blob>(r => canvas.toBlob(b => r(b!), targetMime, 0.90));
+            const url = URL.createObjectURL(blob);
+
+            const fileName = doc.numPages > 1 
+              ? `${baseName}-page-${p}.${targetExt}`
+              : `${baseName}.${targetExt}`;
+            
+            globalZip.file(fileName, blob);
+            if (entryZip) entryZip.file(fileName, blob);
+            
+            allResults.push({ url, name: fileName, preview: url });
+            if (p === 1) firstPageUrl = url;
+            totalOutputCount++;
+          }
+
+          if (entryZip) {
+            const zipBlob = await entryZip.generateAsync({ type: "blob" });
+            updatedFiles[i] = {
+              ...entry,
+              status: "done",
+              resultUrl: URL.createObjectURL(zipBlob),
+              resultName: `${baseName}_images.zip`
+            };
+          } else if (firstPageUrl) {
+            updatedFiles[i] = {
+              ...entry,
+              status: "done",
+              resultUrl: firstPageUrl,
+              resultName: `${baseName}.${targetExt}`
+            };
+          }
         }
       } else if (isImgToPdf) {
         const pdfDoc = await PDFDocument.create();
@@ -171,6 +207,8 @@ export default function ImageConverter({ id: toolId }: { id: string }) {
         }
         const bytes = await pdfDoc.save();
         finalBlob = new Blob([bytes.buffer as ArrayBuffer], { type: "application/pdf" });
+        const url = URL.createObjectURL(finalBlob);
+        allResults.push({ url, name: "converted.pdf", preview: "" });
       } else {
         // Image to Image
         for (let i = 0; i < updatedFiles.length; i++) {
@@ -184,26 +222,32 @@ export default function ImageConverter({ id: toolId }: { id: string }) {
           canvas.width = image.width;
           canvas.height = image.height;
           canvas.getContext('2d')?.drawImage(image, 0, 0);
-          const blob = await new Promise<Blob>(r => canvas.toBlob(b => r(b!), targetMime, 0.95));
+          const blob = await new Promise<Blob>(r => canvas.toBlob(b => r(b!), targetMime, 0.90));
+          const url = URL.createObjectURL(blob);
           
+          const fileName = `${entry.file.name.split('.')[0]}.${targetExt}`;
           updatedFiles[i] = {
             ...entry,
             status: "done",
-            resultUrl: URL.createObjectURL(blob),
-            resultName: `${entry.file.name.split('.')[0]}.${targetExt}`
+            resultUrl: url,
+            resultName: fileName
           };
-          zip.file(updatedFiles[i].resultName!, blob);
+          globalZip.file(fileName, blob);
+          allResults.push({ url, name: fileName, preview: url });
+          totalOutputCount++;
         }
       }
 
       setFiles(updatedFiles);
+      setResults(allResults);
+
       if (isImgToPdf) {
-        setResultUrl(URL.createObjectURL(finalBlob!));
-      } else if (updatedFiles.length > 1) {
-        const content = await zip.generateAsync({ type: "blob" });
+        setResultUrl(allResults[0].url);
+      } else if (totalOutputCount > 1) {
+        const content = await globalZip.generateAsync({ type: "blob" });
         setResultUrl(URL.createObjectURL(content));
       } else {
-        setResultUrl(updatedFiles[0].resultUrl || null);
+        setResultUrl(allResults[0]?.url || null);
       }
       
       setStatus("done");
@@ -216,9 +260,10 @@ export default function ImageConverter({ id: toolId }: { id: string }) {
   const reset = () => {
     files.forEach(f => {
       if (f.preview) URL.revokeObjectURL(f.preview);
-      if (f.resultUrl) URL.revokeObjectURL(f.resultUrl);
     });
+    results.forEach(r => URL.revokeObjectURL(r.url));
     setFiles([]);
+    setResults([]);
     setStatus("idle");
     setResultUrl(null);
   };
@@ -332,13 +377,13 @@ export default function ImageConverter({ id: toolId }: { id: string }) {
                     </div>
                     <div>
                       <h3 className="text-3xl font-black text-slate-900 dark:text-white uppercase tracking-widest leading-none mb-1">Success!</h3>
-                      <p className="text-slate-500 dark:text-slate-400 font-medium uppercase tracking-widest text-[11px]">{files.length} Item{files.length !== 1 ? 's' : ''} processed successfully</p>
+                      <p className="text-slate-500 dark:text-slate-400 font-medium uppercase tracking-widest text-[11px]">{results.length} Image{results.length !== 1 ? 's' : ''} generated</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-4 w-full sm:w-auto">
                     {resultUrl && (
                       <a href={resultUrl} download={isImgToPdf ? "converted.pdf" : "converted_images.zip"} className="flex-1 sm:flex-none px-10 py-5 bg-slate-900 dark:bg-white text-white dark:text-slate-900 rounded-2xl font-medium text-sm uppercase tracking-widest shadow-xl hover:scale-105 transition-all flex items-center justify-center gap-3">
-                        <Download size={20} /> Download {files.length > 1 ? "Batch" : "File"}
+                        <Download size={20} /> Download {results.length > 1 ? "Batch (ZIP)" : "File"}
                       </a>
                     )}
                     <button onClick={reset} className="p-5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl text-slate-400 hover:text-red-500 transition-all hover:scale-110">
@@ -348,11 +393,11 @@ export default function ImageConverter({ id: toolId }: { id: string }) {
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                  {files.map((f) => (
-                    <div key={f.id} className="bg-white dark:bg-slate-800 rounded-[2.5rem] p-5 border border-slate-100 dark:border-slate-700 shadow-sm flex flex-col gap-5 group hover:shadow-2xl transition-all relative">
+                  {results.map((res, idx) => (
+                    <div key={idx} className="bg-white dark:bg-slate-800 rounded-[2.5rem] p-5 border border-slate-100 dark:border-slate-700 shadow-sm flex flex-col gap-5 group hover:shadow-2xl transition-all relative">
                       <div className="aspect-square rounded-[2rem] overflow-hidden bg-slate-50 dark:bg-slate-900 relative border border-slate-50 dark:border-slate-700">
-                        {f.preview ? (
-                          <img src={f.preview} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" alt="Preview" />
+                        {res.preview ? (
+                          <img src={res.preview} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" alt="Preview" />
                         ) : (
                           <div className="w-full h-full flex items-center justify-center text-slate-300">
                              <FileText size={64} />
@@ -360,23 +405,21 @@ export default function ImageConverter({ id: toolId }: { id: string }) {
                         )}
                         <div className="absolute inset-0 bg-slate-900/60 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center gap-4">
                            <ImageIcon className="text-white/40" size={48} />
-                           <span className="text-white font-outfit text-[11px] font-medium uppercase tracking-widest bg-white/20 px-3 py-1 rounded-full backdrop-blur-md">Preview</span>
+                           <span className="text-white font-outfit text-[11px] font-medium uppercase tracking-widest bg-white/20 px-3 py-1 rounded-full backdrop-blur-md">Result Image</span>
                         </div>
                       </div>
                       <div className="flex items-center justify-between gap-4 px-1">
                         <div className="flex-1 min-w-0 text-left">
-                          <p className="text-xs font-medium text-slate-900 dark:text-white uppercase truncate tracking-tighter mb-1">{f.resultName || f.file.name}</p>
+                          <p className="text-xs font-medium text-slate-900 dark:text-white uppercase truncate tracking-tighter mb-1">{res.name}</p>
                           <div className="flex items-center gap-2">
                              <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-                             <p className="text-[9px] font-medium text-slate-400 uppercase tracking-widest">Optimized</p>
+                             <p className="text-[9px] font-medium text-slate-400 uppercase tracking-widest">Individual Download</p>
                           </div>
                         </div>
-                        {f.resultUrl && (
-                          <a href={f.resultUrl} download={f.resultName} className="p-4 bg-white dark:bg-slate-900 text-slate-900 dark:text-white border border-slate-100 dark:border-slate-700 rounded-2xl shadow-xl hover:scale-110 transition-all group/btn relative overflow-hidden">
-                            <Download size={20} className="relative z-10" />
-                            <div className="absolute inset-0 bg-orange-500 translate-y-full group-hover/btn:translate-y-0 transition-transform" />
-                          </a>
-                        )}
+                        <a href={res.url} download={res.name} className="p-4 bg-white dark:bg-slate-900 text-slate-900 dark:text-white border border-slate-100 dark:border-slate-700 rounded-2xl shadow-xl hover:scale-110 transition-all group/btn relative overflow-hidden">
+                          <Download size={20} className="relative z-10" />
+                          <div className="absolute inset-0 bg-orange-500 translate-y-full group-hover/btn:translate-y-0 transition-transform" />
+                        </a>
                       </div>
                     </div>
                   ))}

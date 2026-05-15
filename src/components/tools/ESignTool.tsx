@@ -217,14 +217,17 @@ export default function ESignTool({ id: _id }: { id: string }) {
   };
 
   const onSigPointerMove = (e: React.PointerEvent, sigId: string) => {
-    if (!dragRef.current || selectedSig !== sigId) return;
+    const drag = dragRef.current;
+    if (!drag || selectedSig !== sigId) return;
     e.preventDefault();
-    const dx = e.clientX - dragRef.current.startX;
-    const dy = e.clientY - dragRef.current.startY;
+    const dx = e.clientX - drag.startX;
+    const dy = e.clientY - drag.startY;
+    const { sigX, sigY } = drag;
+
     setSignatures(prev =>
       prev.map(s =>
         s.id === sigId
-          ? { ...s, x: dragRef.current!.sigX + dx, y: dragRef.current!.sigY + dy }
+          ? { ...s, x: sigX + dx, y: sigY + dy }
           : s
       )
     );
@@ -250,14 +253,17 @@ export default function ESignTool({ id: _id }: { id: string }) {
   };
 
   const onResizeMove = (e: React.PointerEvent, sigId: string) => {
-    if (!resizeRef.current || selectedSig !== sigId) return;
+    const resize = resizeRef.current;
+    if (!resize || selectedSig !== sigId) return;
     e.preventDefault();
-    const dx = e.clientX - resizeRef.current.startX;
-    const dy = e.clientY - resizeRef.current.startY;
+    const dx = e.clientX - resize.startX;
+    const dy = e.clientY - resize.startY;
+    const { w, h } = resize;
+
     setSignatures(prev =>
       prev.map(s =>
         s.id === sigId
-          ? { ...s, width: Math.max(60, resizeRef.current!.w + dx), height: Math.max(24, resizeRef.current!.h + dy) }
+          ? { ...s, width: Math.max(60, w + dx), height: Math.max(24, h + dy) }
           : s
       )
     );

@@ -49,11 +49,11 @@ export default function EcommerceDropdown() {
       </button>
 
       {open && (
-        <div className="convert-dropdown-panel" onMouseEnter={show} onMouseLeave={hide}>
-          <div className="convert-dropdown-arrow" />
+        <div className="convert-dropdown-panel !z-[9999] !bg-white dark:!bg-slate-900 !shadow-2xl !border !border-slate-200 dark:!border-slate-700" onMouseEnter={show} onMouseLeave={hide}>
+          <div className="convert-dropdown-arrow !bg-white dark:!bg-slate-900 !border-slate-200 dark:!border-slate-700" />
           <div className="convert-dropdown-label" style={{ color: '#f26522', borderColor: '#f26522' }}>ECOMMERCE TOOLS</div>
           {ECOMMERCE_TOOLS.map(({ href, label, icon: Icon, gradient }) => (
-            <a key={href} href={href} className="convert-dropdown-item wrap-text">
+            <a key={href} href={href} className="convert-dropdown-item wrap-text hover:!bg-slate-50 dark:hover:!bg-slate-800">
               <span className="convert-dropdown-icon shrink-0 mt-0.5" style={{ background: gradient }}>
                 <Icon size={18} />
               </span>

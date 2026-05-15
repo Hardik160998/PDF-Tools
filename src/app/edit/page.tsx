@@ -1,6 +1,6 @@
 "use client";
 import { PenLine, Stamp, FileDigit, Settings, EyeOff, Bookmark, Layers, CheckCircle } from 'lucide-react';
-import EditTools from '@/components/tools/EditTools';
+import PdfEditor from '@/components/tools/PdfEditor';
 
 const RELATED_TOOLS = [
   { id: 'watermark',    title: 'Watermark PDF',  description: 'Stamp a text or image watermark over every page of your PDF.',        icon: Stamp,    gradient: 'linear-gradient(135deg, #8b5cf6, #6d28d9)', shadow: 'rgba(139,92,246,0.3)', tag: 'Edit' },
@@ -12,19 +12,19 @@ const RELATED_TOOLS = [
 ];
 
 const FEATURES = [
-  'Add text & image watermarks',
-  'Insert page numbers',
-  'Edit document metadata',
-  'Flatten form fields',
-  'Bookmark navigation',
-  '100% private — runs in browser',
+  'Interactive Text Overlays',
+  'Image Placement & Scaling',
+  'White-out & Redaction',
+  'Multi-page Navigation',
+  'Full A4 Compatibility',
+  '100% Private Processing',
 ];
 
 export default function EditPage() {
   return (
-    <div className="min-h-screen bg-slate-50/50 dark:bg-slate-950">
-      <div className="max-w-7xl mx-auto px-4 pt-10 sm:pt-16 pb-10">
-        <EditTools id="edit-pdf" />
+    <div className="min-h-screen bg-white dark:bg-slate-950">
+      <div className="max-w-[1600px] mx-auto pt-4 sm:pt-6 pb-10">
+        <PdfEditor />
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-16 mb-16">
           {FEATURES.slice(0, 3).map((f, i) => (
