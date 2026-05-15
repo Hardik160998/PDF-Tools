@@ -163,7 +163,7 @@ export default function AadharCropper({ id }: { id: string }) {
       }
 
       const pdfBytes = await pdfDoc.save();
-      const blob = new Blob([pdfBytes.buffer], { type: 'application/pdf' });
+      const blob = new Blob([pdfBytes] as BlobPart[], { type: 'application/pdf' });
       setResult(URL.createObjectURL(blob));
     } catch (err) {
       console.error(err);
