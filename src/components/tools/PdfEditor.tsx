@@ -255,14 +255,14 @@ export default function PdfEditor() {
   // ─── Rendering ───────────────────────────────────────────────────────────
   if (status === 'upload') {
     return (
-      <div className="max-w-4xl mx-auto py-10">
-        <label className="flex flex-col items-center justify-center border-4 border-dashed border-slate-200 dark:border-slate-800 rounded-[3rem] p-20 hover:border-pink-500 hover:bg-pink-50/20 transition-all cursor-pointer group">
+      <div className="max-w-4xl mx-auto py-6 sm:py-10 px-4">
+        <label className="flex flex-col items-center justify-center border-4 border-dashed border-slate-200 dark:border-slate-800 rounded-3xl sm:rounded-[3rem] p-8 sm:p-20 hover:border-pink-500 hover:bg-pink-50/20 transition-all cursor-pointer group">
           <input type="file" className="hidden" accept=".pdf" onChange={onFileChange} />
-          <div className="w-20 h-20 bg-white dark:bg-slate-900 rounded-3xl shadow-xl flex items-center justify-center text-pink-500 mb-8 group-hover:scale-110 transition-transform">
-            <Upload size={40} />
+          <div className="w-16 h-16 sm:w-20 h-20 bg-white dark:bg-slate-900 rounded-2xl sm:rounded-3xl shadow-xl flex items-center justify-center text-pink-500 mb-6 sm:mb-8 group-hover:scale-110 transition-transform">
+            <Upload className="size-8 sm:size-10" />
           </div>
-          <h2 className="text-3xl font-black text-slate-900 dark:text-white uppercase tracking-tighter">Edit Your PDF</h2>
-          <p className="text-slate-400 font-medium mt-2">Add text, images, and white-out directly in your browser.</p>
+          <h2 className="text-xl sm:text-3xl font-black text-slate-900 dark:text-white uppercase tracking-tighter text-center">Edit Your PDF</h2>
+          <p className="text-xs sm:text-base text-slate-400 font-medium mt-2 text-center max-w-xs sm:max-w-none">Add text, images, and white-out directly in your browser.</p>
         </label>
       </div>
     );
@@ -279,19 +279,19 @@ export default function PdfEditor() {
 
   if (status === 'done') {
     return (
-      <div className="max-w-2xl mx-auto py-20 text-center space-y-10">
-        <div className="w-32 h-32 bg-green-500 text-white rounded-full flex items-center justify-center mx-auto shadow-2xl">
-          <CheckCircle2 size={64} />
+      <div className="max-w-2xl mx-auto py-10 sm:py-20 px-4 text-center space-y-8 sm:space-y-10">
+        <div className="w-24 h-24 sm:w-32 h-32 bg-green-500 text-white rounded-full flex items-center justify-center mx-auto shadow-2xl">
+          <CheckCircle2 className="size-12 sm:size-16" />
         </div>
         <div className="space-y-2">
-          <h2 className="text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter">PDF Edited Successfully!</h2>
-          <p className="text-slate-500 font-medium">Your document has been updated with all changes.</p>
+          <h2 className="text-2xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter">PDF Edited Successfully!</h2>
+          <p className="text-sm sm:text-base text-slate-500 font-medium">Your document has been updated with all changes.</p>
         </div>
-        <div className="flex gap-4">
-          <a href={resultUrl!} download="edited.pdf" className="flex-1 py-5 bg-pink-500 text-white rounded-3xl font-black text-xl uppercase tracking-widest shadow-xl hover:scale-105 transition-all flex items-center justify-center gap-3">
-            <Download size={24} /> Download Now
+        <div className="flex flex-col sm:flex-row gap-4">
+          <a href={resultUrl!} download="edited.pdf" className="flex-1 py-4 sm:py-5 bg-pink-500 text-white rounded-2xl sm:rounded-3xl font-black text-lg sm:text-xl uppercase tracking-widest shadow-xl hover:scale-105 transition-all flex items-center justify-center gap-3">
+            <Download size={22} /> Download Now
           </a>
-          <button onClick={reset} className="px-10 py-5 bg-slate-100 dark:bg-slate-800 rounded-3xl font-bold transition-all hover:bg-slate-200">
+          <button onClick={reset} className="px-10 py-4 sm:py-5 bg-slate-100 dark:bg-slate-800 rounded-2xl sm:rounded-3xl font-bold transition-all hover:bg-slate-200 text-sm sm:text-base">
             Edit Another
           </button>
         </div>
@@ -303,20 +303,20 @@ export default function PdfEditor() {
     <div className="flex flex-col h-[calc(100vh-100px)] overflow-hidden">
       
       {/* Toolbar */}
-      <div className="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 p-4 flex items-center justify-between shadow-sm z-[10]">
+      <div className="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 p-2 sm:p-4 flex items-center justify-between shadow-sm z-[10]">
         <div className="flex items-center gap-2 sm:gap-4">
           <button onClick={() => setTool('select')} className={`p-3 rounded-xl transition-all ${tool === 'select' ? 'bg-pink-500 text-white shadow-lg' : 'hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500'}`} title="Select Tool">
             <MousePointer2 size={20} />
           </button>
           <div className="w-[1px] h-8 bg-slate-100 dark:bg-slate-800 mx-1" />
-          <button onClick={() => addElement('text')} className="flex items-center gap-2 px-4 py-3 bg-slate-50 dark:bg-slate-800 rounded-xl hover:bg-slate-100 font-bold text-xs uppercase tracking-widest text-slate-700 dark:text-slate-200 transition-all active:scale-95">
+          <button onClick={() => addElement('text')} className="flex items-center gap-2 px-3 py-3 sm:px-4 sm:py-3 bg-slate-50 dark:bg-slate-800 rounded-xl hover:bg-slate-100 font-bold text-xs uppercase tracking-widest text-slate-700 dark:text-slate-200 transition-all active:scale-95">
             <Type size={18} /> <span className="hidden sm:inline">Add Text</span>
           </button>
-          <label className="flex items-center gap-2 px-4 py-3 bg-slate-50 dark:bg-slate-800 rounded-xl hover:bg-slate-100 font-bold text-xs uppercase tracking-widest text-slate-700 dark:text-slate-200 transition-all active:scale-95 cursor-pointer">
+          <label className="flex items-center gap-2 px-3 py-3 sm:px-4 sm:py-3 bg-slate-50 dark:bg-slate-800 rounded-xl hover:bg-slate-100 font-bold text-xs uppercase tracking-widest text-slate-700 dark:text-slate-200 transition-all active:scale-95 cursor-pointer">
             <ImageIcon size={18} /> <span className="hidden sm:inline">Add Image</span>
             <input type="file" className="hidden" accept="image/*" onChange={handleImageUpload} />
           </label>
-          <button onClick={() => addElement('shape')} className="flex items-center gap-2 px-4 py-3 bg-slate-50 dark:bg-slate-800 rounded-xl hover:bg-slate-100 font-bold text-xs uppercase tracking-widest text-slate-700 dark:text-slate-200 transition-all active:scale-95">
+          <button onClick={() => addElement('shape')} className="flex items-center gap-2 px-3 py-3 sm:px-4 sm:py-3 bg-slate-50 dark:bg-slate-800 rounded-xl hover:bg-slate-100 font-bold text-xs uppercase tracking-widest text-slate-700 dark:text-slate-200 transition-all active:scale-95">
             <Square size={18} /> <span className="hidden sm:inline">White-out</span>
           </button>
         </div>
@@ -330,8 +330,8 @@ export default function PdfEditor() {
              <button onClick={() => setZoom(0.8)} className="ml-2 text-[9px] font-black uppercase text-pink-500 hover:underline">Reset</button>
            </div>
 
-          <button onClick={savePdf} className="px-6 sm:px-8 py-2.5 sm:py-3 bg-pink-500 text-white rounded-lg sm:rounded-xl font-black text-xs sm:text-sm uppercase tracking-widest shadow-lg hover:scale-105 transition-all flex items-center gap-2">
-            Save PDF <Download size={18} />
+          <button onClick={savePdf} className="px-4 sm:px-8 py-2.5 sm:py-3 bg-pink-500 text-white rounded-lg sm:rounded-xl font-black text-xs sm:text-sm uppercase tracking-widest shadow-lg hover:scale-105 transition-all flex items-center gap-2">
+            <span className="hidden xs:inline">Save</span> <span className="hidden sm:inline">PDF</span> <Download size={18} />
           </button>
         </div>
       </div>
@@ -339,12 +339,12 @@ export default function PdfEditor() {
       <div className="flex flex-col lg:flex-row flex-1 overflow-hidden">
         
         {/* Workspace */}
-        <div className="flex-1 bg-slate-100 dark:bg-slate-950 p-4 sm:p-10 overflow-auto flex flex-col items-center min-h-[50vh] sm:min-h-0">
+        <div className="flex-1 bg-slate-100 dark:bg-slate-950 p-2 sm:p-10 overflow-auto flex flex-col items-center min-h-[50vh] sm:min-h-0">
           
-          <div className="mb-6 flex items-center gap-6 bg-white dark:bg-slate-900 px-6 py-3 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800">
-            <button onClick={() => setCurrentPage(p => Math.max(0, p - 1))} className="p-2 hover:bg-slate-100 rounded-lg"><ChevronLeft /></button>
-            <span className="font-black text-sm uppercase tracking-widest text-slate-500">Page {currentPage + 1} of {pageImages.length}</span>
-            <button onClick={() => setCurrentPage(p => Math.min(pageImages.length - 1, p + 1))} className="p-2 hover:bg-slate-100 rounded-lg"><ChevronRight /></button>
+          <div className="mb-4 sm:mb-6 flex items-center gap-3 sm:gap-6 bg-white dark:bg-slate-900 px-4 py-2 sm:px-6 sm:py-3 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800">
+            <button onClick={() => setCurrentPage(p => Math.max(0, p - 1))} className="p-1 sm:p-2 hover:bg-slate-100 rounded-lg"><ChevronLeft size={20} /></button>
+            <span className="font-black text-[10px] sm:text-sm uppercase tracking-widest text-slate-500">Page {currentPage + 1} / {pageImages.length}</span>
+            <button onClick={() => setCurrentPage(p => Math.min(pageImages.length - 1, p + 1))} className="p-1 sm:p-2 hover:bg-slate-100 rounded-lg"><ChevronRight size={20} /></button>
           </div>
 
           <div 
