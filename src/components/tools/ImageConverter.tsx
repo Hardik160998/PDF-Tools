@@ -206,7 +206,7 @@ export default function ImageConverter({ id: toolId }: { id: string }) {
           updatedFiles[i] = { ...entry, status: "done" };
         }
         const bytes = await pdfDoc.save();
-        finalBlob = new Blob([bytes.buffer as ArrayBuffer], { type: "application/pdf" });
+        finalBlob = new Blob([bytes.buffer], { type: "application/pdf" });
         const url = URL.createObjectURL(finalBlob);
         allResults.push({ url, name: "converted.pdf", preview: "" });
       } else {

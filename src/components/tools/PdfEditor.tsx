@@ -227,7 +227,7 @@ export default function PdfEditor() {
       }
 
       const bytes = await pdfDoc.save();
-      setResultUrl(URL.createObjectURL(new Blob([bytes], { type: 'application/pdf' })));
+      setResultUrl(URL.createObjectURL(new Blob([bytes.buffer], { type: 'application/pdf' })));
       setStatus('done');
     } catch (err) {
       console.error(err);
