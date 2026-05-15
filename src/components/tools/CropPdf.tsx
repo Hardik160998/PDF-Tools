@@ -40,6 +40,7 @@ export default function CropPdf({ id: _id }: { id: string }) {
   const [loading, setLoading] = useState(false);
   const [pageInput, setPageInput] = useState("1");
   const [step, setStep] = useState(1);
+  const [showSidebar, setShowSidebar] = useState(true);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
   const previewRef = useRef<HTMLDivElement>(null);
@@ -83,6 +84,7 @@ export default function CropPdf({ id: _id }: { id: string }) {
       setFiles(prev => [...prev, newFile]);
       if (activeFileIdx === -1) setActiveFileIdx(files.length);
       setStep(2);
+      if (window.innerWidth < 1024) setShowSidebar(false);
     } catch (err) {
       console.error(err);
       alert("Error loading PDF.");
@@ -144,7 +146,6 @@ export default function CropPdf({ id: _id }: { id: string }) {
   };
 
   const onHandleDown = (e: React.MouseEvent | React.TouchEvent, id: string) => {
-    e.preventDefault();
     const rect = previewRef.current?.getBoundingClientRect();
     if (!rect) return;
     
@@ -271,14 +272,19 @@ export default function CropPdf({ id: _id }: { id: string }) {
 
   const renderStep2 = () => (
     <div className="flex flex-col lg:flex-row h-screen bg-white dark:bg-slate-950 overflow-hidden">
-      {/* Workspace Sidebar */}
-      <div className="w-full lg:w-96 bg-white dark:bg-slate-900 border-b lg:border-b-0 lg:border-r border-slate-100 dark:border-slate-800 flex flex-col h-fit lg:h-full z-40">
-        <div className="p-8 border-b border-slate-50 dark:border-slate-800 flex items-center justify-between">
-          <h2 className="text-lg sm:text-xl font-black text-slate-900 dark:text-white uppercase tracking-widest">Workspace</h2>
-          <button onClick={reset} className="p-2 text-slate-400 hover:text-red-500 transition-colors"><X size={24} /></button>
-        </div>
-        
-        <div className="flex-1 overflow-y-auto p-8 space-y-10 custom-scrollbar">
+      {/* Workspace Sidebar - Toggleable Drawer for Desktop & Mobile */}
+      <div className={`
+        fixed inset-y-0 left-0 z-50 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border-r border-slate-100 dark:border-slate-800
+        transition-all duration-500 ease-in-out shadow-2xl
+        ${showSidebar ? 'w-full sm:w-96 translate-x-0' : 'w-0 -translate-x-full'}
+      `}>
+        <div className="flex flex-col h-full overflow-hidden">
+          <div className="p-5 sm:p-8 border-b border-slate-50 dark:border-slate-800 flex items-center justify-between bg-white dark:bg-slate-900">
+            <h2 className="text-base sm:text-lg font-black text-slate-900 dark:text-white uppercase tracking-widest">Workspace</h2>
+            <button onClick={() => setShowSidebar(false)} className="p-2 bg-slate-100 dark:bg-slate-800 rounded-xl text-slate-900 dark:text-white hover:scale-110 transition-all"><X size={20} /></button>
+          </div>
+          
+          <div className="flex-1 overflow-y-auto p-5 sm:p-8 space-y-8 custom-scrollbar pb-32">
            <div className="space-y-4 text-left">
               <span className="font-outfit text-[11px] font-medium text-slate-400 uppercase tracking-widest">Active Queue ({files.length})</span>
               <div className="space-y-3">
@@ -322,26 +328,32 @@ export default function CropPdf({ id: _id }: { id: string }) {
            </div>
         </div>
 
-        <div className="p-8 border-t border-slate-50 dark:border-slate-800">
-           <button onClick={handleCrop} disabled={processing} className="w-full py-5 bg-orange-500 text-white rounded-2xl font-medium text-lg uppercase tracking-widest shadow-2xl shadow-orange-500/30 hover:scale-[1.02] active:scale-95 transition-all">
-              {processing ? <Loader2 className="animate-spin mx-auto" size={28} /> : 'Export Batch'}
+        <div className="p-6 sm:p-8 border-t border-slate-50 dark:border-slate-800 bg-white dark:bg-slate-900 fixed bottom-0 left-0 w-full sm:w-96 z-50 shadow-[0_-10px_40px_rgba(0,0,0,0.05)]">
+           <button onClick={handleCrop} disabled={processing} className="w-full py-4 sm:py-5 bg-orange-500 text-white rounded-2xl font-black text-sm sm:text-lg uppercase tracking-widest shadow-2xl shadow-orange-500/40 hover:scale-[1.02] active:scale-95 transition-all">
+              {processing ? <Loader2 className="animate-spin mx-auto" size={24} /> : 'Export Batch'}
            </button>
+        </div>
         </div>
       </div>
 
-      {/* Workspace Main Area */}
-      <div className="flex-1 flex flex-col relative bg-slate-50 dark:bg-slate-950 overflow-hidden">
+      {/* Main Container - Adjusts width based on Sidebar */}
+      <div className={`flex-1 flex flex-col relative bg-slate-50 dark:bg-slate-950 overflow-hidden transition-all duration-500 ${showSidebar ? 'lg:pl-[384px]' : 'pl-0'}`}>
          {/* Top toolbar */}
-         <div className="h-16 border-b border-slate-100 dark:border-slate-900 bg-white dark:bg-slate-900 flex items-center justify-between px-8 shrink-0">
-            <div className="flex items-center gap-4">
-               <button onClick={() => setActivePage(p => Math.max(0, p - 1))} className="p-2 text-slate-400 hover:text-orange-500"><ChevronUp size={20} /></button>
-               <span className="text-xs font-medium uppercase tracking-widest text-slate-900 dark:text-white">Page {activePage + 1} / {activeFile?.pages.length || 0}</span>
-               <button onClick={() => setActivePage(p => Math.min((activeFile?.pages.length || 1) - 1, p + 1))} className="p-2 text-slate-400 hover:text-orange-500 rotate-180"><ChevronUp size={20} /></button>
+         <div className="h-14 sm:h-16 border-b border-slate-100 dark:border-slate-900 bg-white dark:bg-slate-900 flex items-center justify-between px-4 sm:px-8 shrink-0 z-10 relative">
+            <div className="flex items-center gap-2 sm:gap-4">
+               {!showSidebar && (
+                 <button onClick={() => setShowSidebar(true)} className="p-2 bg-orange-500 text-white rounded-xl shadow-[0_10px_20px_rgba(249,115,22,0.3)] hover:bg-orange-600 transition-all mr-2">
+                    <Settings size={18} />
+                 </button>
+               )}
+               <button onClick={() => setActivePage(p => Math.max(0, p - 1))} className="p-1.5 sm:p-2 text-slate-400 hover:text-orange-500"><ChevronUp size={18} /></button>
+               <span className="text-[10px] sm:text-xs font-black uppercase tracking-widest text-slate-900 dark:text-white">P. {activePage + 1} / {activeFile?.pages.length || 0}</span>
+               <button onClick={() => setActivePage(p => Math.min((activeFile?.pages.length || 1) - 1, p + 1))} className="p-1.5 sm:p-2 text-slate-400 hover:text-orange-500 rotate-180"><ChevronUp size={18} /></button>
             </div>
-            <div className="flex items-center gap-2">
-               <button onClick={() => setZoom(z => Math.max(0.25, z - 0.25))} className="p-2 text-slate-400 hover:text-orange-500"><ZoomOut size={20} /></button>
-               <span className="w-12 text-center text-[10px] font-medium uppercase text-slate-900 dark:text-white">{Math.round(zoom * 100)}%</span>
-               <button onClick={() => setZoom(z => Math.min(3, z + 0.25))} className="p-2 text-slate-400 hover:text-orange-500"><ZoomIn size={20} /></button>
+            <div className="flex items-center gap-1 sm:gap-2">
+               <button onClick={() => setZoom(z => Math.max(0.25, z - 0.25))} className="p-1.5 sm:p-2 text-slate-400 hover:text-orange-500"><ZoomOut size={18} /></button>
+               <span className="w-10 sm:w-12 text-center text-[9px] sm:text-[10px] font-black uppercase text-slate-900 dark:text-white">{Math.round(zoom * 100)}%</span>
+               <button onClick={() => setZoom(z => Math.min(3, z + 0.25))} className="p-1.5 sm:p-2 text-slate-400 hover:text-orange-500"><ZoomIn size={18} /></button>
             </div>
          </div>
 
@@ -355,13 +367,14 @@ export default function CropPdf({ id: _id }: { id: string }) {
                 <div className="absolute inset-0 bg-black/40 pointer-events-none transition-opacity" />
 
                 {/* Crop Box */}
-                <div className="absolute shadow-[0_0_0_9999px_rgba(0,0,0,0.5)] cursor-move" 
+                <div className="absolute shadow-[0_0_0_9999px_rgba(0,0,0,0.5)] cursor-move touch-none" 
                   style={{ 
                     left: `${cropBox.x * 100}%`, 
                     top: `${cropBox.y * 100}%`, 
                     width: `${cropBox.w * 100}%`, 
                     height: `${cropBox.h * 100}%`,
-                    border: '2px solid #f97316'
+                    border: '2px solid #f97316',
+                    touchAction: 'none'
                   }}
                   onMouseDown={e => onHandleDown(e, 'move')}
                   onTouchStart={e => onHandleDown(e, 'move')}
@@ -383,7 +396,8 @@ export default function CropPdf({ id: _id }: { id: string }) {
                     { id: 'br', style: 'bottom-0 right-0 translate-x-1/2 translate-y-1/2' }
                   ].map(h => (
                     <div key={h.id} onMouseDown={e => { e.stopPropagation(); onHandleDown(e, h.id); }} onTouchStart={e => { e.stopPropagation(); onHandleDown(e, h.id); }}
-                      className={`absolute w-5 h-5 bg-white border-4 border-orange-500 rounded-full shadow-2xl cursor-pointer hover:scale-150 transition-transform ${h.style} z-10`} />
+                      className={`absolute w-5 h-5 bg-white border-4 border-orange-500 rounded-full shadow-2xl cursor-pointer hover:scale-150 transition-transform ${h.style} z-10 touch-none`}
+                      style={{ touchAction: 'none' }} />
                   ))}
                 </div>
               </div>
@@ -407,21 +421,21 @@ export default function CropPdf({ id: _id }: { id: string }) {
   );
 
   const renderStep3 = () => (
-    <div className="max-w-4xl mx-auto py-16 px-6">
-       <div className="bg-white dark:bg-slate-900 rounded-[40px] p-12 border border-slate-100 dark:border-slate-800 shadow-2xl text-center space-y-10">
+    <div className="w-full max-w-4xl mx-auto py-8 sm:py-16 px-4 sm:px-6">
+       <div className="bg-white dark:bg-slate-900 rounded-[32px] sm:rounded-[40px] p-6 sm:p-12 border border-slate-100 dark:border-slate-800 shadow-2xl text-center space-y-8 sm:space-y-10">
           <div className="w-24 h-24 rounded-full bg-green-50 dark:bg-green-500/10 flex items-center justify-center mx-auto text-green-500 shadow-xl">
              <CheckCircle2 size={48} />
           </div>
           <div>
-             <h2 className="text-4xl font-black text-slate-900 dark:text-white uppercase tracking-widest mb-2">Batch Process Ready!</h2>
-             <p className="text-slate-500 font-medium uppercase tracking-widest text-xs">Successfully cropped {files.length} documents.</p>
+             <h2 className="text-2xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-widest mb-2">Batch Process Ready!</h2>
+             <p className="text-slate-500 dark:text-slate-400 font-bold uppercase tracking-widest text-[9px] sm:text-xs">Successfully cropped {files.length} documents.</p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-2xl mx-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 max-w-2xl mx-auto">
              {files.map((f, i) => (
-               <div key={f.id} className="flex flex-col gap-4 p-6 bg-slate-50 dark:bg-slate-800 rounded-3xl border border-slate-100 dark:border-slate-700">
-                  <div className="flex items-center gap-4 text-left min-w-0">
-                     <div className="p-3 bg-white dark:bg-slate-900 rounded-xl shadow-sm text-orange-500 shrink-0"><FileText size={20} /></div>
+               <div key={f.id} className="flex flex-col gap-3 sm:gap-4 p-4 sm:p-6 bg-slate-50 dark:bg-slate-800 rounded-2xl sm:rounded-3xl border border-slate-100 dark:border-slate-700">
+                  <div className="flex items-center gap-3 sm:gap-4 text-left min-w-0">
+                     <div className="p-2 sm:p-3 bg-white dark:bg-slate-900 rounded-xl shadow-sm text-orange-500 shrink-0"><FileText size={18} /></div>
                      <div className="min-w-0 flex-1">
                         <p className="text-xs font-medium uppercase truncate text-slate-900 dark:text-white">{f.file.name}</p>
                         <p className="text-[9px] font-medium text-slate-400 uppercase">Ready for pickup</p>
@@ -434,8 +448,8 @@ export default function CropPdf({ id: _id }: { id: string }) {
              ))}
           </div>
 
-          <div className="pt-8 border-t border-slate-50 dark:border-slate-800">
-             <button onClick={reset} className="px-10 py-4 bg-slate-100 dark:bg-slate-800 text-slate-500 rounded-2xl font-medium text-xs uppercase tracking-widest hover:bg-slate-200 transition-all">Start New Batch</button>
+          <div className="pt-6 sm:pt-8 border-t border-slate-50 dark:border-slate-800">
+             <button onClick={reset} className="w-full sm:w-auto px-10 py-4 bg-slate-100 dark:bg-slate-800 text-slate-500 rounded-2xl font-black text-[10px] sm:text-xs uppercase tracking-widest hover:bg-slate-200 transition-all">Start New Batch</button>
           </div>
        </div>
     </div>

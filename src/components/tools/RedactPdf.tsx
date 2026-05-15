@@ -23,6 +23,8 @@ export default function RedactPdf({ id: _id }: { id: string }) {
   const [searchMsg, setSearchMsg] = useState("");
   const [result, setResult] = useState<string | null>(null);
   const [mode, setMode] = useState<"draw" | "search">("draw");
+  const [showSidebar, setShowSidebar] = useState(true);
+  const [zoom, setZoom] = useState(0.75);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const overlayRef = useRef<HTMLCanvasElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -85,29 +87,39 @@ export default function RedactPdf({ id: _id }: { id: string }) {
 
   useEffect(() => { drawOverlay(); }, [drawOverlay]);
 
-  const getPos = (e: React.MouseEvent<HTMLCanvasElement>) => {
+  const getPos = (e: React.MouseEvent | React.TouchEvent) => {
     const rect = overlayRef.current!.getBoundingClientRect();
     const sx = overlayRef.current!.width / rect.width;
     const sy = overlayRef.current!.height / rect.height;
-    return { x: (e.clientX - rect.left) * sx, y: (e.clientY - rect.top) * sy };
+    
+    let clientX, clientY;
+    if ('touches' in e) {
+      clientX = e.touches[0].clientX;
+      clientY = e.touches[0].clientY;
+    } else {
+      clientX = (e as React.MouseEvent).clientX;
+      clientY = (e as React.MouseEvent).clientY;
+    }
+    
+    return { x: (clientX - rect.left) * sx, y: (clientY - rect.top) * sy };
   };
 
-  const onMouseDown = (e: React.MouseEvent<HTMLCanvasElement>) => {
+  const onStart = (e: React.MouseEvent | React.TouchEvent) => {
     if (mode !== "draw") return;
     const pos = getPos(e);
     setDrawStart(pos); setDrawing(true); setDrawRect(null);
   };
 
-  const onMouseMove = (e: React.MouseEvent<HTMLCanvasElement>) => {
+  const onMove = (e: React.MouseEvent | React.TouchEvent) => {
     if (!drawing || !drawStart) return;
     const pos = getPos(e);
     setDrawRect({ x: Math.min(drawStart.x, pos.x), y: Math.min(drawStart.y, pos.y), w: Math.abs(pos.x - drawStart.x), h: Math.abs(pos.y - drawStart.y) });
   };
 
-  const onMouseUp = (e: React.MouseEvent<HTMLCanvasElement>) => {
+  const onEnd = (e: React.MouseEvent | React.TouchEvent) => {
     if (!drawing || !drawStart) return;
-    const pos = getPos(e);
-    const r = { x: Math.min(drawStart.x, pos.x), y: Math.min(drawStart.y, pos.y), w: Math.abs(pos.x - drawStart.x), h: Math.abs(pos.y - drawStart.y) };
+    // For end event, we might need to use the last known drawRect if it's a touchEnd
+    const r = drawRect || { x: drawStart.x, y: drawStart.y, w: 0, h: 0 };
     if (r.w > 5 && r.h > 5) {
       setRedactions(prev => [...prev, { id: crypto.randomUUID(), page, ...r }]);
     }
@@ -168,172 +180,190 @@ export default function RedactPdf({ id: _id }: { id: string }) {
     finally { setProcessing(false); }
   };
 
-  const reset = () => { setFile(null); setPdfDoc(null); setRedactions([]); setResult(null); setPage(1); bufRef.current = null; };
+  const reset = () => { setFile(null); setPdfDoc(null); setRedactions([]); setResult(null); setPage(1); bufRef.current = null; setShowSidebar(true); };
 
   const pageRedactions = redactions.filter(r => r.page === page);
   const totalRedactions = redactions.length;
 
-  return (
-    <div className="max-w-5xl mx-auto py-2 sm:py-10 px-2 sm:px-4">
-      <div className="bg-white dark:bg-slate-800 rounded-[2rem] sm:rounded-[2.5rem] p-5 sm:p-10 border border-slate-100 dark:border-slate-700 shadow-2xl space-y-6 sm:space-y-8 overflow-hidden">
-
-        {/* Header */}
-        <div className="text-center space-y-3">
-          <div className="inline-flex p-4 rounded-2xl text-white shadow-lg shadow-red-500/20" style={{ background: "linear-gradient(135deg,#dc2626,#7f1d1d)" }}>
-            <EyeOff size={32} className="sm:w-9 sm:h-9" />
+  const renderStep1 = () => (
+    <div className="max-w-4xl mx-auto py-10 sm:py-20 px-6">
+       <div className="bg-white dark:bg-slate-900 rounded-[40px] p-8 sm:p-16 border border-slate-100 dark:border-slate-800 shadow-2xl text-center space-y-10 group">
+          <div className="w-24 h-24 rounded-full bg-red-50 dark:bg-red-500/10 flex items-center justify-center mx-auto text-red-500 shadow-xl group-hover:scale-110 transition-transform">
+             <Shield size={48} />
           </div>
-          <h2 className="font-outfit text-2xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter">Redact PDF</h2>
-          <p className="text-sm sm:text-base text-slate-500 dark:text-slate-400 font-medium max-w-md mx-auto leading-relaxed">Draw black boxes or search text to permanently hide sensitive information.</p>
-        </div>
-
-        {/* Upload */}
-        {!file && !loading && (
-          <div className="relative border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-2xl sm:rounded-3xl p-8 sm:p-16 group hover:border-red-500 hover:bg-red-50/30 dark:hover:bg-red-500/5 transition-all cursor-pointer bg-slate-50/50 dark:bg-slate-900/50"
-            onDragOver={e => e.preventDefault()}
-            onDrop={e => { e.preventDefault(); const f = e.dataTransfer.files[0]; if (f) loadFile(f); }}
-            onClick={() => fileInputRef.current?.click()}>
-            <input ref={fileInputRef} type="file" accept=".pdf" className="hidden" onChange={e => { const f = e.target.files?.[0]; if (f) loadFile(f); e.target.value = ""; }} />
-            <div className="flex flex-col items-center gap-4 pointer-events-none text-center">
-              <div className="p-4 sm:p-5 bg-white dark:bg-slate-800 rounded-2xl shadow-xl text-red-500 group-hover:scale-110 transition-transform"><Upload size={32} className="sm:w-9 sm:h-9" /></div>
-              <div>
-                <p className="text-lg sm:text-lg sm:text-xl font-medium text-slate-800 dark:text-white">Click or drag & drop your PDF</p>
-                <p className="text-xs sm:text-sm text-slate-400 font-medium mt-1">Your file stays on your device — always</p>
-              </div>
-              <button className="px-6 py-2.5 sm:px-7 sm:py-3 rounded-xl text-white text-xs sm:text-sm font-medium uppercase tracking-widest shadow-lg active:scale-95 transition-all" style={{ background: "linear-gradient(135deg,#dc2626,#7f1d1d)" }}>Choose PDF File</button>
-            </div>
+          <div className="space-y-4">
+             <h2 className="text-4xl sm:text-5xl font-black text-slate-900 dark:text-white uppercase tracking-tighter">Redact PDF</h2>
+             <p className="text-slate-400 font-medium text-sm sm:text-base max-w-md mx-auto uppercase tracking-widest">Permanently hide sensitive data with military-grade precision.</p>
           </div>
-        )}
-
-        {loading && (
-          <div className="flex flex-col items-center gap-4 py-12 sm:py-16">
-            <Loader2 size={40} className="animate-spin text-red-500" />
-            <p className="text-sm font-medium text-slate-500">Loading PDF…</p>
+          <div className="relative border-4 border-dashed border-slate-100 dark:border-slate-800 rounded-[32px] p-12 group-hover:border-red-500/50 transition-all cursor-pointer"
+             onDragOver={e => e.preventDefault()}
+             onDrop={e => { e.preventDefault(); const f = e.dataTransfer.files[0]; if (f) loadFile(f); }}
+             onClick={() => fileInputRef.current?.click()}>
+             <Upload size={48} className="mx-auto mb-6 text-slate-200 group-hover:text-red-500 transition-colors" />
+             <p className="text-xl font-black text-slate-900 dark:text-white uppercase tracking-widest">Drop PDF Here</p>
+             <p className="text-xs font-medium text-slate-400 uppercase tracking-widest mt-2">or click to browse local files</p>
           </div>
-        )}
+       </div>
+    </div>
+  );
 
-        {pdfDoc && !result && (
-          <div className="space-y-6 sm:space-y-8 animate-in fade-in duration-500">
-            {/* File bar */}
-            <div className="flex items-center justify-between gap-3 p-3 sm:p-4 bg-slate-50 dark:bg-slate-700/60 rounded-2xl border border-slate-100 dark:border-slate-700">
-              <div className="flex items-center gap-3 min-w-0">
-                <div className="p-2 bg-white dark:bg-slate-800 rounded-lg shadow-sm text-red-500 shrink-0"><FileText size={18} /></div>
+  const renderStep2 = () => (
+    <div className="flex flex-col lg:flex-row h-screen bg-white dark:bg-slate-950 overflow-hidden relative">
+      {/* Workspace Sidebar */}
+      <div className={`
+        fixed inset-y-0 left-0 z-50 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border-r border-slate-100 dark:border-slate-800
+        transition-all duration-500 ease-in-out shadow-2xl
+        ${showSidebar ? 'w-full sm:w-96 translate-x-0' : 'w-0 -translate-x-full'}
+      `}>
+        <div className="flex flex-col h-full overflow-hidden">
+          <div className="p-5 sm:p-8 border-b border-slate-50 dark:border-slate-800 flex items-center justify-between bg-white dark:bg-slate-900">
+            <h2 className="text-base sm:text-lg font-black text-slate-900 dark:text-white uppercase tracking-widest">Workspace</h2>
+            <button onClick={() => setShowSidebar(false)} className="p-2 bg-slate-100 dark:bg-slate-800 rounded-xl text-slate-900 dark:text-white hover:scale-110 transition-all"><X size={20} /></button>
+          </div>
+          
+          <div className="flex-1 overflow-y-auto p-5 sm:p-8 space-y-8 custom-scrollbar pb-32">
+             {/* File Info */}
+             <div className="flex items-center gap-4 p-4 bg-slate-50 dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700">
+                <div className="p-3 bg-white dark:bg-slate-900 rounded-xl shadow-sm text-red-500 shrink-0"><FileText size={20} /></div>
                 <div className="min-w-0">
-                  <p className="font-medium text-slate-900 dark:text-white text-[13px] sm:text-sm truncate leading-tight">{file!.name}</p>
-                  <p className="text-[10px] sm:text-xs text-slate-400 font-medium uppercase tracking-widest mt-0.5">{totalPages} pages · {totalRedactions} redaction{totalRedactions !== 1 ? "s" : ""}</p>
+                   <p className="text-xs font-black uppercase truncate text-slate-900 dark:text-white">{file?.name}</p>
+                   <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">{totalPages} Pages · {totalRedactions} Active</p>
                 </div>
-              </div>
-              <button onClick={reset} className="p-2 text-slate-400 hover:text-red-500 transition-colors shrink-0"><X size={18} /></button>
-            </div>
+             </div>
 
-            {/* Mode + tools */}
-            <div className="flex flex-col gap-4">
-              {/* Mode toggle */}
-              <div className="grid grid-cols-2 bg-slate-100 dark:bg-slate-700 rounded-xl p-1 gap-1">
-                <button onClick={() => setMode("draw")} className={`flex items-center justify-center gap-2 px-3 py-2.5 rounded-lg text-[11px] font-medium transition-all ${mode === "draw" ? "bg-white dark:bg-slate-600 text-red-600 shadow-sm" : "text-slate-500"}`}>
-                  <EyeOff size={14} /> Draw
-                </button>
-                <button onClick={() => setMode("search")} className={`flex items-center justify-center gap-2 px-3 py-2.5 rounded-lg text-[11px] font-medium transition-all ${mode === "search" ? "bg-white dark:bg-slate-600 text-red-600 shadow-sm" : "text-slate-500"}`}>
-                  <Shield size={14} /> Search
-                </button>
-              </div>
+             {/* Mode Selection */}
+             <div className="space-y-4">
+                <span className="font-outfit text-[11px] font-medium text-slate-400 uppercase tracking-widest">Redaction Mode</span>
+                <div className="grid grid-cols-2 bg-slate-100 dark:bg-slate-900 rounded-2xl p-1.5 gap-1.5">
+                   <button onClick={() => setMode("draw")} className={`flex items-center justify-center gap-2 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${mode === "draw" ? "bg-white dark:bg-slate-800 text-red-500 shadow-lg" : "text-slate-400"}`}>
+                      <EyeOff size={14} /> Manual
+                   </button>
+                   <button onClick={() => setMode("search")} className={`flex items-center justify-center gap-2 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${mode === "search" ? "bg-white dark:bg-slate-800 text-red-500 shadow-lg" : "text-slate-400"}`}>
+                      <Shield size={14} /> Search
+                   </button>
+                </div>
+             </div>
 
-              {/* Search bar */}
-              {mode === "search" && (
-                <div className="space-y-2 animate-in slide-in-from-top-2 duration-300">
-                  <div className="flex gap-2">
-                    <input type="text" value={searchText} onChange={e => { setSearchText(e.target.value); setSearchMsg(""); }}
-                      onKeyDown={e => e.key === "Enter" && handleSearch()}
-                      placeholder="Enter text to redact..."
-                      className="flex-1 px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-800 text-[13px] sm:text-sm font-medium text-slate-800 dark:text-white outline-none focus:border-red-400 transition-colors" />
-                    <button onClick={handleSearch} className="px-4 py-2.5 rounded-xl text-white shadow-lg active:scale-95 transition-all shrink-0" style={{ background: "linear-gradient(135deg,#dc2626,#7f1d1d)" }}>
-                      <Plus size={20} />
-                    </button>
+             {/* Search Tools */}
+             {mode === "search" && (
+                <div className="space-y-4 animate-in slide-in-from-top-2 duration-300">
+                   <span className="font-outfit text-[11px] font-medium text-slate-400 uppercase tracking-widest">Search & Redact</span>
+                   <div className="flex gap-2">
+                      <input type="text" value={searchText} onChange={e => { setSearchText(e.target.value); setSearchMsg(""); }}
+                        onKeyDown={e => e.key === "Enter" && handleSearch()}
+                        placeholder="Keyword..."
+                        className="flex-1 px-4 py-3 rounded-xl border border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 text-xs font-black uppercase tracking-widest text-slate-900 dark:text-white outline-none focus:border-red-500 transition-all placeholder:text-slate-300" />
+                      <button onClick={handleSearch} className="p-3 bg-red-500 text-white rounded-xl shadow-lg hover:scale-110 active:scale-95 transition-all">
+                        <Plus size={20} />
+                      </button>
+                   </div>
+                   {searchMsg && <p className={`text-[9px] font-black uppercase tracking-widest px-2 ${searchMsg.startsWith("✓") ? "text-green-500" : "text-slate-400"}`}>{searchMsg}</p>}
+                </div>
+             )}
+
+             {/* Active Redactions List */}
+             {totalRedactions > 0 && (
+               <div className="space-y-4">
+                  <span className="font-outfit text-[11px] font-medium text-slate-400 uppercase tracking-widest">History ({totalRedactions})</span>
+                  <div className="space-y-2 max-h-60 overflow-y-auto pr-1 custom-scrollbar">
+                     {redactions.map((r, i) => (
+                       <div key={r.id} className="flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-800 rounded-xl border border-slate-100 dark:border-slate-700 group">
+                          <div className="flex flex-col">
+                             <span className="text-[10px] font-black text-slate-900 dark:text-white uppercase tracking-widest">Area {i + 1}</span>
+                             <span className="text-[8px] font-black text-slate-400 uppercase tracking-widest">Page {r.page} · {Math.round(r.w)}x{Math.round(r.h)}pt</span>
+                          </div>
+                          <button onClick={() => removeRedaction(r.id)} className="p-1.5 text-slate-300 hover:text-red-500 transition-colors"><X size={16} /></button>
+                       </div>
+                     ))}
                   </div>
-                  {searchMsg && <p className={`text-[10px] sm:text-xs font-medium uppercase tracking-widest px-2 ${searchMsg.startsWith("✓") ? "text-green-600" : "text-slate-400"}`}>{searchMsg}</p>}
-                </div>
-              )}
-            </div>
-
-            {/* Page nav */}
-            <div className="flex items-center justify-between gap-2 px-1">
-              <div className="flex items-center gap-1.5">
-                <button onClick={() => setPage(p => Math.max(1, p - 1))} disabled={page === 1} className="p-2 rounded-lg bg-slate-100 dark:bg-slate-700 text-slate-500 disabled:opacity-30 hover:bg-slate-200 transition-colors">‹</button>
-                <span className="text-xs sm:text-sm font-medium text-slate-600 dark:text-slate-300">Pg {page} / {totalPages}</span>
-                <button onClick={() => setPage(p => Math.min(totalPages, p + 1))} disabled={page === totalPages} className="p-2 rounded-lg bg-slate-100 dark:bg-slate-700 text-slate-500 disabled:opacity-30 hover:bg-slate-200 transition-colors">›</button>
-              </div>
-              <div className="flex items-center gap-2">
-                {pageRedactions.length > 0 && (
-                  <button onClick={clearPage} className="p-2 text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors border border-red-100 dark:border-red-800" title="Clear page">
-                    <Trash2 size={16} />
-                  </button>
-                )}
-                <span className="text-[10px] sm:text-xs font-medium text-slate-400 uppercase tracking-widest">{pageRedactions.length} on page</span>
-              </div>
-            </div>
-
-            {/* Canvas */}
-            <div className="relative rounded-2xl overflow-hidden shadow-2xl border border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-900">
-              {mode === "draw" && (
-                <div className="absolute top-3 left-3 z-10 bg-black/70 backdrop-blur-md text-white text-[10px] font-medium px-4 py-2 rounded-full flex items-center gap-2 border border-white/10 uppercase tracking-widest pointer-events-none">
-                  <EyeOff size={11} /> Draw area
-                </div>
-              )}
-              <div className="relative inline-block w-full">
-                <canvas ref={canvasRef} className="block w-full h-auto" />
-                <canvas ref={overlayRef} className="absolute inset-0 w-full h-full"
-                  style={{ cursor: mode === "draw" ? "crosshair" : "default" }}
-                  onMouseDown={onMouseDown} onMouseMove={onMouseMove} onMouseUp={onMouseUp} />
-              </div>
-            </div>
-
-            {/* Redaction list */}
-            {totalRedactions > 0 && (
-              <div className="space-y-2">
-                <p className="font-outfit text-[11px] font-medium uppercase tracking-widest text-slate-400 px-1">Active Redactions ({totalRedactions})</p>
-                <div className="max-h-48 overflow-y-auto space-y-1.5 pr-1 scrollbar-hide">
-                  {redactions.map((r, i) => (
-                    <div key={r.id} className="flex items-center justify-between px-4 py-3 bg-slate-50 dark:bg-slate-700/40 rounded-xl border border-slate-100 dark:border-slate-700 group hover:border-red-200 dark:hover:border-red-800 transition-all">
-                      <span className="text-xs font-medium text-slate-600 dark:text-slate-300">
-                        Page {r.page} — Area {i + 1} <span className="text-[10px] text-slate-400 font-medium ml-2">{Math.round(r.w)}×{Math.round(r.h)}px</span>
-                      </span>
-                      <button onClick={() => removeRedaction(r.id)} className="p-1.5 text-slate-300 hover:text-red-500 transition-colors"><X size={16} /></button>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {/* Apply button */}
-            <button onClick={handleApply} disabled={processing || totalRedactions === 0}
-              className="w-full py-4 sm:py-5 text-white rounded-2xl text-lg sm:text-lg sm:text-xl font-medium shadow-xl shadow-red-500/20 flex items-center justify-center gap-3 transition-all disabled:opacity-50 active:scale-[0.98]"
-              style={{ background: "linear-gradient(135deg,#dc2626,#7f1d1d)" }}>
-              {processing ? <Loader2 className="animate-spin" size={24} /> : <Shield size={24} />}
-              {processing ? "Applying Changes…" : `Redact ${totalRedactions} Area${totalRedactions !== 1 ? "s" : ""}`}
-            </button>
+               </div>
+             )}
           </div>
-        )}
 
-        {/* Result */}
-        {result && (
-          <div className="space-y-10 text-center animate-in zoom-in duration-600 py-4">
-            <div className="inline-flex p-10 rounded-full bg-green-50 dark:bg-green-500/10 text-green-500 scale-110 border border-green-500/20 shadow-xl shadow-green-500/10"><CheckCircle2 size={72} /></div>
-            <div className="space-y-2">
-              <h3 className="font-outfit text-2xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter">PDF Redacted!</h3>
-              <p className="text-xs sm:text-sm text-slate-400 font-medium uppercase tracking-widest leading-relaxed px-4">{totalRedactions} area{totalRedactions !== 1 ? "s" : ""} permanently hidden from your file</p>
-            </div>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center max-w-lg mx-auto">
-              <a href={result} download={`redacted_${file!.name}`}
-                className="flex-1 py-4 sm:py-5 text-white rounded-2xl text-lg sm:text-lg sm:text-xl font-medium shadow-xl shadow-red-500/20 flex items-center justify-center gap-3 active:scale-[0.98] transition-all"
-                style={{ background: "linear-gradient(135deg,#dc2626,#7f1d1d)" }}>
-                <Download size={24} /> Download PDF
-              </a>
-              <button onClick={reset} className="px-8 py-4 sm:px-10 sm:py-5 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 text-slate-900 dark:text-white rounded-2xl font-medium transition-all text-sm sm:text-base">
-                Start Over
-              </button>
-            </div>
+          <div className="p-6 sm:p-8 border-t border-slate-50 dark:border-slate-800 bg-white dark:bg-slate-900 fixed bottom-0 left-0 w-full sm:w-96 z-50 shadow-[0_-10px_40px_rgba(0,0,0,0.05)]">
+             <button onClick={handleApply} disabled={processing || totalRedactions === 0} className="w-full py-4 sm:py-5 bg-red-500 text-white rounded-2xl font-black text-sm sm:text-lg uppercase tracking-widest shadow-2xl shadow-red-500/40 hover:scale-[1.02] active:scale-95 transition-all">
+                {processing ? <Loader2 className="animate-spin mx-auto" size={24} /> : `Redact ${totalRedactions} Areas`}
+             </button>
           </div>
-        )}
+        </div>
       </div>
+
+      {/* Main Container */}
+      <div className={`flex-1 flex flex-col relative bg-slate-50 dark:bg-slate-950 overflow-hidden transition-all duration-500 ${showSidebar ? 'lg:pl-[384px]' : 'pl-0'}`}>
+         {/* Top toolbar */}
+         <div className="h-14 sm:h-16 border-b border-slate-100 dark:border-slate-900 bg-white dark:bg-slate-900 flex items-center justify-between px-4 sm:px-8 shrink-0 z-10 relative">
+            <div className="flex items-center gap-2 sm:gap-4">
+               {!showSidebar && (
+                 <button onClick={() => setShowSidebar(true)} className="p-2 bg-red-500 text-white rounded-xl shadow-[0_10px_20px_rgba(239,68,68,0.3)] hover:bg-red-600 transition-all mr-2">
+                    <Plus size={18} />
+                 </button>
+               )}
+               <button onClick={() => setPage(p => Math.max(1, p - 1))} className="p-1.5 sm:p-2 text-slate-400 hover:text-red-500"><Plus className="rotate-180" size={18} /></button>
+               <span className="text-[10px] sm:text-xs font-black uppercase tracking-widest text-slate-900 dark:text-white">P. {page} / {totalPages}</span>
+               <button onClick={() => setPage(p => Math.min(totalPages, p + 1))} className="p-1.5 sm:p-2 text-slate-400 hover:text-red-500"><Plus size={18} /></button>
+            </div>
+            
+            <div className="flex items-center gap-2">
+               {pageRedactions.length > 0 && (
+                 <button onClick={clearPage} className="p-2 text-red-500 bg-red-50 dark:bg-red-500/10 rounded-lg hover:bg-red-100 transition-all"><Trash2 size={16} /></button>
+               )}
+               <div className="w-px h-6 bg-slate-100 dark:bg-slate-800 mx-2" />
+               <button onClick={() => setScale(s => Math.max(0.5, s - 0.2))} className="p-1.5 sm:p-2 text-slate-400 hover:text-red-500"><Plus className="rotate-45" size={18} /></button>
+               <span className="w-10 sm:w-12 text-center text-[9px] sm:text-[10px] font-black uppercase text-slate-900 dark:text-white">{Math.round(scale * 100)}%</span>
+               <button onClick={() => setScale(s => Math.min(3, s + 0.2))} className="p-1.5 sm:p-2 text-slate-400 hover:text-red-500"><Plus size={18} /></button>
+            </div>
+         </div>
+
+         {/* Visual Workspace */}
+         <div className="flex-1 overflow-auto p-4 sm:p-12 flex items-start justify-center custom-scrollbar">
+            <div className="relative shadow-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 group" style={{ touchAction: 'none' }}>
+               {mode === "draw" && (
+                 <div className="absolute -top-10 left-0 z-10 text-[8px] font-black uppercase tracking-widest text-slate-400 flex items-center gap-2">
+                    <Plus size={10} /> Click & drag to redact
+                 </div>
+               )}
+               <canvas ref={canvasRef} className="block" />
+               <canvas ref={overlayRef} className="absolute inset-0 w-full h-full"
+                 style={{ cursor: mode === "draw" ? "crosshair" : "default", touchAction: 'none' }}
+                 onMouseDown={onStart} onMouseMove={onMove} onMouseUp={onEnd}
+                 onTouchStart={onStart} onTouchMove={onMove} onTouchEnd={onEnd} />
+            </div>
+         </div>
+      </div>
+    </div>
+  );
+
+  const renderStep3 = () => (
+    <div className="w-full max-w-4xl mx-auto py-8 sm:py-16 px-4 sm:px-6">
+       <div className="bg-white dark:bg-slate-900 rounded-[32px] sm:rounded-[40px] p-6 sm:p-12 border border-slate-100 dark:border-slate-800 shadow-2xl text-center space-y-8 sm:space-y-10">
+          <div className="w-24 h-24 rounded-full bg-green-50 dark:bg-green-500/10 flex items-center justify-center mx-auto text-green-500 shadow-xl">
+             <CheckCircle2 size={48} />
+          </div>
+          <div>
+             <h2 className="text-2xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-widest mb-2">Redaction Complete!</h2>
+             <p className="text-slate-500 dark:text-slate-400 font-bold uppercase tracking-widest text-[9px] sm:text-xs">{totalRedactions} areas permanently hidden from your file.</p>
+          </div>
+
+          <div className="max-w-md mx-auto">
+             <a href={result!} download={`redacted_${file!.name}`}
+               className="w-full py-4 sm:py-5 bg-green-500 text-white rounded-2xl font-black text-sm sm:text-lg uppercase tracking-widest shadow-2xl shadow-green-500/40 hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center gap-3">
+               <Download size={24} /> Download PDF
+             </a>
+          </div>
+
+          <div className="pt-6 sm:pt-8 border-t border-slate-50 dark:border-slate-800">
+             <button onClick={reset} className="w-full sm:w-auto px-10 py-4 bg-slate-100 dark:bg-slate-800 text-slate-500 rounded-2xl font-black text-[10px] sm:text-xs uppercase tracking-widest hover:bg-slate-200 transition-all">Start New Batch</button>
+          </div>
+       </div>
+    </div>
+  );
+
+  return (
+    <div className="min-h-screen bg-slate-50/50 dark:bg-slate-950 font-sans">
+      {pdfDoc && !result && renderStep2()}
+      {!pdfDoc && !result && renderStep1()}
+      {result && renderStep3()}
+      <input ref={fileInputRef} type="file" accept=".pdf" className="hidden" onChange={e => { const f = e.target.files?.[0]; if (f) loadFile(f); e.target.value = ""; }} />
     </div>
   );
 }

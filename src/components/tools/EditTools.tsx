@@ -152,16 +152,16 @@ export default function EditTools({ id }: { id: string }) {
   const info = getToolInfo();
 
   return (
-    <div className="max-w-4xl mx-auto py-2 sm:py-12 px-2 sm:px-4 text-center">
-      <div className="bg-white dark:bg-slate-800 rounded-[2rem] sm:rounded-[3rem] p-5 sm:p-12 border border-slate-100 dark:border-slate-700 shadow-2xl space-y-6 sm:space-y-10 overflow-hidden">
+    <div className="w-full max-w-4xl mx-auto py-4 sm:py-12 px-2 sm:px-6 text-center">
+      <div className="bg-white dark:bg-slate-900 rounded-[24px] sm:rounded-[48px] p-4 sm:p-16 border border-slate-100 dark:border-slate-800 shadow-2xl space-y-8 sm:space-y-12 relative">
         <div className="space-y-3">
           <div className={`inline-flex p-4 sm:p-5 rounded-[1.5rem] sm:rounded-3xl ${info.color} text-white shadow-xl shadow-indigo-500/20`}>
             <info.icon size={32} className="sm:w-9 sm:h-9" />
           </div>
-          <h2 className="font-outfit text-2xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter">
+          <h2 className="font-outfit text-2xl sm:text-5xl font-black text-slate-900 dark:text-white uppercase tracking-tighter">
             {info.title}
           </h2>
-          <p className="text-sm sm:text-base text-slate-500 dark:text-slate-400 font-medium max-w-md mx-auto leading-relaxed">Customize your documents with professional grade editing.</p>
+          <p className="text-[10px] sm:text-xs text-slate-400 font-black uppercase tracking-widest max-w-md mx-auto leading-relaxed">Customize your documents with professional grade editing.</p>
         </div>
 
         {!result ? (
@@ -231,15 +231,15 @@ export default function EditTools({ id }: { id: string }) {
                 )}
 
                 {id === 'metadata' && (
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-left">
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 text-left">
                     {Object.entries(metadata).map(([key, value]) => {
                       const isDate = key.includes('date');
                       return (
-                        <div key={key} className="bg-slate-50/50 dark:bg-slate-900/30 p-3 sm:p-4 rounded-2xl border border-slate-100 dark:border-slate-700 space-y-1.5 sm:space-y-2">
-                          <div className="flex items-center justify-between gap-2">
-                            <label className="text-[9px] font-medium uppercase tracking-widest text-slate-400 truncate">{key.replace('_', ' ')}</label>
+                        <div key={key} className="bg-slate-50/50 dark:bg-slate-900/30 p-4 rounded-2xl border border-slate-100 dark:border-slate-700 space-y-2">
+                          <div className="flex flex-col gap-0.5">
+                            <label className="text-[8px] sm:text-[9px] font-black uppercase tracking-widest text-slate-400">{key.replace('_', ' ')}</label>
                             {origMetadata[key] && (
-                              <span className="text-[8px] font-medium text-slate-400 truncate shrink-0" title={origMetadata[key]}>
+                              <span className="text-[7px] sm:text-[8px] font-medium text-slate-400 opacity-60 break-all leading-tight" title={origMetadata[key]}>
                                 Original: {origMetadata[key]}
                               </span>
                             )}
@@ -249,7 +249,7 @@ export default function EditTools({ id }: { id: string }) {
                             value={value || ''}
                             onChange={(e) => setMetadata({ ...metadata, [key]: e.target.value || '' })}
                             placeholder={`Enter ${key}...`}
-                            className="w-full px-3 py-2.5 sm:py-3 text-[11px] sm:text-xs rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 outline-none focus:ring-2 ring-indigo-500/20 font-medium transition-all"
+                            className="w-full px-3 sm:px-4 py-2.5 sm:py-3 text-[10px] sm:text-xs rounded-xl border border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 outline-none focus:ring-2 ring-indigo-500/20 font-black tracking-tighter sm:tracking-widest transition-all placeholder:text-slate-200"
                           />
                         </div>
                       );
