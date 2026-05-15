@@ -182,7 +182,7 @@ export default function RedactPdf({ id: _id }: { id: string }) {
           <div className="inline-flex p-4 rounded-2xl text-white shadow-lg shadow-red-500/20" style={{ background: "linear-gradient(135deg,#dc2626,#7f1d1d)" }}>
             <EyeOff size={32} className="sm:w-9 sm:h-9" />
           </div>
-          <h2 className="text-2xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter">Redact PDF</h2>
+          <h2 className="font-outfit text-2xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter">Redact PDF</h2>
           <p className="text-sm sm:text-base text-slate-500 dark:text-slate-400 font-medium max-w-md mx-auto leading-relaxed">Draw black boxes or search text to permanently hide sensitive information.</p>
         </div>
 
@@ -196,7 +196,7 @@ export default function RedactPdf({ id: _id }: { id: string }) {
             <div className="flex flex-col items-center gap-4 pointer-events-none text-center">
               <div className="p-4 sm:p-5 bg-white dark:bg-slate-800 rounded-2xl shadow-xl text-red-500 group-hover:scale-110 transition-transform"><Upload size={32} className="sm:w-9 sm:h-9" /></div>
               <div>
-                <p className="text-lg sm:text-xl font-black text-slate-800 dark:text-white">Click or drag & drop your PDF</p>
+                <p className="text-lg sm:text-lg sm:text-xl font-black text-slate-800 dark:text-white">Click or drag & drop your PDF</p>
                 <p className="text-xs sm:text-sm text-slate-400 font-medium mt-1">Your file stays on your device — always</p>
               </div>
               <button className="px-6 py-2.5 sm:px-7 sm:py-3 rounded-xl text-white text-xs sm:text-sm font-black uppercase tracking-widest shadow-lg active:scale-95 transition-all" style={{ background: "linear-gradient(135deg,#dc2626,#7f1d1d)" }}>Choose PDF File</button>
@@ -289,7 +289,7 @@ export default function RedactPdf({ id: _id }: { id: string }) {
             {/* Redaction list */}
             {totalRedactions > 0 && (
               <div className="space-y-2">
-                <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 px-1">Active Redactions ({totalRedactions})</p>
+                <p className="font-outfit text-[11px] font-black uppercase tracking-widest text-slate-400 px-1">Active Redactions ({totalRedactions})</p>
                 <div className="max-h-48 overflow-y-auto space-y-1.5 pr-1 scrollbar-hide">
                   {redactions.map((r, i) => (
                     <div key={r.id} className="flex items-center justify-between px-4 py-3 bg-slate-50 dark:bg-slate-700/40 rounded-xl border border-slate-100 dark:border-slate-700 group hover:border-red-200 dark:hover:border-red-800 transition-all">
@@ -305,7 +305,7 @@ export default function RedactPdf({ id: _id }: { id: string }) {
 
             {/* Apply button */}
             <button onClick={handleApply} disabled={processing || totalRedactions === 0}
-              className="w-full py-4 sm:py-5 text-white rounded-2xl text-lg sm:text-xl font-black shadow-xl shadow-red-500/20 flex items-center justify-center gap-3 transition-all disabled:opacity-50 active:scale-[0.98]"
+              className="w-full py-4 sm:py-5 text-white rounded-2xl text-lg sm:text-lg sm:text-xl font-black shadow-xl shadow-red-500/20 flex items-center justify-center gap-3 transition-all disabled:opacity-50 active:scale-[0.98]"
               style={{ background: "linear-gradient(135deg,#dc2626,#7f1d1d)" }}>
               {processing ? <Loader2 className="animate-spin" size={24} /> : <Shield size={24} />}
               {processing ? "Applying Changes…" : `Redact ${totalRedactions} Area${totalRedactions !== 1 ? "s" : ""}`}
@@ -318,12 +318,12 @@ export default function RedactPdf({ id: _id }: { id: string }) {
           <div className="space-y-10 text-center animate-in zoom-in duration-600 py-4">
             <div className="inline-flex p-10 rounded-full bg-green-50 dark:bg-green-500/10 text-green-500 scale-110 border border-green-500/20 shadow-xl shadow-green-500/10"><CheckCircle2 size={72} /></div>
             <div className="space-y-2">
-              <h3 className="text-2xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter">PDF Redacted!</h3>
+              <h3 className="font-outfit text-2xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter">PDF Redacted!</h3>
               <p className="text-xs sm:text-sm text-slate-400 font-black uppercase tracking-widest leading-relaxed px-4">{totalRedactions} area{totalRedactions !== 1 ? "s" : ""} permanently hidden from your file</p>
             </div>
             <div className="flex flex-col sm:flex-row gap-4 justify-center max-w-lg mx-auto">
               <a href={result} download={`redacted_${file!.name}`}
-                className="flex-1 py-4 sm:py-5 text-white rounded-2xl text-lg sm:text-xl font-black shadow-xl shadow-red-500/20 flex items-center justify-center gap-3 active:scale-[0.98] transition-all"
+                className="flex-1 py-4 sm:py-5 text-white rounded-2xl text-lg sm:text-lg sm:text-xl font-black shadow-xl shadow-red-500/20 flex items-center justify-center gap-3 active:scale-[0.98] transition-all"
                 style={{ background: "linear-gradient(135deg,#dc2626,#7f1d1d)" }}>
                 <Download size={24} /> Download PDF
               </a>

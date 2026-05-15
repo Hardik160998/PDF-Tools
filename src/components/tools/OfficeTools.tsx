@@ -73,8 +73,8 @@ export default function OfficeTools({ id }: { id: string }) {
           <div className={`inline-flex p-3 sm:p-5 rounded-xl sm:rounded-3xl ${info.color} text-white shadow-lg`}>
              <info.icon size={24} className="sm:w-10 sm:h-10" />
           </div>
-          <h2 className="text-xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tight sm:tracking-tighter">{info.title}</h2>
-          <p className="text-xs sm:text-base text-slate-500 font-medium px-2">Easily convert your {info.title.split(' to ')[0]} files to {info.title.split(' to ')[1]}.</p>
+          <h2 className="font-outfit text-2xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter">{info.title}</h2>
+          <p className="text-sm sm:text-base text-slate-500 dark:text-slate-400 font-medium max-w-md mx-auto leading-relaxed">Easily convert your {info.title.split(' to ')[0]} files to {info.title.split(' to ')[1]}.</p>
         </div>
 
         {!resultUrl ? (
@@ -84,10 +84,10 @@ export default function OfficeTools({ id }: { id: string }) {
                 <input ref={inputRef} type="file" onChange={onFileChange} accept={info.ext} className="absolute inset-0 opacity-0 cursor-pointer w-full h-full" />
                 <div className="space-y-3 sm:space-y-6 pointer-events-none">
                   <div className={`p-4 sm:p-6 bg-white dark:bg-slate-800 rounded-xl sm:rounded-2xl shadow-xl inline-block text-blue-500 group-hover:scale-110 transition-transform`}>
-                    <Upload size={32} className="sm:w-12 sm:h-12" />
+                    <Upload size={32} />
                   </div>
-                  <div className="text-lg sm:text-2xl font-black tracking-tight">Select {info.type} File</div>
-                  <p className="text-xs sm:text-base text-slate-500">or drop {info.ext} here</p>
+                  <div className="text-lg sm:text-lg sm:text-xl font-black text-slate-800 dark:text-white mb-1 relative z-10">Select {info.type} File</div>
+                  <p className="text-xs sm:text-sm text-slate-400 font-medium relative z-10">or drop {info.ext} here</p>
                 </div>
               </div>
             ) : (

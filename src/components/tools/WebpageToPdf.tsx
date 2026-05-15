@@ -53,15 +53,15 @@ export default function WebpageToPdf({ id: _id }: { id: string }) {
           <div className="inline-flex p-3 sm:p-5 rounded-xl sm:rounded-3xl text-white shadow-lg" style={{ background: "linear-gradient(135deg,#0ea5e9,#0369a1)" }}>
             <Globe size={24} className="sm:w-10 sm:h-10" />
           </div>
-          <h2 className="text-xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tight sm:tracking-tighter">Webpage to PDF</h2>
-          <p className="text-xs sm:text-base text-slate-500 dark:text-slate-400 font-medium px-2">Enter any website URL and convert it to a PDF instantly.</p>
+          <h2 className="font-outfit text-2xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter">Webpage to PDF</h2>
+          <p className="text-sm sm:text-base text-slate-500 dark:text-slate-400 font-medium max-w-md mx-auto leading-relaxed">Enter any website URL and convert it to a PDF instantly.</p>
         </div>
 
         {!resultUrl ? (
           <div className="space-y-4 sm:space-y-6">
             {/* URL Input */}
             <div className="space-y-2 sm:space-y-3 text-left">
-              <label className="text-[10px] sm:text-xs font-black uppercase tracking-widest text-slate-500 dark:text-slate-400">Website URL</label>
+              <label className="font-outfit text-[11px] font-black uppercase tracking-widest text-slate-400">Website URL</label>
               <div className={`flex items-center gap-2 sm:gap-3 p-3 sm:p-4 rounded-xl sm:rounded-2xl border-2 transition-all bg-slate-50 dark:bg-slate-900/50 ${error ? "border-red-400" : "border-slate-200 dark:border-slate-700 focus-within:border-sky-400"}`}>
                 <Link size={16} className="text-slate-400 shrink-0 sm:w-5 sm:h-5" />
                 <input
@@ -128,7 +128,7 @@ export default function WebpageToPdf({ id: _id }: { id: string }) {
               <a
                 href={resultUrl}
                 download={`${hostname}.pdf`}
-                className="flex-1 py-3.5 sm:py-5 text-white rounded-xl sm:rounded-2xl text-base sm:text-xl font-black shadow-xl flex items-center justify-center gap-2 sm:gap-3 transition-all"
+                className="flex-1 py-3.5 sm:py-5 text-white rounded-xl sm:rounded-2xl text-base sm:text-lg sm:text-xl font-black shadow-xl flex items-center justify-center gap-2 sm:gap-3 transition-all"
                 style={{ background: "linear-gradient(135deg,#0ea5e9,#0369a1)" }}
               >
                 <Download size={20} className="sm:w-6 sm:h-6" /> Download PDF

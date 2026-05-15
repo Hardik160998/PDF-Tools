@@ -64,8 +64,8 @@ export default function SecurityTools({ id }: { id: string }) {
           <div className={`inline-flex p-4 sm:p-5 rounded-[1.5rem] sm:rounded-3xl ${info.color} text-white shadow-xl shadow-red-500/20`}>
              <info.icon size={32} className="sm:w-10 sm:h-10" />
           </div>
-          <h2 className="text-2xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter">{info.title}</h2>
-          <p className="text-sm sm:text-base text-slate-500 font-medium max-w-md mx-auto leading-relaxed">{info.desc}</p>
+          <h2 className="font-outfit text-2xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter">{info.title}</h2>
+          <p className="text-sm sm:text-base text-slate-500 dark:text-slate-400 font-medium max-w-md mx-auto leading-relaxed">{info.desc}</p>
         </div>
 
         {!resultUrl ? (
@@ -75,11 +75,11 @@ export default function SecurityTools({ id }: { id: string }) {
                 <input type="file" onChange={onFileChange} accept=".pdf" className="absolute inset-0 opacity-0 cursor-pointer w-full h-full z-10" />
                 <div className="space-y-4 sm:space-y-6 pointer-events-none">
                   <div className={`p-5 sm:p-6 bg-white dark:bg-slate-800 rounded-2xl shadow-xl inline-block text-red-500 group-hover:scale-110 transition-transform`}>
-                    <Upload size={32} className="sm:w-12 sm:h-12" />
+                    <Upload size={32} />
                   </div>
                   <div>
-                    <div className="text-xl sm:text-2xl font-black tracking-tight">Select PDF File</div>
-                    <p className="text-sm text-slate-500 mt-1">or drop PDF here</p>
+                    <div className="text-lg sm:text-lg sm:text-xl font-black text-slate-800 dark:text-white mb-1 relative z-10">Select PDF File</div>
+                    <p className="text-xs sm:text-sm text-slate-400 font-medium relative z-10">or drop PDF here</p>
                   </div>
                 </div>
               </div>
@@ -120,7 +120,7 @@ export default function SecurityTools({ id }: { id: string }) {
                 <button 
                   onClick={handleProcess} 
                   disabled={processing || !password.trim()}
-                  className="w-full py-4 sm:py-5 bg-red-600 hover:bg-red-700 disabled:opacity-50 text-white rounded-2xl text-lg sm:text-2xl font-black shadow-xl shadow-red-500/20 flex items-center justify-center gap-3 sm:gap-4 transition-all active:scale-[0.98]"
+                  className="w-full py-4 sm:py-5 bg-red-600 hover:bg-red-700 disabled:opacity-50 text-white rounded-2xl text-lg sm:text-lg sm:text-xl font-black shadow-xl shadow-red-500/20 flex items-center justify-center gap-3 sm:gap-4 transition-all active:scale-[0.98]"
                 >
                   {processing ? <Loader2 className="animate-spin" size={24} /> : <info.icon size={24} className="sm:w-7 sm:h-7" />}
                   {processing ? 'Processing...' : info.action}
@@ -135,7 +135,7 @@ export default function SecurityTools({ id }: { id: string }) {
              </div>
              
              <div className="space-y-2 sm:space-y-4">
-                <h3 className="text-2xl sm:text-4xl font-black text-slate-900 dark:text-white">{id === 'unlock' ? 'PDF Unlocked!' : 'PDF Protected!'}</h3>
+                <h3 className="font-outfit text-2xl sm:text-4xl font-black text-slate-900 dark:text-white">{id === 'unlock' ? 'PDF Unlocked!' : 'PDF Protected!'}</h3>
                 <p className="text-xs sm:text-sm text-slate-500 font-bold uppercase tracking-widest px-4">
                    {file?.name} is ready for download.
                 </p>
@@ -144,7 +144,7 @@ export default function SecurityTools({ id }: { id: string }) {
              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
                 <a 
                    href={resultUrl} 
-                   className={`flex-1 py-4 sm:py-5 ${info.color} hover:opacity-90 text-white rounded-2xl text-lg sm:text-2xl font-black shadow-xl flex items-center justify-center gap-3 sm:gap-4 transition-all active:scale-[0.98]`}
+                   className={`flex-1 py-4 sm:py-5 ${info.color} hover:opacity-90 text-white rounded-2xl text-lg sm:text-lg sm:text-xl font-black shadow-xl flex items-center justify-center gap-3 sm:gap-4 transition-all active:scale-[0.98]`}
                    target="_blank"
                    rel="noreferrer"
                    download={id === 'unlock' ? `unlocked_${file?.name}` : `protected_${file?.name}`}

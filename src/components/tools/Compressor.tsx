@@ -114,8 +114,8 @@ export default function Compressor({ id: _id }: { id: string }) {
 
           <div className={`${showSettings ? 'block' : 'hidden'} lg:block p-6`}>
             <div className="flex items-center justify-between mb-6">
-              <h3 className="hidden lg:block text-lg font-black text-slate-900 dark:text-white uppercase tracking-tight text-emerald-500">Configuration</h3>
-              <button onClick={reset} className="text-[10px] font-black uppercase tracking-widest text-red-500 hover:text-red-600 transition-colors">Reset</button>
+              <h3 className="hidden lg:block font-outfit text-xl font-black text-slate-900 dark:text-white uppercase tracking-tighter text-emerald-500">Configuration</h3>
+              <button onClick={reset} className="font-outfit text-[11px] font-black uppercase tracking-widest text-red-500 hover:text-red-600 transition-colors">Reset</button>
             </div>
 
             <div className="space-y-6">
@@ -130,7 +130,7 @@ export default function Compressor({ id: _id }: { id: string }) {
                       <f.icon size={18} />
                     </div>
                     <div>
-                      <p className="text-xs font-black text-slate-900 dark:text-white uppercase tracking-tight leading-none mb-1">{f.title}</p>
+                      <p className="text-xs font-black text-slate-900 dark:text-white uppercase tracking-tighter leading-none mb-1">{f.title}</p>
                       <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">{f.desc}</p>
                     </div>
                   </div>
@@ -143,9 +143,9 @@ export default function Compressor({ id: _id }: { id: string }) {
                     <div className="p-2 rounded-lg bg-white dark:bg-slate-900 shadow-sm" style={{ color: ACCENT }}>
                       <Database size={14} />
                     </div>
-                    <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Queue Status</span>
+                    <span className="font-outfit text-[11px] font-black text-slate-400 uppercase tracking-widest">Queue Status</span>
                   </div>
-                  <p className="text-[11px] font-bold text-slate-600 dark:text-slate-300 uppercase">
+                  <p className="font-outfit text-xs font-black text-slate-700 dark:text-slate-200 uppercase tracking-tight">
                     {files.length === 0 ? 'Empty Queue' : `${files.length} Document${files.length !== 1 ? 's' : ''} Ready`}
                   </p>
                 </div>
@@ -153,7 +153,7 @@ export default function Compressor({ id: _id }: { id: string }) {
                 <button
                   onClick={handleCompress}
                   disabled={processing || files.length === 0 || files.every(f => f.status === 'done')}
-                  className="w-full py-5 text-white rounded-[1.5rem] text-xl font-black shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50 disabled:grayscale uppercase tracking-tighter shadow-emerald-500/20"
+                  className="w-full py-5 text-white rounded-[1.5rem] text-lg sm:text-xl font-black shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50 disabled:grayscale uppercase tracking-widest shadow-emerald-500/20"
                   style={{ background: ACCENT_GRADIENT }}
                 >
                   {processing ? (
@@ -177,10 +177,10 @@ export default function Compressor({ id: _id }: { id: string }) {
               <div className="inline-flex p-4 rounded-2xl text-white shadow-lg mx-auto shadow-emerald-500/20" style={{ background: ACCENT_GRADIENT }}>
                 <Zap size={32} />
               </div>
-              <h2 className="text-3xl sm:text-5xl font-black text-slate-900 dark:text-white uppercase tracking-tighter leading-tight">
+              <h2 className="font-outfit text-2xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter leading-tight">
                 Swift Compressor
               </h2>
-              <p className="text-slate-500 dark:text-slate-400 font-medium tracking-tight max-w-md mx-auto uppercase text-[10px] tracking-widest leading-relaxed">
+              <p className="text-sm sm:text-base text-slate-500 dark:text-slate-400 font-medium max-w-md mx-auto leading-relaxed">
                 Professional local optimization for multiple PDF files
               </p>
             </div>
@@ -191,7 +191,7 @@ export default function Compressor({ id: _id }: { id: string }) {
                 <div className="flex flex-col sm:flex-row items-center gap-6">
                    <div className="p-4 bg-green-500 text-white rounded-2xl shadow-xl shadow-green-500/30"><CheckCircle2 size={32} /></div>
                    <div>
-                     <h4 className="text-2xl font-black text-slate-900 dark:text-white uppercase tracking-tighter leading-none mb-1">Shrink Complete</h4>
+                     <h4 className="text-2xl font-black text-slate-900 dark:text-white uppercase tracking-widest leading-none mb-1">Shrink Complete</h4>
                      <p className="text-[11px] font-bold text-slate-500 uppercase tracking-widest">Optimized documents are ready for local download</p>
                    </div>
                 </div>
@@ -206,13 +206,13 @@ export default function Compressor({ id: _id }: { id: string }) {
             {files.length === 0 ? (
               <div className="flex-1 flex flex-col items-center justify-center border-2 border-dashed border-slate-200 dark:border-slate-800 rounded-3xl p-10 sm:p-20 hover:border-emerald-400 cursor-pointer transition-all bg-slate-50/30 dark:bg-slate-900/30 group relative overflow-hidden z-10"
                 onClick={() => fileInputRef.current?.click()}>
-                <div className="p-8 bg-white dark:bg-slate-800 rounded-[32px] shadow-2xl mb-8 group-hover:scale-110 transition-transform relative z-10 text-emerald-500">
-                  <Upload size={56} strokeWidth={2.5} />
+                <div className="p-6 bg-white dark:bg-slate-800 rounded-3xl shadow-xl text-emerald-500 mb-6 group-hover:scale-110 transition-transform relative z-10">
+                  <Upload size={32} />
                 </div>
-                <div className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter text-center relative z-10 leading-none">
+                <div className="text-lg sm:text-lg sm:text-xl font-black text-slate-800 dark:text-white mb-1 relative z-10">
                   Select PDF Files
                 </div>
-                <p className="text-slate-400 text-sm mt-4 font-bold tracking-tight text-center relative z-10 uppercase tracking-widest">
+                <p className="text-xs sm:text-sm text-slate-400 font-medium relative z-10">
                   Secure local processing · Zero server lag
                 </p>
                 <button className="mt-10 px-12 py-5 rounded-2xl text-white text-base font-black uppercase tracking-widest shadow-xl hover:scale-105 transition-all relative z-10" style={{ background: ACCENT_GRADIENT }}>
@@ -229,7 +229,7 @@ export default function Compressor({ id: _id }: { id: string }) {
                           {f.status === 'processing' ? <Loader2 className="animate-spin" size={24} /> : <FileText size={24} />}
                         </div>
                         <div className="text-left min-w-0 flex-1">
-                          <h4 className="text-[13px] sm:text-sm font-black text-slate-900 dark:text-white uppercase truncate tracking-tight mb-1">{f.file.name}</h4>
+                          <h4 className="text-[13px] sm:text-sm font-black text-slate-900 dark:text-white uppercase truncate tracking-tighter mb-1">{f.file.name}</h4>
                           <div className="flex flex-wrap items-center gap-3">
                             <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">{formatSize(f.oldSize)}</span>
                             {f.newSize && (
@@ -281,7 +281,7 @@ export default function Compressor({ id: _id }: { id: string }) {
                   <feat.icon size={28} />
                 </div>
                 <h5 className="text-xs font-black uppercase tracking-widest text-slate-900 dark:text-white mb-3 leading-none">{feat.title}</h5>
-                <p className="text-[11px] text-slate-400 font-bold leading-relaxed uppercase tracking-tight">{feat.desc}</p>
+                <p className="text-[11px] text-slate-400 font-bold leading-relaxed uppercase tracking-tighter">{feat.desc}</p>
               </div>
             ))}
           </div>

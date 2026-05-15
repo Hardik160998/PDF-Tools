@@ -182,8 +182,8 @@ export default function AadharCropper({ id }: { id: string }) {
               <Wand2 size={22} />
             </div>
             <div className="text-left">
-              <h2 className="text-lg sm:text-3xl font-black text-slate-900 dark:text-white uppercase tracking-tighter leading-none">Aadhar Cropper</h2>
-              <p className="text-slate-500 font-medium text-xs sm:text-sm hidden sm:block">Perfect ID card formatting for high-quality printing.</p>
+              <h2 className="font-outfit text-2xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter leading-tight">Aadhar Cropper</h2>
+              <p className="text-sm sm:text-base text-slate-500 dark:text-slate-400 font-medium leading-relaxed">Perfect ID card formatting for high-quality printing.</p>
             </div>
           </div>
           {/* Step Indicator */}
@@ -230,10 +230,10 @@ export default function AadharCropper({ id }: { id: string }) {
                         </div>
                       )}
                       <div>
-                        <div className="text-lg font-black tracking-tight text-slate-900 dark:text-white">
+                        <div className="text-lg sm:text-lg sm:text-xl font-black text-slate-800 dark:text-white mb-1">
                           {preview ? `${slot === 'front' ? 'Front' : 'Back'} Uploaded ✓` : `Add ${slot === 'front' ? 'Front' : 'Back'} View`}
                         </div>
-                        <p className="text-slate-500 text-xs mt-1">{slot === 'front' ? 'Front side of Aadhar card' : 'Back side of Aadhar card'}</p>
+                        <p className="text-xs sm:text-sm text-slate-400 font-medium">{slot === 'front' ? 'Front side of Aadhar card' : 'Back side of Aadhar card'}</p>
                       </div>
                       <span className={`px-3 py-1 bg-${color}-50 text-${color}-500 text-xs font-black rounded-full border border-${color}-100`}>
                         PDF / Image
@@ -277,7 +277,7 @@ export default function AadharCropper({ id }: { id: string }) {
             <div className="flex flex-col sm:flex-row items-center gap-4">
               {/* Zoom slider */}
               <div className="flex items-center gap-3 flex-1 w-full bg-slate-50 dark:bg-slate-900 rounded-xl px-4 py-3 border border-slate-100 dark:border-slate-800">
-                <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 whitespace-nowrap">Zoom</span>
+                <span className="font-outfit text-[11px] font-black uppercase tracking-widest text-slate-400 whitespace-nowrap">Zoom</span>
                 <input
                   type="range"
                   min={1}
@@ -287,12 +287,12 @@ export default function AadharCropper({ id }: { id: string }) {
                   onChange={(e) => setZoom(Number(e.target.value))}
                   className="flex-1 h-1.5 bg-slate-200 dark:bg-slate-700 rounded-lg appearance-none cursor-pointer accent-red-500"
                 />
-                <span className="text-xs font-black text-slate-400 w-8 text-right">{zoom.toFixed(1)}x</span>
+                <span className="font-outfit text-xs font-black text-slate-400 w-8 text-right">{zoom.toFixed(1)}x</span>
               </div>
 
               {/* Step label + Next button */}
               <div className="flex items-center gap-3 w-full sm:w-auto">
-                <span className="text-sm font-black text-slate-700 dark:text-white whitespace-nowrap">
+                <span className="font-outfit text-sm font-black text-slate-700 dark:text-white whitespace-nowrap">
                   {step === 2 ? 'Crop Front Side' : 'Crop Back Side'}
                 </span>
                 <button

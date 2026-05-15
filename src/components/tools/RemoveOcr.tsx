@@ -121,12 +121,14 @@ export default function RemoveOcr({ id: _id }: { id: string }) {
       <div className="bg-white dark:bg-slate-800 rounded-3xl border border-slate-100 dark:border-slate-700 shadow-2xl overflow-hidden">
 
         {/* Header */}
-        <div className="px-6 py-5 flex items-center gap-3" style={{ background: "linear-gradient(135deg,#8b5cf6,#6d28d9)" }}>
-          <EyeOff size={22} className="text-white" />
-          <div>
-            <p className="text-xs font-black uppercase tracking-widest text-violet-100">Remove OCR</p>
-            <p className="text-[11px] text-violet-200 font-medium">Flatten PDF to image-only — remove all text layers</p>
+        <div className="text-center space-y-4 mb-8">
+          <div className="inline-flex p-4 sm:p-5 rounded-2xl sm:rounded-3xl bg-violet-600 text-white shadow-lg shadow-violet-500/20 mx-auto">
+            <EyeOff size={32} className="sm:w-9 sm:h-9" />
           </div>
+          <h2 className="font-outfit text-2xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter">Remove OCR</h2>
+          <p className="text-sm sm:text-base text-slate-500 dark:text-slate-400 font-medium max-w-md mx-auto leading-relaxed">
+            Flatten PDF to image-only — permanently remove all hidden text layers and OCR data.
+          </p>
         </div>
 
         <div className="p-6 sm:p-8 space-y-5">
@@ -149,11 +151,11 @@ export default function RemoveOcr({ id: _id }: { id: string }) {
               <input ref={fileInputRef} type="file" accept=".pdf" className="hidden"
                 onChange={e => { const f = e.target.files?.[0]; if (f) loadFile(f); e.target.value = ""; }} />
               <div className={`p-4 rounded-2xl shadow-lg transition-transform ${dragging ? "scale-110" : ""}`} style={{ background: "linear-gradient(135deg,#8b5cf6,#6d28d9)" }}>
-                <Upload size={28} className="text-white" />
+                <Upload size={32} className="text-white" />
               </div>
               <div className="text-center">
-                <p className="font-black text-slate-800 dark:text-white text-base">{dragging ? "Drop your PDF here!" : "Click or drag & drop PDF"}</p>
-                <p className="text-sm text-slate-400 mt-1">Your file stays in your browser — never uploaded</p>
+                <div className="text-lg sm:text-lg sm:text-xl font-black text-slate-800 dark:text-white mb-1">{dragging ? "Drop your PDF here!" : "Click or drag & drop PDF"}</div>
+                <p className="text-xs sm:text-sm text-slate-400 font-medium">Your file stays in your browser — never uploaded</p>
               </div>
             </div>
           ) : (

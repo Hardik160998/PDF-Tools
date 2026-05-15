@@ -1,4 +1,7 @@
 @import "tailwindcss";
+@theme {
+  --font-outfit: var(--font-outfit);
+}
 @variant dark (&:is(html.dark *));
 
 .container {

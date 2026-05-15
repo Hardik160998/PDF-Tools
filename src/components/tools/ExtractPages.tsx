@@ -130,7 +130,7 @@ export default function ExtractPages({ id: _id }: { id: string }) {
           </button>
 
           <div className={`${showSettings ? 'block' : 'hidden'} lg:block p-6`}>
-            <h3 className="hidden lg:block text-lg font-black text-slate-900 dark:text-white mb-6 uppercase tracking-tight text-left">Extraction Settings</h3>
+            <h3 className="hidden lg:block text-lg font-black text-slate-900 dark:text-white mb-6 uppercase tracking-tighter text-left">Extraction Settings</h3>
             
             <div className="space-y-6 text-left">
               {/* Range Input */}
@@ -172,7 +172,7 @@ export default function ExtractPages({ id: _id }: { id: string }) {
 
               {/* Info */}
               <div className="pt-4 border-t border-slate-50 dark:border-slate-700">
-                <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Status</p>
+                <p className="font-outfit text-[11px] font-black text-slate-400 uppercase tracking-widest mb-1">Status</p>
                 <p className="text-[10px] text-slate-500 font-bold uppercase">
                   {selectedPages.length} of {pages.length || 0} pages selected
                 </p>
@@ -189,8 +189,8 @@ export default function ExtractPages({ id: _id }: { id: string }) {
             <div className="inline-flex p-4 rounded-2xl text-white shadow-lg" style={{ background: ACCENT_GRADIENT }}>
               <Layers size={32} />
             </div>
-            <h2 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter leading-tight">Extract PDF Pages</h2>
-            {!file && <p className="text-slate-500 font-medium tracking-tight">Select specific pages to create a new PDF document.</p>}
+            <h2 className="font-outfit text-2xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter leading-tight">Extract PDF Pages</h2>
+            {!file && <p className="text-sm sm:text-base text-slate-500 dark:text-slate-400 font-medium max-w-md mx-auto leading-relaxed">Select specific pages to create a new PDF document.</p>}
           </div>
 
           {!file && !loading && (
@@ -202,10 +202,10 @@ export default function ExtractPages({ id: _id }: { id: string }) {
             >
               <input ref={fileInputRef} type="file" accept=".pdf" className="hidden" onChange={e => { const f = e.target.files?.[0]; if (f) loadFile(f); e.target.value = ""; }} />
               <div className="p-6 bg-white dark:bg-slate-800 rounded-3xl shadow-xl text-orange-500 mb-6 group-hover:scale-110 transition-transform">
-                <Upload size={48} />
+                <Upload size={32} />
               </div>
-              <div className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white uppercase tracking-tight text-center">Drop your PDF here</div>
-              <p className="text-slate-400 text-sm mt-2 font-bold tracking-tight text-center">Visual page extraction made simple</p>
+              <div className="text-lg sm:text-lg sm:text-xl font-black text-slate-800 dark:text-white mb-1 relative z-10">Drop your PDF here</div>
+              <p className="text-xs sm:text-sm text-slate-400 font-medium relative z-10">Visual page extraction made simple</p>
               <button className="mt-8 px-10 py-4 rounded-2xl text-white text-sm font-black uppercase tracking-widest shadow-xl hover:scale-105 transition-all" style={{ background: ACCENT_GRADIENT }}>
                 Choose File
               </button>
@@ -253,7 +253,7 @@ export default function ExtractPages({ id: _id }: { id: string }) {
                     </div>
 
                     {/* Page Number Label */}
-                    <div className="absolute bottom-3 left-3 px-3 py-1 bg-black/60 backdrop-blur-md text-white text-[10px] font-black rounded-full border border-white/20 tracking-tighter">
+                    <div className="absolute bottom-3 left-3 px-3 py-1 bg-black/60 backdrop-blur-md text-white text-[10px] font-black rounded-full border border-white/20 tracking-widest">
                       PAGE {p.pageNum}
                     </div>
                   </button>
@@ -265,7 +265,7 @@ export default function ExtractPages({ id: _id }: { id: string }) {
                 <button
                   onClick={handleExtract}
                   disabled={processing || selectedPages.length === 0}
-                  className="w-full py-5 text-white rounded-[1.5rem] text-xl font-black shadow-xl hover:scale-[1.01] active:scale-[0.99] transition-all disabled:opacity-50 disabled:grayscale uppercase tracking-tighter shadow-orange-500/20"
+                  className="w-full py-5 text-white rounded-[1.5rem] text-lg sm:text-xl font-black shadow-xl hover:scale-[1.01] active:scale-[0.99] transition-all disabled:opacity-50 disabled:grayscale uppercase tracking-widest shadow-orange-500/20"
                   style={{ background: ACCENT_GRADIENT }}
                 >
                   {processing ? (
@@ -290,7 +290,7 @@ export default function ExtractPages({ id: _id }: { id: string }) {
               </div>
               
               <div className="space-y-2">
-                <h3 className="text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter">Extraction Ready!</h3>
+                <h3 className="text-4xl font-black text-slate-900 dark:text-white uppercase tracking-widest">Extraction Ready!</h3>
                 <p className="text-slate-500 font-bold uppercase tracking-widest text-sm">
                   {result.count} high-quality page{result.count !== 1 ? "s" : ""} isolated
                 </p>
@@ -300,7 +300,7 @@ export default function ExtractPages({ id: _id }: { id: string }) {
                 <a
                   href={result.url}
                   download={`extracted_${file!.name}`}
-                  className="flex-1 py-5 text-white rounded-2xl text-xl font-black shadow-xl hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-3 uppercase tracking-tighter shadow-orange-500/20"
+                  className="flex-1 py-5 text-white rounded-2xl text-lg sm:text-xl font-black shadow-xl hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-3 uppercase tracking-widest shadow-orange-500/20"
                   style={{ background: ACCENT_GRADIENT }}
                 >
                   <Download size={24} /> Download PDF

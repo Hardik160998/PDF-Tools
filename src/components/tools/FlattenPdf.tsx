@@ -105,7 +105,7 @@ export default function FlattenPdf({ id }: { id: string }) {
             <Layers size={36} />
           </div>
           <h1 className="text-2xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter">Flatten PDF</h1>
-          <p className="text-sm sm:text-base text-slate-500 font-medium max-w-lg mx-auto">
+          <p className="text-sm sm:text-base text-slate-500 dark:text-slate-400 font-medium max-w-lg mx-auto leading-relaxed">
             Merge all layers, forms and annotations into a single flat, non-editable PDF. 100% private — runs in your browser.
           </p>
         </div>
@@ -137,10 +137,10 @@ export default function FlattenPdf({ id }: { id: string }) {
               <input ref={inputRef} type="file" accept=".pdf" className="hidden" onChange={e => e.target.files?.[0] && loadFile(e.target.files[0])} />
               <div className="space-y-4 pointer-events-none text-center">
                 <div className="p-5 bg-white dark:bg-slate-800 rounded-2xl shadow-xl inline-block text-violet-600 group-hover:scale-110 transition-transform">
-                  <Upload size={36} />
+                  <Upload size={32} />
                 </div>
-                <div className="text-xl sm:text-2xl font-black tracking-tight text-slate-900 dark:text-white">Select PDF File</div>
-                <p className="text-sm text-slate-500">or drop PDF here</p>
+                <div className="text-lg sm:text-lg sm:text-xl font-black text-slate-800 dark:text-white mb-1">Select PDF File</div>
+                <p className="text-xs sm:text-sm text-slate-400 font-medium">or drop PDF here</p>
               </div>
             </div>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
@@ -173,7 +173,7 @@ export default function FlattenPdf({ id }: { id: string }) {
               </p>
             </div>
             <button onClick={handleFlatten} disabled={processing}
-              className="w-full py-4 sm:py-5 bg-violet-600 hover:bg-violet-700 disabled:opacity-50 text-white rounded-2xl text-lg sm:text-2xl font-black shadow-xl shadow-violet-500/20 flex items-center justify-center gap-3 transition-all">
+              className="w-full py-4 sm:py-5 bg-violet-600 hover:bg-violet-700 disabled:opacity-50 text-white rounded-2xl text-lg sm:text-lg sm:text-xl font-black shadow-xl shadow-violet-500/20 flex items-center justify-center gap-3 transition-all">
               {processing ? <Loader2 className="animate-spin" size={24} /> : <Layers size={24} />}
               {processing ? `Flattening ${pageCount} pages...` : 'Flatten PDF'}
             </button>
@@ -183,7 +183,7 @@ export default function FlattenPdf({ id }: { id: string }) {
 
       {/* ── HOW IT WORKS ── */}
       <div className="bg-white dark:bg-slate-800 rounded-2xl p-6 sm:p-10 border border-slate-100 dark:border-slate-700 shadow-sm space-y-6">
-        <h2 className="text-xl font-black text-slate-900 dark:text-white tracking-tight">How to Flatten a PDF</h2>
+        <h2 className="text-lg sm:text-xl font-black text-slate-900 dark:text-white tracking-tighter">How to Flatten a PDF</h2>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           {STEPS.map(s => (
             <div key={s.n} className="flex gap-4 items-start p-4 bg-slate-50 dark:bg-slate-700/50 rounded-2xl border border-slate-100 dark:border-slate-600">
@@ -199,7 +199,7 @@ export default function FlattenPdf({ id }: { id: string }) {
 
       {/* ── WHEN TO USE ── */}
       <div className="bg-white dark:bg-slate-800 rounded-2xl p-6 sm:p-10 border border-slate-100 dark:border-slate-700 shadow-sm space-y-4">
-        <h2 className="text-xl font-black text-slate-900 dark:text-white tracking-tight">When Should You Flatten a PDF?</h2>
+        <h2 className="text-lg sm:text-xl font-black text-slate-900 dark:text-white tracking-tighter">When Should You Flatten a PDF?</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           {[
             { icon: '🖨️', t: 'Before Printing',      d: 'Avoid rendering differences between printers and PDF viewers.' },
@@ -222,7 +222,7 @@ export default function FlattenPdf({ id }: { id: string }) {
 
       {/* ── FAQ ── */}
       <div className="bg-white dark:bg-slate-800 rounded-2xl p-6 sm:p-10 border border-slate-100 dark:border-slate-700 shadow-sm space-y-4">
-        <h2 className="text-xl font-black text-slate-900 dark:text-white tracking-tight">Frequently Asked Questions</h2>
+        <h2 className="text-lg sm:text-xl font-black text-slate-900 dark:text-white tracking-tighter">Frequently Asked Questions</h2>
         <div className="space-y-2">
           {FAQS.map(f => <FAQ key={f.q} q={f.q} a={f.a} />)}
         </div>
@@ -230,7 +230,7 @@ export default function FlattenPdf({ id }: { id: string }) {
 
       {/* ── RELATED TOOLS ── */}
       <div className="bg-white dark:bg-slate-800 rounded-2xl p-6 sm:p-10 border border-slate-100 dark:border-slate-700 shadow-sm space-y-4">
-        <h2 className="text-xl font-black text-slate-900 dark:text-white tracking-tight">Related PDF Tools</h2>
+        <h2 className="text-lg sm:text-xl font-black text-slate-900 dark:text-white tracking-tighter">Related PDF Tools</h2>
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
           {RELATED.map(t => (
             <a key={t.id} href={`/tool/${t.id}`}

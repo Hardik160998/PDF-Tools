@@ -216,14 +216,14 @@ export default function OcrPdf({ id: _id }: { id: string }) {
 
           <div className={`${showSettings ? 'block' : 'hidden'} lg:block p-6`}>
             <div className="flex items-center justify-between mb-6">
-              <h3 className="hidden lg:block text-lg font-black text-slate-900 dark:text-white uppercase tracking-tight">Configuration</h3>
-              <button onClick={reset} className="text-[10px] font-black uppercase tracking-widest text-red-500 hover:text-red-600 transition-colors">Reset</button>
+              <h3 className="hidden lg:block font-outfit text-xl font-black text-slate-900 dark:text-white uppercase tracking-tighter">Configuration</h3>
+              <button onClick={reset} className="font-outfit text-[11px] font-black uppercase tracking-widest text-red-500 hover:text-red-600 transition-colors">Reset</button>
             </div>
 
             <div className="space-y-6">
               {/* Language Selector */}
               <div className="space-y-3">
-                <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest block">Recognition Language</span>
+                <span className="font-outfit text-[11px] font-black text-slate-400 uppercase tracking-widest block">Recognition Language</span>
                 <div className="relative">
                    <select
                      value={language}
@@ -246,10 +246,10 @@ export default function OcrPdf({ id: _id }: { id: string }) {
                     <div className="p-2 rounded-lg bg-white dark:bg-slate-800 shadow-sm text-blue-500">
                       <Search size={14} />
                     </div>
-                    <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Job Status</span>
+                    <span className="font-outfit text-[11px] font-black text-slate-400 uppercase tracking-widest">Job Status</span>
                   </div>
                   <div className="space-y-1">
-                     <p className="text-[11px] font-bold text-slate-600 dark:text-slate-300 uppercase">
+                     <p className="font-outfit text-xs font-black text-slate-700 dark:text-slate-200 uppercase tracking-tight">
                        {pdfFiles.length === 0 ? 'Queue Empty' : `${pdfFiles.length} Documents`}
                      </p>
                   </div>
@@ -262,7 +262,7 @@ export default function OcrPdf({ id: _id }: { id: string }) {
                   <button
                     onClick={runOcr}
                     disabled={processing || pdfFiles.length === 0}
-                    className="w-full py-5 text-white rounded-[1.5rem] text-xl font-black shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50 disabled:grayscale uppercase tracking-tighter shadow-blue-500/20"
+                    className="w-full py-5 text-white rounded-[1.5rem] text-lg sm:text-xl font-black shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50 disabled:grayscale uppercase tracking-widest shadow-blue-500/20"
                     style={{ background: ACCENT_GRADIENT }}
                   >
                     {processing ? (
@@ -275,12 +275,12 @@ export default function OcrPdf({ id: _id }: { id: string }) {
                   <div className="space-y-3">
                     <button
                       onClick={downloadAll}
-                      className="w-full py-5 text-white rounded-[1.5rem] text-xl font-black shadow-xl hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-3 uppercase tracking-tighter shadow-blue-500/20"
+                      className="w-full py-5 text-white rounded-[1.5rem] text-lg sm:text-xl font-black shadow-xl hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-3 uppercase tracking-widest shadow-blue-500/20"
                       style={{ background: ACCENT_GRADIENT }}
                     >
                       <Download size={24} /> Download All
                     </button>
-                    <button onClick={reset} className="w-full py-3 bg-slate-100 text-slate-500 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-slate-200 transition-all">Start Over</button>
+                    <button onClick={reset} className="w-full py-3 bg-slate-100 text-slate-500 rounded-xl font-outfit text-[11px] font-black uppercase tracking-widest hover:bg-slate-200 transition-all">Start Over</button>
                   </div>
                 )}
               </div>
@@ -300,10 +300,10 @@ export default function OcrPdf({ id: _id }: { id: string }) {
               <div className="inline-flex p-4 rounded-2xl text-white shadow-lg shadow-blue-500/20 mx-auto" style={{ background: ACCENT_GRADIENT }}>
                 <ScanText size={32} />
               </div>
-              <h2 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter leading-tight">
+              <h2 className="font-outfit text-2xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter leading-tight">
                 Optical Character Recognition
               </h2>
-              <p className="text-slate-500 font-medium tracking-tight max-w-md mx-auto uppercase text-xs">
+              <p className="text-sm sm:text-base text-slate-500 dark:text-slate-400 font-medium max-w-md mx-auto leading-relaxed">
                 Transform scanned PDF documents into fully searchable text layers using local Tesseract engine.
               </p>
             </div>
@@ -313,12 +313,12 @@ export default function OcrPdf({ id: _id }: { id: string }) {
               <div className="flex-1 flex flex-col items-center justify-center border-2 border-dashed border-slate-100 dark:border-slate-700 rounded-[2.5rem] p-10 sm:p-20 hover:border-blue-400 cursor-pointer transition-all bg-slate-50/30 dark:bg-slate-900/30 group relative overflow-hidden"
                 onClick={() => fileInputRef.current?.click()}>
                 <div className="p-6 bg-white dark:bg-slate-800 rounded-3xl shadow-xl text-blue-500 mb-6 group-hover:scale-110 transition-transform relative z-10">
-                  <Upload size={48} />
+                  <Upload size={32} />
                 </div>
-                <div className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white uppercase tracking-tight text-center relative z-10">
+                <div className="text-lg sm:text-lg sm:text-xl font-black text-slate-800 dark:text-white mb-1 relative z-10">
                   Select Scanned PDF
                 </div>
-                <p className="text-slate-400 text-sm mt-2 font-bold tracking-tight text-center relative z-10 uppercase tracking-widest">
+                <p className="text-xs sm:text-sm text-slate-400 font-medium relative z-10">
                   Native browser OCR · No cloud upload
                 </p>
                 <button className="mt-8 px-10 py-4 rounded-2xl text-white text-sm font-black uppercase tracking-widest shadow-xl hover:scale-105 transition-all relative z-10" style={{ background: ACCENT_GRADIENT }}>

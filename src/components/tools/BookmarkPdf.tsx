@@ -157,7 +157,7 @@ export default function BookmarkPdf({ id: _id }: { id: string }) {
             <div className="inline-flex p-4 rounded-2xl text-white shadow-lg shadow-amber-500/20" style={{ background: "linear-gradient(135deg,#f59e0b,#b45309)" }}>
               <Bookmark size={32} className="sm:w-9 sm:h-9" />
             </div>
-            <h2 className="text-2xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter">Bookmark PDF</h2>
+            <h2 className="font-outfit text-2xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter">Bookmark PDF</h2>
             <p className="text-sm sm:text-base text-slate-500 dark:text-slate-400 font-medium max-w-md mx-auto leading-relaxed">Add a clickable outline to your PDF — visible in all modern PDF viewers.</p>
           </div>
           <div className="relative border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-2xl sm:rounded-3xl p-8 sm:p-16 group hover:border-amber-500 hover:bg-amber-50/30 dark:hover:bg-amber-500/5 transition-all cursor-pointer bg-slate-50/50 dark:bg-slate-900/50"
@@ -166,9 +166,9 @@ export default function BookmarkPdf({ id: _id }: { id: string }) {
             onClick={() => fileInputRef.current?.click()}>
             <input ref={fileInputRef} type="file" accept=".pdf" className="hidden" onChange={e => { const f = e.target.files?.[0]; if (f) loadFile(f); e.target.value = ""; }} />
             <div className="flex flex-col items-center gap-4 pointer-events-none text-center">
-              <div className="p-4 sm:p-5 bg-white dark:bg-slate-800 rounded-2xl shadow-xl text-amber-500 group-hover:scale-110 transition-transform"><Upload size={32} className="sm:w-9 sm:h-9" /></div>
+              <div className="p-4 sm:p-5 bg-white dark:bg-slate-800 rounded-2xl shadow-xl text-amber-500 group-hover:scale-110 transition-transform"><Upload size={32} /></div>
               <div>
-                <p className="text-lg sm:text-xl font-black text-slate-800 dark:text-white">Click or drag & drop your PDF</p>
+                <div className="text-lg sm:text-lg sm:text-xl font-black text-slate-800 dark:text-white mb-1">Click or drag &amp; drop PDF</div>
                 <p className="text-xs sm:text-sm text-slate-400 font-medium mt-1">Your file stays on your device — always</p>
               </div>
               <button className="px-6 py-2.5 sm:px-7 sm:py-3 rounded-xl text-white text-xs sm:text-sm font-black uppercase tracking-widest shadow-lg active:scale-95 transition-all" style={{ background: "linear-gradient(135deg,#f59e0b,#b45309)" }}>Choose PDF File</button>
@@ -194,12 +194,12 @@ export default function BookmarkPdf({ id: _id }: { id: string }) {
         <div className="bg-white dark:bg-slate-800 rounded-[2rem] sm:rounded-[2.5rem] p-6 sm:p-10 border border-slate-100 dark:border-slate-700 shadow-2xl space-y-10 text-center py-10 sm:py-16">
           <div className="inline-flex p-10 rounded-full bg-amber-50 dark:bg-amber-500/10 text-amber-500 scale-110 border border-amber-500/20 shadow-xl shadow-amber-500/10"><CheckCircle2 size={72} /></div>
           <div className="space-y-3">
-            <h3 className="text-2xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter">Bookmarks Added!</h3>
+            <h3 className="font-outfit text-2xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter">Bookmarks Added!</h3>
             <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 font-black uppercase tracking-widest px-4 leading-relaxed">{bookmarks.length} bookmark{bookmarks.length !== 1 ? "s" : ""} added to your PDF successfully</p>
           </div>
           <div className="flex flex-col sm:flex-row gap-4 justify-center max-w-lg mx-auto">
             <a href={result} download={`bookmarked_${file!.name}`}
-              className="flex-1 py-4 sm:py-5 text-white rounded-2xl text-lg sm:text-xl font-black shadow-xl shadow-amber-500/20 flex items-center justify-center gap-3 active:scale-[0.98] transition-all"
+              className="flex-1 py-4 sm:py-5 text-white rounded-2xl text-lg sm:text-lg sm:text-xl font-black shadow-xl shadow-amber-500/20 flex items-center justify-center gap-3 active:scale-[0.98] transition-all"
               style={{ background: "linear-gradient(135deg,#f59e0b,#b45309)" }}>
               <Download size={24} /> Download PDF
             </a>
@@ -259,7 +259,7 @@ export default function BookmarkPdf({ id: _id }: { id: string }) {
           <div className={`absolute md:relative z-20 h-full w-64 border-r border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 flex flex-col shadow-2xl md:shadow-none transition-transform duration-300 ease-in-out ${showSidebar ? 'translate-x-0' : '-translate-x-full md:hidden'}`}>
             {/* Sidebar header */}
             <div className="flex items-center justify-between px-4 py-3 border-b border-slate-100 dark:border-slate-700/50 bg-slate-50/50 dark:bg-slate-900/20">
-              <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Document Outline</span>
+              <span className="font-outfit text-[11px] font-black uppercase tracking-widest text-slate-400">Document Outline</span>
               <button onClick={() => setAddingNew(true)} className="p-1.5 rounded-lg text-amber-500 hover:bg-amber-50 dark:hover:bg-amber-500/10 transition-colors">
                 <Plus size={16} />
               </button>
@@ -278,8 +278,8 @@ export default function BookmarkPdf({ id: _id }: { id: string }) {
                     <span className="text-amber-600">{currentPage}</span>
                   </div>
                   <div className="flex gap-2">
-                    <button onClick={() => { setAddingNew(false); setNewTitle(""); }} className="px-3 py-1.5 rounded-lg text-slate-400 text-[10px] font-black uppercase tracking-widest hover:text-slate-600">Cancel</button>
-                    <button onClick={addBookmark} disabled={!newTitle.trim()} className="px-4 py-1.5 rounded-lg text-white text-[10px] font-black uppercase tracking-widest shadow-md disabled:opacity-50" style={{ background: "linear-gradient(135deg,#f59e0b,#b45309)" }}>Add</button>
+                    <button onClick={() => { setAddingNew(false); setNewTitle(""); }} className="px-3 py-1.5 rounded-lg text-slate-400 font-outfit text-[11px] font-black uppercase tracking-widest hover:text-slate-600">Cancel</button>
+                    <button onClick={addBookmark} disabled={!newTitle.trim()} className="px-4 py-1.5 rounded-lg text-white font-outfit text-[11px] font-black uppercase tracking-widest shadow-md disabled:opacity-50" style={{ background: "linear-gradient(135deg,#f59e0b,#b45309)" }}>Add</button>
                   </div>
                 </div>
               </div>

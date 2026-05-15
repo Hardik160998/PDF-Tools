@@ -187,7 +187,7 @@ export default function Home() {
               <Sparkles size={14} className="fill-red-500" />
               100% Free &amp; Secure PDF Tools
             </div>
-            <h2 className="text-4xl md:text-6xl font-black leading-[1.1] tracking-tighter fade-in-up stagger-1">
+            <h2 className="font-outfit text-4xl md:text-6xl font-black leading-[1.1] tracking-tighter fade-in-up stagger-1">
               <span className="hero-gradient-text">PDF Tools Simplified.</span>{' '}
               <span className="text-slate-900 dark:text-white">Built for Efficiency.</span>
             </h2>
@@ -267,7 +267,7 @@ export default function Home() {
                     <tool.icon size={18} />
                   </div>
                   <div className="min-w-0">
-                    <p className="text-[12px] font-black text-slate-800 dark:text-white leading-tight truncate">{tool.title}</p>
+                    <p className="font-outfit text-[12px] font-black text-slate-800 dark:text-white leading-tight truncate">{tool.title}</p>
                     <p className="text-[10px] text-slate-400 dark:text-slate-500 leading-tight mt-0.5 truncate">{tool.desc}</p>
                   </div>
                 </a>
@@ -301,7 +301,7 @@ export default function Home() {
                       <tool.icon size={28} />
                     </div>
                     <div className="space-y-3">
-                      <h3 className="text-lg font-black text-slate-900 dark:text-white tracking-tight">{tool.title}</h3>
+                      <h3 className="font-outfit text-lg font-black text-slate-900 dark:text-white tracking-tight">{tool.title}</h3>
                       <p className="text-[13px] font-medium text-slate-500 dark:text-slate-400 leading-snug">{tool.description}</p>
                     </div>
                   </a>
@@ -325,9 +325,9 @@ export default function Home() {
       ) : (
         <section className="py-20 text-center bg-white dark:bg-slate-900">
           <div className="container mx-auto px-4 max-w-3xl">
-            <h2 className="text-4xl md:text-5xl font-black text-slate-900 dark:text-white tracking-tight mb-4">
-              Keep Your Simple Tasks Simple
-            </h2>
+              <h2 className="font-outfit text-4xl md:text-5xl font-black text-slate-900 dark:text-white tracking-tighter mb-4">
+                Keep Your Simple Tasks Simple
+              </h2>
             <p className="text-lg text-slate-500 dark:text-slate-400 font-medium leading-relaxed">
               The first and only PDF software you&apos;ll love. We have all the tools you&apos;ll need to start, manage, and finish your work with digital documents.
             </p>
@@ -347,7 +347,7 @@ export default function Home() {
           <div className="container mx-auto px-4">
             <div className="flex flex-col md:flex-row items-center gap-16 max-w-6xl mx-auto">
               <div className="flex-1 space-y-6">
-                <h2 className="text-3xl md:text-5xl font-black text-slate-900 dark:text-white tracking-tight leading-tight">
+                <h2 className="font-outfit text-3xl md:text-5xl font-black text-slate-900 dark:text-white tracking-tighter leading-tight">
                   Create the Perfect Document
                 </h2>
                 <p className="text-lg text-slate-600 dark:text-slate-400 font-medium leading-relaxed">
@@ -399,7 +399,7 @@ export default function Home() {
           <div className="container mx-auto px-4">
             <div className="flex flex-col md:flex-row-reverse items-center gap-12 max-w-6xl mx-auto">
               <div className="flex-1 space-y-5">
-                <h2 className="text-3xl md:text-4xl font-black text-slate-900 dark:text-white tracking-tight">Digital Signatures Made Easy</h2>
+                <h2 className="font-outfit text-3xl md:text-4xl font-black text-slate-900 dark:text-white tracking-tighter">Digital Signatures Made Easy</h2>
                 <p className="text-base text-slate-500 dark:text-slate-400 font-medium leading-relaxed">
                   Fill in forms, e-sign contracts, and close deals in a few simple steps. You can also request e-signatures and track your document every step of the way.
                 </p>
@@ -443,7 +443,7 @@ export default function Home() {
            <div className="container mx-auto px-4">
              <div className="flex flex-col md:flex-row items-center gap-12 max-w-6xl mx-auto">
                <div className="flex-1 space-y-5">
-                 <h2 className="text-3xl md:text-4xl font-black text-slate-900 dark:text-white tracking-tight">Work Directly on Your Files</h2>
+                 <h2 className="font-outfit text-3xl md:text-4xl font-black text-slate-900 dark:text-white tracking-tighter">Work Directly on Your Files</h2>
                  <p className="text-base text-slate-500 dark:text-slate-400 font-medium leading-relaxed">
                    Do more than just view PDFs. Highlight and add text, freehand annotations, and more — all processed locally in your browser. Zero uploads, 100% private.
                  </p>
@@ -483,7 +483,7 @@ export default function Home() {
                <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" /></svg>
                Latest from Blog
              </div>
-             <h2 className="text-4xl md:text-5xl font-black text-slate-900 dark:text-white tracking-tight mb-4">
+             <h2 className="font-outfit text-4xl md:text-5xl font-black text-slate-900 dark:text-white tracking-tighter mb-4">
                Helpful Guides &<br />
                <span className="text-red-500">PDF Tutorials</span>
              </h2>
@@ -595,7 +595,7 @@ export default function Home() {
       {/* -- WHY CHOOSE SMART PDFs? -- */}
       <section className="py-20 bg-slate-50 dark:bg-slate-900">
         <div className="container mx-auto px-4 max-w-6xl">
-          <h2 className="text-4xl md:text-5xl font-black text-slate-900 dark:text-white tracking-tight text-center mb-16">
+          <h2 className="font-outfit text-4xl md:text-5xl font-black text-slate-900 dark:text-white tracking-tighter text-center mb-16">
             Why Choose Smart PDFs?
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">

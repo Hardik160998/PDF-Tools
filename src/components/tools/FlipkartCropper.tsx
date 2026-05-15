@@ -635,7 +635,7 @@ export default function FlipkartCropper({ id }: { id: string }) {
             <Loader2 className={`transition-transform duration-300 ${showSettings ? 'rotate-180' : ''}`} size={20} />
           </button>
           <div className={`${showSettings ? 'block' : 'hidden'} lg:block p-6`}>
-            <h3 className="hidden lg:block text-xl font-black text-slate-900 dark:text-white mb-6 uppercase tracking-tight">Settings</h3>
+            <h3 className="hidden lg:block text-lg sm:text-xl font-black text-slate-900 dark:text-white mb-6 uppercase tracking-tighter">Settings</h3>
           <div className="space-y-4">
             <label className="flex items-start gap-3 cursor-pointer">
               <input type="checkbox" checked={keepInvoice} onChange={e => {
@@ -648,28 +648,28 @@ export default function FlipkartCropper({ id }: { id: string }) {
               <input type="checkbox" checked={labelsPerA4} onChange={e => setLabelsPerA4(e.target.checked)} className="w-5 h-5 mt-0.5" style={{ accentColor: ACCENT }} />
               <div className="flex flex-col">
                 <span className="text-sm font-semibold">4 Labels per A4 page</span>
-                <span className="text-[10px] text-slate-400 font-bold uppercase tracking-tighter">2x2 Grid (No Invoice)</span>
+                <span className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">2x2 Grid (No Invoice)</span>
               </div>
             </label>
             <label className="flex items-start gap-3 cursor-pointer">
               <input type="checkbox" checked={sortByQty} onChange={e => setSortByQty(e.target.checked)} className="w-5 h-5 mt-0.5" style={{ accentColor: ACCENT }} />
               <div className="flex flex-col">
                 <span className="text-sm font-semibold">Sort by Quantity</span>
-                <span className="text-[10px] text-slate-400 font-bold uppercase tracking-tighter">Qty મુજબ સોર્ટ કરો</span>
+                <span className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Qty મુજબ સોર્ટ કરો</span>
               </div>
             </label>
             <label className="flex items-start gap-3 cursor-pointer">
               <input type="checkbox" checked={sortBySku} onChange={e => setSortBySku(e.target.checked)} className="w-5 h-5 mt-0.5" style={{ accentColor: ACCENT }} />
               <div className="flex flex-col">
                 <span className="text-sm font-semibold">Sort by SKU ID</span>
-                <span className="text-[10px] text-slate-400 font-bold uppercase tracking-tighter">Group identical items</span>
+                <span className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Group identical items</span>
               </div>
             </label>
             <label className="flex items-start gap-3 cursor-pointer">
               <input type="checkbox" checked={highlightSku} onChange={e => setHighlightSku(e.target.checked)} className="w-5 h-5 mt-0.5" style={{ accentColor: ACCENT }} />
               <div className="flex flex-col">
                 <span className="text-sm font-semibold">Highlight SKU ID</span>
-                <span className="text-[10px] text-slate-400 font-bold uppercase tracking-tighter">Visible blue boxes</span>
+                <span className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Visible blue boxes</span>
               </div>
             </label>
             <label className="flex items-start gap-3 cursor-pointer">
@@ -695,8 +695,8 @@ export default function FlipkartCropper({ id }: { id: string }) {
       <div className="bg-white dark:bg-slate-800 rounded-3xl p-6 sm:p-12 border border-slate-100 dark:border-slate-700 shadow-2xl text-center">
           <div className="space-y-4 mb-10">
             <div className="inline-flex p-4 rounded-2xl text-white shadow-lg" style={{ background: ACCENT }}><ShoppingBag size={32} /></div>
-            <h2 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter">Flipkart Label Cropper</h2>
-            <p className="text-slate-500 font-medium">Extracts 1st to end label with zero invoice bleed.</p>
+            <h2 className="font-outfit text-2xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter">Flipkart Label Cropper</h2>
+            <p className="text-sm sm:text-base text-slate-500 dark:text-slate-400 font-medium max-w-md mx-auto leading-relaxed">Extracts shipping labels with zero invoice bleed. Optimized for high-speed warehouse processing.</p>
             
             {/* Steps */}
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mt-6">
@@ -717,10 +717,11 @@ export default function FlipkartCropper({ id }: { id: string }) {
 
           {!done ? (
             <div className="space-y-6">
-              <div className="border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-3xl p-10 sm:p-16 hover:border-[#F7941D] transition-all cursor-pointer bg-slate-50/50 dark:bg-slate-900/50" onClick={() => inputRef.current?.click()} onDragOver={e => e.preventDefault()} onDrop={e => { e.preventDefault(); addFiles(e.dataTransfer.files); }}>
+              <div className="border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-2xl sm:rounded-3xl p-8 sm:p-16 hover:border-[#F7941D] transition-all cursor-pointer bg-slate-50/50 dark:bg-slate-900/50" onClick={() => inputRef.current?.click()} onDragOver={e => e.preventDefault()} onDrop={e => { e.preventDefault(); addFiles(e.dataTransfer.files); }}>
                 <input ref={inputRef} type="file" accept=".pdf" multiple className="hidden" onChange={e => addFiles(e.target.files)} />
                 <div className="p-6 bg-white dark:bg-slate-800 rounded-2xl shadow-xl inline-block mb-4" style={{ color: ACCENT }}><Upload size={32} /></div>
-                <div className="text-2xl font-black text-slate-900 dark:text-white">Drop PDFs Here</div>
+                <div className="text-lg sm:text-lg sm:text-xl font-black text-slate-800 dark:text-white mb-1">Drop Flipkart PDFs</div>
+                <p className="text-xs sm:text-sm text-slate-400 font-medium">Automatic label detection engine</p>
               </div>
               {files.length > 0 && (
                 <div className="space-y-4">

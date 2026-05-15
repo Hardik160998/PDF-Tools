@@ -339,11 +339,11 @@ export default function ESignTool({ id: _id }: { id: string }) {
           <div className="inline-flex p-3 sm:p-4 rounded-xl sm:rounded-2xl bg-gradient-to-br from-purple-500 to-pink-500 text-white shadow-lg">
             <PenLine className="w-6 h-6 sm:w-8 sm:h-8" />
           </div>
-          <h2 className="text-2xl sm:text-4xl font-black text-slate-900 uppercase tracking-tighter">
+          <h2 className="font-outfit text-2xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter">
             E-Signature Tool
           </h2>
-          <p className="text-xs sm:text-sm text-slate-500 font-medium">
-            Upload · Sign · Download — entirely in your browser
+          <p className="text-sm sm:text-base text-slate-500 dark:text-slate-400 font-medium max-w-md mx-auto leading-relaxed">
+            Upload, sign, and download your documents securely in your browser.
           </p>
         </div>
 
@@ -352,11 +352,11 @@ export default function ESignTool({ id: _id }: { id: string }) {
           <label className="relative flex flex-col items-center justify-center gap-4 border-2 border-dashed border-slate-200 rounded-2xl sm:rounded-3xl p-8 sm:p-16 cursor-pointer hover:border-purple-400 hover:bg-purple-50/30 transition-all group">
             <input type="file" onChange={onFileChange} accept=".pdf,image/png,image/jpeg,image/jpg" className="sr-only" />
             <div className="p-4 sm:p-5 bg-white rounded-xl sm:rounded-2xl shadow-lg text-purple-500 group-hover:scale-110 transition-transform">
-              <Upload className="w-8 h-8 sm:w-10 sm:h-10" />
+              <Upload size={32} />
             </div>
             <div className="text-center">
-              <p className="text-lg sm:text-xl font-black text-slate-800">Click or drag to upload</p>
-              <p className="text-xs sm:text-sm text-slate-400 mt-1">PDF · PNG · JPG</p>
+              <div className="text-lg sm:text-lg sm:text-xl font-black text-slate-800 dark:text-white mb-1">Click or drag & drop to upload</div>
+              <p className="text-xs sm:text-sm text-slate-400 font-medium">PDF · PNG · JPG · WebP</p>
             </div>
           </label>
         )}
@@ -454,12 +454,12 @@ export default function ESignTool({ id: _id }: { id: string }) {
                 {/* Pen options */}
                 <div className="flex flex-col gap-4">
                   <div className="flex items-center gap-3">
-                    <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 w-10">Color</label>
+                    <label className="font-outfit text-[11px] font-black uppercase tracking-widest text-slate-400 w-10">Color</label>
                     <input type="color" value={penColor} onChange={e => setPenColor(e.target.value)}
                       className="w-10 h-10 rounded-lg border border-slate-200 cursor-pointer p-0.5 bg-white shadow-sm" />
                   </div>
                   <div className="flex items-center gap-3">
-                    <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 w-10">Size</label>
+                    <label className="font-outfit text-[11px] font-black uppercase tracking-widest text-slate-400 w-10">Size</label>
                     <input type="range" min={1} max={6} step={0.5} value={penSize} onChange={e => setPenSize(Number(e.target.value))}
                       className="flex-1 accent-purple-500 h-6" />
                     <span className="text-xs font-bold text-slate-500 w-6 text-right">{penSize}</span>
@@ -506,7 +506,7 @@ export default function ESignTool({ id: _id }: { id: string }) {
                 {/* Signature preview */}
                 {signatureData && (
                   <div className="border-2 border-dashed border-purple-200 rounded-xl p-2 bg-white">
-                    <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">Preview</p>
+                    <p className="font-outfit text-[11px] font-black uppercase tracking-widest text-slate-400 mb-1">Preview</p>
                     <img src={signatureData} alt="preview" className="max-h-16 mx-auto" />
                   </div>
                 )}

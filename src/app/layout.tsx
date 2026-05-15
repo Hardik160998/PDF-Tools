@@ -18,7 +18,7 @@ import { ThemeProvider } from "@/context/ThemeContext";
 
 
 const inter = Inter({ subsets: ["latin"], weight: ['400', '500', '600', '700', '800', '900'] });
-const outfit = Outfit({ subsets: ["latin"], weight: ['400', '500', '600', '700', '800', '900'] });
+const outfit = Outfit({ subsets: ["latin"], weight: ['400', '500', '600', '700', '800', '900'], variable: '--font-outfit' });
 
 export const metadata: Metadata = {
   title: "SmartPDFs Plus | Every tool you need to work with PDFs",
@@ -53,7 +53,7 @@ export default function RootLayout({
            })()
          ` }} />
        </head>
-       <body className={`${inter.className} antialiased`} suppressHydrationWarning>
+       <body className={`${inter.className} ${outfit.variable} antialiased`} suppressHydrationWarning>
         <ThemeProvider>
         <div className="page-content">
         <header className="sticky top-0 z-50 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-b border-slate-100 dark:border-slate-800">

@@ -262,15 +262,15 @@ export default function MergeSplit({ id }: { id: string }) {
 
           <div className={`${showSettings ? 'block' : 'hidden'} lg:block p-6`}>
             <div className="flex items-center justify-between mb-6">
-              <h3 className="hidden lg:block text-lg font-black text-slate-900 dark:text-white uppercase tracking-tight">Configuration</h3>
-              <button onClick={handleReset} className="text-[10px] font-black uppercase tracking-widest text-red-500 hover:text-red-600 transition-colors">Reset</button>
+              <h3 className="font-outfit hidden lg:block font-outfit text-xl font-black text-slate-900 dark:text-white uppercase tracking-tighter">Configuration</h3>
+              <button onClick={handleReset} className="font-outfit text-[11px] font-black uppercase tracking-widest text-red-500 hover:text-red-600 transition-colors">Reset</button>
             </div>
 
             <div className="space-y-6 text-left">
               {isSplit && (
                 <div className="space-y-4 animate-in slide-in-from-top-4 duration-300">
                   <div className="space-y-2">
-                    <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest text-left block">Split Mode</span>
+                    <span className="font-outfit text-[11px] font-black text-slate-400 uppercase tracking-widest text-left block">Split Mode</span>
                     <div className="flex bg-slate-50 dark:bg-slate-800 p-1.5 rounded-2xl border border-slate-100 dark:border-slate-800">
                       {(['parts', 'extract'] as const).map(mode => (
                         <button key={mode} onClick={() => setSplitMode(mode)}
@@ -283,7 +283,7 @@ export default function MergeSplit({ id }: { id: string }) {
 
                   {splitMode === 'parts' && (
                     <div className="space-y-2">
-                      <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest text-left block">Target Parts</span>
+                      <span className="font-outfit text-[11px] font-black text-slate-400 uppercase tracking-widest text-left block">Target Parts</span>
                       <div className="grid grid-cols-3 gap-2">
                         {[2, 3, 4].map(num => (
                           <button key={num} onClick={() => setSplitParts(num)}
@@ -303,9 +303,9 @@ export default function MergeSplit({ id }: { id: string }) {
                     <div className="p-2 rounded-lg bg-white dark:bg-slate-900 shadow-sm text-slate-400">
                       <Zap size={14} />
                     </div>
-                    <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Queue Status</span>
+                    <span className="font-outfit text-[11px] font-black text-slate-400 uppercase tracking-widest">Queue Status</span>
                   </div>
-                  <p className="text-[11px] font-bold text-slate-600 dark:text-slate-300 uppercase">
+                  <p className="font-outfit text-xs font-black text-slate-700 dark:text-slate-200 uppercase tracking-tight">
                     {files.length === 0 ? 'Empty' : `${files.length} Item${files.length !== 1 ? 's' : ''} ready`}
                   </p>
                 </div>
@@ -315,7 +315,7 @@ export default function MergeSplit({ id }: { id: string }) {
                 <button
                   onClick={handleProcess}
                   disabled={processing || files.length === 0}
-                  className="w-full py-5 text-white rounded-[1.5rem] text-xl font-black shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50 disabled:grayscale uppercase tracking-tighter"
+                  className="w-full py-5 text-white rounded-[1.5rem] text-lg sm:text-xl font-black shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50 disabled:grayscale uppercase tracking-tighter"
                   style={{ background: ACCENT_GRADIENT }}
                 >
                   {processing ? (
@@ -339,10 +339,10 @@ export default function MergeSplit({ id }: { id: string }) {
               <div className="inline-flex p-4 rounded-2xl text-white shadow-lg" style={{ background: ACCENT_GRADIENT }}>
                 {isSplit ? <Scissors size={32} /> : <Combine size={32} />}
               </div>
-              <h2 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter leading-tight text-center">
+              <h2 className="font-outfit text-2xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter leading-tight text-center">
                 {isSplit ? 'Split PDF Documents' : 'Merge PDF Documents'}
               </h2>
-              <p className="text-slate-500 font-medium tracking-tight max-w-md mx-auto uppercase text-[10px] tracking-widest text-center">
+              <p className="text-sm sm:text-base text-slate-500 dark:text-slate-400 font-medium max-w-md mx-auto leading-relaxed text-center">
                 {isSplit ? 'Process multiple PDFs into parts instantly' : 'Combine multiple files into one session'}
               </p>
             </div>
@@ -351,13 +351,13 @@ export default function MergeSplit({ id }: { id: string }) {
               <div className="flex-1 flex flex-col items-center justify-center border-2 border-dashed border-slate-200 dark:border-slate-800 rounded-[2.5rem] p-10 sm:p-20 hover:border-orange-400 cursor-pointer transition-all bg-slate-50/30 dark:bg-slate-900/30 group relative overflow-hidden"
                 onClick={() => fileInputRef.current?.click()}>
                 <div className="p-6 bg-white dark:bg-slate-900 rounded-3xl shadow-xl mb-6 group-hover:scale-110 transition-transform relative z-10" style={{ color: ACCENT }}>
-                  <Upload size={48} />
+                  <Upload size={32} />
                 </div>
-                <div className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white uppercase tracking-tight text-center relative z-10">
+                <div className="text-lg sm:text-lg sm:text-xl font-black text-slate-800 dark:text-white mb-1 relative z-10">
                   Drop PDF Files Here
                 </div>
-                <p className="text-slate-400 text-sm mt-2 font-bold tracking-tight text-center relative z-10 uppercase tracking-widest">
-                  Secure local processing
+                <p className="text-xs sm:text-sm text-slate-400 font-medium relative z-10">
+                  Secure local processing · Your file stays on your device
                 </p>
                 <button className="mt-8 px-10 py-4 rounded-2xl text-white text-sm font-black uppercase tracking-widest shadow-xl hover:scale-105 transition-all relative z-10" style={{ background: ACCENT_GRADIENT }}>
                   Choose Files
@@ -370,7 +370,7 @@ export default function MergeSplit({ id }: { id: string }) {
                     <div className="flex flex-col sm:flex-row items-center gap-6">
                        <div className={`p-4 text-white rounded-2xl shadow-xl ${isSplit ? 'bg-violet-500 shadow-violet-500/30' : 'bg-green-500 shadow-green-500/30'}`}><CheckCircle2 size={32} /></div>
                        <div>
-                         <h4 className="text-2xl font-black text-slate-900 dark:text-white uppercase tracking-tighter leading-none mb-1">{isSplit ? 'Processing Complete' : 'Merge Ready'}</h4>
+                         <h4 className="text-2xl font-black text-slate-900 dark:text-white uppercase tracking-widest leading-none mb-1">{isSplit ? 'Processing Complete' : 'Merge Ready'}</h4>
                          <p className="text-[11px] font-bold text-slate-500 uppercase tracking-widest">
                            {isSplit ? `Successfully processed ${files.length} documents` : `Your unified PDF is ready for download`}
                          </p>
@@ -400,13 +400,13 @@ export default function MergeSplit({ id }: { id: string }) {
                             <FileText size={48} />
                           </div>
                           <div className="absolute bottom-4 left-0 right-0 px-4">
-                            <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">{res.pageCount || '?'} Pages</p>
+                            <p className="font-outfit text-[11px] font-black text-slate-400 uppercase tracking-widest text-center">{res.pageCount || '?'} Pages</p>
                           </div>
                           <div className="absolute inset-0 bg-violet-600/5 opacity-0 group-hover:opacity-100 transition-opacity" />
                         </div>
                         <div className="flex items-center justify-between gap-4 px-1">
                           <div className="flex-1 min-w-0 text-left">
-                            <p className="text-xs font-black text-slate-900 dark:text-white uppercase truncate tracking-tight mb-1">{res.name}</p>
+                            <p className="text-xs font-black text-slate-900 dark:text-white uppercase truncate tracking-tighter mb-1">{res.name}</p>
                             <div className="flex items-center gap-2">
                               <div className="w-1.5 h-1.5 rounded-full bg-violet-500" />
                               <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Part {i + 1}</p>
@@ -422,10 +422,10 @@ export default function MergeSplit({ id }: { id: string }) {
                 ) : (
                   <>
                     <div className="flex items-center justify-between px-2 mb-6">
-                      <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-2">
+                      <h4 className="font-outfit text-[11px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-2">
                         <History size={14} /> {isSplit ? 'Files Queue' : 'Merging Order'} ({files.length})
                       </h4>
-                      <button onClick={() => fileInputRef.current?.click()} className="text-[10px] font-black uppercase tracking-widest text-orange-500 hover:opacity-80">
+                      <button onClick={() => fileInputRef.current?.click()} className="font-outfit text-[11px] font-black uppercase tracking-widest text-orange-500 hover:opacity-80">
                         Add More
                       </button>
                     </div>
@@ -494,7 +494,7 @@ function SortableFile({ f, i, isSplit, removeFile }: { f: ProcessedFile; i: numb
             {f.status === 'processing' ? <Loader2 className="animate-spin" size={14} /> : i + 1}
           </div>
           <div className="flex-1 min-w-0">
-            <p className="font-black text-slate-900 dark:text-white text-[11px] uppercase truncate tracking-tight">{f.file.name}</p>
+            <p className="font-black text-slate-900 dark:text-white text-[11px] uppercase truncate tracking-tighter">{f.file.name}</p>
             <p className="text-[9px] text-slate-400 font-bold uppercase tracking-widest leading-none mt-0.5">{(f.file.size / 1024 / 1024).toFixed(2)} MB</p>
           </div>
         </div>
@@ -502,7 +502,7 @@ function SortableFile({ f, i, isSplit, removeFile }: { f: ProcessedFile; i: numb
 
       <div className="flex items-center gap-3 shrink-0">
          {f.resultUrl && (
-           <a href={f.resultUrl} download={f.resultName} className="px-5 py-2.5 bg-orange-500 text-white rounded-xl text-[10px] font-black uppercase tracking-widest shadow-lg hover:scale-105 transition-all flex items-center gap-2">
+           <a href={f.resultUrl} download={f.resultName} className="px-5 py-2.5 bg-orange-500 text-white rounded-xl font-outfit text-[11px] font-black uppercase tracking-widest shadow-lg hover:scale-105 transition-all flex items-center gap-2">
              <Download size={12} /> Save Split
            </a>
          )}

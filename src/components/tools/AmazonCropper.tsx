@@ -292,7 +292,7 @@ export default function AmazonCropper({ id }: { id: string }) {
           </button>
 
           <div className={`${showSettings ? 'block' : 'hidden'} lg:block p-6`}>
-            <h3 className="hidden lg:block text-lg font-black text-slate-900 dark:text-white mb-6 uppercase tracking-tight text-left">Settings</h3>
+            <h3 className="hidden lg:block text-lg font-black text-slate-900 dark:text-white mb-6 uppercase tracking-tighter text-left">Settings</h3>
             <div className="space-y-6 text-left">
 
 
@@ -325,13 +325,13 @@ export default function AmazonCropper({ id }: { id: string }) {
                   />
                   <span className={`text-xs font-bold transition-colors ${useA4Grid ? 'text-[#FF9900]' : 'text-slate-500 group-hover:text-slate-700'}`}>4 Labels Per A4 (Grid)</span>
                 </label>
-                <p className="text-[9px] text-slate-400 font-bold uppercase tracking-tighter mt-1">
+                <p className="text-[9px] text-slate-400 font-bold uppercase tracking-widest mt-1">
                   {useA4Grid ? 'Optimal 2x2 Warehouse Grid enabled' : 'Single label per page output'}
                 </p>
               </div>
 
               <div className="pt-4 border-t border-slate-50 dark:border-slate-700 text-left">
-                <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Technical Info</p>
+                <p className="font-outfit text-[11px] font-black text-slate-400 uppercase tracking-widest mb-1">Technical Info</p>
                 <p className="text-[10px] text-slate-500 font-medium leading-tight">You can print 4 labels on a single A4 sheet. This is the standard warehouse setting for efficiency.</p>
               </div>
             </div>
@@ -342,17 +342,17 @@ export default function AmazonCropper({ id }: { id: string }) {
         <div className="flex-1 bg-white dark:bg-slate-800 rounded-3xl p-6 sm:p-12 border border-slate-100 dark:border-slate-700 shadow-2xl text-center">
           <div className="space-y-4 mb-10">
             <div className="inline-flex p-4 rounded-2xl text-white shadow-lg" style={{ background: ACCENT }}><ShoppingBag size={32} /></div>
-            <h2 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter leading-tight">Amazon Extraction Engine</h2>
-            <p className="text-slate-500 font-medium tracking-tight">Shipping Labels Only. Invoice Pages Removed.</p>
+            <h2 className="font-outfit text-2xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter">Amazon Extraction Engine</h2>
+            <p className="text-sm sm:text-base text-slate-500 dark:text-slate-400 font-medium max-w-md mx-auto leading-relaxed">Extract shipping labels instantly. Invoices and extra pages are automatically removed.</p>
           </div>
 
           {!done ? (
             <div className="space-y-6 text-center">
-              <div className="border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-3xl p-10 sm:p-16 hover:border-[#FF9900] transition-all cursor-pointer bg-slate-50/50 dark:bg-slate-900/50" onClick={() => inputRef.current?.click()}>
+              <div className="border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-2xl sm:rounded-3xl p-8 sm:p-16 hover:border-[#FF9900] transition-all cursor-pointer bg-slate-50/50 dark:bg-slate-900/50" onClick={() => inputRef.current?.click()}>
                 <input ref={inputRef} type="file" accept=".pdf" multiple className="hidden" onChange={e => addFiles(e.target.files)} />
                 <div className="p-6 bg-white dark:bg-slate-800 rounded-2xl shadow-xl inline-block mb-4" style={{ color: ACCENT }}><Upload size={32} /></div>
-                <div className="text-2xl font-black text-slate-900 dark:text-white">Upload Amazon PDFs</div>
-                <p className="text-slate-400 text-sm mt-4 font-bold tracking-tight">Even invoices automatically cleared.</p>
+                <div className="text-lg sm:text-lg sm:text-xl font-black text-slate-800 dark:text-white mb-1">Upload Amazon PDFs</div>
+                <p className="text-xs sm:text-sm text-slate-400 font-medium">Even invoices automatically cleared.</p>
               </div>
               {files.length > 0 && (
                 <div className="space-y-4">
@@ -362,18 +362,18 @@ export default function AmazonCropper({ id }: { id: string }) {
                       {f.status === 'processing' ? <Loader2 size={16} className="animate-spin text-[#FF9900]" /> : <button onClick={() => removeFile(f.id)} className="text-slate-300 hover:text-red-500"><X size={16} /></button>}
                     </div>
                   ))}
-                  <button onClick={processAll} disabled={processing} className="w-full py-5 text-white rounded-2xl text-2xl font-black shadow-xl hover:scale-[1.02] transition-all uppercase tracking-tighter" style={{ background: ACCENT }}>{processing ? 'Clearing Invoices...' : 'Extract Labels Only'}</button>
+                  <button onClick={processAll} disabled={processing} className="w-full py-5 text-white rounded-2xl text-2xl font-black shadow-xl hover:scale-[1.02] transition-all uppercase tracking-widest" style={{ background: ACCENT }}>{processing ? 'Clearing Invoices...' : 'Extract Labels Only'}</button>
                 </div>
               )}
             </div>
           ) : (
             <div className="space-y-8 animate-in fade-in zoom-in duration-500 text-center">
               <div className="p-10 rounded-full bg-green-100 dark:bg-green-500/20 text-green-500 inline-block"><CheckCircle2 size={64} /></div>
-              <h3 className="text-3xl font-black text-slate-900 dark:text-white uppercase tracking-tight">{labelCount} Labels Extracted</h3>
+              <h3 className="text-3xl font-black text-slate-900 dark:text-white uppercase tracking-tighter">{labelCount} Labels Extracted</h3>
               <p className="text-slate-500 font-medium -mt-4 font-bold text-sm leading-relaxed text-center">
                 Shipping labels preserved. Invoice pages removed.
               </p>
-              <a href={pdfUrl!} download="amazon_labels_ready.pdf" className="block py-5 text-white rounded-2xl text-2xl font-black shadow-xl hover:scale-[1.02] transition-all uppercase tracking-tighter" style={{ background: ACCENT }}><Download size={24} className="inline mr-2" /> Download Final PDF</a>
+              <a href={pdfUrl!} download="amazon_labels_ready.pdf" className="block py-5 text-white rounded-2xl text-2xl font-black shadow-xl hover:scale-[1.02] transition-all uppercase tracking-widest" style={{ background: ACCENT }}><Download size={24} className="inline mr-2" /> Download Final PDF</a>
               <button onClick={reset} className="w-full py-4 font-black text-slate-400 uppercase tracking-widest text-xs hover:text-[#FF9900]">Process New Batch</button>
             </div>
           )}

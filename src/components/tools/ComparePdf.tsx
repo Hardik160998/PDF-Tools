@@ -148,8 +148,8 @@ export default function ComparePdf({ id: _id }: { id: string }) {
       ) : (
         <div className="p-8 flex flex-col items-center gap-3 pointer-events-none">
           <div className="p-4 rounded-2xl text-white shadow-lg group-hover:scale-110 transition-transform" style={{ background: grad }}><Upload size={28} /></div>
-          <p className="font-black text-slate-700 dark:text-slate-200 text-sm">PDF {label}</p>
-          <p className="text-xs text-slate-400">Click or drag & drop</p>
+          <div className="text-lg sm:text-lg sm:text-xl font-black text-slate-800 dark:text-white mb-1">PDF {label}</div>
+          <p className="text-xs sm:text-sm text-slate-400 font-medium mt-1 text-center">Click or drag &amp; drop</p>
         </div>
       )}
     </div>
@@ -164,8 +164,8 @@ export default function ComparePdf({ id: _id }: { id: string }) {
           <div className="inline-flex p-4 rounded-2xl text-white shadow-lg" style={{ background: "linear-gradient(135deg,#6366f1,#4f46e5)" }}>
             <GitCompare size={36} />
           </div>
-          <h2 className="text-2xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter">Compare PDF Files</h2>
-          <p className="text-sm sm:text-base text-slate-500 dark:text-slate-400 font-medium">Upload two PDFs — see text differences and visual changes side by side.</p>
+          <h2 className="font-outfit text-2xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter">Compare PDF Files</h2>
+          <p className="text-sm sm:text-base text-slate-500 dark:text-slate-400 font-medium max-w-md mx-auto leading-relaxed">Upload two PDFs — see text differences and visual changes side by side.</p>
         </div>
 
         {/* Upload */}
@@ -182,7 +182,7 @@ export default function ComparePdf({ id: _id }: { id: string }) {
         {/* Compare button */}
         {!done && (
           <button onClick={handleCompare} disabled={!fileA || !fileB || loading}
-            className="w-full py-4 sm:py-5 text-white rounded-2xl text-xl font-black shadow-xl flex items-center justify-center gap-3 transition-all disabled:opacity-50"
+            className="w-full py-4 sm:py-5 text-white rounded-2xl text-lg sm:text-xl font-black shadow-xl flex items-center justify-center gap-3 transition-all disabled:opacity-50"
             style={{ background: "linear-gradient(135deg,#6366f1,#4f46e5)" }}>
             {loading ? <Loader2 className="animate-spin" size={26} /> : <GitCompare size={26} />}
             {loading ? "Comparing pages…" : "Compare PDFs"}

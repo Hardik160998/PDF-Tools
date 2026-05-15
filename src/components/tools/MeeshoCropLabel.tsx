@@ -547,8 +547,8 @@ export default function MeeshoCropLabel({ id }: { id: string }) {
         <div className="inline-flex p-4 rounded-2xl bg-[#f26522] text-white shadow-lg mb-4">
           <ShoppingBag size={32} />
         </div>
-        <h2 className="text-2xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter leading-tight">Meesho Label Crop (without invoice)</h2>
-        <p className="text-sm sm:text-base text-slate-500 dark:text-slate-400 font-medium mt-2">Automatically crops Meesho shipping labels — keeps shipping address, return address &amp; barcodes. Removes TAX INVOICE and billing info.</p>
+        <h2 className="font-outfit text-2xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter leading-tight">Meesho Label Crop (without invoice)</h2>
+        <p className="text-sm sm:text-base text-slate-500 dark:text-slate-400 font-medium max-w-md mx-auto leading-relaxed">Automatically crops Meesho shipping labels — keeps shipping address, return address &amp; barcodes. Removes TAX INVOICE and billing info.</p>
 
         {/* Steps */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mt-6">
@@ -571,10 +571,10 @@ export default function MeeshoCropLabel({ id }: { id: string }) {
         <div className="space-y-6">
           <div className="relative border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-2xl sm:rounded-3xl p-8 sm:p-16 group hover:border-[#f26522] transition-all cursor-pointer bg-slate-50/50 dark:bg-slate-900/50" onClick={() => inputRef.current?.click()} onDragOver={e => e.preventDefault()} onDrop={e => { e.preventDefault(); addFiles(e.dataTransfer.files); }}>
             <input ref={inputRef} type="file" accept=".pdf" multiple className="hidden" onChange={e => addFiles(e.target.files)} />
-            <div className="space-y-4 sm:space-y-6 pointer-events-none">
+            <div className="space-y-4 pointer-events-none">
               <div className="p-4 sm:p-6 bg-white dark:bg-slate-800 rounded-2xl shadow-xl inline-block text-[#f26522] group-hover:scale-110 transition-transform"><Upload size={32} className="sm:w-12 sm:h-12" /></div>
-              <div className="text-xl sm:text-2xl font-black tracking-tight text-slate-900 dark:text-white">Drop Meesho Label PDFs here</div>
-              <p className="text-sm sm:text-base text-slate-500 dark:text-slate-400">or click to browse · Multiple PDFs supported</p>
+              <div className="text-lg sm:text-lg sm:text-xl font-black text-slate-800 dark:text-white uppercase tracking-tighter">Drop Meesho Label PDFs here</div>
+              <p className="text-xs sm:text-sm text-slate-400 font-medium mt-1">or click to browse · Multiple PDFs supported</p>
             </div>
           </div>
 
@@ -601,7 +601,7 @@ export default function MeeshoCropLabel({ id }: { id: string }) {
               </div>
 
               <div className="flex gap-3">
-                <button onClick={processAll} disabled={processing} className="flex-1 py-4 sm:py-5 bg-[#f26522] hover:bg-[#d4541a] text-white rounded-2xl text-lg sm:text-2xl font-black shadow-xl shadow-orange-500/20 flex items-center justify-center gap-3 disabled:opacity-60 transition-all">
+                <button onClick={processAll} disabled={processing} className="flex-1 py-4 sm:py-5 bg-[#f26522] hover:bg-[#d4541a] text-white rounded-2xl text-lg sm:text-lg sm:text-xl font-black shadow-xl shadow-orange-500/20 flex items-center justify-center gap-3 disabled:opacity-60 transition-all">
                   {processing ? <Loader2 className="animate-spin" size={24} /> : <ShoppingBag size={24} />}
                   {processing ? 'Processing Labels…' : `Crop ${files.length} PDF${files.length > 1 ? 's' : ''}`}
                 </button>
@@ -649,34 +649,34 @@ export default function MeeshoCropLabel({ id }: { id: string }) {
               <Loader2 className={`transition-transform duration-300 ${showSettings ? 'rotate-180' : ''}`} size={20} />
             </button>
             <div className={`${showSettings ? 'block' : 'hidden'} lg:block p-6`}>
-              <h3 className="hidden lg:block text-xl font-black text-slate-900 dark:text-white mb-6 uppercase tracking-tight">Settings</h3>
+              <h3 className="hidden lg:block text-lg sm:text-xl font-black text-slate-900 dark:text-white mb-6 uppercase tracking-tighter">Settings</h3>
               <div className="space-y-5">
                 <label className="flex items-start gap-3 cursor-pointer group">
                   <input type="checkbox" checked={labelsPerA4} onChange={(e) => setLabelsPerA4(e.target.checked)} className="w-5 h-5 mt-0.5 text-[#f26522] bg-white border-2 border-slate-300 rounded focus:ring-2 focus:ring-[#f26522] cursor-pointer flex-shrink-0" />
                   <div className="flex flex-col">
                     <span className="text-sm font-semibold text-slate-700 dark:text-slate-300 group-hover:text-slate-900 dark:group-hover:text-white leading-tight">4 Labels per A4 page</span>
-                    <span className="text-[10px] text-slate-400 font-bold uppercase tracking-tighter">2x2 Grid (No Invoice)</span>
+                    <span className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">2x2 Grid (No Invoice)</span>
                   </div>
                 </label>
                 <label className="flex items-start gap-3 cursor-pointer group">
                   <input type="checkbox" checked={sortByQty} onChange={(e) => setSortByQty(e.target.checked)} className="w-5 h-5 mt-0.5 text-[#f26522] bg-white border-2 border-slate-300 rounded focus:ring-2 focus:ring-[#f26522] cursor-pointer flex-shrink-0" />
                   <div className="flex flex-col">
                     <span className="text-sm font-semibold text-slate-700 dark:text-slate-300 group-hover:text-slate-900 dark:group-hover:text-white leading-tight">Sort by Quantity</span>
-                    <span className="text-[10px] text-slate-400 font-bold uppercase tracking-tighter">Qty મુજબ સોર્ટ કરો</span>
+                    <span className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Qty મુજબ સોર્ટ કરો</span>
                   </div>
                 </label>
                 <label className="flex items-start gap-3 cursor-pointer group">
                   <input type="checkbox" checked={sortBySku} onChange={(e) => setSortBySku(e.target.checked)} className="w-5 h-5 mt-0.5 text-[#f26522] bg-white border-2 border-slate-300 rounded focus:ring-2 focus:ring-[#f26522] cursor-pointer flex-shrink-0" />
                   <div className="flex flex-col">
                     <span className="text-sm font-semibold text-slate-700 dark:text-slate-300 group-hover:text-slate-900 dark:group-hover:text-white leading-tight">Sort by SKU ID</span>
-                    <span className="text-[10px] text-slate-400 font-bold uppercase tracking-tighter">Group identical items</span>
+                    <span className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Group identical items</span>
                   </div>
                 </label>
                 <label className="flex items-start gap-3 cursor-pointer group">
                   <input type="checkbox" checked={highlightSku} onChange={(e) => setHighlightSku(e.target.checked)} className="w-5 h-5 mt-0.5 text-[#f26522] bg-white border-2 border-slate-300 rounded focus:ring-2 focus:ring-[#f26522] cursor-pointer flex-shrink-0" />
                   <div className="flex flex-col">
                     <span className="text-sm font-semibold text-slate-700 dark:text-slate-300 group-hover:text-slate-900 dark:group-hover:text-white leading-tight">Highlight SKU ID</span>
-                    <span className="text-[10px] text-slate-400 font-bold uppercase tracking-tighter">Visible blue boxes</span>
+                    <span className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Visible blue boxes</span>
                   </div>
                 </label>
                 <label className="flex items-start gap-3 cursor-pointer group">

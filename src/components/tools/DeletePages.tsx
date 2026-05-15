@@ -100,7 +100,7 @@ export default function DeletePages({ id: _id }: { id: string }) {
           </button>
 
           <div className={`${showSettings ? 'block' : 'hidden'} lg:block p-6`}>
-            <h3 className="hidden lg:block text-lg font-black text-slate-900 dark:text-white mb-6 uppercase tracking-tight text-left">Removal Settings</h3>
+            <h3 className="hidden lg:block text-lg font-black text-slate-900 dark:text-white mb-6 uppercase tracking-tighter text-left">Removal Settings</h3>
             
             <div className="space-y-6 text-left">
               {/* Quick Selection */}
@@ -118,15 +118,15 @@ export default function DeletePages({ id: _id }: { id: string }) {
 
               {/* Info */}
               <div className="pt-4 border-t border-slate-50 dark:border-slate-700">
-                <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Status</p>
+                <p className="font-outfit text-[11px] font-black text-slate-400 uppercase tracking-widest mb-1">Status</p>
                 <p className="text-[10px] text-red-500 font-bold uppercase leading-tight">
                   {selected.size} page{selected.size !== 1 ? 's' : ''} marked for removal
                 </p>
               </div>
 
               <div className="pt-4 border-t border-slate-50 dark:border-slate-700 text-left">
-                <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Technical Info</p>
-                <p className="text-[10px] text-slate-500 font-medium leading-tight uppercase tracking-tighter">100% Client-side reconstruction</p>
+                <p className="font-outfit text-[11px] font-black text-slate-400 uppercase tracking-widest mb-1">Technical Info</p>
+                <p className="text-[10px] text-slate-500 font-medium leading-tight uppercase tracking-widest">100% Client-side reconstruction</p>
               </div>
             </div>
           </div>
@@ -142,8 +142,8 @@ export default function DeletePages({ id: _id }: { id: string }) {
             <div className="inline-flex p-4 rounded-2xl text-white shadow-lg shadow-red-500/20" style={{ background: ACCENT_GRADIENT }}>
               <Trash2 size={32} />
             </div>
-            <h2 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter leading-tight">Delete PDF Pages</h2>
-            {!file && <p className="text-slate-500 font-medium tracking-tight max-w-md mx-auto">Pick pages to discard and download the trimmed document instantly.</p>}
+            <h2 className="font-outfit text-2xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter">Delete PDF Pages</h2>
+            <p className="text-sm sm:text-base text-slate-500 dark:text-slate-400 font-medium max-w-md mx-auto leading-relaxed">Pick pages to discard and download the trimmed document instantly.</p>
           </div>
 
           {!file && !loading && (
@@ -155,10 +155,10 @@ export default function DeletePages({ id: _id }: { id: string }) {
             >
               <input ref={inputRef} type="file" accept=".pdf" className="hidden" onChange={e => { const f = e.target.files?.[0]; if (f) loadFile(f); e.target.value = ""; }} />
               <div className="p-6 bg-white dark:bg-slate-800 rounded-3xl shadow-xl text-red-500 mb-6 group-hover:scale-110 transition-transform">
-                <Upload size={48} />
+                <Upload size={32} />
               </div>
-              <div className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white uppercase tracking-tight text-center">Select PDF to clean</div>
-              <p className="text-slate-400 text-sm mt-2 font-bold tracking-tight text-center uppercase tracking-widest">Fast, visual page removal</p>
+              <div className="text-lg sm:text-lg sm:text-xl font-black text-slate-800 dark:text-white mb-1">Select PDF to clean</div>
+              <p className="text-xs sm:text-sm text-slate-400 font-medium">Fast, visual page removal</p>
               <button className="mt-8 px-10 py-4 rounded-2xl text-white text-sm font-black uppercase tracking-widest shadow-xl hover:scale-105 transition-all" style={{ background: ACCENT_GRADIENT }}>
                 Choose Document
               </button>
@@ -206,7 +206,7 @@ export default function DeletePages({ id: _id }: { id: string }) {
                     </div>
 
                     {/* Page Number Label */}
-                    <div className={`absolute bottom-3 left-3 px-3 py-1 backdrop-blur-md text-white text-[10px] font-black rounded-full border border-white/20 tracking-tighter ${selected.has(i) ? 'bg-red-600' : 'bg-black/60'}`}>
+                    <div className={`absolute bottom-3 left-3 px-3 py-1 backdrop-blur-md text-white text-[10px] font-black rounded-full border border-white/20 tracking-widest ${selected.has(i) ? 'bg-red-600' : 'bg-black/60'}`}>
                       PAGE {i + 1}
                     </div>
                   </button>
@@ -218,7 +218,7 @@ export default function DeletePages({ id: _id }: { id: string }) {
                 <button
                   onClick={handleDelete}
                   disabled={processing || selected.size === 0}
-                  className="w-full py-5 text-white rounded-[1.5rem] text-xl font-black shadow-xl hover:scale-[1.01] active:scale-[0.99] transition-all disabled:opacity-50 disabled:grayscale uppercase tracking-tighter shadow-red-500/20"
+                  className="w-full py-5 text-white rounded-[1.5rem] text-lg sm:text-xl font-black shadow-xl hover:scale-[1.01] active:scale-[0.99] transition-all disabled:opacity-50 disabled:grayscale uppercase tracking-widest shadow-red-500/20"
                   style={{ background: ACCENT_GRADIENT }}
                 >
                   {processing ? (
@@ -243,7 +243,7 @@ export default function DeletePages({ id: _id }: { id: string }) {
               </div>
               
               <div className="space-y-2">
-                <h3 className="text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter">Cleanup Complete</h3>
+                <h3 className="text-4xl font-black text-slate-900 dark:text-white uppercase tracking-widest">Cleanup Complete</h3>
                 <p className="text-slate-500 font-bold uppercase tracking-widest text-sm">
                   {selected.size} page{selected.size !== 1 ? 's' : ''} removed successfully
                 </p>
@@ -253,7 +253,7 @@ export default function DeletePages({ id: _id }: { id: string }) {
                 <a
                   href={result}
                   download={`deleted_${file!.name}`}
-                  className="flex-1 py-5 text-white rounded-2xl text-xl font-black shadow-xl hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-3 uppercase tracking-tighter shadow-red-500/20"
+                  className="flex-1 py-5 text-white rounded-2xl text-lg sm:text-xl font-black shadow-xl hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-3 uppercase tracking-widest shadow-red-500/20"
                   style={{ background: ACCENT_GRADIENT }}
                 >
                   <Download size={24} /> Download PDF

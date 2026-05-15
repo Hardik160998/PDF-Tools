@@ -131,8 +131,8 @@ export default function RepairTool({ id: _id }: { id: string }) {
 
           <div className={`${showSettings ? 'block' : 'hidden'} lg:block p-6`}>
             <div className="flex items-center justify-between mb-6">
-              <h3 className="hidden lg:block text-lg font-black text-slate-900 dark:text-white uppercase tracking-tight">Recovery</h3>
-              <button onClick={resetAll} className="text-[10px] font-black uppercase tracking-widest text-red-500 hover:text-red-600 transition-colors">Reset</button>
+              <h3 className="hidden lg:block font-outfit text-xl font-black text-slate-900 dark:text-white uppercase tracking-tighter">Recovery</h3>
+              <button onClick={resetAll} className="font-outfit text-[11px] font-black uppercase tracking-widest text-red-500 hover:text-red-600 transition-colors">Reset</button>
             </div>
 
             <div className="space-y-6">
@@ -140,7 +140,7 @@ export default function RepairTool({ id: _id }: { id: string }) {
               <div className="p-4 bg-red-50 dark:bg-red-500/10 rounded-2xl border border-red-100 dark:border-red-500/20">
                 <div className="flex items-center gap-2 mb-2">
                   <ShieldAlert size={14} className="text-red-500" />
-                  <span className="text-[10px] font-black text-red-700 dark:text-red-400 uppercase tracking-widest">Repair Info</span>
+                  <span className="font-outfit text-[11px] font-black text-red-700 dark:text-red-400 uppercase tracking-widest">Repair Info</span>
                 </div>
                 <p className="text-[10px] font-bold text-red-600 dark:text-red-300 leading-relaxed">
                   Corrupted PDFs are analyzed and rebuilt using our restoration engine. Some formats may change if data recovery requires it.
@@ -150,7 +150,7 @@ export default function RepairTool({ id: _id }: { id: string }) {
               {/* Selection List */}
               {files.length > 0 && (
                 <div className="space-y-3 pt-4 border-t border-slate-50 dark:border-slate-700">
-                  <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest block">Selected Files ({files.length})</span>
+                  <span className="font-outfit text-[11px] font-black text-slate-400 uppercase tracking-widest block">Selected Files ({files.length})</span>
                   <div className="space-y-2 max-h-[300px] overflow-y-auto pr-1 custom-scrollbar">
                     {files.map(f => (
                       <div key={f.id} className="flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-900 rounded-2xl border border-slate-100 dark:border-slate-800 transition-all hover:border-red-200">
@@ -172,7 +172,7 @@ export default function RepairTool({ id: _id }: { id: string }) {
                       </div>
                     ))}
                   </div>
-                  <button onClick={() => fileInputRef.current?.click()} className="w-full flex items-center justify-center gap-2 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest text-red-600 bg-red-50 border border-red-100 hover:bg-red-100 transition-colors">
+                  <button onClick={() => fileInputRef.current?.click()} className="w-full flex items-center justify-center gap-2 py-3 rounded-xl font-outfit text-[11px] font-black uppercase tracking-widest text-red-600 bg-red-50 border border-red-100 hover:bg-red-100 transition-colors">
                     <Plus size={14} /> Add More
                   </button>
                 </div>
@@ -183,7 +183,7 @@ export default function RepairTool({ id: _id }: { id: string }) {
                 <button
                   onClick={handleRepair}
                   disabled={processing || files.length === 0}
-                  className="w-full py-5 text-white rounded-[1.5rem] text-xl font-black shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50 disabled:grayscale uppercase tracking-tighter shadow-red-500/20"
+                  className="w-full py-5 text-white rounded-[1.5rem] text-lg sm:text-xl font-black shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50 disabled:grayscale uppercase tracking-widest shadow-red-500/20"
                   style={{ background: ACCENT_GRADIENT }}
                 >
                   {processing ? (
@@ -210,10 +210,10 @@ export default function RepairTool({ id: _id }: { id: string }) {
               <div className="inline-flex p-4 rounded-2xl text-white shadow-lg shadow-red-500/20 mx-auto" style={{ background: ACCENT_GRADIENT }}>
                 <LifeBuoy size={32} />
               </div>
-              <h2 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter leading-tight">
+              <h2 className="font-outfit text-2xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter leading-tight">
                 PDF Repair & Recovery
               </h2>
-              <p className="text-slate-500 dark:text-slate-400 font-medium tracking-tight max-w-md mx-auto uppercase text-[10px] tracking-widest leading-relaxed">
+              <p className="text-sm sm:text-base text-slate-500 dark:text-slate-400 font-medium max-w-md mx-auto leading-relaxed">
                 Recover data from corrupted or unreadable PDF documents. We analyze and rebuild internal structures.
               </p>
             </div>
@@ -224,7 +224,7 @@ export default function RepairTool({ id: _id }: { id: string }) {
                 <div className="flex flex-col sm:flex-row items-center gap-6">
                    <div className="p-4 bg-green-500 text-white rounded-2xl shadow-xl shadow-green-500/30"><CheckCircle2 size={32} /></div>
                    <div>
-                     <h4 className="text-2xl font-black text-slate-900 dark:text-white uppercase tracking-tighter leading-none mb-1">Repaired!</h4>
+                     <h4 className="text-2xl font-black text-slate-900 dark:text-white uppercase tracking-widest leading-none mb-1">Repaired!</h4>
                      <p className="text-[11px] font-bold text-slate-500 uppercase tracking-widest">Structural recovery complete for your files</p>
                    </div>
                 </div>
@@ -244,12 +244,12 @@ export default function RepairTool({ id: _id }: { id: string }) {
               <div className="flex-1 flex flex-col items-center justify-center border-2 border-dashed border-slate-100 dark:border-slate-700 rounded-3xl sm:rounded-[2.5rem] p-10 sm:p-20 hover:border-red-400 cursor-pointer transition-all bg-slate-50/30 dark:bg-slate-900/30 group relative overflow-hidden"
                 onClick={() => fileInputRef.current?.click()}>
                 <div className="p-6 bg-white dark:bg-slate-800 rounded-3xl shadow-xl text-red-500 mb-6 group-hover:scale-110 transition-transform relative z-10">
-                  <Upload size={48} />
+                  <Upload size={32} />
                 </div>
-                <div className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white uppercase tracking-tight text-center relative z-10">
+                <div className="text-lg sm:text-lg sm:text-xl font-black text-slate-800 dark:text-white mb-1 relative z-10">
                   Drop Damaged PDFs
                 </div>
-                <p className="text-slate-400 text-sm mt-2 font-bold tracking-tight text-center relative z-10 uppercase tracking-widest">
+                <p className="text-xs sm:text-sm text-slate-400 font-medium relative z-10">
                   Scan and reconstruct corrupted file tables
                 </p>
                 <button className="mt-8 px-10 py-4 rounded-2xl text-white text-sm font-black uppercase tracking-widest shadow-xl hover:scale-105 transition-all relative z-10" style={{ background: ACCENT_GRADIENT }}>
@@ -296,7 +296,7 @@ export default function RepairTool({ id: _id }: { id: string }) {
 
                         {/* File info overlay */}
                         <div className="absolute bottom-0 inset-x-0 p-3 bg-gradient-to-t from-black/80 to-transparent z-10 text-left">
-                          <p className="text-[10px] text-white font-black truncate uppercase tracking-tighter">{f.file.name}</p>
+                          <p className="text-[10px] text-white font-black truncate uppercase tracking-widest">{f.file.name}</p>
                         </div>
                       </div>
 
@@ -321,7 +321,7 @@ export default function RepairTool({ id: _id }: { id: string }) {
                   className="aspect-[3/4] rounded-2xl border-4 border-dashed border-slate-100 dark:border-slate-800 flex flex-col items-center justify-center text-slate-200 hover:text-red-500 hover:border-red-500 transition-all bg-slate-50/20 dark:bg-slate-900/20 group"
                 >
                   <Plus size={48} className="group-hover:scale-110 transition-transform" />
-                  <span className="text-[10px] font-black uppercase tracking-widest mt-4">Add More</span>
+                  <span className="font-outfit text-[11px] font-black uppercase tracking-widest mt-4">Add More</span>
                 </button>
               </div>
             )}

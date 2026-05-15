@@ -158,10 +158,10 @@ export default function EditTools({ id }: { id: string }) {
           <div className={`inline-flex p-4 sm:p-5 rounded-[1.5rem] sm:rounded-3xl ${info.color} text-white shadow-xl shadow-indigo-500/20`}>
             <info.icon size={32} className="sm:w-9 sm:h-9" />
           </div>
-          <h2 className="text-2xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter">
+          <h2 className="font-outfit text-2xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter">
             {info.title}
           </h2>
-          <p className="text-sm sm:text-base text-slate-500 font-medium max-w-md mx-auto leading-relaxed">Customize your documents with professional grade editing.</p>
+          <p className="text-sm sm:text-base text-slate-500 dark:text-slate-400 font-medium max-w-md mx-auto leading-relaxed">Customize your documents with professional grade editing.</p>
         </div>
 
         {!result ? (
@@ -171,11 +171,11 @@ export default function EditTools({ id }: { id: string }) {
                 <input type="file" onChange={onFileChange} accept=".pdf" className="absolute inset-0 opacity-0 cursor-pointer w-full h-full z-10" />
                 <div className="space-y-4 pointer-events-none">
                   <div className="p-5 bg-white dark:bg-slate-800 rounded-2xl shadow-xl inline-block text-purple-500 group-hover:scale-110 transition-transform">
-                    <Upload size={32} className="sm:w-10 sm:h-10" />
+                    <Upload size={32} />
                   </div>
                   <div>
-                    <div className="text-lg sm:text-2xl font-black tracking-tight">Select PDF File</div>
-                    <p className="text-xs sm:text-sm text-slate-500 mt-1">or drop PDF here</p>
+                    <div className="text-lg sm:text-lg sm:text-xl font-black text-slate-800 dark:text-white mb-1">Select PDF File</div>
+                    <p className="text-xs sm:text-sm text-slate-400 font-medium mt-1">or drop PDF here</p>
                   </div>
                 </div>
               </div>
@@ -206,7 +206,7 @@ export default function EditTools({ id }: { id: string }) {
 
                     {watermarkType === 'text' ? (
                       <div className="space-y-2 px-1">
-                        <label className="text-[10px] font-black uppercase tracking-widest text-slate-400">Watermark Text</label>
+                        <label className="font-outfit text-[11px] font-black uppercase tracking-widest text-slate-400">Watermark Text</label>
                         <input
                           type="text"
                           value={watermarkText || ''}
@@ -216,7 +216,7 @@ export default function EditTools({ id }: { id: string }) {
                       </div>
                     ) : (
                       <div className="space-y-2 px-1">
-                        <label className="text-[10px] font-black uppercase tracking-widest text-slate-400">Upload Image Logo</label>
+                        <label className="font-outfit text-[11px] font-black uppercase tracking-widest text-slate-400">Upload Image Logo</label>
                         <div className="relative">
                           <input
                             type="file"
@@ -274,12 +274,12 @@ export default function EditTools({ id }: { id: string }) {
               <CheckCircle2 size={60} className="sm:w-20 sm:h-20" />
             </div>
             <div className="space-y-2 sm:space-y-4">
-              <h3 className="text-2xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter">Changes Applied!</h3>
+              <h3 className="font-outfit text-2xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter">Changes Applied!</h3>
               <p className="text-xs sm:text-sm text-slate-400 font-black uppercase tracking-widest leading-relaxed">Document optimized and ready for use.</p>
             </div>
             <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center max-w-lg mx-auto">
               <a href={result} download={`edited_${file?.name}`}
-                className={`flex-1 py-4 sm:py-5 ${info.color} text-white rounded-2xl text-lg sm:text-2xl font-black shadow-xl flex items-center justify-center gap-3 active:scale-[0.98] transition-all`}>
+                className={`flex-1 py-4 sm:py-5 ${info.color} text-white rounded-2xl text-lg sm:text-lg sm:text-xl font-black shadow-xl flex items-center justify-center gap-3 active:scale-[0.98] transition-all`}>
                 <Download size={24} className="sm:w-7 sm:h-7" /> Download
               </a>
               <button

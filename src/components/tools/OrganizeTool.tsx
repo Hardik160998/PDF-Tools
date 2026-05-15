@@ -80,7 +80,7 @@ function SortableItem({ page, onRotate, onDelete }: {
       />
 
       {/* Page number badge */}
-      <div className="absolute bottom-3 left-3 z-20 px-3 py-1 bg-black/60 backdrop-blur-md text-white text-[10px] font-black rounded-full border border-white/20 tracking-tighter">
+      <div className="absolute bottom-3 left-3 z-20 px-3 py-1 bg-black/60 backdrop-blur-md text-white text-[10px] font-black rounded-full border border-white/20 tracking-widest">
         PAGE {page.pageIndex + 1}
       </div>
 
@@ -255,8 +255,8 @@ export default function OrganizeTool({ id: _id }: { id: string }) {
 
           <div className={`${showSettings ? 'block' : 'hidden'} lg:block p-6`}>
             <div className="flex items-center justify-between mb-6">
-              <h3 className="hidden lg:block text-lg font-black text-slate-900 dark:text-white uppercase tracking-tight">Tools</h3>
-              <button onClick={resetAll} className="text-[10px] font-black uppercase tracking-widest text-red-500 hover:text-red-600 transition-colors">Reset All</button>
+              <h3 className="hidden lg:block font-outfit text-xl font-black text-slate-900 dark:text-white uppercase tracking-tighter">Tools</h3>
+              <button onClick={resetAll} className="font-outfit text-[11px] font-black uppercase tracking-widest text-red-500 hover:text-red-600 transition-colors">Reset All</button>
             </div>
             
             <div className="space-y-6 text-left">
@@ -264,10 +264,10 @@ export default function OrganizeTool({ id: _id }: { id: string }) {
               <div className="space-y-3">
                 <span className="text-xs font-black text-slate-400 uppercase tracking-widest">Global Actions</span>
                 <div className="grid grid-cols-2 gap-2">
-                  <button onClick={rotateAll} disabled={pages.length === 0} className="flex flex-col items-center justify-center gap-2 py-4 rounded-xl text-[10px] font-black uppercase tracking-widest text-slate-600 dark:text-slate-300 bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 hover:bg-slate-100 transition-colors disabled:opacity-50">
+                  <button onClick={rotateAll} disabled={pages.length === 0} className="flex flex-col items-center justify-center gap-2 py-4 rounded-xl font-outfit text-[11px] font-black uppercase tracking-widest text-slate-600 dark:text-slate-300 bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 hover:bg-slate-100 transition-colors disabled:opacity-50">
                     <RefreshCw size={16} /> Rotate All
                   </button>
-                  <button onClick={reverseOrder} disabled={pages.length === 0} className="flex flex-col items-center justify-center gap-2 py-4 rounded-xl text-[10px] font-black uppercase tracking-widest text-slate-600 dark:text-slate-300 bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 hover:bg-slate-100 transition-colors disabled:opacity-50">
+                  <button onClick={reverseOrder} disabled={pages.length === 0} className="flex flex-col items-center justify-center gap-2 py-4 rounded-xl font-outfit text-[11px] font-black uppercase tracking-widest text-slate-600 dark:text-slate-300 bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 hover:bg-slate-100 transition-colors disabled:opacity-50">
                     <ArrowDownUp size={16} /> Reverse
                   </button>
                 </div>
@@ -286,12 +286,12 @@ export default function OrganizeTool({ id: _id }: { id: string }) {
                       </div>
                       <div className="flex-1 min-w-0">
                         <p className="text-[11px] font-black truncate text-slate-900 dark:text-white uppercase">{file.name}</p>
-                        <p className="text-[9px] text-slate-400 font-bold uppercase tracking-tighter">{pages.filter(p => p.fileIndex === idx).length} Pages</p>
+                        <p className="text-[9px] text-slate-400 font-bold uppercase tracking-widest">{pages.filter(p => p.fileIndex === idx).length} Pages</p>
                       </div>
                     </div>
                   ))}
                 </div>
-                <button onClick={() => fileInputRef.current?.click()} className="w-full flex items-center justify-center gap-2 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest text-orange-600 bg-orange-50 border border-orange-100 hover:bg-orange-100 transition-colors mt-2">
+                <button onClick={() => fileInputRef.current?.click()} className="w-full flex items-center justify-center gap-2 py-3 rounded-xl font-outfit text-[11px] font-black uppercase tracking-widest text-orange-600 bg-orange-50 border border-orange-100 hover:bg-orange-100 transition-colors mt-2">
                   <FilePlus size={14} /> Add More Files
                 </button>
               </div>
@@ -301,7 +301,7 @@ export default function OrganizeTool({ id: _id }: { id: string }) {
                   <button
                     onClick={handleProcess}
                     disabled={processing || pages.length === 0}
-                    className="w-full py-5 text-white rounded-[1.5rem] text-xl font-black shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50 disabled:grayscale uppercase tracking-tighter shadow-orange-500/20"
+                    className="w-full py-5 text-white rounded-[1.5rem] text-lg sm:text-xl font-black shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50 disabled:grayscale uppercase tracking-widest shadow-orange-500/20"
                     style={{ background: ACCENT_GRADIENT }}
                   >
                     {processing ? (
@@ -327,8 +327,8 @@ export default function OrganizeTool({ id: _id }: { id: string }) {
             <div className="inline-flex p-4 rounded-2xl text-white shadow-lg shadow-orange-500/20" style={{ background: ACCENT_GRADIENT }}>
               <LayoutGrid size={32} />
             </div>
-            <h2 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter leading-tight">Organize PDF Pages</h2>
-            {pages.length > 0 && <p className="text-slate-500 dark:text-slate-400 font-medium tracking-tight max-w-md mx-auto uppercase text-[10px] tracking-widest leading-relaxed">Drag and drop to reorder. Rotate or delete individual pages below.</p>}
+            <h2 className="font-outfit text-2xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter leading-tight">Organize PDF Pages</h2>
+            {pages.length > 0 && <p className="text-sm sm:text-base text-slate-500 dark:text-slate-400 font-medium max-w-md mx-auto leading-relaxed">Drag and drop to reorder. Rotate or delete individual pages below.</p>}
           </div>
 
           {pages.length === 0 && !loadingPages && (
@@ -339,10 +339,10 @@ export default function OrganizeTool({ id: _id }: { id: string }) {
               onDrop={onDrop}
             >
               <div className="p-6 bg-white dark:bg-slate-800 rounded-3xl shadow-xl text-orange-500 mb-6 group-hover:scale-110 transition-transform">
-                <Upload size={48} />
+                <Upload size={32} />
               </div>
-              <div className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white uppercase tracking-tight text-center">Select PDFs to Organize</div>
-              <p className="text-slate-400 text-sm mt-2 font-bold tracking-tight text-center uppercase tracking-widest">Visual batch reorder & merge</p>
+              <div className="text-lg sm:text-lg sm:text-xl font-black text-slate-800 dark:text-white mb-1 relative z-10">Select PDFs to Organize</div>
+              <p className="text-xs sm:text-sm text-slate-400 font-medium relative z-10 uppercase tracking-widest">Visual batch reorder & merge</p>
               <button className="mt-8 px-10 py-4 rounded-2xl text-white text-sm font-black uppercase tracking-widest shadow-xl hover:scale-105 transition-all" style={{ background: ACCENT_GRADIENT }}>
                 Upload Files
               </button>
@@ -354,7 +354,7 @@ export default function OrganizeTool({ id: _id }: { id: string }) {
               <div className="flex flex-col sm:flex-row items-center gap-6">
                  <div className="p-4 bg-green-500 text-white rounded-2xl shadow-xl shadow-green-500/30"><CheckCircle2 size={32} /></div>
                  <div>
-                   <h4 className="text-2xl font-black text-slate-900 dark:text-white uppercase tracking-tighter leading-none mb-1">Success!</h4>
+                   <h4 className="text-2xl font-black text-slate-900 dark:text-white uppercase tracking-widest leading-none mb-1">Success!</h4>
                    <p className="text-[11px] font-bold text-slate-500 uppercase tracking-widest">Reconstructed PDF is ready for download</p>
                  </div>
               </div>
@@ -376,7 +376,7 @@ export default function OrganizeTool({ id: _id }: { id: string }) {
                 <LayoutGrid className="absolute inset-0 m-auto text-orange-500/20" size={32} />
               </div>
               <div className="text-center space-y-2">
-                <p className="text-xl font-black text-slate-900 dark:text-white uppercase tracking-tighter animate-pulse">Generating Thumbnails</p>
+                <p className="text-lg sm:text-xl font-black text-slate-900 dark:text-white uppercase tracking-widest animate-pulse">Generating Thumbnails</p>
                 <p className="text-xs font-bold text-slate-400 uppercase tracking-widest leading-none">Scanning locally in your browser</p>
               </div>
             </div>
@@ -402,7 +402,7 @@ export default function OrganizeTool({ id: _id }: { id: string }) {
                   className="aspect-[3/4] border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-2xl flex flex-col items-center justify-center gap-3 text-slate-300 hover:border-orange-500 hover:text-orange-500 transition-all bg-slate-50/20 group shadow-sm"
                 >
                   <div className="p-3 bg-white dark:bg-slate-800 rounded-xl shadow-md transition-transform group-hover:scale-110"><FilePlus size={24} /></div>
-                  <span className="text-[10px] font-black uppercase tracking-widest opacity-60 group-hover:opacity-100">Add More</span>
+                  <span className="font-outfit text-[11px] font-black uppercase tracking-widest opacity-60 group-hover:opacity-100">Add More</span>
                 </button>
               </div>
 
@@ -425,11 +425,11 @@ export default function OrganizeTool({ id: _id }: { id: string }) {
             <div className="relative z-10 mt-10 pt-8 border-t border-slate-50 dark:border-slate-700 flex flex-col sm:flex-row items-center justify-center gap-6">
               <div className="flex items-center gap-3 text-slate-400">
                 <MousePointer2 size={16} />
-                <span className="text-[10px] font-black uppercase tracking-widest">Drag pages to reorder</span>
+                <span className="font-outfit text-[11px] font-black uppercase tracking-widest">Drag pages to reorder</span>
               </div>
               <div className="flex items-center gap-3 text-slate-400">
                 <RotateCw size={16} />
-                <span className="text-[10px] font-black uppercase tracking-widest">Rotate Individual Pages</span>
+                <span className="font-outfit text-[11px] font-black uppercase tracking-widest">Rotate Individual Pages</span>
               </div>
             </div>
           )}
