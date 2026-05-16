@@ -128,7 +128,10 @@ export default function AadharCropPost() {
 
           {/* CTA */}
           <div className="bg-white border-2 border-red-500 rounded-2xl p-6 text-center text-slate-900 space-y-3 shadow-sm hover:shadow-xl transition-all duration-300">
-            <p className="font-black">Ready to crop your Aadhar card?</p>
+            <div>
+              <p className="font-black text-slate-900">Ready to crop your Aadhar card?</p>
+              <p className="text-xs text-slate-500 mt-1">Crop both sides to standard ID size for easy printing.</p>
+            </div>
             <a href="/tool/aadhar-crop" className="inline-flex items-center gap-2 px-5 py-2.5 bg-red-500 hover:bg-red-600 text-white rounded-xl font-black text-sm transition-all">
               Open Aadhar Cropper Tool <ArrowRight size={14} />
             </a>

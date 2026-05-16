@@ -26,6 +26,22 @@ export default function CompressPost() {
           </div>
           <h2 className="text-xl font-black text-slate-900">Why Are PDFs So Large?</h2>
           <p className="text-slate-600 leading-relaxed text-sm">PDFs grow large due to embedded fonts, high-resolution images, metadata, and object streams. A scanned document can easily be 10–50MB. Our Compress PDF tool uses object stream optimization and metadata stripping to reduce size without re-encoding images.</p>
+
+          <h2 className="text-xl font-black text-slate-900">Common Use Cases for PDF Compression</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 my-4">
+            {[
+              { title: 'Emailing Documents', desc: 'Shrink files to fit within email attachment limits (usually 25MB).' },
+              { title: 'Government Portals', desc: 'Meet strict file size requirements for uploading IDs or documents to official sites.' },
+              { title: 'Saving Storage', desc: 'Free up space on your device or cloud storage by compressing old documents.' },
+              { title: 'Faster Sharing', desc: 'Share files faster on WhatsApp or Telegram by reducing their size.' }
+            ].map(({ title, desc }) => (
+              <div key={title} className="bg-white p-4 rounded-xl border border-slate-100 shadow-sm">
+                <p className="font-black text-slate-900 text-sm mb-1">{title}</p>
+                <p className="text-xs text-slate-500 leading-relaxed">{desc}</p>
+              </div>
+            ))}
+          </div>
+
           <h2 className="text-xl font-black text-slate-900">How to Compress Your PDF</h2>
           {[{step:'1',title:'Go to Compress PDF',desc:'Open the Compress PDF tool from the homepage.'},{step:'2',title:'Upload Your PDF',desc:'Click the upload area or drag your PDF in. Works with any PDF up to 500MB.'},{step:'3',title:'Click "Compress PDF"',desc:'Processing happens instantly in your browser. No server upload needed.'},{step:'4',title:'See the Size Reduction',desc:'After compression, you\'ll see the exact reduction — e.g. "Reduced from 8.2MB to 1.4MB (-83%)".'},{step:'5',title:'Download',desc:'Click Download PDF to save your compressed file.'}].map(({step,title,desc}) => (
             <div key={step} className="flex gap-4 p-4 bg-white rounded-2xl border border-slate-100 shadow-sm">
@@ -54,7 +70,10 @@ export default function CompressPost() {
             ))}
           </div>
           <div className="bg-white border-2 border-green-500 rounded-2xl p-6 text-center text-slate-900 space-y-3 shadow-sm hover:shadow-xl transition-all duration-300">
-            <p className="font-black">Compress your PDF now — free & instant</p>
+            <div>
+              <p className="font-black text-slate-900">Ready to compress your PDFs?</p>
+              <p className="text-xs text-slate-500 mt-1">Reduce file size up to 80% while keeping quality.</p>
+            </div>
             <a href="/tool/compress" className="inline-flex items-center gap-2 px-5 py-2.5 bg-green-500 hover:bg-green-600 text-white rounded-xl font-black text-sm transition-all">Open Compress PDF <ArrowRight size={14} /></a>
           </div>
         </div>

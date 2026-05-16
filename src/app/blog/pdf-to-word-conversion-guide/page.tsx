@@ -50,7 +50,10 @@ export default function PDFToWordPost() {
         <h2 className="text-xl font-black text-slate-900">All Available Conversion Tools</h2>
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">{[['Word → PDF','word-to-pdf'],['Excel → PDF','excel-to-pdf'],['PDF → Excel','pdf-to-excel'],['PDF → Word','pdf-to-word'],['PPT → PDF','ppt-to-pdf'],['PDF → PPT','pdf-to-ppt'],['JPG → PDF','jpg-to-pdf'],['PDF → JPG','pdf-to-jpg'],['HTML → PDF','html-to-pdf']].map(([label,slug]) => (<a key={slug} href={`/tool/${slug}`} className="p-3 bg-white rounded-xl border border-slate-100 shadow-sm text-xs font-black text-slate-700 hover:text-red-500 hover:border-red-200 transition-all text-center">{label}</a>))}</div>
         <div className="bg-white border-2 border-blue-600 rounded-2xl p-6 text-center text-slate-900 space-y-3 shadow-sm hover:shadow-xl transition-all duration-300">
-          <p className="font-black">Start converting your PDFs today</p>
+          <div>
+            <p className="font-black text-slate-900">Ready to convert your PDFs?</p>
+            <p className="text-xs text-slate-500 mt-1">Turn PDFs into editable Word files instantly.</p>
+          </div>
           <a href="/tool/pdf-to-word" className="inline-flex items-center gap-2 px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-black text-sm transition-all">Try PDF to Word <ArrowRight size={14} /></a>
         </div>
       </div>

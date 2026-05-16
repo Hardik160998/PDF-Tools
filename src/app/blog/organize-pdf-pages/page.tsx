@@ -14,10 +14,27 @@ export default function OrganizePDFPost() {
           </div>
         </div>
       </div>
+
       <div className="relative overflow-hidden rounded-2xl mb-6">
         <img src="/img/word-pdf.png" alt="How to Rearrange, Rotate & Delete PDF Pages Online" className="w-full h-auto" />
       </div>
       <p className="text-lg text-slate-500 leading-relaxed mb-8">The Organize PDF tool gives you full visual control over your document pages. Drag to reorder, rotate sideways scans, and remove unwanted pages.</p>
+
+      <h2 className="text-xl font-black text-slate-900">Common Use Cases for Organizing PDFs</h2>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 my-4">
+        {[
+          { title: 'Fixing Scanned Files', desc: 'Rotate pages that were scanned sideways or upside down with a single click.' },
+          { title: 'Removing Blank Pages', desc: 'Identify and delete unnecessary blank pages to make the document clean.' },
+          { title: 'Reordering Chapters', desc: 'Drag and drop pages to arrange chapters or sections in the correct order.' },
+          { title: 'Merging & Sorting', desc: 'Upload multiple files and mix pages from different documents into one.' }
+        ].map(({ title, desc }) => (
+          <div key={title} className="bg-white p-4 rounded-xl border border-slate-100 shadow-sm">
+            <p className="font-black text-slate-900 text-sm mb-1">{title}</p>
+            <p className="text-xs text-slate-500 leading-relaxed">{desc}</p>
+          </div>
+        ))}
+      </div>
+
       <div className="space-y-6">
         <div className="bg-purple-50 border border-purple-100 rounded-2xl p-5"><p className="font-black text-purple-800 text-sm mb-2">Features covered</p>
           <ul className="space-y-1">{['Drag & drop page reordering', 'Rotating individual pages or all pages', 'Deleting unwanted pages', 'Combining pages from multiple PDFs'].map(i => (<li key={i} className="flex items-center gap-2 text-sm text-purple-700"><CheckCircle2 size={13} className="text-purple-500" />{i}</li>))}</ul></div>
@@ -35,6 +52,29 @@ export default function OrganizePDFPost() {
           ))}
         </div>
 
+        <h2 className="text-xl font-black text-slate-900">Keyboard Shortcuts</h2>
+        <p className="text-slate-600 leading-relaxed text-sm">
+          Make your workflow even faster with these keyboard shortcuts:
+        </p>
+        <div className="grid grid-cols-2 gap-3 my-2 mb-4">
+          <div className="bg-slate-50 p-3 rounded-xl border border-slate-100 flex justify-between items-center">
+            <span className="text-xs text-slate-500 font-bold">Undo</span>
+            <kbd className="px-2 py-1 bg-white border border-slate-200 rounded text-xs font-black">Ctrl + Z</kbd>
+          </div>
+          <div className="bg-slate-50 p-3 rounded-xl border border-slate-100 flex justify-between items-center">
+            <span className="text-xs text-slate-500 font-bold">Redo</span>
+            <kbd className="px-2 py-1 bg-white border border-slate-200 rounded text-xs font-black">Ctrl + Y</kbd>
+          </div>
+          <div className="bg-slate-50 p-3 rounded-xl border border-slate-100 flex justify-between items-center">
+            <span className="text-xs text-slate-500 font-bold">Delete Selected</span>
+            <kbd className="px-2 py-1 bg-white border border-slate-200 rounded text-xs font-black">Delete</kbd>
+          </div>
+          <div className="bg-slate-50 p-3 rounded-xl border border-slate-100 flex justify-between items-center">
+            <span className="text-xs text-slate-500 font-bold">Select All</span>
+            <kbd className="px-2 py-1 bg-white border border-slate-200 rounded text-xs font-black">Ctrl + A</kbd>
+          </div>
+        </div>
+
         <h2 className="text-xl font-black text-slate-900">Frequently Asked Questions</h2>
         <div className="space-y-4 mb-6">
           {[
@@ -49,7 +89,10 @@ export default function OrganizePDFPost() {
           ))}
         </div>
         <div className="bg-white border-2 border-purple-500 rounded-2xl p-6 text-center text-slate-900 space-y-3 shadow-sm hover:shadow-xl transition-all duration-300">
-          <p className="font-black">Start organizing your PDF pages</p>
+          <div>
+            <p className="font-black text-slate-900">Ready to organize your PDFs?</p>
+            <p className="text-xs text-slate-500 mt-1">Drag to reorder, rotate scans, and delete pages.</p>
+          </div>
           <a href="/tool/organize" className="inline-flex items-center gap-2 px-5 py-2.5 bg-purple-500 hover:bg-purple-600 text-white rounded-xl font-black text-sm transition-all">Open Organize PDF <ArrowRight size={14} /></a>
         </div>
       </div>

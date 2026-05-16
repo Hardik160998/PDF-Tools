@@ -1,0 +1,180 @@
+import { Scissors, Clock, ArrowRight, CheckCircle2, ArrowLeft, Settings } from 'lucide-react';
+
+export default function MeeshoCropNoInvoicePost() {
+  return (
+    <article className="min-h-screen">
+      <div className="container mx-auto px-4 pt-10 pb-20 max-w-3xl">
+        <a href="/blog" className="inline-flex items-center gap-2 text-sm text-slate-400 hover:text-red-500 transition-colors font-bold mb-8">
+          <ArrowLeft size={14} /> Back to Blog
+        </a>
+
+        <div className="flex items-center gap-4 mb-6">
+          <div className="w-12 h-12 bg-pink-600 rounded-2xl flex items-center justify-center text-white shadow-lg shrink-0"><Scissors size={22} /></div>
+          <div>
+            <h1 className="text-2xl md:text-3xl font-black tracking-tighter text-slate-900 leading-tight mb-1">
+              How to Crop Meesho Labels Without Invoice — Free Online Tool
+            </h1>
+            <div className="flex items-center gap-3 text-xs text-slate-400 font-medium flex-wrap">
+              <span className="text-[10px] font-black uppercase tracking-widest bg-pink-100 text-pink-700 px-2 py-0.5 rounded-full">Tutorial</span>
+              <span className="flex items-center gap-1"><Clock size={11} /> 4 min read</span>
+              <span>Apr 26, 2026</span>
+            </div>
+          </div>
+        </div>
+
+        <div className="relative overflow-hidden rounded-2xl mb-6">
+          <img src="/img/word-pdf.png" alt="How to Crop Meesho Labels Without Invoice" className="w-full h-auto" />
+        </div>
+
+        <p className="text-lg text-slate-500 leading-relaxed mb-8">
+          Need to print ONLY the shipping labels for your Meesho orders without the invoices? Our specialized tool extracts just the labels, saving you paper and time.
+        </p>
+
+        <div className="prose prose-slate max-w-none space-y-6">
+          
+          {/* What you'll learn */}
+          <div className="bg-pink-50 border border-pink-100 rounded-2xl p-5">
+            <p className="font-black text-pink-800 text-sm mb-2">What you'll learn</p>
+            <ul className="space-y-1">
+              {[
+                'How to extract ONLY shipping labels from Meesho PDFs',
+                'How to use advanced sorting for faster dispatch',
+                'Understanding all available settings and features',
+              ].map(i => (
+                <li key={i} className="flex items-center gap-2 text-sm text-pink-700"><CheckCircle2 size={13} className="text-pink-500 shrink-0" />{i}</li>
+              ))}
+            </ul>
+          </div>
+
+          <h2 className="text-xl font-black text-slate-900">Why Crop Labels Without Invoices?</h2>
+          <p className="text-slate-600 leading-relaxed text-sm">
+            Many sellers prefer to print invoices on normal paper and labels on thermal stickers. Printing them together wastes sticker paper. Our tool solves this by extracting only the label part of the PDF.
+          </p>
+
+          <h2 className="text-xl font-black text-slate-900">Benefits of Label-Only Printing</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 my-4">
+            {[
+              { title: 'Save Sticker Paper', desc: 'Thermal sticker paper is expensive. Don\'t waste it printing invoices that end up in the trash.' },
+              { title: 'Faster Dispatch', desc: 'No need to manually cut labels apart from invoices. Just peel and stick!' },
+              { title: 'Eco-Friendly', desc: 'Reduce paper waste by only printing what you actually need for shipping.' },
+              { title: 'Clearer Barcodes', desc: 'Isolating the label allows you to scale it up for better print quality.' }
+            ].map(({ title, desc }) => (
+              <div key={title} className="bg-white p-4 rounded-xl border border-slate-100 shadow-sm">
+                <p className="font-black text-slate-900 text-sm mb-1">{title}</p>
+                <p className="text-xs text-slate-500 leading-relaxed">{desc}</p>
+              </div>
+            ))}
+          </div>
+
+          <h2 className="text-xl font-black text-slate-900">Features & Settings Explained</h2>
+          <p className="text-slate-600 leading-relaxed text-sm">
+            Configure the tool to match your exact warehouse workflow:
+          </p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 my-4">
+            {[
+              { title: 'Auto-Detection', desc: 'Automatically finds the label boundaries on the page without manual selection.' },
+              { title: 'Custom Margins', desc: 'Add or remove padding around the cropped label to fit your printer perfectly.' },
+              { title: 'Contrast Boost', desc: 'Enhance the barcode and text contrast for better scannability at the warehouse.' },
+              { title: 'Layout Config', desc: 'Choose between 1x1 or 2x2 grid for printing multiple labels on one page.' }
+            ].map(({ title, desc }) => (
+              <div key={title} className="bg-white p-4 rounded-xl border border-slate-100 shadow-sm">
+                <div className="flex items-center gap-2 mb-1">
+                  <Settings size={14} className="text-pink-500" />
+                  <p className="font-black text-slate-900 text-sm">{title}</p>
+                </div>
+                <p className="text-xs text-slate-500 leading-relaxed">{desc}</p>
+              </div>
+            ))}
+          </div>
+
+          <h2 className="text-xl font-black text-slate-900">How Sorting Saves You Time</h2>
+          <p className="text-slate-600 leading-relaxed text-sm">
+            Optimize your picking and packing process with these sorting options:
+          </p>
+          <div className="space-y-3 my-4 mb-6">
+            {[
+              { title: 'Sort by Quantity', desc: 'Group orders by the number of items. Pack all single-item orders first for maximum speed.' },
+              { title: 'Sort by SKU ID', desc: 'Group by unique product ID. Perfect for batch picking items from the shelves.' },
+              { title: 'Sort by Courier Wise', desc: 'Group by delivery partner (Delhivery, Ecom Express, etc.). Hand over packages faster when pickup arrives.' }
+            ].map(({ title, desc }) => (
+              <div key={title} className="bg-slate-50 p-4 rounded-xl border border-slate-100">
+                <p className="font-black text-slate-900 text-sm mb-1">{title}</p>
+                <p className="text-xs text-slate-500 leading-relaxed">{desc}</p>
+              </div>
+            ))}
+          </div>
+
+          <h2 className="text-xl font-black text-slate-900">Step-by-Step: How to Crop Meesho Labels</h2>
+          {[
+            { step: '1', title: 'Upload Meesho PDF', desc: 'Drag and drop your Meesho order PDF into the upload zone.' },
+            { step: '2', title: 'Configure Settings', desc: 'Select "Without Invoice" and adjust margins or sorting options.' },
+            { step: '3', title: 'Click "Process Labels"', desc: 'The tool will isolate the labels and ignore the invoice content.' },
+            { step: '4', title: 'Download Output', desc: 'Save the generated PDF containing only the cropped labels.' },
+          ].map(({ step, title, desc }) => (
+            <div key={step} className="flex gap-4 p-4 bg-white rounded-2xl border border-slate-100 shadow-sm">
+              <div className="w-8 h-8 bg-pink-500 rounded-full flex items-center justify-center text-white font-black text-sm shrink-0">{step}</div>
+              <div><p className="font-black text-slate-900 text-sm">{title}</p><p className="text-sm text-slate-500 mt-0.5">{desc}</p></div>
+            </div>
+          ))}
+
+          <h2 className="text-xl font-black text-slate-900">Pro Tips for Label-Only Printing</h2>
+          <ul className="space-y-2 my-4 mb-6">
+            {[
+              'Always keep the original PDF file safe in case you need to print invoices later.',
+              'Use the 2x2 layout configuration to print 4 labels on a single A4 sticker sheet and save paper.',
+              'If your barcode scanner struggles, increase the Contrast Boost in the settings.',
+              'Sort by Courier Wise to stack your packages by delivery partner for faster handover.'
+            ].map(i => (
+              <li key={i} className="flex items-center gap-2 text-sm text-slate-600"><CheckCircle2 size={13} className="text-pink-500 shrink-0" />{i}</li>
+            ))}
+          </ul>
+
+          <h2 className="text-xl font-black text-slate-900">Recommended Printer Settings</h2>
+          <p className="text-slate-600 leading-relaxed text-sm">
+            To ensure your cropped labels print perfectly on your thermal printer, use these settings in your print dialog:
+          </p>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 my-4 mb-6">
+            <div className="bg-white p-3 rounded-xl border border-slate-100 shadow-sm">
+              <p className="font-black text-slate-900 text-xs mb-0.5">Paper Size</p>
+              <p className="text-xs text-slate-500 leading-relaxed">Select 4x6 inches or 100x150 mm for standard thermal labels.</p>
+            </div>
+            <div className="bg-white p-3 rounded-xl border border-slate-100 shadow-sm">
+              <p className="font-black text-slate-900 text-xs mb-0.5">Scale</p>
+              <p className="text-xs text-slate-500 leading-relaxed">Set scale to "Fit to Printable Area" or 100% to avoid cutting off edges.</p>
+            </div>
+            <div className="bg-white p-3 rounded-xl border border-slate-100 shadow-sm">
+              <p className="font-black text-slate-900 text-xs mb-0.5">Darkness / Speed</p>
+              <p className="text-xs text-slate-500 leading-relaxed">Increase darkness slightly if the barcode is too light to scan.</p>
+            </div>
+          </div>
+
+          <h2 className="text-xl font-black text-slate-900">Frequently Asked Questions</h2>
+          <div className="space-y-4 mb-6">
+            {[
+              { q: 'What happens to the invoices?', a: 'They are ignored during processing. The output file contains only the shipping labels.' },
+              { q: 'Can I still print invoices later?', a: 'Yes, your original PDF is not modified. You can print invoices from the original file whenever you need.' },
+              { q: 'Is it free?', a: 'Yes, completely free with no usage limits.' }
+            ].map(({ q, a }, i) => (
+              <div key={i} className="bg-slate-50 rounded-xl p-4 border border-slate-100">
+                <p className="font-black text-slate-900 text-sm mb-1">{q}</p>
+                <p className="text-xs text-slate-500 leading-relaxed">{a}</p>
+              </div>
+            ))}
+          </div>
+
+          {/* CTA */}
+          <div className="bg-white border-2 border-orange-500 rounded-2xl p-6 text-center text-slate-900 space-y-3 mb-6 shadow-sm hover:shadow-xl transition-all duration-300">
+            <div>
+              <p className="font-black text-slate-900">Ready to crop your Meesho labels?</p>
+              <p className="text-xs text-slate-500 mt-1">Extract labels without invoices instantly.</p>
+            </div>
+            <a href="/tool/meesho-cropper" className="inline-flex items-center gap-2 px-5 py-2.5 bg-orange-500 hover:bg-orange-600 text-white rounded-xl font-black text-sm transition-all">
+              Open Meesho Cropper Tool <ArrowRight size={14} />
+            </a>
+          </div>
+
+        </div>
+      </div>
+    </article>
+  );
+}

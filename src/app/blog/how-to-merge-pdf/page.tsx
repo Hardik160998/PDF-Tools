@@ -41,6 +41,21 @@ export default function MergePDFPost() {
           <h2 className="text-xl font-black text-slate-900">Why Merge PDFs?</h2>
           <p className="text-slate-600 leading-relaxed text-sm">Merging PDFs is one of the most common document tasks. Whether you're combining chapters of a report, joining scanned pages, or assembling a portfolio — having one unified PDF is cleaner and easier to share.</p>
 
+          <h2 className="text-xl font-black text-slate-900">Common Use Cases for Merging PDFs</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 my-4">
+            {[
+              { title: 'Annual Reports', desc: 'Combine monthly financial statements or reports into a single annual document.' },
+              { title: 'Assembling Portfolios', desc: 'Join your resume, cover letter, and work samples into one professional file.' },
+              { title: 'Scanned Documents', desc: 'Merge separate scans of pages into a single continuous book or document.' },
+              { title: 'Project Documentation', desc: 'Combine project plans, requirements, and designs for easy sharing.' }
+            ].map(({ title, desc }) => (
+              <div key={title} className="bg-white p-4 rounded-xl border border-slate-100 shadow-sm">
+                <p className="font-black text-slate-900 text-sm mb-1">{title}</p>
+                <p className="text-xs text-slate-500 leading-relaxed">{desc}</p>
+              </div>
+            ))}
+          </div>
+
           <h2 className="text-xl font-black text-slate-900">Step-by-Step: Merge PDFs with SmartPDFs Plus</h2>
           {[
             { step: '1', title: 'Open the Merge PDF Tool', desc: 'Go to smartpdfs.com and click "Merge PDF" from the homepage or navigation.' },
@@ -84,7 +99,10 @@ export default function MergePDFPost() {
           </div>
 
           <div className="bg-white border-2 border-orange-500 rounded-2xl p-6 text-center text-slate-900 space-y-3 shadow-sm hover:shadow-xl transition-all duration-300">
-            <p className="font-black">Ready to merge your PDFs?</p>
+            <div>
+              <p className="font-black text-slate-900">Ready to merge your PDFs?</p>
+              <p className="text-xs text-slate-500 mt-1">Combine multiple files into one seamless document in seconds.</p>
+            </div>
             <a href="/tool/merge" className="inline-flex items-center gap-2 px-5 py-2.5 bg-orange-500 hover:bg-orange-600 text-white rounded-xl font-black text-sm transition-all">
               Open Merge PDF Tool <ArrowRight size={14} />
             </a>

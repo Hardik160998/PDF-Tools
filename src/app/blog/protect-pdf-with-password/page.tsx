@@ -23,6 +23,49 @@ export default function ProtectPDFPost() {
           <ul className="space-y-1">{['How to add a password to any PDF','How to remove a password from a PDF you own','Best practices for PDF passwords'].map(i => (<li key={i} className="flex items-center gap-2 text-sm text-red-700"><CheckCircle2 size={13} className="text-red-500" />{i}</li>))}</ul></div>
         <h2 className="text-xl font-black text-slate-900">Why Password Protect a PDF?</h2>
         <p className="text-slate-600 leading-relaxed text-sm">Password protection prevents unauthorized access to sensitive documents. Use it for: legal contracts, financial statements, medical records, personal identification documents, and confidential business reports.</p>
+
+        <h2 className="text-xl font-black text-slate-900">Types of PDF Passwords</h2>
+        <p className="text-slate-600 leading-relaxed text-sm">
+          There are two main types of passwords used to secure PDF documents:
+        </p>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 my-4">
+          <div className="bg-white p-4 rounded-xl border border-slate-100 shadow-sm">
+            <p className="font-black text-slate-900 text-sm mb-1">User Password (Open Password)</p>
+            <p className="text-xs text-slate-500 leading-relaxed">Requires a password to open and view the document. Without it, the content is inaccessible.</p>
+          </div>
+          <div className="bg-white p-4 rounded-xl border border-slate-100 shadow-sm">
+            <p className="font-black text-slate-900 text-sm mb-1">Owner Password (Permissions Password)</p>
+            <p className="text-xs text-slate-500 leading-relaxed">Restricts what users can do after opening. You can block printing, editing, or copying content.</p>
+          </div>
+        </div>
+
+        <h2 className="text-xl font-black text-slate-900">Best Practices for PDF Passwords</h2>
+        <ul className="space-y-2 my-4">
+          {[
+            'Make it long: At least 8-12 characters is recommended.',
+            'Mix it up: Use a combination of uppercase, lowercase, numbers, and symbols.',
+            'Avoid common words: Do not use names, birthdays, or "password".',
+            'Keep it safe: Use a password manager to remember your passwords.'
+          ].map(i => (
+            <li key={i} className="flex items-center gap-2 text-sm text-slate-600"><CheckCircle2 size={13} className="text-red-500 shrink-0" />{i}</li>
+          ))}
+        </ul>
+
+          <div className="bg-red-50 border border-red-200 rounded-2xl p-5 flex gap-3 my-4">
+            <AlertTriangle size={18} className="text-red-500 shrink-0 mt-0.5" />
+            <div>
+              <p className="font-black text-red-800 text-sm">Warning: Do Not Forget Your Password!</p>
+              <p className="text-sm text-red-700 mt-1">
+                We use strong encryption to protect your PDF. If you forget or lose the password, there is <strong>no way to recover it</strong>. We do not store your password or your files, so we cannot help you recover access to a locked file.
+              </p>
+            </div>
+          </div>
+
+          <h2 className="text-xl font-black text-slate-900">How to Remove Password Protection</h2>
+          <p className="text-slate-600 leading-relaxed text-sm mb-4">
+            If you have a password-protected PDF and want to remove the password (so it opens without prompting), you can use our <strong>Unlock PDF</strong> tool. You will need to enter the current password once to prove ownership, and then you can download a decrypted version of the file.
+          </p>
+
         <h2 className="text-xl font-black text-slate-900">Add a Password in 3 Steps</h2>
         {[{step:'1',title:'Open Protect PDF',desc:'Go to SmartPDFs Plus → Security → Protect PDF.'},{step:'2',title:'Upload & Enter Password',desc:'Upload your PDF, then type a strong password in the password field. Use a mix of letters, numbers, and symbols.'},{step:'3',title:'Download Protected PDF',desc:'Click "Add Password" and download your encrypted PDF. Share it securely — recipients need the password to open it.'}].map(({step,title,desc}) => (
           <div key={step} className="flex gap-4 p-4 bg-white rounded-2xl border border-slate-100 shadow-sm">
