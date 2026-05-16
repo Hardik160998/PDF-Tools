@@ -32,6 +32,13 @@ const ECOMMERCE_TOOLS = [
     icon: ShoppingBag,
     gradient: "linear-gradient(135deg, #FF9900, #f59e0b)",
   },
+  {
+    href: "/tool/snapdeal-cropper",
+    label: "Snapdeal Label Cropper",
+    desc: "Smart border detection to crop Snapdeal shipping labels",
+    icon: ShoppingBag,
+    gradient: "linear-gradient(135deg, #E40046, #f59e0b)",
+  },
 ];
 
 export default function EcommerceDropdown() {

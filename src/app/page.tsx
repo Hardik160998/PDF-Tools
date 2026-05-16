@@ -77,6 +77,7 @@ const TOOLS = [
   { id: 'meshocrop', title: 'Meesho Crop Label (without invoice)', description: 'Crop Meesho labels to keep only shipping address, return address & barcodes. Removes TAX INVOICE section.', category: 'Ecommerce', icon: ShoppingBag },
   { id: 'flipkart-cropper', title: 'Flipkart Label Cropper', description: 'Smart OCR crop for Flipkart / E-kart shipping labels. Keeps AWB, QR code & barcode. Removes invoice & billing.', category: 'Ecommerce', icon: ShoppingBag },
   { id: 'amazon-cropper', title: 'Amazon Label Cropper', description: 'Extract Amazon shipping labels and automatically remove invoice pages. Supports AWB & SKU sorting.', category: 'Ecommerce', icon: ShoppingBag },
+  { id: 'snapdeal-cropper', title: 'Snapdeal Label Cropper', description: 'Smart border detection to crop Snapdeal shipping labels perfectly. Protects barcodes, address and quantities.', category: 'Ecommerce', icon: ShoppingBag },
   { id: 'esign', title: 'E-Sign PDF', description: 'Draw or type your signature and place it anywhere on a PDF or image. Download the signed file instantly.', category: 'Sign', icon: PenLine },
   { id: 'edit-pdf', title: 'Edit PDF', description: 'Highlight, draw, add text and freehand annotations directly on PDFs. Zero uploads, 100% private.', category: 'Edit', icon: PenLine },
 ];

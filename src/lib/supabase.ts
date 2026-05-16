@@ -21,7 +21,7 @@ export const supabase = new Proxy({} as SupabaseClient, {
   },
 });
 
-const ALWAYS_VERIFIED = ['esign', 'edit-pdf', 'extract-pages', 'delete-pages', 'add-blank-page', 'flatten-pdf', 'optimize-pdf', 'webpage-to-pdf', 'compare-pdf', 'redact-pdf', 'bookmark-pdf', 'docx-to-pdf', 'pdf-to-docx', 'jpg-to-png', 'png-to-jpg', 'jpg-to-webp', 'webp-to-jpg', 'png-to-webp', 'webp-to-png', 'jpg-to-avif', 'avif-to-jpg', 'png-to-avif', 'avif-to-png', 'webp-to-avif', 'avif-to-webp', 'ocr-pdf', 'remove-ocr', 'crop-pdf', 'meesho-cropper', 'meshocrop'];
+const ALWAYS_VERIFIED = ['esign', 'edit-pdf', 'extract-pages', 'delete-pages', 'add-blank-page', 'flatten-pdf', 'optimize-pdf', 'webpage-to-pdf', 'compare-pdf', 'redact-pdf', 'bookmark-pdf', 'docx-to-pdf', 'pdf-to-docx', 'jpg-to-png', 'png-to-jpg', 'jpg-to-webp', 'webp-to-jpg', 'png-to-webp', 'webp-to-png', 'jpg-to-avif', 'avif-to-jpg', 'png-to-avif', 'avif-to-png', 'webp-to-avif', 'avif-to-webp', 'ocr-pdf', 'remove-ocr', 'crop-pdf', 'meesho-cropper', 'meshocrop', 'amazon-cropper', 'flipkart-cropper', 'snapdeal-cropper'];
 
 // Tools with their category — synced to allpdftools.category column
 const TOOL_CATEGORIES: Record<string, string> = {
@@ -42,6 +42,9 @@ const TOOL_CATEGORIES: Record<string, string> = {
   'aadhar-crop': 'Special', 'crop-pdf': 'Special',
   'meesho-cropper': 'Ecommerce',
   'meshocrop': 'Ecommerce',
+  'amazon-cropper': 'Ecommerce',
+  'flipkart-cropper': 'Ecommerce',
+  'snapdeal-cropper': 'Ecommerce',
 };
 
 const CATEGORY_ID_MAP: Record<string, number> = {
