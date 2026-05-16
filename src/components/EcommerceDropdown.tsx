@@ -9,21 +9,21 @@ const ECOMMERCE_TOOLS = [
     label: "Meesho Label with Invoice Cropper",
     desc: "Remove invoice section from Meesho shipping labels",
     icon: ShoppingBag,
-    gradient: "linear-gradient(135deg, #f26522, #f59e0b)",
+    gradient: "linear-gradient(135deg, #FF9900, #f59e0b)",
   },
   {
     href: "/tool/meshocrop",
     label: "Meesho Crop Label (without invoice)",
     desc: "Crop to keep shipping address & barcodes only",
     icon: ShoppingBag,
-    gradient: "linear-gradient(135deg, #f26522, #f59e0b)",
+    gradient: "linear-gradient(135deg, #FF9900, #f59e0b)",
   },
   {
     href: "/tool/flipkart-cropper",
     label: "Flipkart Label Cropper",
     desc: "Smart OCR crop for Flipkart / E-kart shipping labels",
     icon: ShoppingBag,
-    gradient: "linear-gradient(135deg, #F7941D, #f59e0b)",
+    gradient: "linear-gradient(135deg, #FF9900, #f59e0b)",
   },
   {
     href: "/tool/amazon-cropper",
@@ -37,7 +37,7 @@ const ECOMMERCE_TOOLS = [
     label: "Snapdeal Label Cropper",
     desc: "Smart border detection to crop Snapdeal shipping labels",
     icon: ShoppingBag,
-    gradient: "linear-gradient(135deg, #E40046, #f59e0b)",
+    gradient: "linear-gradient(135deg, #FF9900, #f59e0b)",
   },
 ];
 

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef } from 'react';
-import { Upload, Download, Loader2, X, CheckCircle2, ShoppingBag, FileText } from 'lucide-react';
+import { Upload, Download, Loader2, X, CheckCircle2, ShoppingBag, FileText, ChevronDown } from 'lucide-react';
 import type * as PDFJS from 'pdfjs-dist';
 import { PDFDocument } from 'pdf-lib';
 
@@ -25,6 +25,7 @@ interface CropBounds {
   sku?: string;
   seller?: string;
   pkd?: number;
+  refNo?: string;
 }
 
 interface ProcessedItem {
@@ -38,6 +39,7 @@ interface ProcessedItem {
   sku: string;
   seller: string;
   pkd: number;
+  refNo: string;
 }
 
 interface ProcessedGroup {
@@ -48,6 +50,7 @@ interface ProcessedGroup {
   sku: string;
   seller: string;
   pkd: number;
+  refNo: string;
   items: ProcessedItem[];
 }
 
@@ -76,7 +79,7 @@ async function detectSnapdealLabels(
 
   // Check if this is actually a label page
   const isLabel = snapdealAnchors.length > 0 || shippedAnchors.length > 0 || codAnchors.length > 0;
-  
+
   if (isLabel) {
     // Top Calculation
     let topY = 0;
@@ -87,11 +90,11 @@ async function detectSnapdealLabels(
       topY = Math.max(...items.map(i => i.transform[5]));
     }
     const topPdfY = topY + 60; // generous padding
-    
+
     // Bottom Calculation
     let botY = pageH;
     let foundBot = false;
-    
+
     // Check reference barcode
     if (refAnchors.length > 0) {
       const refY = refAnchors[0].transform[5];
@@ -101,7 +104,7 @@ async function detectSnapdealLabels(
         foundBot = true;
       }
     }
-    
+
     // Check shipped from address
     if (shippedAnchors.length > 0) {
       const shipY = shippedAnchors[0].transform[5];
@@ -162,12 +165,12 @@ async function detectSnapdealLabels(
     if (suborderAnchors.length > 0) {
       const subY = suborderAnchors[0].transform[5];
       // Search slightly below SUBORDER CODE header, restricted to left side of the page (before SELLER column)
-      const skuItems = items.filter(i => 
-        i.transform[5] < subY && 
-        i.transform[5] > subY - 45 && 
+      const skuItems = items.filter(i =>
+        i.transform[5] < subY &&
+        i.transform[5] > subY - 45 &&
         i.transform[4] < pageW * 0.4
       );
-      
+
       // Sort primarily by Y (top to bottom) then X (left to right) for multi-line skus
       skuItems.sort((a, b) => {
         if (Math.abs(b.transform[5] - a.transform[5]) > 5) {
@@ -175,7 +178,7 @@ async function detectSnapdealLabels(
         }
         return a.transform[4] - b.transform[4];
       });
-      
+
       const fullText = skuItems.map(i => i.str.trim()).filter(Boolean).join(' ');
       if (fullText.includes('|')) {
         skuStr = fullText.split('|').slice(1).join('|').trim(); // handle multiple pipes just in case
@@ -193,19 +196,19 @@ async function detectSnapdealLabels(
       if (gstinAnchors.length > 0) {
         limitX = gstinAnchors[0].transform[4];
       }
-      
-      const sellerItems = items.filter(i => 
-        i.transform[5] < sellerY && 
-        i.transform[5] > sellerY - 45 && 
-        i.transform[4] > sellerX - 80 && 
+
+      const sellerItems = items.filter(i =>
+        i.transform[5] < sellerY &&
+        i.transform[5] > sellerY - 45 &&
+        i.transform[4] > sellerX - 80 &&
         i.transform[4] < limitX - 5
       );
-      
+
       sellerItems.sort((a, b) => {
         if (Math.abs(b.transform[5] - a.transform[5]) > 5) return b.transform[5] - a.transform[5];
         return a.transform[4] - b.transform[4];
       });
-      
+
       const fullText = sellerItems.map(i => i.str.trim()).filter(Boolean).join(' ');
       if (fullText) sellerStr = fullText;
     }
@@ -216,23 +219,45 @@ async function detectSnapdealLabels(
     if (pkdAnchors.length > 0) {
       const pkdY = pkdAnchors[0].transform[5];
       const pkdX = pkdAnchors[0].transform[4];
-      const pkdItems = items.filter(i => 
-        i.transform[5] <= pkdY + 5 && 
-        i.transform[5] >= pkdY - 35 && 
+      const pkdItems = items.filter(i =>
+        i.transform[5] <= pkdY + 5 &&
+        i.transform[5] >= pkdY - 35 &&
         i.transform[4] >= pkdX - 5
       );
-      
+
       pkdItems.sort((a, b) => {
         if (Math.abs(b.transform[5] - a.transform[5]) > 5) return b.transform[5] - a.transform[5];
         return a.transform[4] - b.transform[4];
       });
-      
+
       const fullText = pkdItems.map(i => i.str.trim()).filter(Boolean).join(' ');
       const match = fullText.match(/PKD:\s*(\d{4}-\d{2}-\d{2})(?:\s*(\d{2}:\d{2}:\d{2}))?/i);
       if (match) {
         const dateStr = match[2] ? `${match[1]}T${match[2]}` : match[1];
         const parsed = new Date(dateStr).getTime();
         if (!isNaN(parsed)) pkdTimestamp = parsed;
+      }
+    }
+
+    // Snapdeal Reference No Extraction
+    let refNoStr = 'UNKNOWN';
+    const refNoAnchors = items.filter(i => normalize(i.str).includes('snapdeal reference no'));
+    if (refNoAnchors.length > 0) {
+      const refY = refNoAnchors[0].transform[5];
+      const refItems = items.filter(i => 
+        i.transform[5] < refY - 10 && 
+        i.transform[5] > refY - 100 && 
+        i.transform[4] > pageW * 0.4
+      );
+      
+      const fullText = refItems.map(i => i.str.trim()).filter(Boolean).join('');
+      const match = fullText.match(/SLP\d{10}/i);
+      if (match) {
+        refNoStr = match[0].toUpperCase();
+      } else if (fullText) {
+        // Fallback to any long alphanumeric if SLP pattern not found
+        const anyMatch = fullText.match(/[A-Z0-9]{8,}/i);
+        if (anyMatch) refNoStr = anyMatch[0].toUpperCase();
       }
     }
 
@@ -246,7 +271,8 @@ async function detectSnapdealLabels(
       payment: paymentStr,
       sku: skuStr,
       seller: sellerStr,
-      pkd: pkdTimestamp
+      pkd: pkdTimestamp,
+      refNo: refNoStr
     });
   }
 
@@ -262,7 +288,7 @@ function tightCropCanvas(
   if (!ctx) return sourceCanvas;
 
   const { width, height } = sourceCanvas;
-  
+
   // Constrain bounds to canvas size
   const sx = Math.max(0, Math.floor(approxBounds.x));
   const sy = Math.max(0, Math.floor(approxBounds.y));
@@ -273,7 +299,7 @@ function tightCropCanvas(
 
   const imageData = ctx.getImageData(sx, sy, sw, sh);
   const data = imageData.data;
-  
+
   let minX = sw, minY = sh, maxX = 0, maxY = 0;
   let found = false;
 
@@ -358,14 +384,15 @@ export default function SnapdealCropper({ id }: { id: string }) {
   const [detectedPayments, setDetectedPayments] = useState<Record<string, number>>({});
   const [exportPng, setExportPng] = useState(false);
   const [keepInvoice, setKeepInvoice] = useState(false);
-  
+
   const [sortPayment, setSortPayment] = useState<'none' | 'cod' | 'prepaid'>('none');
   const [sortSeller, setSortSeller] = useState<'none' | 'asc' | 'desc'>('none');
   const [sortCourier, setSortCourier] = useState<'none' | 'asc' | 'desc'>('none');
   const [sortSku, setSortSku] = useState<'none' | 'asc' | 'desc'>('none');
   const [sortQty, setSortQty] = useState<'none' | 'asc' | 'desc'>('none');
   const [sortPkd, setSortPkd] = useState<'none' | 'asc' | 'desc'>('none');
-  
+  const [sortRefNo, setSortRefNo] = useState<'none' | 'asc' | 'desc'>('none');
+
   const inputRef = useRef<HTMLInputElement>(null);
 
   const COURIERS = ['EKART', 'DELHIVERY', 'XPRESSBEES', 'BLUEDART', 'ECOM', 'SHADOWFAX', 'AMAZON', 'ATS'];
@@ -385,7 +412,7 @@ export default function SnapdealCropper({ id }: { id: string }) {
     if (!files.length) return;
     setProcessing(true); setDone(false);
     const outDoc = await PDFDocument.create();
-    
+
     const allGroups: ProcessedGroup[] = [];
 
     for (const entry of files) {
@@ -404,16 +431,16 @@ export default function SnapdealCropper({ id }: { id: string }) {
           const items = content.items as any[];
           const RENDER_SCALE = 3.0; // Optimized for speed while maintaining barcode readability
           const viewport = page.getViewport({ scale: RENDER_SCALE });
-          
+
           const pageText = items.map(i => i.str).join(' ').toLowerCase();
           const isInvoicePage = pageText.includes('tax invoice') || pageText.includes('original for recipient');
-          
+
           if (isInvoicePage && !keepInvoice) {
             continue; // Skip the invoice page entirely if they don't want it
           }
 
           let labelBounds = await detectSnapdealLabels(page, RENDER_SCALE);
-          
+
           // If no labels were detected on this page, and it's not an invoice we want to keep,
           // check if it's the first page and has no text. If so, fallback to top 60%
           if (labelBounds.length === 0 && !isInvoicePage) {
@@ -442,7 +469,7 @@ export default function SnapdealCropper({ id }: { id: string }) {
               // 10 PDF points = 10 * RENDER_SCALE pixels of exact padding
               out = tightCropCanvas(fullCanvas, bounds, 10 * RENDER_SCALE);
             }
-            
+
             // Extract AWB
             let awb = '';
             const awbMatch = pageText.match(/[a-z0-9]{10,15}/i);
@@ -458,9 +485,9 @@ export default function SnapdealCropper({ id }: { id: string }) {
               }
             }
 
-            groupItems.push({ 
-              canvas: out, awb, method: bounds.method, type: 'label', 
-              courier, quantity: bounds.quantity || 1, payment: bounds.payment || 'UNKNOWN', sku: bounds.sku || 'UNKNOWN', seller: bounds.seller || 'UNKNOWN', pkd: bounds.pkd || 0 
+            groupItems.push({
+              canvas: out, awb, method: bounds.method, type: 'label',
+              courier, quantity: bounds.quantity || 1, payment: bounds.payment || 'UNKNOWN', sku: bounds.sku || 'UNKNOWN', seller: bounds.seller || 'UNKNOWN', pkd: bounds.pkd || 0, refNo: bounds.refNo || 'UNKNOWN'
             });
             if (bounds.method === 'fallback') fileMethod = 'fallback';
           }
@@ -472,21 +499,21 @@ export default function SnapdealCropper({ id }: { id: string }) {
               invCanvas.width = Math.max(1, Math.round(invBounds.width));
               invCanvas.height = Math.max(1, Math.round(invBounds.height));
               invCanvas.getContext('2d')!.drawImage(fullCanvas, invBounds.x, invBounds.y, invBounds.width, invBounds.height, 0, 0, invCanvas.width, invCanvas.height);
-              
+
               // Use the same info as the label for grouping
               const parentLabel = groupItems[0];
-              groupItems.push({ 
-                canvas: invCanvas, awb: parentLabel?.awb || '', method: 'ocr', type: 'invoice', 
-                courier: parentLabel?.courier || 'UNKNOWN', quantity: parentLabel?.quantity || 1, payment: parentLabel?.payment || 'UNKNOWN', sku: parentLabel?.sku || 'UNKNOWN', seller: parentLabel?.seller || 'UNKNOWN', pkd: parentLabel?.pkd || 0 
+              groupItems.push({
+                canvas: invCanvas, awb: parentLabel?.awb || '', method: 'ocr', type: 'invoice',
+                courier: parentLabel?.courier || 'UNKNOWN', quantity: parentLabel?.quantity || 1, payment: parentLabel?.payment || 'UNKNOWN', sku: parentLabel?.sku || 'UNKNOWN', seller: parentLabel?.seller || 'UNKNOWN', pkd: parentLabel?.pkd || 0, refNo: parentLabel?.refNo || 'UNKNOWN'
               });
             }
           }
-          
+
           if (groupItems.length > 0) {
             const first = groupItems[0];
-            allGroups.push({ 
-              courier: first.courier, awb: first.awb, quantity: first.quantity, 
-              payment: first.payment, sku: first.sku, seller: first.seller, pkd: first.pkd, items: groupItems 
+            allGroups.push({
+              courier: first.courier, awb: first.awb, quantity: first.quantity,
+              payment: first.payment, sku: first.sku, seller: first.seller, pkd: first.pkd, refNo: first.refNo, items: groupItems
             });
           }
         }
@@ -501,13 +528,13 @@ export default function SnapdealCropper({ id }: { id: string }) {
       // 1. Payment
       if (sortPayment !== 'none') {
         if (sortPayment === 'cod') {
-           const valA = a.payment === 'COD' ? 0 : a.payment === 'PREPAID' ? 1 : 2;
-           const valB = b.payment === 'COD' ? 0 : b.payment === 'PREPAID' ? 1 : 2;
-           if (valA !== valB) return valA - valB;
+          const valA = a.payment === 'COD' ? 0 : a.payment === 'PREPAID' ? 1 : 2;
+          const valB = b.payment === 'COD' ? 0 : b.payment === 'PREPAID' ? 1 : 2;
+          if (valA !== valB) return valA - valB;
         } else {
-           const valA = a.payment === 'PREPAID' ? 0 : a.payment === 'COD' ? 1 : 2;
-           const valB = b.payment === 'PREPAID' ? 0 : b.payment === 'COD' ? 1 : 2;
-           if (valA !== valB) return valA - valB;
+          const valA = a.payment === 'PREPAID' ? 0 : a.payment === 'COD' ? 1 : 2;
+          const valB = b.payment === 'PREPAID' ? 0 : b.payment === 'COD' ? 1 : 2;
+          if (valA !== valB) return valA - valB;
         }
       }
 
@@ -546,6 +573,14 @@ export default function SnapdealCropper({ id }: { id: string }) {
       // 6. Quantity
       if (sortQty !== 'none') {
         const cmp = sortQty === 'asc' ? a.quantity - b.quantity : b.quantity - a.quantity;
+        if (cmp !== 0) return cmp;
+      }
+
+      // 7. Ref No
+      if (sortRefNo !== 'none') {
+        if (a.refNo === 'UNKNOWN' && b.refNo !== 'UNKNOWN') return 1;
+        if (a.refNo !== 'UNKNOWN' && b.refNo === 'UNKNOWN') return -1;
+        const cmp = sortRefNo === 'asc' ? a.refNo.localeCompare(b.refNo) : b.refNo.localeCompare(a.refNo);
         if (cmp !== 0) return cmp;
       }
 
@@ -603,14 +638,32 @@ export default function SnapdealCropper({ id }: { id: string }) {
     setFiles([]); setDone(false); setPdfUrl(null); setPngUrls([]); setLabelCount(0); setDetectedCouriers({}); setDetectedPayments({});
   };
 
+  const [showSettings, setShowSettings] = useState(false);
   const ACCENT = '#E40046'; // Snapdeal Red
 
   return (
     <div className="max-w-7xl mx-auto py-4 sm:py-8 px-3 sm:px-6">
       <div className="grid grid-cols-1 lg:grid-cols-[300px_1fr] gap-4 sm:gap-8">
-        <div className="bg-white dark:bg-slate-800 rounded-3xl border border-slate-100 dark:border-slate-700 shadow-xl h-fit lg:sticky lg:top-4 overflow-hidden p-6">
-          <h3 className="text-xl font-black text-slate-900 dark:text-white mb-6 uppercase tracking-tighter">Settings</h3>
-          <div className="space-y-4">
+        <div 
+          className="rounded-3xl h-fit lg:sticky lg:top-4 overflow-hidden p-6"
+          style={{
+            background: 'rgba(255, 255, 255, 0.7)',
+            backdropFilter: 'blur(12px)',
+            border: '1px solid rgba(255, 255, 255, 0.4)',
+            boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.05)',
+            borderRadius: '16px'
+          }}
+        >
+          <div className="flex items-center justify-between mb-6">
+            <h3 className="text-xl font-black text-slate-900 dark:text-white uppercase tracking-tighter mb-0">Settings</h3>
+            <button 
+              onClick={() => setShowSettings(!showSettings)} 
+              className="lg:hidden p-2 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300"
+            >
+              <ChevronDown size={20} className={`transition-transform duration-200 ${showSettings ? 'rotate-180' : ''}`} />
+            </button>
+          </div>
+          <div className={`${showSettings ? 'block' : 'hidden'} lg:block space-y-4`}>
             <label className="flex items-start gap-3 cursor-pointer">
               <input type="checkbox" checked={keepInvoice} onChange={e => setKeepInvoice(e.target.checked)} className="w-5 h-5 mt-0.5" style={{ accentColor: ACCENT }} />
               <span className="text-sm font-semibold">Keep Invoice <span className="block text-[10px] text-slate-400">Extract tax invoice pages</span></span>
@@ -621,61 +674,133 @@ export default function SnapdealCropper({ id }: { id: string }) {
             </label>
 
             <div className="pt-4 border-t border-slate-100 dark:border-slate-700">
-              <span className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-3 block">Sorting Preferences</span>
-              <div className="space-y-3">
+              <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3 block">SORT & FILTER ORDERS</span>
+              <div className="space-y-4">
                 
+                {/* Payment Method */}
                 <div>
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-wider mb-1 block pl-1">Payment Method</label>
-                  <select value={sortPayment} onChange={e => setSortPayment(e.target.value as any)} className="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2.5 text-sm font-semibold text-slate-700 dark:text-slate-300 outline-none focus:ring-2 focus:ring-[#E40046] transition-all">
-                    <option value="none">No Sorting</option>
-                    <option value="cod">COD First, Then Prepaid</option>
-                    <option value="prepaid">Prepaid First, Then COD</option>
-                  </select>
+                  <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1 block pl-1">Payment Method</span>
+                  <div className="grid grid-cols-2 gap-2 pl-1">
+                    <div 
+                      onClick={() => setSortPayment(sortPayment === 'cod' ? 'none' : 'cod')}
+                      className={`flex items-center gap-2 cursor-pointer p-2 rounded-lg transition-all ${sortPayment === 'cod' ? 'bg-indigo-50 border-indigo-500 border' : 'bg-transparent border-transparent border'}`}
+                    >
+                      <div className={`w-4 h-4 rounded-full border shrink-0 ${sortPayment === 'cod' ? 'bg-indigo-500 border-indigo-500' : 'border-slate-300'}`} />
+                      <span className={`text-sm whitespace-nowrap ${sortPayment === 'cod' ? 'font-bold text-indigo-700' : 'font-medium text-slate-700'}`}>COD First</span>
+                    </div>
+                    <div 
+                      onClick={() => setSortPayment(sortPayment === 'prepaid' ? 'none' : 'prepaid')}
+                      className={`flex items-center gap-2 cursor-pointer p-2 rounded-lg transition-all ${sortPayment === 'prepaid' ? 'bg-indigo-50 border-indigo-500 border' : 'bg-transparent border-transparent border'}`}
+                    >
+                      <div className={`w-4 h-4 rounded-full border shrink-0 ${sortPayment === 'prepaid' ? 'bg-indigo-500 border-indigo-500' : 'border-slate-300'}`} />
+                      <span className={`text-sm whitespace-nowrap ${sortPayment === 'prepaid' ? 'font-bold text-indigo-700' : 'font-medium text-slate-700'}`}>Prepaid First</span>
+                    </div>
+                  </div>
                 </div>
 
+                {/* Seller */}
                 <div>
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-wider mb-1 block pl-1">Seller</label>
-                  <select value={sortSeller} onChange={e => setSortSeller(e.target.value as any)} className="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2.5 text-sm font-semibold text-slate-700 dark:text-slate-300 outline-none focus:ring-2 focus:ring-[#E40046] transition-all">
-                    <option value="none">No Sorting</option>
-                    <option value="asc">Seller Name (A → Z)</option>
-                    <option value="desc">Seller Name (Z → A)</option>
-                  </select>
+                  <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1 block pl-1">Seller</span>
+                  <div className="grid grid-cols-2 gap-2 pl-1">
+                    <div 
+                      onClick={() => setSortSeller(sortSeller === 'asc' ? 'none' : 'asc')}
+                      className={`flex items-center gap-2 cursor-pointer p-2 rounded-lg transition-all ${sortSeller === 'asc' ? 'bg-indigo-50 border-indigo-500 border' : 'bg-transparent border-transparent border'}`}
+                    >
+                      <div className={`w-4 h-4 rounded-full border shrink-0 ${sortSeller === 'asc' ? 'bg-indigo-500 border-indigo-500' : 'border-slate-300'}`} />
+                      <span className={`text-sm whitespace-nowrap ${sortSeller === 'asc' ? 'font-bold text-indigo-700' : 'font-medium text-slate-700'}`}>A → Z</span>
+                    </div>
+                    <div 
+                      onClick={() => setSortSeller(sortSeller === 'desc' ? 'none' : 'desc')}
+                      className={`flex items-center gap-2 cursor-pointer p-2 rounded-lg transition-all ${sortSeller === 'desc' ? 'bg-indigo-50 border-indigo-500 border' : 'bg-transparent border-transparent border'}`}
+                    >
+                      <div className={`w-4 h-4 rounded-full border shrink-0 ${sortSeller === 'desc' ? 'bg-indigo-500 border-indigo-500' : 'border-slate-300'}`} />
+                      <span className={`text-sm whitespace-nowrap ${sortSeller === 'desc' ? 'font-bold text-indigo-700' : 'font-medium text-slate-700'}`}>Z → A</span>
+                    </div>
+                  </div>
                 </div>
 
+                {/* Courier */}
                 <div>
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-wider mb-1 block pl-1">Courier</label>
-                  <select value={sortCourier} onChange={e => setSortCourier(e.target.value as any)} className="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2.5 text-sm font-semibold text-slate-700 dark:text-slate-300 outline-none focus:ring-2 focus:ring-[#E40046] transition-all">
-                    <option value="none">No Sorting</option>
-                    <option value="asc">Courier Name (A → Z)</option>
-                    <option value="desc">Courier Name (Z → A)</option>
-                  </select>
+                  <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1 block pl-1">Courier</span>
+                  <div className="grid grid-cols-2 gap-2 pl-1">
+                    <div 
+                      onClick={() => setSortCourier(sortCourier === 'asc' ? 'none' : 'asc')}
+                      className={`flex items-center gap-2 cursor-pointer p-2 rounded-lg transition-all ${sortCourier === 'asc' ? 'bg-indigo-50 border-indigo-500 border' : 'bg-transparent border-transparent border'}`}
+                    >
+                      <div className={`w-4 h-4 rounded-full border shrink-0 ${sortCourier === 'asc' ? 'bg-indigo-500 border-indigo-500' : 'border-slate-300'}`} />
+                      <span className={`text-sm whitespace-nowrap ${sortCourier === 'asc' ? 'font-bold text-indigo-700' : 'font-medium text-slate-700'}`}>A → Z</span>
+                    </div>
+                    <div 
+                      onClick={() => setSortCourier(sortCourier === 'desc' ? 'none' : 'desc')}
+                      className={`flex items-center gap-2 cursor-pointer p-2 rounded-lg transition-all ${sortCourier === 'desc' ? 'bg-indigo-50 border-indigo-500 border' : 'bg-transparent border-transparent border'}`}
+                    >
+                      <div className={`w-4 h-4 rounded-full border shrink-0 ${sortCourier === 'desc' ? 'bg-indigo-500 border-indigo-500' : 'border-slate-300'}`} />
+                      <span className={`text-sm whitespace-nowrap ${sortCourier === 'desc' ? 'font-bold text-indigo-700' : 'font-medium text-slate-700'}`}>Z → A</span>
+                    </div>
+                  </div>
                 </div>
 
+                {/* Product / SKU */}
                 <div>
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-wider mb-1 block pl-1">Product / SKU</label>
-                  <select value={sortSku} onChange={e => setSortSku(e.target.value as any)} className="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2.5 text-sm font-semibold text-slate-700 dark:text-slate-300 outline-none focus:ring-2 focus:ring-[#E40046] transition-all">
-                    <option value="none">No Sorting</option>
-                    <option value="asc">SKU Name (A → Z)</option>
-                    <option value="desc">SKU Name (Z → A)</option>
-                  </select>
+                  <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1 block pl-1">{"Product / SKU"}</span>
+                  <div className="grid grid-cols-2 gap-2 pl-1">
+                    <div 
+                      onClick={() => setSortSku(sortSku === 'asc' ? 'none' : 'asc')}
+                      className={`flex items-center gap-2 cursor-pointer p-2 rounded-lg transition-all ${sortSku === 'asc' ? 'bg-indigo-50 border-indigo-500 border' : 'bg-transparent border-transparent border'}`}
+                    >
+                      <div className={`w-4 h-4 rounded-full border shrink-0 ${sortSku === 'asc' ? 'bg-indigo-500 border-indigo-500' : 'border-slate-300'}`} />
+                      <span className={`text-sm whitespace-nowrap ${sortSku === 'asc' ? 'font-bold text-indigo-700' : 'font-medium text-slate-700'}`}>A → Z</span>
+                    </div>
+                    <div 
+                      onClick={() => setSortSku(sortSku === 'desc' ? 'none' : 'desc')}
+                      className={`flex items-center gap-2 cursor-pointer p-2 rounded-lg transition-all ${sortSku === 'desc' ? 'bg-indigo-50 border-indigo-500 border' : 'bg-transparent border-transparent border'}`}
+                    >
+                      <div className={`w-4 h-4 rounded-full border shrink-0 ${sortSku === 'desc' ? 'bg-indigo-500 border-indigo-500' : 'border-slate-300'}`} />
+                      <span className={`text-sm whitespace-nowrap ${sortSku === 'desc' ? 'font-bold text-indigo-700' : 'font-medium text-slate-700'}`}>Z → A</span>
+                    </div>
+                  </div>
                 </div>
 
+                {/* Packed Date */}
                 <div>
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-wider mb-1 block pl-1">Packed Date (PKD)</label>
-                  <select value={sortPkd} onChange={e => setSortPkd(e.target.value as any)} className="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2.5 text-sm font-semibold text-slate-700 dark:text-slate-300 outline-none focus:ring-2 focus:ring-[#E40046] transition-all">
-                    <option value="none">No Sorting</option>
-                    <option value="desc">Latest Orders First</option>
-                    <option value="asc">Oldest Orders First</option>
-                  </select>
+                  <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1 block pl-1">Packed Date (PKD)</span>
+                  <div className="grid grid-cols-2 gap-2 pl-1">
+                    <div 
+                      onClick={() => setSortPkd(sortPkd === 'desc' ? 'none' : 'desc')}
+                      className={`flex items-center gap-2 cursor-pointer p-2 rounded-lg transition-all ${sortPkd === 'desc' ? 'bg-indigo-50 border-indigo-500 border' : 'bg-transparent border-transparent border'}`}
+                    >
+                      <div className={`w-4 h-4 rounded-full border shrink-0 ${sortPkd === 'desc' ? 'bg-indigo-500 border-indigo-500' : 'border-slate-300'}`} />
+                      <span className={`text-sm whitespace-nowrap ${sortPkd === 'desc' ? 'font-bold text-indigo-700' : 'font-medium text-slate-700'}`}>Newest</span>
+                    </div>
+                    <div 
+                      onClick={() => setSortPkd(sortPkd === 'asc' ? 'none' : 'asc')}
+                      className={`flex items-center gap-2 cursor-pointer p-2 rounded-lg transition-all ${sortPkd === 'asc' ? 'bg-indigo-50 border-indigo-500 border' : 'bg-transparent border-transparent border'}`}
+                    >
+                      <div className={`w-4 h-4 rounded-full border shrink-0 ${sortPkd === 'asc' ? 'bg-indigo-500 border-indigo-500' : 'border-slate-300'}`} />
+                      <span className={`text-sm whitespace-nowrap ${sortPkd === 'asc' ? 'font-bold text-indigo-700' : 'font-medium text-slate-700'}`}>Oldest</span>
+                    </div>
+                  </div>
                 </div>
 
+                {/* Quantity */}
                 <div>
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-wider mb-1 block pl-1">Quantity</label>
-                  <select value={sortQty} onChange={e => setSortQty(e.target.value as any)} className="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2.5 text-sm font-semibold text-slate-700 dark:text-slate-300 outline-none focus:ring-2 focus:ring-[#E40046] transition-all">
-                    <option value="none">No Sorting</option>
-                    <option value="asc">Total Items (Lowest First)</option>
-                    <option value="desc">Total Items (Highest First)</option>
-                  </select>
+                  <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1 block pl-1">Quantity</span>
+                  <div className="grid grid-cols-2 gap-2 pl-1">
+                    <div 
+                      onClick={() => setSortQty(sortQty === 'asc' ? 'none' : 'asc')}
+                      className={`flex items-center gap-2 cursor-pointer p-2 rounded-lg transition-all ${sortQty === 'asc' ? 'bg-indigo-50 border-indigo-500 border' : 'bg-transparent border-transparent border'}`}
+                    >
+                      <div className={`w-4 h-4 rounded-full border shrink-0 ${sortQty === 'asc' ? 'bg-indigo-500 border-indigo-500' : 'border-slate-300'}`} />
+                      <span className={`text-sm whitespace-nowrap ${sortQty === 'asc' ? 'font-bold text-indigo-700' : 'font-medium text-slate-700'}`}>Low to High</span>
+                    </div>
+                    <div 
+                      onClick={() => setSortQty(sortQty === 'desc' ? 'none' : 'desc')}
+                      className={`flex items-center gap-2 cursor-pointer p-2 rounded-lg transition-all ${sortQty === 'desc' ? 'bg-indigo-50 border-indigo-500 border' : 'bg-transparent border-transparent border'}`}
+                    >
+                      <div className={`w-4 h-4 rounded-full border shrink-0 ${sortQty === 'desc' ? 'bg-indigo-500 border-indigo-500' : 'border-slate-300'}`} />
+                      <span className={`text-sm whitespace-nowrap ${sortQty === 'desc' ? 'font-bold text-indigo-700' : 'font-medium text-slate-700'}`}>High to Low</span>
+                    </div>
+                  </div>
                 </div>
 
               </div>
