@@ -8,20 +8,22 @@ export default function MergePDFPost() {
           <ArrowLeft size={14} /> Back to Blog
         </a>
 
-        <div className="flex items-center gap-3 mb-6">
-          <div className="w-12 h-12 bg-orange-500 rounded-2xl flex items-center justify-center text-white shadow-lg"><Combine size={22} /></div>
+        <div className="flex items-center gap-4 mb-6">
+          <div className="w-12 h-12 bg-orange-500 rounded-2xl flex items-center justify-center text-white shadow-lg shrink-0"><Combine size={22} /></div>
           <div>
-            <span className="text-[10px] font-black uppercase tracking-widest bg-orange-100 text-orange-700 px-2 py-1 rounded-full">Tutorial</span>
-            <div className="flex items-center gap-3 mt-1 text-xs text-slate-400 font-medium">
+            <h1 className="text-2xl md:text-3xl font-black tracking-tighter text-slate-900 leading-tight mb-1">
+              How to Merge Multiple PDFs into One File (Free & Easy)
+            </h1>
+            <div className="flex items-center gap-3 text-xs text-slate-400 font-medium flex-wrap">
+              <span className="text-[10px] font-black uppercase tracking-widest bg-orange-100 text-orange-700 px-2 py-0.5 rounded-full">Tutorial</span>
               <span className="flex items-center gap-1"><Clock size={11} /> 3 min read</span>
               <span>Apr 20, 2026</span>
             </div>
           </div>
         </div>
-
-        <h1 className="text-3xl md:text-4xl font-black tracking-tighter text-slate-900 mb-4 leading-tight">
-          How to Merge Multiple PDFs into One File (Free & Easy)
-        </h1>
+        <div className="relative overflow-hidden rounded-2xl mb-6">
+          <img src="/img/word-pdf.png" alt="How to Merge Multiple PDFs" className="w-full h-auto" />
+        </div>
         <p className="text-lg text-slate-500 leading-relaxed mb-8">
           Need to combine several PDF files into one? SmartPDFs Plus makes it instant — no software, no sign-up, completely free.
         </p>
@@ -54,7 +56,7 @@ export default function MergePDFPost() {
           ))}
 
           <h2 className="text-xl font-black text-slate-900">Pro Tips</h2>
-          <ul className="space-y-2">
+          <ul className="space-y-2 mb-6">
             {[
               'Add files one by one or select multiple at once using Ctrl+Click (Windows) or Cmd+Click (Mac)',
               'Remove a file by clicking the red X button on its row',
@@ -67,7 +69,21 @@ export default function MergePDFPost() {
             ))}
           </ul>
 
-          <div className="bg-slate-900 rounded-2xl p-6 text-center text-white space-y-3">
+          <h2 className="text-xl font-black text-slate-900">Frequently Asked Questions</h2>
+          <div className="space-y-4 mb-6">
+            {[
+              { q: 'Is there a file size limit for merging?', a: 'No, there is no hard limit on file size because processing happens locally in your browser. However, very large files may slow down your browser depending on your device ram.' },
+              { q: 'Can I merge password-protected PDFs?', a: 'Yes, but you must know the password to unlock them first before they can be merged. The tool will prompt you if a file is locked.' },
+              { q: 'Will merging reduce the quality of my PDFs?', a: 'No. The tool combines the files without re-encoding images or stripping data, so the quality remains exactly the same as the original files.' }
+            ].map(({ q, a }, i) => (
+              <div key={i} className="bg-slate-50 rounded-xl p-4 border border-slate-100">
+                <p className="font-black text-slate-900 text-sm mb-1">{q}</p>
+                <p className="text-xs text-slate-500 leading-relaxed">{a}</p>
+              </div>
+            ))}
+          </div>
+
+          <div className="bg-white border-2 border-orange-500 rounded-2xl p-6 text-center text-slate-900 space-y-3 shadow-sm hover:shadow-xl transition-all duration-300">
             <p className="font-black">Ready to merge your PDFs?</p>
             <a href="/tool/merge" className="inline-flex items-center gap-2 px-5 py-2.5 bg-orange-500 hover:bg-orange-600 text-white rounded-xl font-black text-sm transition-all">
               Open Merge PDF Tool <ArrowRight size={14} />

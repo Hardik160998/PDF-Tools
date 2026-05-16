@@ -3,10 +3,20 @@ export default function ProtectPDFPost() {
   return (
     <article className="min-h-screen"><div className="container mx-auto px-4 pt-10 pb-20 max-w-3xl">
       <a href="/blog" className="inline-flex items-center gap-2 text-sm text-slate-400 hover:text-red-500 font-bold mb-8"><ArrowLeft size={14} /> Back to Blog</a>
-      <div className="flex items-center gap-3 mb-6"><div className="w-12 h-12 bg-red-500 rounded-2xl flex items-center justify-center text-white shadow-lg"><Lock size={22} /></div>
-        <div><span className="text-[10px] font-black uppercase tracking-widest bg-red-100 text-red-700 px-2 py-1 rounded-full">Tutorial</span>
-          <div className="flex items-center gap-3 mt-1 text-xs text-slate-400 font-medium"><span className="flex items-center gap-1"><Clock size={11} /> 3 min read</span><span>Apr 12, 2026</span></div></div></div>
-      <h1 className="text-3xl md:text-4xl font-black tracking-tighter text-slate-900 mb-4 leading-tight">How to Password Protect a PDF File in 3 Simple Steps</h1>
+      <div className="flex items-center gap-4 mb-6">
+        <div className="w-12 h-12 bg-red-500 rounded-2xl flex items-center justify-center text-white shadow-lg shrink-0"><Lock size={22} /></div>
+        <div>
+          <h1 className="text-2xl md:text-3xl font-black tracking-tighter text-slate-900 leading-tight mb-1">How to Password Protect a PDF File in 3 Simple Steps</h1>
+          <div className="flex items-center gap-3 text-xs text-slate-400 font-medium flex-wrap">
+            <span className="text-[10px] font-black uppercase tracking-widest bg-red-100 text-red-700 px-2 py-0.5 rounded-full">Tutorial</span>
+            <span className="flex items-center gap-1"><Clock size={11} /> 3 min read</span>
+            <span>Apr 12, 2026</span>
+          </div>
+        </div>
+      </div>
+      <div className="relative overflow-hidden rounded-2xl mb-6">
+        <img src="/img/word-pdf.png" alt="How to Password Protect a PDF File" className="w-full h-auto" />
+      </div>
       <p className="text-lg text-slate-500 leading-relaxed mb-8">Protect sensitive documents — contracts, financial reports, personal files — with a password. Works on any device, completely free.</p>
       <div className="space-y-6">
         <div className="bg-red-50 border border-red-100 rounded-2xl p-5"><p className="font-black text-red-800 text-sm mb-2">What you'll learn</p>
@@ -23,6 +33,20 @@ export default function ProtectPDFPost() {
         <div className="bg-yellow-50 border border-yellow-200 rounded-2xl p-4 flex gap-3"><AlertTriangle size={18} className="text-yellow-600 shrink-0 mt-0.5" /><div><p className="font-black text-yellow-800 text-sm">Important</p><p className="text-sm text-yellow-700 mt-0.5">Remember your password — there is no recovery option. If you forget it, the PDF cannot be unlocked without the original password.</p></div></div>
         <h2 className="text-xl font-black text-slate-900">How to Remove a Password</h2>
         <p className="text-slate-600 text-sm leading-relaxed">If you own a password-protected PDF and want to remove the protection, use the Unlock PDF tool. Upload the PDF, enter the current password, and download the unlocked version.</p>
+
+        <h2 className="text-xl font-black text-slate-900">Frequently Asked Questions</h2>
+        <div className="space-y-4 mb-6">
+          {[
+            { q: 'What encryption standard does the tool use?', a: 'The tool uses AES-256 bit encryption, which is the industry standard for high-security data protection. It is extremely difficult to break without the password.' },
+            { q: 'Can I remove the password later?', a: 'Yes. You can use our "Unlock PDF" tool to remove the password if you know the current password.' },
+            { q: 'Is it safe to type my password here?', a: 'Yes. Processing happens entirely in your browser. Your password and files are never sent to any server, ensuring complete confidentiality.' }
+          ].map(({ q, a }, i) => (
+            <div key={i} className="bg-slate-50 rounded-xl p-4 border border-slate-100">
+              <p className="font-black text-slate-900 text-sm mb-1">{q}</p>
+              <p className="text-xs text-slate-500 leading-relaxed">{a}</p>
+            </div>
+          ))}
+        </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <a href="/tool/protect" className="p-4 bg-red-500 hover:bg-red-600 text-white rounded-2xl text-center font-black text-sm transition-all flex items-center justify-center gap-2"><Lock size={16} /> Protect PDF</a>
           <a href="/tool/unlock" className="p-4 bg-slate-100 hover:bg-slate-200 text-slate-900 rounded-2xl text-center font-black text-sm transition-all flex items-center justify-center gap-2"><Lock size={16} /> Unlock PDF</a>

@@ -495,30 +495,34 @@ export default function Home() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto mb-12">
             {/* Blog Post 1: Aadhar Card */}
-            <a href="/blog/how-to-crop-aadhar-card" className="group bg-white dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm hover:shadow-xl transition-all overflow-hidden flex flex-col h-full">
-              <div className="h-2 bg-red-500" />
+            <a href="/blog/how-to-crop-aadhar-card" className="group bg-white dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm hover:shadow-2xl hover:-translate-y-1 transition-all overflow-hidden flex flex-col h-full">
+              <div className="relative h-48 overflow-hidden bg-slate-100 dark:bg-slate-700">
+                <img src="/img/word-pdf.png" alt="Crop Aadhar Card" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                <div className="absolute top-4 right-4">
+                  <span className="text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-full bg-white/80 text-red-700 backdrop-blur-sm">
+                    Tutorial
+                  </span>
+                </div>
+              </div>
               <div className="p-6 flex flex-col flex-1 gap-4">
-                <div className="flex items-start justify-between gap-3">
-                  <div className="w-10 h-10 bg-red-500 rounded-xl flex items-center justify-center text-white shrink-0 shadow-md">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <div className="flex items-center gap-3">
+                  <div className="w-8 h-8 bg-red-50 dark:bg-red-900/20 rounded-lg flex items-center justify-center text-red-500 shrink-0">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                       <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
                       <circle cx="12" cy="12" r="3" />
                       <path d="M12 8v4M8 12h4" />
                     </svg>
                   </div>
-                  <span className="text-[10px] font-medium uppercase tracking-widest px-2 py-1 rounded-full bg-red-100 text-red-700 dark:bg-red-900/20 dark:text-red-400">
-                    Tutorial
-                  </span>
-                </div>
-                <div className="flex-1">
-                  <h3 className="font-black text-slate-900 dark:text-white text-base leading-snug mb-2 group-hover:text-red-500 dark:group-hover:text-red-400 transition-colors">
+                  <h3 className="font-black text-slate-900 dark:text-white text-base leading-snug group-hover:text-red-500 dark:group-hover:text-red-400 transition-colors">
                     How to Crop Aadhar Card for Printing — Free Online Tool
                   </h3>
+                </div>
+                <div className="flex-1">
                   <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
                     Crop your e-Aadhar PDF to standard ID card dimensions (86mm × 54mm) and get a print-ready A4 PDF in seconds — 100% private, runs in your browser.
                   </p>
                 </div>
-                <div className="flex items-center justify-between pt-2 border-t border-slate-100 dark:border-slate-700">
+                <div className="flex items-center justify-between pt-3 border-t border-slate-100 dark:border-slate-700">
                   <div className="flex items-center gap-3 text-xs text-slate-400 font-medium">
                     <span className="flex items-center gap-1">
                       <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -529,7 +533,7 @@ export default function Home() {
                     </span>
                     <span>Apr 8, 2026</span>
                   </div>
-                  <span className="text-xs font-medium text-red-500 flex items-center gap-1 group-hover:gap-2 transition-all">
+                  <span className="text-xs font-bold text-red-500 flex items-center gap-1 group-hover:gap-2 transition-all">
                     Read <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
                   </span>
                 </div>
@@ -537,12 +541,19 @@ export default function Home() {
             </a>
 
             {/* Blog Post 2: Convert PDF */}
-            <a href="/blog/pdf-to-word-conversion-guide" className="group bg-white dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm hover:shadow-xl transition-all overflow-hidden flex flex-col h-full">
-              <div className="h-2 bg-blue-500" />
+            <a href="/blog/pdf-to-word-conversion-guide" className="group bg-white dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm hover:shadow-2xl hover:-translate-y-1 transition-all overflow-hidden flex flex-col h-full">
+              <div className="relative h-48 overflow-hidden bg-slate-100 dark:bg-slate-700">
+                <img src="/img/word-pdf.png" alt="Convert PDF All Tools" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                <div className="absolute top-4 right-4">
+                  <span className="text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-full bg-white/80 text-blue-700 backdrop-blur-sm">
+                    Guide
+                  </span>
+                </div>
+              </div>
               <div className="p-6 flex flex-col flex-1 gap-4">
-                <div className="flex items-start justify-between gap-3">
-                  <div className="w-10 h-10 bg-blue-500 rounded-xl flex items-center justify-center text-white shrink-0 shadow-md">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <div className="flex items-center gap-3">
+                  <div className="w-8 h-8 bg-blue-50 dark:bg-blue-900/20 rounded-lg flex items-center justify-center text-blue-500 shrink-0">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                       <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
                       <polyline points="14 2 14 8 20 8" />
                       <line x1="16" y1="13" x2="8" y2="13" />
@@ -550,19 +561,16 @@ export default function Home() {
                       <polyline points="10 9 9 9 8 9" />
                     </svg>
                   </div>
-                  <span className="text-[10px] font-medium uppercase tracking-widest px-2 py-1 rounded-full bg-blue-100 text-blue-700 dark:bg-blue-900/20 dark:text-blue-400">
-                    Guide
-                  </span>
-                </div>
-                <div className="flex-1">
-                  <h3 className="font-black text-slate-900 dark:text-white text-base leading-snug mb-2 group-hover:text-red-500 dark:group-hover:text-red-400 transition-colors">
+                  <h3 className="font-black text-slate-900 dark:text-white text-base leading-snug group-hover:text-blue-500 dark:group-hover:text-blue-400 transition-colors">
                     Convert PDF All Tools: Complete Guide for 2026
                   </h3>
+                </div>
+                <div className="flex-1">
                   <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
                     Master all PDF conversion tools in one comprehensive guide. Learn how to convert PDFs to Word, Excel, PowerPoint, JPG, and more with professional tips and best practices.
                   </p>
                 </div>
-                <div className="flex items-center justify-between pt-2 border-t border-slate-100 dark:border-slate-700">
+                <div className="flex items-center justify-between pt-3 border-t border-slate-100 dark:border-slate-700">
                   <div className="flex items-center gap-3 text-xs text-slate-400 font-medium">
                     <span className="flex items-center gap-1">
                       <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -573,7 +581,7 @@ export default function Home() {
                     </span>
                     <span>Apr 15, 2026</span>
                   </div>
-                  <span className="text-xs font-medium text-red-500 flex items-center gap-1 group-hover:gap-2 transition-all">
+                  <span className="text-xs font-bold text-blue-500 flex items-center gap-1 group-hover:gap-2 transition-all">
                     Read <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
                   </span>
                 </div>

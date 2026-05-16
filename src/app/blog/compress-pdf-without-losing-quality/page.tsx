@@ -4,13 +4,20 @@ export default function CompressPost() {
     <article className="min-h-screen">
       <div className="container mx-auto px-4 pt-10 pb-20 max-w-3xl">
         <a href="/blog" className="inline-flex items-center gap-2 text-sm text-slate-400 hover:text-red-500 font-bold mb-8"><ArrowLeft size={14} /> Back to Blog</a>
-        <div className="flex items-center gap-3 mb-6">
-          <div className="w-12 h-12 bg-green-500 rounded-2xl flex items-center justify-center text-white shadow-lg"><Zap size={22} /></div>
-          <div><span className="text-[10px] font-black uppercase tracking-widest bg-green-100 text-green-700 px-2 py-1 rounded-full">Guide</span>
-            <div className="flex items-center gap-3 mt-1 text-xs text-slate-400 font-medium"><span className="flex items-center gap-1"><Clock size={11} /> 4 min read</span><span>Apr 18, 2026</span></div>
+        <div className="flex items-center gap-4 mb-6">
+          <div className="w-12 h-12 bg-green-500 rounded-2xl flex items-center justify-center text-white shadow-lg shrink-0"><Zap size={22} /></div>
+          <div>
+            <h1 className="text-2xl md:text-3xl font-black tracking-tighter text-slate-900 leading-tight mb-1">How to Compress a PDF Without Losing Quality</h1>
+            <div className="flex items-center gap-3 text-xs text-slate-400 font-medium flex-wrap">
+              <span className="text-[10px] font-black uppercase tracking-widest bg-green-100 text-green-700 px-2 py-0.5 rounded-full">Guide</span>
+              <span className="flex items-center gap-1"><Clock size={11} /> 4 min read</span>
+              <span>Apr 18, 2026</span>
+            </div>
           </div>
         </div>
-        <h1 className="text-3xl md:text-4xl font-black tracking-tighter text-slate-900 mb-4 leading-tight">How to Compress a PDF Without Losing Quality</h1>
+        <div className="relative overflow-hidden rounded-2xl mb-6">
+          <img src="/img/word-pdf.png" alt="How to Compress a PDF" className="w-full h-auto" />
+        </div>
         <p className="text-lg text-slate-500 leading-relaxed mb-8">Large PDF files are frustrating to email, upload, or share. Learn how to shrink your PDFs while keeping them sharp and readable.</p>
         <div className="space-y-6">
           <div className="bg-green-50 border border-green-100 rounded-2xl p-5">
@@ -32,7 +39,21 @@ export default function CompressPost() {
               <div key={label} className={`p-3 rounded-xl ${color} border border-current/10`}><p className="font-black text-sm">{label}</p><p className="text-xs mt-0.5">{result}</p></div>
             ))}
           </div>
-          <div className="bg-slate-900 rounded-2xl p-6 text-center text-white space-y-3">
+
+          <h2 className="text-xl font-black text-slate-900">Frequently Asked Questions</h2>
+          <div className="space-y-4 mb-6">
+            {[
+              { q: 'Will I lose text quality after compression?', a: 'No. The tool uses lossless compression for text and vectors, and high-quality downscaling for images, so text remains perfectly sharp.' },
+              { q: 'Is there a file size limit?', a: 'You can upload files up to 500MB. However, larger files will take longer to process in your browser.' },
+              { q: 'How many files can I compress?', a: 'There is no limit on the number of files you can compress. You can use the tool as many times as you need.' }
+            ].map(({ q, a }, i) => (
+              <div key={i} className="bg-slate-50 rounded-xl p-4 border border-slate-100">
+                <p className="font-black text-slate-900 text-sm mb-1">{q}</p>
+                <p className="text-xs text-slate-500 leading-relaxed">{a}</p>
+              </div>
+            ))}
+          </div>
+          <div className="bg-white border-2 border-green-500 rounded-2xl p-6 text-center text-slate-900 space-y-3 shadow-sm hover:shadow-xl transition-all duration-300">
             <p className="font-black">Compress your PDF now — free & instant</p>
             <a href="/tool/compress" className="inline-flex items-center gap-2 px-5 py-2.5 bg-green-500 hover:bg-green-600 text-white rounded-xl font-black text-sm transition-all">Open Compress PDF <ArrowRight size={14} /></a>
           </div>

@@ -3,10 +3,20 @@ export default function PDFToWordPost() {
   return (
     <article className="min-h-screen"><div className="container mx-auto px-4 pt-10 pb-20 max-w-3xl">
       <a href="/blog" className="inline-flex items-center gap-2 text-sm text-slate-400 hover:text-red-500 font-bold mb-8"><ArrowLeft size={14} /> Back to Blog</a>
-      <div className="flex items-center gap-3 mb-6"><div className="w-12 h-12 bg-blue-600 rounded-2xl flex items-center justify-center text-white shadow-lg"><FileText size={22} /></div>
-        <div><span className="text-[10px] font-black uppercase tracking-widest bg-blue-100 text-blue-700 px-2 py-1 rounded-full">Guide</span>
-          <div className="flex items-center gap-3 mt-1 text-xs text-slate-400 font-medium"><span className="flex items-center gap-1"><Clock size={11} /> 5 min read</span><span>Apr 15, 2026</span></div></div></div>
-      <h1 className="text-3xl md:text-4xl font-black tracking-tighter text-slate-900 mb-4 leading-tight">Convert PDF All Tools: Complete All Tool 2026</h1>
+      <div className="flex items-center gap-4 mb-6">
+        <div className="w-12 h-12 bg-blue-600 rounded-2xl flex items-center justify-center text-white shadow-lg shrink-0"><FileText size={22} /></div>
+        <div>
+          <h1 className="text-2xl md:text-3xl font-black tracking-tighter text-slate-900 leading-tight mb-1">Convert PDF All Tools: Complete All Tool 2026</h1>
+          <div className="flex items-center gap-3 text-xs text-slate-400 font-medium flex-wrap">
+            <span className="text-[10px] font-black uppercase tracking-widest bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full">Guide</span>
+            <span className="flex items-center gap-1"><Clock size={11} /> 5 min read</span>
+            <span>Apr 15, 2026</span>
+          </div>
+        </div>
+      </div>
+      <div className="relative overflow-hidden rounded-2xl mb-6">
+        <img src="/img/word-pdf.png" alt="Convert PDF All Tools" className="w-full h-auto" />
+      </div>
       <p className="text-lg text-slate-500 leading-relaxed mb-8">Master every PDF conversion tool in one comprehensive guide. Learn how to convert PDFs to Word, Excel, PowerPoint, JPG, and more with professional tips and best practices.</p>
       <div className="space-y-6">
         <div className="bg-blue-50 border border-blue-100 rounded-2xl p-5"><p className="font-black text-blue-800 text-sm mb-2">In this guide</p>
@@ -21,11 +31,28 @@ export default function PDFToWordPost() {
           </div>
         ))}
         <h2 className="text-xl font-black text-slate-900">Tips for Best Conversion Results</h2>
-        <ul className="space-y-2">{['Use high-quality source PDFs for better output','Check complex layouts may need minor formatting adjustments','Selectable text converts better than scanned documents','Images and fonts are preserved where possible','Batch convert multiple files to save time','Always review converted files before final use'].map((tip,i) => (<li key={i} className="flex items-start gap-2 text-sm text-slate-600 bg-slate-50 rounded-xl p-3"><CheckCircle2 size={14} className="text-green-500 shrink-0 mt-0.5" />{tip}</li>))}</ul>
+        <ul className="space-y-2 mb-6">{['Use high-quality source PDFs for better output','Check complex layouts may need minor formatting adjustments','Selectable text converts better than scanned documents','Images and fonts are preserved where possible','Batch convert multiple files to save time','Always review converted files before final use'].map((tip,i) => (<li key={i} className="flex items-start gap-2 text-sm text-slate-600 bg-slate-50 rounded-xl p-3"><CheckCircle2 size={14} className="text-green-500 shrink-0 mt-0.5" />{tip}</li>))}</ul>
+
+        <h2 className="text-xl font-black text-slate-900">Frequently Asked Questions</h2>
+        <div className="space-y-4 mb-6">
+          {[
+            { q: 'Will the converted Word file look exactly like the PDF?', a: 'Yes, in most cases. The tool uses advanced layout reconstruction to preserve fonts, tables, and spacing. However, extremely complex layouts may need minor manual adjustments.' },
+            { q: 'Can I convert scanned PDFs to Word?', a: 'Yes! The tool includes built-in OCR (Optical Character Recognition) to extract text from scanned documents and images.' },
+            { q: 'Is my data safe during conversion?', a: 'Absolutely. All conversions happen directly in your browser. Your files are never uploaded to any server, ensuring 100% privacy.' }
+          ].map(({ q, a }, i) => (
+            <div key={i} className="bg-slate-50 rounded-xl p-4 border border-slate-100">
+              <p className="font-black text-slate-900 text-sm mb-1">{q}</p>
+              <p className="text-xs text-slate-500 leading-relaxed">{a}</p>
+            </div>
+          ))}
+        </div>
+
         <h2 className="text-xl font-black text-slate-900">All Available Conversion Tools</h2>
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">{[['Word → PDF','word-to-pdf'],['Excel → PDF','excel-to-pdf'],['PDF → Excel','pdf-to-excel'],['PDF → Word','pdf-to-word'],['PPT → PDF','ppt-to-pdf'],['PDF → PPT','pdf-to-ppt'],['JPG → PDF','jpg-to-pdf'],['PDF → JPG','pdf-to-jpg'],['HTML → PDF','html-to-pdf']].map(([label,slug]) => (<a key={slug} href={`/tool/${slug}`} className="p-3 bg-white rounded-xl border border-slate-100 shadow-sm text-xs font-black text-slate-700 hover:text-red-500 hover:border-red-200 transition-all text-center">{label}</a>))}</div>
-        <div className="bg-slate-900 rounded-2xl p-6 text-center text-white space-y-3"><p className="font-black">Start converting your PDFs today</p>
-          <a href="/tool/pdf-to-word" className="inline-flex items-center gap-2 px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-black text-sm transition-all">Try PDF to Word <ArrowRight size={14} /></a></div>
+        <div className="bg-white border-2 border-blue-600 rounded-2xl p-6 text-center text-slate-900 space-y-3 shadow-sm hover:shadow-xl transition-all duration-300">
+          <p className="font-black">Start converting your PDFs today</p>
+          <a href="/tool/pdf-to-word" className="inline-flex items-center gap-2 px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-black text-sm transition-all">Try PDF to Word <ArrowRight size={14} /></a>
+        </div>
       </div>
     </div></article>
   );

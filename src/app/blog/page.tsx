@@ -104,30 +104,33 @@ export default function BlogPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           {featured.map(post => (
             <a key={post.slug} href={`/blog/${post.slug}`}
-              className="group bg-white rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-all overflow-hidden flex flex-col">
-              {/* Color banner */}
-              <div className={`h-2 ${post.iconBg}`} />
-              <div className="p-6 flex flex-col flex-1 gap-4">
-                <div className="flex items-start justify-between gap-3">
-                  <div className={`w-10 h-10 ${post.iconBg} rounded-xl flex items-center justify-center text-white shrink-0 shadow-md`}>
-                    <post.icon size={18} />
-                  </div>
-                  <span className={`text-[10px] font-black uppercase tracking-widest px-2 py-1 rounded-full ${post.categoryColor}`}>
+              className="group bg-white rounded-2xl border border-slate-100 shadow-sm hover:shadow-2xl hover:-translate-y-1 transition-all overflow-hidden flex flex-col">
+              <div className="relative h-48 overflow-hidden bg-slate-100 dark:bg-slate-700">
+                <img src="/img/word-pdf.png" alt={post.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                <div className="absolute top-4 right-4">
+                  <span className={`text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-full bg-white/80 backdrop-blur-sm ${post.categoryColor}`}>
                     {post.category}
                   </span>
                 </div>
-                <div className="flex-1">
-                  <h3 className="font-black text-slate-900 text-base leading-snug mb-2 group-hover:text-red-500 transition-colors">
+              </div>
+              <div className="p-6 flex flex-col flex-1 gap-4">
+                <div className="flex items-center gap-3">
+                  <div className={`w-8 h-8 ${post.iconBg} rounded-lg flex items-center justify-center text-white shrink-0 shadow-md`}>
+                    <post.icon size={16} />
+                  </div>
+                  <h3 className="font-black text-slate-900 text-base leading-snug group-hover:text-red-500 transition-colors">
                     {post.title}
                   </h3>
+                </div>
+                <div className="flex-1">
                   <p className="text-sm text-slate-500 leading-relaxed">{post.excerpt}</p>
                 </div>
-                <div className="flex items-center justify-between pt-2 border-t border-slate-50">
+                <div className="flex items-center justify-between pt-3 border-t border-slate-50">
                   <div className="flex items-center gap-3 text-xs text-slate-400 font-medium">
                     <span className="flex items-center gap-1"><Clock size={11} /> {post.readTime}</span>
                     <span>{post.date}</span>
                   </div>
-                  <span className="text-xs font-black text-red-500 flex items-center gap-1 group-hover:gap-2 transition-all">
+                  <span className="text-xs font-bold text-red-500 flex items-center gap-1 group-hover:gap-2 transition-all">
                     Read <ArrowRight size={12} />
                   </span>
                 </div>
@@ -140,45 +143,56 @@ export default function BlogPage() {
       {/* All posts */}
       <section className="container mx-auto px-4 pb-20 max-w-5xl">
         <h2 className="text-xs font-black uppercase tracking-widest text-slate-400 mb-4">All Articles</h2>
-        <div className="space-y-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
           {rest.map(post => (
             <a key={post.slug} href={`/blog/${post.slug}`}
-              className="group bg-white rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-all flex items-center gap-5 p-5">
-              <div className={`w-11 h-11 ${post.iconBg} rounded-xl flex items-center justify-center text-white shrink-0 shadow-md`}>
-                <post.icon size={18} />
-              </div>
-              <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-2 mb-1">
-                  <span className={`text-[10px] font-black uppercase tracking-widest px-2 py-0.5 rounded-full ${post.categoryColor}`}>
+              className="group bg-white rounded-2xl border border-slate-100 shadow-sm hover:shadow-2xl hover:-translate-y-1 transition-all overflow-hidden flex flex-col">
+              <div className="relative h-40 overflow-hidden bg-slate-100">
+                <img src="/img/word-pdf.png" alt={post.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                <div className="absolute top-3 right-3">
+                  <span className={`text-[10px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-full bg-white/80 backdrop-blur-sm ${post.categoryColor}`}>
                     {post.category}
                   </span>
                 </div>
-                <h3 className="font-black text-slate-900 text-sm leading-snug group-hover:text-red-500 transition-colors truncate">
-                  {post.title}
-                </h3>
-                <p className="text-xs text-slate-400 mt-0.5 hidden sm:block truncate">{post.excerpt}</p>
               </div>
-              <div className="shrink-0 text-right space-y-1">
-                <div className="flex items-center gap-1 text-xs text-slate-400 font-medium justify-end">
-                  <Clock size={11} /> {post.readTime}
+              <div className="p-5 flex flex-col flex-1 gap-3">
+                <div className="flex items-center gap-2">
+                  <div className={`w-6 h-6 ${post.iconBg} rounded-md flex items-center justify-center text-white shrink-0 shadow-sm`}>
+                    <post.icon size={12} />
+                  </div>
+                  <h3 className="font-black text-slate-900 text-sm leading-snug group-hover:text-red-500 transition-colors line-clamp-2">
+                    {post.title}
+                  </h3>
                 </div>
-                <p className="text-xs text-slate-400">{post.date}</p>
+                <div className="flex-1">
+                  <p className="text-xs text-slate-500 leading-relaxed line-clamp-2">{post.excerpt}</p>
+                </div>
+                <div className="flex items-center justify-between pt-2 border-t border-slate-50">
+                  <div className="flex items-center gap-2 text-[10px] text-slate-400 font-medium">
+                    <span className="flex items-center gap-1"><Clock size={10} /> {post.readTime}</span>
+                    <span>{post.date}</span>
+                  </div>
+                  <span className="text-xs font-bold text-red-500 flex items-center gap-1 group-hover:gap-2 transition-all">
+                    Read <ArrowRight size={10} />
+                  </span>
+                </div>
               </div>
-              <ArrowRight size={16} className="text-slate-300 group-hover:text-red-400 transition-colors shrink-0" />
             </a>
           ))}
         </div>
 
         {/* Newsletter CTA */}
-        <div className="mt-12 bg-gradient-to-br from-slate-900 to-slate-800 rounded-3xl p-8 text-center text-white space-y-4">
-          <BookOpen size={32} className="mx-auto text-red-400" />
-          <h3 className="text-xl font-black">Want More PDF Tips?</h3>
-          <p className="text-slate-400 text-sm max-w-md mx-auto">
+        <div className="mt-12 bg-red-50 border-2 border-red-500 rounded-3xl p-8 text-center text-slate-900 space-y-4 shadow-sm hover:shadow-xl transition-all duration-300">
+          <BookOpen size={32} className="mx-auto text-red-500" />
+          <h3 className="text-xl font-black text-slate-900">Want More PDF Tips?</h3>
+          <p className="text-slate-500 text-sm max-w-md mx-auto">
             Explore all our free PDF tools and start working smarter with your documents today.
           </p>
-          <a href="/" className="inline-flex items-center gap-2 px-6 py-3 bg-red-500 hover:bg-red-600 text-white rounded-xl font-black text-sm transition-all shadow-lg shadow-red-500/20">
-            Try All 22+ Free Tools <ArrowRight size={14} />
-          </a>
+          <div className="flex justify-center">
+            <a href="/" className="inline-flex items-center gap-2 px-6 py-3 bg-red-500 hover:bg-red-600 text-white rounded-xl font-black text-sm transition-all shadow-lg hover:shadow-red-500/20">
+              Try All 22+ Free Tools <ArrowRight size={14} />
+            </a>
+          </div>
         </div>
       </section>
     </div>
