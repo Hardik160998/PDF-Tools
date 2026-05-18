@@ -35,6 +35,7 @@ const POSTS = [
     readTime: '5 min read',
     date: 'Apr 15, 2026',
     featured: false,
+    image: '/img/convert-pdf-all-tool.png',
   },
   {
     slug: 'protect-pdf-with-password',
@@ -57,6 +58,7 @@ const POSTS = [
     readTime: '4 min read',
     date: 'Apr 10, 2026',
     featured: false,
+    image: '/img/rearrange.png',
   },
   {
     slug: 'how-to-crop-aadhar-card',
@@ -190,6 +192,7 @@ const POSTS = [
     readTime: '5 min read',
     date: 'May 4, 2026',
     featured: false,
+    image: '/img/pdf-optimization.png',
   },
   {
     slug: 'ultimate-guide-to-organizing-pdfs',
@@ -201,6 +204,7 @@ const POSTS = [
     readTime: '5 min read',
     date: 'May 5, 2026',
     featured: false,
+    image: '/img/organizing-pdfs.png',
   },
   {
     slug: 'ultimate-pdf-editing-guide',
