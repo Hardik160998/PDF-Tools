@@ -298,8 +298,13 @@ export default function Home() {
                     className="tool-card"
                     onClick={() => trackToolClick(tool.id)}
                   >
-                    <div className={`tool-icon-wrapper shadow-xl ${style.shadow}`} style={{ backgroundImage: style.gradient }}>
-                      <tool.icon size={28} />
+                    <div className="relative">
+                      <div className={`tool-icon-wrapper shadow-xl ${style.shadow}`} style={{ backgroundImage: style.gradient }}>
+                        <tool.icon size={28} />
+                      </div>
+                      <span className="absolute -top-2 -right-2 text-[9px] font-bold uppercase tracking-widest px-1.5 py-0.5 rounded-full bg-white text-red-600 border border-red-500 shadow-sm whitespace-nowrap">
+                        {tool.category}
+                      </span>
                     </div>
                     <div className="space-y-3">
                       <h3 className="font-outfit text-lg font-black text-slate-900 dark:text-white tracking-tight">{tool.title}</h3>
@@ -499,8 +504,8 @@ export default function Home() {
               <div className="relative h-48 overflow-hidden bg-slate-100 dark:bg-slate-700">
                 <img src="/img/word-pdf.png" alt="Crop Aadhar Card" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                 <div className="absolute top-4 right-4">
-                  <span className="text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-full bg-white/80 text-red-700 backdrop-blur-sm">
-                    Tutorial
+                  <span className="text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-full bg-white text-red-600 border-2 border-red-500 shadow-sm">
+                    Aadhar Card
                   </span>
                 </div>
               </div>
@@ -545,8 +550,8 @@ export default function Home() {
               <div className="relative h-48 overflow-hidden bg-slate-100 dark:bg-slate-700">
                 <img src="/img/word-pdf.png" alt="Convert PDF All Tools" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                 <div className="absolute top-4 right-4">
-                  <span className="text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-full bg-white/80 text-blue-700 backdrop-blur-sm">
-                    Guide
+                  <span className="text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-full bg-white text-red-600 border-2 border-red-500 shadow-sm">
+                    PDF Convert
                   </span>
                 </div>
               </div>
