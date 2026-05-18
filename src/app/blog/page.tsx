@@ -47,6 +47,7 @@ const POSTS = [
     readTime: '3 min read',
     date: 'Apr 12, 2026',
     featured: false,
+    image: '/img/protect-pdf-banner.png',
   },
   {
     slug: 'organize-pdf-pages',
@@ -82,6 +83,7 @@ const POSTS = [
     readTime: '3 min read',
     date: 'Apr 22, 2026',
     featured: false,
+    image: '/img/crop-pdf.png',
   },
   {
     slug: 'how-to-crop-meesho-labels',
@@ -93,6 +95,7 @@ const POSTS = [
     readTime: '4 min read',
     date: 'Apr 25, 2026',
     featured: false,
+    image: '/img/mesho-invoice-label.png',
   },
   {
     slug: 'how-to-crop-meesho-labels-without-invoice',
@@ -159,6 +162,7 @@ const POSTS = [
     readTime: '4 min read',
     date: 'May 1, 2026',
     featured: false,
+    image: '/img/redact-pdf.png',
   },
   {
     slug: 'how-to-edit-pdf',
