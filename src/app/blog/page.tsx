@@ -11,6 +11,7 @@ const POSTS = [
     readTime: '3 min read',
     date: 'Apr 20, 2026',
     featured: true,
+    image: '/img/merge-multiple-pdfs.png',
   },
   {
     slug: 'compress-pdf-without-losing-quality',
@@ -253,7 +254,7 @@ export default function BlogPage() {
             <a key={post.slug} href={`/blog/${post.slug}`}
               className="group bg-white rounded-2xl border border-slate-100 shadow-sm hover:shadow-2xl hover:-translate-y-1 transition-all overflow-hidden flex flex-col">
               <div className="relative h-48 overflow-hidden bg-slate-100 dark:bg-slate-700">
-                <img src="/img/word-pdf.png" alt={post.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                <img src={post.image || "/img/word-pdf.png"} alt={post.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                 <div className="absolute top-4 right-4">
                   <span className="text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-full bg-white text-red-600 border-2 border-red-500 shadow-sm">
                     {post.label}
@@ -304,7 +305,7 @@ export default function BlogPage() {
                   <a key={post.slug} href={`/blog/${post.slug}`}
                     className="group bg-white rounded-2xl border border-slate-100 shadow-sm hover:shadow-2xl hover:-translate-y-1 transition-all overflow-hidden flex flex-col">
                     <div className="relative h-40 overflow-hidden bg-slate-100">
-                      <img src="/img/word-pdf.png" alt={post.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                      <img src={post.image || "/img/word-pdf.png"} alt={post.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                       <div className="absolute top-3 right-3">
                         <span className="text-[10px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-full bg-white text-red-600 border-2 border-red-500 shadow-sm">
                           {post.label}
