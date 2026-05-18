@@ -501,8 +501,8 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto mb-12">
             {/* Blog Post 1: Aadhar Card */}
             <a href="/blog/how-to-crop-aadhar-card" className="group bg-white dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm hover:shadow-2xl hover:-translate-y-1 transition-all overflow-hidden flex flex-col h-full">
-              <div className="relative h-48 overflow-hidden bg-slate-100 dark:bg-slate-700">
-                <img src="/img/word-pdf.png" alt="Crop Aadhar Card" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+              <div className="relative overflow-hidden bg-slate-100 dark:bg-slate-700">
+                <img src="/img/crop-aadhar-card.png" alt="Crop Aadhar Card" className="w-full h-auto group-hover:scale-105 transition-transform duration-500" />
                 <div className="absolute top-4 right-4">
                   <span className="text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-full bg-white text-red-600 border-2 border-red-500 shadow-sm">
                     Special
