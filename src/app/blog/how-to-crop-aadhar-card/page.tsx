@@ -22,7 +22,7 @@ export default function AadharCropPost() {
           </div>
         </div>
         <div className="relative overflow-hidden rounded-2xl mb-6">
-          <img src="/img/word-pdf.png" alt="How to Crop Aadhar Card for Printing" className="w-full h-auto" />
+          <img src="/img/crop-aadhar-card.png" alt="How to Crop Aadhar Card for Printing" className="w-full h-auto" />
         </div>
         <p className="text-lg text-slate-500 leading-relaxed mb-8">
           Got your e-Aadhar PDF but need a properly cropped, print-ready version? SmartPDFs Plus lets you crop both sides of your Aadhar card to standard ID dimensions — entirely in your browser, with zero uploads.
