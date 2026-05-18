@@ -35,7 +35,7 @@ const POSTS = [
     readTime: '5 min read',
     date: 'Apr 15, 2026',
     featured: false,
-    image: '/img/convert-pdf-all-tool.png',
+    image: '/img/convert-pdf-all-tool.png?v=1',
   },
   {
     slug: 'protect-pdf-with-password',

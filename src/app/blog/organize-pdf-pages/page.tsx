@@ -15,7 +15,7 @@ export default function OrganizePDFPost() {
         </div>
       </div>
 
-      <div className="relative overflow-hidden rounded-2xl mb-6">
+      <div className="relative rounded-2xl mb-6 shadow-2xl">
         <img src="/img/rearrange.png" alt="How to Rearrange, Rotate & Delete PDF Pages Online" className="w-full h-auto" />
       </div>
       <p className="text-lg text-slate-500 leading-relaxed mb-8">The Organize PDF tool gives you full visual control over your document pages. Drag to reorder, rotate sideways scans, and remove unwanted pages.</p>

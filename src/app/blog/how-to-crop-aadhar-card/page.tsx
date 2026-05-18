@@ -21,7 +21,7 @@ export default function AadharCropPost() {
             </div>
           </div>
         </div>
-        <div className="relative overflow-hidden rounded-2xl mb-6">
+        <div className="relative rounded-2xl mb-6 shadow-2xl">
           <img src="/img/crop-aadhar-card.png" alt="How to Crop Aadhar Card for Printing" className="w-full h-auto" />
         </div>
         <p className="text-lg text-slate-500 leading-relaxed mb-8">

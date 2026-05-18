@@ -22,7 +22,7 @@ export default function PdfOptimizationGuidePost() {
           </div>
         </div>
 
-        <div className="relative overflow-hidden rounded-2xl mb-6">
+        <div className="relative rounded-2xl mb-6 shadow-2xl">
           <img src="/img/pdf-optimization.png" alt="Ultimate PDF Optimization Guide" className="w-full h-auto" />
         </div>
 

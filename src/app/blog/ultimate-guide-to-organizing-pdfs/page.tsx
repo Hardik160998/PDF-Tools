@@ -22,7 +22,7 @@ export default function GuideToOrganizingPdfsPost() {
           </div>
         </div>
 
-        <div className="relative overflow-hidden rounded-2xl mb-6">
+        <div className="relative rounded-2xl mb-6 shadow-2xl">
           <img src="/img/organizing-pdfs.png" alt="Ultimate Guide to Organizing PDFs" className="w-full h-auto" />
         </div>
 

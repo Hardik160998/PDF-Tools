@@ -22,7 +22,7 @@ export default function MeeshoCropNoInvoicePost() {
           </div>
         </div>
 
-        <div className="relative overflow-hidden rounded-2xl mb-6">
+        <div className="relative rounded-2xl mb-6 shadow-2xl">
           <img src="/img/word-pdf.png" alt="How to Crop Meesho Labels Without Invoice" className="w-full h-auto" />
         </div>
 

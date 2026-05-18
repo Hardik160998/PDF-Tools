@@ -302,9 +302,6 @@ export default function Home() {
                       <div className={`tool-icon-wrapper shadow-xl ${style.shadow}`} style={{ backgroundImage: style.gradient }}>
                         <tool.icon size={28} />
                       </div>
-                      <span className="absolute -top-2 -right-2 text-[9px] font-bold uppercase tracking-widest px-1.5 py-0.5 rounded-full bg-white text-red-600 border border-red-500 shadow-sm whitespace-nowrap">
-                        {tool.category}
-                      </span>
                     </div>
                     <div className="space-y-3">
                       <h3 className="font-outfit text-lg font-black text-slate-900 dark:text-white tracking-tight">{tool.title}</h3>

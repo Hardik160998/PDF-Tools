@@ -14,24 +14,24 @@ export default function PDFToWordPost() {
           </div>
         </div>
       </div>
-      <div className="relative overflow-hidden rounded-2xl mb-6">
-        <img src="/img/word-pdf.png" alt="Convert PDF All Tools" className="w-full h-auto" />
+      <div className="relative rounded-2xl mb-6 shadow-2xl">
+        <img src="/img/convert-pdf-all-tool.png?v=1" alt="Convert PDF All Tools" className="w-full h-auto" />
       </div>
       <p className="text-lg text-slate-500 leading-relaxed mb-8">Master every PDF conversion tool in one comprehensive guide. Learn how to convert PDFs to Word, Excel, PowerPoint, JPG, and more with professional tips and best practices.</p>
       <div className="space-y-6">
         <div className="bg-blue-50 border border-blue-100 rounded-2xl p-5"><p className="font-black text-blue-800 text-sm mb-2">In this guide</p>
-          <ul className="space-y-1">{['PDF to Word conversion','PDF to Excel spreadsheets','PDF to PowerPoint presentations','PDF to JPG images','Word/Excel/PPT to PDF','Best practices for quality preservation'].map(i => (<li key={i} className="flex items-center gap-2 text-sm text-blue-700"><CheckCircle2 size={13} className="text-blue-500" />{i}</li>))}</ul></div>
+          <ul className="space-y-1">{['PDF to Word conversion', 'PDF to Excel spreadsheets', 'PDF to PowerPoint presentations', 'PDF to JPG images', 'Word/Excel/PPT to PDF', 'Best practices for quality preservation'].map(i => (<li key={i} className="flex items-center gap-2 text-sm text-blue-700"><CheckCircle2 size={13} className="text-blue-500" />{i}</li>))}</ul></div>
         <h2 className="text-xl font-black text-slate-900">Why Convert PDFs?</h2>
         <p className="text-slate-600 leading-relaxed text-sm">PDFs are perfect for sharing but not for editing. Convert to other formats when you need to: edit text content, update tables or charts, reformat document layout, extract data, or repurpose content for presentations and reports.</p>
         <h2 className="text-xl font-black text-slate-900">Complete PDF Conversion Tools Guide</h2>
-        {[{step:'1',title:'PDF to Word',desc:'Convert PDF documents to editable DOCX files. Perfect for editing contracts, reports, and documents while preserving formatting.'},{step:'2',title:'PDF to Excel',desc:'Extract tables and data from PDFs into Excel spreadsheets for analysis and calculations.'},{step:'3',title:'PDF to PowerPoint',desc:'Transform PDF pages into presentation slides for meetings and demonstrations.'},{step:'4',title:'PDF to JPG',desc:'Convert PDF pages to high-quality images for sharing or embedding in documents.'},{step:'5',title:'Office to PDF',desc:'Convert Word, Excel, and PowerPoint files to PDF for secure sharing and consistent formatting.'},{step:'6',title:'HTML to PDF',desc:'Turn web pages and HTML files into professional PDF documents.'}].map(({step,title,desc}) => (
+        {[{ step: '1', title: 'PDF to Word', desc: 'Convert PDF documents to editable DOCX files. Perfect for editing contracts, reports, and documents while preserving formatting.' }, { step: '2', title: 'PDF to Excel', desc: 'Extract tables and data from PDFs into Excel spreadsheets for analysis and calculations.' }, { step: '3', title: 'PDF to PowerPoint', desc: 'Transform PDF pages into presentation slides for meetings and demonstrations.' }, { step: '4', title: 'PDF to JPG', desc: 'Convert PDF pages to high-quality images for sharing or embedding in documents.' }, { step: '5', title: 'Office to PDF', desc: 'Convert Word, Excel, and PowerPoint files to PDF for secure sharing and consistent formatting.' }, { step: '6', title: 'HTML to PDF', desc: 'Turn web pages and HTML files into professional PDF documents.' }].map(({ step, title, desc }) => (
           <div key={step} className="flex gap-4 p-4 bg-white rounded-2xl border border-slate-100 shadow-sm">
             <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center text-white font-black text-sm shrink-0">{step}</div>
             <div><p className="font-black text-slate-900 text-sm">{title}</p><p className="text-sm text-slate-500 mt-0.5">{desc}</p></div>
           </div>
         ))}
         <h2 className="text-xl font-black text-slate-900">Tips for Best Conversion Results</h2>
-        <ul className="space-y-2 mb-6">{['Use high-quality source PDFs for better output','Check complex layouts may need minor formatting adjustments','Selectable text converts better than scanned documents','Images and fonts are preserved where possible','Batch convert multiple files to save time','Always review converted files before final use'].map((tip,i) => (<li key={i} className="flex items-start gap-2 text-sm text-slate-600 bg-slate-50 rounded-xl p-3"><CheckCircle2 size={14} className="text-green-500 shrink-0 mt-0.5" />{tip}</li>))}</ul>
+        <ul className="space-y-2 mb-6">{['Use high-quality source PDFs for better output', 'Check complex layouts may need minor formatting adjustments', 'Selectable text converts better than scanned documents', 'Images and fonts are preserved where possible', 'Batch convert multiple files to save time', 'Always review converted files before final use'].map((tip, i) => (<li key={i} className="flex items-start gap-2 text-sm text-slate-600 bg-slate-50 rounded-xl p-3"><CheckCircle2 size={14} className="text-green-500 shrink-0 mt-0.5" />{tip}</li>))}</ul>
 
         <h2 className="text-xl font-black text-slate-900">Frequently Asked Questions</h2>
         <div className="space-y-4 mb-6">
@@ -48,7 +48,7 @@ export default function PDFToWordPost() {
         </div>
 
         <h2 className="text-xl font-black text-slate-900">All Available Conversion Tools</h2>
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">{[['Word → PDF','word-to-pdf'],['Excel → PDF','excel-to-pdf'],['PDF → Excel','pdf-to-excel'],['PDF → Word','pdf-to-word'],['PPT → PDF','ppt-to-pdf'],['PDF → PPT','pdf-to-ppt'],['JPG → PDF','jpg-to-pdf'],['PDF → JPG','pdf-to-jpg'],['HTML → PDF','html-to-pdf']].map(([label,slug]) => (<a key={slug} href={`/tool/${slug}`} className="p-3 bg-white rounded-xl border border-slate-100 shadow-sm text-xs font-black text-slate-700 hover:text-red-500 hover:border-red-200 transition-all text-center">{label}</a>))}</div>
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">{[['Word → PDF', 'word-to-pdf'], ['Excel → PDF', 'excel-to-pdf'], ['PDF → Excel', 'pdf-to-excel'], ['PDF → Word', 'pdf-to-word'], ['PPT → PDF', 'ppt-to-pdf'], ['PDF → PPT', 'pdf-to-ppt'], ['JPG → PDF', 'jpg-to-pdf'], ['PDF → JPG', 'pdf-to-jpg'], ['HTML → PDF', 'html-to-pdf']].map(([label, slug]) => (<a key={slug} href={`/tool/${slug}`} className="p-3 bg-white rounded-xl border border-slate-100 shadow-sm text-xs font-black text-slate-700 hover:text-red-500 hover:border-red-200 transition-all text-center">{label}</a>))}</div>
         <div className="bg-white border-2 border-blue-600 rounded-2xl p-6 text-center text-slate-900 space-y-3 shadow-sm hover:shadow-xl transition-all duration-300">
           <div>
             <p className="font-black text-slate-900">Ready to convert your PDFs?</p>

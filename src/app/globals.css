@@ -726,3 +726,8 @@ html.dark .convert-dropdown-item:hover {
   background: #0f172a;
   color: #f1f5f9;
 }
+
+/* Blog Image Shadow Fix */
+.relative.rounded-2xl.mb-6.shadow-2xl img {
+  border-radius: 1rem !important;
+}

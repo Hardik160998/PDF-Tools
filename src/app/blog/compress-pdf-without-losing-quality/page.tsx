@@ -15,7 +15,7 @@ export default function CompressPost() {
             </div>
           </div>
         </div>
-        <div className="relative overflow-hidden rounded-2xl mb-6">
+        <div className="relative rounded-2xl mb-6 shadow-2xl">
           <img src="/img/compress-pdf.png" alt="How to Compress a PDF" className="w-full h-auto" />
         </div>
         <p className="text-lg text-slate-500 leading-relaxed mb-8">Large PDF files are frustrating to email, upload, or share. Learn how to shrink your PDFs while keeping them sharp and readable.</p>

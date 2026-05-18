@@ -14,7 +14,7 @@ export default function ProtectPDFPost() {
           </div>
         </div>
       </div>
-      <div className="relative overflow-hidden rounded-2xl mb-6">
+      <div className="relative rounded-2xl mb-6 shadow-2xl">
         <img src="/img/protect-pdf-banner.png" alt="How to Password Protect a PDF File" className="w-full h-auto" />
       </div>
       <p className="text-lg text-slate-500 leading-relaxed mb-8">Protect sensitive documents — contracts, financial reports, personal files — with a password. Works on any device, completely free.</p>

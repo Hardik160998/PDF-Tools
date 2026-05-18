@@ -22,7 +22,7 @@ export default function UltimatePdfEditingGuidePost() {
           </div>
         </div>
 
-        <div className="relative overflow-hidden rounded-2xl mb-6">
+        <div className="relative rounded-2xl mb-6 shadow-2xl">
           <img src="/img/word-pdf.png" alt="Ultimate PDF Editing Guide" className="w-full h-auto" />
         </div>
 

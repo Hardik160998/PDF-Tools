@@ -22,7 +22,7 @@ export default function CropPDFPost() {
           </div>
         </div>
 
-        <div className="relative overflow-hidden rounded-2xl mb-6">
+        <div className="relative rounded-2xl mb-6 shadow-2xl">
           <img src="/img/crop-pdf.png" alt="How to Crop PDF Pages" className="w-full h-auto" />
         </div>
 

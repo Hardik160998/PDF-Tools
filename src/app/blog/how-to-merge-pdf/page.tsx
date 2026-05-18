@@ -21,8 +21,8 @@ export default function MergePDFPost() {
             </div>
           </div>
         </div>
-        <div className="relative overflow-hidden rounded-2xl mb-6">
-          <img src="/img/merge-multiple-pdfs.png" alt="How to Merge Multiple PDFs" className="w-full h-auto" />
+        <div className="relative rounded-2xl mb-6 shadow-2xl">
+          <img src="/img/merge-multiple-pdfs.png" alt="How to Merge Multiple PDFs" className="w-full h-auto rounded-2xl" />
         </div>
         <p className="text-lg text-slate-500 leading-relaxed mb-8">
           Need to combine several PDF files into one? SmartPDFs Plus makes it instant — no software, no sign-up, completely free.
