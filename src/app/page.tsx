@@ -505,7 +505,7 @@ export default function Home() {
                 <img src="/img/word-pdf.png" alt="Crop Aadhar Card" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                 <div className="absolute top-4 right-4">
                   <span className="text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-full bg-white text-red-600 border-2 border-red-500 shadow-sm">
-                    Aadhar Card
+                    Special
                   </span>
                 </div>
               </div>
@@ -551,7 +551,7 @@ export default function Home() {
                 <img src="/img/word-pdf.png" alt="Convert PDF All Tools" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                 <div className="absolute top-4 right-4">
                   <span className="text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-full bg-white text-red-600 border-2 border-red-500 shadow-sm">
-                    PDF Convert
+                    Convert
                   </span>
                 </div>
               </div>
