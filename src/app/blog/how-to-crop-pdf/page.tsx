@@ -15,7 +15,7 @@ export default function CropPDFPost() {
               How to Crop PDF Pages Online — Free & Easy
             </h1>
             <div className="flex items-center gap-3 text-xs text-slate-400 font-medium flex-wrap">
-              <span className="text-[10px] font-black uppercase tracking-widest bg-indigo-100 text-indigo-700 px-2 py-0.5 rounded-full">Guide</span>
+              <span className="text-[10px] font-black uppercase tracking-widest bg-white text-red-600 border-2 border-red-500 px-2 py-0.5 rounded-full shadow-sm">Special</span>
               <span className="flex items-center gap-1"><Clock size={11} /> 3 min read</span>
               <span>Apr 22, 2026</span>
             </div>

@@ -15,7 +15,7 @@ export default function AadharCropPost() {
               How to Crop Aadhar Card for Printing — Free Online Tool
             </h1>
             <div className="flex items-center gap-3 text-xs text-slate-400 font-medium flex-wrap">
-              <span className="text-[10px] font-black uppercase tracking-widest bg-red-100 text-red-700 px-2 py-0.5 rounded-full">Tutorial</span>
+              <span className="text-[10px] font-black uppercase tracking-widest bg-white text-red-600 border-2 border-red-500 px-2 py-0.5 rounded-full shadow-sm">Special</span>
               <span className="flex items-center gap-1"><Clock size={11} /> 3 min read</span>
               <span>Apr 8, 2026</span>
             </div>

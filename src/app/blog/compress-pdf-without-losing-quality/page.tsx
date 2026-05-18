@@ -9,7 +9,7 @@ export default function CompressPost() {
           <div>
             <h1 className="text-2xl md:text-3xl font-black tracking-tighter text-slate-900 leading-tight mb-1">How to Compress a PDF Without Losing Quality</h1>
             <div className="flex items-center gap-3 text-xs text-slate-400 font-medium flex-wrap">
-              <span className="text-[10px] font-black uppercase tracking-widest bg-green-100 text-green-700 px-2 py-0.5 rounded-full">Guide</span>
+              <span className="text-[10px] font-black uppercase tracking-widest bg-white text-red-600 border-2 border-red-500 px-2 py-0.5 rounded-full shadow-sm">Optimize</span>
               <span className="flex items-center gap-1"><Clock size={11} /> 4 min read</span>
               <span>Apr 18, 2026</span>
             </div>

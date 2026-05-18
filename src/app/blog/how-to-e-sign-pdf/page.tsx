@@ -15,7 +15,7 @@ export default function ESignPdfPost() {
               How to E-Sign PDF — Sign Documents Electronically
             </h1>
             <div className="flex items-center gap-3 text-xs text-slate-400 font-medium flex-wrap">
-              <span className="text-[10px] font-black uppercase tracking-widest bg-violet-100 text-violet-700 px-2 py-0.5 rounded-full">Tutorial</span>
+              <span className="text-[10px] font-black uppercase tracking-widest bg-white text-red-600 border-2 border-red-500 px-2 py-0.5 rounded-full shadow-sm">Sign</span>
               <span className="flex items-center gap-1"><Clock size={11} /> 4 min read</span>
               <span>May 3, 2026</span>
             </div>

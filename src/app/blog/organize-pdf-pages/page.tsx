@@ -8,7 +8,7 @@ export default function OrganizePDFPost() {
         <div>
           <h1 className="text-2xl md:text-3xl font-black tracking-tighter text-slate-900 leading-tight mb-1">How to Rearrange, Rotate & Delete PDF Pages Online</h1>
           <div className="flex items-center gap-3 text-xs text-slate-400 font-medium flex-wrap">
-            <span className="text-[10px] font-black uppercase tracking-widest bg-purple-100 text-purple-700 px-2 py-0.5 rounded-full">Tutorial</span>
+            <span className="text-[10px] font-black uppercase tracking-widest bg-white text-red-600 border-2 border-red-500 px-2 py-0.5 rounded-full shadow-sm">Organize</span>
             <span className="flex items-center gap-1"><Clock size={11} /> 4 min read</span>
             <span>Apr 10, 2026</span>
           </div>

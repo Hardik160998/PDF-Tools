@@ -15,7 +15,7 @@ export default function UltimatePdfEditingGuidePost() {
               The Ultimate Guide to Editing, Redacting & Signing PDFs
             </h1>
             <div className="flex items-center gap-3 text-xs text-slate-400 font-medium flex-wrap">
-              <span className="text-[10px] font-black uppercase tracking-widest bg-pink-100 text-pink-700 px-2 py-0.5 rounded-full">Guide</span>
+              <span className="text-[10px] font-black uppercase tracking-widest bg-white text-red-600 border-2 border-red-500 px-2 py-0.5 rounded-full shadow-sm">Edit</span>
               <span className="flex items-center gap-1"><Clock size={11} /> 5 min read</span>
               <span>May 6, 2026</span>
             </div>

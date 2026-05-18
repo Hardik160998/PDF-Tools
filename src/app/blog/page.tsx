@@ -212,11 +212,21 @@ const POSTS = [
   },
 ];
 
-const CATEGORIES = ['All', 'Tutorial', 'Guide', 'Tips'];
+const CATEGORY_DESCRIPTIONS: Record<string, string> = {
+  Organize: "Manage your PDF pages, merge files, and split documents.",
+  Optimize: "Shrink file sizes and repair corrupted PDFs.",
+  Convert: "Convert PDFs to editable formats like Word and Excel.",
+  Security: "Protect your files with passwords and redact sensitive info.",
+  Special: "Custom tools for specific documents like Aadhar cards.",
+  Ecommerce: "Crop shipping labels for Amazon, Meesho, Flipkart, and more.",
+  'Image Convert': "Convert images between modern formats like WebP, AVIF, and PNG.",
+  Edit: "Add text, draw, and annotate your PDFs.",
+  Sign: "E-sign documents securely online."
+};
 
 export default function BlogPage() {
   const featured = POSTS.filter(p => p.featured);
-  const rest = POSTS.filter(p => !p.featured);
+  const categories = ['Organize', 'Optimize', 'Convert', 'Security', 'Special', 'Ecommerce', 'Image Convert', 'Edit', 'Sign'];
 
   return (
     <div className="min-h-screen">
@@ -277,46 +287,58 @@ export default function BlogPage() {
         </div>
       </section>
 
-      {/* All posts */}
+      {/* Category grouped posts */}
       <section className="container mx-auto px-4 pb-20 max-w-5xl">
-        <h2 className="text-xs font-black uppercase tracking-widest text-slate-400 mb-4">All Articles</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
-          {rest.map(post => (
-            <a key={post.slug} href={`/blog/${post.slug}`}
-              className="group bg-white rounded-2xl border border-slate-100 shadow-sm hover:shadow-2xl hover:-translate-y-1 transition-all overflow-hidden flex flex-col">
-              <div className="relative h-40 overflow-hidden bg-slate-100">
-                <img src="/img/word-pdf.png" alt={post.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                <div className="absolute top-3 right-3">
-                  <span className="text-[10px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-full bg-white text-red-600 border-2 border-red-500 shadow-sm">
-                    {post.label}
-                  </span>
-                </div>
+        {categories.map(category => {
+          const categoryPosts = POSTS.filter(p => p.label === category);
+          if (categoryPosts.length === 0) return null;
+          
+          return (
+            <div key={category} className="mb-16">
+              <div className="mb-4">
+                <h2 className="text-xl font-black text-slate-900 uppercase tracking-tight">{category}</h2>
+                <p className="text-sm text-slate-500 mt-1">{CATEGORY_DESCRIPTIONS[category] || ""}</p>
               </div>
-              <div className="p-5 flex flex-col flex-1 gap-3">
-                <div className="flex items-center gap-2">
-                  <div className={`w-6 h-6 ${post.iconBg} rounded-md flex items-center justify-center text-white shrink-0 shadow-sm`}>
-                    <post.icon size={12} />
-                  </div>
-                  <h3 className="font-black text-slate-900 text-sm leading-snug group-hover:text-red-500 transition-colors line-clamp-2">
-                    {post.title}
-                  </h3>
-                </div>
-                <div className="flex-1">
-                  <p className="text-xs text-slate-500 leading-relaxed line-clamp-2">{post.excerpt}</p>
-                </div>
-                <div className="flex items-center justify-between pt-2 border-t border-slate-50">
-                  <div className="flex items-center gap-2 text-[10px] text-slate-400 font-medium">
-                    <span className="flex items-center gap-1"><Clock size={10} /> {post.readTime}</span>
-                    <span>{post.date}</span>
-                  </div>
-                  <span className="text-xs font-bold text-red-500 flex items-center gap-1 group-hover:gap-2 transition-all">
-                    Read <ArrowRight size={10} />
-                  </span>
-                </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
+                {categoryPosts.map(post => (
+                  <a key={post.slug} href={`/blog/${post.slug}`}
+                    className="group bg-white rounded-2xl border border-slate-100 shadow-sm hover:shadow-2xl hover:-translate-y-1 transition-all overflow-hidden flex flex-col">
+                    <div className="relative h-40 overflow-hidden bg-slate-100">
+                      <img src="/img/word-pdf.png" alt={post.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                      <div className="absolute top-3 right-3">
+                        <span className="text-[10px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-full bg-white text-red-600 border-2 border-red-500 shadow-sm">
+                          {post.label}
+                        </span>
+                      </div>
+                    </div>
+                    <div className="p-5 flex flex-col flex-1 gap-3">
+                      <div className="flex items-center gap-2">
+                        <div className={`w-6 h-6 ${post.iconBg} rounded-md flex items-center justify-center text-white shrink-0 shadow-sm`}>
+                          <post.icon size={12} />
+                        </div>
+                        <h3 className="font-black text-slate-900 text-sm leading-snug group-hover:text-red-500 transition-colors line-clamp-2">
+                          {post.title}
+                        </h3>
+                      </div>
+                      <div className="flex-1">
+                        <p className="text-xs text-slate-500 leading-relaxed line-clamp-2">{post.excerpt}</p>
+                      </div>
+                      <div className="flex items-center justify-between pt-2 border-t border-slate-50">
+                        <div className="flex items-center gap-2 text-[10px] text-slate-400 font-medium">
+                          <span className="flex items-center gap-1"><Clock size={10} /> {post.readTime}</span>
+                          <span>{post.date}</span>
+                        </div>
+                        <span className="text-xs font-bold text-red-500 flex items-center gap-1 group-hover:gap-2 transition-all">
+                          Read <ArrowRight size={10} />
+                        </span>
+                      </div>
+                    </div>
+                  </a>
+                ))}
               </div>
-            </a>
-          ))}
-        </div>
+            </div>
+          );
+        })}
 
         {/* Newsletter CTA */}
         <div className="mt-12 bg-red-50 border-2 border-red-500 rounded-3xl p-8 text-center text-slate-900 space-y-4 shadow-sm hover:shadow-xl transition-all duration-300">
