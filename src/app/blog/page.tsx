@@ -23,6 +23,7 @@ const POSTS = [
     readTime: '4 min read',
     date: 'Apr 18, 2026',
     featured: true,
+    image: '/img/compress-pdf.png',
   },
   {
     slug: 'pdf-to-word-conversion-guide',
@@ -67,6 +68,7 @@ const POSTS = [
     readTime: '3 min read',
     date: 'Apr 8, 2026',
     featured: false,
+    image: '/img/crop-aadhar-card.png',
   },
   {
     slug: 'how-to-crop-pdf',
@@ -253,8 +255,8 @@ export default function BlogPage() {
           {featured.map(post => (
             <a key={post.slug} href={`/blog/${post.slug}`}
               className="group bg-white rounded-2xl border border-slate-100 shadow-sm hover:shadow-2xl hover:-translate-y-1 transition-all overflow-hidden flex flex-col">
-              <div className="relative h-48 overflow-hidden bg-slate-100 dark:bg-slate-700">
-                <img src={post.image || "/img/word-pdf.png"} alt={post.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+              <div className="relative overflow-hidden bg-slate-100 dark:bg-slate-700">
+                <img src={post.image || "/img/word-pdf.png"} alt={post.title} className="w-full h-auto group-hover:scale-105 transition-transform duration-500" />
                 <div className="absolute top-4 right-4">
                   <span className="text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-full bg-white text-red-600 border-2 border-red-500 shadow-sm">
                     {post.label}
@@ -293,7 +295,7 @@ export default function BlogPage() {
         {categories.map(category => {
           const categoryPosts = POSTS.filter(p => p.label === category);
           if (categoryPosts.length === 0) return null;
-          
+
           return (
             <div key={category} className="mb-16">
               <div className="mb-4">
@@ -304,8 +306,8 @@ export default function BlogPage() {
                 {categoryPosts.map(post => (
                   <a key={post.slug} href={`/blog/${post.slug}`}
                     className="group bg-white rounded-2xl border border-slate-100 shadow-sm hover:shadow-2xl hover:-translate-y-1 transition-all overflow-hidden flex flex-col">
-                    <div className="relative h-40 overflow-hidden bg-slate-100">
-                      <img src={post.image || "/img/word-pdf.png"} alt={post.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                    <div className="relative overflow-hidden bg-slate-100">
+                      <img src={post.image || "/img/word-pdf.png"} alt={post.title} className="w-full h-auto group-hover:scale-105 transition-transform duration-500" />
                       <div className="absolute top-3 right-3">
                         <span className="text-[10px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-full bg-white text-red-600 border-2 border-red-500 shadow-sm">
                           {post.label}
