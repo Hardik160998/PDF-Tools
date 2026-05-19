@@ -5,13 +5,18 @@ import { Lock, Crown, ShieldAlert, CheckCircle2, ArrowRight } from "lucide-react
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-// Define all premium tools by their ID
-export const PREMIUM_TOOL_IDS = [
+// Define all eCommerce tools
+export const ECOMMERCE_TOOL_IDS = [
   "meesho-cropper",
   "meshocrop",
   "flipkart-cropper",
   "amazon-cropper",
-  "snapdeal-cropper",
+  "snapdeal-cropper"
+];
+
+// Define all premium tools by their ID
+export const PREMIUM_TOOL_IDS = [
+  ...ECOMMERCE_TOOL_IDS,
   "ocr-pdf",
   "redact-pdf",
   "webpage-to-pdf"
@@ -39,9 +44,57 @@ export default function SubscriptionGate({ toolId, children }: SubscriptionGateP
   const userPlan = profile?.current_plan || profile?.plan || "Basic Plan";
   const isPremium = userPlan.toLowerCase().includes("pro") || userPlan.toLowerCase().includes("premium");
   const isPremiumTool = PREMIUM_TOOL_IDS.includes(toolId);
+  const isEcommerceTool = ECOMMERCE_TOOL_IDS.includes(toolId);
 
-  // If this is a Premium tool and the user is NOT premium, show the locked screen
+  // If this is a Premium tool and the user is NOT premium, check eCommerce credits or show lock screen
   if (isPremiumTool && !isPremium) {
+    if (isEcommerceTool && user) {
+      const credits = profile?.ecommerce_credits !== undefined && profile?.ecommerce_credits !== null
+        ? profile.ecommerce_credits
+        : 10;
+
+      if (credits > 0) {
+        return <>{children}</>;
+      }
+
+      // Credit exhausted state
+      return (
+        <div className="max-w-4xl mx-auto my-8 p-1 sm:p-2 bg-gradient-to-tr from-amber-500/10 via-red-500/10 to-indigo-500/10 rounded-[32px]">
+          <div className="bg-white/80 dark:bg-slate-900/90 backdrop-blur-md rounded-[30px] border border-slate-200/50 dark:border-slate-800/80 p-8 md:p-12 text-center relative overflow-hidden shadow-2xl">
+            {/* Subtle background glow */}
+            <div className="absolute -top-24 -left-24 w-48 h-48 bg-amber-500/10 rounded-full blur-3xl" />
+            <div className="absolute -bottom-24 -right-24 w-48 h-48 bg-red-500/10 rounded-full blur-3xl" />
+
+            {/* Locked Badge Icon */}
+            <div className="relative inline-flex items-center justify-center w-20 h-20 rounded-3xl bg-gradient-to-tr from-red-500 to-rose-600 text-white shadow-xl shadow-rose-500/20 mb-8 animate-bounce">
+              <Lock size={32} />
+              <div className="absolute -top-2 -right-2 w-6 h-6 bg-white dark:bg-slate-800 rounded-full flex items-center justify-center border border-red-500 text-red-500">
+                <ShieldAlert size={12} />
+              </div>
+            </div>
+
+            <h2 className="font-outfit text-3xl md:text-4xl font-black text-slate-900 dark:text-white tracking-tighter mb-4">
+              Free Credits <span className="text-red-500">Exhausted</span>
+            </h2>
+            
+            <p className="text-slate-500 dark:text-slate-400 font-medium max-w-lg mx-auto leading-relaxed mb-8">
+              You have used all 10 free credits for eCommerce tools. Upgrade to Pro for unlimited conversions, batch cropping, and ad-free priority speeds!
+            </p>
+
+            {/* Call to Actions */}
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+              <Link
+                href="/premium-plans"
+                className="w-full sm:w-auto inline-flex items-center justify-center bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white text-xs font-black uppercase tracking-wider px-10 py-4.5 rounded-2xl shadow-lg shadow-orange-500/20 transition-all hover:scale-[1.02] gap-2"
+              >
+                <Crown size={16} className="fill-white" /> UPGRADE TO PREMIUM PLAN
+              </Link>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
     return (
       <div className="max-w-4xl mx-auto my-8 p-1 sm:p-2 bg-gradient-to-tr from-amber-500/10 via-red-500/10 to-indigo-500/10 rounded-[32px]">
         <div className="bg-white/80 dark:bg-slate-900/90 backdrop-blur-md rounded-[30px] border border-slate-200/50 dark:border-slate-800/80 p-8 md:p-12 text-center relative overflow-hidden shadow-2xl">
@@ -111,6 +164,6 @@ export default function SubscriptionGate({ toolId, children }: SubscriptionGateP
     );
   }
 
-  // Allow rendering if user is Premium or tool is free
+  // Allow rendering if user is Premium or tool is free/within credits
   return <>{children}</>;
 }

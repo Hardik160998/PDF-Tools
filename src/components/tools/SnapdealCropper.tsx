@@ -4,6 +4,8 @@ import { useState, useRef } from 'react';
 import { Upload, Download, Loader2, X, CheckCircle2, ShoppingBag, FileText, ChevronDown } from 'lucide-react';
 import type * as PDFJS from 'pdfjs-dist';
 import { PDFDocument } from 'pdf-lib';
+import { useAuth } from '@/context/AuthContext';
+import EcommerceCreditBadge from '@/components/EcommerceCreditBadge';
 
 interface LabelFile {
   id: string;
@@ -374,6 +376,7 @@ async function canvasToPngBytes(canvas: HTMLCanvasElement): Promise<Uint8Array> 
 }
 
 export default function SnapdealCropper({ id }: { id: string }) {
+  const { profile, decrementCredits } = useAuth();
   const [files, setFiles] = useState<LabelFile[]>([]);
   const [processing, setProcessing] = useState(false);
   const [done, setDone] = useState(false);
@@ -394,6 +397,30 @@ export default function SnapdealCropper({ id }: { id: string }) {
   const [sortRefNo, setSortRefNo] = useState<'none' | 'asc' | 'desc'>('none');
 
   const inputRef = useRef<HTMLInputElement>(null);
+
+  const handleDownloadClick = async (url: string | null, filename: string) => {
+    if (!url) return;
+    const userPlan = profile?.current_plan || profile?.plan || "Basic Plan";
+    const isPremium = userPlan.toLowerCase().includes("pro") || userPlan.toLowerCase().includes("premium");
+    const credits = profile?.ecommerce_credits !== undefined && profile?.ecommerce_credits !== null
+      ? profile.ecommerce_credits
+      : 10;
+
+    if (!isPremium && credits <= 0) {
+      alert("You have 0 credits left. Please upgrade to a Premium Plan to download!");
+      window.location.href = "/premium-plans";
+      return;
+    }
+
+    await decrementCredits();
+
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = filename;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
 
   const COURIERS = ['EKART', 'DELHIVERY', 'XPRESSBEES', 'BLUEDART', 'ECOM', 'SHADOWFAX', 'AMAZON', 'ATS'];
 
@@ -642,7 +669,8 @@ export default function SnapdealCropper({ id }: { id: string }) {
   const ACCENT = '#E40046'; // Snapdeal Red
 
   return (
-    <div className="max-w-7xl mx-auto py-4 sm:py-8 px-3 sm:px-6">
+    <div className="max-w-7xl mx-auto py-4 sm:py-8 px-3 sm:px-6 font-sans">
+      <EcommerceCreditBadge />
       <div className="grid grid-cols-1 lg:grid-cols-[300px_1fr] gap-4 sm:gap-8">
         <div 
           className="rounded-3xl h-fit lg:sticky lg:top-4 overflow-hidden p-6"
@@ -861,11 +889,11 @@ export default function SnapdealCropper({ id }: { id: string }) {
                   </div>
                 )}
               </div>
-              <a href={pdfUrl!} download="snapdeal_sorted_labels.pdf" className="block py-5 text-white rounded-2xl text-2xl font-medium shadow-xl" style={{ background: ACCENT }}><Download size={24} className="inline mr-2" /> Download Cropped PDF</a>
+              <button onClick={() => handleDownloadClick(pdfUrl, "snapdeal_sorted_labels.pdf")} className="w-full block py-5 text-white rounded-2xl text-2xl font-medium shadow-xl text-center flex items-center justify-center gap-2" style={{ background: ACCENT }}><Download size={24} className="inline mr-2" /> Download Cropped PDF</button>
               {exportPng && pngUrls.length > 0 && (
                 <div className="grid grid-cols-2 gap-4 mt-4">
                   {pngUrls.map(p => (
-                    <a key={p.name} href={p.url} download={p.name} className="py-3 bg-slate-100 dark:bg-slate-800 rounded-xl text-slate-700 dark:text-slate-300 font-medium text-sm border border-slate-200 dark:border-slate-700 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors truncate px-2">Download {p.name}</a>
+                    <button key={p.name} onClick={() => handleDownloadClick(p.url, p.name)} className="py-3 bg-slate-100 dark:bg-slate-800 rounded-xl text-slate-700 dark:text-slate-300 font-medium text-sm border border-slate-200 dark:border-slate-700 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors truncate px-2 text-center flex items-center justify-center gap-1">Download {p.name}</button>
                   ))}
                 </div>
               )}

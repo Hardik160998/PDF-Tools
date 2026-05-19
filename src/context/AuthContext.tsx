@@ -15,6 +15,7 @@ export interface UserProfile {
   subscription_start_date?: string;
   subscription_end_date?: string;
   razorpay_customer_id?: string;
+  ecommerce_credits?: number;
 }
 
 interface AuthContextType {
@@ -24,6 +25,7 @@ interface AuthContextType {
   logout: () => Promise<void>;
   refreshProfile: () => Promise<void>;
   loginAsMock: (email: string, name: string, customProfile?: UserProfile) => Promise<void>;
+  decrementCredits: () => Promise<number | null>;
 }
 
 const AuthContext = createContext<AuthContextType>({
@@ -33,6 +35,7 @@ const AuthContext = createContext<AuthContextType>({
   logout: async () => { },
   refreshProfile: async () => { },
   loginAsMock: async () => { },
+  decrementCredits: async () => null,
 });
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
@@ -232,8 +235,43 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
+  const decrementCredits = async (): Promise<number | null> => {
+    if (!user?.email) return null;
+    try {
+      const isMock = typeof window !== "undefined" && localStorage.getItem("sb-mock-session");
+      let token = "";
+      if (isMock) {
+        token = user.email;
+      } else {
+        const { data: { session } } = await supabase.auth.getSession();
+        token = session?.access_token || "";
+      }
+      
+      if (!token) return null;
+
+      const res = await fetch("/api/usage/decrement-credits", {
+        method: "POST",
+        headers: {
+          "Authorization": `Bearer ${token}`,
+          "Content-Type": "application/json"
+        }
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        if (data.ecommerce_credits !== undefined) {
+          setProfile(prev => prev ? { ...prev, ecommerce_credits: data.ecommerce_credits } : null);
+          return data.ecommerce_credits;
+        }
+      }
+    } catch (err) {
+      console.error("Failed to decrement credits:", err);
+    }
+    return null;
+  };
+
   return (
-    <AuthContext.Provider value={{ user, profile, loading, logout, refreshProfile, loginAsMock }}>
+    <AuthContext.Provider value={{ user, profile, loading, logout, refreshProfile, loginAsMock, decrementCredits }}>
       {children}
     </AuthContext.Provider>
   );

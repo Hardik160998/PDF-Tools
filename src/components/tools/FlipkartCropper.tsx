@@ -4,6 +4,8 @@ import { useState, useRef } from 'react';
 import { Upload, Download, Loader2, X, CheckCircle2, ShoppingBag, Trash2, FileText, AlertCircle } from 'lucide-react';
 import type * as PDFJS from 'pdfjs-dist';
 import { PDFDocument, rgb } from 'pdf-lib';
+import { useAuth } from '@/context/AuthContext';
+import EcommerceCreditBadge from '@/components/EcommerceCreditBadge';
 
 interface LabelFile {
   id: string;
@@ -139,8 +141,8 @@ async function detectFlipkartInvoiceBounds(
       botPdfY = Math.min(...lowerItems.map(i => i.transform[5])) - 10;
     } else {
       botPdfY = topPdfY - 300; // fallback height
+      }
     }
-  }
 
   // Left: Align with "Tax Invoice" or "Sold By"
   let leftPdfX = pageW / scale;
@@ -314,6 +316,7 @@ async function canvasToPngBytes(canvas: HTMLCanvasElement): Promise<Uint8Array> 
 
 // ── Component ────────────────────────────────────────────────────────────────
 export default function FlipkartCropper({ id }: { id: string }) {
+  const { profile, decrementCredits } = useAuth();
   const [files, setFiles] = useState<LabelFile[]>([]);
   const [processing, setProcessing] = useState(false);
   const [done, setDone] = useState(false);
@@ -333,6 +336,31 @@ export default function FlipkartCropper({ id }: { id: string }) {
   const [fallbackAtBottom, setFallbackAtBottom] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
+
+  const handleDownloadClick = async () => {
+    const userPlan = profile?.current_plan || profile?.plan || "Basic Plan";
+    const isPremium = userPlan.toLowerCase().includes("pro") || userPlan.toLowerCase().includes("premium");
+    const credits = profile?.ecommerce_credits !== undefined && profile?.ecommerce_credits !== null
+      ? profile.ecommerce_credits
+      : 10;
+
+    if (!isPremium && credits <= 0) {
+      alert("You have 0 credits left. Please upgrade to a Premium Plan to download!");
+      window.location.href = "/premium-plans";
+      return;
+    }
+
+    await decrementCredits();
+
+    if (pdfUrl) {
+      const link = document.createElement("a");
+      link.href = pdfUrl;
+      link.download = "flipkart_labels.pdf";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+  };
 
   const addFiles = (fl: FileList | null) => {
     if (!fl) return;
@@ -625,6 +653,7 @@ export default function FlipkartCropper({ id }: { id: string }) {
 
   return (
     <div className="max-w-7xl mx-auto py-4 sm:py-8 px-3 sm:px-6">
+      <EcommerceCreditBadge />
       <div className="grid grid-cols-1 lg:grid-cols-[300px_1fr] gap-4 sm:gap-8">
         <div className="bg-white dark:bg-slate-800 rounded-3xl border border-slate-100 dark:border-slate-700 shadow-xl h-fit lg:sticky lg:top-4 overflow-hidden">
           <button 
@@ -739,7 +768,7 @@ export default function FlipkartCropper({ id }: { id: string }) {
             <div className="space-y-8">
               <div className="p-10 rounded-full bg-green-100 dark:bg-green-500/20 text-green-500 inline-block"><CheckCircle2 size={64} /></div>
               <h3 className="text-3xl font-black text-slate-900 dark:text-white">{labelCount} Labels Extracted</h3>
-              <a href={pdfUrl!} download="flipkart_labels.pdf" className="block py-5 text-white rounded-2xl text-2xl font-medium shadow-xl" style={{ background: ACCENT }}><Download size={24} className="inline mr-2" /> Download PDF</a>
+              <button onClick={handleDownloadClick} className="w-full block py-5 text-white rounded-2xl text-2xl font-medium shadow-xl text-center flex items-center justify-center gap-2" style={{ background: ACCENT }}><Download size={24} className="inline mr-2" /> Download PDF</button>
               <button onClick={reset} className="w-full py-4 font-medium text-slate-500">Extract More</button>
             </div>
           )}

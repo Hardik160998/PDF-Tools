@@ -4,6 +4,8 @@ import { useState, useRef } from 'react';
 import { Upload, Download, Loader2, X, CheckCircle2, ShoppingBag, Trash2, FileText } from 'lucide-react';
 import type * as PDFJS from 'pdfjs-dist';
 import { PDFDocument, rgb } from 'pdf-lib';
+import { useAuth } from '@/context/AuthContext';
+import EcommerceCreditBadge from '@/components/EcommerceCreditBadge';
 
 interface LabelFile {
   id: string;
@@ -220,6 +222,7 @@ async function canvasToJpegBytes(canvas: HTMLCanvasElement): Promise<Uint8Array>
 }
 
 export default function MeeshoCropLabel({ id }: { id: string }) {
+  const { profile, decrementCredits } = useAuth();
   const [files, setFiles] = useState<LabelFile[]>([]);
   const [processing, setProcessing] = useState(false);
   const [done, setDone] = useState(false);
@@ -227,6 +230,40 @@ export default function MeeshoCropLabel({ id }: { id: string }) {
   const [pdfUrls, setPdfUrls] = useState<{ courier: string; url: string }[]>([]);
   const [csvUrl, setCsvUrl] = useState<string | null>(null);
   const [labelCount, setLabelCount] = useState(0);
+
+  const handleDownloadClick = async (url: string | null, filename: string) => {
+    if (!url) return;
+    const userPlan = profile?.current_plan || profile?.plan || "Basic Plan";
+    const isPremium = userPlan.toLowerCase().includes("pro") || userPlan.toLowerCase().includes("premium");
+    const credits = profile?.ecommerce_credits !== undefined && profile?.ecommerce_credits !== null
+      ? profile.ecommerce_credits
+      : 10;
+
+    if (!isPremium && credits <= 0) {
+      alert("You have 0 credits left. Please upgrade to a Premium Plan to download!");
+      window.location.href = "/premium-plans";
+      return;
+    }
+
+    await decrementCredits();
+
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = filename;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  const handleCsvDownloadClick = (url: string | null) => {
+    if (!url) return;
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "meesho_labels_metadata.csv";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
   const [sortBySeller, setSortBySeller] = useState(false);
   const [sortByCourier, setSortByCourier] = useState(false);
   const [sortBySku, setSortBySku] = useState(false);
@@ -619,15 +656,15 @@ export default function MeeshoCropLabel({ id }: { id: string }) {
               <p className="text-slate-500 dark:text-slate-400 font-medium uppercase tracking-widest text-sm">TAX INVOICE removed. Clean shipping labels packed into PDF{pdfUrls.length > 1 ? 's' : ''}.</p>
             </div>
             <div className="space-y-4">
-              {pdfUrl && <a href={pdfUrl} download="meesho_crop_labels.pdf" className="block py-4 sm:py-5 bg-[#f26522] hover:bg-[#d4541a] text-white rounded-2xl text-xl sm:text-2xl font-medium shadow-xl flex items-center justify-center gap-3"><Download size={24} /> Download PDF</a>}
+              {pdfUrl && <button onClick={() => handleDownloadClick(pdfUrl, "meesho_crop_labels.pdf")} className="w-full block py-4 sm:py-5 bg-[#f26522] hover:bg-[#d4541a] text-white rounded-2xl text-xl sm:text-2xl font-medium shadow-xl flex items-center justify-center gap-3"><Download size={24} /> Download PDF</button>}
               {pdfUrls.length > 0 && (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
                   {pdfUrls.map(({ courier, url }) => (
-                    <a key={courier} href={url} download={`${courier}_Labels.pdf`} className="py-4 bg-[#f26522] hover:bg-[#d4541a] text-white rounded-2xl text-lg font-medium shadow-xl flex items-center justify-center gap-2"><Download size={20} /> {courier} Labels</a>
+                    <button key={courier} onClick={() => handleDownloadClick(url, `${courier}_Labels.pdf`)} className="py-4 bg-[#f26522] hover:bg-[#d4541a] text-white rounded-2xl text-lg font-medium shadow-xl flex items-center justify-center gap-2"><Download size={20} /> {courier} Labels</button>
                   ))}
                 </div>
               )}
-              {csvUrl && <a href={csvUrl} download="meesho_labels_metadata.csv" className="block py-4 bg-green-600 hover:bg-green-700 text-white rounded-2xl text-lg font-medium shadow-xl flex items-center justify-center gap-3"><Download size={20} /> Download CSV</a>}
+              {csvUrl && <button onClick={() => handleCsvDownloadClick(csvUrl)} className="w-full block py-4 bg-green-600 hover:bg-green-700 text-white rounded-2xl text-lg font-medium shadow-xl flex items-center justify-center gap-3"><Download size={20} /> Download CSV</button>}
               <button onClick={reset} className="w-full px-10 py-4 sm:py-5 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 text-slate-900 dark:text-white rounded-2xl font-medium transition-all">Crop More</button>
             </div>
           </div>
@@ -638,6 +675,7 @@ export default function MeeshoCropLabel({ id }: { id: string }) {
 
   return (
     <div className="max-w-7xl mx-auto py-4 sm:py-8 px-3 sm:px-6">
+      <EcommerceCreditBadge />
       {files.length > 0 ? (
         <div className="grid grid-cols-1 lg:grid-cols-[300px_1fr] gap-4 sm:gap-8">
           <div className="bg-white dark:bg-slate-800 rounded-3xl border border-slate-100 dark:border-slate-700 shadow-xl h-fit lg:sticky lg:top-4 overflow-hidden">

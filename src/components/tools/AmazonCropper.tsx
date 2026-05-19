@@ -2,6 +2,8 @@
 
 import { useState, useRef } from 'react';
 import { Upload, Download, Loader2, X, CheckCircle2, ShoppingBag, Trash2, FileText, AlertCircle, Settings, ChevronDown } from 'lucide-react';
+import { useAuth } from '@/context/AuthContext';
+import EcommerceCreditBadge from '@/components/EcommerceCreditBadge';
 
 interface LabelFile {
   id: string;
@@ -140,6 +142,7 @@ async function detectAmazonLabels(
 }
 
 export default function AmazonCropper({ id }: { id: string }) {
+  const { profile, decrementCredits } = useAuth();
   const [files, setFiles] = useState<LabelFile[]>([]);
   const [processing, setProcessing] = useState(false);
   const [done, setDone] = useState(false);
@@ -152,6 +155,31 @@ export default function AmazonCropper({ id }: { id: string }) {
   const [layout] = useState<'4'>('4');
   const [showSettings, setShowSettings] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
+
+  const handleDownloadClick = async () => {
+    const userPlan = profile?.current_plan || profile?.plan || "Basic Plan";
+    const isPremium = userPlan.toLowerCase().includes("pro") || userPlan.toLowerCase().includes("premium");
+    const credits = profile?.ecommerce_credits !== undefined && profile?.ecommerce_credits !== null
+      ? profile.ecommerce_credits
+      : 10;
+
+    if (!isPremium && credits <= 0) {
+      alert("You have 0 credits left. Please upgrade to a Premium Plan to download!");
+      window.location.href = "/premium-plans";
+      return;
+    }
+
+    await decrementCredits();
+
+    if (pdfUrl) {
+      const link = document.createElement("a");
+      link.href = pdfUrl;
+      link.download = "amazon_labels_ready.pdf";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+  };
 
   const addFiles = (fl: FileList | null) => {
     if (!fl) return;
@@ -283,6 +311,7 @@ export default function AmazonCropper({ id }: { id: string }) {
 
   return (
     <div className="max-w-7xl mx-auto py-4 sm:py-8 px-3 sm:px-6 font-sans">
+      <EcommerceCreditBadge />
       <div className="flex flex-col lg:flex-row gap-6 items-start">
         {/* Settings Sidebar */}
         <div className="w-full lg:w-[280px] bg-white dark:bg-slate-800 rounded-3xl border border-slate-100 dark:border-slate-700 shadow-xl h-fit lg:sticky lg:top-4 overflow-hidden flex-shrink-0">
@@ -373,7 +402,7 @@ export default function AmazonCropper({ id }: { id: string }) {
               <p className="text-slate-500 font-medium -mt-4 font-medium text-sm leading-relaxed text-center">
                 Shipping labels preserved. Invoice pages removed.
               </p>
-              <a href={pdfUrl!} download="amazon_labels_ready.pdf" className="block py-5 text-white rounded-2xl text-2xl font-medium shadow-xl hover:scale-[1.02] transition-all uppercase tracking-widest" style={{ background: ACCENT }}><Download size={24} className="inline mr-2" /> Download Final PDF</a>
+              <button onClick={handleDownloadClick} className="w-full block py-5 text-white rounded-2xl text-2xl font-medium shadow-xl hover:scale-[1.02] transition-all uppercase tracking-widest text-center flex items-center justify-center gap-2" style={{ background: ACCENT }}><Download size={24} className="inline mr-2" /> Download Final PDF</button>
               <button onClick={reset} className="w-full py-4 font-medium text-slate-400 uppercase tracking-widest text-xs hover:text-[#FF9900]">Process New Batch</button>
             </div>
           )}
