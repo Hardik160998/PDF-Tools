@@ -237,3 +237,40 @@ export async function trackToolClick(tool_key: string) {
     .single();
   if (data) await supabase.from('tool_clicks').insert({ tool_id: data.id });
 }
+
+export async function saveUserSignup(email: string, fullName: string) {
+  try {
+    const { data, error } = await supabase
+      .from('users')
+      .insert([
+        { 
+          email, 
+          full_name: fullName, 
+          created_at: new Date().toISOString(),
+          last_login: new Date().toISOString()
+        }
+      ]);
+    return { data, error };
+  } catch (err) {
+    console.error('saveUserSignup error:', err);
+    return { data: null, error: err };
+  }
+}
+
+export async function saveUserLogin(email: string) {
+  try {
+    const { data, error } = await supabase
+      .from('users')
+      .upsert(
+        { 
+          email, 
+          last_login: new Date().toISOString() 
+        }, 
+        { onConflict: 'email' }
+      );
+    return { data, error };
+  } catch (err) {
+    console.error('saveUserLogin error:', err);
+    return { data: null, error: err };
+  }
+}

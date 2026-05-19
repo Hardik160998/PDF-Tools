@@ -76,7 +76,7 @@ html.dark header {
     white-space: nowrap;
   }
 
-  .desktop-nav-actions button {
+  .desktop-nav-actions > button {
     padding: 0.35rem 0.6rem !important;
     font-size: 10px !important;
     white-space: nowrap;
@@ -124,7 +124,7 @@ html.dark header {
     gap: 0.3rem;
   }
 
-  .desktop-nav-actions button {
+  .desktop-nav-actions > button {
     padding: 0.3rem 0.5rem !important;
     font-size: 9px !important;
   }
@@ -163,7 +163,7 @@ html.dark header {
     gap: 0.4rem;
   }
 
-  .desktop-nav-actions button {
+  .desktop-nav-actions > button {
     padding: 0.4rem 0.7rem !important;
     font-size: 10px !important;
   }
@@ -200,7 +200,7 @@ html.dark header {
     gap: 0.55rem;
   }
 
-  .desktop-nav-actions button {
+  .desktop-nav-actions > button {
     padding: 0.45rem 0.85rem !important;
     font-size: 11px !important;
   }
