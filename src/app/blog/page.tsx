@@ -107,6 +107,7 @@ const POSTS = [
     readTime: '4 min read',
     date: 'Apr 26, 2026',
     featured: false,
+    image: '/img/mesho-label.png',
   },
   {
     slug: 'how-to-crop-flipkart-labels',
@@ -118,6 +119,7 @@ const POSTS = [
     readTime: '4 min read',
     date: 'Apr 27, 2026',
     featured: false,
+    image: '/img/flipkart-label.png',
   },
   {
     slug: 'how-to-crop-amazon-labels',
@@ -129,6 +131,7 @@ const POSTS = [
     readTime: '4 min read',
     date: 'Apr 28, 2026',
     featured: false,
+    image: '/img/amazone-label.png',
   },
   {
     slug: 'how-to-crop-snapdeal-labels',
@@ -140,6 +143,7 @@ const POSTS = [
     readTime: '4 min read',
     date: 'Apr 29, 2026',
     featured: false,
+    image: '/img/snapdeal-label.png',
   },
   {
     slug: 'ultimate-image-conversion-guide',
@@ -151,6 +155,7 @@ const POSTS = [
     readTime: '5 min read',
     date: 'Apr 30, 2026',
     featured: false,
+    image: '/img/convert-img.png',
   },
   {
     slug: 'how-to-redact-pdf',
@@ -174,6 +179,7 @@ const POSTS = [
     readTime: '4 min read',
     date: 'May 2, 2026',
     featured: false,
+    image: '/img/edit-pdf.png',
   },
   {
     slug: 'how-to-e-sign-pdf',
@@ -185,6 +191,7 @@ const POSTS = [
     readTime: '4 min read',
     date: 'May 3, 2026',
     featured: false,
+    image: '/img/e-sign-pdf.png',
   },
   {
     slug: 'ultimate-pdf-optimization-guide',
@@ -220,6 +227,7 @@ const POSTS = [
     readTime: '5 min read',
     date: 'May 6, 2026',
     featured: false,
+    image: '/img/edit-redact-sign-pdf.png',
   },
 ];
 

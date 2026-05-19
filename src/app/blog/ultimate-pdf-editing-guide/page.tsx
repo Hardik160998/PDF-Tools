@@ -23,7 +23,7 @@ export default function UltimatePdfEditingGuidePost() {
         </div>
 
         <div className="relative rounded-2xl mb-6 shadow-2xl">
-          <img src="/img/word-pdf.png" alt="Ultimate PDF Editing Guide" className="w-full h-auto" />
+          <img src="/img/edit-redact-sign-pdf.png" alt="Ultimate PDF Editing Guide" className="w-full h-auto" />
         </div>
 
         <p className="text-lg text-slate-500 leading-relaxed mb-8">
