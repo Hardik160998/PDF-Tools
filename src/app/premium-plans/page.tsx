@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, Suspense } from 'react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
@@ -88,7 +88,7 @@ const FAQS = [
   }
 ];
 
-export default function PremiumPlansPage() {
+function PremiumPlansContent() {
   const { user, profile } = useAuth();
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -367,5 +367,17 @@ export default function PremiumPlansPage() {
         </div>
       </section>
     </div>
+  );
+}
+
+export default function PremiumPlansPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center bg-slate-50 dark:bg-slate-950/40">
+        <div className="animate-pulse text-slate-500 dark:text-slate-400 font-semibold">Loading plans...</div>
+      </div>
+    }>
+      <PremiumPlansContent />
+    </Suspense>
   );
 }

@@ -5,13 +5,14 @@ import Razorpay from "razorpay";
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
 
-const razorpay = new Razorpay({
-  key_id: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || process.env.RAZORPAY_KEY_ID || "",
-  key_secret: process.env.RAZORPAY_KEY_SECRET || "",
-});
-
 export async function POST(request: Request) {
   try {
+    // Initialize Razorpay inside the request handler to avoid build-time errors if env vars are missing
+    const razorpay = new Razorpay({
+      key_id: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || process.env.RAZORPAY_KEY_ID || "dummy_key",
+      key_secret: process.env.RAZORPAY_KEY_SECRET || "dummy_secret",
+    });
+
     const { userId, planName, amountINR, userEmail } = await request.json();
 
     if (!userId || !planName || !amountINR) {
