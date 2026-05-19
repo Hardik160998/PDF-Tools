@@ -29,6 +29,9 @@ interface CropFile {
   cropBox: CropBox;
 }
 
+import { supabase } from '@/lib/supabase';
+import { verifyAndIncrementUsage } from '@/lib/usage';
+
 export default function CropPdf({ id: _id }: { id: string }) {
   const [files, setFiles] = useState<CropFile[]>([]);
   const [activeFileIdx, setActiveFileIdx] = useState<number>(-1);
@@ -100,6 +103,16 @@ export default function CropPdf({ id: _id }: { id: string }) {
 
   const handleCrop = async () => {
     if (files.length === 0) return;
+
+    // Check usage limits
+    const check = await verifyAndIncrementUsage(supabase);
+    if (!check.allowed) {
+      if (confirm(check.error || "You have reached your daily limit of 3 operations. Upgrade to Premium for unlimited downloads?")) {
+        window.location.href = "/premium-plans";
+      }
+      return;
+    }
+
     setProcessing(true);
     try {
       const updatedFiles = [...files];

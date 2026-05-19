@@ -18,6 +18,8 @@ const RELATED = [
   { id: "protect",      title: "Protect PDF",         description: "Encrypt your converted PDF with a password to keep it secure.",                  icon: Lock,           gradient: "linear-gradient(135deg,#ef4444,#b91c1c)", shadow: "rgba(239,68,68,0.3)",   tag: "Security" },
 ];
 
+import SubscriptionGate from '@/components/SubscriptionGate';
+
 export default function WebpageToPdfPage() {
   const mounted = usePageMounted();
 
@@ -26,7 +28,9 @@ export default function WebpageToPdfPage() {
       {/* TOOL */}
       <section className="pb-8">
         <div className="container mx-auto px-4 max-w-5xl">
-          <WebpageToPdf id="webpage-to-pdf" />
+          <SubscriptionGate toolId="webpage-to-pdf">
+            <WebpageToPdf id="webpage-to-pdf" />
+          </SubscriptionGate>
         </div>
       </section>
 

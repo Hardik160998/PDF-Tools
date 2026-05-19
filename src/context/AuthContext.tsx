@@ -9,6 +9,12 @@ export interface UserProfile {
   full_name?: string;
   created_at?: string;
   last_login?: string;
+  plan?: string;
+  current_plan?: string;
+  subscription_status?: string;
+  subscription_start_date?: string;
+  subscription_end_date?: string;
+  razorpay_customer_id?: string;
 }
 
 interface AuthContextType {
@@ -17,16 +23,16 @@ interface AuthContextType {
   loading: boolean;
   logout: () => Promise<void>;
   refreshProfile: () => Promise<void>;
-  loginAsMock: (email: string, name: string) => Promise<void>;
+  loginAsMock: (email: string, name: string, customProfile?: UserProfile) => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType>({
   user: null,
   profile: null,
   loading: true,
-  logout: async () => {},
-  refreshProfile: async () => {},
-  loginAsMock: async () => {},
+  logout: async () => { },
+  refreshProfile: async () => { },
+  loginAsMock: async () => { },
 });
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
@@ -38,23 +44,53 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     try {
       const { data, error } = await supabase
         .from("users")
-        .select("email, full_name, created_at, last_login")
+        .select("*")
         .eq("email", email)
         .maybeSingle();
 
       if (error) {
         console.warn("Error fetching user profile:", error);
       }
-      
+
       if (data) {
-        setProfile(data);
+        const updatedProfile = {
+          ...data,
+          plan: data.plan || "Basic Plan",
+          current_plan: data.current_plan || "Basic Plan"
+        };
+        setProfile(updatedProfile);
+
+        // Sync with local storage mock session if it exists
+        if (typeof window !== "undefined") {
+          const mockSessionStr = localStorage.getItem("sb-mock-session");
+          if (mockSessionStr) {
+            try {
+              const parsed = JSON.parse(mockSessionStr);
+              parsed.profile = updatedProfile;
+              localStorage.setItem("sb-mock-session", JSON.stringify(parsed));
+            } catch (e) {
+              console.warn("Error parsing sb-mock-session:", e);
+            }
+          }
+        }
       } else {
+        const isMock = typeof window !== "undefined" && localStorage.getItem("sb-mock-session");
+        if (!isMock && !error) {
+          console.warn("User profile not found in public users table. Logging out.");
+          const authClient = supabase.auth;
+          if (authClient && typeof authClient.signOut === "function") {
+            await supabase.auth.signOut();
+          }
+          setUser(null);
+          setProfile(null);
+          return;
+        }
         // Fallback profile object if user record doesn't exist yet in the public table
-        setProfile({ email });
+        setProfile({ email, plan: "Basic Plan", current_plan: "Basic Plan" });
       }
     } catch (e) {
       console.error("fetchProfile exception:", e);
-      setProfile({ email });
+      setProfile({ email, plan: "Basic Plan", current_plan: "Basic Plan" });
     }
   };
 
@@ -64,30 +100,32 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
-  const loginAsMock = async (email: string, name: string) => {
+  const loginAsMock = async (email: string, name: string, customProfile?: UserProfile) => {
     const mockUser = {
       id: "mock-user-id",
       email: email,
       user_metadata: { full_name: name },
     } as any;
     setUser(mockUser);
-    setProfile({
+    setProfile(customProfile || {
       email,
       full_name: name,
       created_at: new Date().toISOString(),
-      last_login: new Date().toISOString()
+      last_login: new Date().toISOString(),
+      plan: "Basic Plan",
+      current_plan: "Basic Plan"
     });
-    localStorage.setItem("sb-mock-session", JSON.stringify({ email, name }));
+    localStorage.setItem("sb-mock-session", JSON.stringify({ email, name, profile: customProfile }));
 
     try {
       await supabase
         .from('users')
         .upsert(
-          { 
-            email, 
+          {
+            email,
             full_name: name,
-            last_login: new Date().toISOString() 
-          }, 
+            last_login: new Date().toISOString()
+          },
           { onConflict: 'email' }
         );
     } catch (e) {
@@ -100,28 +138,38 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     const setupAuth = async () => {
       try {
-        // Check for mock session first
-        const mockSessionStr = localStorage.getItem("sb-mock-session");
-        if (mockSessionStr) {
-          const { email, name } = JSON.parse(mockSessionStr);
-          setUser({ id: "mock-user-id", email, user_metadata: { full_name: name } } as any);
-          setProfile({
-            email,
-            full_name: name,
-            created_at: new Date().toISOString(),
-            last_login: new Date().toISOString()
-          });
-          setLoading(false);
-          return;
-        }
-
-        // Get initial session
+        // 1. Get initial real session first
         const authClient = supabase.auth;
+        let hasRealSession = false;
         if (authClient && typeof authClient.getSession === "function") {
           const { data: { session } } = await supabase.auth.getSession();
           if (session?.user) {
             setUser(session.user);
             await fetchProfile(session.user.email || "");
+            hasRealSession = true;
+            // Clear mock session since we have a real session
+            localStorage.removeItem("sb-mock-session");
+          }
+        }
+
+        // 2. If no real session, fallback to mock session
+        if (!hasRealSession) {
+          const mockSessionStr = localStorage.getItem("sb-mock-session");
+          if (mockSessionStr) {
+            const { email, name, profile: storedProfile } = JSON.parse(mockSessionStr);
+            setUser({ id: "mock-user-id", email, user_metadata: { full_name: name } } as any);
+            setProfile(storedProfile || {
+              email,
+              full_name: name,
+              created_at: new Date().toISOString(),
+              last_login: new Date().toISOString(),
+              plan: "Basic Plan",
+              current_plan: "Basic Plan"
+            });
+            // Fetch live profile from DB for custom session user
+            await fetchProfile(email);
+            setLoading(false);
+            return;
           }
         }
       } catch (err) {

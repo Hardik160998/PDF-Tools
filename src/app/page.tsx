@@ -8,8 +8,14 @@ import {
   Combine, Scissors, FileText, Settings, Lock,
   Stamp, Sparkles, Zap, Type, ImageIcon, Wand2, Crop,
   FileDigit, FileJson, FileSymlink, Unlock,
-  Presentation, FileSpreadsheet, Globe, LifeBuoy, ChevronDown, PenLine, Layers, GitCompare, EyeOff, Bookmark, ScanText, ShoppingBag
+  Presentation, FileSpreadsheet, Globe, LifeBuoy, ChevronDown, PenLine, Layers, GitCompare, EyeOff, Bookmark, ScanText, ShoppingBag,
+  Crown, CheckCircle2
 } from 'lucide-react';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useAuth } from '@/context/AuthContext';
+import { triggerRazorpayPayment } from '@/lib/razorpay';
+import { PREMIUM_TOOL_IDS } from '@/components/SubscriptionGate';
 
 const CATEGORIES = ['All', 'Organize', 'Optimize', 'Convert', 'Image Convert', 'Edit', 'Security', 'Special', 'Ecommerce', 'Sign'];
 
@@ -108,6 +114,33 @@ function FeatureSectionShimmer({ reverse = false }: { reverse?: boolean }) {
 }
 
 export default function Home() {
+  const { user, profile } = useAuth();
+  const router = useRouter();
+  const userPlan = profile?.current_plan || profile?.plan || "Basic Plan";
+  const isPremium = userPlan.toLowerCase().includes("pro") || userPlan.toLowerCase().includes("premium");
+
+  const handleCheckout = async (plan: "yearly" | "monthly") => {
+    if (!user) {
+      router.push(`/login?redirect=${encodeURIComponent(`/premium-plans?plan=${plan}`)}`);
+      return;
+    }
+    const isYearly = plan === "yearly";
+    const amountINR = isYearly ? 1699 : 399;
+    const planName = isYearly ? "Yearly Pro" : "Monthly Pro";
+
+    await triggerRazorpayPayment({
+      userId: user.id,
+      planName,
+      amountINR,
+      userEmail: user.email || "",
+      userName: profile?.full_name || user.user_metadata?.full_name || "SmartPDFs Customer",
+      onSuccess: (paymentId) => {
+        alert(`Payment successful! Payment ID: ${paymentId}`);
+        router.push("/profile");
+      }
+    });
+  };
+
   const [activeCategory, setActiveCategory] = useState('All');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -292,13 +325,20 @@ export default function Home() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 animate-fade-in">
             {filteredTools.map((tool) => {
               const style = CATEGORY_STYLES[tool.category] || CATEGORY_STYLES.Special;
+              const isPremiumTool = PREMIUM_TOOL_IDS.includes(tool.id);
+              const isLocked = isPremiumTool && !isPremium;
               return (
                 <div key={tool.id} className="tool-card-border" style={{ '--cat-gradient': style.gradient } as React.CSSProperties}>
                   <a
                     href={tool.id === 'esign' ? '/esign' : tool.id === 'edit-pdf' ? '/edit' : `/tool/${tool.id}`}
-                    className="tool-card"
+                    className={`tool-card relative ${isLocked ? 'grayscale-[30%] opacity-90' : ''}`}
                     onClick={() => trackToolClick(tool.id)}
                   >
+                    {isLocked && (
+                      <div className="absolute top-4 right-4 flex items-center gap-1 bg-gradient-to-r from-amber-500 to-orange-500 text-white text-[9px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full shadow-md z-10">
+                        <Lock size={8} /> Pro
+                      </div>
+                    )}
                     <div className="relative">
                       <div className={`tool-icon-wrapper shadow-xl ${style.shadow}`} style={{ backgroundImage: style.gradient }}>
                         <tool.icon size={28} />
@@ -314,6 +354,146 @@ export default function Home() {
             })}
           </div>
         )}
+      </section>
+
+      {/* -- PREMIUM TOOL PLANS -- */}
+      <section className="py-20 bg-slate-50/50 dark:bg-slate-900/50 border-t border-slate-100 dark:border-slate-800/80">
+        <div className="container mx-auto px-4 max-w-6xl">
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-amber-50 dark:bg-amber-950/20 text-amber-600 dark:text-amber-400 border border-amber-100 dark:border-amber-900/30 text-xs font-medium uppercase tracking-widest shadow-sm mb-6">
+              <Crown size={14} className="fill-amber-500/20" />
+              Pricing Plans
+            </div>
+            <h2 className="font-outfit text-4xl md:text-5xl font-black text-slate-900 dark:text-white tracking-tighter mb-4">
+              Premium Tool <span className="text-red-500">Plans</span>
+            </h2>
+            <p className="text-lg text-slate-500 dark:text-slate-400 font-medium leading-relaxed">
+              Unlock advanced features, higher file size limits, and priority browser processing. Choose the plan that works best for you.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch max-w-5xl mx-auto">
+            {/* Basic Plan */}
+            <div className="bg-white dark:bg-slate-800/60 rounded-3xl p-8 border border-slate-100 dark:border-slate-700/80 shadow-lg flex flex-col justify-between hover:-translate-y-1 transition-all duration-300">
+              <div className="space-y-6">
+                <div>
+                  <h3 className="font-outfit text-xl font-black text-slate-800 dark:text-white">Basic Plan</h3>
+                  <p className="text-sm text-slate-400 mt-1">Perfect to get started</p>
+                </div>
+                <div className="flex items-baseline gap-1">
+                  <span className="text-4xl font-extrabold text-slate-800 dark:text-white">$0</span>
+                  <span className="text-sm font-semibold text-slate-400">/ forever</span>
+                </div>
+                <div className="h-px bg-slate-100 dark:bg-slate-700/60" />
+                <ul className="space-y-4">
+                  {[
+                    "Access to basic PDF tools",
+                    "Files up to 50MB limits",
+                    "Standard local browser speed",
+                    "Ad-supported interface",
+                    "No credit card required"
+                  ].map((feat, idx) => (
+                    <li key={idx} className="flex items-start gap-3">
+                      <CheckCircle2 size={16} className="text-emerald-500 shrink-0 mt-0.5" />
+                      <span className="text-xs font-semibold text-slate-600 dark:text-slate-300">{feat}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div className="pt-8">
+                <Link
+                  href="/signup"
+                  className="block w-full py-3 px-6 text-center text-xs font-bold text-slate-700 dark:text-slate-300 bg-slate-100 hover:bg-slate-200 dark:bg-slate-700/50 dark:hover:bg-slate-700 rounded-xl transition-all"
+                >
+                  Get Started
+                </Link>
+              </div>
+            </div>
+
+            {/* Yearly Pro Plan (Featured) */}
+            <div className="relative bg-white dark:bg-slate-800/60 rounded-3xl p-8 border-2 border-amber-400 shadow-2xl flex flex-col justify-between hover:-translate-y-1 transition-all duration-300 scale-105 z-10">
+              <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-amber-400 text-slate-900 text-[10px] font-black uppercase tracking-widest px-4 py-1.5 rounded-full shadow-md flex items-center gap-1">
+                <Crown size={12} className="fill-slate-900" /> Best Value
+              </div>
+              <div className="space-y-6">
+                <div className="pt-2">
+                  <h3 className="font-outfit text-xl font-black text-slate-800 dark:text-white flex items-center gap-2">
+                    Yearly Pro
+                  </h3>
+                  <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">Annual subscription. Best value.</p>
+                </div>
+                <div className="flex items-baseline gap-1">
+                  <span className="text-4xl font-extrabold text-amber-500 dark:text-amber-400">$19.99</span>
+                  <span className="text-sm font-semibold text-slate-400">/ year</span>
+                </div>
+                <div className="h-px bg-slate-100 dark:bg-slate-700/60" />
+                <ul className="space-y-4">
+                  {[
+                    "All premium tools unlocked",
+                    "All Ecommerce Label Croppers",
+                    "Batch file processing (No caps)",
+                    "Files up to 1GB size support",
+                    "High-speed browser processing",
+                    "100% clean, Ad-free workspace",
+                    "Yearly updates & VIP support"
+                  ].map((feat, idx) => (
+                    <li key={idx} className="flex items-start gap-3">
+                      <CheckCircle2 size={16} className="text-amber-500 dark:text-amber-400 shrink-0 mt-0.5" />
+                      <span className="text-xs font-semibold text-slate-600 dark:text-slate-300">{feat}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div className="pt-8">
+                <button
+                  onClick={() => handleCheckout("yearly")}
+                  className="block w-full py-3 px-6 text-center text-xs font-black text-slate-900 bg-amber-400 hover:bg-amber-300 rounded-xl transition-all shadow-lg shadow-amber-400/20 uppercase tracking-wider animate-pulse hover:animate-none cursor-pointer"
+                  style={{ animationDuration: '3s' }}
+                >
+                  Unlock Yearly Pro
+                </button>
+              </div>
+            </div>
+
+            {/* Monthly Pro Plan */}
+            <div className="bg-white dark:bg-slate-800/60 rounded-3xl p-8 border border-slate-100 dark:border-slate-700/80 shadow-lg flex flex-col justify-between hover:-translate-y-1 transition-all duration-300">
+              <div className="space-y-6">
+                <div>
+                  <h3 className="font-outfit text-xl font-black text-slate-800 dark:text-white">Monthly Pro</h3>
+                  <p className="text-sm text-slate-400 mt-1">Flexible subscription</p>
+                </div>
+                <div className="flex items-baseline gap-1">
+                  <span className="text-4xl font-extrabold text-slate-800 dark:text-white">$4.99</span>
+                  <span className="text-sm font-semibold text-slate-400">/ month</span>
+                </div>
+                <div className="h-px bg-slate-100 dark:bg-slate-700/60" />
+                <ul className="space-y-4">
+                  {[
+                    "Access to all tools & croppers",
+                    "Files up to 500MB limits",
+                    "High-speed browser processing",
+                    "Ad-free workspace",
+                    "Priority support",
+                    "Cancel or upgrade anytime"
+                  ].map((feat, idx) => (
+                    <li key={idx} className="flex items-start gap-3">
+                      <CheckCircle2 size={16} className="text-emerald-500 shrink-0 mt-0.5" />
+                      <span className="text-xs font-semibold text-slate-600 dark:text-slate-300">{feat}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div className="pt-8">
+                <button
+                  onClick={() => handleCheckout("monthly")}
+                  className="block w-full py-3 px-6 text-center text-xs font-bold text-white bg-slate-900 hover:bg-slate-800 dark:bg-slate-100 dark:text-slate-900 dark:hover:bg-slate-200 rounded-xl transition-all cursor-pointer"
+                >
+                  Subscribe Monthly
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
       </section>
 
       {/* -- TAGLINE -- */}

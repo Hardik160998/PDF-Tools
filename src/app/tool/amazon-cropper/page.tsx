@@ -6,13 +6,17 @@ export const metadata = {
   description: 'Automatically remove invoice pages and crop Amazon shipping labels to full height.',
 };
 
+import SubscriptionGate from '@/components/SubscriptionGate';
+
 export default function AmazonCropperPage() {
   return (
     <div className="min-h-screen bg-slate-50/50 dark:bg-slate-950">
       <div className="max-w-7xl mx-auto px-4 pt-10 sm:pt-16 pb-10">
 
         {/* The Tool */}
-        <AmazonCropper id="amazon-main" />
+        <SubscriptionGate toolId="amazon-cropper">
+          <AmazonCropper id="amazon-main" />
+        </SubscriptionGate>
 
         {/* Feature Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-16 mb-16">

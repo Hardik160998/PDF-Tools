@@ -40,13 +40,17 @@ const TOOL_COMPONENTS: Record<string, React.ComponentType<{ id: string }>> = {
   'protect': SecurityTools,
 };
 
+import SubscriptionGate from '@/components/SubscriptionGate';
+
 export default function ToolClient({ id }: { id: string }) {
   const Tool = TOOL_COMPONENTS[id];
   if (!Tool) notFound();
 
   return (
     <div className="container mx-auto px-2 sm:px-4 py-4 sm:py-8 max-w-7xl animate-in fade-in slide-in-from-bottom-8 duration-700">
-      <Tool id={id} />
+      <SubscriptionGate toolId={id}>
+        <Tool id={id} />
+      </SubscriptionGate>
     </div>
   );
 }

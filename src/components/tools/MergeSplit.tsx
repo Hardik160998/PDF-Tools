@@ -36,6 +36,9 @@ interface ProcessedFile {
   pageCount?: number;
 }
 
+import { supabase } from '@/lib/supabase';
+import { verifyAndIncrementUsage } from '@/lib/usage';
+
 export default function MergeSplit({ id }: { id: string }) {
   const [files, setFiles] = useState<ProcessedFile[]>([]);
   const [processing, setProcessing] = useState(false);
@@ -50,8 +53,8 @@ export default function MergeSplit({ id }: { id: string }) {
   const isSplit = id === 'split';
   const ACCENT = isSplit ? "#8b5cf6" : "#f97316"; 
   const ACCENT_GRADIENT = isSplit 
-    ? "linear-gradient(135deg,#8b5cf6,#6d28d9)" 
-    : "linear-gradient(135deg,#f97316,#ea580c)";
+      ? "linear-gradient(135deg,#8b5cf6,#6d28d9)" 
+      : "linear-gradient(135deg,#f97316,#ea580c)";
 
   const handleReset = () => {
     files.forEach(f => f.resultUrl && URL.revokeObjectURL(f.resultUrl));
@@ -103,6 +106,16 @@ export default function MergeSplit({ id }: { id: string }) {
 
   const handleProcess = async () => {
     if (files.length === 0) return;
+
+    // Check usage limits
+    const check = await verifyAndIncrementUsage(supabase);
+    if (!check.allowed) {
+      if (confirm(check.error || "You have reached your daily limit of 3 operations. Upgrade to Premium for unlimited downloads?")) {
+        window.location.href = "/premium-plans";
+      }
+      return;
+    }
+
     setProcessing(true);
     const pdfjsLib = await import('pdfjs-dist');
     pdfjsLib.GlobalWorkerOptions.workerSrc = '/workers/pdf.worker.min.mjs';

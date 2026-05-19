@@ -18,6 +18,8 @@ const RELATED = [
   { id: 'compress',       title: 'Compress PDF',                      description: 'Reduce PDF file size while keeping text sharp and content intact.',                           icon: Zap,         gradient: 'linear-gradient(135deg, #22c55e, #15803d)', shadow: 'rgba(34,197,94,0.3)',   tag: 'Optimize',  href: '/tool/compress'      },
 ];
 
+import SubscriptionGate from '@/components/SubscriptionGate';
+
 export default function FlipkartCropperPage() {
   const mounted = usePageMounted();
   const ACCENT = '#F7941D';
@@ -27,7 +29,9 @@ export default function FlipkartCropperPage() {
       {/* TOOL */}
       <section className="pb-8">
         <div className="container mx-auto px-4 max-w-7xl">
-          <FlipkartCropper id="flipkart-cropper" />
+          <SubscriptionGate toolId="flipkart-cropper">
+            <FlipkartCropper id="flipkart-cropper" />
+          </SubscriptionGate>
         </div>
       </section>
 

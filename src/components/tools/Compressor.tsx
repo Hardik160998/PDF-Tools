@@ -8,6 +8,8 @@ import {
   MousePointer2, RefreshCw
 } from 'lucide-react';
 import { PDFDocument } from 'pdf-lib';
+import { supabase } from '@/lib/supabase';
+import { verifyAndIncrementUsage } from '@/lib/usage';
 
 interface CompressedFile {
   id: string;
@@ -48,6 +50,16 @@ export default function Compressor({ id: _id }: { id: string }) {
 
   const handleCompress = async () => {
     if (files.length === 0) return;
+
+    // Check usage limits
+    const check = await verifyAndIncrementUsage(supabase);
+    if (!check.allowed) {
+      if (confirm(check.error || "You have reached your daily limit of 3 operations. Upgrade to Premium for unlimited downloads?")) {
+        window.location.href = "/premium-plans";
+      }
+      return;
+    }
+
     setProcessing(true);
     
     const updatedFiles = [...files];

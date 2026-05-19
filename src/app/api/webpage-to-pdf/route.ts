@@ -1,8 +1,42 @@
 import { NextResponse } from 'next/server';
+import { createClient } from "@supabase/supabase-js";
+
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
 
 export async function POST(request: Request) {
   let browser = null;
   try {
+    const authHeader = request.headers.get("Authorization");
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+      return NextResponse.json({ error: "Unauthorized access token missing" }, { status: 401 });
+    }
+
+    const token = authHeader.split(" ")[1];
+    const supabase = createClient(supabaseUrl, supabaseAnonKey);
+    
+    // 1. Verify user token securely
+    const { data: { user }, error: authError } = await supabase.auth.getUser(token);
+    if (authError || !user || !user.email) {
+      return NextResponse.json({ error: "Invalid auth session" }, { status: 401 });
+    }
+
+    // 2. Fetch user profile and verify premium plan status
+    const { data: profile } = await supabase
+      .from("users")
+      .select("plan, current_plan")
+      .eq("email", user.email.toLowerCase().trim())
+      .maybeSingle();
+
+    const userPlan = profile?.current_plan || profile?.plan || "Basic Plan";
+    const isPremium = userPlan.toLowerCase().includes("pro") || userPlan.toLowerCase().includes("premium");
+
+    if (!isPremium) {
+      return NextResponse.json({ 
+        error: "Forbidden: Webpage to PDF is a Premium feature. Please upgrade to unlock." 
+      }, { status: 403 });
+    }
+
     const { url } = await request.json();
 
     if (!url) return NextResponse.json({ error: 'No URL provided' }, { status: 400 });
