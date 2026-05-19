@@ -1,4 +1,5 @@
 import { BookOpen, Clock, ArrowRight, Tag, Combine, Scissors, Zap, FileText, Lock, LayoutGrid, Wand2, Image as ImageIcon, Shield, PenTool } from 'lucide-react';
+import BlogImage from '@/components/BlogImage';
 
 const POSTS = [
   {
@@ -271,9 +272,9 @@ export default function BlogPage() {
           {featured.map(post => (
             <a key={post.slug} href={`/blog/${post.slug}`}
               className="group bg-white rounded-2xl border border-slate-100 shadow-sm hover:shadow-2xl hover:-translate-y-1 transition-all overflow-hidden flex flex-col">
-              <div className="relative overflow-hidden bg-slate-100 dark:bg-slate-700">
-                <img src={post.image || "/img/word-pdf.png"} alt={post.title} className="w-full h-auto group-hover:scale-105 transition-transform duration-500" />
-                <div className="absolute top-4 right-4">
+              <div className="relative overflow-hidden">
+                <BlogImage src={post.image || "/img/word-pdf.png"} alt={post.title} className="group-hover:scale-105 transition-transform duration-500" />
+                <div className="absolute top-4 right-4 z-10">
                   <span className="text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-full bg-white text-red-600 border-2 border-red-500 shadow-sm">
                     {post.label}
                   </span>
@@ -322,9 +323,9 @@ export default function BlogPage() {
                 {categoryPosts.map(post => (
                   <a key={post.slug} href={`/blog/${post.slug}`}
                     className="group bg-white rounded-2xl border border-slate-100 shadow-sm hover:shadow-2xl hover:-translate-y-1 transition-all overflow-hidden flex flex-col">
-                    <div className="relative overflow-hidden bg-slate-100">
-                      <img src={post.image || "/img/word-pdf.png"} alt={post.title} className="w-full h-auto group-hover:scale-105 transition-transform duration-500" />
-                      <div className="absolute top-3 right-3">
+                    <div className="relative overflow-hidden">
+                      <BlogImage src={post.image || "/img/word-pdf.png"} alt={post.title} className="group-hover:scale-105 transition-transform duration-500" />
+                      <div className="absolute top-3 right-3 z-10">
                         <span className="text-[10px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-full bg-white text-red-600 border-2 border-red-500 shadow-sm">
                           {post.label}
                         </span>

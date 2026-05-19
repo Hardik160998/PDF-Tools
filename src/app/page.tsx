@@ -2,6 +2,7 @@
 
 import { useState, useMemo, useEffect, useRef } from 'react';
 import SkeletonGrid from '@/components/SkeletonGrid';
+import BlogImage from '@/components/BlogImage';
 import { trackToolClick, getVerifiedToolKeys, getImgConvertTools, getCategories, insertAvifTools, syncMissingTools, insertMeeshoTool, insertEcommerceCategory } from '@/lib/supabase';
 import {
   Combine, Scissors, FileText, Settings, Lock,
@@ -498,9 +499,9 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto mb-12">
             {/* Blog Post 1: Aadhar Card */}
             <a href="/blog/how-to-crop-aadhar-card" className="group bg-white dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm hover:shadow-2xl hover:-translate-y-1 transition-all overflow-hidden flex flex-col h-full">
-              <div className="relative overflow-hidden bg-slate-100 dark:bg-slate-700">
-                <img src="/img/crop-aadhar-card.png" alt="Crop Aadhar Card" className="w-full h-auto group-hover:scale-105 transition-transform duration-500" />
-                <div className="absolute top-4 right-4">
+              <div className="relative overflow-hidden">
+                <BlogImage src="/img/crop-aadhar-card.png" alt="Crop Aadhar Card" className="group-hover:scale-105 transition-transform duration-500" />
+                <div className="absolute top-4 right-4 z-10">
                   <span className="text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-full bg-white text-red-600 border-2 border-red-500 shadow-sm">
                     Special
                   </span>
@@ -544,9 +545,9 @@ export default function Home() {
 
             {/* Blog Post 2: Convert PDF */}
             <a href="/blog/pdf-to-word-conversion-guide" className="group bg-white dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm hover:shadow-2xl hover:-translate-y-1 transition-all overflow-hidden flex flex-col h-full">
-              <div className="relative overflow-hidden bg-slate-100 dark:bg-slate-700">
-                <img src="/img/convert-pdf-all-tool.png" alt="Convert PDF All Tools" className="w-full h-auto group-hover:scale-105 transition-transform duration-500" />
-                <div className="absolute top-4 right-4">
+              <div className="relative overflow-hidden">
+                <BlogImage src="/img/convert-pdf-all-tool.png" alt="Convert PDF All Tools" className="group-hover:scale-105 transition-transform duration-500" />
+                <div className="absolute top-4 right-4 z-10">
                   <span className="text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-full bg-white text-red-600 border-2 border-red-500 shadow-sm">
                     Convert
                   </span>
