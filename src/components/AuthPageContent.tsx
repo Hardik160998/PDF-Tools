@@ -19,32 +19,16 @@ export default function AuthPageContent({ initialMode }: AuthPageContentProps) {
   
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [statusMessage, setStatusMessage] = useState<{ type: 'success' | 'error', text: string } | null>(null);
 
-  // OTP specific states
-  const [otpSent, setOtpSent] = useState(false);
-  const [otpCode, setOtpCode] = useState("");
-  const [resendCountdown, setResendCountdown] = useState(0);
-
   const isSignUp = mode === "signup";
-
-  useEffect(() => {
-    let timer: NodeJS.Timeout;
-    if (otpSent && resendCountdown > 0) {
-      timer = setTimeout(() => {
-        setResendCountdown(prev => prev - 1);
-      }, 1000);
-    }
-    return () => clearTimeout(timer);
-  }, [otpSent, resendCountdown]);
 
   const handleToggleMode = (newMode: "login" | "signup") => {
     setFullName("");
     setEmail("");
-    setOtpSent(false);
-    setOtpCode("");
-    setResendCountdown(0);
+    setPassword("");
     setStatusMessage(null);
     setIsLoading(false);
     setMode(newMode);
@@ -53,109 +37,102 @@ export default function AuthPageContent({ initialMode }: AuthPageContentProps) {
     router.push((newMode === "login" ? "/login" : "/signup") + queryString);
   };
 
-  const handleSendOTP = async (e: React.FormEvent) => {
+  const handleAuth = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
     setStatusMessage(null);
 
+    let guestToken: string | undefined;
     try {
-      const response = await fetch("/api/auth/otp", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
+      const stored = localStorage.getItem("pdf_guest_session");
+      if (stored) guestToken = JSON.parse(stored)?.sessionToken;
+    } catch {}
+
+    try {
+      if (isSignUp) {
+        // Sign Up Flow
+        const { data, error } = await supabase.auth.signUp({
           email,
-          fullName: isSignUp ? fullName : undefined,
-          mode: isSignUp ? "signup" : "login"
-        })
-      });
+          password,
+          options: {
+            data: {
+              full_name: fullName
+            }
+          }
+        });
 
-      const data = await response.json();
-      if (!response.ok) {
-        throw new Error(data.error || "Failed to send code.");
-      }
+        if (error) throw error;
 
-      setOtpSent(true);
-      setResendCountdown(60);
-      setStatusMessage({ type: "success", text: `A 6-digit verification code was sent to ${email}.` });
-    } catch (err: any) {
-      console.error("Error sending OTP:", err);
-      setStatusMessage({ type: "error", text: err.message || "Something went wrong." });
-    } finally {
-      setIsLoading(false);
-    }
-  };
+        if (data.user) {
+          // Manually create profile in public.users table
+          const { error: dbError } = await supabase
+            .from('users')
+            .upsert({
+              id: data.user.id,
+              email: email.toLowerCase().trim(),
+              full_name: fullName,
+              is_guest: false,
+              account_type: 'free',
+              credits_merged: false
+            }, { onConflict: 'email' });
 
-  const handleVerifyOTP = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsLoading(true);
-    setStatusMessage(null);
+          if (dbError) {
+            console.warn("Could not insert user profile in public users table:", dbError);
+          }
 
-    try {
-      const response = await fetch("/api/auth/otp", {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, code: otpCode })
-      });
+          if (data.session) {
+            // Logged in immediately (email confirmation disabled)
+            let newCredits: number | null = null;
+            try {
+              newCredits = await mergeCreditsOnLogin(guestToken);
+            } catch {}
 
-      const data = await response.json();
-      if (!response.ok) {
-        throw new Error(data.error || "Verification failed.");
-      }
-
-      // Get guest session token before logging in
-      let guestToken: string | undefined;
-      try {
-        const stored = localStorage.getItem("pdf_guest_session");
-        if (stored) guestToken = JSON.parse(stored)?.sessionToken;
-      } catch {}
-
-      // Session success!
-      await loginAsMock(email, data.profile.full_name || fullName || "SmartPDFs User", data.profile);
-
-      // Merge guest credits into user account
-      let newCredits: number | null = null;
-      try {
-        newCredits = await mergeCreditsOnLogin(guestToken);
-      } catch {}
-
-      const creditMsg = newCredits !== null ? ` You now have ${newCredits} credits.` : "";
-      setStatusMessage({ type: "success", text: `Logged in successfully! 🎉${creditMsg} Redirecting...` });
-      setTimeout(() => {
-        router.push(redirectTo);
-      }, 1800);
-    } catch (err: any) {
-      console.error("Error verifying OTP:", err);
-      setStatusMessage({ type: "error", text: err.message || "Incorrect code or verification failed." });
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const handleResendCode = async () => {
-    if (resendCountdown > 0 || isLoading) return;
-    setIsLoading(true);
-    setStatusMessage(null);
-
-    try {
-      const response = await fetch("/api/auth/otp", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
+            const creditMsg = newCredits !== null ? ` You now have ${newCredits} credits.` : "";
+            setStatusMessage({ type: "success", text: `Sign up successful! 🎉${creditMsg} Redirecting...` });
+            setTimeout(() => {
+              router.push(redirectTo);
+            }, 1800);
+          } else {
+            // Confirmation email required
+            setStatusMessage({ 
+              type: "success", 
+              text: "Sign up successful! Please check your email inbox to confirm your account." 
+            });
+          }
+        }
+      } else {
+        // Login Flow
+        const { data, error } = await supabase.auth.signInWithPassword({
           email,
-          fullName: isSignUp ? fullName : undefined,
-          mode: isSignUp ? "signup" : "login"
-        })
-      });
+          password
+        });
 
-      const data = await response.json();
-      if (!response.ok) {
-        throw new Error(data.error || "Failed to resend code.");
+        if (error) throw error;
+
+        if (data.user) {
+          // Update last_login
+          await supabase
+            .from('users')
+            .update({
+              last_login: new Date().toISOString()
+            })
+            .eq('id', data.user.id);
+
+          let newCredits: number | null = null;
+          try {
+            newCredits = await mergeCreditsOnLogin(guestToken);
+          } catch {}
+
+          const creditMsg = newCredits !== null ? ` You now have ${newCredits} credits.` : "";
+          setStatusMessage({ type: "success", text: `Logged in successfully! 🎉${creditMsg} Redirecting...` });
+          setTimeout(() => {
+            router.push(redirectTo);
+          }, 1800);
+        }
       }
-
-      setResendCountdown(60);
-      setStatusMessage({ type: "success", text: "A new 6-digit code has been sent." });
     } catch (err: any) {
-      setStatusMessage({ type: "error", text: err.message || "Could not resend code." });
+      console.error("Auth error:", err);
+      setStatusMessage({ type: "error", text: err.message || "Authentication failed." });
     } finally {
       setIsLoading(false);
     }
@@ -334,7 +311,7 @@ export default function AuthPageContent({ initialMode }: AuthPageContentProps) {
               {statusMessage.type === 'error' && (
                 <div className="mt-3 pt-3 border-t border-rose-200/40 flex flex-col gap-2">
                   <p className="text-[10px] text-rose-700/80 font-medium normal-case leading-normal">
-                    Supabase limits emails in dev mode. You can log in locally to test pages and views.
+                    Trouble logging in? You can use a local developer bypass to test dashboard features instantly.
                   </p>
                   <button
                     type="button"
@@ -355,127 +332,75 @@ export default function AuthPageContent({ initialMode }: AuthPageContentProps) {
           )}
 
           {/* Form */}
-          {!otpSent ? (
-            <form onSubmit={handleSendOTP} className="space-y-5">
-              {/* Full Name (Sign Up only) */}
-              {isSignUp && (
-                <div className="space-y-2">
-                  <label htmlFor="fullname" className="block text-[11px] font-bold uppercase tracking-wider text-zinc-500">
-                    Full Name
-                  </label>
-                  <input
-                    type="text"
-                    id="fullname"
-                    required
-                    disabled={isLoading}
-                    value={fullName}
-                    onChange={(e) => setFullName(e.target.value)}
-                    placeholder="Your full name"
-                    className="w-full px-4 py-3.5 bg-zinc-50/50 border border-zinc-200 rounded-xl text-sm text-zinc-900 placeholder-zinc-400 focus:outline-none focus:bg-white focus:border-blue-500 transition-all font-semibold disabled:opacity-50"
-                  />
-                </div>
-              )}
-
-              {/* Email Address */}
+          <form onSubmit={handleAuth} className="space-y-5">
+            {/* Full Name (Sign Up only) */}
+            {isSignUp && (
               <div className="space-y-2">
-                <label htmlFor="email" className="block text-[11px] font-bold uppercase tracking-wider text-zinc-500">
-                  Email Address
-                </label>
-                <input
-                  type="email"
-                  id="email"
-                  required
-                  disabled={isLoading}
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="you@example.com"
-                  className="w-full px-4 py-3.5 bg-zinc-50/50 border border-zinc-200 rounded-xl text-sm text-zinc-900 placeholder-zinc-400 focus:outline-none focus:bg-white focus:border-blue-500 transition-all font-semibold disabled:opacity-50"
-                />
-              </div>
-
-              {/* Submit Button */}
-              <button
-                type="submit"
-                disabled={isLoading}
-                className="w-full py-4 mt-6 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white font-bold text-xs uppercase tracking-widest rounded-xl transition-all shadow-lg shadow-blue-500/10 flex items-center justify-center gap-1.5 cursor-pointer disabled:opacity-50"
-              >
-                {isLoading ? (
-                  <>⏳ Sending Code...</>
-                ) : (
-                  <>✉️ Send Verification Code</>
-                )}
-              </button>
-            </form>
-          ) : (
-            <form onSubmit={handleVerifyOTP} className="space-y-5">
-              {/* Target Email Display */}
-              <div className="bg-zinc-50 border border-zinc-200 rounded-xl p-4 flex items-center justify-between">
-                <div className="flex flex-col">
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-zinc-400">Verifying Email</span>
-                  <span className="text-sm font-bold text-zinc-700 truncate max-w-[200px]">{email}</span>
-                </div>
-                <button
-                  type="button"
-                  onClick={() => setOtpSent(false)}
-                  className="text-xs font-bold text-blue-600 hover:text-blue-500 transition-colors uppercase tracking-wider cursor-pointer"
-                >
-                  Change
-                </button>
-              </div>
-
-              {/* OTP Input */}
-              <div className="space-y-2">
-                <label htmlFor="otp" className="block text-[11px] font-bold uppercase tracking-wider text-zinc-500">
-                  Verification Code (OTP)
+                <label htmlFor="fullname" className="block text-[11px] font-bold uppercase tracking-wider text-zinc-500">
+                  Full Name
                 </label>
                 <input
                   type="text"
-                  id="otp"
+                  id="fullname"
                   required
                   disabled={isLoading}
-                  value={otpCode}
-                  onChange={(e) => setOtpCode(e.target.value.replace(/\D/g, "").slice(0, 6))}
-                  placeholder="Enter 6-digit code"
-                  maxLength={6}
-                  pattern="\d{6}"
-                  className="w-full px-4 py-3.5 bg-zinc-50/50 border border-zinc-200 rounded-xl text-center text-lg font-black tracking-[0.2em] text-zinc-950 placeholder-zinc-400 focus:outline-none focus:bg-white focus:border-blue-500 transition-all disabled:opacity-50"
+                  value={fullName}
+                  onChange={(e) => setFullName(e.target.value)}
+                  placeholder="Your full name"
+                  className="w-full px-4 py-3.5 bg-zinc-50/50 border border-zinc-200 rounded-xl text-sm text-zinc-900 placeholder-zinc-400 focus:outline-none focus:bg-white focus:border-blue-500 transition-all font-semibold disabled:opacity-50"
                 />
               </div>
+            )}
 
-              {/* Resend and Countdown */}
-              <div className="text-center">
-                {resendCountdown > 0 ? (
-                  <p className="text-xs text-zinc-500 font-semibold">
-                    Resend code in <span className="text-zinc-800 font-bold">{resendCountdown}s</span>
-                  </p>
-                ) : (
-                  <button
-                    type="button"
-                    onClick={handleResendCode}
-                    disabled={isLoading}
-                    className="text-xs font-bold text-blue-600 hover:text-blue-500 transition-colors uppercase tracking-wider bg-transparent border-none p-0 cursor-pointer disabled:opacity-50"
-                  >
-                    Resend Code
-                  </button>
-                )}
-              </div>
-
-              {/* Submit Button */}
-              <button
-                type="submit"
+            {/* Email Address */}
+            <div className="space-y-2">
+              <label htmlFor="email" className="block text-[11px] font-bold uppercase tracking-wider text-zinc-500">
+                Email Address
+              </label>
+              <input
+                type="email"
+                id="email"
+                required
                 disabled={isLoading}
-                className="w-full py-4 mt-6 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white font-bold text-xs uppercase tracking-widest rounded-xl transition-all shadow-lg shadow-blue-500/10 flex items-center justify-center gap-1.5 cursor-pointer disabled:opacity-50"
-              >
-                {isLoading ? (
-                  <>⏳ Verifying...</>
-                ) : isSignUp ? (
-                  <>✨ Verify &amp; Sign Up</>
-                ) : (
-                  <>🔑 Verify &amp; Login</>
-                )}
-              </button>
-            </form>
-          )}
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="you@example.com"
+                className="w-full px-4 py-3.5 bg-zinc-50/50 border border-zinc-200 rounded-xl text-sm text-zinc-900 placeholder-zinc-400 focus:outline-none focus:bg-white focus:border-blue-500 transition-all font-semibold disabled:opacity-50"
+              />
+            </div>
+
+            {/* Password */}
+            <div className="space-y-2">
+              <label htmlFor="password" className="block text-[11px] font-bold uppercase tracking-wider text-zinc-500">
+                Password
+              </label>
+              <input
+                type="password"
+                id="password"
+                required
+                disabled={isLoading}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="••••••••"
+                className="w-full px-4 py-3.5 bg-zinc-50/50 border border-zinc-200 rounded-xl text-sm text-zinc-900 placeholder-zinc-400 focus:outline-none focus:bg-white focus:border-blue-500 transition-all font-semibold disabled:opacity-50"
+              />
+            </div>
+
+            {/* Submit Button */}
+            <button
+              type="submit"
+              disabled={isLoading}
+              className="w-full py-4 mt-6 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white font-bold text-xs uppercase tracking-widest rounded-xl transition-all shadow-lg shadow-blue-500/10 flex items-center justify-center gap-1.5 cursor-pointer disabled:opacity-50"
+            >
+              {isLoading ? (
+                <>⏳ Processing...</>
+              ) : isSignUp ? (
+                <>✨ Create Account &amp; Sign Up</>
+              ) : (
+                <>🔑 Secure Login</>
+              )}
+            </button>
+          </form>
 
           {/* Toggle Footer text */}
           <div className="text-center text-xs font-semibold text-zinc-500 pt-2">
