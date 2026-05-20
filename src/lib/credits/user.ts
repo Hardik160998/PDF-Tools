@@ -139,12 +139,14 @@ export async function mergeGuestCreditsIntoUser(
   const newCredits = guestRemainingCredits + AUTH_BONUS_CREDITS;
 
   if (existingUser) {
-    // A user row already exists (e.g. from a trigger). Update it and delete the guest row.
+    // A user row already exists (e.g. from a trigger/upsert). Update it to regular free user.
     const { error: updateError } = await supabase
       .from('users')
       .update({
         remaining_credits: newCredits,
         credits_merged: true,
+        is_guest: false,
+        account_type: 'free',
       })
       .eq('id', userId);
 
@@ -153,7 +155,34 @@ export async function mergeGuestCreditsIntoUser(
     }
 
     if (guestToken) {
-      await supabase.from('users').delete().eq('guest_session_id', guestToken);
+      const hasServiceRole = !!process.env.SUPABASE_SERVICE_ROLE_KEY;
+      let deleteSuccessful = false;
+
+      if (hasServiceRole) {
+        const { error: deleteError, data: deleteData } = await supabase
+          .from('users')
+          .delete()
+          .eq('guest_session_id', guestToken)
+          .select('id');
+        
+        if (!deleteError && deleteData && deleteData.length > 0) {
+          deleteSuccessful = true;
+        }
+      }
+
+      if (!deleteSuccessful) {
+        // Fallback for local development when service role key is not configured or RLS restricts delete.
+        // Archive/clear the guest row so it doesn't cause guest session matches or unique constraint conflicts.
+        await supabase
+          .from('users')
+          .update({
+            guest_session_id: null,
+            is_guest: false,
+            account_type: 'guest_merged',
+            remaining_credits: 0,
+          })
+          .eq('guest_session_id', guestToken);
+      }
     }
   } else if (guestToken) {
     // No existing user row. Update the guest row directly to convert it!
@@ -166,6 +195,7 @@ export async function mergeGuestCreditsIntoUser(
         account_type: 'free',
         remaining_credits: newCredits,
         credits_merged: true,
+        guest_session_id: null, // Clear guest_session_id so it's no longer associated
       })
       .eq('guest_session_id', guestToken);
 
@@ -212,7 +242,12 @@ export async function grantInitialUserCredits(userId: string): Promise<{
   const initialCredits = 10;
   const { error } = await supabase
     .from('users')
-    .update({ remaining_credits: initialCredits, credits_merged: true })
+    .update({
+      remaining_credits: initialCredits,
+      credits_merged: true,
+      is_guest: false,
+      account_type: 'free',
+    })
     .eq('id', userId);
 
   if (error) {
