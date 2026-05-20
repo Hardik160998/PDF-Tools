@@ -16,7 +16,7 @@ export default function AuthPageContent({ initialMode }: AuthPageContentProps) {
   const redirectTo = searchParams?.get("redirect") || "/";
   const { loginAsMock, mergeCreditsOnLogin } = useAuth();
   const [mode, setMode] = useState<"login" | "signup">(initialMode);
-  
+
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -46,51 +46,37 @@ export default function AuthPageContent({ initialMode }: AuthPageContentProps) {
     try {
       const stored = localStorage.getItem("pdf_guest_session");
       if (stored) guestToken = JSON.parse(stored)?.sessionToken;
-    } catch {}
+    } catch { }
 
     try {
       if (isSignUp) {
-        // Try server-side signup first to attempt auto-confirming the user
+        // Try server-side signup (generates and sends confirmation email via Gmail)
         let signUpSuccess = false;
-        let isAutoConfirmed = false;
 
         try {
+          const redirectToUrl = typeof window !== 'undefined' ? `${window.location.origin}` : 'http://localhost:3000';
           const res = await fetch("/api/auth/signup", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ email, password, fullName })
+            body: JSON.stringify({ email, password, fullName, redirectToUrl })
           });
           const data = await res.json();
           if (res.ok && data.success) {
             signUpSuccess = true;
-            isAutoConfirmed = true;
+            setStatusMessage({
+              type: "success",
+              text: "Sign up successful! Please check your email inbox to confirm your account."
+            });
+            return;
+          } else if (data.error && data.error !== "Service role key not configured.") {
+            // Validation or database error
+            throw new Error(data.error);
           }
-        } catch (e) {
+        } catch (e: any) {
+          if (e.message && e.message !== "Failed to fetch" && !e.message.includes("Service role key")) {
+            throw e;
+          }
           console.warn("Server-side signup fallback:", e);
-        }
-
-        if (isAutoConfirmed) {
-          // If auto-confirmed on the server, sign in immediately on the client
-          const { data: signData, error: signError } = await supabase.auth.signInWithPassword({
-            email,
-            password
-          });
-
-          if (signError) throw signError;
-
-          if (signData.user) {
-            let newCredits: number | null = null;
-            try {
-              newCredits = await mergeCreditsOnLogin(guestToken);
-            } catch {}
-
-            const creditMsg = newCredits !== null ? ` You now have ${newCredits} credits.` : "";
-            setStatusMessage({ type: "success", text: `Sign up successful! 🎉${creditMsg} Redirecting...` });
-            setTimeout(() => {
-              router.push(redirectTo);
-            }, 1800);
-          }
-          return;
         }
 
         // Fallback to standard client-side signup if server-side auto-confirm isn't active
@@ -118,7 +104,8 @@ export default function AuthPageContent({ initialMode }: AuthPageContentProps) {
               full_name: fullName,
               is_guest: false,
               account_type: 'free',
-              credits_merged: false
+              credits_merged: false,
+              is_confirmation: false
             }, { onConflict: 'email' });
 
           if (dbError) {
@@ -130,7 +117,7 @@ export default function AuthPageContent({ initialMode }: AuthPageContentProps) {
             let newCredits: number | null = null;
             try {
               newCredits = await mergeCreditsOnLogin(guestToken);
-            } catch {}
+            } catch { }
 
             const creditMsg = newCredits !== null ? ` You now have ${newCredits} credits.` : "";
             setStatusMessage({ type: "success", text: `Sign up successful! 🎉${creditMsg} Redirecting...` });
@@ -139,9 +126,9 @@ export default function AuthPageContent({ initialMode }: AuthPageContentProps) {
             }, 1800);
           } else {
             // Confirmation email required
-            setStatusMessage({ 
-              type: "success", 
-              text: "Sign up successful! Please check your email inbox to confirm your account." 
+            setStatusMessage({
+              type: "success",
+              text: "Sign up successful! Please check your email inbox to confirm your account."
             });
           }
         }
@@ -155,18 +142,19 @@ export default function AuthPageContent({ initialMode }: AuthPageContentProps) {
         if (error) throw error;
 
         if (data.user) {
-          // Update last_login
+          // Update last_login and set is_confirmation to true
           await supabase
             .from('users')
             .update({
-              last_login: new Date().toISOString()
+              last_login: new Date().toISOString(),
+              is_confirmation: true
             })
             .eq('id', data.user.id);
 
           let newCredits: number | null = null;
           try {
             newCredits = await mergeCreditsOnLogin(guestToken);
-          } catch {}
+          } catch { }
 
           const creditMsg = newCredits !== null ? ` You now have ${newCredits} credits.` : "";
           setStatusMessage({ type: "success", text: `Logged in successfully! 🎉${creditMsg} Redirecting...` });
@@ -314,8 +302,8 @@ export default function AuthPageContent({ initialMode }: AuthPageContentProps) {
                 type="button"
                 onClick={() => handleToggleMode("login")}
                 className={`flex-1 py-2.5 text-xs font-bold uppercase tracking-wider rounded-xl transition-all ${!isSignUp
-                    ? "bg-white shadow-md border border-zinc-200/50"
-                    : "text-zinc-400 hover:text-zinc-700"
+                  ? "bg-white shadow-md border border-zinc-200/50"
+                  : "text-zinc-400 hover:text-zinc-700"
                   }`}
                 style={!isSignUp ? { color: "#09090b" } : undefined}
               >
@@ -325,8 +313,8 @@ export default function AuthPageContent({ initialMode }: AuthPageContentProps) {
                 type="button"
                 onClick={() => handleToggleMode("signup")}
                 className={`flex-1 py-2.5 text-xs font-bold uppercase tracking-wider rounded-xl transition-all ${isSignUp
-                    ? "bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-md"
-                    : "text-zinc-400 hover:text-zinc-700"
+                  ? "bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-md"
+                  : "text-zinc-400 hover:text-zinc-700"
                   }`}
               >
                 Sign Up
@@ -349,8 +337,8 @@ export default function AuthPageContent({ initialMode }: AuthPageContentProps) {
           {/* Status Message */}
           {statusMessage && (
             <div className={`p-4 rounded-xl text-xs font-bold leading-relaxed tracking-wide ${statusMessage.type === 'success'
-                ? 'bg-emerald-50 text-emerald-800 border border-emerald-200/50'
-                : 'bg-rose-50 text-rose-800 border border-rose-200/50'
+              ? 'bg-emerald-50 text-emerald-800 border border-emerald-200/50'
+              : 'bg-rose-50 text-rose-800 border border-rose-200/50'
               }`}>
               <div>{statusMessage.text}</div>
               {statusMessage.type === 'error' && (
