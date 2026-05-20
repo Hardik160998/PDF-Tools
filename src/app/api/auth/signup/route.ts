@@ -39,7 +39,7 @@ export async function POST(request: Request) {
       email: emailLower,
       password: password,
       options: {
-        redirectTo: redirectToUrl || 'http://localhost:3000',
+        redirectTo: redirectToUrl || '/',
         data: {
           full_name: fullName
         }

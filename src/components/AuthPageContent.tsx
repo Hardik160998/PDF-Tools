@@ -54,7 +54,7 @@ export default function AuthPageContent({ initialMode }: AuthPageContentProps) {
         let signUpSuccess = false;
 
         try {
-          const redirectToUrl = typeof window !== 'undefined' ? `${window.location.origin}` : 'http://localhost:3000';
+          const redirectToUrl = typeof window !== 'undefined' ? `${window.location.origin}` : '/';
           const res = await fetch("/api/auth/signup", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -80,7 +80,7 @@ export default function AuthPageContent({ initialMode }: AuthPageContentProps) {
         }
 
         // Fallback to standard client-side signup if server-side auto-confirm isn't active
-        const redirectToUrl = typeof window !== 'undefined' ? `${window.location.origin}` : 'http://localhost:3000';
+        const redirectToUrl = typeof window !== 'undefined' ? `${window.location.origin}` : '/';
         const { data, error } = await supabase.auth.signUp({
           email,
           password,
