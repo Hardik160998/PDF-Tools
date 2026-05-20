@@ -18,7 +18,7 @@ const RELATED = [
   { id: 'compress',         title: 'Compress PDF',           description: 'Reduce PDF file size while keeping text sharp and content intact.', icon: Zap, gradient: 'linear-gradient(135deg, #22c55e, #15803d)', shadow: 'rgba(34,197,94,0.3)',   tag: 'Optimize',  href: '/tool/compress'      },
 ];
 
-import SubscriptionGate from '@/components/SubscriptionGate';
+import CreditGate from '@/components/credits/CreditGate';
 
 export default function SnapdealCropperPage() {
   const mounted = usePageMounted();
@@ -29,9 +29,9 @@ export default function SnapdealCropperPage() {
       {/* TOOL */}
       <section className="pb-8">
         <div className="container mx-auto px-4 max-w-7xl">
-          <SubscriptionGate toolId="snapdeal-cropper">
+          <CreditGate toolName="snapdeal-cropper" showCounter={false}>
             <SnapdealCropper id="snapdeal-cropper" />
-          </SubscriptionGate>
+          </CreditGate>
         </div>
       </section>
 

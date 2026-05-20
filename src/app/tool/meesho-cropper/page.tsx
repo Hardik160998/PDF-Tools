@@ -19,7 +19,7 @@ const RELATED_TOOLS = [
   { id: 'protect',      title: 'Protect PDF',      description: 'Encrypt your PDF with a password to keep shipping data secure.',                         icon: Lock,     gradient: 'linear-gradient(135deg, #ef4444, #b91c1c)', shadow: 'rgba(239,68,68,0.3)',   tag: 'Security' },
 ];
 
-import SubscriptionGate from '@/components/SubscriptionGate';
+import CreditGate from '@/components/credits/CreditGate';
 
 export default function MeeshoCropperPage() {
   const [mounted, setMounted] = useState(false);
@@ -28,9 +28,9 @@ export default function MeeshoCropperPage() {
   return (
     <div className="min-h-screen">
       <section className="pb-8">
-        <SubscriptionGate toolId="meesho-cropper">
+        <CreditGate toolName="meesho-cropper" showCounter={false}>
           <MeeshoCropper id="meesho-cropper" />
-        </SubscriptionGate>
+        </CreditGate>
       </section>
 
       {mounted && (

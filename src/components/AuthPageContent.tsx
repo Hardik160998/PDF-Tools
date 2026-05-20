@@ -14,7 +14,7 @@ export default function AuthPageContent({ initialMode }: AuthPageContentProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const redirectTo = searchParams?.get("redirect") || "/";
-  const { loginAsMock } = useAuth();
+  const { loginAsMock, mergeCreditsOnLogin } = useAuth();
   const [mode, setMode] = useState<"login" | "signup">(initialMode);
   
   const [fullName, setFullName] = useState("");
@@ -102,12 +102,27 @@ export default function AuthPageContent({ initialMode }: AuthPageContentProps) {
         throw new Error(data.error || "Verification failed.");
       }
 
+      // Get guest session token before logging in
+      let guestToken: string | undefined;
+      try {
+        const stored = localStorage.getItem("pdf_guest_session");
+        if (stored) guestToken = JSON.parse(stored)?.sessionToken;
+      } catch {}
+
       // Session success!
       await loginAsMock(email, data.profile.full_name || fullName || "SmartPDFs User", data.profile);
-      setStatusMessage({ type: "success", text: "Logged in successfully! Redirecting..." });
+
+      // Merge guest credits into user account
+      let newCredits: number | null = null;
+      try {
+        newCredits = await mergeCreditsOnLogin(guestToken);
+      } catch {}
+
+      const creditMsg = newCredits !== null ? ` You now have ${newCredits} credits.` : "";
+      setStatusMessage({ type: "success", text: `Logged in successfully! 🎉${creditMsg} Redirecting...` });
       setTimeout(() => {
         router.push(redirectTo);
-      }, 1500);
+      }, 1800);
     } catch (err: any) {
       console.error("Error verifying OTP:", err);
       setStatusMessage({ type: "error", text: err.message || "Incorrect code or verification failed." });

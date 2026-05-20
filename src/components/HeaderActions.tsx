@@ -7,6 +7,7 @@ import ThemeToggle from "@/components/ThemeToggle";
 import { User, LogOut, ChevronDown, Crown } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import CreditCounter from "@/components/credits/CreditCounter";
 
 export default function HeaderActions() {
   const { user, profile, loading, logout } = useAuth();
@@ -46,6 +47,7 @@ export default function HeaderActions() {
   return (
     <div className="flex items-center gap-4 relative">
       <NavSearchBar />
+      <CreditCounter compact={true} />
       <ThemeToggle />
 
       {/* Dynamic Authentication Panel */}

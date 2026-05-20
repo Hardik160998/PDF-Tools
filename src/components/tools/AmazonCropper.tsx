@@ -2,8 +2,8 @@
 
 import { useState, useRef } from 'react';
 import { Upload, Download, Loader2, X, CheckCircle2, ShoppingBag, Trash2, FileText, AlertCircle, Settings, ChevronDown } from 'lucide-react';
-import { useAuth } from '@/context/AuthContext';
-import EcommerceCreditBadge from '@/components/EcommerceCreditBadge';
+import { useCredits } from '@/hooks/useCredits';
+import OutOfCreditsModal from '@/components/credits/OutOfCreditsModal';
 
 interface LabelFile {
   id: string;
@@ -142,7 +142,8 @@ async function detectAmazonLabels(
 }
 
 export default function AmazonCropper({ id }: { id: string }) {
-  const { profile, decrementCredits } = useAuth();
+  const { remaining, isGuest, isPremium, deductCredit } = useCredits();
+  const [outOfCreditsOpen, setOutOfCreditsOpen] = useState(false);
   const [files, setFiles] = useState<LabelFile[]>([]);
   const [processing, setProcessing] = useState(false);
   const [done, setDone] = useState(false);
@@ -157,24 +158,21 @@ export default function AmazonCropper({ id }: { id: string }) {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const handleDownloadClick = async () => {
-    const userPlan = profile?.current_plan || profile?.plan || "Basic Plan";
-    const isPremium = userPlan.toLowerCase().includes("pro") || userPlan.toLowerCase().includes("premium");
-    const credits = profile?.ecommerce_credits !== undefined && profile?.ecommerce_credits !== null
-      ? profile.ecommerce_credits
-      : 10;
-
-    if (!isPremium && credits <= 0) {
-      alert("You have 0 credits left. Please upgrade to a Premium Plan to download!");
-      window.location.href = "/premium-plans";
+    if (!isPremium && remaining <= 0) {
+      setOutOfCreditsOpen(true);
       return;
     }
 
-    await decrementCredits();
+    const result = await deductCredit('amazon-cropper');
+    if (!result?.allowed) {
+      setOutOfCreditsOpen(true);
+      return;
+    }
 
     if (pdfUrl) {
-      const link = document.createElement("a");
+      const link = document.createElement('a');
       link.href = pdfUrl;
-      link.download = "amazon_labels_ready.pdf";
+      link.download = 'amazon_labels_ready.pdf';
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
@@ -311,7 +309,7 @@ export default function AmazonCropper({ id }: { id: string }) {
 
   return (
     <div className="max-w-7xl mx-auto py-4 sm:py-8 px-3 sm:px-6 font-sans">
-      <EcommerceCreditBadge />
+      <OutOfCreditsModal isOpen={outOfCreditsOpen} onClose={() => setOutOfCreditsOpen(false)} isGuest={isGuest} />
       <div className="flex flex-col lg:flex-row gap-6 items-start">
         {/* Settings Sidebar */}
         <div className="w-full lg:w-[280px] bg-white dark:bg-slate-800 rounded-3xl border border-slate-100 dark:border-slate-700 shadow-xl h-fit lg:sticky lg:top-4 overflow-hidden flex-shrink-0">

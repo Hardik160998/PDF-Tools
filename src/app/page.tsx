@@ -118,6 +118,7 @@ export default function Home() {
   const router = useRouter();
   const userPlan = profile?.current_plan || profile?.plan || "Basic Plan";
   const isPremium = userPlan.toLowerCase().includes("pro") || userPlan.toLowerCase().includes("premium");
+  const activePlan = user ? userPlan : null;
 
   const handleCheckout = async (plan: "yearly" | "monthly") => {
     if (!user) {
@@ -374,7 +375,11 @@ export default function Home() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch max-w-5xl mx-auto">
             {/* Basic Plan */}
-            <div className="bg-white dark:bg-slate-800/60 rounded-3xl p-8 border border-slate-100 dark:border-slate-700/80 shadow-lg flex flex-col justify-between hover:-translate-y-1 transition-all duration-300">
+            <div className={`bg-white dark:bg-slate-800/60 rounded-3xl p-8 shadow-lg flex flex-col justify-between hover:-translate-y-1 transition-all duration-300 ${
+              activePlan === "Basic Plan"
+                ? "border-2 border-amber-400 ring-1 ring-amber-400/20"
+                : "border border-slate-100 dark:border-slate-700/80"
+            }`}>
               <div className="space-y-6">
                 <div>
                   <h3 className="font-outfit text-xl font-black text-slate-800 dark:text-white">Basic Plan</h3>
@@ -401,17 +406,30 @@ export default function Home() {
                 </ul>
               </div>
               <div className="pt-8">
-                <Link
-                  href="/signup"
-                  className="block w-full py-3 px-6 text-center text-xs font-bold text-slate-700 dark:text-slate-300 bg-slate-100 hover:bg-slate-200 dark:bg-slate-700/50 dark:hover:bg-slate-700 rounded-xl transition-all"
-                >
-                  Get Started
-                </Link>
+                {activePlan === "Basic Plan" ? (
+                  <div className="block w-full py-3 px-6 text-center text-xs font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/20 border border-emerald-200 dark:border-emerald-900/35 rounded-xl">
+                    Active Plan
+                  </div>
+                ) : activePlan ? (
+                  // Hide button for Basic Plan if user is logged in under any paid plan
+                  null
+                ) : (
+                  <Link
+                    href="/signup"
+                    className="block w-full py-3 px-6 text-center text-xs font-bold text-slate-700 dark:text-slate-300 bg-slate-100 hover:bg-slate-200 dark:bg-slate-700/50 dark:hover:bg-slate-700 rounded-xl transition-all"
+                  >
+                    Get Started
+                  </Link>
+                )}
               </div>
             </div>
 
             {/* Yearly Pro Plan (Featured) */}
-            <div className="relative bg-white dark:bg-slate-800/60 rounded-3xl p-8 border-2 border-amber-400 shadow-2xl flex flex-col justify-between hover:-translate-y-1 transition-all duration-300 scale-105 z-10">
+            <div className={`relative bg-white dark:bg-slate-800/60 rounded-3xl p-8 shadow-2xl flex flex-col justify-between hover:-translate-y-1 transition-all duration-300 scale-105 z-10 ${
+              activePlan === "Yearly Pro" || (!activePlan && true)
+                ? "border-2 border-amber-400 ring-1 ring-amber-400/20"
+                : "border border-slate-100 dark:border-slate-700/80"
+            }`}>
               <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-amber-400 text-slate-900 text-[10px] font-black uppercase tracking-widest px-4 py-1.5 rounded-full shadow-md flex items-center gap-1">
                 <Crown size={12} className="fill-slate-900" /> Best Value
               </div>
@@ -445,18 +463,31 @@ export default function Home() {
                 </ul>
               </div>
               <div className="pt-8">
-                <button
-                  onClick={() => handleCheckout("yearly")}
-                  className="block w-full py-3 px-6 text-center text-xs font-black text-slate-900 bg-amber-400 hover:bg-amber-300 rounded-xl transition-all shadow-lg shadow-amber-400/20 uppercase tracking-wider animate-pulse hover:animate-none cursor-pointer"
-                  style={{ animationDuration: '3s' }}
-                >
-                  Unlock Yearly Pro
-                </button>
+                {activePlan === "Yearly Pro" ? (
+                  <div className="block w-full py-3 px-6 text-center text-xs font-black text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-900/35 rounded-xl uppercase tracking-wider">
+                    Active Plan
+                  </div>
+                ) : activePlan === "Monthly Pro" ? (
+                  // Hide button for Yearly Pro if user is logged in under Monthly Pro plan
+                  null
+                ) : (
+                  <button
+                    onClick={() => handleCheckout("yearly")}
+                    className="block w-full py-3 px-6 text-center text-xs font-black text-slate-900 bg-amber-400 hover:bg-amber-300 rounded-xl transition-all shadow-lg shadow-amber-400/20 uppercase tracking-wider animate-pulse hover:animate-none cursor-pointer"
+                    style={{ animationDuration: '3s' }}
+                  >
+                    Unlock Yearly Pro
+                  </button>
+                )}
               </div>
             </div>
 
             {/* Monthly Pro Plan */}
-            <div className="bg-white dark:bg-slate-800/60 rounded-3xl p-8 border border-slate-100 dark:border-slate-700/80 shadow-lg flex flex-col justify-between hover:-translate-y-1 transition-all duration-300">
+            <div className={`bg-white dark:bg-slate-800/60 rounded-3xl p-8 shadow-lg flex flex-col justify-between hover:-translate-y-1 transition-all duration-300 ${
+              activePlan === "Monthly Pro"
+                ? "border-2 border-amber-400 ring-1 ring-amber-400/20"
+                : "border border-slate-100 dark:border-slate-700/80"
+            }`}>
               <div className="space-y-6">
                 <div>
                   <h3 className="font-outfit text-xl font-black text-slate-800 dark:text-white">Monthly Pro</h3>
@@ -484,12 +515,21 @@ export default function Home() {
                 </ul>
               </div>
               <div className="pt-8">
-                <button
-                  onClick={() => handleCheckout("monthly")}
-                  className="block w-full py-3 px-6 text-center text-xs font-bold text-white bg-slate-900 hover:bg-slate-800 dark:bg-slate-100 dark:text-slate-900 dark:hover:bg-slate-200 rounded-xl transition-all cursor-pointer"
-                >
-                  Subscribe Monthly
-                </button>
+                {activePlan === "Monthly Pro" ? (
+                  <div className="block w-full py-3 px-6 text-center text-xs font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/20 border border-emerald-200 dark:border-emerald-900/35 rounded-xl">
+                    Active Plan
+                  </div>
+                ) : activePlan === "Yearly Pro" ? (
+                  // Hide button for Monthly Pro if user is logged in under Yearly Pro plan
+                  null
+                ) : (
+                  <button
+                    onClick={() => handleCheckout("monthly")}
+                    className="block w-full py-3 px-6 text-center text-xs font-bold text-white bg-slate-900 hover:bg-slate-800 dark:bg-slate-100 dark:text-slate-900 dark:hover:bg-slate-200 rounded-xl transition-all cursor-pointer"
+                  >
+                    Subscribe Monthly
+                  </button>
+                )}
               </div>
             </div>
           </div>

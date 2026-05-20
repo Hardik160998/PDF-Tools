@@ -1,11 +1,11 @@
 "use client";
 
-import { useEffect, useRef, Suspense } from 'react';
+import { useEffect, useRef, Suspense, useState } from 'react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
 import { triggerRazorpayPayment } from '@/lib/razorpay';
-import { Crown, CheckCircle2, Sparkles, Check, HelpCircle } from 'lucide-react';
+import { Crown, CheckCircle2, Sparkles, Check, HelpCircle, CreditCard, Download } from 'lucide-react';
 
 const PLAN_TOOLS = [
   {
@@ -93,6 +93,97 @@ function PremiumPlansContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const hasTriggeredRef = useRef(false);
+  const [isDownloading, setIsDownloading] = useState(false);
+
+  const activePlan = user ? (profile?.current_plan || profile?.plan || "Basic Plan") : null;
+
+  const handleDownloadReceipt = async () => {
+    if (!user) return;
+    try {
+      setIsDownloading(true);
+      
+      const { PDFDocument, rgb, StandardFonts } = await import("pdf-lib");
+      const pdfDoc = await PDFDocument.create();
+      const page = pdfDoc.addPage([595.28, 841.89]);
+      
+      const helvetica = await pdfDoc.embedFont(StandardFonts.Helvetica);
+      const helveticaBold = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
+      
+      const invoiceNum = `INV-SP-${Date.now().toString().slice(-6)}`;
+      const invoiceDate = new Date().toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
+      
+      const priceINR = activePlan === "Yearly Pro" ? "INR 1,699.00" : "INR 399.00";
+      const priceUSD = activePlan === "Yearly Pro" ? "$19.99" : "$4.99";
+      const cycle = activePlan === "Yearly Pro" ? "Yearly" : "Monthly";
+
+      // 1. Draw Header Header background / banner line
+      page.drawRectangle({ x: 0, y: 841.89 - 60, width: 595.28, height: 60, color: rgb(0.93, 0.95, 0.98) });
+      page.drawText("SMARTPDFS PLUS", { x: 40, y: 841.89 - 42, size: 18, font: helveticaBold, color: rgb(0.94, 0.27, 0.27) });
+      page.drawText("RECEIPT / INVOICE", { x: 420, y: 841.89 - 40, size: 14, font: helveticaBold, color: rgb(0.1, 0.15, 0.3) });
+
+      // 2. Add Invoice metadata
+      page.drawText("Billed To:", { x: 40, y: 730, size: 10, font: helveticaBold, color: rgb(0.4, 0.4, 0.4) });
+      page.drawText(profile?.full_name || user.email || "Valued Customer", { x: 40, y: 715, size: 11, font: helveticaBold, color: rgb(0.1, 0.1, 0.1) });
+      page.drawText(user.email || "", { x: 40, y: 700, size: 10, font: helvetica, color: rgb(0.3, 0.3, 0.3) });
+
+      page.drawText(`Invoice Number:`, { x: 380, y: 730, size: 10, font: helveticaBold, color: rgb(0.4, 0.4, 0.4) });
+      page.drawText(invoiceNum, { x: 470, y: 730, size: 10, font: helvetica, color: rgb(0.1, 0.1, 0.1) });
+      
+      page.drawText(`Date of Issue:`, { x: 380, y: 715, size: 10, font: helveticaBold, color: rgb(0.4, 0.4, 0.4) });
+      page.drawText(invoiceDate, { x: 470, y: 715, size: 10, font: helvetica, color: rgb(0.1, 0.1, 0.1) });
+      
+      page.drawText(`Payment Method:`, { x: 380, y: 700, size: 10, font: helveticaBold, color: rgb(0.4, 0.4, 0.4) });
+      page.drawText("Razorpay (Online)", { x: 470, y: 700, size: 10, font: helvetica, color: rgb(0.1, 0.1, 0.1) });
+
+      // 3. Draw Table headers
+      const tableY = 620;
+      page.drawLine({ start: { x: 40, y: tableY }, end: { x: 555.28, y: tableY }, thickness: 1, color: rgb(0.8, 0.8, 0.8) });
+      page.drawText("DESCRIPTION", { x: 50, y: tableY - 20, size: 9, font: helveticaBold, color: rgb(0.4, 0.4, 0.4) });
+      page.drawText("BILLING CYCLE", { x: 300, y: tableY - 20, size: 9, font: helveticaBold, color: rgb(0.4, 0.4, 0.4) });
+      page.drawText("AMOUNT", { x: 490, y: tableY - 20, size: 9, font: helveticaBold, color: rgb(0.4, 0.4, 0.4) });
+      page.drawLine({ start: { x: 40, y: tableY - 30 }, end: { x: 555.28, y: tableY - 30 }, thickness: 1, color: rgb(0.8, 0.8, 0.8) });
+
+      // 4. Draw Row
+      page.drawText(`SmartPDFs ${activePlan} Subscription`, { x: 50, y: tableY - 55, size: 10, font: helveticaBold, color: rgb(0.1, 0.1, 0.1) });
+      page.drawText("Offline processing & ecommerce labels unlocked", { x: 50, y: tableY - 70, size: 9, font: helvetica, color: rgb(0.4, 0.4, 0.4) });
+      page.drawText(cycle, { x: 300, y: tableY - 55, size: 10, font: helvetica, color: rgb(0.1, 0.1, 0.1) });
+      page.drawText(priceUSD, { x: 490, y: tableY - 55, size: 10, font: helvetica, color: rgb(0.1, 0.1, 0.1) });
+      page.drawLine({ start: { x: 40, y: tableY - 90 }, end: { x: 555.28, y: tableY - 90 }, thickness: 1, color: rgb(0.9, 0.9, 0.9) });
+
+      // 5. Draw Totals
+      page.drawText("Subtotal:", { x: 380, y: tableY - 115, size: 10, font: helveticaBold, color: rgb(0.4, 0.4, 0.4) });
+      page.drawText(priceUSD, { x: 490, y: tableY - 115, size: 10, font: helvetica, color: rgb(0.1, 0.1, 0.1) });
+      
+      page.drawText("Tax (0%):", { x: 380, y: tableY - 135, size: 10, font: helveticaBold, color: rgb(0.4, 0.4, 0.4) });
+      page.drawText("$0.00", { x: 490, y: tableY - 135, size: 10, font: helvetica, color: rgb(0.1, 0.1, 0.1) });
+
+      page.drawLine({ start: { x: 380, y: tableY - 150 }, end: { x: 555.28, y: tableY - 150 }, thickness: 1, color: rgb(0.8, 0.8, 0.8) });
+
+      page.drawText("Total Paid:", { x: 380, y: tableY - 170, size: 12, font: helveticaBold, color: rgb(0.1, 0.1, 0.1) });
+      page.drawText(priceUSD, { x: 490, y: tableY - 170, size: 12, font: helveticaBold, color: rgb(0.1, 0.1, 0.1) });
+      page.drawText(`(${priceINR})`, { x: 490, y: tableY - 185, size: 9, font: helvetica, color: rgb(0.4, 0.4, 0.4) });
+
+      // Bottom banner
+      page.drawRectangle({ x: 40, y: 100, width: 515.28, height: 80, color: rgb(0.96, 0.96, 0.98) });
+      page.drawText("Thank you for your purchase!", { x: 60, y: 145, size: 11, font: helveticaBold, color: rgb(0.1, 0.15, 0.3) });
+      page.drawText("Your subscription is active. All premium offline PDF and Ecommerce label features are unlocked.", { x: 60, y: 125, size: 9, font: helvetica, color: rgb(0.4, 0.4, 0.4) });
+
+      // Save and download PDF
+      const pdfBytes = await pdfDoc.save();
+      const blob = new Blob([pdfBytes.buffer as ArrayBuffer], { type: "application/pdf" });
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = `SmartPDFs_Receipt_${invoiceNum}.pdf`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } catch (error) {
+      console.error("Receipt generation error:", error);
+      alert("Could not generate receipt PDF. Please try again.");
+    } finally {
+      setIsDownloading(false);
+    }
+  };
 
   const handleCheckout = async (plan: "yearly" | "monthly") => {
     if (!user) {
@@ -129,10 +220,10 @@ function PremiumPlansContent() {
   }, [user, searchParams]);
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-950/40 text-slate-800 dark:text-slate-100 pb-24">
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-950/40 text-slate-800 dark:text-slate-100 pb-24 px-6">
       {/* Hero Banner Section */}
       <section className="py-16 text-center">
-        <div className="container mx-auto px-4 max-w-3xl">
+        <div className="w-full mx-auto max-w-4xl">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-amber-50 dark:bg-amber-950/20 text-amber-600 dark:text-amber-400 border border-amber-100 dark:border-amber-900/30 text-xs font-semibold uppercase tracking-widest shadow-sm mb-6">
             <Crown size={14} className="fill-amber-500/20" />
             Pricing Plans
@@ -140,18 +231,103 @@ function PremiumPlansContent() {
           <h1 className="font-outfit text-4xl md:text-5xl font-black text-slate-900 dark:text-white tracking-tighter mb-4">
             Premium Tool <span className="text-red-500">Plans</span>
           </h1>
-          <p className="text-lg text-slate-500 dark:text-slate-400 font-medium leading-relaxed">
+          <p className="text-lg text-slate-500 dark:text-slate-400 font-medium leading-relaxed mb-8">
             Unlock advanced features, higher file size limits, and priority browser processing. Choose the plan that works best for you.
           </p>
+          
+          <div className="flex justify-center mb-4">
+            <button 
+              onClick={() => document.getElementById('plan-details')?.scrollIntoView({ behavior: 'smooth' })}
+              className="inline-flex items-center gap-2 text-sm font-bold text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300 transition-colors cursor-pointer bg-indigo-50 dark:bg-indigo-950/30 px-5 py-2.5 rounded-full"
+            >
+              Plan All Details View
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M6 9l6 6 6-6"/>
+              </svg>
+            </button>
+          </div>
+
+          {user && activePlan && activePlan !== "Basic Plan" && (
+            <div className="bg-white/70 dark:bg-slate-900/60 backdrop-blur-xl border border-slate-200/60 dark:border-slate-800/80 rounded-3xl p-6 sm:p-8 shadow-xl shadow-slate-100/50 dark:shadow-none space-y-6 mt-8 w-full text-left mb-16">
+              <h2 className="font-outfit text-xl font-black tracking-tight text-slate-800 dark:text-white flex items-center gap-2">
+                <CreditCard size={18} className="text-indigo-500" /> License &amp; Billing
+              </h2>
+              
+              <div className="space-y-4">
+                <div className="flex justify-between items-center py-3 border-b border-slate-100 dark:border-slate-800/60">
+                  <span className="text-xs font-bold text-slate-500">Current Plan Status</span>
+                  <span className={`text-xs font-black px-2.5 py-0.5 rounded-full border ${
+                    activePlan !== "Basic Plan"
+                      ? "text-amber-500 bg-amber-500/10 border-amber-500/20"
+                      : "text-slate-500 bg-slate-500/10 border-slate-500/20"
+                  }`}>
+                    {activePlan !== "Basic Plan" ? `${activePlan} (${profile?.subscription_status || 'active'})` : "Basic Plan"}
+                  </span>
+                </div>
+                <div className="flex justify-between items-center py-3 border-b border-slate-100 dark:border-slate-800/60">
+                  <span className="text-xs font-bold text-slate-500">Subscription Start Date</span>
+                  <span className="text-xs font-black text-slate-700 dark:text-slate-300">
+                    {profile?.subscription_start_date 
+                      ? new Date(profile.subscription_start_date).toLocaleDateString("en-US", { year: 'numeric', month: 'long', day: 'numeric' })
+                      : "N/A"}
+                  </span>
+                </div>
+                <div className="flex justify-between items-center py-3 border-b border-slate-100 dark:border-slate-800/60">
+                  <span className="text-xs font-bold text-slate-500">Subscription End Date</span>
+                  <span className="text-xs font-black text-slate-700 dark:text-slate-300">
+                    {profile?.subscription_end_date 
+                      ? new Date(profile.subscription_end_date).toLocaleDateString("en-US", { year: 'numeric', month: 'long', day: 'numeric' })
+                      : "N/A"}
+                  </span>
+                </div>
+                <div className="flex justify-between items-center py-3 border-b border-slate-100 dark:border-slate-800/60">
+                  <span className="text-xs font-bold text-slate-500">Razorpay Customer ID</span>
+                  <span className="font-mono text-xs font-black text-slate-700 dark:text-slate-300">
+                    {profile?.razorpay_customer_id || "N/A"}
+                  </span>
+                </div>
+                <div className="flex justify-between items-center py-3 border-b border-slate-100 dark:border-slate-800/60">
+                  <span className="text-xs font-bold text-slate-500">Price / Billing Cycle</span>
+                  <span className="text-xs font-black text-slate-700 dark:text-slate-300">
+                    {activePlan === "Yearly Pro"
+                      ? "Annual billing ($19.99/year)"
+                      : activePlan === "Monthly Pro"
+                      ? "Monthly billing ($4.99/month)"
+                      : "No subscription (Basic tier)"}
+                  </span>
+                </div>
+                <div className="flex justify-between items-center py-3">
+                  <span className="text-xs font-bold text-slate-500">Invoice Bill</span>
+                  {activePlan !== "Basic Plan" ? (
+                    <button
+                      type="button"
+                      disabled={isDownloading}
+                      onClick={handleDownloadReceipt}
+                      className="flex items-center gap-1 text-xs font-bold text-indigo-500 hover:text-indigo-600 disabled:text-indigo-300 disabled:cursor-not-allowed transition-colors uppercase tracking-wider cursor-pointer"
+                    >
+                      <Download size={12} className={isDownloading ? "animate-bounce" : ""} />
+                      {isDownloading ? "Generating..." : "Download Receipt"}
+                    </button>
+                  ) : (
+                    <span className="text-xs text-slate-400">No invoices available</span>
+                  )}
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </section>
 
       {/* Plans Section */}
       <section className="pb-20">
-        <div className="container mx-auto px-4 max-w-6xl">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch max-w-5xl mx-auto">
+        <div className="w-full mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch w-full mx-auto">
             {/* Basic Plan */}
-            <div className="bg-white dark:bg-slate-800/60 rounded-3xl p-8 border border-slate-100 dark:border-slate-700/80 shadow-lg flex flex-col justify-between hover:-translate-y-1 transition-all duration-300">
+            <div className={`bg-white dark:bg-slate-800/60 rounded-3xl p-8 shadow-lg flex flex-col justify-between hover:-translate-y-1 transition-all duration-300 ${
+              activePlan === "Basic Plan"
+                ? "border-2 border-amber-400 ring-1 ring-amber-400/20"
+                : "border border-slate-100 dark:border-slate-700/80"
+            }`}>
               <div className="space-y-6">
                 <div>
                   <h3 className="font-outfit text-xl font-black text-slate-800 dark:text-white">Basic Plan</h3>
@@ -178,17 +354,30 @@ function PremiumPlansContent() {
                 </ul>
               </div>
               <div className="pt-8">
-                <Link
-                  href="/signup"
-                  className="block w-full py-3 px-6 text-center text-xs font-bold text-slate-700 dark:text-slate-300 bg-slate-100 hover:bg-slate-200 dark:bg-slate-700/50 dark:hover:bg-slate-700 rounded-xl transition-all"
-                >
-                  Get Started
-                </Link>
+                {activePlan === "Basic Plan" ? (
+                  <div className="block w-full py-3 px-6 text-center text-xs font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/20 border border-emerald-200 dark:border-emerald-900/35 rounded-xl">
+                    Active Plan
+                  </div>
+                ) : activePlan ? (
+                  // Hide button for Basic Plan if user is logged in under any paid plan
+                  null
+                ) : (
+                  <Link
+                    href="/signup"
+                    className="block w-full py-3 px-6 text-center text-xs font-bold text-slate-700 dark:text-slate-300 bg-slate-100 hover:bg-slate-200 dark:bg-slate-700/50 dark:hover:bg-slate-700 rounded-xl transition-all"
+                  >
+                    Get Started
+                  </Link>
+                )}
               </div>
             </div>
 
             {/* Yearly Pro Plan (Featured) */}
-            <div className="relative bg-white dark:bg-slate-800/60 rounded-3xl p-8 border-2 border-amber-400 shadow-2xl flex flex-col justify-between hover:-translate-y-1 transition-all duration-300 scale-105 z-10">
+            <div className={`relative bg-white dark:bg-slate-800/60 rounded-3xl p-8 shadow-2xl flex flex-col justify-between hover:-translate-y-1 transition-all duration-300 scale-105 z-10 ${
+              activePlan === "Yearly Pro" || (!activePlan && true)
+                ? "border-2 border-amber-400 ring-1 ring-amber-400/20"
+                : "border border-slate-100 dark:border-slate-700/80"
+            }`}>
               <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-amber-400 text-slate-900 text-[10px] font-black uppercase tracking-widest px-4 py-1.5 rounded-full shadow-md flex items-center gap-1">
                 <Crown size={12} className="fill-slate-900" /> Best Value
               </div>
@@ -222,18 +411,31 @@ function PremiumPlansContent() {
                 </ul>
               </div>
               <div className="pt-8">
-                <button
-                  onClick={() => handleCheckout("yearly")}
-                  className="block w-full py-3 px-6 text-center text-xs font-black text-slate-900 bg-amber-400 hover:bg-amber-300 rounded-xl transition-all shadow-lg shadow-amber-400/20 uppercase tracking-wider animate-pulse hover:animate-none cursor-pointer"
-                  style={{ animationDuration: '3s' }}
-                >
-                  Unlock Yearly Pro
-                </button>
+                {activePlan === "Yearly Pro" ? (
+                  <div className="block w-full py-3 px-6 text-center text-xs font-black text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-900/35 rounded-xl uppercase tracking-wider">
+                    Active Plan
+                  </div>
+                ) : activePlan === "Monthly Pro" ? (
+                  // Hide button for Yearly Pro if user is logged in under Monthly Pro plan
+                  null
+                ) : (
+                  <button
+                    onClick={() => handleCheckout("yearly")}
+                    className="block w-full py-3 px-6 text-center text-xs font-black text-slate-900 bg-amber-400 hover:bg-amber-300 rounded-xl transition-all shadow-lg shadow-amber-400/20 uppercase tracking-wider animate-pulse hover:animate-none cursor-pointer"
+                    style={{ animationDuration: '3s' }}
+                  >
+                    Unlock Yearly Pro
+                  </button>
+                )}
               </div>
             </div>
 
             {/* Monthly Pro Plan */}
-            <div className="bg-white dark:bg-slate-800/60 rounded-3xl p-8 border border-slate-100 dark:border-slate-700/80 shadow-lg flex flex-col justify-between hover:-translate-y-1 transition-all duration-300">
+            <div className={`bg-white dark:bg-slate-800/60 rounded-3xl p-8 shadow-lg flex flex-col justify-between hover:-translate-y-1 transition-all duration-300 ${
+              activePlan === "Monthly Pro"
+                ? "border-2 border-amber-400 ring-1 ring-amber-400/20"
+                : "border border-slate-100 dark:border-slate-700/80"
+            }`}>
               <div className="space-y-6">
                 <div>
                   <h3 className="font-outfit text-xl font-black text-slate-800 dark:text-white">Monthly Pro</h3>
@@ -261,12 +463,21 @@ function PremiumPlansContent() {
                 </ul>
               </div>
               <div className="pt-8">
-                <button
-                  onClick={() => handleCheckout("monthly")}
-                  className="block w-full py-3 px-6 text-center text-xs font-bold text-white bg-slate-900 hover:bg-slate-800 dark:bg-slate-100 dark:text-slate-900 dark:hover:bg-slate-200 rounded-xl transition-all cursor-pointer"
-                >
-                  Subscribe Monthly
-                </button>
+                {activePlan === "Monthly Pro" ? (
+                  <div className="block w-full py-3 px-6 text-center text-xs font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/20 border border-emerald-200 dark:border-emerald-900/35 rounded-xl">
+                    Active Plan
+                  </div>
+                ) : activePlan === "Yearly Pro" ? (
+                  // Hide button for Monthly Pro if user is logged in under Yearly Pro plan
+                  null
+                ) : (
+                  <button
+                    onClick={() => handleCheckout("monthly")}
+                    className="block w-full py-3 px-6 text-center text-xs font-bold text-white bg-slate-900 hover:bg-slate-800 dark:bg-slate-100 dark:text-slate-900 dark:hover:bg-slate-200 rounded-xl transition-all cursor-pointer"
+                  >
+                    Subscribe Monthly
+                  </button>
+                )}
               </div>
             </div>
           </div>
@@ -274,8 +485,8 @@ function PremiumPlansContent() {
       </section>
 
       {/* Plan Features & Tools Details Section */}
-      <section className="py-20 bg-white dark:bg-slate-900 border-t border-b border-slate-100 dark:border-slate-800/80">
-        <div className="container mx-auto px-4 max-w-6xl">
+      <section id="plan-details" className="py-20 bg-white dark:bg-slate-900 border-t border-b border-slate-100 dark:border-slate-800/80 -mx-6 px-6">
+        <div className="w-full mx-auto">
           <div className="text-center max-w-3xl mx-auto mb-16">
             <h2 className="font-outfit text-3xl font-black text-slate-900 dark:text-white tracking-tight mb-3">
               Explore Tools Included by Plan
@@ -285,7 +496,7 @@ function PremiumPlansContent() {
             </p>
           </div>
 
-          <div className="space-y-12 max-w-5xl mx-auto">
+          <div className="space-y-12 w-full mx-auto">
             {PLAN_TOOLS.map((cat, catIdx) => (
               <div key={catIdx} className="bg-slate-50/50 dark:bg-slate-850/30 rounded-3xl p-6 md:p-8 border border-slate-100 dark:border-slate-800/60">
                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
@@ -341,7 +552,7 @@ function PremiumPlansContent() {
 
       {/* FAQ Section */}
       <section className="py-20">
-        <div className="container mx-auto px-4 max-w-4xl">
+        <div className="w-full mx-auto max-w-4xl">
           <div className="text-center mb-16">
             <h2 className="font-outfit text-3xl font-black text-slate-900 dark:text-white tracking-tight mb-3">
               Frequently Asked Questions

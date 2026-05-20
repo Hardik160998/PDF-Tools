@@ -15,7 +15,10 @@ export interface UserProfile {
   subscription_start_date?: string;
   subscription_end_date?: string;
   razorpay_customer_id?: string;
-  ecommerce_credits?: number;
+  remaining_credits?: number;
+  used_credits?: number;
+  /** Whether guest credits were already merged into this account */
+  credits_merged?: boolean;
 }
 
 interface AuthContextType {
@@ -26,6 +29,8 @@ interface AuthContextType {
   refreshProfile: () => Promise<void>;
   loginAsMock: (email: string, name: string, customProfile?: UserProfile) => Promise<void>;
   decrementCredits: () => Promise<number | null>;
+  /** Merges guest credits into user account — call after successful login/signup */
+  mergeCreditsOnLogin: (guestToken?: string) => Promise<number | null>;
 }
 
 const AuthContext = createContext<AuthContextType>({
@@ -36,6 +41,7 @@ const AuthContext = createContext<AuthContextType>({
   refreshProfile: async () => { },
   loginAsMock: async () => { },
   decrementCredits: async () => null,
+  mergeCreditsOnLogin: async () => null,
 });
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
@@ -259,9 +265,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
       if (res.ok) {
         const data = await res.json();
-        if (data.ecommerce_credits !== undefined) {
-          setProfile(prev => prev ? { ...prev, ecommerce_credits: data.ecommerce_credits } : null);
-          return data.ecommerce_credits;
+        if (data.remaining_credits !== undefined) {
+          setProfile(prev => prev ? { ...prev, remaining_credits: data.remaining_credits } : null);
+          return data.remaining_credits;
         }
       }
     } catch (err) {
@@ -270,8 +276,68 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     return null;
   };
 
+  const mergeCreditsOnLogin = async (guestToken?: string): Promise<number | null> => {
+    console.log("[mergeCreditsOnLogin] Starting merge process with guestToken:", guestToken);
+    try {
+      const isMockStr = typeof window !== "undefined" ? localStorage.getItem("sb-mock-session") : null;
+      let token = "";
+      if (isMockStr) {
+        try {
+          const parsed = JSON.parse(isMockStr);
+          token = parsed.email;
+        } catch {}
+      } else {
+        const { data: { session } } = await supabase.auth.getSession();
+        token = session?.access_token || "";
+      }
+      
+      if (!token) {
+        console.log("[mergeCreditsOnLogin] No auth token found. Aborting merge.");
+        return null;
+      }
+      console.log("[mergeCreditsOnLogin] Auth token found. Proceeding with merge.");
+
+      // Read guest token from localStorage if not provided
+      const storedGuest = typeof window !== "undefined" ? localStorage.getItem("pdf_guest_session") : null;
+      let resolvedGuestToken = guestToken;
+      if (!resolvedGuestToken && storedGuest) {
+        try {
+          resolvedGuestToken = JSON.parse(storedGuest)?.sessionToken;
+        } catch {}
+      }
+
+      const res = await fetch("/api/credits/merge", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ guestToken: resolvedGuestToken }),
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        console.log("[mergeCreditsOnLogin] API Success. Returned data:", data);
+        // Clear guest session from localStorage after successful merge
+        if (typeof window !== "undefined") {
+          localStorage.removeItem("pdf_guest_session");
+        }
+        // Update profile with new credits
+        if (data.newCredits !== undefined) {
+          setProfile(prev => prev ? { ...prev, remaining_credits: data.newCredits, credits_merged: true } : null);
+          return data.newCredits;
+        }
+      } else {
+        console.error("[mergeCreditsOnLogin] API returned error status:", res.status);
+      }
+    } catch (err) {
+      console.error("[mergeCreditsOnLogin] error:", err);
+    }
+    return null;
+  };
+
   return (
-    <AuthContext.Provider value={{ user, profile, loading, logout, refreshProfile, loginAsMock, decrementCredits }}>
+    <AuthContext.Provider value={{ user, profile, loading, logout, refreshProfile, loginAsMock, decrementCredits, mergeCreditsOnLogin }}>
       {children}
     </AuthContext.Provider>
   );

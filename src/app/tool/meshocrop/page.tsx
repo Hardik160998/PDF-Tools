@@ -19,7 +19,7 @@ const RELATED_TOOLS = [
   { id: 'compress',        title: 'Compress PDF',            description: 'Reduce PDF file size while keeping text sharp and content intact.',                            icon: Zap,         gradient: 'linear-gradient(135deg, #22c55e, #15803d)', shadow: 'rgba(34,197,94,0.3)',   tag: 'Optimize' },
 ];
 
-import SubscriptionGate from '@/components/SubscriptionGate';
+import CreditGate from '@/components/credits/CreditGate';
 
 export default function MeeshoCropPage() {
   const [mounted, setMounted] = useState(false);
@@ -28,9 +28,9 @@ export default function MeeshoCropPage() {
   return (
     <div className="min-h-screen">
       <section className="pb-8">
-        <SubscriptionGate toolId="meshocrop">
+        <CreditGate toolName="meshocrop" showCounter={false}>
           <MeeshoCropLabel id="meshocrop" />
-        </SubscriptionGate>
+        </CreditGate>
       </section>
 
       {mounted && (

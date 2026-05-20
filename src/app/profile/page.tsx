@@ -288,13 +288,13 @@ export default function ProfilePage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#f8fafc] dark:bg-[#0f172a] py-12 px-4 sm:px-6 lg:px-8 transition-colors duration-300 relative overflow-hidden font-sans">
+    <div className="min-h-screen bg-[#f8fafc] dark:bg-[#0f172a] py-12 px-6 transition-colors duration-300 relative overflow-hidden">
       
       {/* Background Mesh Gradients */}
       <div className="absolute top-0 left-0 right-0 h-[550px] bg-gradient-to-b from-indigo-500/10 via-purple-500/5 to-transparent dark:from-indigo-500/20 dark:via-purple-500/10 -z-10 blur-3xl pointer-events-none" />
       <div className="absolute top-1/3 right-1/4 w-[350px] h-[350px] bg-amber-500/5 rounded-full blur-3xl -z-10 pointer-events-none" />
 
-      <div className="max-w-5xl mx-auto space-y-8">
+      <div className="w-full mx-auto space-y-8">
         
         {/* Account Banner Card */}
         <div className="relative overflow-hidden bg-white/70 dark:bg-slate-900/60 backdrop-blur-xl border border-slate-200/60 dark:border-slate-800/80 rounded-3xl p-6 sm:p-8 shadow-xl shadow-slate-100/50 dark:shadow-none flex flex-col md:flex-row items-center md:items-start gap-6 md:gap-8">
@@ -314,7 +314,7 @@ export default function ProfilePage() {
           <div className="flex-1 text-center md:text-left space-y-3 relative z-10">
             <div className="space-y-1">
               <div className="flex flex-wrap items-center justify-center md:justify-start gap-2">
-                <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-slate-800 dark:text-white">
+                <h1 className="font-outfit text-2xl sm:text-3xl font-black tracking-tight text-slate-800 dark:text-white">
                   {profile?.full_name || "SmartPDFs User"}
                 </h1>
                 <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-black tracking-wider uppercase bg-amber-500/10 text-amber-500 border border-amber-500/20">
@@ -353,45 +353,45 @@ export default function ProfilePage() {
           <div className="lg:col-span-2 space-y-8">
             
             {/* Interactive Pro Membership Pass (Wow factor) */}
-            <div className="relative group overflow-hidden bg-gradient-to-br from-slate-900 via-slate-950 to-indigo-950 border border-white/10 rounded-3xl p-6 sm:p-8 shadow-2xl text-white transition-all duration-300 hover:shadow-indigo-500/10 hover:border-white/20">
+            <div className="relative group overflow-hidden bg-gradient-to-tr from-amber-500/10 via-purple-600/10 to-indigo-600/10 dark:from-amber-500/20 dark:via-purple-600/20 dark:to-indigo-600/20 border border-amber-500/20 dark:border-amber-400/30 rounded-3xl p-6 sm:p-8 shadow-xl transition-all duration-300 hover:shadow-indigo-500/5 hover:border-amber-500/30">
               
               {/* Glowing decorative circles */}
-              <div className="absolute -top-12 -right-12 w-48 h-48 bg-purple-600/20 rounded-full blur-3xl pointer-events-none" />
-              <div className="absolute -bottom-12 -left-12 w-48 h-48 bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-white/5 via-transparent to-transparent pointer-events-none" />
+              <div className="absolute -top-12 -right-12 w-48 h-48 bg-purple-500/10 rounded-full blur-3xl pointer-events-none" />
+              <div className="absolute -bottom-12 -left-12 w-48 h-48 bg-amber-500/5 rounded-full blur-3xl pointer-events-none" />
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-white/10 dark:from-white/5 via-transparent to-transparent pointer-events-none" />
 
               <div className="relative flex flex-col justify-between h-48">
                 
                 {/* Pass Header */}
                 <div className="flex justify-between items-start">
                   <div className="space-y-1">
-                    <span className="inline-flex items-center gap-1 bg-amber-400/20 text-amber-400 text-[9px] font-black uppercase tracking-widest px-2.5 py-0.5 rounded-full border border-amber-400/30">
+                    <span className="inline-flex items-center gap-1 bg-amber-500/10 dark:bg-amber-400/20 text-amber-600 dark:text-amber-400 text-[9px] font-black uppercase tracking-widest px-2.5 py-0.5 rounded-full border border-amber-500/20 dark:border-amber-400/30">
                       SmartPDFs Plus Pass
                     </span>
-                    <p className="text-[10px] text-white/55 uppercase tracking-widest font-black">
+                    <p className="text-[10px] text-slate-500 dark:text-slate-400 uppercase tracking-widest font-black">
                       {userPlan === "Free Plan" ? "STANDARD IDENTITY" : `${userPlan.replace(" Plan", "").toUpperCase()} VIP IDENTITY`}
                     </p>
                   </div>
-                  <Crown className="text-amber-400 fill-amber-400/20" size={32} />
+                  <Crown className="text-amber-500 dark:text-amber-400 fill-amber-500/10" size={32} />
                 </div>
 
                 {/* Pass Middle */}
                 <div className="my-auto pt-4">
-                  <p className="font-mono text-base sm:text-lg tracking-widest text-slate-100 font-bold">
+                  <p className="font-mono text-base sm:text-lg tracking-widest text-slate-800 dark:text-slate-200 font-bold">
                     {getLicenseKey()}
                   </p>
                 </div>
 
                 {/* Pass Footer */}
-                <div className="flex justify-between items-end border-t border-white/5 pt-4">
+                <div className="flex justify-between items-end border-t border-slate-200/50 dark:border-slate-800/80 pt-4">
                   <div className="min-w-0">
-                    <p className="text-[9px] text-white/45 uppercase tracking-wider font-bold">PASS HOLDER</p>
-                    <p className="text-sm font-black truncate max-w-[200px]">{profile?.full_name || "SmartPDFs VIP Member"}</p>
+                    <p className="text-[9px] text-slate-400 dark:text-slate-500 uppercase tracking-wider font-bold">PASS HOLDER</p>
+                    <p className="text-sm font-black truncate max-w-[200px] text-slate-800 dark:text-slate-100">{profile?.full_name || "SmartPDFs VIP Member"}</p>
                   </div>
                   <div className="text-right flex-shrink-0">
-                    <p className="text-[9px] text-white/45 uppercase tracking-wider font-bold">STATUS</p>
-                    <p className="text-sm font-black text-emerald-400 flex items-center justify-end gap-1">
-                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" /> ACTIVE
+                    <p className="text-[9px] text-slate-400 dark:text-slate-500 uppercase tracking-wider font-bold">STATUS</p>
+                    <p className="text-sm font-black text-emerald-600 dark:text-emerald-400 flex items-center justify-end gap-1">
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 dark:bg-emerald-400 animate-pulse" /> ACTIVE
                     </p>
                   </div>
                 </div>
@@ -404,7 +404,7 @@ export default function ProfilePage() {
             <div className="bg-white/70 dark:bg-slate-900/60 backdrop-blur-xl border border-slate-200/60 dark:border-slate-800/80 rounded-3xl p-6 sm:p-8 shadow-xl shadow-slate-100/50 dark:shadow-none space-y-6">
               
               <div className="flex items-center justify-between">
-                <h2 className="text-lg font-black tracking-tight text-slate-800 dark:text-white flex items-center gap-2">
+                <h2 className="font-outfit text-xl font-black tracking-tight text-slate-800 dark:text-white flex items-center gap-2">
                   <Settings size={18} className="text-indigo-500" /> Account Settings
                 </h2>
                 
@@ -507,7 +507,7 @@ export default function ProfilePage() {
 
             {/* License & Billing mock panel */}
             <div className="bg-white/70 dark:bg-slate-900/60 backdrop-blur-xl border border-slate-200/60 dark:border-slate-800/80 rounded-3xl p-6 sm:p-8 shadow-xl shadow-slate-100/50 dark:shadow-none space-y-6">
-              <h2 className="text-lg font-black tracking-tight text-slate-800 dark:text-white flex items-center gap-2">
+              <h2 className="font-outfit text-xl font-black tracking-tight text-slate-800 dark:text-white flex items-center gap-2">
                 <CreditCard size={18} className="text-indigo-500" /> License &amp; Billing
               </h2>
               
@@ -590,7 +590,7 @@ export default function ProfilePage() {
             
             {/* Pro Features list */}
             <div className="bg-gradient-to-b from-white/80 to-white/60 dark:from-slate-900/70 dark:to-slate-900/40 backdrop-blur-xl border border-slate-200/60 dark:border-slate-800/80 rounded-3xl p-6 shadow-xl shadow-slate-100/50 dark:shadow-none space-y-5">
-              <h2 className="text-base font-black tracking-tight text-slate-800 dark:text-white flex items-center gap-2">
+              <h2 className="font-outfit text-base font-black tracking-tight text-slate-800 dark:text-white flex items-center gap-2">
                 <Sparkles size={16} className="text-amber-500" /> Active Pro Privileges
               </h2>
               
@@ -617,7 +617,7 @@ export default function ProfilePage() {
             {/* Recent History Sidebar */}
             <div className="bg-white/70 dark:bg-slate-900/60 backdrop-blur-xl border border-slate-200/60 dark:border-slate-800/80 rounded-3xl p-6 shadow-xl shadow-slate-100/50 dark:shadow-none space-y-5">
               
-              <h2 className="text-base font-black tracking-tight text-slate-800 dark:text-white flex items-center gap-2">
+              <h2 className="font-outfit text-base font-black tracking-tight text-slate-800 dark:text-white flex items-center gap-2">
                 <History size={16} className="text-indigo-500" /> Recent Tool Clicks
               </h2>
 

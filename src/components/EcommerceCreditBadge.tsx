@@ -12,8 +12,8 @@ export default function EcommerceCreditBadge() {
   const userPlan = profile?.current_plan || profile?.plan || "Basic Plan";
   const isPremium = userPlan.toLowerCase().includes("pro") || userPlan.toLowerCase().includes("premium");
 
-  const credits = profile?.ecommerce_credits !== undefined && profile?.ecommerce_credits !== null
-    ? profile.ecommerce_credits
+  const credits = profile?.remaining_credits !== undefined && profile?.remaining_credits !== null
+    ? profile.remaining_credits
     : 10;
 
   return (
@@ -24,10 +24,20 @@ export default function EcommerceCreditBadge() {
         </div>
         <div className="text-left">
           <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider">eCommerce Label Cropper Credits</p>
-          <p className="text-sm font-bold text-slate-800 dark:text-white">
+          <p className="text-sm font-bold text-slate-800 dark:text-white mt-0.5">
             {isPremium ? (
-              <span className="text-amber-500 font-extrabold flex items-center gap-1">
-                Unlimited Credits <Crown size={14} className="fill-amber-500/25" />
+              <span className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2 mt-0.5">
+                <span className="text-amber-500 font-extrabold flex items-center gap-1">
+                  Unlimited Credits <Crown size={14} className="fill-amber-500/25" />
+                </span>
+                {profile?.subscription_end_date && (
+                  <>
+                    <span className="hidden sm:inline text-slate-300 dark:text-slate-600">•</span>
+                    <span className="text-[10px] sm:text-xs font-bold text-slate-500 dark:text-slate-400">
+                      Valid till {new Date(profile.subscription_end_date).toLocaleDateString("en-US", { year: 'numeric', month: 'short', day: 'numeric' })}
+                    </span>
+                  </>
+                )}
               </span>
             ) : (
               <span>

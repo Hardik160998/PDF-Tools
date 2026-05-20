@@ -49,8 +49,8 @@ export default function SubscriptionGate({ toolId, children }: SubscriptionGateP
   // If this is a Premium tool and the user is NOT premium, check eCommerce credits or show lock screen
   if (isPremiumTool && !isPremium) {
     if (isEcommerceTool && user) {
-      const credits = profile?.ecommerce_credits !== undefined && profile?.ecommerce_credits !== null
-        ? profile.ecommerce_credits
+      const credits = profile?.remaining_credits !== undefined && profile?.remaining_credits !== null
+        ? profile.remaining_credits
         : 10;
 
       if (credits > 0) {

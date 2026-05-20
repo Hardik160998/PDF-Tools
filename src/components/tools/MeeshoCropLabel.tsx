@@ -4,8 +4,8 @@ import { useState, useRef } from 'react';
 import { Upload, Download, Loader2, X, CheckCircle2, ShoppingBag, Trash2, FileText } from 'lucide-react';
 import type * as PDFJS from 'pdfjs-dist';
 import { PDFDocument, rgb } from 'pdf-lib';
-import { useAuth } from '@/context/AuthContext';
-import EcommerceCreditBadge from '@/components/EcommerceCreditBadge';
+import { useCredits } from '@/hooks/useCredits';
+import OutOfCreditsModal from '@/components/credits/OutOfCreditsModal';
 
 interface LabelFile {
   id: string;
@@ -222,7 +222,8 @@ async function canvasToJpegBytes(canvas: HTMLCanvasElement): Promise<Uint8Array>
 }
 
 export default function MeeshoCropLabel({ id }: { id: string }) {
-  const { profile, decrementCredits } = useAuth();
+  const { remaining, isGuest, isPremium, deductCredit } = useCredits();
+  const [outOfCreditsOpen, setOutOfCreditsOpen] = useState(false);
   const [files, setFiles] = useState<LabelFile[]>([]);
   const [processing, setProcessing] = useState(false);
   const [done, setDone] = useState(false);
@@ -233,21 +234,19 @@ export default function MeeshoCropLabel({ id }: { id: string }) {
 
   const handleDownloadClick = async (url: string | null, filename: string) => {
     if (!url) return;
-    const userPlan = profile?.current_plan || profile?.plan || "Basic Plan";
-    const isPremium = userPlan.toLowerCase().includes("pro") || userPlan.toLowerCase().includes("premium");
-    const credits = profile?.ecommerce_credits !== undefined && profile?.ecommerce_credits !== null
-      ? profile.ecommerce_credits
-      : 10;
 
-    if (!isPremium && credits <= 0) {
-      alert("You have 0 credits left. Please upgrade to a Premium Plan to download!");
-      window.location.href = "/premium-plans";
+    if (!isPremium && remaining <= 0) {
+      setOutOfCreditsOpen(true);
       return;
     }
 
-    await decrementCredits();
+    const result = await deductCredit('meshocrop');
+    if (!result?.allowed) {
+      setOutOfCreditsOpen(true);
+      return;
+    }
 
-    const link = document.createElement("a");
+    const link = document.createElement('a');
     link.href = url;
     link.download = filename;
     document.body.appendChild(link);
@@ -675,7 +674,7 @@ export default function MeeshoCropLabel({ id }: { id: string }) {
 
   return (
     <div className="max-w-7xl mx-auto py-4 sm:py-8 px-3 sm:px-6">
-      <EcommerceCreditBadge />
+      <OutOfCreditsModal isOpen={outOfCreditsOpen} onClose={() => setOutOfCreditsOpen(false)} isGuest={isGuest} />
       {files.length > 0 ? (
         <div className="grid grid-cols-1 lg:grid-cols-[300px_1fr] gap-4 sm:gap-8">
           <div className="bg-white dark:bg-slate-800 rounded-3xl border border-slate-100 dark:border-slate-700 shadow-xl h-fit lg:sticky lg:top-4 overflow-hidden">
