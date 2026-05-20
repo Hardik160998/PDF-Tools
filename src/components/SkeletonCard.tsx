@@ -2,7 +2,8 @@ interface SkeletonCardProps {
   gradient?: string;
 }
 
-export default function SkeletonCard({ gradient }: SkeletonCardProps) {
+export default function SkeletonCard({ gradient }: SkeletonCardProps) 
+ {
   return (
     <div className="tool-card-border" style={{ pointerEvents: 'none' }}>
       <div className="tool-card">
