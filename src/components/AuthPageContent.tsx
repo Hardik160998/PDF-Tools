@@ -50,11 +50,56 @@ export default function AuthPageContent({ initialMode }: AuthPageContentProps) {
 
     try {
       if (isSignUp) {
-        // Sign Up Flow
+        // Try server-side signup first to attempt auto-confirming the user
+        let signUpSuccess = false;
+        let isAutoConfirmed = false;
+
+        try {
+          const res = await fetch("/api/auth/signup", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email, password, fullName })
+          });
+          const data = await res.json();
+          if (res.ok && data.success) {
+            signUpSuccess = true;
+            isAutoConfirmed = true;
+          }
+        } catch (e) {
+          console.warn("Server-side signup fallback:", e);
+        }
+
+        if (isAutoConfirmed) {
+          // If auto-confirmed on the server, sign in immediately on the client
+          const { data: signData, error: signError } = await supabase.auth.signInWithPassword({
+            email,
+            password
+          });
+
+          if (signError) throw signError;
+
+          if (signData.user) {
+            let newCredits: number | null = null;
+            try {
+              newCredits = await mergeCreditsOnLogin(guestToken);
+            } catch {}
+
+            const creditMsg = newCredits !== null ? ` You now have ${newCredits} credits.` : "";
+            setStatusMessage({ type: "success", text: `Sign up successful! 🎉${creditMsg} Redirecting...` });
+            setTimeout(() => {
+              router.push(redirectTo);
+            }, 1800);
+          }
+          return;
+        }
+
+        // Fallback to standard client-side signup if server-side auto-confirm isn't active
+        const redirectToUrl = typeof window !== 'undefined' ? `${window.location.origin}` : 'http://localhost:3000';
         const { data, error } = await supabase.auth.signUp({
           email,
           password,
           options: {
+            emailRedirectTo: redirectToUrl,
             data: {
               full_name: fullName
             }
