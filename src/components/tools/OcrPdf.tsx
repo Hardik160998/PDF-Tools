@@ -327,7 +327,13 @@ export default function OcrPdf({ id: _id }: { id: string }) {
             {/* Content Area */}
             {pdfFiles.length === 0 ? (
               <div className="flex-1 flex flex-col items-center justify-center border-2 border-dashed border-slate-100 dark:border-slate-700 rounded-[2.5rem] p-10 sm:p-20 hover:border-blue-400 cursor-pointer transition-all bg-slate-50/30 dark:bg-slate-900/30 group relative overflow-hidden"
-                onClick={() => fileInputRef.current?.click()}>
+                onClick={() => {
+                  if (!isPremium && remaining <= 0) {
+                    setOutOfCreditsOpen(true);
+                    return;
+                  }
+                  fileInputRef.current?.click();
+                }}>
                 <div className="p-6 bg-white dark:bg-slate-800 rounded-3xl shadow-xl text-blue-500 mb-6 group-hover:scale-110 transition-transform relative z-10">
                   <Upload size={32} />
                 </div>

@@ -19,6 +19,10 @@ export default function WebpageToPdf({ id: _id }: { id: string }) {
   };
 
   const handleConvert = async () => {
+    if (!isPremium && remaining <= 0) {
+      setOutOfCreditsOpen(true);
+      return;
+    }
     const fullUrl = url.startsWith("http") ? url : `https://${url}`;
     if (!isValidUrl(fullUrl)) { setError("Please enter a valid website URL."); return; }
     setError("");
@@ -92,6 +96,17 @@ export default function WebpageToPdf({ id: _id }: { id: string }) {
                   value={url}
                   onChange={e => { setUrl(e.target.value); setError(""); }}
                   onKeyDown={e => e.key === "Enter" && handleConvert()}
+                  onClick={() => {
+                    if (!isPremium && remaining <= 0) {
+                      setOutOfCreditsOpen(true);
+                    }
+                  }}
+                  onFocus={(e) => {
+                    if (!isPremium && remaining <= 0) {
+                      e.target.blur();
+                      setOutOfCreditsOpen(true);
+                    }
+                  }}
                   placeholder="https://example.com"
                   className="flex-1 bg-transparent text-slate-900 dark:text-white font-medium text-sm sm:text-base outline-none placeholder:text-slate-400 min-w-0"
                   autoFocus
@@ -109,7 +124,14 @@ export default function WebpageToPdf({ id: _id }: { id: string }) {
             {/* Quick examples */}
             <div className="flex flex-wrap gap-1.5 sm:gap-2 justify-center">
               {["wikipedia.org", "github.com", "news.ycombinator.com"].map(ex => (
-                <button key={ex} onClick={() => { setUrl(`https://${ex}`); setError(""); }}
+                <button key={ex} onClick={() => {
+                  if (!isPremium && remaining <= 0) {
+                    setOutOfCreditsOpen(true);
+                    return;
+                  }
+                  setUrl(`https://${ex}`); 
+                  setError(""); 
+                }}
                   className="px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full text-[10px] sm:text-xs font-medium text-sky-600 dark:text-sky-400 bg-sky-50 dark:bg-sky-500/10 border border-sky-100 dark:border-sky-500/20 hover:bg-sky-100 transition-colors">
                   {ex}
                 </button>

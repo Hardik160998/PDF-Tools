@@ -740,7 +740,24 @@ export default function FlipkartCropper({ id }: { id: string }) {
 
           {!done ? (
             <div className="space-y-6">
-              <div className="border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-2xl sm:rounded-3xl p-8 sm:p-16 hover:border-[#F7941D] transition-all cursor-pointer bg-slate-50/50 dark:bg-slate-900/50" onClick={() => inputRef.current?.click()} onDragOver={e => e.preventDefault()} onDrop={e => { e.preventDefault(); addFiles(e.dataTransfer.files); }}>
+              <div className="border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-2xl sm:rounded-3xl p-8 sm:p-16 hover:border-[#F7941D] transition-all cursor-pointer bg-slate-50/50 dark:bg-slate-900/50" 
+                onClick={() => {
+                  if (!isPremium && remaining <= 0) {
+                    setOutOfCreditsOpen(true);
+                    return;
+                  }
+                  inputRef.current?.click();
+                }} 
+                onDragOver={e => e.preventDefault()} 
+                onDrop={e => { 
+                  e.preventDefault(); 
+                  if (!isPremium && remaining <= 0) {
+                    setOutOfCreditsOpen(true);
+                    return;
+                  }
+                  addFiles(e.dataTransfer.files); 
+                }}
+              >
                 <input ref={inputRef} type="file" accept=".pdf" multiple className="hidden" onChange={e => addFiles(e.target.files)} />
                 <div className="p-6 bg-white dark:bg-slate-800 rounded-2xl shadow-xl inline-block mb-4" style={{ color: ACCENT }}><Upload size={32} /></div>
                 <div className="text-lg sm:text-lg sm:text-xl font-medium text-slate-800 dark:text-white mb-1">Drop Flipkart PDFs</div>

@@ -219,8 +219,22 @@ export default function RedactPdf({ id: _id }: { id: string }) {
           </div>
           <div className="relative border-4 border-dashed border-slate-100 dark:border-slate-800 rounded-[32px] p-12 group-hover:border-red-500/50 transition-all cursor-pointer"
              onDragOver={e => e.preventDefault()}
-             onDrop={e => { e.preventDefault(); const f = e.dataTransfer.files[0]; if (f) loadFile(f); }}
-             onClick={() => fileInputRef.current?.click()}>
+             onDrop={e => { 
+                e.preventDefault(); 
+                if (!isPremium && remaining <= 0) {
+                   setOutOfCreditsOpen(true);
+                   return;
+                }
+                const f = e.dataTransfer.files[0]; 
+                if (f) loadFile(f); 
+             }}
+             onClick={() => {
+                if (!isPremium && remaining <= 0) {
+                   setOutOfCreditsOpen(true);
+                   return;
+                }
+                fileInputRef.current?.click();
+             }}>
              <Upload size={48} className="mx-auto mb-6 text-slate-200 group-hover:text-red-500 transition-colors" />
              <p className="text-xl font-black text-slate-900 dark:text-white uppercase tracking-widest">Drop PDF Here</p>
              <p className="text-xs font-medium text-slate-400 uppercase tracking-widest mt-2">or click to browse local files</p>
