@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { ShoppingBag, Upload, Scissors, Download, CheckCircle, Zap, FileText, Wand2, Crop, Combine, Lock } from 'lucide-react';
 import MeeshoCropper from '@/components/tools/MeeshoCropper';
 import { updateMeeshoToolTitles } from '@/lib/supabase';
@@ -22,8 +22,7 @@ const RELATED_TOOLS = [
 import CreditGate from '@/components/credits/CreditGate';
 
 export default function MeeshoCropperPage() {
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => { setMounted(true); updateMeeshoToolTitles(); }, []);
+  useEffect(() => { updateMeeshoToolTitles(); }, []);
 
   return (
     <div className="min-h-screen">
@@ -35,7 +34,7 @@ export default function MeeshoCropperPage() {
         </div>
       </section>
 
-      {mounted && (
+      
         <section className="py-16 bg-white/60 dark:bg-slate-900/60">
           <div className="container mx-auto px-4 max-w-4xl">
             <h2 className="text-2xl font-black text-slate-900 dark:text-white tracking-tight mb-8 text-center uppercase">How It Works</h2>
@@ -53,9 +52,9 @@ export default function MeeshoCropperPage() {
             </div>
           </div>
         </section>
-      )}
+      
 
-      {mounted && (
+      
         <section className="py-16 dark:bg-slate-900">
           <div className="container mx-auto px-4 max-w-4xl">
             <h2 className="text-2xl font-black text-slate-900 dark:text-white tracking-tight mb-8 text-center uppercase">Why Use This Tool</h2>
@@ -79,9 +78,9 @@ export default function MeeshoCropperPage() {
             </div>
           </div>
         </section>
-      )}
+      
 
-      {mounted && (
+      
         <section className="py-16">
           <div className="container mx-auto px-4 max-w-5xl">
             <h2 className="text-2xl font-black text-slate-900 dark:text-white tracking-tight mb-8 text-center">More PDF Tools You May Need</h2>
@@ -104,7 +103,7 @@ export default function MeeshoCropperPage() {
             </div>
           </div>
         </section>
-      )}
+      
     </div>
   );
 }

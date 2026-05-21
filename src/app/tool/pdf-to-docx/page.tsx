@@ -1,6 +1,5 @@
 "use client";
 import { FileText, Upload, Sparkles, Download, FileSpreadsheet, Presentation, Type, ImageIcon, Lock, CheckCircle, ArrowRight, Zap, Shield, Globe } from 'lucide-react';
-import { HowItWorksShimmer, RelatedToolsShimmer, usePageMounted } from '../_shimmer';
 import OfficeTools from "@/components/tools/OfficeTools";
 
 const ANALYSIS = [
@@ -33,11 +32,10 @@ const WHY_CONVERT = [
 ];
 
 export default function PdfToDocxPage() {
-  const mounted = usePageMounted();
   return (
     <div className="min-h-screen">
       <section className="pb-8"><div className="container mx-auto px-4 max-w-7xl"><OfficeTools id="pdf-to-docx" /></div></section>
-      {mounted && (
+      
         <section className="py-16 bg-white/60"><div className="container mx-auto px-4 max-w-5xl">
             <h2 className="text-2xl font-black text-slate-900 tracking-tight mb-2 text-center uppercase">Why Use Our PDF to DOCX Converter?</h2>
             <p className="text-sm text-slate-500 text-center mb-10 font-medium">Everything you need for a perfect conversion, every time.</p>
@@ -52,8 +50,8 @@ export default function PdfToDocxPage() {
             </div>
           </div>
         </section>
-      )}
-      {!mounted ? <HowItWorksShimmer accent="rgba(59,130,246,0.15)" /> : (
+      
+      
         <section className="py-16"><div className="container mx-auto px-4 max-w-4xl">
             <h2 className="text-2xl font-black text-slate-900 tracking-tight mb-8 text-center uppercase">How It Works</h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -68,8 +66,8 @@ export default function PdfToDocxPage() {
             </div>
           </div>
         </section>
-      )}
-      {mounted && (
+      
+      
         <section className="py-16 bg-white/60"><div className="container mx-auto px-4 max-w-3xl">
             <h2 className="text-2xl font-black text-slate-900 tracking-tight mb-8 text-center uppercase">Frequently Asked Questions</h2>
             <div className="space-y-4">
@@ -87,8 +85,8 @@ export default function PdfToDocxPage() {
             </div>
           </div>
         </section>
-      )}
-      {!mounted ? <RelatedToolsShimmer /> : (
+      
+      
         <section className="py-16"><div className="container mx-auto px-4 max-w-5xl">
             <h2 className="text-2xl font-black text-slate-900 tracking-tight mb-8 text-center">More Convert Tools</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -105,7 +103,7 @@ export default function PdfToDocxPage() {
             </div>
           </div>
         </section>
-      )}
+      
     </div>
   );
 }

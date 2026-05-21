@@ -1,6 +1,5 @@
 "use client";
 import { FileText, Upload, Sparkles, Download, FileSpreadsheet, Presentation, Globe, ImageIcon, Lock, CheckCircle } from 'lucide-react';
-import { HowItWorksShimmer, RelatedToolsShimmer, usePageMounted } from '../_shimmer';
 import OfficeTools from "@/components/tools/OfficeTools";
 
 const STEPS = [
@@ -18,11 +17,10 @@ const RELATED = [
 ];
 
 export default function WordToPdfPage() {
-  const mounted = usePageMounted();
   return (
     <div className="min-h-screen">
       <section className="pb-8"><div className="container mx-auto px-4 max-w-7xl"><OfficeTools id="word-to-pdf" /></div></section>
-      {!mounted ? <HowItWorksShimmer accent="rgba(59,130,246,0.15)" /> : (
+      
         <section className="py-16 bg-white/60"><div className="container mx-auto px-4 max-w-4xl">
           <h2 className="text-2xl font-black text-slate-900 tracking-tight mb-8 text-center uppercase">How It Works</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">{STEPS.map((s, i) => (
@@ -34,8 +32,8 @@ export default function WordToPdfPage() {
             </div>
           ))}</div>
         </div></section>
-      )}
-      {!mounted ? <RelatedToolsShimmer /> : (
+      
+      
         <section className="py-16"><div className="container mx-auto px-4 max-w-5xl">
           <h2 className="text-2xl font-black text-slate-900 tracking-tight mb-8 text-center">More Convert Tools</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">{RELATED.map(t => (
@@ -49,7 +47,7 @@ export default function WordToPdfPage() {
             </a>
           ))}</div>
         </div></section>
-      )}
+      
     </div>
   );
 }

@@ -1,6 +1,5 @@
 "use client";
 import { ShoppingBag, Upload, Scissors, Download, Wand2, Crop, Combine, Zap, Lock, CheckCircle } from 'lucide-react';
-import { HowItWorksShimmer, RelatedToolsShimmer, usePageMounted } from '../_shimmer';
 import FlipkartCropper from '@/components/tools/FlipkartCropper';
 
 const STEPS = [
@@ -21,7 +20,6 @@ const RELATED = [
 import CreditGate from '@/components/credits/CreditGate';
 
 export default function FlipkartCropperPage() {
-  const mounted = usePageMounted();
   const ACCENT = '#F7941D';
 
   return (
@@ -36,7 +34,7 @@ export default function FlipkartCropperPage() {
       </section>
 
       {/* HOW IT WORKS */}
-      {!mounted ? <HowItWorksShimmer accent="rgba(247,148,29,0.15)" /> : (
+      
         <section className="py-16 bg-white/60 dark:bg-slate-900/60">
           <div className="container mx-auto px-4 max-w-4xl">
             <h2 className="text-2xl font-black text-slate-900 dark:text-white tracking-tight mb-8 text-center uppercase">How It Works</h2>
@@ -54,10 +52,10 @@ export default function FlipkartCropperPage() {
             </div>
           </div>
         </section>
-      )}
+      
 
       {/* DETECTION LOGIC */}
-      {mounted && (
+      
         <section className="py-16 dark:bg-slate-900">
           <div className="container mx-auto px-4 max-w-4xl">
             <h2 className="text-2xl font-black text-slate-900 dark:text-white tracking-tight mb-8 text-center uppercase">Smart Detection Logic</h2>
@@ -87,10 +85,10 @@ export default function FlipkartCropperPage() {
             </div>
           </div>
         </section>
-      )}
+      
 
       {/* RELATED TOOLS */}
-      {!mounted ? <RelatedToolsShimmer /> : (
+      
         <section className="py-16">
           <div className="container mx-auto px-4 max-w-5xl">
             <h2 className="text-2xl font-black text-slate-900 dark:text-white tracking-tight mb-8 text-center">More Ecommerce &amp; Crop Tools</h2>
@@ -113,7 +111,7 @@ export default function FlipkartCropperPage() {
             </div>
           </div>
         </section>
-      )}
+      
     </div>
   );
 }

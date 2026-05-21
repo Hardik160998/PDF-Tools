@@ -256,18 +256,18 @@ function PremiumPlansContent() {
             </button>
           </div>
 
-          {/* ── Billing History Table ─────────────────────────────── */}
-          <div className="bg-white/70 dark:bg-slate-900/60 backdrop-blur-xl border border-slate-200/60 dark:border-slate-800/80 rounded-3xl shadow-xl shadow-slate-100/50 dark:shadow-none overflow-hidden mt-8 w-full mb-16">
+          {/* Billing History Table */}
+          <div className="bg-white/70 dark:bg-slate-900/80 backdrop-blur-xl border border-slate-200 dark:border-slate-700 rounded-3xl shadow-xl shadow-slate-100/50 dark:shadow-none overflow-hidden mt-8 w-full mb-16">
 
             {/* Table Header */}
-            <div className="flex items-center justify-between px-6 py-5 border-b border-slate-100 dark:border-slate-800/80">
+            <div className="flex items-center justify-between px-6 py-5 border-b border-slate-100 dark:border-slate-700">
               <div className="flex items-center gap-3">
                 <div className="w-9 h-9 rounded-xl bg-indigo-50 dark:bg-indigo-950/30 flex items-center justify-center">
                   <CreditCard size={16} className="text-indigo-500" />
                 </div>
                 <div>
                   <h2 className="text-sm font-black text-slate-800 dark:text-white tracking-tight">Billing History</h2>
-                  <p className="text-[10px] font-medium text-slate-400 uppercase tracking-wider">Subscription invoices &amp; receipts</p>
+                  <p className="text-[10px] font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Subscription invoices &amp; receipts</p>
                 </div>
               </div>
               {user && activePlan && activePlan !== "Basic Plan" && (
@@ -283,49 +283,49 @@ function PremiumPlansContent() {
               <div className="overflow-x-auto w-full">
                 <table className="w-full text-left border-collapse min-w-[780px]">
                   <thead>
-                    <tr className="bg-slate-50/80 dark:bg-slate-800/40">
-                      <th className="px-6 py-3.5 text-[10px] font-black text-slate-400 uppercase tracking-wider whitespace-nowrap">
+                    <tr className="bg-slate-50 dark:bg-slate-800/70">
+                      <th className="px-6 py-3.5 text-[10px] font-black text-slate-500 dark:text-slate-300 uppercase tracking-wider whitespace-nowrap">
                         Invoice #
                       </th>
-                      <th className="px-4 py-3.5 text-[10px] font-black text-slate-400 uppercase tracking-wider whitespace-nowrap">
+                      <th className="px-4 py-3.5 text-[10px] font-black text-slate-500 dark:text-slate-300 uppercase tracking-wider whitespace-nowrap">
                         Subscription Start
                       </th>
-                      <th className="px-4 py-3.5 text-[10px] font-black text-slate-400 uppercase tracking-wider whitespace-nowrap">
+                      <th className="px-4 py-3.5 text-[10px] font-black text-slate-500 dark:text-slate-300 uppercase tracking-wider whitespace-nowrap">
                         Subscription End
                       </th>
-                      <th className="px-4 py-3.5 text-[10px] font-black text-slate-400 uppercase tracking-wider whitespace-nowrap">
+                      <th className="px-4 py-3.5 text-[10px] font-black text-slate-500 dark:text-slate-300 uppercase tracking-wider whitespace-nowrap">
                         Plan Name
                       </th>
-                      <th className="px-4 py-3.5 text-[10px] font-black text-slate-400 uppercase tracking-wider whitespace-nowrap">
+                      <th className="px-4 py-3.5 text-[10px] font-black text-slate-500 dark:text-slate-300 uppercase tracking-wider whitespace-nowrap">
                         Amount
                       </th>
-                      <th className="px-4 py-3.5 text-[10px] font-black text-slate-400 uppercase tracking-wider whitespace-nowrap">
+                      <th className="px-4 py-3.5 text-[10px] font-black text-slate-500 dark:text-slate-300 uppercase tracking-wider whitespace-nowrap">
                         Status
                       </th>
-                      <th className="px-6 py-3.5 text-[10px] font-black text-slate-400 uppercase tracking-wider text-right whitespace-nowrap">
+                      <th className="px-6 py-3.5 text-[10px] font-black text-slate-500 dark:text-slate-300 uppercase tracking-wider text-right whitespace-nowrap">
                         Download Invoice
                       </th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-slate-100 dark:divide-slate-800/60">
+                  <tbody className="divide-y divide-slate-100 dark:divide-slate-700/80">
                     <tr className="group hover:bg-slate-50/60 dark:hover:bg-slate-800/30 transition-colors duration-150">
                       {/* Invoice Number */}
                       <td className="px-6 py-5">
-                        <span className="font-mono text-xs font-bold text-slate-800 dark:text-slate-100 tracking-wider bg-slate-100 dark:bg-slate-800 px-2.5 py-1 rounded-lg">
+                        <span className="font-mono text-xs font-bold text-slate-800 dark:text-slate-100 tracking-wider bg-slate-100 dark:bg-slate-700 px-2.5 py-1 rounded-lg">
                           {stableInvoiceNum}
                         </span>
                       </td>
                       {/* Start Date */}
-                      <td className="px-4 py-5 text-xs font-semibold text-slate-600 dark:text-slate-300 whitespace-nowrap">
+                      <td className="px-4 py-5 text-xs font-semibold text-slate-700 dark:text-slate-200 whitespace-nowrap">
                         {profile?.subscription_start_date
                           ? new Date(profile.subscription_start_date).toLocaleDateString("en-IN", { year: 'numeric', month: 'long', day: 'numeric' })
                           : <span className="text-slate-400">—</span>}
                       </td>
                       {/* End Date */}
-                      <td className="px-4 py-5 text-xs font-semibold text-slate-600 dark:text-slate-300 whitespace-nowrap">
+                      <td className="px-4 py-5 text-xs font-semibold text-slate-700 dark:text-slate-200 whitespace-nowrap">
                         {profile?.subscription_end_date
                           ? new Date(profile.subscription_end_date).toLocaleDateString("en-IN", { year: 'numeric', month: 'long', day: 'numeric' })
-                          : <span className="text-slate-400">—</span>}
+                          : <span className="text-slate-400 dark:text-slate-500">—</span>}
                       </td>
                       {/* Plan Name */}
                       <td className="px-4 py-5">
@@ -341,10 +341,10 @@ function PremiumPlansContent() {
                       {/* Amount */}
                       <td className="px-4 py-5">
                         <div className="flex flex-col">
-                          <span className="text-sm font-black text-slate-800 dark:text-white">
+                          <span className="text-sm font-black text-slate-900 dark:text-white">
                             {activePlan === "Yearly Pro" ? "₹1,699.00" : activePlan === "Monthly Pro" ? "₹399.00" : "—"}
                           </span>
-                          <span className="text-[10px] text-slate-400 font-medium">
+                          <span className="text-[10px] text-slate-500 dark:text-slate-400 font-medium">
                             {activePlan === "Yearly Pro" ? "$19.99 USD" : activePlan === "Monthly Pro" ? "$4.99 USD" : ""}
                           </span>
                         </div>
@@ -373,11 +373,11 @@ function PremiumPlansContent() {
                 </table>
 
                 {/* Table Footer Note */}
-                <div className="px-6 py-3 border-t border-slate-100 dark:border-slate-800/60 bg-slate-50/50 dark:bg-slate-800/20 flex items-center justify-between">
-                  <p className="text-[10px] text-slate-400 font-medium">
+                <div className="px-6 py-3 border-t border-slate-100 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800/30 flex items-center justify-between">
+                  <p className="text-[10px] text-slate-500 dark:text-slate-400 font-medium">
                     Showing 1 of 1 invoice · All amounts include applicable taxes
                   </p>
-                  <p className="text-[10px] text-slate-400 font-medium">
+                  <p className="text-[10px] text-slate-500 dark:text-slate-400 font-medium">
                     Payments processed securely via Razorpay
                   </p>
                 </div>
@@ -451,10 +451,10 @@ function PremiumPlansContent() {
         <div className="w-full max-w-7xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch w-full mx-auto">
             {/* Basic Plan */}
-            <div className={`bg-white dark:bg-slate-800/60 rounded-3xl p-8 shadow-lg flex flex-col justify-between hover:-translate-y-1 transition-all duration-300 ${
+            <div className={`bg-white dark:bg-slate-800/70 rounded-3xl p-8 shadow-lg flex flex-col justify-between hover:-translate-y-1 transition-all duration-300 ${
               activePlan === "Basic Plan"
                 ? "border-2 border-amber-400 ring-1 ring-amber-400/20"
-                : "border border-slate-100 dark:border-slate-700/80"
+                : "border border-slate-200 dark:border-slate-700"
             }`}>
               <div className="space-y-6">
                 <div>
@@ -465,7 +465,7 @@ function PremiumPlansContent() {
                   <span className="text-4xl font-extrabold text-slate-800 dark:text-white">$0</span>
                   <span className="text-sm font-semibold text-slate-400">/ forever</span>
                 </div>
-                <div className="h-px bg-slate-100 dark:bg-slate-700/60" />
+                <div className="h-px bg-slate-100 dark:bg-slate-700" />
                 <ul className="space-y-4">
                   {[
                     "Access to basic PDF tools",
@@ -501,10 +501,10 @@ function PremiumPlansContent() {
             </div>
 
             {/* Yearly Pro Plan (Featured) */}
-            <div className={`relative bg-white dark:bg-slate-800/60 rounded-3xl p-8 shadow-2xl flex flex-col justify-between hover:-translate-y-1 transition-all duration-300 scale-105 z-10 ${
+            <div className={`relative bg-white dark:bg-slate-800/70 rounded-3xl p-8 shadow-2xl flex flex-col justify-between hover:-translate-y-1 transition-all duration-300 scale-105 z-10 ${
               activePlan === "Yearly Pro" || (!activePlan && true)
                 ? "border-2 border-amber-400 ring-1 ring-amber-400/20"
-                : "border border-slate-100 dark:border-slate-700/80"
+                : "border border-slate-200 dark:border-slate-700"
             }`}>
               <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-amber-400 text-slate-900 text-[10px] font-black uppercase tracking-widest px-4 py-1.5 rounded-full shadow-md flex items-center gap-1">
                 <Crown size={12} className="fill-slate-900" /> Best Value
@@ -520,7 +520,7 @@ function PremiumPlansContent() {
                   <span className="text-4xl font-extrabold text-amber-500 dark:text-amber-400">$19.99</span>
                   <span className="text-sm font-semibold text-slate-400">/ year</span>
                 </div>
-                <div className="h-px bg-slate-100 dark:bg-slate-700/60" />
+                <div className="h-px bg-slate-100 dark:bg-slate-700" />
                 <ul className="space-y-4">
                   {[
                     "All premium tools unlocked",
@@ -559,10 +559,10 @@ function PremiumPlansContent() {
             </div>
 
             {/* Monthly Pro Plan */}
-            <div className={`bg-white dark:bg-slate-800/60 rounded-3xl p-8 shadow-lg flex flex-col justify-between hover:-translate-y-1 transition-all duration-300 ${
+            <div className={`bg-white dark:bg-slate-800/70 rounded-3xl p-8 shadow-lg flex flex-col justify-between hover:-translate-y-1 transition-all duration-300 ${
               activePlan === "Monthly Pro"
                 ? "border-2 border-amber-400 ring-1 ring-amber-400/20"
-                : "border border-slate-100 dark:border-slate-700/80"
+                : "border border-slate-200 dark:border-slate-700"
             }`}>
               <div className="space-y-6">
                 <div>
@@ -573,7 +573,7 @@ function PremiumPlansContent() {
                   <span className="text-4xl font-extrabold text-slate-800 dark:text-white">$4.99</span>
                   <span className="text-sm font-semibold text-slate-400">/ month</span>
                 </div>
-                <div className="h-px bg-slate-100 dark:bg-slate-700/60" />
+                <div className="h-px bg-slate-100 dark:bg-slate-700" />
                 <ul className="space-y-4">
                   {[
                     "Access to all tools & croppers",
@@ -613,7 +613,7 @@ function PremiumPlansContent() {
       </section>
 
       {/* Plan Features & Tools Details Section */}
-      <section id="plan-details" className="py-20 bg-white dark:bg-slate-900 border-t border-b border-slate-100 dark:border-slate-800/80 -mx-6 px-6">
+      <section id="plan-details" className="py-20 bg-white dark:bg-slate-900 border-t border-b border-slate-200 dark:border-slate-700 -mx-6 px-6">
         <div className="w-full max-w-7xl mx-auto">
           <div className="text-center max-w-3xl mx-auto mb-16">
             <h2 className="font-outfit text-3xl font-black text-slate-900 dark:text-white tracking-tight mb-3">
@@ -626,7 +626,7 @@ function PremiumPlansContent() {
 
           <div className="space-y-12 w-full mx-auto">
             {PLAN_TOOLS.map((cat, catIdx) => (
-              <div key={catIdx} className="bg-slate-50/50 dark:bg-slate-850/30 rounded-3xl p-6 md:p-8 border border-slate-100 dark:border-slate-800/60">
+              <div key={catIdx} className="bg-slate-50/80 dark:bg-slate-800/40 rounded-3xl p-6 md:p-8 border border-slate-200 dark:border-slate-700">
                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
                   <div className="space-y-1">
                     <h3 className="font-outfit text-xl font-extrabold text-slate-900 dark:text-white flex items-center gap-2.5">
@@ -649,7 +649,7 @@ function PremiumPlansContent() {
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                   {cat.tools.map((tool, toolIdx) => (
-                    <div key={toolIdx} className="bg-white dark:bg-slate-800/40 p-5 rounded-2xl border border-slate-100/80 dark:border-slate-700/60 shadow-sm flex flex-col justify-between gap-4 hover:border-slate-200 dark:hover:border-slate-600 transition-colors">
+                    <div key={toolIdx} className="bg-white dark:bg-slate-900/60 p-5 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm flex flex-col justify-between gap-4 hover:border-slate-200 dark:hover:border-slate-600 transition-colors">
                       <div className="space-y-2">
                         <h4 className="font-outfit text-sm font-bold text-slate-800 dark:text-white leading-tight">
                           {tool.name}
@@ -658,8 +658,8 @@ function PremiumPlansContent() {
                           {tool.desc}
                         </p>
                       </div>
-                      <div className="flex items-center justify-between pt-2 border-t border-slate-100 dark:border-slate-800/60">
-                        <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Plan Availability</span>
+                      <div className="flex items-center justify-between pt-2 border-t border-slate-100 dark:border-slate-700">
+                        <span className="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Plan Availability</span>
                         <div className="flex gap-2">
                           <span className={`inline-flex items-center justify-center w-5 h-5 rounded-full ${cat.isProOnly ? 'bg-slate-100 dark:bg-slate-700 text-slate-400' : 'bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600'}`}>
                             {cat.isProOnly ? <span className="text-[10px] font-black">-</span> : <Check size={10} strokeWidth={3} />}
@@ -692,12 +692,12 @@ function PremiumPlansContent() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {FAQS.map((faq, idx) => (
-              <div key={idx} className="bg-white dark:bg-slate-800/40 p-6 rounded-2xl border border-slate-100 dark:border-slate-800/80 shadow-sm space-y-3">
+              <div key={idx} className="bg-white dark:bg-slate-800/60 p-6 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm space-y-3">
                 <h3 className="font-outfit text-sm font-bold text-slate-800 dark:text-white flex items-center gap-2">
                   <HelpCircle size={15} className="text-red-500 shrink-0" />
                   {faq.q}
                 </h3>
-                <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed font-medium">
+                <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed font-medium">
                   {faq.a}
                 </p>
               </div>

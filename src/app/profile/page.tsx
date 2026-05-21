@@ -3,18 +3,34 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
-import { 
-  User, Mail, Calendar, Settings, History, 
+import {
+  Mail, Calendar, Settings, History,
   Edit3, Save, Lock, Shield, ChevronRight, Zap,
-  Crown, Sparkles, CheckCircle2, CreditCard, Download, Award
+  Crown, Sparkles, CheckCircle2, CreditCard, Download, Award,
+  // Tool icons used in Recent Tools
+  FileSymlink, GitCompare, Layers, Trash2, FilePlus, Combine, Scissors,
+  LifeBuoy, Type, ScanText, FileJson, ImageIcon, FileText, Presentation,
+  FileSpreadsheet, Globe, Bookmark, Stamp, FileDigit, EyeOff, PenLine,
+  Unlock, Wand2, Crop, ShoppingBag, type LucideIcon,
 } from "lucide-react";
 import Link from "next/link";
 import { supabase } from "@/lib/supabase";
+
+/** Map stored iconName strings → Lucide components */
+const ICON_MAP: Record<string, LucideIcon> = {
+  FileSymlink, GitCompare, Layers, Trash2, FilePlus, Combine, Scissors,
+  Zap, LifeBuoy, Type, ScanText, FileJson, ImageIcon, FileText, Presentation,
+  FileSpreadsheet, Globe, Bookmark, Stamp, FileDigit, EyeOff, PenLine,
+  Unlock, Lock, Wand2, Crop, ShoppingBag, Settings,
+};
 
 interface ClickHistoryItem {
   toolKey: string;
   title: string;
   url: string;
+  category: string;
+  iconName: string;
+  categoryColor: string;
   timestamp: string;
 }
 
@@ -244,7 +260,7 @@ export default function ProfilePage() {
       <div className="min-h-screen bg-[#f8fafc] dark:bg-[#0f172a] flex items-center justify-center">
         <div className="flex flex-col items-center gap-4">
           <div className="w-12 h-12 rounded-full border-4 border-indigo-500 border-t-transparent animate-spin" />
-          <p className="text-sm font-semibold text-slate-500 dark:text-slate-400">Loading user profile...</p>
+          <p className="text-sm font-semibold text-zinc-500 dark:text-zinc-400">Loading user profile...</p>
         </div>
       </div>
     );
@@ -326,12 +342,12 @@ export default function ProfilePage() {
               </p>
             </div>
 
-            <div className="flex flex-wrap justify-center md:justify-start gap-x-6 gap-y-2 text-xs font-semibold text-slate-500 dark:text-slate-400">
+            <div className="flex flex-wrap justify-center md:justify-start gap-x-6 gap-y-2 text-xs font-semibold text-zinc-500 dark:text-zinc-400">
               <span className="flex items-center gap-1.5">
-                <Mail size={14} className="text-slate-400" /> {user.email}
+                <Mail size={14} className="text-zinc-400 dark:text-zinc-300" /> {user.email}
               </span>
               <span className="flex items-center gap-1.5">
-                <Calendar size={14} className="text-slate-400" /> Member since {getJoinedDate()}
+                <Calendar size={14} className="text-zinc-400 dark:text-zinc-300" /> Member since {getJoinedDate()}
               </span>
             </div>
           </div>
@@ -342,7 +358,7 @@ export default function ProfilePage() {
             <div className="absolute top-0 right-0 w-12 h-12 bg-amber-400/20 rounded-full blur-xl pointer-events-none" />
             <span className="text-[10px] font-black tracking-widest uppercase text-amber-600 dark:text-amber-400 flex items-center gap-1"><Award size={10} /> MEMBERSHIP</span>
             <span className="text-xl font-black text-transparent bg-clip-text bg-gradient-to-r from-amber-600 to-purple-600 dark:from-amber-400 dark:to-purple-400 mt-1 uppercase">{userPlan}</span>
-            <span className="text-[9px] font-extrabold text-slate-500 dark:text-slate-400 mt-0.5">{userPlan === "Basic Plan" ? "Upgrade for Pro Tools 🔓" : "All Pro Tools Unlocked 🔓"}</span>
+            <span className="text-[9px] font-extrabold text-zinc-500 dark:text-zinc-400 mt-0.5">{userPlan === "Basic Plan" ? "Upgrade for Pro Tools 🔓" : "All Pro Tools Unlocked 🔓"}</span>
           </div>
         </div>
 
@@ -353,7 +369,7 @@ export default function ProfilePage() {
           <div className="lg:col-span-2 space-y-8">
             
             {/* Interactive Pro Membership Pass (Wow factor) */}
-            <div className="relative group overflow-hidden bg-gradient-to-tr from-amber-500/10 via-purple-600/10 to-indigo-600/10 dark:from-amber-500/20 dark:via-purple-600/20 dark:to-indigo-600/20 border border-amber-500/20 dark:border-amber-400/30 rounded-3xl p-6 sm:p-8 shadow-xl transition-all duration-300 hover:shadow-indigo-500/5 hover:border-amber-500/30">
+            <div className="relative group overflow-hidden bg-gradient-to-tr from-amber-500/10 via-purple-600/10 to-indigo-600/10 dark:from-purple-900/40 dark:via-indigo-950/60 dark:to-slate-950 dark:bg-slate-950 border border-amber-500/20 dark:border-purple-500/30 rounded-3xl p-6 sm:p-8 shadow-xl transition-all duration-300 hover:shadow-indigo-500/5 hover:border-amber-500/30">
               
               {/* Glowing decorative circles */}
               <div className="absolute -top-12 -right-12 w-48 h-48 bg-purple-500/10 rounded-full blur-3xl pointer-events-none" />
@@ -368,7 +384,7 @@ export default function ProfilePage() {
                     <span className="inline-flex items-center gap-1 bg-amber-500/10 dark:bg-amber-400/20 text-amber-600 dark:text-amber-400 text-[9px] font-black uppercase tracking-widest px-2.5 py-0.5 rounded-full border border-amber-500/20 dark:border-amber-400/30">
                       SmartPDFs Plus Pass
                     </span>
-                    <p className="text-[10px] text-slate-500 dark:text-slate-400 uppercase tracking-widest font-black">
+                    <p className="text-[10px] text-zinc-500 dark:text-zinc-300 uppercase tracking-widest font-black">
                       {userPlan === "Free Plan" ? "STANDARD IDENTITY" : `${userPlan.replace(" Plan", "").toUpperCase()} VIP IDENTITY`}
                     </p>
                   </div>
@@ -377,19 +393,19 @@ export default function ProfilePage() {
 
                 {/* Pass Middle */}
                 <div className="my-auto pt-4">
-                  <p className="font-mono text-base sm:text-lg tracking-widest text-slate-800 dark:text-slate-200 font-bold">
+                  <p className="font-mono text-base sm:text-lg tracking-widest text-zinc-800 dark:text-zinc-100 font-bold">
                     {getLicenseKey()}
                   </p>
                 </div>
 
                 {/* Pass Footer */}
-                <div className="flex justify-between items-end border-t border-slate-200/50 dark:border-slate-800/80 pt-4">
+                <div className="flex justify-between items-end border-t border-zinc-200/50 dark:border-zinc-800/80 pt-4">
                   <div className="min-w-0">
-                    <p className="text-[9px] text-slate-400 dark:text-slate-500 uppercase tracking-wider font-bold">PASS HOLDER</p>
-                    <p className="text-sm font-black truncate max-w-[200px] text-slate-800 dark:text-slate-100">{profile?.full_name || "SmartPDFs VIP Member"}</p>
+                    <p className="text-[9px] text-zinc-500 dark:text-zinc-400 uppercase tracking-wider font-bold">PASS HOLDER</p>
+                    <p className="text-sm font-black truncate max-w-[200px] text-zinc-800 dark:text-zinc-100">{profile?.full_name || "SmartPDFs VIP Member"}</p>
                   </div>
                   <div className="text-right flex-shrink-0">
-                    <p className="text-[9px] text-slate-400 dark:text-slate-500 uppercase tracking-wider font-bold">STATUS</p>
+                    <p className="text-[9px] text-zinc-500 dark:text-zinc-400 uppercase tracking-wider font-bold">STATUS</p>
                     <p className="text-sm font-black text-emerald-600 dark:text-emerald-400 flex items-center justify-end gap-1">
                       <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 dark:bg-emerald-400 animate-pulse" /> ACTIVE
                     </p>
@@ -432,7 +448,7 @@ export default function ProfilePage() {
 
               <form onSubmit={handleUpdateProfile} className="space-y-4">
                 <div className="space-y-2">
-                  <label className="text-[11px] font-black text-slate-400 dark:text-slate-500 tracking-wider uppercase">
+                  <label className="text-[11px] font-black text-zinc-500 dark:text-zinc-400 tracking-wider uppercase">
                     Full Name
                   </label>
                   <input
@@ -441,19 +457,19 @@ export default function ProfilePage() {
                     value={fullName}
                     onChange={(e) => setFullName(e.target.value)}
                     placeholder="Enter your name"
-                    className="w-full bg-slate-50 dark:bg-slate-950/60 border border-slate-200 dark:border-slate-800 rounded-xl py-3.5 px-4 text-xs font-bold text-slate-700 dark:text-slate-200 outline-none focus:border-indigo-500 focus:bg-white dark:focus:bg-slate-950 transition-all disabled:opacity-60"
+                    className="w-full bg-slate-50 dark:bg-slate-950/60 border border-slate-200 dark:border-slate-800 rounded-xl py-3.5 px-4 text-xs font-bold text-zinc-700 dark:text-zinc-200 outline-none focus:border-indigo-500 focus:bg-white dark:focus:bg-slate-950 transition-all disabled:opacity-60"
                   />
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-[11px] font-black text-slate-400 dark:text-slate-500 tracking-wider uppercase">
+                  <label className="text-[11px] font-black text-zinc-500 dark:text-zinc-400 tracking-wider uppercase">
                     Email Address
                   </label>
                   <input
                     type="email"
                     disabled
                     value={user.email || ""}
-                    className="w-full bg-slate-50 dark:bg-slate-950/20 border border-slate-200/50 dark:border-slate-900 rounded-xl py-3.5 px-4 text-xs font-semibold text-slate-400 dark:text-slate-600 cursor-not-allowed outline-none"
+                    className="w-full bg-slate-50 dark:bg-slate-950/20 border border-slate-200/50 dark:border-slate-900 rounded-xl py-3.5 px-4 text-xs font-semibold text-zinc-400 dark:text-zinc-500 cursor-not-allowed outline-none"
                   />
                 </div>
 
@@ -485,8 +501,8 @@ export default function ProfilePage() {
                 <div className="flex items-start gap-3 p-4 bg-slate-50/50 dark:bg-slate-950/20 border border-slate-100 dark:border-slate-800/50 rounded-2xl">
                   <Lock size={16} className="text-indigo-500 mt-0.5" />
                   <div className="space-y-1">
-                    <p className="text-xs font-extrabold text-slate-800 dark:text-slate-200">Secure Database</p>
-                    <p className="text-[10px] text-slate-400 dark:text-slate-500 leading-normal">
+                    <p className="text-xs font-extrabold text-zinc-800 dark:text-zinc-200">Secure Database</p>
+                    <p className="text-[10px] text-zinc-500 dark:text-zinc-300 leading-normal">
                       Your files and actions are logged using local sandboxing. No documents are stored on our servers.
                     </p>
                   </div>
@@ -495,8 +511,8 @@ export default function ProfilePage() {
                 <div className="flex items-start gap-3 p-4 bg-slate-50/50 dark:bg-slate-950/20 border border-slate-100 dark:border-slate-800/50 rounded-2xl">
                   <Shield size={16} className="text-emerald-500 mt-0.5" />
                   <div className="space-y-1">
-                    <p className="text-xs font-extrabold text-slate-800 dark:text-slate-200">Auth Guarantee</p>
-                    <p className="text-[10px] text-slate-400 dark:text-slate-500 leading-normal">
+                    <p className="text-xs font-extrabold text-zinc-800 dark:text-zinc-200">Auth Guarantee</p>
+                    <p className="text-[10px] text-zinc-500 dark:text-zinc-300 leading-normal">
                       Secured via industry-standard Supabase identity management. Your credentials are fully encrypted.
                     </p>
                   </div>
@@ -507,46 +523,46 @@ export default function ProfilePage() {
 
             {/* License & Billing mock panel */}
             <div className="bg-white/70 dark:bg-slate-900/60 backdrop-blur-xl border border-slate-200/60 dark:border-slate-800/80 rounded-3xl p-6 sm:p-8 shadow-xl shadow-slate-100/50 dark:shadow-none space-y-6">
-              <h2 className="font-outfit text-xl font-black tracking-tight text-slate-800 dark:text-white flex items-center gap-2">
+              <h2 className="font-outfit text-xl font-black tracking-tight text-zinc-800 dark:text-white flex items-center gap-2">
                 <CreditCard size={18} className="text-indigo-500" /> License &amp; Billing
               </h2>
               
               <div className="space-y-4">
                 <div className="flex justify-between items-center py-3 border-b border-slate-100 dark:border-slate-800/60">
-                  <span className="text-xs font-bold text-slate-500">Plan Status</span>
+                  <span className="text-xs font-bold text-zinc-500 dark:text-zinc-400">Plan Status</span>
                   <span className={`text-xs font-black px-2.5 py-0.5 rounded-full border ${
                     userPlan !== "Basic Plan"
                       ? "text-amber-500 bg-amber-500/10 border-amber-500/20"
-                      : "text-slate-500 bg-slate-500/10 border-slate-500/20"
+                      : "text-zinc-500 bg-slate-500/10 border-zinc-500/20"
                   }`}>
                     {userPlan !== "Basic Plan" ? `${userPlan} (${profile?.subscription_status || 'active'})` : "Basic Plan"}
                   </span>
                 </div>
                 <div className="flex justify-between items-center py-3 border-b border-slate-100 dark:border-slate-800/60">
-                  <span className="text-xs font-bold text-slate-500">Subscription Start Date</span>
-                  <span className="text-xs font-black text-slate-700 dark:text-slate-300">
+                  <span className="text-xs font-bold text-zinc-500 dark:text-zinc-400">Subscription Start Date</span>
+                  <span className="text-xs font-black text-zinc-700 dark:text-zinc-300">
                     {profile?.subscription_start_date 
                       ? new Date(profile.subscription_start_date).toLocaleDateString("en-US", { year: 'numeric', month: 'long', day: 'numeric' })
                       : "N/A"}
                   </span>
                 </div>
                 <div className="flex justify-between items-center py-3 border-b border-slate-100 dark:border-slate-800/60">
-                  <span className="text-xs font-bold text-slate-500">Subscription End Date</span>
-                  <span className="text-xs font-black text-slate-700 dark:text-slate-300">
+                  <span className="text-xs font-bold text-zinc-500 dark:text-zinc-400">Subscription End Date</span>
+                  <span className="text-xs font-black text-zinc-700 dark:text-zinc-300">
                     {profile?.subscription_end_date 
                       ? new Date(profile.subscription_end_date).toLocaleDateString("en-US", { year: 'numeric', month: 'long', day: 'numeric' })
                       : "N/A"}
                   </span>
                 </div>
                 <div className="flex justify-between items-center py-3 border-b border-slate-100 dark:border-slate-800/60">
-                  <span className="text-xs font-bold text-slate-500">Razorpay Customer ID</span>
-                  <span className="font-mono text-xs font-black text-slate-700 dark:text-slate-300">
+                  <span className="text-xs font-bold text-zinc-500 dark:text-zinc-400">Razorpay Customer ID</span>
+                  <span className="font-mono text-xs font-black text-zinc-700 dark:text-zinc-300">
                     {profile?.razorpay_customer_id || "N/A"}
                   </span>
                 </div>
                 <div className="flex justify-between items-center py-3 border-b border-slate-100 dark:border-slate-800/60">
-                  <span className="text-xs font-bold text-slate-500">Billing Cycle</span>
-                  <span className="text-xs font-black text-slate-700 dark:text-slate-300">
+                  <span className="text-xs font-bold text-zinc-500 dark:text-zinc-400">Billing Cycle</span>
+                  <span className="text-xs font-black text-zinc-700 dark:text-zinc-300">
                     {userPlan === "Yearly Pro"
                       ? "Annual billing ($19.99/year)"
                       : userPlan === "Monthly Pro"
@@ -555,8 +571,8 @@ export default function ProfilePage() {
                   </span>
                 </div>
                 <div className="flex justify-between items-center py-3 border-b border-slate-100 dark:border-slate-800/60">
-                  <span className="text-xs font-bold text-slate-500">Amount Paid</span>
-                  <span className="text-xs font-black text-slate-700 dark:text-slate-300">
+                  <span className="text-xs font-bold text-zinc-500 dark:text-zinc-400">Amount Paid</span>
+                  <span className="text-xs font-black text-zinc-700 dark:text-zinc-300">
                     {userPlan === "Yearly Pro"
                       ? "$19.99 (via Razorpay)"
                       : userPlan === "Monthly Pro"
@@ -565,7 +581,7 @@ export default function ProfilePage() {
                   </span>
                 </div>
                 <div className="flex justify-between items-center py-3">
-                  <span className="text-xs font-bold text-slate-500">Invoice History</span>
+                  <span className="text-xs font-bold text-zinc-500 dark:text-zinc-400">Invoice History</span>
                   {userPlan !== "Basic Plan" ? (
                     <button
                       type="button"
@@ -577,7 +593,7 @@ export default function ProfilePage() {
                       {isDownloading ? "Generating..." : "Download Receipt"}
                     </button>
                   ) : (
-                    <span className="text-xs text-slate-400">No invoices available</span>
+                    <span className="text-xs text-zinc-400 dark:text-zinc-500">No invoices available</span>
                   )}
                 </div>
               </div>
@@ -590,7 +606,7 @@ export default function ProfilePage() {
             
             {/* Pro Features list */}
             <div className="bg-gradient-to-b from-white/80 to-white/60 dark:from-slate-900/70 dark:to-slate-900/40 backdrop-blur-xl border border-slate-200/60 dark:border-slate-800/80 rounded-3xl p-6 shadow-xl shadow-slate-100/50 dark:shadow-none space-y-5">
-              <h2 className="font-outfit text-base font-black tracking-tight text-slate-800 dark:text-white flex items-center gap-2">
+              <h2 className="font-outfit text-base font-black tracking-tight text-zinc-800 dark:text-white flex items-center gap-2">
                 <Sparkles size={16} className="text-amber-500" /> Active Pro Privileges
               </h2>
               
@@ -606,8 +622,8 @@ export default function ProfilePage() {
                   <div key={idx} className="flex gap-3 items-start">
                     <CheckCircle2 size={16} className="text-emerald-500 shrink-0 mt-0.5" />
                     <div className="space-y-0.5">
-                      <p className="text-xs font-extrabold text-slate-700 dark:text-slate-200">{feat.title}</p>
-                      <p className="text-[10px] text-slate-400 dark:text-slate-500 leading-normal">{feat.desc}</p>
+                      <p className="text-xs font-extrabold text-zinc-700 dark:text-zinc-200">{feat.title}</p>
+                      <p className="text-[10px] text-zinc-500 dark:text-zinc-300 leading-normal">{feat.desc}</p>
                     </div>
                   </div>
                 ))}
@@ -617,38 +633,46 @@ export default function ProfilePage() {
             {/* Recent History Sidebar */}
             <div className="bg-white/70 dark:bg-slate-900/60 backdrop-blur-xl border border-slate-200/60 dark:border-slate-800/80 rounded-3xl p-6 shadow-xl shadow-slate-100/50 dark:shadow-none space-y-5">
               
-              <h2 className="font-outfit text-base font-black tracking-tight text-slate-800 dark:text-white flex items-center gap-2">
+              <h2 className="font-outfit text-base font-black tracking-tight text-zinc-800 dark:text-white flex items-center gap-2">
                 <History size={16} className="text-indigo-500" /> Recent Tool Clicks
               </h2>
 
               <div className="space-y-3">
                 {recentTools.length > 0 ? (
-                  recentTools.map((item, idx) => (
-                    <Link
-                      key={`${item.toolKey}-${idx}`}
-                      href={item.url}
-                      className="flex items-center justify-between p-3.5 bg-white dark:bg-slate-950 hover:bg-slate-50 dark:hover:bg-slate-900 border border-slate-100/80 dark:border-slate-800/85 rounded-2xl group transition-all"
-                    >
-                      <div className="flex items-center gap-2.5 min-w-0">
-                        <div className="w-8 h-8 rounded-xl bg-indigo-500/10 text-indigo-500 flex items-center justify-center flex-shrink-0 group-hover:scale-105 transition-all">
-                          <Zap size={14} className="fill-indigo-500/10" />
+                  recentTools.slice(0, 5).map((item, idx) => {
+                    const IconComp = ICON_MAP[item.iconName] ?? Zap;
+                    const iconColor = item.categoryColor || "#6366f1";
+                    return (
+                      <Link
+                        key={`${item.toolKey}-${idx}`}
+                        href={item.url}
+                        className="flex items-center justify-between p-3.5 bg-white dark:bg-slate-950 hover:bg-slate-50 dark:hover:bg-slate-900 border border-slate-100/80 dark:border-slate-800/85 rounded-2xl group transition-all"
+                      >
+                        <div className="flex items-center gap-2.5 min-w-0">
+                          <div
+                            className="w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:scale-105 transition-transform"
+                            style={{ backgroundColor: `${iconColor}18`, color: iconColor }}
+                          >
+                            <IconComp size={15} />
+                          </div>
+                          <div className="min-w-0">
+                            <p className="text-xs font-extrabold text-zinc-700 dark:text-zinc-200 truncate leading-snug">
+                              {item.title}
+                            </p>
+                            <p className="text-[9px] text-zinc-400 dark:text-zinc-500 mt-0.5 font-semibold">
+                              {item.category && <span className="mr-1" style={{ color: iconColor }}>{item.category} ·</span>}
+                              {new Date(item.timestamp).toLocaleDateString("en-US", { month: "short", day: "numeric" })}
+                            </p>
+                          </div>
                         </div>
-                        <div className="min-w-0">
-                          <p className="text-xs font-extrabold text-slate-700 dark:text-slate-200 truncate leading-snug">
-                            {item.title}
-                          </p>
-                          <p className="text-[8px] text-slate-400 dark:text-slate-500 mt-0.5">
-                            {new Date(item.timestamp).toLocaleDateString()}
-                          </p>
-                        </div>
-                      </div>
-                      <ChevronRight size={14} className="text-slate-300 group-hover:text-slate-500 dark:group-hover:text-slate-400 group-hover:translate-x-0.5 transition-all flex-shrink-0" />
-                    </Link>
-                  ))
+                        <ChevronRight size={14} className="text-slate-300 group-hover:text-slate-500 dark:group-hover:text-slate-400 group-hover:translate-x-0.5 transition-all flex-shrink-0" />
+                      </Link>
+                    );
+                  })
                 ) : (
                   <div className="text-center py-8 px-4 border border-dashed border-slate-200 dark:border-slate-800 rounded-2xl space-y-2">
-                    <p className="text-xs font-extrabold text-slate-400 dark:text-slate-500">No recent activity</p>
-                    <p className="text-[10px] text-slate-400 dark:text-slate-600 leading-normal">
+                    <p className="text-xs font-extrabold text-zinc-400 dark:text-zinc-500">No recent activity</p>
+                    <p className="text-[10px] text-zinc-500 dark:text-zinc-400 leading-normal">
                       Used tools will appear here for fast access.
                     </p>
                   </div>

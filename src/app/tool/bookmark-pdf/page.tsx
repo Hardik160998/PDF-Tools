@@ -1,6 +1,5 @@
 "use client";
 import { Bookmark, Upload, Download, CheckCircle, Layers, GitCompare, EyeOff, Lock, Combine, Settings } from "lucide-react";
-import { HowItWorksShimmer, RelatedToolsShimmer, usePageMounted } from "../_shimmer";
 import BookmarkPdf from "@/components/tools/BookmarkPdf";
 
 const STEPS = [
@@ -19,8 +18,6 @@ const RELATED = [
 ];
 
 export default function BookmarkPdfPage() {
-  const mounted = usePageMounted();
-
   return (
     <div className="min-h-screen" style={{ background: "linear-gradient(135deg,#fffbeb33 0%,#fff0 50%,#fef3c733 100%)" }}>
       {/* TOOL */}
@@ -55,7 +52,7 @@ export default function BookmarkPdfPage() {
       </section>
 
       {/* HOW IT WORKS */}
-      {!mounted ? <HowItWorksShimmer accent="rgba(245,158,11,0.15)" /> : (
+      
         <section className="py-16 bg-white/60 dark:bg-slate-800/40">
           <div className="container mx-auto px-4 max-w-4xl">
             <h2 className="text-2xl font-black text-slate-900 dark:text-white tracking-tight mb-8 text-center uppercase">How It Works</h2>
@@ -71,10 +68,10 @@ export default function BookmarkPdfPage() {
             </div>
           </div>
         </section>
-      )}
+      
 
       {/* RELATED TOOLS */}
-      {!mounted ? <RelatedToolsShimmer /> : (
+      
         <section className="py-16">
           <div className="container mx-auto px-4 max-w-5xl">
             <h2 className="text-2xl font-black text-slate-900 dark:text-white tracking-tight mb-8 text-center">More PDF Tools</h2>
@@ -97,7 +94,7 @@ export default function BookmarkPdfPage() {
             </div>
           </div>
         </section>
-      )}
+      
     </div>
   );
 }

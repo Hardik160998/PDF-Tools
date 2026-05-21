@@ -1,4 +1,3 @@
-import { Suspense } from "react";
 import RepairTool from "@/components/tools/RepairTool";
 
 export const dynamic = 'force-dynamic';
@@ -8,9 +7,7 @@ export default function RepairPdfPage() {
   return (
     <div className="min-h-screen bg-slate-50/50 dark:bg-slate-950">
       <div className="max-w-7xl mx-auto px-4 pt-10 sm:pt-16 pb-10">
-        <Suspense fallback={<div className="h-[600px] bg-white dark:bg-slate-900 rounded-3xl animate-pulse" />}>
-          <RepairTool id="repair-pdf" />
-        </Suspense>
+        <RepairTool id="repair-pdf" />
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-16 mb-16">
           {[

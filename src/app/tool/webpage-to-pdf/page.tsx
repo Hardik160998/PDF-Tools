@@ -1,6 +1,5 @@
 "use client";
 import { Globe, Upload, Download, CheckCircle, FileText, Zap, Lock, ImageIcon, FileSpreadsheet, Presentation } from "lucide-react";
-import { HowItWorksShimmer, RelatedToolsShimmer, usePageMounted } from "../_shimmer";
 import WebpageToPdf from "@/components/tools/WebpageToPdf";
 
 const STEPS = [
@@ -21,8 +20,6 @@ const RELATED = [
 import SubscriptionGate from '@/components/SubscriptionGate';
 
 export default function WebpageToPdfPage() {
-  const mounted = usePageMounted();
-
   return (
     <div className="min-h-screen" style={{ background: "linear-gradient(135deg,#f0f9ff33 0%,#fff0 50%,#e0f2fe33 100%)" }}>
       {/* TOOL */}
@@ -35,7 +32,7 @@ export default function WebpageToPdfPage() {
       </section>
 
       {/* HOW IT WORKS */}
-      {!mounted ? <HowItWorksShimmer accent="rgba(14,165,233,0.15)" /> : (
+      
         <section className="py-16 bg-white/60 dark:bg-slate-800/40">
           <div className="container mx-auto px-4 max-w-4xl">
             <h2 className="text-2xl font-black text-slate-900 dark:text-white tracking-tight mb-8 text-center uppercase">How It Works</h2>
@@ -51,10 +48,10 @@ export default function WebpageToPdfPage() {
             </div>
           </div>
         </section>
-      )}
+      
 
       {/* RELATED TOOLS */}
-      {!mounted ? <RelatedToolsShimmer /> : (
+      
         <section className="py-16">
           <div className="container mx-auto px-4 max-w-5xl">
             <h2 className="text-2xl font-black text-slate-900 dark:text-white tracking-tight mb-8 text-center">More Convert Tools</h2>
@@ -77,7 +74,7 @@ export default function WebpageToPdfPage() {
             </div>
           </div>
         </section>
-      )}
+      
     </div>
   );
 }
