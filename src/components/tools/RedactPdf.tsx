@@ -4,10 +4,14 @@ import { useState, useRef, useCallback, useEffect } from "react";
 import { Upload, Download, X, FileText, CheckCircle2, Loader2, EyeOff, Trash2, Plus, Shield } from "lucide-react";
 import type * as PDFJS from "pdfjs-dist";
 import { PDFDocument, rgb, StandardFonts } from "pdf-lib";
+import { useCredits } from "@/hooks/useCredits";
+import OutOfCreditsModal from "@/components/credits/OutOfCreditsModal";
 
 interface Redaction { id: string; page: number; x: number; y: number; w: number; h: number; }
 
 export default function RedactPdf({ id: _id }: { id: string }) {
+  const { remaining, isGuest, isPremium, deductCredit } = useCredits();
+  const [outOfCreditsOpen, setOutOfCreditsOpen] = useState(false);
   const [file, setFile] = useState<File | null>(null);
   const [pdfDoc, setPdfDoc] = useState<PDFJS.PDFDocumentProxy | null>(null);
   const [totalPages, setTotalPages] = useState(0);
@@ -182,6 +186,24 @@ export default function RedactPdf({ id: _id }: { id: string }) {
 
   const reset = () => { setFile(null); setPdfDoc(null); setRedactions([]); setResult(null); setPage(1); bufRef.current = null; setShowSidebar(true); };
 
+  const handleDownloadClick = () => {
+    if (!isPremium && remaining <= 0) {
+      setOutOfCreditsOpen(true);
+      return;
+    }
+
+    deductCredit("redact-pdf");
+
+    if (result) {
+      const link = document.createElement("a");
+      link.href = result;
+      link.download = `redacted_${file!.name}`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+  };
+
   const pageRedactions = redactions.filter(r => r.page === page);
   const totalRedactions = redactions.length;
 
@@ -345,10 +367,10 @@ export default function RedactPdf({ id: _id }: { id: string }) {
           </div>
 
           <div className="max-w-md mx-auto">
-             <a href={result!} download={`redacted_${file!.name}`}
+             <button onClick={handleDownloadClick}
                className="w-full py-4 sm:py-5 bg-green-500 text-white rounded-2xl font-black text-sm sm:text-lg uppercase tracking-widest shadow-2xl shadow-green-500/40 hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center gap-3">
-               <Download size={24} /> Download PDF
-             </a>
+                <Download size={24} /> Download PDF
+             </button>
           </div>
 
           <div className="pt-6 sm:pt-8 border-t border-slate-50 dark:border-slate-800">
@@ -360,6 +382,7 @@ export default function RedactPdf({ id: _id }: { id: string }) {
 
   return (
     <div className="min-h-screen bg-slate-50/50 dark:bg-slate-950 font-sans">
+      <OutOfCreditsModal isOpen={outOfCreditsOpen} onClose={() => setOutOfCreditsOpen(false)} isGuest={isGuest} />
       {pdfDoc && !result && renderStep2()}
       {!pdfDoc && !result && renderStep1()}
       {result && renderStep3()}

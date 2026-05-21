@@ -2,8 +2,12 @@
 
 import { useState } from "react";
 import { Globe, Download, Loader2, X, CheckCircle2, Link, Sparkles } from "lucide-react";
+import { useCredits } from "@/hooks/useCredits";
+import OutOfCreditsModal from "@/components/credits/OutOfCreditsModal";
 
 export default function WebpageToPdf({ id: _id }: { id: string }) {
+  const { remaining, isGuest, isPremium, deductCredit } = useCredits();
+  const [outOfCreditsOpen, setOutOfCreditsOpen] = useState(false);
   const [url, setUrl] = useState("");
   const [processing, setProcessing] = useState(false);
   const [resultUrl, setResultUrl] = useState<string | null>(null);
@@ -44,8 +48,27 @@ export default function WebpageToPdf({ id: _id }: { id: string }) {
 
   const hostname = (() => { try { return new URL(inputUrl).hostname; } catch { return inputUrl; } })();
 
+  const handleDownloadClick = () => {
+    if (!isPremium && remaining <= 0) {
+      setOutOfCreditsOpen(true);
+      return;
+    }
+
+    deductCredit("webpage-to-pdf");
+
+    if (resultUrl) {
+      const link = document.createElement("a");
+      link.href = resultUrl;
+      link.download = `${hostname}.pdf`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+  };
+
   return (
     <div className="max-w-3xl mx-auto py-4 sm:py-12 px-2 sm:px-4 text-center">
+      <OutOfCreditsModal isOpen={outOfCreditsOpen} onClose={() => setOutOfCreditsOpen(false)} isGuest={isGuest} />
       <div className="bg-white dark:bg-slate-800 rounded-[1.2rem] sm:rounded-[2.5rem] p-4 sm:p-12 border border-slate-100 dark:border-slate-700 shadow-2xl space-y-6 sm:space-y-10">
 
         {/* Header */}
@@ -125,14 +148,13 @@ export default function WebpageToPdf({ id: _id }: { id: string }) {
               <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 font-medium uppercase tracking-widest">{hostname} → PDF</p>
             </div>
             <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
-              <a
-                href={resultUrl}
-                download={`${hostname}.pdf`}
+              <button
+                onClick={handleDownloadClick}
                 className="flex-1 py-3.5 sm:py-5 text-white rounded-xl sm:rounded-2xl text-base sm:text-lg sm:text-xl font-medium shadow-xl flex items-center justify-center gap-2 sm:gap-3 transition-all"
                 style={{ background: "linear-gradient(135deg,#0ea5e9,#0369a1)" }}
               >
                 <Download size={20} className="sm:w-6 sm:h-6" /> Download PDF
-              </a>
+              </button>
               <button onClick={reset} className="px-6 sm:px-10 py-3.5 sm:py-5 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 text-slate-900 dark:text-white rounded-xl sm:rounded-2xl font-medium transition-all text-sm sm:text-base">
                 Convert Another
               </button>

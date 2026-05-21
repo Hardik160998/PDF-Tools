@@ -232,7 +232,7 @@ export default function MeeshoCropLabel({ id }: { id: string }) {
   const [csvUrl, setCsvUrl] = useState<string | null>(null);
   const [labelCount, setLabelCount] = useState(0);
 
-  const handleDownloadClick = async (url: string | null, filename: string) => {
+  const handleDownloadClick = (url: string | null, filename: string) => {
     if (!url) return;
 
     if (!isPremium && remaining <= 0) {
@@ -240,11 +240,7 @@ export default function MeeshoCropLabel({ id }: { id: string }) {
       return;
     }
 
-    const result = await deductCredit('meshocrop');
-    if (!result?.allowed) {
-      setOutOfCreditsOpen(true);
-      return;
-    }
+    deductCredit('meshocrop');
 
     const link = document.createElement('a');
     link.href = url;

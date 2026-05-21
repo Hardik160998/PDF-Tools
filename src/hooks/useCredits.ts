@@ -33,7 +33,7 @@ let sessionInitPromise: Promise<any> | null = null;
  * This is the ONLY hook components should use for credit operations.
  */
 export function useCredits(): UseCreditsReturn {
-  const { user, profile } = useAuth();
+  const { user, profile, refreshProfile } = useAuth();
   const [guestToken, setGuestToken] = useState<string | null>(null);
   const [guestCredits, setGuestCredits] = useState<number>(5);
   const [isLoading, setIsLoading] = useState(true);
@@ -176,7 +176,7 @@ export function useCredits(): UseCreditsReturn {
           // Update profile credits in context
           if (data.remaining !== undefined && !data.unlimited) {
             // Trigger profile refresh to sync credits display
-            const { useAuth: _useAuth } = await import("@/context/AuthContext");
+            await refreshProfile();
           }
 
           return { allowed: true, remaining: data.remaining ?? 9999 };
@@ -209,7 +209,7 @@ export function useCredits(): UseCreditsReturn {
         return null;
       }
     },
-    [isAuthenticated, user, guestToken]
+    [isAuthenticated, user, guestToken, refreshProfile]
   );
 
   // ─── Compute state ────────────────────────────────────────────────────────

@@ -69,6 +69,18 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         };
         setProfile(updatedProfile);
 
+        // Auto-confirm in public.users if the email is successfully verified/logged in
+        if (data.is_confirmation === false) {
+          try {
+            await supabase
+              .from("users")
+              .update({ is_confirmation: true })
+              .eq("email", email);
+          } catch (updateErr) {
+            console.warn("Failed to auto-confirm user profile in DB:", updateErr);
+          }
+        }
+
         // Sync with local storage mock session if it exists
         if (typeof window !== "undefined") {
           const mockSessionStr = localStorage.getItem("sb-mock-session");

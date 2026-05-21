@@ -23,6 +23,10 @@ export default function AuthPageContent({ initialMode }: AuthPageContentProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [statusMessage, setStatusMessage] = useState<{ type: 'success' | 'error', text: string } | null>(null);
 
+  const [isOtpSent, setIsOtpSent] = useState(false);
+  const [otpCode, setOtpCode] = useState("");
+  const [signupToken, setSignupToken] = useState("");
+
   const isSignUp = mode === "signup";
 
   const handleToggleMode = (newMode: "login" | "signup") => {
@@ -31,6 +35,9 @@ export default function AuthPageContent({ initialMode }: AuthPageContentProps) {
     setPassword("");
     setStatusMessage(null);
     setIsLoading(false);
+    setIsOtpSent(false);
+    setOtpCode("");
+    setSignupToken("");
     setMode(newMode);
     // Update URL to match selected mode, preserving redirect and plan search params
     const queryString = searchParams?.toString() ? `?${searchParams.toString()}` : "";
@@ -50,90 +57,26 @@ export default function AuthPageContent({ initialMode }: AuthPageContentProps) {
 
     try {
       if (isSignUp) {
-        // Try server-side signup (generates and sends confirmation email via Gmail)
-        let signUpSuccess = false;
-
-        try {
-          const redirectToUrl = typeof window !== 'undefined' ? `${window.location.origin}` : '/';
-          const res = await fetch("/api/auth/signup", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ email, password, fullName, redirectToUrl })
-          });
-          const data = await res.json();
-          if (res.ok && data.success) {
-            signUpSuccess = true;
-            setStatusMessage({
-              type: "success",
-              text: "Sign up successful! Please check your email inbox to confirm your account."
-            });
-            return;
-          } else if (data.error && data.error !== "Service role key not configured.") {
-            // Validation or database error
-            throw new Error(data.error);
-          }
-        } catch (e: any) {
-          if (e.message && e.message !== "Failed to fetch" && !e.message.includes("Service role key")) {
-            throw e;
-          }
-          console.warn("Server-side signup fallback:", e);
-        }
-
-        // Fallback to standard client-side signup if server-side auto-confirm isn't active
-        const redirectToUrl = typeof window !== 'undefined' ? `${window.location.origin}` : '/';
-        const { data, error } = await supabase.auth.signUp({
-          email,
-          password,
-          options: {
-            emailRedirectTo: redirectToUrl,
-            data: {
-              full_name: fullName
-            }
-          }
+        // Send OTP via Gmail SMTP by calling our API
+        const res = await fetch("/api/auth/signup", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, password, fullName })
         });
-
-        if (error) throw error;
-
-        if (data.user) {
-          // Manually create profile in public.users table
-          const { error: dbError } = await supabase
-            .from('users')
-            .upsert({
-              id: data.user.id,
-              email: email.toLowerCase().trim(),
-              full_name: fullName,
-              is_guest: false,
-              account_type: 'free',
-              credits_merged: false,
-              is_confirmation: false
-            }, { onConflict: 'email' });
-
-          if (dbError) {
-            console.warn("Could not insert user profile in public users table:", dbError);
-          }
-
-          if (data.session) {
-            // Logged in immediately (email confirmation disabled)
-            let newCredits: number | null = null;
-            try {
-              newCredits = await mergeCreditsOnLogin(guestToken);
-            } catch { }
-
-            const creditMsg = newCredits !== null ? ` You now have ${newCredits} credits.` : "";
-            setStatusMessage({ type: "success", text: `Sign up successful! 🎉${creditMsg} Redirecting...` });
-            setTimeout(() => {
-              router.push(redirectTo);
-            }, 1800);
-          } else {
-            // Confirmation email required
-            setStatusMessage({
-              type: "success",
-              text: "Sign up successful! Please check your email inbox to confirm your account."
-            });
-          }
+        const data = await res.json();
+        
+        if (res.ok && data.success) {
+          setSignupToken(data.signupToken);
+          setIsOtpSent(true);
+          setStatusMessage({
+            type: "success",
+            text: "A 6-digit verification code has been sent to your email. Please enter it below to complete your registration."
+          });
+        } else {
+          throw new Error(data.error || "Failed to send verification code.");
         }
       } else {
-        // Login Flow
+        // Login Flow (Email & Password only)
         const { data, error } = await supabase.auth.signInWithPassword({
           email,
           password
@@ -166,6 +109,45 @@ export default function AuthPageContent({ initialMode }: AuthPageContentProps) {
     } catch (err: any) {
       console.error("Auth error:", err);
       setStatusMessage({ type: "error", text: err.message || "Authentication failed." });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleVerifyOtp = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+    setStatusMessage(null);
+
+    try {
+      const res = await fetch("/api/auth/verify-otp", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ signupToken, userOtp: otpCode })
+      });
+      const data = await res.json();
+
+      if (!res.ok || !data.success) {
+        throw new Error(data.error || "Failed to verify code.");
+      }
+
+      setStatusMessage({
+        type: "success",
+        text: "Account verified and created successfully! 🎉 Redirecting to login..."
+      });
+
+      setTimeout(() => {
+        setIsOtpSent(false);
+        setMode("login");
+        setPassword("");
+        setStatusMessage(null);
+        setIsLoading(false);
+        router.push("/login");
+      }, 2000);
+
+    } catch (err: any) {
+      console.error("OTP verification error:", err);
+      setStatusMessage({ type: "error", text: err.message || "OTP verification failed." });
     } finally {
       setIsLoading(false);
     }
@@ -296,39 +278,43 @@ export default function AuthPageContent({ initialMode }: AuthPageContentProps) {
         <div className="my-auto space-y-8 w-full max-w-md mx-auto">
 
           {/* Login/Signup Toggle Pill */}
-          <div className="flex justify-center">
-            <div className="bg-zinc-100 border border-zinc-200 p-1.5 rounded-2xl flex gap-1 w-full max-w-[280px]">
-              <button
-                type="button"
-                onClick={() => handleToggleMode("login")}
-                className={`flex-1 py-2.5 text-xs font-bold uppercase tracking-wider rounded-xl transition-all ${!isSignUp
-                  ? "bg-white shadow-md border border-zinc-200/50"
-                  : "text-zinc-400 hover:text-zinc-700"
-                  }`}
-                style={!isSignUp ? { color: "#09090b" } : undefined}
-              >
-                Login
-              </button>
-              <button
-                type="button"
-                onClick={() => handleToggleMode("signup")}
-                className={`flex-1 py-2.5 text-xs font-bold uppercase tracking-wider rounded-xl transition-all ${isSignUp
-                  ? "bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-md"
-                  : "text-zinc-400 hover:text-zinc-700"
-                  }`}
-              >
-                Sign Up
-              </button>
+          {!isOtpSent && (
+            <div className="flex justify-center">
+              <div className="bg-zinc-100 border border-zinc-200 p-1.5 rounded-2xl flex gap-1 w-full max-w-[280px]">
+                <button
+                  type="button"
+                  onClick={() => handleToggleMode("login")}
+                  className={`flex-1 py-2.5 text-xs font-bold uppercase tracking-wider rounded-xl transition-all ${!isSignUp
+                    ? "bg-white shadow-md border border-zinc-200/50"
+                    : "text-zinc-400 hover:text-zinc-700"
+                    }`}
+                  style={!isSignUp ? { color: "#09090b" } : undefined}
+                >
+                  Login
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleToggleMode("signup")}
+                  className={`flex-1 py-2.5 text-xs font-bold uppercase tracking-wider rounded-xl transition-all ${isSignUp
+                    ? "bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-md"
+                    : "text-zinc-400 hover:text-zinc-700"
+                    }`}
+                >
+                  Sign Up
+                </button>
+              </div>
             </div>
-          </div>
+          )}
 
           {/* Header info */}
           <div className="text-center md:text-left space-y-2">
             <h3 className="font-outfit text-3xl font-[900] tracking-tight flex items-center justify-center md:justify-start gap-2 text-zinc-900">
-              {isSignUp ? "Join Smart PDFs 🚀" : "Welcome Back! 👋"}
+              {isOtpSent ? "Verify Your Email ✉️" : isSignUp ? "Join Smart PDFs 🚀" : "Welcome Back! 👋"}
             </h3>
             <p className="text-zinc-500 text-sm font-semibold">
-              {isSignUp
+              {isOtpSent
+                ? `Enter the 6-digit code sent to ${email} to complete your signup.`
+                : isSignUp
                 ? "Free account. Start organizing your files today."
                 : "Sign in to access your saved history and preferences."}
             </p>
@@ -341,7 +327,7 @@ export default function AuthPageContent({ initialMode }: AuthPageContentProps) {
               : 'bg-rose-50 text-rose-800 border border-rose-200/50'
               }`}>
               <div>{statusMessage.text}</div>
-              {statusMessage.type === 'error' && (
+              {statusMessage.type === 'error' && !isOtpSent && (
                 <div className="mt-3 pt-3 border-t border-rose-200/40 flex flex-col gap-2">
                   <p className="text-[10px] text-rose-700/80 font-medium normal-case leading-normal">
                     Trouble logging in? You can use a local developer bypass to test dashboard features instantly.
@@ -365,102 +351,145 @@ export default function AuthPageContent({ initialMode }: AuthPageContentProps) {
           )}
 
           {/* Form */}
-          <form onSubmit={handleAuth} className="space-y-5">
-            {/* Full Name (Sign Up only) */}
-            {isSignUp && (
+          {isOtpSent ? (
+            <form onSubmit={handleVerifyOtp} className="space-y-5">
               <div className="space-y-2">
-                <label htmlFor="fullname" className="block text-[11px] font-bold uppercase tracking-wider text-zinc-500">
-                  Full Name
+                <label htmlFor="otp" className="block text-[11px] font-bold uppercase tracking-wider text-zinc-500">
+                  6-Digit Verification Code
                 </label>
                 <input
                   type="text"
-                  id="fullname"
+                  id="otp"
                   required
                   disabled={isLoading}
-                  value={fullName}
-                  onChange={(e) => setFullName(e.target.value)}
-                  placeholder="Your full name"
+                  value={otpCode}
+                  onChange={(e) => setOtpCode(e.target.value.replace(/\D/g, '').slice(0, 6))}
+                  placeholder="123456"
+                  className="w-full px-4 py-3.5 bg-zinc-50/50 border border-zinc-200 rounded-xl text-center font-mono text-xl tracking-widest text-zinc-900 placeholder-zinc-400 focus:outline-none focus:bg-white focus:border-blue-500 transition-all disabled:opacity-50 font-bold"
+                />
+              </div>
+
+              {/* Submit Button */}
+              <button
+                type="submit"
+                disabled={isLoading || otpCode.length !== 6}
+                className="w-full py-4 mt-6 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white font-bold text-xs uppercase tracking-widest rounded-xl transition-all shadow-lg shadow-blue-500/10 flex items-center justify-center gap-1.5 cursor-pointer disabled:opacity-50"
+              >
+                {isLoading ? <>⏳ Verifying...</> : <>✨ Verify &amp; Complete Signup</>}
+              </button>
+
+              <button
+                type="button"
+                onClick={() => {
+                  setIsOtpSent(false);
+                  setOtpCode("");
+                  setStatusMessage(null);
+                }}
+                className="w-full text-center text-xs font-semibold text-zinc-500 hover:text-zinc-800 transition-colors pt-2 bg-transparent border-none cursor-pointer"
+              >
+                ← Back to signup details
+              </button>
+            </form>
+          ) : (
+            <form onSubmit={handleAuth} className="space-y-5">
+              {/* Full Name (Sign Up only) */}
+              {isSignUp && (
+                <div className="space-y-2">
+                  <label htmlFor="fullname" className="block text-[11px] font-bold uppercase tracking-wider text-zinc-500">
+                    Full Name
+                  </label>
+                  <input
+                    type="text"
+                    id="fullname"
+                    required
+                    disabled={isLoading}
+                    value={fullName}
+                    onChange={(e) => setFullName(e.target.value)}
+                    placeholder="Your full name"
+                    className="w-full px-4 py-3.5 bg-zinc-50/50 border border-zinc-200 rounded-xl text-sm text-zinc-900 placeholder-zinc-400 focus:outline-none focus:bg-white focus:border-blue-500 transition-all font-semibold disabled:opacity-50"
+                  />
+                </div>
+              )}
+
+              {/* Email Address */}
+              <div className="space-y-2">
+                <label htmlFor="email" className="block text-[11px] font-bold uppercase tracking-wider text-zinc-500">
+                  Email Address
+                </label>
+                <input
+                  type="email"
+                  id="email"
+                  required
+                  disabled={isLoading}
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="you@example.com"
                   className="w-full px-4 py-3.5 bg-zinc-50/50 border border-zinc-200 rounded-xl text-sm text-zinc-900 placeholder-zinc-400 focus:outline-none focus:bg-white focus:border-blue-500 transition-all font-semibold disabled:opacity-50"
                 />
               </div>
-            )}
 
-            {/* Email Address */}
-            <div className="space-y-2">
-              <label htmlFor="email" className="block text-[11px] font-bold uppercase tracking-wider text-zinc-500">
-                Email Address
-              </label>
-              <input
-                type="email"
-                id="email"
-                required
+              {/* Password */}
+              <div className="space-y-2">
+                <label htmlFor="password" className="block text-[11px] font-bold uppercase tracking-wider text-zinc-500">
+                  Password
+                </label>
+                <input
+                  type="password"
+                  id="password"
+                  required
+                  disabled={isLoading}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="••••••••"
+                  className="w-full px-4 py-3.5 bg-zinc-50/50 border border-zinc-200 rounded-xl text-sm text-zinc-900 placeholder-zinc-400 focus:outline-none focus:bg-white focus:border-blue-500 transition-all font-semibold disabled:opacity-50"
+                />
+              </div>
+
+              {/* Submit Button */}
+              <button
+                type="submit"
                 disabled={isLoading}
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="you@example.com"
-                className="w-full px-4 py-3.5 bg-zinc-50/50 border border-zinc-200 rounded-xl text-sm text-zinc-900 placeholder-zinc-400 focus:outline-none focus:bg-white focus:border-blue-500 transition-all font-semibold disabled:opacity-50"
-              />
-            </div>
-
-            {/* Password */}
-            <div className="space-y-2">
-              <label htmlFor="password" className="block text-[11px] font-bold uppercase tracking-wider text-zinc-500">
-                Password
-              </label>
-              <input
-                type="password"
-                id="password"
-                required
-                disabled={isLoading}
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="••••••••"
-                className="w-full px-4 py-3.5 bg-zinc-50/50 border border-zinc-200 rounded-xl text-sm text-zinc-900 placeholder-zinc-400 focus:outline-none focus:bg-white focus:border-blue-500 transition-all font-semibold disabled:opacity-50"
-              />
-            </div>
-
-            {/* Submit Button */}
-            <button
-              type="submit"
-              disabled={isLoading}
-              className="w-full py-4 mt-6 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white font-bold text-xs uppercase tracking-widest rounded-xl transition-all shadow-lg shadow-blue-500/10 flex items-center justify-center gap-1.5 cursor-pointer disabled:opacity-50"
-            >
-              {isLoading ? (
-                <>⏳ Processing...</>
-              ) : isSignUp ? (
-                <>✨ Create Account &amp; Sign Up</>
-              ) : (
-                <>🔑 Secure Login</>
-              )}
-            </button>
-          </form>
+                className="w-full py-4 mt-6 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white font-bold text-xs uppercase tracking-widest rounded-xl transition-all shadow-lg shadow-blue-500/10 flex items-center justify-center gap-1.5 cursor-pointer disabled:opacity-50"
+              >
+                {isLoading ? (
+                  <>⏳ Processing...</>
+                ) : isSignUp ? (
+                  <>✨ Send Code &amp; Sign Up</>
+                ) : (
+                  <>🔑 Secure Login</>
+                )}
+              </button>
+            </form>
+          )}
 
           {/* Toggle Footer text */}
-          <div className="text-center text-xs font-semibold text-zinc-500 pt-2">
-            {isSignUp ? (
-              <>
-                Already have an account?{" "}
-                <button
-                  type="button"
-                  onClick={() => handleToggleMode("login")}
-                  className="text-blue-600 hover:text-blue-500 transition-colors underline bg-transparent border-none p-0 cursor-pointer"
-                >
-                  Log in here
-                </button>
-              </>
-            ) : (
-              <>
-                New to Smart PDFs?{" "}
-                <button
-                  type="button"
-                  onClick={() => handleToggleMode("signup")}
-                  className="text-blue-600 hover:text-blue-500 transition-colors underline bg-transparent border-none p-0 cursor-pointer"
-                >
-                  Create free account
-                </button>
-              </>
-            )}
-          </div>
+          {!isOtpSent && (
+            <div className="text-center text-xs font-semibold text-zinc-500 pt-2">
+              {isSignUp ? (
+                <>
+                  Already have an account?{" "}
+                  <button
+                    type="button"
+                    onClick={() => handleToggleMode("login")}
+                    className="text-blue-600 hover:text-blue-500 transition-colors underline bg-transparent border-none p-0 cursor-pointer"
+                  >
+                    Log in here
+                  </button>
+                </>
+              ) : (
+                <>
+                  New to Smart PDFs?{" "}
+                  <button
+                    type="button"
+                    onClick={() => handleToggleMode("signup")}
+                    className="text-blue-600 hover:text-blue-500 transition-colors underline bg-transparent border-none p-0 cursor-pointer"
+                  >
+                    Create free account
+                  </button>
+                </>
+              )}
+            </div>
+          )}
 
         </div>
 

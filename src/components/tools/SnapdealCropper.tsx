@@ -399,7 +399,7 @@ export default function SnapdealCropper({ id }: { id: string }) {
 
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const handleDownloadClick = async (url: string | null, filename: string) => {
+  const handleDownloadClick = (url: string | null, filename: string) => {
     if (!url) return;
 
     if (!isPremium && remaining <= 0) {
@@ -407,11 +407,7 @@ export default function SnapdealCropper({ id }: { id: string }) {
       return;
     }
 
-    const result = await deductCredit('snapdeal-cropper');
-    if (!result?.allowed) {
-      setOutOfCreditsOpen(true);
-      return;
-    }
+    deductCredit('snapdeal-cropper');
 
     const link = document.createElement('a');
     link.href = url;

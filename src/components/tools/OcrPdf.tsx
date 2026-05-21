@@ -9,6 +9,8 @@ import {
 import { PDFDocument } from "pdf-lib";
 import Tesseract from "tesseract.js";
 import { motion, AnimatePresence } from "framer-motion";
+import { useCredits } from "@/hooks/useCredits";
+import OutOfCreditsModal from "@/components/credits/OutOfCreditsModal";
 
 const LANGUAGES = [
   { code: "eng", label: "English" },
@@ -49,6 +51,8 @@ interface PdfFile {
 }
 
 export default function OcrPdf({ id: _id }: { id: string }) {
+  const { remaining, isGuest, isPremium, deductCredit } = useCredits();
+  const [outOfCreditsOpen, setOutOfCreditsOpen] = useState(false);
   const [pdfFiles, setPdfFiles] = useState<PdfFile[]>([]);
   const [processing, setProcessing] = useState(false);
   const [allDone, setAllDone] = useState(false);
@@ -191,20 +195,32 @@ export default function OcrPdf({ id: _id }: { id: string }) {
 
   const handleDownload = (entry: PdfFile) => {
     if (!entry.resultBlob) return;
+
+    if (!isPremium && remaining <= 0) {
+      setOutOfCreditsOpen(true);
+      return;
+    }
+
+    deductCredit("ocr-pdf");
+
     const url = URL.createObjectURL(entry.resultBlob);
     const a = document.createElement("a");
     a.href = url;
     a.download = entry.file.name.replace(/\.pdf$/i, "_ocr.pdf");
+    document.body.appendChild(a);
     a.click();
+    document.body.removeChild(a);
     URL.revokeObjectURL(url);
   };
 
   const downloadAll = () => {
-    pdfFiles.filter(f => f.status === "done").forEach(f => handleDownload(f));
+    const doneFiles = pdfFiles.filter(f => f.status === "done");
+    doneFiles.forEach(f => handleDownload(f));
   };
 
   return (
     <div className="max-w-7xl mx-auto py-4 sm:py-8 px-3 sm:px-6 font-sans text-left">
+      <OutOfCreditsModal isOpen={outOfCreditsOpen} onClose={() => setOutOfCreditsOpen(false)} isGuest={isGuest} />
       <div className="flex flex-col lg:flex-row gap-8 items-start">
         
         {/* Sidebar Configuration */}

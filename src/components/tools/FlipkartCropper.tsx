@@ -338,17 +338,13 @@ export default function FlipkartCropper({ id }: { id: string }) {
   const [showSettings, setShowSettings] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const handleDownloadClick = async () => {
+  const handleDownloadClick = () => {
     if (!isPremium && remaining <= 0) {
       setOutOfCreditsOpen(true);
       return;
     }
 
-    const result = await deductCredit('flipkart-cropper');
-    if (!result?.allowed) {
-      setOutOfCreditsOpen(true);
-      return;
-    }
+    deductCredit('flipkart-cropper');
 
     if (pdfUrl) {
       const link = document.createElement('a');
