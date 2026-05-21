@@ -28,9 +28,11 @@ export default function MeeshoCropPage() {
   return (
     <div className="min-h-screen">
       <section className="pb-8">
-        <CreditGate toolName="meshocrop" showCounter={false}>
-          <MeeshoCropLabel id="meshocrop" />
-        </CreditGate>
+        <div className="container mx-auto px-4 max-w-7xl">
+          <CreditGate toolName="meshocrop" showCounter={false}>
+            <MeeshoCropLabel id="meshocrop" />
+          </CreditGate>
+        </div>
       </section>
 
       {mounted && (

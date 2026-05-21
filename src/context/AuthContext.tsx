@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState, useRef } from "react";
 import { supabase } from "@/lib/supabase";
 import { User } from "@supabase/supabase-js";
 
@@ -31,6 +31,8 @@ interface AuthContextType {
   decrementCredits: () => Promise<number | null>;
   /** Merges guest credits into user account — call after successful login/signup */
   mergeCreditsOnLogin: (guestToken?: string) => Promise<number | null>;
+  /** Directly update the profile's plan fields after a successful purchase */
+  updateProfilePlan: (planName: string) => void;
 }
 
 const AuthContext = createContext<AuthContextType>({
@@ -42,14 +44,18 @@ const AuthContext = createContext<AuthContextType>({
   loginAsMock: async () => { },
   decrementCredits: async () => null,
   mergeCreditsOnLogin: async () => null,
+  updateProfilePlan: () => {},
 });
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState(true);
+  // Tracks timestamp of last fetchProfile call to debounce onAuthStateChange duplicate calls
+  const lastFetchRef = useRef<number>(0);
 
   const fetchProfile = async (email: string) => {
+    lastFetchRef.current = Date.now();
     try {
       const { data, error } = await supabase
         .from("users")
@@ -209,7 +215,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
                 // Clear mock if we successfully get a real session
                 localStorage.removeItem("sb-mock-session");
                 setUser(session.user);
-                await fetchProfile(session.user.email || "");
+                // Skip fetchProfile if it was called within the last 2s (prevents double DB call after login)
+                const msSinceLastFetch = Date.now() - lastFetchRef.current;
+                if (msSinceLastFetch > 2000) {
+                  await fetchProfile(session.user.email || "");
+                }
               } else {
                 // If logged out from Supabase, make sure mock session is not running
                 if (!localStorage.getItem("sb-mock-session")) {
@@ -348,8 +358,27 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     return null;
   };
 
+  const updateProfilePlan = (planName: string) => {
+    const startDate = new Date();
+    const endDate = new Date();
+    if (planName.toLowerCase().includes("yearly")) {
+      endDate.setFullYear(startDate.getFullYear() + 1);
+    } else {
+      endDate.setMonth(startDate.getMonth() + 1);
+    }
+
+    setProfile(prev => prev ? {
+      ...prev,
+      plan: planName,
+      current_plan: planName,
+      subscription_status: "active",
+      subscription_start_date: startDate.toISOString(),
+      subscription_end_date: endDate.toISOString(),
+    } : null);
+  };
+
   return (
-    <AuthContext.Provider value={{ user, profile, loading, logout, refreshProfile, loginAsMock, decrementCredits, mergeCreditsOnLogin }}>
+    <AuthContext.Provider value={{ user, profile, loading, logout, refreshProfile, loginAsMock, decrementCredits, mergeCreditsOnLogin, updateProfilePlan }}>
       {children}
     </AuthContext.Provider>
   );

@@ -294,7 +294,7 @@ export default function ProfilePage() {
       <div className="absolute top-0 left-0 right-0 h-[550px] bg-gradient-to-b from-indigo-500/10 via-purple-500/5 to-transparent dark:from-indigo-500/20 dark:via-purple-500/10 -z-10 blur-3xl pointer-events-none" />
       <div className="absolute top-1/3 right-1/4 w-[350px] h-[350px] bg-amber-500/5 rounded-full blur-3xl -z-10 pointer-events-none" />
 
-      <div className="w-full mx-auto space-y-8">
+      <div className="w-full max-w-7xl mx-auto space-y-8">
         
         {/* Account Banner Card */}
         <div className="relative overflow-hidden bg-white/70 dark:bg-slate-900/60 backdrop-blur-xl border border-slate-200/60 dark:border-slate-800/80 rounded-3xl p-6 sm:p-8 shadow-xl shadow-slate-100/50 dark:shadow-none flex flex-col md:flex-row items-center md:items-start gap-6 md:gap-8">

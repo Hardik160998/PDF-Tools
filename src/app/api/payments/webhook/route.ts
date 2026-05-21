@@ -1,9 +1,6 @@
 import { NextResponse } from "next/server";
-import { createClient } from "@supabase/supabase-js";
+import { createServerSupabase } from "@/lib/supabase-server";
 import crypto from "crypto";
-
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
 
 export async function POST(request: Request) {
   try {
@@ -41,8 +38,8 @@ export async function POST(request: Request) {
     const planName = paymentEntity.notes?.planName;
     const userId = paymentEntity.notes?.userId;
 
-    // 2. Initialize server-side Supabase client
-    const supabase = createClient(supabaseUrl, supabaseAnonKey);
+    // 2. Initialize server-side Supabase client (service role bypasses RLS)
+    const supabase = createServerSupabase();
 
     if (eventType === "payment.captured") {
       // Log payment capture

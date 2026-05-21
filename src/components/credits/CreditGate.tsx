@@ -1,9 +1,9 @@
 "use client";
 
-import { useState, useCallback } from "react";
 import { useCredits } from "@/hooks/useCredits";
-import OutOfCreditsModal from "./OutOfCreditsModal";
 import CreditCounter from "./CreditCounter";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 interface CreditGateProps {
   /**
@@ -27,21 +27,6 @@ interface CreditGateProps {
 
 /**
  * CreditGate — wraps any tool page to enforce credit-based access.
- *
- * Usage:
- * ```tsx
- * <CreditGate toolName="merge">
- *   <MergeToolUI onProcess={handleProcess} />
- * </CreditGate>
- * ```
- *
- * The `deductCredit` function is passed down via the render prop pattern,
- * OR components can call `useCredits().deductCredit()` directly.
- *
- * This gate:
- * 1. Shows a credit counter above the tool
- * 2. Shows OutOfCreditsModal when credits are 0
- * 3. Allows tool to deduct credits on action
  */
 export default function CreditGate({
   toolName,
@@ -50,11 +35,8 @@ export default function CreditGate({
   onCreditDeducted,
 }: CreditGateProps) {
   const { remaining, isGuest, isPremium, unlimited, isLoading } = useCredits();
-  const [modalOpen, setModalOpen] = useState(false);
-
-  const handleOutOfCredits = useCallback(() => {
-    setModalOpen(true);
-  }, []);
+  const pathname = usePathname();
+  const redirectParam = encodeURIComponent(pathname || "/");
 
   if (isLoading) {
     return (
@@ -70,36 +52,36 @@ export default function CreditGate({
     return <>{children}</>;
   }
 
+  // Determine if we should show the banner
+  const showBanner = isGuest || remaining <= 0;
+
   return (
     <>
-      {/* Out of credits modal */}
-      <OutOfCreditsModal
-        isOpen={modalOpen}
-        onClose={() => setModalOpen(false)}
-        isGuest={isGuest}
-      />
-
-      {/* If credits are 0 and modal is closed, show inline blocked state */}
-      {remaining <= 0 && !modalOpen && (
-        <button
-          onClick={() => setModalOpen(true)}
-          className="w-full cursor-pointer group"
-          aria-label="View credit options"
-        >
-          <div className="mb-4 p-3 rounded-2xl bg-red-50 dark:bg-red-950/20 border border-red-200 dark:border-red-800 flex items-center justify-between hover:bg-red-100 dark:hover:bg-red-950/30 transition-colors">
-            <div className="flex items-center gap-2">
-              <span className="text-sm">⚡</span>
-              <p className="text-xs font-bold text-red-700 dark:text-red-400">
-                {isGuest
-                  ? "No guest credits left — Sign up to get +5 credits!"
-                  : "No credits remaining — Upgrade to Premium"}
-              </p>
+      {/* If guest or credits are 0, show inline premium banner */}
+      {showBanner && (
+        <div className="max-w-7xl mx-auto py-4 sm:py-8 px-3 sm:px-6 font-sans">
+          <Link
+            href={isGuest ? `/signup?redirect=${redirectParam}` : "/premium-plans"}
+            className="w-full block group"
+            aria-label="View credit options"
+          >
+            <div className="p-4 rounded-2xl bg-gradient-to-r from-red-50 to-rose-50 dark:from-red-950/10 dark:to-rose-950/10 border border-red-200 dark:border-red-800 flex flex-col sm:flex-row items-center justify-between gap-3 hover:from-red-100 hover:to-rose-100 dark:hover:from-red-950/20 dark:hover:to-rose-950/20 hover:border-red-300 dark:hover:border-red-700 transition-all duration-300 shadow-sm shadow-red-500/5">
+              <div className="flex items-center gap-2.5">
+                <span className="text-base animate-pulse">⚡</span>
+                <p className="text-xs sm:text-sm font-bold text-red-700 dark:text-red-400">
+                  {isGuest
+                    ? remaining <= 0
+                      ? "No guest credits left — Sign up to get +5 credits!"
+                      : `You have ${remaining} guest credit${remaining === 1 ? "" : "s"} left — Sign up to get +5 credits!`
+                    : "No credits remaining — Upgrade to Premium"}
+                </p>
+              </div>
+              <span className="text-xs font-black uppercase tracking-wider text-red-600 dark:text-red-400 group-hover:translate-x-1 transition-transform inline-flex items-center gap-1 bg-white dark:bg-slate-900 border border-red-100 dark:border-red-900/50 px-4 py-1.5 rounded-full shadow-sm">
+                {isGuest ? "SIGN UP FREE →" : "UPGRADE →"}
+              </span>
             </div>
-            <span className="text-[10px] font-black uppercase tracking-wider text-red-600 dark:text-red-400 group-hover:underline">
-              {isGuest ? "Sign Up Free →" : "Upgrade →"}
-            </span>
-          </div>
-        </button>
+          </Link>
+        </div>
       )}
 
       {/* Credit counter (compact card, not navbar pill) */}

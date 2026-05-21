@@ -10,6 +10,17 @@ const otpStore = new Map<string, { code: string; expires: number; fullName?: str
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
+// Reuse transporter across requests (connection pooling)
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  pool: true,
+  maxConnections: 3,
+  auth: {
+    user: process.env.GMAIL_USER,
+    pass: process.env.GMAIL_APP_PASSWORD,
+  },
+});
+
 export async function POST(request: Request) {
   try {
     const { email, fullName, mode } = await request.json();
@@ -51,15 +62,7 @@ export async function POST(request: Request) {
     // Store the OTP
     otpStore.set(emailLower, { code: otp, expires, fullName });
 
-    // Setup nodemailer
-    const transporter = nodemailer.createTransport({
-      service: 'gmail',
-      auth: {
-        user: process.env.GMAIL_USER,
-        pass: process.env.GMAIL_APP_PASSWORD,
-      },
-    });
-
+    // Setup nodemailer (using module-level pooled transporter)
     // Send email
     await transporter.sendMail({
       from: `"SmartPDFs Plus" <${process.env.GMAIL_USER}>`,

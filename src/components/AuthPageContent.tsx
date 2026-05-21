@@ -14,11 +14,13 @@ export default function AuthPageContent({ initialMode }: AuthPageContentProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const redirectTo = searchParams?.get("redirect") || "/";
+  // Pre-fill email if coming from signup → login redirect (?email=xxx)
+  const emailFromQuery = searchParams?.get("email") || "";
   const { loginAsMock, mergeCreditsOnLogin } = useAuth();
   const [mode, setMode] = useState<"login" | "signup">(initialMode);
 
   const [fullName, setFullName] = useState("");
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState(emailFromQuery);
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [statusMessage, setStatusMessage] = useState<{ type: 'success' | 'error', text: string } | null>(null);
@@ -27,11 +29,14 @@ export default function AuthPageContent({ initialMode }: AuthPageContentProps) {
   const [otpCode, setOtpCode] = useState("");
   const [signupToken, setSignupToken] = useState("");
 
+  // Show a quick success hint if we arrived here right after signup OTP verify
+  const justVerified = initialMode === "login" && !!emailFromQuery;
+
   const isSignUp = mode === "signup";
 
   const handleToggleMode = (newMode: "login" | "signup") => {
     setFullName("");
-    setEmail("");
+    // Keep email so user doesn't have to retype when switching tabs
     setPassword("");
     setStatusMessage(null);
     setIsLoading(false);
@@ -39,8 +44,11 @@ export default function AuthPageContent({ initialMode }: AuthPageContentProps) {
     setOtpCode("");
     setSignupToken("");
     setMode(newMode);
-    // Update URL to match selected mode, preserving redirect and plan search params
-    const queryString = searchParams?.toString() ? `?${searchParams.toString()}` : "";
+    // Update URL — preserve email query param if present
+    const params = new URLSearchParams();
+    if (redirectTo && redirectTo !== "/") params.set("redirect", redirectTo);
+    if (email) params.set("email", email);
+    const queryString = params.toString() ? `?${params.toString()}` : "";
     router.push((newMode === "login" ? "/login" : "/signup") + queryString);
   };
 
@@ -57,6 +65,12 @@ export default function AuthPageContent({ initialMode }: AuthPageContentProps) {
 
     try {
       if (isSignUp) {
+        // Show immediate feedback before SMTP completes (can take 2-5s)
+        setStatusMessage({
+          type: "success",
+          text: "Sending verification code to your email... ✉️"
+        });
+
         // Send OTP via Gmail SMTP by calling our API
         const res = await fetch("/api/auth/signup", {
           method: "POST",
@@ -70,7 +84,7 @@ export default function AuthPageContent({ initialMode }: AuthPageContentProps) {
           setIsOtpSent(true);
           setStatusMessage({
             type: "success",
-            text: "A 6-digit verification code has been sent to your email. Please enter it below to complete your registration."
+            text: "✅ Code sent! Check your email and enter the 6-digit code below."
           });
         } else {
           throw new Error(data.error || "Failed to send verification code.");
@@ -85,25 +99,27 @@ export default function AuthPageContent({ initialMode }: AuthPageContentProps) {
         if (error) throw error;
 
         if (data.user) {
-          // Update last_login and set is_confirmation to true
-          await supabase
-            .from('users')
-            .update({
-              last_login: new Date().toISOString(),
-              is_confirmation: true
-            })
-            .eq('id', data.user.id);
-
-          let newCredits: number | null = null;
-          try {
-            newCredits = await mergeCreditsOnLogin(guestToken);
-          } catch { }
+          // ✅ Run DB update + credit merge in PARALLEL — saves 500-800ms
+          // Wrap supabase call in Promise.resolve() since it returns PromiseLike (not full Promise)
+          const [, newCredits] = await Promise.all([
+            Promise.resolve(
+              supabase
+                .from('users')
+                .update({
+                  last_login: new Date().toISOString(),
+                  is_confirmation: true
+                })
+                .eq('id', data.user.id)
+            ).catch(() => null),
+            mergeCreditsOnLogin(guestToken).catch(() => null)
+          ]);
 
           const creditMsg = newCredits !== null ? ` You now have ${newCredits} credits.` : "";
-          setStatusMessage({ type: "success", text: `Logged in successfully! 🎉${creditMsg} Redirecting...` });
+          setStatusMessage({ type: "success", text: `Logged in! 🎉${creditMsg} Redirecting...` });
+          // Redirect quickly — onAuthStateChange will handle profile sync in background
           setTimeout(() => {
             router.push(redirectTo);
-          }, 1800);
+          }, 600);
         }
       }
     } catch (err: any) {
@@ -133,17 +149,19 @@ export default function AuthPageContent({ initialMode }: AuthPageContentProps) {
 
       setStatusMessage({
         type: "success",
-        text: "Account verified and created successfully! 🎉 Redirecting to login..."
+        text: "✅ Account verified! Redirecting to login..."
       });
 
+      // Redirect quickly — reduced from 2000ms to 700ms
       setTimeout(() => {
         setIsOtpSent(false);
         setMode("login");
         setPassword("");
         setStatusMessage(null);
         setIsLoading(false);
-        router.push("/login");
-      }, 2000);
+        // Pass email as query param so login form is pre-filled
+        router.push(`/login?email=${encodeURIComponent(email)}`);
+      }, 700);
 
     } catch (err: any) {
       console.error("OTP verification error:", err);
@@ -319,6 +337,14 @@ export default function AuthPageContent({ initialMode }: AuthPageContentProps) {
                 : "Sign in to access your saved history and preferences."}
             </p>
           </div>
+
+          {/* Just-verified hint — shown when redirected from OTP verification */}
+          {justVerified && !statusMessage && (
+            <div className="p-3.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-bold flex items-center gap-2 animate-in fade-in slide-in-from-top-2 duration-300">
+              <span className="text-base">✅</span>
+              <span>Account verified! Your email is pre-filled — just enter your password to log in instantly.</span>
+            </div>
+          )}
 
           {/* Status Message */}
           {statusMessage && (

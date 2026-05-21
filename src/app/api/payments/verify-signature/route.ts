@@ -1,9 +1,6 @@
 import { NextResponse } from "next/server";
-import { createClient } from "@supabase/supabase-js";
+import { createServerSupabase } from "@/lib/supabase-server";
 import crypto from "crypto";
-
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
 
 export async function POST(request: Request) {
   try {
@@ -39,43 +36,57 @@ export async function POST(request: Request) {
       endDate.setMonth(startDate.getMonth() + 1);
     }
 
-    // 4. Initialize server-side Supabase client
-    const supabase = createClient(supabaseUrl, supabaseAnonKey);
+    // 4. Initialize server-side Supabase client (service role bypasses RLS)
+    const supabase = createServerSupabase();
 
     // 5. Update user plan status (by email)
-    const updateProfile = supabase
-      .from("users")
-      .update({
-        plan: planName,
-        current_plan: planName,
-        subscription_status: "active",
-        subscription_start_date: startDate.toISOString(),
-        subscription_end_date: endDate.toISOString(),
-      })
-      .eq("email", userEmail.toLowerCase().trim());
-
-    // 6. Update payment transaction log
-    const updatePayment = supabase
-      .from("payments")
-      .update({
-        razorpay_payment_id,
-        razorpay_signature,
-        status: "captured",
-        updated_at: new Date().toISOString(),
-      })
-      .eq("razorpay_order_id", razorpay_order_id);
-
-    // Run updates
     try {
-      await updateProfile;
+      await supabase
+        .from("users")
+        .update({
+          plan: planName,
+          current_plan: planName,
+          subscription_status: "active",
+          subscription_start_date: startDate.toISOString(),
+          subscription_end_date: endDate.toISOString(),
+        })
+        .eq("email", userEmail.toLowerCase().trim());
     } catch (err) {
       console.warn("Failed profile DB update:", err);
     }
 
+    // 6. Update payment transaction log
     try {
-      await updatePayment;
+      await supabase
+        .from("payments")
+        .update({
+          razorpay_payment_id,
+          razorpay_signature,
+          status: "captured",
+          updated_at: new Date().toISOString(),
+        })
+        .eq("razorpay_order_id", razorpay_order_id);
     } catch (err) {
       console.warn("Failed payment DB update:", err);
+    }
+
+    // 7. Insert subscription record
+    if (userId) {
+      try {
+        await supabase
+          .from("subscriptions")
+          .upsert({
+            user_id: userId,
+            plan_id: planName,
+            status: "active",
+            current_start: startDate.toISOString(),
+            current_end: endDate.toISOString(),
+            razorpay_subscription_id: razorpay_payment_id,
+            updated_at: new Date().toISOString(),
+          }, { onConflict: 'razorpay_subscription_id' });
+      } catch (err) {
+        console.warn("Failed subscription insert:", err);
+      }
     }
 
     return NextResponse.json({ success: true, message: "Signature verified and subscription activated" });

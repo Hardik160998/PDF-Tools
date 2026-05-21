@@ -114,7 +114,7 @@ function FeatureSectionShimmer({ reverse = false }: { reverse?: boolean }) {
 }
 
 export default function Home() {
-  const { user, profile, refreshProfile } = useAuth();
+  const { user, profile, refreshProfile, updateProfilePlan } = useAuth();
   const router = useRouter();
   const userPlan = profile?.current_plan || profile?.plan || "Basic Plan";
   const isPremium = userPlan.toLowerCase().includes("pro") || userPlan.toLowerCase().includes("premium");
@@ -137,6 +137,7 @@ export default function Home() {
       userName: profile?.full_name || user.user_metadata?.full_name || "SmartPDFs Customer",
       onSuccess: async (paymentId) => {
         alert(`Payment successful! Payment ID: ${paymentId}`);
+        updateProfilePlan(planName);
         await refreshProfile();
         router.push("/profile");
       }

@@ -89,7 +89,7 @@ const FAQS = [
 ];
 
 function PremiumPlansContent() {
-  const { user, profile, refreshProfile } = useAuth();
+  const { user, profile, refreshProfile, updateProfilePlan } = useAuth();
   const router = useRouter();
   const searchParams = useSearchParams();
   const hasTriggeredRef = useRef(false);
@@ -97,7 +97,14 @@ function PremiumPlansContent() {
 
   const activePlan = user ? (profile?.current_plan || profile?.plan || "Basic Plan") : null;
 
-  const handleDownloadReceipt = async () => {
+  const startTimestamp = profile?.subscription_start_date 
+    ? new Date(profile.subscription_start_date).getTime() 
+    : 0;
+  const stableInvoiceNum = startTimestamp 
+    ? `INV-SP-${(startTimestamp % 1000000).toString().padStart(6, '0')}`
+    : `INV-SP-000000`;
+
+  const handleDownloadReceipt = async (customInvoiceNum?: string) => {
     if (!user) return;
     try {
       setIsDownloading(true);
@@ -109,7 +116,7 @@ function PremiumPlansContent() {
       const helvetica = await pdfDoc.embedFont(StandardFonts.Helvetica);
       const helveticaBold = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
       
-      const invoiceNum = `INV-SP-${Date.now().toString().slice(-6)}`;
+      const invoiceNum = customInvoiceNum || `INV-SP-${Date.now().toString().slice(-6)}`;
       const invoiceDate = new Date().toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
       
       const priceINR = activePlan === "Yearly Pro" ? "INR 1,699.00" : "INR 399.00";
@@ -202,6 +209,7 @@ function PremiumPlansContent() {
       userName: profile?.full_name || user.user_metadata?.full_name || "SmartPDFs Customer",
       onSuccess: async (paymentId) => {
         alert(`Payment successful! Payment ID: ${paymentId}`);
+        updateProfilePlan(planName);
         await refreshProfile();
         router.push("/profile");
       }
@@ -224,7 +232,7 @@ function PremiumPlansContent() {
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950/40 text-slate-800 dark:text-slate-100 pb-24 px-6">
       {/* Hero Banner Section */}
       <section className="py-16 text-center">
-        <div className="w-full mx-auto max-w-4xl">
+        <div className="w-full max-w-7xl mx-auto">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-amber-50 dark:bg-amber-950/20 text-amber-600 dark:text-amber-400 border border-amber-100 dark:border-amber-900/30 text-xs font-semibold uppercase tracking-widest shadow-sm mb-6">
             <Crown size={14} className="fill-amber-500/20" />
             Pricing Plans
@@ -232,7 +240,7 @@ function PremiumPlansContent() {
           <h1 className="font-outfit text-4xl md:text-5xl font-black text-slate-900 dark:text-white tracking-tighter mb-4">
             Premium Tool <span className="text-red-500">Plans</span>
           </h1>
-          <p className="text-lg text-slate-500 dark:text-slate-400 font-medium leading-relaxed mb-8">
+          <p className="text-lg text-slate-500 dark:text-slate-400 font-medium leading-relaxed mb-8 max-w-2xl mx-auto">
             Unlock advanced features, higher file size limits, and priority browser processing. Choose the plan that works best for you.
           </p>
           
@@ -248,80 +256,199 @@ function PremiumPlansContent() {
             </button>
           </div>
 
-          {user && activePlan && activePlan !== "Basic Plan" && (
-            <div className="bg-white/70 dark:bg-slate-900/60 backdrop-blur-xl border border-slate-200/60 dark:border-slate-800/80 rounded-3xl p-6 sm:p-8 shadow-xl shadow-slate-100/50 dark:shadow-none space-y-6 mt-8 w-full text-left mb-16">
-              <h2 className="font-outfit text-xl font-black tracking-tight text-slate-800 dark:text-white flex items-center gap-2">
-                <CreditCard size={18} className="text-indigo-500" /> License &amp; Billing
-              </h2>
-              
-              <div className="space-y-4">
-                <div className="flex justify-between items-center py-3 border-b border-slate-100 dark:border-slate-800/60">
-                  <span className="text-xs font-bold text-slate-500">Current Plan Status</span>
-                  <span className={`text-xs font-black px-2.5 py-0.5 rounded-full border ${
-                    activePlan !== "Basic Plan"
-                      ? "text-amber-500 bg-amber-500/10 border-amber-500/20"
-                      : "text-slate-500 bg-slate-500/10 border-slate-500/20"
-                  }`}>
-                    {activePlan !== "Basic Plan" ? `${activePlan} (${profile?.subscription_status || 'active'})` : "Basic Plan"}
-                  </span>
+          {/* ── Billing History Table ─────────────────────────────── */}
+          <div className="bg-white/70 dark:bg-slate-900/60 backdrop-blur-xl border border-slate-200/60 dark:border-slate-800/80 rounded-3xl shadow-xl shadow-slate-100/50 dark:shadow-none overflow-hidden mt-8 w-full mb-16">
+
+            {/* Table Header */}
+            <div className="flex items-center justify-between px-6 py-5 border-b border-slate-100 dark:border-slate-800/80">
+              <div className="flex items-center gap-3">
+                <div className="w-9 h-9 rounded-xl bg-indigo-50 dark:bg-indigo-950/30 flex items-center justify-center">
+                  <CreditCard size={16} className="text-indigo-500" />
                 </div>
-                <div className="flex justify-between items-center py-3 border-b border-slate-100 dark:border-slate-800/60">
-                  <span className="text-xs font-bold text-slate-500">Subscription Start Date</span>
-                  <span className="text-xs font-black text-slate-700 dark:text-slate-300">
-                    {profile?.subscription_start_date 
-                      ? new Date(profile.subscription_start_date).toLocaleDateString("en-US", { year: 'numeric', month: 'long', day: 'numeric' })
-                      : "N/A"}
-                  </span>
-                </div>
-                <div className="flex justify-between items-center py-3 border-b border-slate-100 dark:border-slate-800/60">
-                  <span className="text-xs font-bold text-slate-500">Subscription End Date</span>
-                  <span className="text-xs font-black text-slate-700 dark:text-slate-300">
-                    {profile?.subscription_end_date 
-                      ? new Date(profile.subscription_end_date).toLocaleDateString("en-US", { year: 'numeric', month: 'long', day: 'numeric' })
-                      : "N/A"}
-                  </span>
-                </div>
-                <div className="flex justify-between items-center py-3 border-b border-slate-100 dark:border-slate-800/60">
-                  <span className="text-xs font-bold text-slate-500">Razorpay Customer ID</span>
-                  <span className="font-mono text-xs font-black text-slate-700 dark:text-slate-300">
-                    {profile?.razorpay_customer_id || "N/A"}
-                  </span>
-                </div>
-                <div className="flex justify-between items-center py-3 border-b border-slate-100 dark:border-slate-800/60">
-                  <span className="text-xs font-bold text-slate-500">Price / Billing Cycle</span>
-                  <span className="text-xs font-black text-slate-700 dark:text-slate-300">
-                    {activePlan === "Yearly Pro"
-                      ? "Annual billing ($19.99/year)"
-                      : activePlan === "Monthly Pro"
-                      ? "Monthly billing ($4.99/month)"
-                      : "No subscription (Basic tier)"}
-                  </span>
-                </div>
-                <div className="flex justify-between items-center py-3">
-                  <span className="text-xs font-bold text-slate-500">Invoice Bill</span>
-                  {activePlan !== "Basic Plan" ? (
-                    <button
-                      type="button"
-                      disabled={isDownloading}
-                      onClick={handleDownloadReceipt}
-                      className="flex items-center gap-1 text-xs font-bold text-indigo-500 hover:text-indigo-600 disabled:text-indigo-300 disabled:cursor-not-allowed transition-colors uppercase tracking-wider cursor-pointer"
-                    >
-                      <Download size={12} className={isDownloading ? "animate-bounce" : ""} />
-                      {isDownloading ? "Generating..." : "Download Receipt"}
-                    </button>
-                  ) : (
-                    <span className="text-xs text-slate-400">No invoices available</span>
-                  )}
+                <div>
+                  <h2 className="text-sm font-black text-slate-800 dark:text-white tracking-tight">Billing History</h2>
+                  <p className="text-[10px] font-medium text-slate-400 uppercase tracking-wider">Subscription invoices &amp; receipts</p>
                 </div>
               </div>
+              {user && activePlan && activePlan !== "Basic Plan" && (
+                <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-50 dark:bg-emerald-950/20 text-emerald-700 dark:text-emerald-400 border border-emerald-200/60 dark:border-emerald-900/30 text-[10px] font-black uppercase tracking-wider">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse inline-block" />
+                  Active Subscription
+                </span>
+              )}
             </div>
-          )}
+
+            {user && activePlan && activePlan !== "Basic Plan" ? (
+              /* ── Paid user: show billing rows ── */
+              <div className="overflow-x-auto w-full">
+                <table className="w-full text-left border-collapse min-w-[780px]">
+                  <thead>
+                    <tr className="bg-slate-50/80 dark:bg-slate-800/40">
+                      <th className="px-6 py-3.5 text-[10px] font-black text-slate-400 uppercase tracking-wider whitespace-nowrap">
+                        Invoice #
+                      </th>
+                      <th className="px-4 py-3.5 text-[10px] font-black text-slate-400 uppercase tracking-wider whitespace-nowrap">
+                        Subscription Start
+                      </th>
+                      <th className="px-4 py-3.5 text-[10px] font-black text-slate-400 uppercase tracking-wider whitespace-nowrap">
+                        Subscription End
+                      </th>
+                      <th className="px-4 py-3.5 text-[10px] font-black text-slate-400 uppercase tracking-wider whitespace-nowrap">
+                        Plan Name
+                      </th>
+                      <th className="px-4 py-3.5 text-[10px] font-black text-slate-400 uppercase tracking-wider whitespace-nowrap">
+                        Amount
+                      </th>
+                      <th className="px-4 py-3.5 text-[10px] font-black text-slate-400 uppercase tracking-wider whitespace-nowrap">
+                        Status
+                      </th>
+                      <th className="px-6 py-3.5 text-[10px] font-black text-slate-400 uppercase tracking-wider text-right whitespace-nowrap">
+                        Download Invoice
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-slate-100 dark:divide-slate-800/60">
+                    <tr className="group hover:bg-slate-50/60 dark:hover:bg-slate-800/30 transition-colors duration-150">
+                      {/* Invoice Number */}
+                      <td className="px-6 py-5">
+                        <span className="font-mono text-xs font-bold text-slate-800 dark:text-slate-100 tracking-wider bg-slate-100 dark:bg-slate-800 px-2.5 py-1 rounded-lg">
+                          {stableInvoiceNum}
+                        </span>
+                      </td>
+                      {/* Start Date */}
+                      <td className="px-4 py-5 text-xs font-semibold text-slate-600 dark:text-slate-300 whitespace-nowrap">
+                        {profile?.subscription_start_date
+                          ? new Date(profile.subscription_start_date).toLocaleDateString("en-IN", { year: 'numeric', month: 'long', day: 'numeric' })
+                          : <span className="text-slate-400">—</span>}
+                      </td>
+                      {/* End Date */}
+                      <td className="px-4 py-5 text-xs font-semibold text-slate-600 dark:text-slate-300 whitespace-nowrap">
+                        {profile?.subscription_end_date
+                          ? new Date(profile.subscription_end_date).toLocaleDateString("en-IN", { year: 'numeric', month: 'long', day: 'numeric' })
+                          : <span className="text-slate-400">—</span>}
+                      </td>
+                      {/* Plan Name */}
+                      <td className="px-4 py-5">
+                        <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-black uppercase tracking-wider ${
+                          activePlan === "Yearly Pro"
+                            ? "bg-amber-100 dark:bg-amber-950/30 text-amber-700 dark:text-amber-400 border border-amber-200/60 dark:border-amber-900/30"
+                            : "bg-blue-100 dark:bg-blue-950/30 text-blue-700 dark:text-blue-400 border border-blue-200/60 dark:border-blue-900/30"
+                        }`}>
+                          <Crown size={9} className={activePlan === "Yearly Pro" ? "fill-amber-500/30" : "fill-blue-500/30"} />
+                          {activePlan}
+                        </span>
+                      </td>
+                      {/* Amount */}
+                      <td className="px-4 py-5">
+                        <div className="flex flex-col">
+                          <span className="text-sm font-black text-slate-800 dark:text-white">
+                            {activePlan === "Yearly Pro" ? "₹1,699.00" : activePlan === "Monthly Pro" ? "₹399.00" : "—"}
+                          </span>
+                          <span className="text-[10px] text-slate-400 font-medium">
+                            {activePlan === "Yearly Pro" ? "$19.99 USD" : activePlan === "Monthly Pro" ? "$4.99 USD" : ""}
+                          </span>
+                        </div>
+                      </td>
+                      {/* Status */}
+                      <td className="px-4 py-5">
+                        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-100 dark:bg-emerald-950/30 text-emerald-700 dark:text-emerald-400 border border-emerald-200/50 dark:border-emerald-900/30 text-[10px] font-black uppercase tracking-wider">
+                          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 inline-block" />
+                          Paid
+                        </span>
+                      </td>
+                      {/* Download */}
+                      <td className="px-6 py-5 text-right">
+                        <button
+                          type="button"
+                          disabled={isDownloading}
+                          onClick={() => handleDownloadReceipt(stableInvoiceNum)}
+                          className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-[11px] font-black text-white bg-blue-600 hover:bg-blue-500 active:bg-blue-700 disabled:bg-blue-400 disabled:cursor-not-allowed transition-all uppercase tracking-wider cursor-pointer shadow-md hover:shadow-lg shadow-blue-600/20 hover:-translate-y-0.5"
+                        >
+                          <Download size={11} className={isDownloading ? "animate-bounce" : ""} />
+                          {isDownloading ? "Generating..." : "Download"}
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+
+                {/* Table Footer Note */}
+                <div className="px-6 py-3 border-t border-slate-100 dark:border-slate-800/60 bg-slate-50/50 dark:bg-slate-800/20 flex items-center justify-between">
+                  <p className="text-[10px] text-slate-400 font-medium">
+                    Showing 1 of 1 invoice · All amounts include applicable taxes
+                  </p>
+                  <p className="text-[10px] text-slate-400 font-medium">
+                    Payments processed securely via Razorpay
+                  </p>
+                </div>
+              </div>
+            ) : (
+              /* ── Guest / Free user: premium empty state ── */
+              <div className="flex flex-col items-center justify-center py-16 px-6 text-center">
+                <div className="w-16 h-16 rounded-2xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center mb-5 shadow-inner">
+                  <CreditCard size={28} className="text-slate-300 dark:text-slate-600" />
+                </div>
+                <h3 className="text-sm font-black text-slate-700 dark:text-slate-300 mb-2">No Billing History Yet</h3>
+                <p className="text-xs text-slate-400 font-medium max-w-xs leading-relaxed mb-6">
+                  {user
+                    ? "You are on the Basic (Free) plan. Upgrade to Pro to unlock all premium tools and view your invoices here."
+                    : "Please log in to view your billing history and subscription invoices."}
+                </p>
+                <div className="flex flex-col sm:flex-row gap-3">
+                  {user ? (
+                    <button
+                      onClick={() => document.getElementById('plan-cards')?.scrollIntoView({ behavior: 'smooth' })}
+                      className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-900 text-xs font-black uppercase tracking-wider transition-all shadow-md shadow-amber-400/20 cursor-pointer"
+                    >
+                      <Crown size={12} className="fill-slate-900/20" />
+                      Upgrade to Pro
+                    </button>
+                  ) : (
+                    <>
+                      <a href="/login" className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-slate-900 dark:bg-white text-white dark:text-slate-900 text-xs font-black uppercase tracking-wider transition-all cursor-pointer">
+                        Log In
+                      </a>
+                      <a href="/signup" className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-black uppercase tracking-wider transition-all cursor-pointer">
+                        Create Account
+                      </a>
+                    </>
+                  )}
+                </div>
+
+                {/* Ghost table preview rows */}
+                <div className="w-full mt-10 overflow-x-auto">
+                  <table className="w-full text-left border-collapse min-w-[700px] opacity-30 pointer-events-none select-none">
+                    <thead>
+                      <tr className="bg-slate-50 dark:bg-slate-800/40">
+                        {["Invoice #","Subscription Start","Subscription End","Plan Name","Amount","Status","Download Invoice"].map(h => (
+                          <th key={h} className="px-4 py-3 text-[10px] font-black text-slate-400 uppercase tracking-wider">{h}</th>
+                        ))}
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-slate-100 dark:divide-slate-800/60">
+                      {[1,2].map(i => (
+                        <tr key={i}>
+                          <td className="px-4 py-4"><div className="h-5 w-32 bg-slate-200 dark:bg-slate-700 rounded-lg animate-pulse" /></td>
+                          <td className="px-4 py-4"><div className="h-4 w-28 bg-slate-200 dark:bg-slate-700 rounded animate-pulse" /></td>
+                          <td className="px-4 py-4"><div className="h-4 w-28 bg-slate-200 dark:bg-slate-700 rounded animate-pulse" /></td>
+                          <td className="px-4 py-4"><div className="h-5 w-20 bg-slate-200 dark:bg-slate-700 rounded-full animate-pulse" /></td>
+                          <td className="px-4 py-4"><div className="h-5 w-20 bg-slate-200 dark:bg-slate-700 rounded animate-pulse" /></td>
+                          <td className="px-4 py-4"><div className="h-5 w-12 bg-slate-200 dark:bg-slate-700 rounded-full animate-pulse" /></td>
+                          <td className="px-4 py-4"><div className="h-8 w-24 bg-slate-200 dark:bg-slate-700 rounded-xl animate-pulse" /></td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            )}
+          </div>
         </div>
       </section>
 
       {/* Plans Section */}
-      <section className="pb-20">
-        <div className="w-full mx-auto">
+      <section id="plan-cards" className="pb-20">
+        <div className="w-full max-w-7xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch w-full mx-auto">
             {/* Basic Plan */}
             <div className={`bg-white dark:bg-slate-800/60 rounded-3xl p-8 shadow-lg flex flex-col justify-between hover:-translate-y-1 transition-all duration-300 ${
@@ -487,7 +614,7 @@ function PremiumPlansContent() {
 
       {/* Plan Features & Tools Details Section */}
       <section id="plan-details" className="py-20 bg-white dark:bg-slate-900 border-t border-b border-slate-100 dark:border-slate-800/80 -mx-6 px-6">
-        <div className="w-full mx-auto">
+        <div className="w-full max-w-7xl mx-auto">
           <div className="text-center max-w-3xl mx-auto mb-16">
             <h2 className="font-outfit text-3xl font-black text-slate-900 dark:text-white tracking-tight mb-3">
               Explore Tools Included by Plan
@@ -553,7 +680,7 @@ function PremiumPlansContent() {
 
       {/* FAQ Section */}
       <section className="py-20">
-        <div className="w-full mx-auto max-w-4xl">
+        <div className="w-full max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="font-outfit text-3xl font-black text-slate-900 dark:text-white tracking-tight mb-3">
               Frequently Asked Questions

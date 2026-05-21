@@ -6,6 +6,17 @@ import { encryptPayload } from '@/lib/crypto';
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
+// Reuse transporter across requests (connection pooling)
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  pool: true, // Enable connection pooling
+  maxConnections: 3,
+  auth: {
+    user: process.env.GMAIL_USER,
+    pass: process.env.GMAIL_APP_PASSWORD,
+  },
+});
+
 export async function POST(request: Request) {
   try {
     const { email, password, fullName } = await request.json();
@@ -62,15 +73,7 @@ export async function POST(request: Request) {
       expiresAt
     });
 
-    // 4. Send email via Gmail SMTP
-    const transporter = nodemailer.createTransport({
-      service: 'gmail',
-      auth: {
-        user: process.env.GMAIL_USER,
-        pass: process.env.GMAIL_APP_PASSWORD,
-      },
-    });
-
+    // 4. Send email via Gmail SMTP (using module-level pooled transporter)
     await transporter.sendMail({
       from: `"SmartPDFs Plus" <${process.env.GMAIL_USER}>`,
       to: emailLower,
