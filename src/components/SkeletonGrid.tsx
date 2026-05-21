@@ -1,7 +1,7 @@
 import SkeletonCard from './SkeletonCard';
 
 const CATEGORY_GRADIENTS: Record<string, string> = {
-  'Organize':      'linear-gradient(135deg, rgb(242, 101, 34), rgb(194, 65, 12))',
+  'Organize':      'linear-gradient(135deg, rgb(242, 101, 34), rgb(194, 65, 12)) ',
   'Optimize':      'linear-gradient(135deg, rgb(34, 197, 94), rgb(21, 128, 61))',
   'Convert':       'linear-gradient(135deg, rgb(49, 130, 206), rgb(30, 58, 138))',
   'Image Convert': 'linear-gradient(135deg, #06b6d4, #0e7490)',
@@ -9,6 +9,7 @@ const CATEGORY_GRADIENTS: Record<string, string> = {
   'Security':      'linear-gradient(135deg, #e53e3e, #7f1d1d)',
   'Special':       'linear-gradient(135deg, #ef4444, #991b1b)',
   'Sign':          'linear-gradient(135deg, #8b5cf6, #ec4899)',
+  
 };
 
 interface SkeletonGridProps {
