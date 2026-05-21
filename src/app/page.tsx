@@ -114,7 +114,7 @@ function FeatureSectionShimmer({ reverse = false }: { reverse?: boolean }) {
 }
 
 export default function Home() {
-  const { user, profile } = useAuth();
+  const { user, profile, refreshProfile } = useAuth();
   const router = useRouter();
   const userPlan = profile?.current_plan || profile?.plan || "Basic Plan";
   const isPremium = userPlan.toLowerCase().includes("pro") || userPlan.toLowerCase().includes("premium");
@@ -135,8 +135,9 @@ export default function Home() {
       amountINR,
       userEmail: user.email || "",
       userName: profile?.full_name || user.user_metadata?.full_name || "SmartPDFs Customer",
-      onSuccess: (paymentId) => {
+      onSuccess: async (paymentId) => {
         alert(`Payment successful! Payment ID: ${paymentId}`);
+        await refreshProfile();
         router.push("/profile");
       }
     });

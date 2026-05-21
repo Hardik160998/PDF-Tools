@@ -89,7 +89,7 @@ const FAQS = [
 ];
 
 function PremiumPlansContent() {
-  const { user, profile } = useAuth();
+  const { user, profile, refreshProfile } = useAuth();
   const router = useRouter();
   const searchParams = useSearchParams();
   const hasTriggeredRef = useRef(false);
@@ -200,8 +200,9 @@ function PremiumPlansContent() {
       amountINR,
       userEmail: user.email || "",
       userName: profile?.full_name || user.user_metadata?.full_name || "SmartPDFs Customer",
-      onSuccess: (paymentId) => {
+      onSuccess: async (paymentId) => {
         alert(`Payment successful! Payment ID: ${paymentId}`);
+        await refreshProfile();
         router.push("/profile");
       }
     });
