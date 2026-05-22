@@ -138,7 +138,7 @@ export default function Compressor({ id: _id }: { id: string }) {
                   { icon: Database, title: "Shrink Rate", desc: "Up to 80% reduction." }
                 ].map((f, i) => (
                   <div key={i} className="flex items-center gap-4">
-                    <div className="w-10 h-10 rounded-xl bg-slate-50 dark:bg-slate-800 flex items-center justify-center shrink-0" style={{ color: ACCENT }}>
+                    <div className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0" style={{ color: ACCENT, backgroundColor: `${ACCENT}15` }}>
                       <f.icon size={18} />
                     </div>
                     <div>
@@ -152,7 +152,7 @@ export default function Compressor({ id: _id }: { id: string }) {
               <div className="pt-6 border-t border-slate-50 dark:border-slate-800">
                 <div className="bg-slate-50 dark:bg-slate-800/50 rounded-2xl p-4 border border-slate-100 dark:border-slate-800 mb-6 text-left">
                   <div className="flex items-center gap-3 mb-2">
-                    <div className="p-2 rounded-lg bg-white dark:bg-slate-900 shadow-sm" style={{ color: ACCENT }}>
+                    <div className="p-2 rounded-lg shadow-sm flex items-center justify-center" style={{ color: ACCENT, backgroundColor: `${ACCENT}15` }}>
                       <Database size={14} />
                     </div>
                     <span className="font-outfit text-[11px] font-medium text-slate-400 uppercase tracking-widest">Queue Status</span>
@@ -289,7 +289,7 @@ export default function Compressor({ id: _id }: { id: string }) {
               { title: "Smart Shrink", desc: "Advanced object stream optimization reduces size by up to 90%.", icon: TrendingDown },
             ].map((feat, i) => (
               <div key={i} className="p-10 bg-white dark:bg-slate-900 rounded-[32px] border border-slate-100 dark:border-slate-800 shadow-sm flex flex-col items-center text-center group hover:shadow-xl transition-all">
-                <div className="w-14 h-14 rounded-2xl bg-emerald-50 dark:bg-slate-800 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform shadow-inner text-emerald-500">
+                <div className="w-14 h-14 rounded-2xl bg-emerald-50 dark:bg-emerald-500/10 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform shadow-inner text-emerald-500">
                   <feat.icon size={28} />
                 </div>
                 <h5 className="text-xs font-black uppercase tracking-widest text-slate-900 dark:text-white mb-3 leading-none">{feat.title}</h5>

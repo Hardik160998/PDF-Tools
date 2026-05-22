@@ -143,7 +143,7 @@ export default function ExtractText({ id: toolId }: { id: string }) {
               <div className="pt-4 border-t border-slate-50 dark:border-slate-700">
                 <div className="bg-slate-50 dark:bg-slate-900/50 rounded-2xl p-4 border border-slate-100 dark:border-slate-800">
                   <div className="flex items-center gap-3 mb-2">
-                    <div className="p-2 rounded-lg bg-white dark:bg-slate-800 shadow-sm text-blue-500">
+                    <div className="p-2 rounded-lg bg-blue-50 dark:bg-blue-500/10 shadow-sm text-blue-500 flex items-center justify-center">
                       <Terminal size={14} />
                     </div>
                     <span className="font-outfit text-[11px] font-medium text-slate-400 uppercase tracking-widest">Parser Status</span>

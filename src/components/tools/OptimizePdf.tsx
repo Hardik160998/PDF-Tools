@@ -166,7 +166,7 @@ export default function OptimizePdf({ id: _id }: { id: string }) {
               <div className="pt-4 border-t border-slate-50 dark:border-slate-700">
                 <div className="bg-slate-50 dark:bg-slate-900/50 rounded-2xl p-4 border border-slate-100 dark:border-slate-800">
                   <div className="flex items-center gap-3 mb-2">
-                    <div className="p-2 rounded-lg bg-white dark:bg-slate-800 shadow-sm text-emerald-500">
+                    <div className="p-2 rounded-lg bg-emerald-50 dark:bg-emerald-500/10 shadow-sm text-emerald-500 flex items-center justify-center">
                       <Printer size={14} />
                     </div>
                     <span className="font-outfit text-[11px] font-medium text-slate-400 uppercase tracking-widest">Print Quality</span>

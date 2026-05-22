@@ -749,7 +749,7 @@ export default function ProfilePage() {
                             <p className="text-xs font-extrabold text-zinc-700 dark:text-zinc-200 truncate leading-snug">
                               {item.title}
                             </p>
-                            <p className="text-[9px] text-zinc-400 dark:text-zinc-500 mt-0.5 font-semibold">
+                            <p className="text-[9px] text-zinc-400 dark:text-zinc-300 mt-0.5 font-semibold">
                               {item.category && <span className="mr-1" style={{ color: iconColor }}>{item.category} ·</span>}
                               {new Date(item.timestamp).toLocaleDateString("en-US", { month: "short", day: "numeric" })}
                             </p>

@@ -6,6 +6,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
 import { triggerRazorpayPayment } from '@/lib/razorpay';
 import { Crown, CheckCircle2, Sparkles, Check, HelpCircle, CreditCard, Download } from 'lucide-react';
+import PaymentSuccessModal from '@/components/PaymentSuccessModal';
 
 const PLAN_TOOLS = [
   {
@@ -94,6 +95,8 @@ function PremiumPlansContent() {
   const searchParams = useSearchParams();
   const hasTriggeredRef = useRef(false);
   const [isDownloading, setIsDownloading] = useState(false);
+  const [successModalOpen, setSuccessModalOpen] = useState(false);
+  const [successModalData, setSuccessModalData] = useState({ planName: "", paymentId: "" });
 
   const activePlan = user ? (profile?.current_plan || profile?.plan || "Basic Plan") : null;
 
@@ -192,6 +195,11 @@ function PremiumPlansContent() {
     }
   };
 
+  const handleSuccessModalClose = () => {
+    setSuccessModalOpen(false);
+    router.push("/profile");
+  };
+
   const handleCheckout = async (plan: "yearly" | "monthly") => {
     if (!user) {
       router.push(`/login?redirect=${encodeURIComponent(`/premium-plans?plan=${plan}`)}`);
@@ -208,10 +216,10 @@ function PremiumPlansContent() {
       userEmail: user.email || "",
       userName: profile?.full_name || user.user_metadata?.full_name || "SmartPDFs Customer",
       onSuccess: async (paymentId) => {
-        alert(`Payment successful! Payment ID: ${paymentId}`);
         updateProfilePlan(planName);
         await refreshProfile();
-        router.push("/profile");
+        setSuccessModalData({ planName, paymentId });
+        setSuccessModalOpen(true);
       }
     });
   };
@@ -256,7 +264,9 @@ function PremiumPlansContent() {
             </button>
           </div>
 
-          {/* Billing History Table */}
+
+          {/* Billing History Table — only for premium users */}
+          {(loading || (user && activePlan && activePlan !== "Basic Plan")) && (
           <div className="bg-white/70 dark:bg-slate-900/80 backdrop-blur-xl border border-slate-200 dark:border-slate-700 rounded-3xl shadow-xl shadow-slate-100/50 dark:shadow-none overflow-hidden mt-8 w-full mb-16">
 
             {/* Table Header */}
@@ -336,7 +346,7 @@ function PremiumPlansContent() {
                   </tbody>
                 </table>
               </div>
-            ) : user && activePlan && activePlan !== "Basic Plan" ? (
+            ) : (
               /* ── Paid user: show billing rows ── */
               <div className="overflow-x-auto w-full">
                 <table className="w-full text-left border-collapse min-w-[780px]">
@@ -383,7 +393,7 @@ function PremiumPlansContent() {
                       <td className="px-4 py-5 text-xs font-semibold text-slate-700 dark:text-slate-200 whitespace-nowrap">
                         {profile?.subscription_end_date
                           ? new Date(profile.subscription_end_date).toLocaleDateString("en-IN", { year: 'numeric', month: 'long', day: 'numeric' })
-                          : <span className="text-slate-400 dark:text-slate-500">—</span>}
+                          : <span className="text-slate-400 dark:text-slate-400">—</span>}
                       </td>
                       {/* Plan Name */}
                       <td className="px-4 py-5">
@@ -440,69 +450,12 @@ function PremiumPlansContent() {
                   </p>
                 </div>
               </div>
-            ) : (
-              /* ── Guest / Free user: premium empty state ── */
-              <div className="flex flex-col items-center justify-center py-16 px-6 text-center">
-                <div className="w-16 h-16 rounded-2xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center mb-5 shadow-inner">
-                  <CreditCard size={28} className="text-slate-300 dark:text-slate-600" />
-                </div>
-                <h3 className="text-sm font-black text-slate-700 dark:text-slate-300 mb-2">No Billing History Yet</h3>
-                <p className="text-xs text-slate-400 font-medium max-w-xs leading-relaxed mb-6">
-                  {user
-                    ? "You are on the Basic (Free) plan. Upgrade to Pro to unlock all premium tools and view your invoices here."
-                    : "Please log in to view your billing history and subscription invoices."}
-                </p>
-                <div className="flex flex-col sm:flex-row gap-3">
-                  {user ? (
-                    <button
-                      onClick={() => document.getElementById('plan-cards')?.scrollIntoView({ behavior: 'smooth' })}
-                      className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-900 text-xs font-black uppercase tracking-wider transition-all shadow-md shadow-amber-400/20 cursor-pointer"
-                    >
-                      <Crown size={12} className="fill-slate-900/20" />
-                      Upgrade to Pro
-                    </button>
-                  ) : (
-                    <>
-                      <a href="/login" className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-slate-900 dark:bg-white text-white dark:text-slate-900 text-xs font-black uppercase tracking-wider transition-all cursor-pointer">
-                        Log In
-                      </a>
-                      <a href="/signup" className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-black uppercase tracking-wider transition-all cursor-pointer">
-                        Create Account
-                      </a>
-                    </>
-                  )}
-                </div>
-
-                {/* Ghost table preview rows */}
-                <div className="w-full mt-10 overflow-x-auto">
-                  <table className="w-full text-left border-collapse min-w-[700px] opacity-30 pointer-events-none select-none">
-                    <thead>
-                      <tr className="bg-slate-50 dark:bg-slate-800/40">
-                        {["Invoice #","Subscription Start","Subscription End","Plan Name","Amount","Status","Download Invoice"].map(h => (
-                          <th key={h} className="px-4 py-3 text-[10px] font-black text-slate-400 uppercase tracking-wider">{h}</th>
-                        ))}
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-slate-100 dark:divide-slate-800/60">
-                      {[1,2].map(i => (
-                        <tr key={i}>
-                          <td className="px-4 py-4"><div className="h-5 w-32 bg-slate-200 dark:bg-slate-700 rounded-lg animate-pulse" /></td>
-                          <td className="px-4 py-4"><div className="h-4 w-28 bg-slate-200 dark:bg-slate-700 rounded animate-pulse" /></td>
-                          <td className="px-4 py-4"><div className="h-4 w-28 bg-slate-200 dark:bg-slate-700 rounded animate-pulse" /></td>
-                          <td className="px-4 py-4"><div className="h-5 w-20 bg-slate-200 dark:bg-slate-700 rounded-full animate-pulse" /></td>
-                          <td className="px-4 py-4"><div className="h-5 w-20 bg-slate-200 dark:bg-slate-700 rounded animate-pulse" /></td>
-                          <td className="px-4 py-4"><div className="h-5 w-12 bg-slate-200 dark:bg-slate-700 rounded-full animate-pulse" /></td>
-                          <td className="px-4 py-4"><div className="h-8 w-24 bg-slate-200 dark:bg-slate-700 rounded-xl animate-pulse" /></td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              </div>
             )}
           </div>
+          )}
         </div>
       </section>
+
 
       {/* Plans Section */}
       <section id="plan-cards" className="pb-20">
@@ -659,7 +612,7 @@ function PremiumPlansContent() {
                 ) : (
                   <button
                     onClick={() => handleCheckout("monthly")}
-                    className="block w-full py-3 px-6 text-center text-xs font-bold text-white bg-slate-900 hover:bg-slate-800 dark:bg-slate-100 dark:text-slate-900 dark:hover:bg-slate-200 rounded-xl transition-all cursor-pointer"
+                    className="block w-full py-3 px-6 text-center text-xs font-bold text-white bg-slate-900 hover:bg-slate-800 dark:bg-white dark:text-slate-900 dark:hover:bg-slate-200 rounded-xl transition-all cursor-pointer"
                   >
                     Subscribe Monthly
                   </button>
@@ -763,6 +716,13 @@ function PremiumPlansContent() {
           </div>
         </div>
       </section>
+
+      <PaymentSuccessModal
+        isOpen={successModalOpen}
+        onClose={handleSuccessModalClose}
+        planName={successModalData.planName}
+        paymentId={successModalData.paymentId}
+      />
     </div>
   );
 }

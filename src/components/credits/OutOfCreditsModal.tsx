@@ -186,7 +186,7 @@ export default function OutOfCreditsModal({
 
           {/* Fine print */}
           {isGuest && (
-            <p className="text-[10px] text-slate-400 dark:text-slate-500 mt-4">
+            <p className="text-[10px] text-slate-400 dark:text-slate-400 mt-4">
               No credit card required. Free account includes 10 total credits.
             </p>
           )}

@@ -1,6 +1,7 @@
 "use client";
 import { EyeOff, Upload, Shield, Download, Combine, Lock, Unlock, Layers, GitCompare } from "lucide-react";
 import RedactPdf from "@/components/tools/RedactPdf";
+import CreditGate from "@/components/credits/CreditGate";
 
 const STEPS = [
   { icon: Upload,  title: "Upload Your PDF",     desc: "Select any PDF. It loads instantly in your browser — nothing is sent to any server." },
@@ -17,15 +18,14 @@ const RELATED = [
   { id: "merge",        title: "Merge PDF",      description: "Combine multiple PDF files into one document in the order you choose.",     icon: Combine,    gradient: "linear-gradient(135deg,#f26522,#c2410c)", shadow: "rgba(242,101,34,0.3)",  tag: "Organize" },
 ];
 
-import SubscriptionGate from "@/components/SubscriptionGate";
 
 export default function RedactPdfPage() {
   return (
     <div className="min-h-screen bg-slate-50/50 dark:bg-slate-950">
       <div className="max-w-7xl mx-auto px-4 pt-10 sm:pt-16 pb-10">
-        <SubscriptionGate toolId="redact-pdf">
+        <CreditGate toolName="redact-pdf" showCounter={false}>
           <RedactPdf id="redact-pdf" />
-        </SubscriptionGate>
+        </CreditGate>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-16 mb-16">
           {STEPS.map((s, i) => (

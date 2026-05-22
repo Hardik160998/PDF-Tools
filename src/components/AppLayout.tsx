@@ -86,7 +86,7 @@ export default function AppLayout({
               <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed max-w-xs">
                 The most powerful free web-based PDF toolkit. Merge, split, compress, convert and secure your documents — entirely in your browser.
               </p>
-              <p className="text-xs text-slate-400 dark:text-slate-500 font-medium">
+              <p className="text-xs text-slate-400 dark:text-slate-400 font-medium">
                 &copy; {new Date().getFullYear()} SmartPDFs Plus. All rights reserved.
               </p>
             </div>

@@ -96,7 +96,7 @@ export default function HeaderActions() {
                     <span className="block text-xs font-bold text-slate-800 dark:text-slate-200 truncate">
                       {profile?.full_name || "SmartPDFs User"}
                     </span>
-                    <span className="block text-[10px] text-slate-400 dark:text-slate-500 truncate mt-0.5">
+                    <span className="block text-[10px] text-slate-400 dark:text-slate-400 truncate mt-0.5">
                       {profile?.email}
                     </span>
                   </div>

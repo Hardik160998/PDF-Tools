@@ -313,7 +313,7 @@ export default function MergeSplit({ id }: { id: string }) {
               <div className="pt-4 border-t border-slate-50 dark:border-slate-800">
                 <div className="bg-slate-50 dark:bg-slate-800/50 rounded-2xl p-4 border border-slate-100 dark:border-slate-800">
                   <div className="flex items-center gap-3 mb-2">
-                    <div className="p-2 rounded-lg bg-white dark:bg-slate-900 shadow-sm text-slate-400">
+                    <div className="p-2 rounded-lg shadow-sm flex items-center justify-center" style={{ color: ACCENT, backgroundColor: `${ACCENT}15` }}>
                       <Zap size={14} />
                     </div>
                     <span className="font-outfit text-[11px] font-medium text-slate-400 uppercase tracking-widest">Queue Status</span>
@@ -465,7 +465,7 @@ export default function MergeSplit({ id }: { id: string }) {
               { title: "Smart Batches", desc: "Handle multiple documents simultaneously with ease.", icon: LayoutGrid },
             ].map((feat, i) => (
               <div key={i} className="p-8 bg-white dark:bg-slate-900 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-sm flex flex-col items-center text-center group hover:shadow-lg transition-all">
-                <div className="w-12 h-12 rounded-2xl bg-slate-50 dark:bg-slate-800 flex items-center justify-center text-slate-400 mb-4 group-hover:scale-110 transition-transform shadow-inner">
+                <div className="w-12 h-12 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform shadow-inner" style={{ color: ACCENT, backgroundColor: `${ACCENT}15` }}>
                   <feat.icon size={24} />
                 </div>
                 <h5 className="font-outfit text-[11px] font-black uppercase tracking-widest text-slate-900 dark:text-white mb-2">{feat.title}</h5>

@@ -16,6 +16,7 @@ import { useRouter } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
 import { triggerRazorpayPayment } from '@/lib/razorpay';
 import { PREMIUM_TOOL_IDS } from '@/components/SubscriptionGate';
+import PaymentSuccessModal from '@/components/PaymentSuccessModal';
 
 const CATEGORIES = ['All', 'Organize', 'Optimize', 'Convert', 'Image Convert', 'Edit', 'Security', 'Special', 'Ecommerce', 'Sign'];
 
@@ -120,6 +121,14 @@ export default function Home() {
   const isPremium = userPlan.toLowerCase().includes("pro") || userPlan.toLowerCase().includes("premium");
   const activePlan = user ? userPlan : null;
 
+  const [successModalOpen, setSuccessModalOpen] = useState(false);
+  const [successModalData, setSuccessModalData] = useState({ planName: "", paymentId: "" });
+
+  const handleSuccessModalClose = () => {
+    setSuccessModalOpen(false);
+    router.push("/profile");
+  };
+
   const handleCheckout = async (plan: "yearly" | "monthly") => {
     if (!user) {
       router.push(`/login?redirect=${encodeURIComponent(`/premium-plans?plan=${plan}`)}`);
@@ -136,10 +145,10 @@ export default function Home() {
       userEmail: user.email || "",
       userName: profile?.full_name || user.user_metadata?.full_name || "SmartPDFs Customer",
       onSuccess: async (paymentId) => {
-        alert(`Payment successful! Payment ID: ${paymentId}`);
         updateProfilePlan(planName);
         await refreshProfile();
-        router.push("/profile");
+        setSuccessModalData({ planName, paymentId });
+        setSuccessModalOpen(true);
       }
     });
   };
@@ -276,7 +285,7 @@ export default function Home() {
           <div className="mb-10">
             <div className="flex items-center gap-3 mb-5">
               <div className="h-px flex-1 bg-gradient-to-r from-transparent via-slate-200 dark:via-slate-700 to-transparent" />
-              <span className="text-[10px] font-medium uppercase tracking-[0.2em] text-slate-400 dark:text-slate-500 px-3">Most Used Tools</span>
+              <span className="text-[10px] font-medium uppercase tracking-[0.2em] text-slate-400 dark:text-slate-400 px-3">Most Used Tools</span>
               <div className="h-px flex-1 bg-gradient-to-l from-transparent via-slate-200 dark:via-slate-700 to-transparent" />
             </div>
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
@@ -306,7 +315,7 @@ export default function Home() {
                   </div>
                   <div className="min-w-0">
                     <p className="font-outfit text-[12px] font-medium text-slate-800 dark:text-white leading-tight truncate">{tool.title}</p>
-                    <p className="text-[10px] text-slate-400 dark:text-slate-500 leading-tight mt-0.5 truncate">{tool.desc}</p>
+                    <p className="text-[10px] text-slate-400 dark:text-slate-400 leading-tight mt-0.5 truncate">{tool.desc}</p>
                   </div>
                 </a>
               ))}
@@ -318,7 +327,7 @@ export default function Home() {
         {displayCategory === 'All' && (
           <div className="flex items-center gap-3 mb-8">
             <div className="h-px flex-1 bg-gradient-to-r from-transparent via-slate-200 dark:via-slate-700 to-transparent" />
-            <span className="text-[10px] font-medium uppercase tracking-[0.2em] text-slate-400 dark:text-slate-500 px-3">All Tools</span>
+            <span className="text-[10px] font-medium uppercase tracking-[0.2em] text-slate-400 dark:text-slate-400 px-3">All Tools</span>
             <div className="h-px flex-1 bg-gradient-to-l from-transparent via-slate-200 dark:via-slate-700 to-transparent" />
           </div>
         )}
@@ -527,7 +536,7 @@ export default function Home() {
                 ) : (
                   <button
                     onClick={() => handleCheckout("monthly")}
-                    className="block w-full py-3 px-6 text-center text-xs font-bold text-white bg-slate-900 hover:bg-slate-800 dark:bg-slate-100 dark:text-slate-900 dark:hover:bg-slate-200 rounded-xl transition-all cursor-pointer"
+                    className="block w-full py-3 px-6 text-center text-xs font-bold text-white bg-slate-900 hover:bg-slate-800 dark:bg-white dark:text-slate-900 dark:hover:bg-slate-200 rounded-xl transition-all cursor-pointer"
                   >
                     Subscribe Monthly
                   </button>
@@ -944,6 +953,13 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      <PaymentSuccessModal
+        isOpen={successModalOpen}
+        onClose={handleSuccessModalClose}
+        planName={successModalData.planName}
+        paymentId={successModalData.paymentId}
+      />
     </div>
   );
 }

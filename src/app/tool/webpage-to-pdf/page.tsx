@@ -17,7 +17,7 @@ const RELATED = [
   { id: "protect",      title: "Protect PDF",         description: "Encrypt your converted PDF with a password to keep it secure.",                  icon: Lock,           gradient: "linear-gradient(135deg,#ef4444,#b91c1c)", shadow: "rgba(239,68,68,0.3)",   tag: "Security" },
 ];
 
-import SubscriptionGate from '@/components/SubscriptionGate';
+import CreditGate from '@/components/credits/CreditGate';
 
 export default function WebpageToPdfPage() {
   return (
@@ -25,9 +25,9 @@ export default function WebpageToPdfPage() {
       {/* TOOL */}
       <section className="pb-8">
         <div className="container mx-auto px-4 max-w-5xl">
-          <SubscriptionGate toolId="webpage-to-pdf">
+          <CreditGate toolName="webpage-to-pdf" showCounter={false}>
             <WebpageToPdf id="webpage-to-pdf" />
-          </SubscriptionGate>
+          </CreditGate>
         </div>
       </section>
 

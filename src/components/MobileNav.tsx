@@ -230,7 +230,7 @@ export default function MobileNav() {
                     </div>
                     <div className="flex-1 min-w-0">
                       <p className="text-xs font-bold text-slate-800 dark:text-slate-200 truncate">{profile?.full_name || "SmartPDFs User"}</p>
-                      <p className="text-[10px] text-slate-400 dark:text-slate-500 truncate">{user.email}</p>
+                      <p className="text-[10px] text-slate-400 dark:text-slate-400 truncate">{user.email}</p>
                     </div>
                   </div>
                   <div className="grid grid-cols-2 gap-2 mt-1">

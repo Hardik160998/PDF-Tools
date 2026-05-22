@@ -1,15 +1,15 @@
 "use client";
 
 import OcrPdf from "@/components/tools/OcrPdf";
-import SubscriptionGate from "@/components/SubscriptionGate";
+import CreditGate from "@/components/credits/CreditGate";
 
 export default function OcrPdfPage() {
   return (
     <div className="min-h-screen bg-slate-50/50 dark:bg-slate-950">
       <div className="max-w-7xl mx-auto px-4 pt-10 sm:pt-16 pb-10">
-        <SubscriptionGate toolId="ocr-pdf">
+        <CreditGate toolName="ocr-pdf" showCounter={false}>
           <OcrPdf id="ocr-pdf" />
-        </SubscriptionGate>
+        </CreditGate>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-16 mb-16">
           {[
