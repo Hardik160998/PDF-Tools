@@ -89,7 +89,7 @@ const FAQS = [
 ];
 
 function PremiumPlansContent() {
-  const { user, profile, refreshProfile, updateProfilePlan } = useAuth();
+  const { user, profile, loading, refreshProfile, updateProfilePlan } = useAuth();
   const router = useRouter();
   const searchParams = useSearchParams();
   const hasTriggeredRef = useRef(false);
@@ -278,7 +278,65 @@ function PremiumPlansContent() {
               )}
             </div>
 
-            {user && activePlan && activePlan !== "Basic Plan" ? (
+            {loading && !(user && activePlan && activePlan !== "Basic Plan") ? (
+              /* ── Loading state: show clean skeleton table without empty message overlay ── */
+              <div className="overflow-x-auto w-full">
+                <table className="w-full text-left border-collapse min-w-[780px]">
+                  <thead>
+                    <tr className="bg-slate-50 dark:bg-slate-800/70">
+                      <th className="px-6 py-3.5 text-[10px] font-black text-slate-500 dark:text-slate-300 uppercase tracking-wider whitespace-nowrap">
+                        Invoice #
+                      </th>
+                      <th className="px-4 py-3.5 text-[10px] font-black text-slate-500 dark:text-slate-300 uppercase tracking-wider whitespace-nowrap">
+                        Subscription Start
+                      </th>
+                      <th className="px-4 py-3.5 text-[10px] font-black text-slate-500 dark:text-slate-300 uppercase tracking-wider whitespace-nowrap">
+                        Subscription End
+                      </th>
+                      <th className="px-4 py-3.5 text-[10px] font-black text-slate-500 dark:text-slate-300 uppercase tracking-wider whitespace-nowrap">
+                        Plan Name
+                      </th>
+                      <th className="px-4 py-3.5 text-[10px] font-black text-slate-500 dark:text-slate-300 uppercase tracking-wider whitespace-nowrap">
+                        Amount
+                      </th>
+                      <th className="px-4 py-3.5 text-[10px] font-black text-slate-500 dark:text-slate-300 uppercase tracking-wider whitespace-nowrap">
+                        Status
+                      </th>
+                      <th className="px-6 py-3.5 text-[10px] font-black text-slate-500 dark:text-slate-300 uppercase tracking-wider text-right whitespace-nowrap">
+                        Download Invoice
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-slate-100 dark:divide-slate-700/80">
+                    {[1, 2].map((i) => (
+                      <tr key={i} className="group hover:bg-slate-50/60 dark:hover:bg-slate-800/30 transition-colors duration-150">
+                        <td className="px-6 py-5">
+                          <div className="h-6 w-24 bg-slate-200 dark:bg-slate-700 rounded-lg animate-pulse" />
+                        </td>
+                        <td className="px-4 py-5">
+                          <div className="h-4 w-28 bg-slate-200 dark:bg-slate-700 rounded animate-pulse" />
+                        </td>
+                        <td className="px-4 py-5">
+                          <div className="h-4 w-28 bg-slate-200 dark:bg-slate-700 rounded animate-pulse" />
+                        </td>
+                        <td className="px-4 py-5">
+                          <div className="h-6 w-20 bg-slate-200 dark:bg-slate-700 rounded-full animate-pulse" />
+                        </td>
+                        <td className="px-4 py-5">
+                          <div className="h-8 w-16 bg-slate-200 dark:bg-slate-700 rounded animate-pulse" />
+                        </td>
+                        <td className="px-4 py-5">
+                          <div className="h-6 w-14 bg-slate-200 dark:bg-slate-700 rounded-full animate-pulse" />
+                        </td>
+                        <td className="px-6 py-5 text-right flex justify-end">
+                          <div className="h-8 w-24 bg-slate-200 dark:bg-slate-700 rounded-xl animate-pulse" />
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            ) : user && activePlan && activePlan !== "Basic Plan" ? (
               /* ── Paid user: show billing rows ── */
               <div className="overflow-x-auto w-full">
                 <table className="w-full text-left border-collapse min-w-[780px]">

@@ -165,6 +165,18 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     const setupAuth = async () => {
       try {
+        // Load cached session/user first
+        if (typeof window !== "undefined") {
+          const cachedUser = localStorage.getItem("sb-user");
+          const cachedProfile = localStorage.getItem("sb-user-profile");
+          if (cachedUser && cachedProfile) {
+            try {
+              setUser(JSON.parse(cachedUser));
+              setProfile(JSON.parse(cachedProfile));
+            } catch (e) {}
+          }
+        }
+
         // 1. Get initial real session first
         const authClient = supabase.auth;
         let hasRealSession = false;
@@ -376,6 +388,21 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       subscription_end_date: endDate.toISOString(),
     } : null);
   };
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      if (profile) {
+        localStorage.setItem("sb-user-profile", JSON.stringify(profile));
+      } else {
+        localStorage.removeItem("sb-user-profile");
+      }
+      if (user) {
+        localStorage.setItem("sb-user", JSON.stringify(user));
+      } else {
+        localStorage.removeItem("sb-user");
+      }
+    }
+  }, [profile, user]);
 
   return (
     <AuthContext.Provider value={{ user, profile, loading, logout, refreshProfile, loginAsMock, decrementCredits, mergeCreditsOnLogin, updateProfilePlan }}>

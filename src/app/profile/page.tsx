@@ -255,12 +255,102 @@ export default function ProfilePage() {
     }
   };
 
-  if (loading || !user) {
+  if (!user) {
     return (
-      <div className="min-h-screen bg-[#f8fafc] dark:bg-[#0f172a] flex items-center justify-center">
-        <div className="flex flex-col items-center gap-4">
-          <div className="w-12 h-12 rounded-full border-4 border-indigo-500 border-t-transparent animate-spin" />
-          <p className="text-sm font-semibold text-zinc-500 dark:text-zinc-400">Loading user profile...</p>
+      <div className="min-h-screen bg-[#f8fafc] dark:bg-[#0f172a] py-12 px-6 transition-colors duration-300 relative overflow-hidden animate-pulse">
+        {/* Background Mesh Gradients */}
+        <div className="absolute top-0 left-0 right-0 h-[550px] bg-gradient-to-b from-indigo-500/10 via-purple-500/5 to-transparent dark:from-indigo-500/20 dark:via-purple-500/10 -z-10 blur-3xl pointer-events-none" />
+        <div className="absolute top-1/3 right-1/4 w-[350px] h-[350px] bg-amber-500/5 rounded-full blur-3xl -z-10 pointer-events-none" />
+
+        <div className="w-full max-w-7xl mx-auto space-y-8">
+          
+          {/* Account Banner Card Skeleton */}
+          <div className="relative overflow-hidden bg-white/70 dark:bg-slate-900/60 backdrop-blur-xl border border-slate-200/60 dark:border-slate-800/80 rounded-3xl p-6 sm:p-8 shadow-xl shadow-slate-100/50 dark:shadow-none flex flex-col md:flex-row items-center md:items-start gap-6 md:gap-8">
+            <div className="w-24 h-24 rounded-3xl bg-slate-200 dark:bg-slate-800 flex-shrink-0" />
+            
+            <div className="flex-1 text-center md:text-left space-y-3 relative z-10 w-full">
+              <div className="space-y-2">
+                <div className="h-7 bg-slate-200 dark:bg-slate-800 rounded-lg w-48 mx-auto md:mx-0" />
+                <div className="h-4 bg-slate-200 dark:bg-slate-800 rounded w-32 mx-auto md:mx-0" />
+              </div>
+              <div className="flex flex-wrap justify-center md:justify-start gap-x-6 gap-y-2 pt-2">
+                <div className="h-4 bg-slate-200 dark:bg-slate-800 rounded w-40 animate-pulse" />
+                <div className="h-4 bg-slate-200 dark:bg-slate-800 rounded w-32 animate-pulse" />
+              </div>
+            </div>
+
+            {/* Premium Status Banner Skeleton */}
+            <div className="bg-slate-200 dark:bg-slate-800 rounded-2xl p-4 w-full md:w-44 h-28 flex-shrink-0" />
+          </div>
+
+          {/* Dashboard Grid Skeleton */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+            
+            {/* Left Column Skeleton */}
+            <div className="lg:col-span-2 space-y-8">
+              {/* Interactive pass skeleton */}
+              <div className="bg-slate-200 dark:bg-slate-800/70 rounded-3xl p-8 h-56 w-full" />
+
+              {/* Profile settings card skeleton */}
+              <div className="bg-white/70 dark:bg-slate-900/60 backdrop-blur-xl border border-slate-200/60 dark:border-slate-800/80 rounded-3xl p-6 sm:p-8 shadow-xl shadow-slate-100/50 dark:shadow-none space-y-6">
+                <div className="h-6 bg-slate-200 dark:bg-slate-800 rounded w-48" />
+                <div className="space-y-4 pt-2">
+                  <div className="space-y-2">
+                    <div className="h-4 bg-slate-200 dark:bg-slate-800 rounded w-24" />
+                    <div className="h-12 bg-slate-200 dark:bg-slate-800 rounded-xl w-full" />
+                  </div>
+                  <div className="space-y-2">
+                    <div className="h-4 bg-slate-200 dark:bg-slate-800 rounded w-24" />
+                    <div className="h-12 bg-slate-200 dark:bg-slate-800 rounded-xl w-full" />
+                  </div>
+                </div>
+              </div>
+
+              {/* License & Billing panel skeleton */}
+              <div className="bg-white/70 dark:bg-slate-900/60 backdrop-blur-xl border border-slate-200/60 dark:border-slate-800/80 rounded-3xl p-6 sm:p-8 shadow-xl shadow-slate-100/50 dark:shadow-none space-y-6">
+                <div className="h-6 bg-slate-200 dark:bg-slate-800 rounded w-48" />
+                <div className="space-y-4 pt-2">
+                  {[1, 2, 3, 4].map((i) => (
+                    <div key={i} className="flex justify-between items-center py-3 border-b border-slate-100 dark:border-slate-800/60">
+                      <div className="h-4 bg-slate-200 dark:bg-slate-800 rounded w-28" />
+                      <div className="h-4 bg-slate-200 dark:bg-slate-800 rounded w-32" />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Right Column Skeleton */}
+            <div className="space-y-8">
+              {/* Pro Features list skeleton */}
+              <div className="bg-white/70 dark:bg-slate-900/60 backdrop-blur-xl border border-slate-200/60 dark:border-slate-800/80 rounded-3xl p-6 shadow-xl space-y-5">
+                <div className="h-5 bg-slate-200 dark:bg-slate-800 rounded w-36" />
+                <div className="space-y-4 pt-2">
+                  {[1, 2, 3].map((i) => (
+                    <div key={i} className="flex gap-3 items-start">
+                      <div className="w-5 h-5 rounded-full bg-slate-200 dark:bg-slate-800 shrink-0" />
+                      <div className="space-y-2 w-full">
+                        <div className="h-4 bg-slate-200 dark:bg-slate-800 rounded w-1/2" />
+                        <div className="h-3 bg-slate-200 dark:bg-slate-800 rounded w-5/6" />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Recent History Sidebar skeleton */}
+              <div className="bg-white/70 dark:bg-slate-900/60 backdrop-blur-xl border border-slate-200/60 dark:border-slate-800/80 rounded-3xl p-6 shadow-xl space-y-5">
+                <div className="h-5 bg-slate-200 dark:bg-slate-800 rounded w-36" />
+                <div className="space-y-3 pt-2">
+                  {[1, 2].map((i) => (
+                    <div key={i} className="h-16 bg-slate-200 dark:bg-slate-800 rounded-2xl w-full" />
+                  ))}
+                </div>
+              </div>
+            </div>
+
+          </div>
+
         </div>
       </div>
     );

@@ -30,7 +30,7 @@ export default function BookmarkPdfPage() {
       {/* AD BANNER */}
       <section className="py-6">
         <div className="container mx-auto px-4 max-w-5xl">
-          <div className="relative overflow-hidden rounded-2xl border border-amber-100 dark:border-amber-500/20 shadow-lg" style={{ background: "linear-gradient(135deg,#fffbeb 0%,#fef3c7 50%,#fde68a33 100%)" }}>
+          <div className="relative overflow-hidden rounded-2xl border border-amber-100 dark:border-amber-500/20 shadow-lg bg-gradient-to-br from-[#fffbeb] via-[#fef3c7] to-[#fde68a]/20 dark:from-[#1e293b] dark:via-[#1e293b] dark:to-[#7c2d12]/20">
             <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(ellipse at 80% 50%,rgba(245,158,11,0.12) 0%,transparent 70%)" }} />
             <div className="relative flex flex-col sm:flex-row items-center justify-between gap-4 px-6 py-5">
               <div className="flex items-center gap-4">
