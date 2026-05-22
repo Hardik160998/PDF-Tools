@@ -668,14 +668,7 @@ export default function SnapdealCropper({ id }: { id: string }) {
       <OutOfCreditsModal isOpen={outOfCreditsOpen} onClose={() => setOutOfCreditsOpen(false)} isGuest={isGuest} />
       <div className="grid grid-cols-1 lg:grid-cols-[300px_1fr] gap-4 sm:gap-8">
         <div 
-          className="rounded-3xl h-fit lg:sticky lg:top-4 overflow-hidden p-6"
-          style={{
-            background: 'rgba(255, 255, 255, 0.7)',
-            backdropFilter: 'blur(12px)',
-            border: '1px solid rgba(255, 255, 255, 0.4)',
-            boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.05)',
-            borderRadius: '16px'
-          }}
+          className="rounded-[16px] h-fit lg:sticky lg:top-4 overflow-hidden p-6 bg-white/70 dark:bg-slate-900/70 backdrop-blur-md border border-white/40 dark:border-slate-800/80 shadow-[0_8px_32px_0_rgba(31,38,135,0.05)] dark:shadow-none"
         >
           <div className="flex items-center justify-between mb-6">
             <h3 className="text-xl font-black text-slate-900 dark:text-white uppercase tracking-tighter mb-0">Settings</h3>
@@ -687,141 +680,141 @@ export default function SnapdealCropper({ id }: { id: string }) {
             </button>
           </div>
           <div className={`${showSettings ? 'block' : 'hidden'} lg:block space-y-4`}>
-            <label className="flex items-start gap-3 cursor-pointer">
+            <label className="flex items-start gap-3 cursor-pointer text-slate-700 dark:text-slate-300">
               <input type="checkbox" checked={keepInvoice} onChange={e => setKeepInvoice(e.target.checked)} className="w-5 h-5 mt-0.5" style={{ accentColor: ACCENT }} />
-              <span className="text-sm font-semibold">Keep Invoice <span className="block text-[10px] text-slate-400">Extract tax invoice pages</span></span>
+              <span className="text-sm font-semibold">Keep Invoice <span className="block text-[10px] text-slate-400 dark:text-slate-500">Extract tax invoice pages</span></span>
             </label>
-            <label className="flex items-start gap-3 cursor-pointer">
+            <label className="flex items-start gap-3 cursor-pointer text-slate-700 dark:text-slate-300">
               <input type="checkbox" checked={exportPng} onChange={e => setExportPng(e.target.checked)} className="w-5 h-5 mt-0.5" style={{ accentColor: ACCENT }} />
               <span className="text-sm font-semibold">Export PNGs</span>
             </label>
 
-            <div className="pt-4 border-t border-slate-100 dark:border-slate-700">
-              <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3 block">SORT & FILTER ORDERS</span>
+            <div className="pt-4 border-t border-slate-100 dark:border-slate-800">
+              <span className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-3 block">SORT & FILTER ORDERS</span>
               <div className="space-y-4">
                 
                 {/* Payment Method */}
                 <div>
-                  <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1 block pl-1">Payment Method</span>
+                  <span className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1 block pl-1">Payment Method</span>
                   <div className="grid grid-cols-2 gap-2 pl-1">
                     <div 
                       onClick={() => setSortPayment(sortPayment === 'cod' ? 'none' : 'cod')}
-                      className={`flex items-center gap-2 cursor-pointer p-2 rounded-lg transition-all ${sortPayment === 'cod' ? 'bg-indigo-50 border-indigo-500 border' : 'bg-transparent border-transparent border'}`}
+                      className={`flex items-center gap-2 cursor-pointer p-2 rounded-lg transition-all ${sortPayment === 'cod' ? 'bg-indigo-50 border-indigo-500 border dark:bg-indigo-950/40 dark:border-indigo-500/50' : 'bg-transparent border-transparent border'}`}
                     >
-                      <div className={`w-4 h-4 rounded-full border shrink-0 ${sortPayment === 'cod' ? 'bg-indigo-500 border-indigo-500' : 'border-slate-300'}`} />
-                      <span className={`text-sm whitespace-nowrap ${sortPayment === 'cod' ? 'font-bold text-indigo-700' : 'font-medium text-slate-700'}`}>COD First</span>
+                      <div className={`w-4 h-4 rounded-full border shrink-0 ${sortPayment === 'cod' ? 'bg-indigo-500 border-indigo-500' : 'border-slate-300 dark:border-slate-600'}`} />
+                      <span className={`text-sm whitespace-nowrap ${sortPayment === 'cod' ? 'font-bold text-indigo-700 dark:text-indigo-400' : 'font-medium text-slate-700 dark:text-slate-300'}`}>COD First</span>
                     </div>
                     <div 
                       onClick={() => setSortPayment(sortPayment === 'prepaid' ? 'none' : 'prepaid')}
-                      className={`flex items-center gap-2 cursor-pointer p-2 rounded-lg transition-all ${sortPayment === 'prepaid' ? 'bg-indigo-50 border-indigo-500 border' : 'bg-transparent border-transparent border'}`}
+                      className={`flex items-center gap-2 cursor-pointer p-2 rounded-lg transition-all ${sortPayment === 'prepaid' ? 'bg-indigo-50 border-indigo-500 border dark:bg-indigo-950/40 dark:border-indigo-500/50' : 'bg-transparent border-transparent border'}`}
                     >
-                      <div className={`w-4 h-4 rounded-full border shrink-0 ${sortPayment === 'prepaid' ? 'bg-indigo-500 border-indigo-500' : 'border-slate-300'}`} />
-                      <span className={`text-sm whitespace-nowrap ${sortPayment === 'prepaid' ? 'font-bold text-indigo-700' : 'font-medium text-slate-700'}`}>Prepaid First</span>
+                      <div className={`w-4 h-4 rounded-full border shrink-0 ${sortPayment === 'prepaid' ? 'bg-indigo-500 border-indigo-500' : 'border-slate-300 dark:border-slate-600'}`} />
+                      <span className={`text-sm whitespace-nowrap ${sortPayment === 'prepaid' ? 'font-bold text-indigo-700 dark:text-indigo-400' : 'font-medium text-slate-700 dark:text-slate-300'}`}>Prepaid First</span>
                     </div>
                   </div>
                 </div>
 
                 {/* Seller */}
                 <div>
-                  <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1 block pl-1">Seller</span>
+                  <span className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1 block pl-1">Seller</span>
                   <div className="grid grid-cols-2 gap-2 pl-1">
                     <div 
                       onClick={() => setSortSeller(sortSeller === 'asc' ? 'none' : 'asc')}
-                      className={`flex items-center gap-2 cursor-pointer p-2 rounded-lg transition-all ${sortSeller === 'asc' ? 'bg-indigo-50 border-indigo-500 border' : 'bg-transparent border-transparent border'}`}
+                      className={`flex items-center gap-2 cursor-pointer p-2 rounded-lg transition-all ${sortSeller === 'asc' ? 'bg-indigo-50 border-indigo-500 border dark:bg-indigo-950/40 dark:border-indigo-500/50' : 'bg-transparent border-transparent border'}`}
                     >
-                      <div className={`w-4 h-4 rounded-full border shrink-0 ${sortSeller === 'asc' ? 'bg-indigo-500 border-indigo-500' : 'border-slate-300'}`} />
-                      <span className={`text-sm whitespace-nowrap ${sortSeller === 'asc' ? 'font-bold text-indigo-700' : 'font-medium text-slate-700'}`}>A → Z</span>
+                      <div className={`w-4 h-4 rounded-full border shrink-0 ${sortSeller === 'asc' ? 'bg-indigo-50 border-indigo-500' : 'border-slate-300 dark:border-slate-600'}`} />
+                      <span className={`text-sm whitespace-nowrap ${sortSeller === 'asc' ? 'font-bold text-indigo-700 dark:text-indigo-400' : 'font-medium text-slate-700 dark:text-slate-300'}`}>A → Z</span>
                     </div>
                     <div 
                       onClick={() => setSortSeller(sortSeller === 'desc' ? 'none' : 'desc')}
-                      className={`flex items-center gap-2 cursor-pointer p-2 rounded-lg transition-all ${sortSeller === 'desc' ? 'bg-indigo-50 border-indigo-500 border' : 'bg-transparent border-transparent border'}`}
+                      className={`flex items-center gap-2 cursor-pointer p-2 rounded-lg transition-all ${sortSeller === 'desc' ? 'bg-indigo-50 border-indigo-500 border dark:bg-indigo-950/40 dark:border-indigo-500/50' : 'bg-transparent border-transparent border'}`}
                     >
-                      <div className={`w-4 h-4 rounded-full border shrink-0 ${sortSeller === 'desc' ? 'bg-indigo-500 border-indigo-500' : 'border-slate-300'}`} />
-                      <span className={`text-sm whitespace-nowrap ${sortSeller === 'desc' ? 'font-bold text-indigo-700' : 'font-medium text-slate-700'}`}>Z → A</span>
+                      <div className={`w-4 h-4 rounded-full border shrink-0 ${sortSeller === 'desc' ? 'bg-indigo-500 border-indigo-500' : 'border-slate-300 dark:border-slate-600'}`} />
+                      <span className={`text-sm whitespace-nowrap ${sortSeller === 'desc' ? 'font-bold text-indigo-700 dark:text-indigo-400' : 'font-medium text-slate-700 dark:text-slate-300'}`}>Z → A</span>
                     </div>
                   </div>
                 </div>
 
                 {/* Courier */}
                 <div>
-                  <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1 block pl-1">Courier</span>
+                  <span className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1 block pl-1">Courier</span>
                   <div className="grid grid-cols-2 gap-2 pl-1">
                     <div 
                       onClick={() => setSortCourier(sortCourier === 'asc' ? 'none' : 'asc')}
-                      className={`flex items-center gap-2 cursor-pointer p-2 rounded-lg transition-all ${sortCourier === 'asc' ? 'bg-indigo-50 border-indigo-500 border' : 'bg-transparent border-transparent border'}`}
+                      className={`flex items-center gap-2 cursor-pointer p-2 rounded-lg transition-all ${sortCourier === 'asc' ? 'bg-indigo-50 border-indigo-500 border dark:bg-indigo-950/40 dark:border-indigo-500/50' : 'bg-transparent border-transparent border'}`}
                     >
-                      <div className={`w-4 h-4 rounded-full border shrink-0 ${sortCourier === 'asc' ? 'bg-indigo-500 border-indigo-500' : 'border-slate-300'}`} />
-                      <span className={`text-sm whitespace-nowrap ${sortCourier === 'asc' ? 'font-bold text-indigo-700' : 'font-medium text-slate-700'}`}>A → Z</span>
+                      <div className={`w-4 h-4 rounded-full border shrink-0 ${sortCourier === 'asc' ? 'bg-indigo-50 border-indigo-500' : 'border-slate-300 dark:border-slate-600'}`} />
+                      <span className={`text-sm whitespace-nowrap ${sortCourier === 'asc' ? 'font-bold text-indigo-700 dark:text-indigo-400' : 'font-medium text-slate-700 dark:text-slate-300'}`}>A → Z</span>
                     </div>
                     <div 
                       onClick={() => setSortCourier(sortCourier === 'desc' ? 'none' : 'desc')}
-                      className={`flex items-center gap-2 cursor-pointer p-2 rounded-lg transition-all ${sortCourier === 'desc' ? 'bg-indigo-50 border-indigo-500 border' : 'bg-transparent border-transparent border'}`}
+                      className={`flex items-center gap-2 cursor-pointer p-2 rounded-lg transition-all ${sortCourier === 'desc' ? 'bg-indigo-50 border-indigo-500 border dark:bg-indigo-950/40 dark:border-indigo-500/50' : 'bg-transparent border-transparent border'}`}
                     >
-                      <div className={`w-4 h-4 rounded-full border shrink-0 ${sortCourier === 'desc' ? 'bg-indigo-500 border-indigo-500' : 'border-slate-300'}`} />
-                      <span className={`text-sm whitespace-nowrap ${sortCourier === 'desc' ? 'font-bold text-indigo-700' : 'font-medium text-slate-700'}`}>Z → A</span>
+                      <div className={`w-4 h-4 rounded-full border shrink-0 ${sortCourier === 'desc' ? 'bg-indigo-500 border-indigo-500' : 'border-slate-300 dark:border-slate-600'}`} />
+                      <span className={`text-sm whitespace-nowrap ${sortCourier === 'desc' ? 'font-bold text-indigo-700 dark:text-indigo-400' : 'font-medium text-slate-700 dark:text-slate-300'}`}>Z → A</span>
                     </div>
                   </div>
                 </div>
 
                 {/* Product / SKU */}
                 <div>
-                  <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1 block pl-1">{"Product / SKU"}</span>
+                  <span className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1 block pl-1">{"Product / SKU"}</span>
                   <div className="grid grid-cols-2 gap-2 pl-1">
                     <div 
                       onClick={() => setSortSku(sortSku === 'asc' ? 'none' : 'asc')}
-                      className={`flex items-center gap-2 cursor-pointer p-2 rounded-lg transition-all ${sortSku === 'asc' ? 'bg-indigo-50 border-indigo-500 border' : 'bg-transparent border-transparent border'}`}
+                      className={`flex items-center gap-2 cursor-pointer p-2 rounded-lg transition-all ${sortSku === 'asc' ? 'bg-indigo-50 border-indigo-500 border dark:bg-indigo-950/40 dark:border-indigo-500/50' : 'bg-transparent border-transparent border'}`}
                     >
-                      <div className={`w-4 h-4 rounded-full border shrink-0 ${sortSku === 'asc' ? 'bg-indigo-500 border-indigo-500' : 'border-slate-300'}`} />
-                      <span className={`text-sm whitespace-nowrap ${sortSku === 'asc' ? 'font-bold text-indigo-700' : 'font-medium text-slate-700'}`}>A → Z</span>
+                      <div className={`w-4 h-4 rounded-full border shrink-0 ${sortSku === 'asc' ? 'bg-indigo-500 border-indigo-500' : 'border-slate-300 dark:border-slate-600'}`} />
+                      <span className={`text-sm whitespace-nowrap ${sortSku === 'asc' ? 'font-bold text-indigo-700 dark:text-indigo-400' : 'font-medium text-slate-700 dark:text-slate-300'}`}>A → Z</span>
                     </div>
                     <div 
                       onClick={() => setSortSku(sortSku === 'desc' ? 'none' : 'desc')}
-                      className={`flex items-center gap-2 cursor-pointer p-2 rounded-lg transition-all ${sortSku === 'desc' ? 'bg-indigo-50 border-indigo-500 border' : 'bg-transparent border-transparent border'}`}
+                      className={`flex items-center gap-2 cursor-pointer p-2 rounded-lg transition-all ${sortSku === 'desc' ? 'bg-indigo-50 border-indigo-500 border dark:bg-indigo-950/40 dark:border-indigo-500/50' : 'bg-transparent border-transparent border'}`}
                     >
-                      <div className={`w-4 h-4 rounded-full border shrink-0 ${sortSku === 'desc' ? 'bg-indigo-500 border-indigo-500' : 'border-slate-300'}`} />
-                      <span className={`text-sm whitespace-nowrap ${sortSku === 'desc' ? 'font-bold text-indigo-700' : 'font-medium text-slate-700'}`}>Z → A</span>
+                      <div className={`w-4 h-4 rounded-full border shrink-0 ${sortSku === 'desc' ? 'bg-indigo-500 border-indigo-500' : 'border-slate-300 dark:border-slate-600'}`} />
+                      <span className={`text-sm whitespace-nowrap ${sortSku === 'desc' ? 'font-bold text-indigo-700 dark:text-indigo-400' : 'font-medium text-slate-700 dark:text-slate-300'}`}>Z → A</span>
                     </div>
                   </div>
                 </div>
 
                 {/* Packed Date */}
                 <div>
-                  <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1 block pl-1">Packed Date (PKD)</span>
+                  <span className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1 block pl-1">Packed Date (PKD)</span>
                   <div className="grid grid-cols-2 gap-2 pl-1">
                     <div 
                       onClick={() => setSortPkd(sortPkd === 'desc' ? 'none' : 'desc')}
-                      className={`flex items-center gap-2 cursor-pointer p-2 rounded-lg transition-all ${sortPkd === 'desc' ? 'bg-indigo-50 border-indigo-500 border' : 'bg-transparent border-transparent border'}`}
+                      className={`flex items-center gap-2 cursor-pointer p-2 rounded-lg transition-all ${sortPkd === 'desc' ? 'bg-indigo-50 border-indigo-500 border dark:bg-indigo-950/40 dark:border-indigo-500/50' : 'bg-transparent border-transparent border'}`}
                     >
-                      <div className={`w-4 h-4 rounded-full border shrink-0 ${sortPkd === 'desc' ? 'bg-indigo-500 border-indigo-500' : 'border-slate-300'}`} />
-                      <span className={`text-sm whitespace-nowrap ${sortPkd === 'desc' ? 'font-bold text-indigo-700' : 'font-medium text-slate-700'}`}>Newest</span>
+                      <div className={`w-4 h-4 rounded-full border shrink-0 ${sortPkd === 'desc' ? 'bg-indigo-500 border-indigo-500' : 'border-slate-300 dark:border-slate-600'}`} />
+                      <span className={`text-sm whitespace-nowrap ${sortPkd === 'desc' ? 'font-bold text-indigo-700 dark:text-indigo-400' : 'font-medium text-slate-700 dark:text-slate-300'}`}>Newest</span>
                     </div>
                     <div 
                       onClick={() => setSortPkd(sortPkd === 'asc' ? 'none' : 'asc')}
-                      className={`flex items-center gap-2 cursor-pointer p-2 rounded-lg transition-all ${sortPkd === 'asc' ? 'bg-indigo-50 border-indigo-500 border' : 'bg-transparent border-transparent border'}`}
+                      className={`flex items-center gap-2 cursor-pointer p-2 rounded-lg transition-all ${sortPkd === 'asc' ? 'bg-indigo-50 border-indigo-500 border dark:bg-indigo-950/40 dark:border-indigo-500/50' : 'bg-transparent border-transparent border'}`}
                     >
-                      <div className={`w-4 h-4 rounded-full border shrink-0 ${sortPkd === 'asc' ? 'bg-indigo-500 border-indigo-500' : 'border-slate-300'}`} />
-                      <span className={`text-sm whitespace-nowrap ${sortPkd === 'asc' ? 'font-bold text-indigo-700' : 'font-medium text-slate-700'}`}>Oldest</span>
+                      <div className={`w-4 h-4 rounded-full border shrink-0 ${sortPkd === 'asc' ? 'bg-indigo-500 border-indigo-500' : 'border-slate-300 dark:border-slate-600'}`} />
+                      <span className={`text-sm whitespace-nowrap ${sortPkd === 'asc' ? 'font-bold text-indigo-700 dark:text-indigo-400' : 'font-medium text-slate-700 dark:text-slate-300'}`}>Oldest</span>
                     </div>
                   </div>
                 </div>
 
                 {/* Quantity */}
                 <div>
-                  <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1 block pl-1">Quantity</span>
+                  <span className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1 block pl-1">Quantity</span>
                   <div className="grid grid-cols-2 gap-2 pl-1">
                     <div 
                       onClick={() => setSortQty(sortQty === 'asc' ? 'none' : 'asc')}
-                      className={`flex items-center gap-2 cursor-pointer p-2 rounded-lg transition-all ${sortQty === 'asc' ? 'bg-indigo-50 border-indigo-500 border' : 'bg-transparent border-transparent border'}`}
+                      className={`flex items-center gap-2 cursor-pointer p-2 rounded-lg transition-all ${sortQty === 'asc' ? 'bg-indigo-50 border-indigo-500 border dark:bg-indigo-950/40 dark:border-indigo-500/50' : 'bg-transparent border-transparent border'}`}
                     >
-                      <div className={`w-4 h-4 rounded-full border shrink-0 ${sortQty === 'asc' ? 'bg-indigo-500 border-indigo-500' : 'border-slate-300'}`} />
-                      <span className={`text-sm whitespace-nowrap ${sortQty === 'asc' ? 'font-bold text-indigo-700' : 'font-medium text-slate-700'}`}>Low to High</span>
+                      <div className={`w-4 h-4 rounded-full border shrink-0 ${sortQty === 'asc' ? 'bg-indigo-500 border-indigo-500' : 'border-slate-300 dark:border-slate-600'}`} />
+                      <span className={`text-sm whitespace-nowrap ${sortQty === 'asc' ? 'font-bold text-indigo-700 dark:text-indigo-400' : 'font-medium text-slate-700 dark:text-slate-300'}`}>Low to High</span>
                     </div>
                     <div 
                       onClick={() => setSortQty(sortQty === 'desc' ? 'none' : 'desc')}
-                      className={`flex items-center gap-2 cursor-pointer p-2 rounded-lg transition-all ${sortQty === 'desc' ? 'bg-indigo-50 border-indigo-500 border' : 'bg-transparent border-transparent border'}`}
+                      className={`flex items-center gap-2 cursor-pointer p-2 rounded-lg transition-all ${sortQty === 'desc' ? 'bg-indigo-50 border-indigo-500 border dark:bg-indigo-950/40 dark:border-indigo-500/50' : 'bg-transparent border-transparent border'}`}
                     >
-                      <div className={`w-4 h-4 rounded-full border shrink-0 ${sortQty === 'desc' ? 'bg-indigo-500 border-indigo-500' : 'border-slate-300'}`} />
-                      <span className={`text-sm whitespace-nowrap ${sortQty === 'desc' ? 'font-bold text-indigo-700' : 'font-medium text-slate-700'}`}>High to Low</span>
+                      <div className={`w-4 h-4 rounded-full border shrink-0 ${sortQty === 'desc' ? 'bg-indigo-50 border-indigo-500' : 'border-slate-300 dark:border-slate-600'}`} />
+                      <span className={`text-sm whitespace-nowrap ${sortQty === 'desc' ? 'font-bold text-indigo-700 dark:text-indigo-400' : 'font-medium text-slate-700 dark:text-slate-300'}`}>High to Low</span>
                     </div>
                   </div>
                 </div>

@@ -14,9 +14,24 @@ import AppLayout from "@/components/AppLayout";
 const inter = Inter({ subsets: ["latin"], weight: ['400', '500', '600', '700', '800', '900'] });
 const outfit = Outfit({ subsets: ["latin"], weight: ['400', '500', '600', '700', '800', '900'], variable: '--font-outfit' });
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://smartpdfsplus.com';
+
 export const metadata: Metadata = {
   title: "SmartPDFs Plus | Every tool you need to work with PDFs",
   description: "Merge, split, compress, convert, rotate, unlock and watermark PDFs with just a few clicks.",
+  openGraph: {
+    type: 'website',
+    title: 'SmartPDFs Plus | Every tool you need to work with PDFs',
+    description: 'Merge, split, compress, convert, rotate, unlock and watermark PDFs with just a few clicks.',
+    siteName: 'SmartPDFs Plus',
+    images: [{ url: `${siteUrl}/img/snapdeal-label.png`, width: 1200, height: 630 }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'SmartPDFs Plus | Every tool you need to work with PDFs',
+    description: 'Merge, split, compress, convert, rotate, unlock and watermark PDFs with just a few clicks.',
+    images: [`${siteUrl}/img/snapdeal-label.png`],
+  },
 };
 
 export default function RootLayout({

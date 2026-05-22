@@ -4,6 +4,18 @@ import { useAuth } from "@/context/AuthContext";
 import { Lock, Crown, ShieldAlert, CheckCircle2, ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { CenteredCardSkeleton } from "@/app/tool/[id]/skeletons";
+
+const PREMIUM_TOOL_SKELETON_ACCENTS: Record<string, string> = {
+  "meesho-cropper": "#f26522",
+  "meshocrop": "#f26522",
+  "flipkart-cropper": "#F7941D",
+  "amazon-cropper": "#FF9900",
+  "snapdeal-cropper": "#E40046",
+  "ocr-pdf": "#3b82f6",
+  "redact-pdf": "#ef4444",
+  "webpage-to-pdf": "#0ea5e9",
+};
 
 // Define all eCommerce tools
 export const ECOMMERCE_TOOL_IDS = [
@@ -33,6 +45,10 @@ export default function SubscriptionGate({ toolId, children }: SubscriptionGateP
 
   // If loading user state, show a clean skeleton loading indicator
   if (loading) {
+    const accent = PREMIUM_TOOL_SKELETON_ACCENTS[toolId];
+    if (accent) {
+      return <CenteredCardSkeleton accent={accent} />;
+    }
     return (
       <div className="flex flex-col items-center justify-center min-h-[400px] gap-4">
         <div className="w-12 h-12 rounded-full border-4 border-slate-200 border-t-red-500 animate-spin" />

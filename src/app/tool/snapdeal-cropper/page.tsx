@@ -1,6 +1,24 @@
-"use client";
 import { ShoppingBag, Upload, Download, Wand2, Crop, Combine, Zap } from 'lucide-react';
 import SnapdealCropper from '@/components/tools/SnapdealCropper';
+import type { Metadata } from 'next';
+
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://smartpdfsplus.com';
+
+export const metadata: Metadata = {
+  title: 'Snapdeal Label Cropper - Smart Border Detection & Crop',
+  description: 'Smart border detection to crop Snapdeal shipping labels perfectly. Protects barcodes, addresses and quantities.',
+  openGraph: {
+    title: 'Snapdeal Label Cropper - Smart Border Detection & Crop',
+    description: 'Smart border detection to crop Snapdeal shipping labels perfectly. Protects barcodes, addresses and quantities.',
+    images: [{ url: `${siteUrl}/img/snapdeal-label.png`, width: 1200, height: 630 }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Snapdeal Label Cropper - Smart Border Detection & Crop',
+    description: 'Smart border detection to crop Snapdeal shipping labels perfectly. Protects barcodes, addresses and quantities.',
+    images: [`${siteUrl}/img/snapdeal-label.png`],
+  },
+};
 
 const STEPS = [
   { icon: Upload,   title: 'Upload Snapdeal Label',      desc: 'Drop one or multiple Snapdeal shipping label PDFs. Processing happens instantly in your browser.' },

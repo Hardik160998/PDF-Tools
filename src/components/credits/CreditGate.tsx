@@ -4,6 +4,18 @@ import { useCredits } from "@/hooks/useCredits";
 import CreditCounter from "./CreditCounter";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { CenteredCardSkeleton } from "@/app/tool/[id]/skeletons";
+
+const PREMIUM_TOOL_SKELETON_ACCENTS: Record<string, string> = {
+  "meesho-cropper": "#f26522",
+  "meshocrop": "#f26522",
+  "flipkart-cropper": "#F7941D",
+  "amazon-cropper": "#FF9900",
+  "snapdeal-cropper": "#E40046",
+  "ocr-pdf": "#3b82f6",
+  "redact-pdf": "#ef4444",
+  "webpage-to-pdf": "#0ea5e9",
+};
 
 interface CreditGateProps {
   /**
@@ -39,6 +51,10 @@ export default function CreditGate({
   const redirectParam = encodeURIComponent(pathname || "/");
 
   if (isLoading) {
+    const accent = PREMIUM_TOOL_SKELETON_ACCENTS[toolName];
+    if (accent) {
+      return <CenteredCardSkeleton accent={accent} />;
+    }
     return (
       <div className="flex flex-col items-center justify-center min-h-[200px] gap-3">
         <div className="w-8 h-8 rounded-full border-3 border-slate-200 border-t-blue-500 animate-spin" />
