@@ -46,9 +46,15 @@ export function useGuestSession(): UseGuestSessionReturn {
 
             // Verify with server in background (non-blocking)
             fetch(`/api/credits/session`, { method: "GET" })
-              .then((r) => r.json())
+              .then((r) => {
+                const contentType = r.headers.get("content-type");
+                if (contentType && contentType.includes("application/json")) {
+                  return r.json();
+                }
+                return {} as any;
+              })
               .then((data) => {
-                if (data.exists && data.credits !== undefined) {
+                if (data && data.exists && data.credits !== undefined) {
                   const updated = { ...parsed, credits: data.credits };
                   setSession(updated);
                   localStorage.setItem(GUEST_STORAGE_KEY, JSON.stringify(updated));
@@ -69,7 +75,16 @@ export function useGuestSession(): UseGuestSessionReturn {
         throw new Error("Failed to initialize guest session.");
       }
 
-      const data: GuestSessionData & { success: boolean } = await res.json();
+      let data: GuestSessionData & { success: boolean };
+      const contentType = res.headers.get("content-type");
+      if (contentType && contentType.includes("application/json")) {
+        data = await res.json();
+      } else {
+        const text = await res.text();
+        console.error("Guest session init response:", text);
+        throw new Error(`Server error (${res.status}). Failed to initialize guest session.`);
+      }
+      
       const newSession: GuestSessionData = {
         guestId: data.guestId,
         sessionToken: data.sessionToken,

@@ -695,7 +695,7 @@ export default function MeeshoCropLabel({ id }: { id: string }) {
               onClick={() => setShowSettings(!showSettings)}
               className="w-full flex lg:hidden items-center justify-between p-5 font-medium text-slate-900 dark:text-white border-b border-slate-50 dark:border-slate-700"
             >
-              <span className="flex items-center gap-2"><FileText size={20} className="text-[#f26522]" /> Settings (સેટિંગ્સ)</span>
+              <span className="flex items-center gap-2"><FileText size={20} className="text-[#f26522]" /> Settings</span>
               <Loader2 className={`transition-transform duration-300 ${showSettings ? 'rotate-180' : ''}`} size={20} />
             </button>
             <div className={`${showSettings ? 'block' : 'hidden'} lg:block p-6`}>
@@ -712,7 +712,7 @@ export default function MeeshoCropLabel({ id }: { id: string }) {
                   <input type="checkbox" checked={sortByQty} onChange={(e) => setSortByQty(e.target.checked)} className="w-5 h-5 mt-0.5 text-[#f26522] bg-white border-2 border-slate-300 rounded focus:ring-2 focus:ring-[#f26522] cursor-pointer flex-shrink-0" />
                   <div className="flex flex-col">
                     <span className="text-sm font-semibold text-slate-700 dark:text-slate-300 group-hover:text-slate-900 dark:group-hover:text-white leading-tight">Sort by Quantity</span>
-                    <span className="text-[10px] text-slate-400 font-medium uppercase tracking-widest">Qty મુજબ સોર્ટ કરો</span>
+                    <span className="text-[10px] text-slate-400 font-medium uppercase tracking-widest">Sort by Qty</span>
                   </div>
                 </label>
                 <label className="flex items-start gap-3 cursor-pointer group">

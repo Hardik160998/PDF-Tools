@@ -75,7 +75,15 @@ export function useCredits(): UseCreditsReturn {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ guestId: newToken }),
-      }).then((r) => r.json());
+      }).then(async (r) => {
+        const contentType = r.headers.get("content-type");
+        if (contentType && contentType.includes("application/json")) {
+          return r.json();
+        }
+        const text = await r.text();
+        console.error("Credits Session API error:", text);
+        throw new Error(`Server error (${r.status})`);
+      });
     }
 
     // Await the global promise
@@ -127,15 +135,21 @@ export function useCredits(): UseCreditsReturn {
           headers: { Authorization: `Bearer ${token}` },
         });
         if (res.ok) {
-          const data = await res.json();
-          setCreditsMerged(data.creditsMerged || false);
+          const contentType = res.headers.get("content-type");
+          if (contentType && contentType.includes("application/json")) {
+            const data = await res.json();
+            setCreditsMerged(data.creditsMerged || false);
+          }
         }
       } else if (guestToken) {
         const res = await fetch(`/api/credits/status?token=${guestToken}`);
         if (res.ok) {
-          const data = await res.json();
-          setGuestCredits(data.remaining);
-          updateLocalGuestCredits(data.remaining);
+          const contentType = res.headers.get("content-type");
+          if (contentType && contentType.includes("application/json")) {
+            const data = await res.json();
+            setGuestCredits(data.remaining);
+            updateLocalGuestCredits(data.remaining);
+          }
         }
       }
     } catch (err) {
@@ -167,19 +181,25 @@ export function useCredits(): UseCreditsReturn {
             body: JSON.stringify({ toolName, idempotencyKey }),
           });
 
-          const data = await res.json();
+          let data;
+          const contentType = res.headers.get("content-type");
+          if (contentType && contentType.includes("application/json")) {
+            data = await res.json();
+          } else {
+            console.error("Deduct Credits API non-JSON response");
+          }
 
           if (!res.ok) {
-            return { allowed: false, remaining: data.remaining ?? 0 };
+            return { allowed: false, remaining: data?.remaining ?? 0 };
           }
 
           // Update profile credits in context
-          if (data.remaining !== undefined && !data.unlimited) {
+          if (data && data.remaining !== undefined && !data.unlimited) {
             // Trigger profile refresh to sync credits display
             await refreshProfile();
           }
 
-          return { allowed: true, remaining: data.remaining ?? 9999 };
+          return { allowed: true, remaining: data?.remaining ?? 9999 };
         }
 
         // Guest path
@@ -193,7 +213,13 @@ export function useCredits(): UseCreditsReturn {
           body: JSON.stringify({ toolName, idempotencyKey, guestToken }),
         });
 
-        const data = await res.json();
+        let data;
+        const contentType = res.headers.get("content-type");
+        if (contentType && contentType.includes("application/json")) {
+          data = await res.json();
+        } else {
+          console.error("Deduct Guest Credits API non-JSON response");
+        }
 
         if (!res.ok) {
           setGuestCredits(0);
@@ -201,9 +227,9 @@ export function useCredits(): UseCreditsReturn {
           return { allowed: false, remaining: 0 };
         }
 
-        setGuestCredits(data.remaining);
-        updateLocalGuestCredits(data.remaining);
-        return { allowed: true, remaining: data.remaining };
+        setGuestCredits(data?.remaining ?? 0);
+        updateLocalGuestCredits(data?.remaining ?? 0);
+        return { allowed: true, remaining: data?.remaining ?? 0 };
       } catch (err) {
         console.error("[useCredits] deductCredit error:", err);
         return null;

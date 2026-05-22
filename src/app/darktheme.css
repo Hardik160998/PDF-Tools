@@ -625,3 +625,79 @@ html.dark .text-white.dark\:text-slate-900 * {
   color: #0f172a !important;
 }
 
+/* ============================================================
+   AUTH PAGE (LOGIN & SIGNUP) DARK MODE CONTRAST FIXES
+   ============================================================ */
+html.dark #auth-page-container {
+  background-color: #0b1120 !important;
+}
+
+/* Right Side form container background */
+html.dark #auth-page-container .bg-white {
+  background-color: #0f172a !important; /* Rich premium slate-900 background */
+}
+
+/* Headings and titles contrast */
+html.dark #auth-page-container h3,
+html.dark #auth-page-container .text-slate-900 {
+  color: #f1f5f9 !important;
+}
+
+/* Sub-text and descriptions */
+html.dark #auth-page-container p,
+html.dark #auth-page-container .text-slate-500,
+html.dark #auth-page-container label {
+  color: #94a3b8 !important;
+}
+
+/* Inputs styling */
+html.dark #auth-page-container input {
+  background-color: #1e293b !important;
+  border-color: #334155 !important;
+  color: #f8fafc !important;
+}
+
+html.dark #auth-page-container input::placeholder {
+  color: #64748b !important;
+}
+
+html.dark #auth-page-container input:focus {
+  background-color: #1e293b !important;
+  border-color: #3b82f6 !important;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2) !important;
+}
+
+/* Active tab style */
+html.dark #auth-page-container .auth-toggle-pill-container {
+  background-color: #0b1120 !important;
+  border-color: #1e293b !important;
+}
+
+html.dark #auth-page-container .auth-toggle-active-btn {
+  background-color: #1e293b !important;
+  border-color: rgba(51, 65, 85, 0.5) !important;
+  color: #f8fafc !important;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2), 0 2px 4px -1px rgba(0, 0, 0, 0.1) !important;
+}
+
+html.dark #auth-page-container .auth-toggle-inactive-btn {
+  color: #64748b !important;
+}
+
+html.dark #auth-page-container .auth-toggle-inactive-btn:hover {
+  color: #94a3b8 !important;
+}
+
+/* Close & secondary buttons */
+html.dark #auth-page-container .auth-btn-secondary {
+  background-color: #1e293b !important;
+  border-color: #334155 !important;
+  color: #94a3b8 !important;
+}
+
+html.dark #auth-page-container .auth-btn-secondary:hover {
+  background-color: #334155 !important;
+  color: #f1f5f9 !important;
+}
+
+

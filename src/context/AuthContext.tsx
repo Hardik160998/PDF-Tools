@@ -59,7 +59,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     try {
       const { data, error } = await supabase
         .from("users")
-        .select("*")
+        .select(`
+          id, email, full_name, created_at, last_login, plan, current_plan, 
+          subscription_status, subscription_start_date, subscription_end_date, 
+          razorpay_customer_id, daily_usage_count, last_usage_reset, 
+          ecommerce_credits, tool_credits, credits_merged, is_guest, 
+          guest_session_id, account_type, remaining_credits, used_credits, 
+          is_confirmation
+        `)
         .eq("email", email)
         .maybeSingle();
 
@@ -101,18 +108,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           }
         }
       } else {
-        const isMock = typeof window !== "undefined" && localStorage.getItem("sb-mock-session");
-        if (!isMock && !error) {
-          console.warn("User profile not found in public users table. Logging out.");
-          const authClient = supabase.auth;
-          if (authClient && typeof authClient.signOut === "function") {
-            await supabase.auth.signOut();
-          }
-          setUser(null);
-          setProfile(null);
-          return;
-        }
-        // Fallback profile object if user record doesn't exist yet in the public table
+        // Fallback profile object instead of aggressive logout (e.g. during recovery flows or new signup checks)
+        console.warn("User profile not found in public users table. Using fallback profile.");
         setProfile({ email, plan: "Basic Plan", current_plan: "Basic Plan" });
       }
     } catch (e) {

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { X, Heart, Check, Lock, Users, Shield, Zap, Star, ArrowLeft, Mail, Key } from "lucide-react";
+import { X, Heart, Check, Lock, Users, Shield, Zap, Star, Mail, Key, Eye, EyeOff } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { supabase } from "../lib/supabase";
 import { useAuth } from "@/context/AuthContext";
@@ -17,11 +17,30 @@ export default function AuthPageContent({ initialMode }: AuthPageContentProps) {
   // Pre-fill email if coming from signup → login redirect (?email=xxx)
   const emailFromQuery = searchParams?.get("email") || "";
   const { loginAsMock, mergeCreditsOnLogin } = useAuth();
-  const [mode, setMode] = useState<"login" | "signup">(initialMode);
+  const [mode, setMode] = useState<"login" | "signup" | "forgot-password">(initialMode);
 
   const [fullName, setFullName] = useState("");
-  const [email, setEmail] = useState(emailFromQuery);
+  const [email, setEmail] = useState("");
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      const urlMode = params.get("mode");
+      if (urlMode === "forgot-password") {
+        setMode("forgot-password");
+      } else {
+        setMode(initialMode);
+      }
+    }
+  }, [initialMode, searchParams]);
+
+  useEffect(() => {
+    if (emailFromQuery) {
+      setEmail(emailFromQuery);
+    }
+  }, [emailFromQuery]);
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [statusMessage, setStatusMessage] = useState<{ type: 'success' | 'error', text: string } | null>(null);
 
@@ -34,10 +53,11 @@ export default function AuthPageContent({ initialMode }: AuthPageContentProps) {
 
   const isSignUp = mode === "signup";
 
-  const handleToggleMode = (newMode: "login" | "signup") => {
+  const handleToggleMode = (newMode: "login" | "signup" | "forgot-password") => {
     setFullName("");
     // Keep email so user doesn't have to retype when switching tabs
     setPassword("");
+    setShowPassword(false);
     setStatusMessage(null);
     setIsLoading(false);
     setIsOtpSent(false);
@@ -48,8 +68,14 @@ export default function AuthPageContent({ initialMode }: AuthPageContentProps) {
     const params = new URLSearchParams();
     if (redirectTo && redirectTo !== "/") params.set("redirect", redirectTo);
     if (email) params.set("email", email);
-    const queryString = params.toString() ? `?${params.toString()}` : "";
-    router.push((newMode === "login" ? "/login" : "/signup") + queryString);
+    
+    if (newMode === "forgot-password") {
+      params.set("mode", "forgot-password");
+      router.push("/login?" + params.toString());
+    } else {
+      const queryString = params.toString() ? `?${params.toString()}` : "";
+      router.push((newMode === "login" ? "/login" : "/signup") + queryString);
+    }
   };
 
   const handleAuth = async (e: React.FormEvent) => {
@@ -77,7 +103,16 @@ export default function AuthPageContent({ initialMode }: AuthPageContentProps) {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ email, password, fullName })
         });
-        const data = await res.json();
+        
+        let data;
+        const contentType = res.headers.get("content-type");
+        if (contentType && contentType.includes("application/json")) {
+          data = await res.json();
+        } else {
+          const text = await res.text();
+          console.error("Signup API error response:", text);
+          throw new Error(`Server error (${res.status}). Please try again later.`);
+        }
         
         if (res.ok && data.success) {
           setSignupToken(data.signupToken);
@@ -141,7 +176,16 @@ export default function AuthPageContent({ initialMode }: AuthPageContentProps) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ signupToken, userOtp: otpCode })
       });
-      const data = await res.json();
+      
+      let data;
+      const contentType = res.headers.get("content-type");
+      if (contentType && contentType.includes("application/json")) {
+        data = await res.json();
+      } else {
+        const text = await res.text();
+        console.error("Verify OTP API error response:", text);
+        throw new Error(`Server error (${res.status}). Please try again.`);
+      }
 
       if (!res.ok || !data.success) {
         throw new Error(data.error || "Failed to verify code.");
@@ -166,6 +210,30 @@ export default function AuthPageContent({ initialMode }: AuthPageContentProps) {
     } catch (err: any) {
       console.error("OTP verification error:", err);
       setStatusMessage({ type: "error", text: err.message || "OTP verification failed." });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleForgotPasswordSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+    setStatusMessage(null);
+
+    try {
+      const { error } = await supabase.auth.resetPasswordForEmail(email, {
+        redirectTo: `${window.location.origin}/reset-password`,
+      });
+
+      if (error) throw error;
+
+      setStatusMessage({
+        type: "success",
+        text: "✅ Reset link sent! Check your email inbox and spam folder."
+      });
+    } catch (err: any) {
+      console.error("Forgot password error:", err);
+      setStatusMessage({ type: "error", text: err.message || "Failed to send reset link." });
     } finally {
       setIsLoading(false);
     }
@@ -269,24 +337,21 @@ export default function AuthPageContent({ initialMode }: AuthPageContentProps) {
       </div>
 
       {/* Right Side: Login/Signup Form */}
-      <div className="w-full md:w-1/2 bg-white p-8 sm:p-16 flex flex-col justify-between relative text-zinc-800 min-h-screen">
+      <div className="w-full md:w-1/2 bg-white p-8 sm:p-16 flex flex-col justify-between relative text-slate-800 min-h-screen">
 
-        {/* Top bar on Mobile (logo & back button) */}
+        {/* Top bar on Mobile (logo & close button placeholder space) */}
         <div className="flex md:hidden items-center justify-between w-full mb-8">
           <a href="/" className="flex items-center gap-1.5 font-bold text-lg tracking-tighter">
-            <span className="uppercase text-zinc-900">Smart</span>
+            <span className="uppercase text-slate-900">Smart</span>
             <Heart className="fill-red-500 text-red-500" size={16} />
-            <span className="uppercase text-zinc-900">PDFs</span>
-          </a>
-          <a href="/" className="inline-flex items-center gap-1 text-[11px] font-bold text-zinc-600 hover:text-zinc-900 transition-colors bg-zinc-100 px-2.5 py-1.5 rounded-xl border border-zinc-200">
-            <ArrowLeft size={12} /> Back
+            <span className="uppercase text-slate-900">PDFs</span>
           </a>
         </div>
 
         {/* Close Button (redirects to home) */}
         <a
           href="/"
-          className="absolute top-6 right-6 text-zinc-400 hover:text-zinc-800 bg-zinc-100 hover:bg-zinc-200 border border-zinc-200 w-10 h-10 rounded-full flex items-center justify-center transition-colors z-20"
+          className="absolute top-6 right-6 text-slate-400 hover:text-slate-800 bg-slate-100 hover:bg-slate-200 border border-slate-200 w-10 h-10 rounded-full flex items-center justify-center transition-colors z-20 auth-btn-secondary"
           aria-label="Close"
         >
           <X size={20} />
@@ -296,17 +361,16 @@ export default function AuthPageContent({ initialMode }: AuthPageContentProps) {
         <div className="my-auto space-y-8 w-full max-w-md mx-auto">
 
           {/* Login/Signup Toggle Pill */}
-          {!isOtpSent && (
+          {!isOtpSent && mode !== "forgot-password" && (
             <div className="flex justify-center">
-              <div className="bg-zinc-100 border border-zinc-200 p-1.5 rounded-2xl flex gap-1 w-full max-w-[280px]">
+              <div className="bg-slate-100 border border-slate-200 p-1.5 rounded-2xl flex gap-1 w-full max-w-[280px] auth-toggle-pill-container">
                 <button
                   type="button"
                   onClick={() => handleToggleMode("login")}
                   className={`flex-1 py-2.5 text-xs font-bold uppercase tracking-wider rounded-xl transition-all ${!isSignUp
-                    ? "bg-white shadow-md border border-zinc-200/50"
-                    : "text-zinc-400 hover:text-zinc-700"
+                    ? "bg-white shadow-md border border-slate-200/50 text-slate-900 auth-toggle-active-btn"
+                    : "text-slate-400 hover:text-slate-700 auth-toggle-inactive-btn"
                     }`}
-                  style={!isSignUp ? { color: "#09090b" } : undefined}
                 >
                   Login
                 </button>
@@ -315,7 +379,7 @@ export default function AuthPageContent({ initialMode }: AuthPageContentProps) {
                   onClick={() => handleToggleMode("signup")}
                   className={`flex-1 py-2.5 text-xs font-bold uppercase tracking-wider rounded-xl transition-all ${isSignUp
                     ? "bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-md"
-                    : "text-zinc-400 hover:text-zinc-700"
+                    : "text-slate-400 hover:text-slate-700 auth-toggle-inactive-btn"
                     }`}
                 >
                   Sign Up
@@ -326,12 +390,20 @@ export default function AuthPageContent({ initialMode }: AuthPageContentProps) {
 
           {/* Header info */}
           <div className="text-center md:text-left space-y-2">
-            <h3 className="font-outfit text-3xl font-[900] tracking-tight flex items-center justify-center md:justify-start gap-2 text-zinc-900">
-              {isOtpSent ? "Verify Your Email ✉️" : isSignUp ? "Join Smart PDFs 🚀" : "Welcome Back! 👋"}
+            <h3 className="font-outfit text-3xl font-[900] tracking-tight flex items-center justify-center md:justify-start gap-2 text-slate-900">
+              {isOtpSent
+                ? "Verify Your Email ✉️"
+                : mode === "forgot-password"
+                ? "Reset Your Password 🔒"
+                : isSignUp
+                ? "Join Smart PDFs 🚀"
+                : "Welcome Back! 👋"}
             </h3>
-            <p className="text-zinc-500 text-sm font-semibold">
+            <p className="text-slate-500 text-sm font-semibold">
               {isOtpSent
                 ? `Enter the 6-digit code sent to ${email} to complete your signup.`
+                : mode === "forgot-password"
+                ? "Enter your email address and we will send you a recovery link."
                 : isSignUp
                 ? "Free account. Start organizing your files today."
                 : "Sign in to access your saved history and preferences."}
@@ -340,7 +412,7 @@ export default function AuthPageContent({ initialMode }: AuthPageContentProps) {
 
           {/* Just-verified hint — shown when redirected from OTP verification */}
           {justVerified && !statusMessage && (
-            <div className="p-3.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-bold flex items-center gap-2 animate-in fade-in slide-in-from-top-2 duration-300">
+            <div className="p-3.5 rounded-xl bg-green-50 border border-green-100 text-green-800 text-xs font-bold flex items-center gap-2 animate-in fade-in slide-in-from-top-2 duration-300">
               <span className="text-base">✅</span>
               <span>Account verified! Your email is pre-filled — just enter your password to log in instantly.</span>
             </div>
@@ -349,30 +421,10 @@ export default function AuthPageContent({ initialMode }: AuthPageContentProps) {
           {/* Status Message */}
           {statusMessage && (
             <div className={`p-4 rounded-xl text-xs font-bold leading-relaxed tracking-wide ${statusMessage.type === 'success'
-              ? 'bg-emerald-50 text-emerald-800 border border-emerald-200/50'
-              : 'bg-rose-50 text-rose-800 border border-rose-200/50'
+              ? 'bg-green-50 text-green-800 border border-green-200/50'
+              : 'bg-red-50 text-red-800 border border-red-100/50'
               }`}>
               <div>{statusMessage.text}</div>
-              {statusMessage.type === 'error' && !isOtpSent && (
-                <div className="mt-3 pt-3 border-t border-rose-200/40 flex flex-col gap-2">
-                  <p className="text-[10px] text-rose-700/80 font-medium normal-case leading-normal">
-                    Trouble logging in? You can use a local developer bypass to test dashboard features instantly.
-                  </p>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      loginAsMock(email || "dev@smartpdfs.com", fullName || "SmartPDFs Dev");
-                      setStatusMessage({ type: 'success', text: "Logged in via Dev Bypass! Redirecting..." });
-                      setTimeout(() => {
-                        router.push(redirectTo);
-                      }, 1200);
-                    }}
-                    className="w-full py-2 px-3 bg-zinc-950 hover:bg-zinc-800 text-white rounded-lg text-[10px] font-black uppercase tracking-wider transition-all cursor-pointer text-center"
-                  >
-                    Bypass &amp; Log In Locally (Dev Mode)
-                  </button>
-                </div>
-              )}
             </div>
           )}
 
@@ -380,7 +432,7 @@ export default function AuthPageContent({ initialMode }: AuthPageContentProps) {
           {isOtpSent ? (
             <form onSubmit={handleVerifyOtp} className="space-y-5">
               <div className="space-y-2">
-                <label htmlFor="otp" className="block text-[11px] font-bold uppercase tracking-wider text-zinc-500">
+                <label htmlFor="otp" className="block text-[11px] font-bold uppercase tracking-wider text-slate-500">
                   6-Digit Verification Code
                 </label>
                 <input
@@ -391,7 +443,7 @@ export default function AuthPageContent({ initialMode }: AuthPageContentProps) {
                   value={otpCode}
                   onChange={(e) => setOtpCode(e.target.value.replace(/\D/g, '').slice(0, 6))}
                   placeholder="123456"
-                  className="w-full px-4 py-3.5 bg-zinc-50/50 border border-zinc-200 rounded-xl text-center font-mono text-xl tracking-widest text-zinc-900 placeholder-zinc-400 focus:outline-none focus:bg-white focus:border-blue-500 transition-all disabled:opacity-50 font-bold"
+                  className="w-full px-4 py-3.5 bg-slate-50/50 border border-slate-200 rounded-xl text-center font-mono text-xl tracking-widest text-slate-900 placeholder-slate-400 focus:outline-none focus:bg-white focus:border-blue-500 transition-all disabled:opacity-50 font-bold"
                 />
               </div>
 
@@ -411,35 +463,16 @@ export default function AuthPageContent({ initialMode }: AuthPageContentProps) {
                   setOtpCode("");
                   setStatusMessage(null);
                 }}
-                className="w-full text-center text-xs font-semibold text-zinc-500 hover:text-zinc-800 transition-colors pt-2 bg-transparent border-none cursor-pointer"
+                className="w-full text-center text-xs font-semibold text-slate-500 hover:text-slate-800 transition-colors pt-2 bg-transparent border-none cursor-pointer"
               >
                 ← Back to signup details
               </button>
             </form>
-          ) : (
-            <form onSubmit={handleAuth} className="space-y-5">
-              {/* Full Name (Sign Up only) */}
-              {isSignUp && (
-                <div className="space-y-2">
-                  <label htmlFor="fullname" className="block text-[11px] font-bold uppercase tracking-wider text-zinc-500">
-                    Full Name
-                  </label>
-                  <input
-                    type="text"
-                    id="fullname"
-                    required
-                    disabled={isLoading}
-                    value={fullName}
-                    onChange={(e) => setFullName(e.target.value)}
-                    placeholder="Your full name"
-                    className="w-full px-4 py-3.5 bg-zinc-50/50 border border-zinc-200 rounded-xl text-sm text-zinc-900 placeholder-zinc-400 focus:outline-none focus:bg-white focus:border-blue-500 transition-all font-semibold disabled:opacity-50"
-                  />
-                </div>
-              )}
-
+          ) : mode === "forgot-password" ? (
+            <form onSubmit={handleForgotPasswordSubmit} className="space-y-5">
               {/* Email Address */}
               <div className="space-y-2">
-                <label htmlFor="email" className="block text-[11px] font-bold uppercase tracking-wider text-zinc-500">
+                <label htmlFor="email" className="block text-[11px] font-bold uppercase tracking-wider text-slate-500">
                   Email Address
                 </label>
                 <input
@@ -450,25 +483,102 @@ export default function AuthPageContent({ initialMode }: AuthPageContentProps) {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="you@example.com"
-                  className="w-full px-4 py-3.5 bg-zinc-50/50 border border-zinc-200 rounded-xl text-sm text-zinc-900 placeholder-zinc-400 focus:outline-none focus:bg-white focus:border-blue-500 transition-all font-semibold disabled:opacity-50"
+                  className="w-full px-4 py-3.5 bg-slate-50/50 border border-slate-200 rounded-xl text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:bg-white focus:border-blue-500 transition-all font-semibold disabled:opacity-50"
+                />
+              </div>
+
+              {/* Submit Button */}
+              <button
+                type="submit"
+                disabled={isLoading}
+                className="w-full py-4 mt-6 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white font-bold text-xs uppercase tracking-widest rounded-xl transition-all shadow-lg shadow-blue-500/10 flex items-center justify-center gap-1.5 cursor-pointer disabled:opacity-50"
+              >
+                {isLoading ? <>⏳ Sending...</> : <>✉️ Send Reset Link</>}
+              </button>
+
+              <button
+                type="button"
+                onClick={() => handleToggleMode("login")}
+                className="w-full text-center text-xs font-semibold text-slate-500 hover:text-slate-800 transition-colors pt-2 bg-transparent border-none cursor-pointer"
+              >
+                ← Back to Login
+              </button>
+            </form>
+          ) : (
+            <form onSubmit={handleAuth} className="space-y-5">
+              {/* Full Name (Sign Up only) */}
+              {isSignUp && (
+                <div className="space-y-2">
+                  <label htmlFor="fullname" className="block text-[11px] font-bold uppercase tracking-wider text-slate-500">
+                    Full Name
+                  </label>
+                  <input
+                    type="text"
+                    id="fullname"
+                    required
+                    disabled={isLoading}
+                    value={fullName}
+                    onChange={(e) => setFullName(e.target.value)}
+                    placeholder="Your full name"
+                    className="w-full px-4 py-3.5 bg-slate-50/50 border border-slate-200 rounded-xl text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:bg-white focus:border-blue-500 transition-all font-semibold disabled:opacity-50"
+                  />
+                </div>
+              )}
+
+              {/* Email Address */}
+              <div className="space-y-2">
+                <label htmlFor="email" className="block text-[11px] font-bold uppercase tracking-wider text-slate-500">
+                  Email Address
+                </label>
+                <input
+                  type="email"
+                  id="email"
+                  required
+                  disabled={isLoading}
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="you@example.com"
+                  className="w-full px-4 py-3.5 bg-slate-50/50 border border-slate-200 rounded-xl text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:bg-white focus:border-blue-500 transition-all font-semibold disabled:opacity-50"
                 />
               </div>
 
               {/* Password */}
               <div className="space-y-2">
-                <label htmlFor="password" className="block text-[11px] font-bold uppercase tracking-wider text-zinc-500">
-                  Password
-                </label>
-                <input
-                  type="password"
-                  id="password"
-                  required
-                  disabled={isLoading}
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder="••••••••"
-                  className="w-full px-4 py-3.5 bg-zinc-50/50 border border-zinc-200 rounded-xl text-sm text-zinc-900 placeholder-zinc-400 focus:outline-none focus:bg-white focus:border-blue-500 transition-all font-semibold disabled:opacity-50"
-                />
+                <div className="flex justify-between items-center">
+                  <label htmlFor="password" className="block text-[11px] font-bold uppercase tracking-wider text-slate-500">
+                    Password
+                  </label>
+                  {!isSignUp && (
+                    <button
+                      type="button"
+                      onClick={() => handleToggleMode("forgot-password")}
+                      className="text-xs font-semibold text-blue-600 hover:text-blue-500 transition-colors cursor-pointer bg-transparent border-none p-0 focus:outline-none"
+                    >
+                      Forgot password?
+                    </button>
+                  )}
+                </div>
+                <div className="relative">
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    id="password"
+                    required
+                    disabled={isLoading}
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder="••••••••"
+                    className="w-full pl-4 pr-12 py-3.5 bg-slate-50/50 border border-slate-200 rounded-xl text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:bg-white focus:border-blue-500 transition-all font-semibold disabled:opacity-50"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 focus:outline-none cursor-pointer"
+                    disabled={isLoading}
+                    aria-label={showPassword ? "Hide password" : "Show password"}
+                  >
+                    {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                  </button>
+                </div>
               </div>
 
               {/* Submit Button */}
@@ -490,7 +600,7 @@ export default function AuthPageContent({ initialMode }: AuthPageContentProps) {
 
           {/* Toggle Footer text */}
           {!isOtpSent && (
-            <div className="text-center text-xs font-semibold text-zinc-500 pt-2">
+            <div className="text-center text-xs font-semibold text-slate-500 pt-2">
               {isSignUp ? (
                 <>
                   Already have an account?{" "}
@@ -520,8 +630,8 @@ export default function AuthPageContent({ initialMode }: AuthPageContentProps) {
         </div>
 
         {/* Secure label */}
-        <div className="flex items-center justify-center gap-1.5 text-[10px] font-bold tracking-widest text-zinc-400 uppercase mt-12">
-          <Lock size={12} className="text-zinc-400" /> Secured with AES-256 Encryption
+        <div className="flex items-center justify-center gap-1.5 text-[10px] font-bold tracking-widest text-slate-400 uppercase mt-12">
+          <Lock size={12} className="text-slate-400" /> Secured with AES-256 Encryption
         </div>
       </div>
     </div>

@@ -35,7 +35,15 @@ export default function WebpageToPdf({ id: _id }: { id: string }) {
         body: JSON.stringify({ id: "webpage-to-pdf", url: fullUrl }),
       });
       if (!res.ok) {
-        const data = await res.json();
+        let data;
+        const contentType = res.headers.get("content-type");
+        if (contentType && contentType.includes("application/json")) {
+          data = await res.json();
+        } else {
+          const text = await res.text();
+          console.error("Conversion API error response:", text);
+          throw new Error(`Server error (${res.status}). Please try again later.`);
+        }
         throw new Error(data.error || "Conversion failed");
       }
       const blob = await res.blob();

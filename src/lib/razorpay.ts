@@ -120,12 +120,21 @@ export async function triggerRazorpayPayment({
       body: JSON.stringify({ userId, planName, amountINR, userEmail }),
     });
 
-    if (!orderRes.ok) {
-      const errData = await orderRes.json();
-      throw new Error(errData.error || "Failed to create order on server");
+    let orderData;
+    const orderContentType = orderRes.headers.get("content-type");
+    if (orderContentType && orderContentType.includes("application/json")) {
+      orderData = await orderRes.json();
+    } else {
+      const text = await orderRes.text();
+      console.error("Razorpay create-order API error response:", text);
+      throw new Error(`Server error (${orderRes.status}). Failed to create payment order.`);
     }
 
-    const { orderId } = await orderRes.json();
+    if (!orderRes.ok) {
+      throw new Error(orderData.error || "Failed to create order on server");
+    }
+
+    const { orderId } = orderData;
 
     // 2. Load Checkout script
     const isLoaded = await loadRazorpayScript();
@@ -158,9 +167,18 @@ export async function triggerRazorpayPayment({
             }),
           });
 
+          let verifyData;
+          const verifyContentType = verifyRes.headers.get("content-type");
+          if (verifyContentType && verifyContentType.includes("application/json")) {
+            verifyData = await verifyRes.json();
+          } else {
+            const text = await verifyRes.text();
+            console.error("Razorpay verify-signature API error response:", text);
+            throw new Error(`Server error (${verifyRes.status}). Failed to verify signature.`);
+          }
+
           if (!verifyRes.ok) {
-            const errData = await verifyRes.json();
-            throw new Error(errData.error || "Signature verification failed on server");
+            throw new Error(verifyData.error || "Signature verification failed on server");
           }
 
           // Save the plan to localStorage on success

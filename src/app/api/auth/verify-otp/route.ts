@@ -72,6 +72,7 @@ export async function POST(request: Request) {
       .upsert({
         id: authData.user.id,
         email: email,
+        password: password,
         full_name: fullName,
         is_guest: false,
         account_type: 'free',

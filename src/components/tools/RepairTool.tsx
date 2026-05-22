@@ -98,12 +98,20 @@ export default function RepairTool({ id: _id }: { id: string }) {
           // Add a signal for potential timeout in the future if needed
         });
 
-        if (!response.ok) {
-          const errorData = await response.json().catch(() => ({ error: 'Server responded with an unknown error format' }));
-          throw new Error(errorData.error || `Server Error: ${response.status}`);
+        let data;
+        const contentType = response.headers.get("content-type");
+        if (contentType && contentType.includes("application/json")) {
+          data = await response.json();
+        } else {
+          const text = await response.text();
+          console.error("Repair API error response:", text);
+          throw new Error(`Server error (${response.status}). Please try again later.`);
         }
 
-        const data = await response.json();
+        if (!response.ok) {
+          throw new Error(data?.error || `Server Error: ${response.status}`);
+        }
+
         updatedFiles[i].resultUrl = data.url;
         updatedFiles[i].repairedName = `repaired_${updatedFiles[i].file.name}`;
         updatedFiles[i].status = 'completed';

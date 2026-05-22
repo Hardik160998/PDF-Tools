@@ -26,8 +26,15 @@ export async function verifyAndIncrementUsage(supabaseClient: any): Promise<{ al
     });
 
     if (response.status === 403) {
-      const data = await response.json();
-      return { allowed: false, error: data.error };
+      let errorMsg = "Access denied";
+      const contentType = response.headers.get("content-type");
+      if (contentType && contentType.includes("application/json")) {
+        try {
+          const data = await response.json();
+          errorMsg = data.error || errorMsg;
+        } catch {}
+      }
+      return { allowed: false, error: errorMsg };
     }
 
     if (!response.ok) {

@@ -40,8 +40,16 @@ export default function OfficeTools({ id }: { id: string }) {
         body: formData,
       });
 
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'Conversion failed');
+      let data;
+      const contentType = res.headers.get("content-type");
+      if (contentType && contentType.includes("application/json")) {
+        data = await res.json();
+      } else {
+        const text = await res.text();
+        console.error("Conversion API error response:", text);
+        throw new Error(`Server error (${res.status}). Please try again later.`);
+      }
+      if (!res.ok) throw new Error(data?.error || 'Conversion failed');
       
       setResultUrl(data.url);
     } catch (err: any) {
