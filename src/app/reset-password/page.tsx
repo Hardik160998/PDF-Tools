@@ -20,6 +20,30 @@ function ResetPasswordForm() {
 
     const checkInitialSession = async () => {
       try {
+        const hash = typeof window !== "undefined" ? window.location.hash : "";
+        const search = typeof window !== "undefined" ? window.location.search : "";
+        
+        // Parse params from both hash (ignoring '#') and search query
+        const hashParams = new URLSearchParams(hash.startsWith("#") ? hash.substring(1) : hash);
+        const searchParams = new URLSearchParams(search);
+        
+        const errorDesc = hashParams.get("error_description") || searchParams.get("error_description");
+        const errorMsg = hashParams.get("error") || searchParams.get("error");
+
+        if (errorDesc || errorMsg) {
+          if (isMounted) {
+            setHasSession(false);
+            const finalError = errorDesc 
+              ? decodeURIComponent(errorDesc).replace(/\+/g, " ") 
+              : decodeURIComponent(errorMsg || "").replace(/\+/g, " ");
+            setStatusMessage({
+              type: "error",
+              text: `Reset link error: ${finalError}. Please request a new reset link.`
+            });
+          }
+          return;
+        }
+
         const { data: { session } } = await supabase.auth.getSession();
         if (!isMounted) return;
 
@@ -27,8 +51,6 @@ function ResetPasswordForm() {
           setHasSession(true);
         } else {
           // If no initial session, check if there's a recovery token in the URL hash or search params
-          const hash = typeof window !== "undefined" ? window.location.hash : "";
-          const search = typeof window !== "undefined" ? window.location.search : "";
           const isRecovery = hash.includes("access_token=") || search.includes("code=");
           
           if (!isRecovery) {
