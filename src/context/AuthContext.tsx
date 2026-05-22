@@ -158,6 +158,23 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   useEffect(() => {
+    // Intercept auth redirection errors from Supabase in the URL hash/query
+    if (typeof window !== "undefined") {
+      const hash = window.location.hash;
+      const search = window.location.search;
+      const hasHashError = hash && (hash.includes("error=") || hash.includes("error_code="));
+      const hasSearchError = search && (search.includes("error=") || search.includes("error_code="));
+      
+      if (hasHashError || hasSearchError) {
+        const path = window.location.pathname;
+        // If they landed on root, login, or signup with an auth error, redirect to /reset-password to show the error nicely
+        if (path === "/" || path === "/login" || path === "/signup") {
+          window.location.href = `/reset-password${search}${hash}`;
+          return;
+        }
+      }
+    }
+
     let authSubscription: any = null;
 
     const setupAuth = async () => {
