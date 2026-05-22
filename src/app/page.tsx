@@ -536,7 +536,7 @@ export default function Home() {
                 ) : (
                   <button
                     onClick={() => handleCheckout("monthly")}
-                    className="block w-full py-3 px-6 text-center text-xs font-bold text-white bg-slate-900 hover:bg-slate-800 dark:bg-white dark:text-slate-900 dark:hover:bg-slate-200 rounded-xl transition-all cursor-pointer"
+                    className="block w-full py-3.5 px-6 text-center text-xs font-black text-white bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 rounded-xl transition-all shadow-lg shadow-indigo-600/25 dark:shadow-none uppercase tracking-wider hover:scale-[1.02] cursor-pointer"
                   >
                     Subscribe Monthly
                   </button>
