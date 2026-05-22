@@ -9,7 +9,7 @@ import {
   Stamp, Sparkles, Zap, Type, ImageIcon, Wand2, Crop,
   FileDigit, FileJson, FileSymlink, Unlock,
   Presentation, FileSpreadsheet, Globe, LifeBuoy, ChevronDown, PenLine, Layers, GitCompare, EyeOff, Bookmark, ScanText, ShoppingBag,
-  Crown, CheckCircle2
+  Crown, CheckCircle2, BookOpen
 } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -386,11 +386,10 @@ export default function Home() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch max-w-5xl mx-auto">
             {/* Basic Plan */}
-            <div className={`bg-white dark:bg-slate-800/60 rounded-3xl p-8 shadow-lg flex flex-col justify-between hover:-translate-y-1 transition-all duration-300 ${
-              activePlan === "Basic Plan"
+            <div className={`bg-white dark:bg-slate-800/60 rounded-3xl p-8 shadow-lg flex flex-col justify-between hover:-translate-y-1 transition-all duration-300 ${activePlan === "Basic Plan"
                 ? "border-2 border-amber-400 ring-1 ring-amber-400/20"
                 : "border border-slate-100 dark:border-slate-700/80"
-            }`}>
+              }`}>
               <div className="space-y-6">
                 <div>
                   <h3 className="font-outfit text-xl font-black text-slate-800 dark:text-white">Basic Plan</h3>
@@ -436,11 +435,10 @@ export default function Home() {
             </div>
 
             {/* Yearly Pro Plan (Featured) */}
-            <div className={`relative bg-white dark:bg-slate-800/60 rounded-3xl p-8 shadow-2xl flex flex-col justify-between hover:-translate-y-1 transition-all duration-300 scale-105 z-10 ${
-              activePlan === "Yearly Pro" || (!activePlan && true)
+            <div className={`relative bg-white dark:bg-slate-800/60 rounded-3xl p-8 shadow-2xl flex flex-col justify-between hover:-translate-y-1 transition-all duration-300 scale-105 z-10 ${activePlan === "Yearly Pro" || (!activePlan && true)
                 ? "border-2 border-amber-400 ring-1 ring-amber-400/20"
                 : "border border-slate-100 dark:border-slate-700/80"
-            }`}>
+              }`}>
               <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-amber-400 text-slate-900 text-[10px] font-black uppercase tracking-widest px-4 py-1.5 rounded-full shadow-md flex items-center gap-1">
                 <Crown size={12} className="fill-slate-900" /> Best Value
               </div>
@@ -494,11 +492,10 @@ export default function Home() {
             </div>
 
             {/* Monthly Pro Plan */}
-            <div className={`bg-white dark:bg-slate-800/60 rounded-3xl p-8 shadow-lg flex flex-col justify-between hover:-translate-y-1 transition-all duration-300 ${
-              activePlan === "Monthly Pro"
+            <div className={`bg-white dark:bg-slate-800/60 rounded-3xl p-8 shadow-lg flex flex-col justify-between hover:-translate-y-1 transition-all duration-300 ${activePlan === "Monthly Pro"
                 ? "border-2 border-amber-400 ring-1 ring-amber-400/20"
                 : "border border-slate-100 dark:border-slate-700/80"
-            }`}>
+              }`}>
               <div className="space-y-6">
                 <div>
                   <h3 className="font-outfit text-xl font-black text-slate-800 dark:text-white">Monthly Pro</h3>
@@ -732,7 +729,12 @@ export default function Home() {
             <a href="/blog/how-to-crop-aadhar-card" className="group bg-white dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm hover:shadow-2xl hover:-translate-y-1 transition-all overflow-hidden flex flex-col h-full">
               <div className="relative overflow-hidden">
                 <BlogImage src="/img/crop-aadhar-card.png" alt="Crop Aadhar Card" className="group-hover:scale-105 transition-transform duration-500" />
-                <div className="absolute top-4 right-4 z-10">
+                <div className="absolute inset-0 bg-black/20 group-hover:bg-black/60 transition-colors duration-300 flex items-center justify-center z-10">
+                  <div className="bg-white/95 dark:bg-slate-900/95 backdrop-blur-sm text-red-500 rounded-full p-3 shadow-xl opacity-0 group-hover:opacity-100 transform scale-75 group-hover:scale-100 transition-all duration-300 ease-out flex items-center justify-center">
+                    <BookOpen size={20} className="stroke-[2.5]" />
+                  </div>
+                </div>
+                <div className="absolute top-4 right-4 z-20">
                   <span className="text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-full bg-white text-red-600 border-2 border-red-500 shadow-sm">
                     Special
                   </span>
@@ -778,7 +780,12 @@ export default function Home() {
             <a href="/blog/pdf-to-word-conversion-guide" className="group bg-white dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm hover:shadow-2xl hover:-translate-y-1 transition-all overflow-hidden flex flex-col h-full">
               <div className="relative overflow-hidden">
                 <BlogImage src="/img/convert-pdf-all-tool.png" alt="Convert PDF All Tools" className="group-hover:scale-105 transition-transform duration-500" />
-                <div className="absolute top-4 right-4 z-10">
+                <div className="absolute inset-0 bg-black/20 group-hover:bg-black/60 transition-colors duration-300 flex items-center justify-center z-10">
+                  <div className="bg-white/95 dark:bg-slate-900/95 backdrop-blur-sm text-red-500 rounded-full p-3 shadow-xl opacity-0 group-hover:opacity-100 transform scale-75 group-hover:scale-100 transition-all duration-300 ease-out flex items-center justify-center">
+                    <BookOpen size={20} className="stroke-[2.5]" />
+                  </div>
+                </div>
+                <div className="absolute top-4 right-4 z-20">
                   <span className="text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-full bg-white text-red-600 border-2 border-red-500 shadow-sm">
                     Convert
                   </span>

@@ -5,7 +5,7 @@ import { createPortal } from "react-dom";
 import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { Menu, X, Heart, Combine, Scissors, Zap, LifeBuoy, Type, FileJson, ImageIcon, FileText, Presentation, FileSpreadsheet, Globe, Stamp, FileDigit, Settings, Unlock, Lock, Wand2, FileSymlink, Search, Layers, GitCompare, Bookmark, EyeOff, PenLine, ScanText, Crop, ShoppingBag } from "lucide-react";
+import { Menu, X, Heart, Combine, Scissors, Zap, LifeBuoy, Type, FileJson, ImageIcon, FileText, Presentation, FileSpreadsheet, Globe, Stamp, FileDigit, Settings, Unlock, Lock, Wand2, FileSymlink, Search, Layers, GitCompare, Bookmark, EyeOff, PenLine, ScanText, Crop, ShoppingBag, Crown } from "lucide-react";
 import ThemeToggle from "@/components/ThemeToggle";
 
 const SECTIONS = [
@@ -183,6 +183,57 @@ export default function MobileNav() {
                 placeholder="Search tools..."
                 className="mob-drawer-search-input"
               />
+            </div>
+
+            {/* Plan Info and View Premium Plans Button */}
+            <div style={{
+              margin: '0 1rem 0.75rem',
+              padding: '1rem',
+              borderRadius: '1rem',
+              background: 'linear-gradient(135deg, rgba(245, 158, 11, 0.08) 0%, rgba(239, 68, 68, 0.08) 100%)',
+              border: '1px solid rgba(245, 158, 11, 0.15)',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '0.75rem'
+            }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
+                <span style={{ fontSize: '0.75rem', fontWeight: 600, color: '#94a3b8' }}>Your Plan</span>
+                <span style={{
+                  fontSize: '0.7rem',
+                  fontWeight: 900,
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.05em',
+                  padding: '0.2rem 0.65rem',
+                  borderRadius: '9999px',
+                  background: '#fffbeb',
+                  color: '#d97706',
+                  border: '1px solid #fef3c7',
+                }} className="dark:bg-slate-900/60 dark:text-amber-400 dark:border-amber-500/20">
+                  {user ? (profile?.current_plan || profile?.plan || "Basic Plan") : "Free Plan"}
+                </span>
+              </div>
+              <Link
+                href="/premium-plans"
+                onClick={close}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '0.4rem',
+                  padding: '0.65rem',
+                  borderRadius: '0.75rem',
+                  background: 'linear-gradient(135deg, #f59e0b 0%, #e11d48 100%)',
+                  color: '#ffffff',
+                  fontSize: '0.75rem',
+                  fontWeight: 800,
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.05em',
+                  boxShadow: '0 4px 12px rgba(245, 158, 11, 0.2)',
+                  textDecoration: 'none',
+                }}
+              >
+                <Crown size={14} className="fill-white" /> View Premium Plans
+              </Link>
             </div>
 
             <div className="mob-drawer-body">

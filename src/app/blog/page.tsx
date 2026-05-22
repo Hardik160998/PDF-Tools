@@ -274,7 +274,12 @@ export default function BlogPage() {
               className="group bg-white rounded-2xl border border-slate-100 shadow-sm hover:shadow-2xl hover:-translate-y-1 transition-all overflow-hidden flex flex-col">
               <div className="relative overflow-hidden">
                 <BlogImage src={post.image || "/img/word-pdf.png"} alt={post.title} className="group-hover:scale-105 transition-transform duration-500" />
-                <div className="absolute top-4 right-4 z-10">
+                <div className="absolute inset-0 bg-black/20 group-hover:bg-black/60 transition-colors duration-300 flex items-center justify-center z-10">
+                  <div className="bg-white/95 dark:bg-slate-900/95 backdrop-blur-sm text-red-500 rounded-full p-3 shadow-xl opacity-0 group-hover:opacity-100 transform scale-75 group-hover:scale-100 transition-all duration-300 ease-out flex items-center justify-center">
+                    <BookOpen size={20} className="stroke-[2.5]" />
+                  </div>
+                </div>
+                <div className="absolute top-4 right-4 z-20">
                   <span className="text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-full bg-white text-red-600 border-2 border-red-500 shadow-sm">
                     {post.label}
                   </span>
@@ -325,7 +330,12 @@ export default function BlogPage() {
                     className="group bg-white rounded-2xl border border-slate-100 shadow-sm hover:shadow-2xl hover:-translate-y-1 transition-all overflow-hidden flex flex-col">
                     <div className="relative overflow-hidden">
                       <BlogImage src={post.image || "/img/word-pdf.png"} alt={post.title} className="group-hover:scale-105 transition-transform duration-500" />
-                      <div className="absolute top-3 right-3 z-10">
+                      <div className="absolute inset-0 bg-black/20 group-hover:bg-black/60 transition-colors duration-300 flex items-center justify-center z-10">
+                        <div className="bg-white/95 dark:bg-slate-900/95 backdrop-blur-sm text-red-500 rounded-full p-2.5 shadow-xl opacity-0 group-hover:opacity-100 transform scale-75 group-hover:scale-100 transition-all duration-300 ease-out flex items-center justify-center">
+                          <BookOpen size={16} className="stroke-[2.5]" />
+                        </div>
+                      </div>
+                      <div className="absolute top-3 right-3 z-20">
                         <span className="text-[10px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-full bg-white text-red-600 border-2 border-red-500 shadow-sm">
                           {post.label}
                         </span>
