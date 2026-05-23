@@ -137,7 +137,7 @@ export default function GuideToOrganizingPdfsPost() {
               <p className="font-black text-slate-900">Ready to organize your PDFs?</p>
               <p className="text-xs text-slate-500 mt-1">Try our fast, browser-based organization tools.</p>
             </div>
-            <a href="/blog/organize-pdf-pages" className="inline-flex items-center gap-2 px-5 py-2.5 bg-orange-500 hover:bg-orange-600 text-white rounded-xl font-black text-sm transition-all">
+            <a href="/tool/organize" className="inline-flex items-center gap-2 px-5 py-2.5 bg-orange-500 hover:bg-orange-600 text-white rounded-xl font-black text-sm transition-all">
               Explore Organize Tools <ArrowRight size={14} />
             </a>
           </div>

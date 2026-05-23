@@ -145,7 +145,7 @@ export default function ESignPdfPost() {
               <p className="font-black text-slate-900">Ready to sign your document?</p>
               <p className="text-xs text-slate-500 mt-1">Add your signature securely in seconds.</p>
             </div>
-            <a href="/tool/esign-pdf" className="inline-flex items-center gap-2 px-5 py-2.5 bg-orange-500 hover:bg-orange-600 text-white rounded-xl font-black text-sm transition-all">
+            <a href="/esign" className="inline-flex items-center gap-2 px-5 py-2.5 bg-orange-500 hover:bg-orange-600 text-white rounded-xl font-black text-sm transition-all">
               Open E-Sign PDF Tool <ArrowRight size={14} />
             </a>
           </div>

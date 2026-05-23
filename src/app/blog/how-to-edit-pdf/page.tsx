@@ -129,7 +129,7 @@ export default function EditPdfPost() {
               <p className="font-black text-slate-900">Ready to edit your PDF?</p>
               <p className="text-xs text-slate-500 mt-1">Add text and images instantly.</p>
             </div>
-            <a href="/tool/edit-pdf" className="inline-flex items-center gap-2 px-5 py-2.5 bg-orange-500 hover:bg-orange-600 text-white rounded-xl font-black text-sm transition-all">
+            <a href="/edit" className="inline-flex items-center gap-2 px-5 py-2.5 bg-orange-500 hover:bg-orange-600 text-white rounded-xl font-black text-sm transition-all">
               Open PDF Editor Tool <ArrowRight size={14} />
             </a>
           </div>

@@ -118,11 +118,11 @@ export default function RemoveOcr({ id: _id }: { id: string }) {
 
   return (
     <div className="max-w-3xl mx-auto py-6 sm:py-10 px-4">
-      <div className="bg-white dark:bg-slate-800 rounded-3xl border border-slate-100 dark:border-slate-700 shadow-2xl overflow-hidden">
+      <div className="bg-white dark:bg-slate-800 rounded-[2rem] sm:rounded-[3rem] p-6 sm:p-12 border border-slate-100 dark:border-slate-700 shadow-2xl space-y-6 sm:space-y-10 overflow-hidden">
 
         {/* Header */}
-        <div className="text-center space-y-4 mb-8">
-          <div className="inline-flex p-4 sm:p-5 rounded-2xl sm:rounded-3xl bg-violet-600 text-white shadow-lg shadow-violet-500/20 mx-auto">
+        <div className="text-center space-y-3 sm:space-y-4">
+          <div className="inline-flex p-4 sm:p-5 rounded-[1.5rem] sm:rounded-3xl bg-violet-600 text-white shadow-lg shadow-violet-500/20 mx-auto">
             <EyeOff size={32} className="sm:w-9 sm:h-9" />
           </div>
           <h2 className="font-outfit text-2xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter">Remove OCR</h2>
@@ -131,7 +131,7 @@ export default function RemoveOcr({ id: _id }: { id: string }) {
           </p>
         </div>
 
-        <div className="p-6 sm:p-8 space-y-5">
+        <div className="space-y-5">
 
           {/* Info banner */}
           <div className="rounded-2xl px-4 py-3 flex items-start gap-3 text-sm font-medium bg-violet-50 dark:bg-violet-500/10 text-violet-700 dark:text-violet-300 border border-violet-100 dark:border-violet-500/20">

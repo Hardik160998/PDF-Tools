@@ -165,7 +165,7 @@ export default function ImageConversionGuidePost() {
               <p className="font-black text-slate-900">Ready to convert your images?</p>
               <p className="text-xs text-slate-500 mt-1">Try our fast, browser-based converter.</p>
             </div>
-            <a href="/tool/image-converter" className="inline-flex items-center gap-2 px-5 py-2.5 bg-orange-500 hover:bg-orange-600 text-white rounded-xl font-black text-sm transition-all">
+            <a href="/tool/jpg-to-png" className="inline-flex items-center gap-2 px-5 py-2.5 bg-orange-500 hover:bg-orange-600 text-white rounded-xl font-black text-sm transition-all">
               Open Image Converter <ArrowRight size={14} />
             </a>
           </div>
