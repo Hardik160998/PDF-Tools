@@ -8,7 +8,9 @@ import "./header-responsive.css";
 import "./dropdown-fix.css";
 import { ThemeProvider } from "@/context/ThemeContext";
 import { AuthProvider } from "@/context/AuthContext";
+import QueryProvider from "@/lib/QueryProvider";
 import AppLayout from "@/components/AppLayout";
+import Script from "next/script";
 
 
 const inter = Inter({ subsets: ["latin"], weight: ['400', '500', '600', '700', '800', '900'] });
@@ -43,34 +45,35 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <head>
         <meta name="color-scheme" content="light dark" />
-        <script dangerouslySetInnerHTML={{
-          __html: `
-           (function() {
-             try {
-               var stored = localStorage.getItem('theme');
-               var systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-               var theme = stored === 'dark' || (stored === null && systemDark) ? 'dark' : 'light';
-               if (theme === 'dark') {
-                 document.documentElement.classList.add('dark');
-                 document.documentElement.setAttribute('data-theme', 'dark');
-                 document.documentElement.style.colorScheme = 'dark';
-               } else {
-                 document.documentElement.classList.remove('dark');
-                 document.documentElement.setAttribute('data-theme', 'light');
-                 document.documentElement.style.colorScheme = 'light';
-               }
-             } catch (e) {}
-           })()
-         ` }} />
       </head>
       <body className={`${inter.className} ${outfit.variable} antialiased`} suppressHydrationWarning>
-        <ThemeProvider>
-          <AuthProvider>
-            <AppLayout outfitClass={outfit.className} outfitVariable={outfit.variable}>
-              {children}
-            </AppLayout>
-          </AuthProvider>
-        </ThemeProvider>
+        <Script id="theme-init" strategy="beforeInteractive">{`
+          (function() {
+            try {
+              var stored = localStorage.getItem('theme');
+              var systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+              var theme = stored === 'dark' || (stored === null && systemDark) ? 'dark' : 'light';
+              if (theme === 'dark') {
+                document.documentElement.classList.add('dark');
+                document.documentElement.setAttribute('data-theme', 'dark');
+                document.documentElement.style.colorScheme = 'dark';
+              } else {
+                document.documentElement.classList.remove('dark');
+                document.documentElement.setAttribute('data-theme', 'light');
+                document.documentElement.style.colorScheme = 'light';
+              }
+            } catch (e) {}
+          })();
+        `}</Script>
+        <QueryProvider>
+          <ThemeProvider>
+            <AuthProvider>
+              <AppLayout outfitClass={outfit.className} outfitVariable={outfit.variable}>
+                {children}
+              </AppLayout>
+            </AuthProvider>
+          </ThemeProvider>
+        </QueryProvider>
       </body>
     </html>
   );

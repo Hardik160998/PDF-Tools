@@ -1,22 +1,18 @@
 "use client";
 
-import { useState, useMemo, useEffect, useRef } from 'react';
+import { useState, useMemo, useEffect, useLayoutEffect, useRef } from 'react';
 import SkeletonGrid from '@/components/SkeletonGrid';
 import BlogImage from '@/components/BlogImage';
-import { trackToolClick, getVerifiedToolKeys, getImgConvertTools, getCategories, insertAvifTools, syncMissingTools, insertMeeshoTool, insertEcommerceCategory } from '@/lib/supabase';
-import {
-  Combine, Scissors, FileText, Settings, Lock,
-  Stamp, Sparkles, Zap, Type, ImageIcon, Wand2, Crop,
-  FileDigit, FileJson, FileSymlink, Unlock,
-  Presentation, FileSpreadsheet, Globe, LifeBuoy, ChevronDown, PenLine, Layers, GitCompare, EyeOff, Bookmark, ScanText, ShoppingBag,
-  Crown, CheckCircle2, BookOpen
-} from 'lucide-react';
+import { trackToolClick, insertAvifTools, insertMeeshoTool, insertEcommerceCategory } from '@/lib/supabase';
+import { Lock, Sparkles, ChevronDown, Crown, CheckCircle2, BookOpen } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
 import { triggerRazorpayPayment } from '@/lib/razorpay';
 import { PREMIUM_TOOL_IDS } from '@/components/SubscriptionGate';
 import PaymentSuccessModal from '@/components/PaymentSuccessModal';
+import { useAllTools, useDbCategories } from '@/hooks/useTools';
+import { TOOL_META, PRIORITY_TOOLS, CATEGORY_ORDER } from '@/data/tools';
 
 const CATEGORIES = ['All', 'Organize', 'Optimize', 'Convert', 'Image Convert', 'Edit', 'Security', 'Special', 'Ecommerce', 'Sign'];
 
@@ -32,63 +28,7 @@ const CATEGORY_STYLES: Record<string, { gradient: string; shadow: string }> = {
   Ecommerce: { gradient: 'linear-gradient(135deg, #f26522, #f59e0b)', shadow: 'shadow-orange-400/20' },
 };
 
-const TOOLS = [
-  { id: 'compare-pdf', title: 'Compare PDF', description: 'Compare two PDF files side by side and instantly spot which pages changed. 100% private.', category: 'Organize', icon: GitCompare },
-  { id: 'extract-pages', title: 'Extract PDF Pages', description: 'Pick individual pages or a range and download them as a new PDF. 100% private, runs in your browser.', category: 'Organize', icon: Layers },
-  { id: 'delete-pages', title: 'Delete PDF Pages', description: 'Select and permanently remove unwanted pages from your PDF. Fast, private, runs in your browser.', category: 'Organize', icon: Scissors },
-  { id: 'add-blank-page', title: 'Add Blank Page', description: 'Insert blank pages at the beginning, end, or after any page in your PDF. Choose size and count.', category: 'Organize', icon: Layers },
-  { id: 'flatten-pdf', title: 'Flatten PDF', description: 'Merge all form fields, annotations and layers into a flat, non-editable PDF. 100% private.', category: 'Edit', icon: Layers },
-  { id: 'optimize-pdf', title: 'Optimize PDF', description: 'Reduce PDF file size by re-compressing pages. Choose Low, Medium or High quality. 100% private.', category: 'Optimize', icon: Zap },
-  { id: 'organize', title: 'Organize PDF', description: 'Sort, add and delete PDF pages. Rotate PDF pages and reorder them at your convenience.', category: 'Organize', icon: FileSymlink },
-  { id: 'merge', title: 'Merge PDF', description: 'Combine PDFs in the order you want with the easiest PDF merger available.', category: 'Organize', icon: Combine },
-  { id: 'split', title: 'Split PDF', description: 'Separate one page or a whole set for easy conversion into independent PDF files.', category: 'Organize', icon: Scissors },
-  { id: 'compress', title: 'Compress PDF', description: 'Reduce file size while optimizing for maximal PDF quality.', category: 'Optimize', icon: Zap },
-  { id: 'repair-pdf', title: 'Repair PDF', description: 'Recover data from damaged, corrupted or illegible PDF files.', category: 'Optimize', icon: LifeBuoy },
-  { id: 'extract-text', title: 'PDF to Text', description: 'Easily convert your PDF files into easy to edit text documents.', category: 'Convert', icon: Type },
-  { id: 'ocr-pdf', title: 'OCR PDF', description: 'Make scanned PDFs selectable and searchable. Add an invisible text layer with OCR — 100% in-browser.', category: 'Convert', icon: ScanText },
-  { id: 'remove-ocr', title: 'Remove OCR', description: 'Strip the text layer from a selectable PDF and convert it to a non-selectable image-only file.', category: 'Edit', icon: EyeOff },
-  { id: 'pdf-to-xml', title: 'PDF to XML', description: 'Extract structured data from your PDF into XML machine readable format.', category: 'Convert', icon: FileJson },
-  { id: 'pdf-to-jpg', title: 'PDF to JPG', description: 'Convert each PDF page into a JPG or extract all images contained in a PDF.', category: 'Convert', icon: ImageIcon },
-  { id: 'jpg-to-pdf', title: 'JPG to PDF', description: 'Convert JPG images to PDF in seconds. Easily adjust orientation and margins.', category: 'Convert', icon: ImageIcon },
-  { id: 'jpg-to-png', title: 'JPG to PNG', description: 'Convert JPG images to lossless PNG format instantly. Preserves quality and enables transparency.', category: 'Image Convert', icon: ImageIcon },
-  { id: 'png-to-jpg', title: 'PNG to JPG', description: 'Convert PNG images to JPG format for smaller file sizes and universal compatibility.', category: 'Image Convert', icon: ImageIcon },
-  { id: 'jpg-to-webp', title: 'JPG to WebP', description: 'Convert JPG images to modern WebP format for superior compression and faster web loading.', category: 'Image Convert', icon: ImageIcon },
-  { id: 'webp-to-jpg', title: 'WebP to JPG', description: 'Convert WebP images to universally compatible JPG format instantly.', category: 'Image Convert', icon: ImageIcon },
-  { id: 'png-to-webp', title: 'PNG to WebP', description: 'Convert PNG images to WebP for smaller file sizes without visible quality loss.', category: 'Image Convert', icon: ImageIcon },
-  { id: 'webp-to-png', title: 'WebP to PNG', description: 'Convert WebP images to lossless PNG format for maximum compatibility and editing.', category: 'Image Convert', icon: ImageIcon },
-  { id: 'jpg-to-avif', title: 'JPG to AVIF', description: 'Convert JPG images to next-gen AVIF format for superior compression and modern browser support.', category: 'Image Convert', icon: ImageIcon },
-  { id: 'avif-to-jpg', title: 'AVIF to JPG', description: 'Convert AVIF images to universally compatible JPG format instantly.', category: 'Image Convert', icon: ImageIcon },
-  { id: 'png-to-avif', title: 'PNG to AVIF', description: 'Convert PNG images to AVIF for smaller file sizes with excellent quality retention.', category: 'Image Convert', icon: ImageIcon },
-  { id: 'avif-to-png', title: 'AVIF to PNG', description: 'Convert AVIF images to lossless PNG format for maximum compatibility.', category: 'Image Convert', icon: ImageIcon },
-  { id: 'webp-to-avif', title: 'WebP to AVIF', description: 'Convert WebP images to next-gen AVIF format for even better compression.', category: 'Image Convert', icon: ImageIcon },
-  { id: 'avif-to-webp', title: 'AVIF to WebP', description: 'Convert AVIF images to WebP format for broad browser compatibility.', category: 'Image Convert', icon: ImageIcon },
-  { id: 'word-to-pdf', title: 'Word to PDF', description: 'Make DOC and DOCX files easy to read by converting them to PDF.', category: 'Convert', icon: FileText },
-  { id: 'pdf-to-word', title: 'PDF to Word', description: 'Convert your PDF documents to editable DOCX files with high accuracy.', category: 'Convert', icon: FileText },
-  { id: 'docx-to-pdf', title: 'DOCX to PDF', description: 'Convert .doc and .docx files to PDF with fonts, images, and formatting perfectly preserved.', category: 'Convert', icon: FileText },
-  { id: 'pdf-to-docx', title: 'PDF to DOCX', description: 'Convert any PDF into a fully editable DOCX file ready to edit in Word or Google Docs.', category: 'Convert', icon: FileText },
-  { id: 'ppt-to-pdf', title: 'PowerPoint to PDF', description: 'Make PPT and PPTX slideshows easy to view by converting them to PDF.', category: 'Convert', icon: Presentation },
-  { id: 'pdf-to-ppt', title: 'PDF to PowerPoint', description: 'Convert your PDF documents into editable PPTX presentations.', category: 'Convert', icon: Presentation },
-  { id: 'excel-to-pdf', title: 'Excel to PDF', description: 'Make EXCEL spreadsheets easy to read by converting them to PDF.', category: 'Convert', icon: FileSpreadsheet },
-  { id: 'pdf-to-excel', title: 'PDF to Excel', description: 'Convert your PDF documents into editable XLSX spreadsheets with table extraction.', category: 'Convert', icon: FileSpreadsheet },
-  { id: 'html-to-pdf', title: 'HTML to PDF', description: 'Convert web pages or HTML files into PDF documents with high fidelity.', category: 'Convert', icon: Globe },
-  { id: 'webpage-to-pdf', title: 'Webpage to PDF', description: 'Paste any URL and convert a live webpage to a pixel-perfect PDF instantly.', category: 'Convert', icon: Globe },
-  { id: 'bookmark-pdf', title: 'Bookmark PDF', description: 'Add a clickable table of contents to any PDF. Create, edit and reorder bookmarks instantly.', category: 'Edit', icon: Bookmark },
-  { id: 'watermark', title: 'Watermark', description: 'Stamp an image or text over your PDF in seconds. Choose typography, transparency and position.', category: 'Edit', icon: Stamp },
-  { id: 'page-numbers', title: 'Page Numbers', description: 'Add page numbers to PDFs with ease. Choose position, dimensions, typography and size.', category: 'Edit', icon: FileDigit },
-  { id: 'metadata', title: 'Edit Metadata', description: 'Add, change or remove metadata fields including Author, Title, and Subject.', category: 'Edit', icon: Settings },
-  { id: 'redact-pdf', title: 'Redact PDF', description: 'Permanently hide sensitive text and areas with black boxes. Draw or search to redact.', category: 'Security', icon: EyeOff },
-  { id: 'unlock', title: 'Unlock PDF', description: 'Remove PDF password security, giving you the freedom to use your PDFs as you want.', category: 'Security', icon: Unlock },
-  { id: 'protect', title: 'Protect PDF', description: 'Encrypt PDF with a password. Manage PDF permissions and access control.', category: 'Security', icon: Lock },
-  { id: 'aadhar-crop', title: 'Aadhar Cropper', description: 'Perfectly crop Aadhar ID cards from e-Aadhar PDF for high quality printing.', category: 'Special', icon: Wand2 },
-  { id: 'crop-pdf', title: 'Crop PDF', description: 'Trim margins and crop any pages of your PDF. Select pages, set margins and download instantly.', category: 'Special', icon: Crop },
-  { id: 'meesho-cropper', title: 'Meesho Label with Invoice Cropper', description: 'Auto-remove the invoice section below "Total" from Meesho shipping label PDFs. Clean labels in one click.', category: 'Ecommerce', icon: ShoppingBag },
-  { id: 'meshocrop', title: 'Meesho Crop Label (without invoice)', description: 'Crop Meesho labels to keep only shipping address, return address & barcodes. Removes TAX INVOICE section.', category: 'Ecommerce', icon: ShoppingBag },
-  { id: 'flipkart-cropper', title: 'Flipkart Label Cropper', description: 'Smart OCR crop for Flipkart / E-kart shipping labels. Keeps AWB, QR code & barcode. Removes invoice & billing.', category: 'Ecommerce', icon: ShoppingBag },
-  { id: 'amazon-cropper', title: 'Amazon Label Cropper', description: 'Extract Amazon shipping labels and automatically remove invoice pages. Supports AWB & SKU sorting.', category: 'Ecommerce', icon: ShoppingBag },
-  { id: 'snapdeal-cropper', title: 'Snapdeal Label Cropper', description: 'Smart border detection to crop Snapdeal shipping labels perfectly. Protects barcodes, address and quantities.', category: 'Ecommerce', icon: ShoppingBag },
-  { id: 'esign', title: 'E-Sign PDF', description: 'Draw or type your signature and place it anywhere on a PDF or image. Download the signed file instantly.', category: 'Sign', icon: PenLine },
-  { id: 'edit-pdf', title: 'Edit PDF', description: 'Highlight, draw, add text and freehand annotations directly on PDFs. Zero uploads, 100% private.', category: 'Edit', icon: PenLine },
-];
+
 
 /* -- Reusable shimmer bar -- */
 function Sh({ className }: { className: string }) {
@@ -155,73 +95,102 @@ export default function Home() {
 
   const [activeCategory, setActiveCategory] = useState('All');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
   const [displayCategory, setDisplayCategory] = useState('All');
   const [mounted, setMounted] = useState(false);
-  const [verifiedKeys, setVerifiedKeys] = useState<string[] | null>(null);
-  const [imgConvertKeys, setImgConvertKeys] = useState<string[]>(['jpg-to-png', 'png-to-jpg', 'jpg-to-webp', 'webp-to-jpg', 'png-to-webp', 'webp-to-png', 'jpg-to-avif', 'avif-to-jpg', 'png-to-avif', 'avif-to-png', 'webp-to-avif', 'avif-to-webp']);
-  const [dbCategories, setDbCategories] = useState<string[]>(CATEGORIES);
   const toolsGridRef = useRef<HTMLElement>(null);
 
-  useEffect(() => {
-    const FALLBACK_KEYS = ['esign', 'edit-pdf', 'extract-pages', 'delete-pages', 'add-blank-page', 'flatten-pdf', 'optimize-pdf', 'webpage-to-pdf', 'compare-pdf', 'redact-pdf', 'bookmark-pdf', 'docx-to-pdf', 'pdf-to-docx', 'jpg-to-png', 'png-to-jpg', 'jpg-to-webp', 'webp-to-jpg', 'png-to-webp', 'webp-to-png', 'jpg-to-avif', 'avif-to-jpg', 'png-to-avif', 'avif-to-png', 'webp-to-avif', 'avif-to-webp', 'organize', 'merge', 'split', 'compress', 'repair-pdf', 'extract-text', 'ocr-pdf', 'remove-ocr', 'pdf-to-xml', 'pdf-to-jpg', 'jpg-to-pdf', 'word-to-pdf', 'pdf-to-word', 'ppt-to-pdf', 'pdf-to-ppt', 'excel-to-pdf', 'pdf-to-excel', 'html-to-pdf', 'watermark', 'page-numbers', 'metadata', 'unlock', 'protect', 'aadhar-crop', 'crop-pdf', 'meesho-cropper', 'meshocrop', 'flipkart-cropper'];
+  const { data: allTools, isLoading: toolsLoading } = useAllTools();
+  const { data: rawCategories } = useDbCategories();
 
-    // Timeout fallback — if DB takes >3s or fails, show all tools immediately
-    const fallbackTimer = setTimeout(() => setVerifiedKeys(prev => prev ?? FALLBACK_KEYS), 3000);
+  const [cachedToolsExist] = useState(() => {
+    if (typeof window === 'undefined') return false;
+    try {
+      const raw = localStorage.getItem('REACT_QUERY_CACHE');
+      if (!raw) return false;
+      const parsed = JSON.parse(raw);
+      const queries: unknown[] = parsed?.clientState?.queries ?? [];
+      return queries.some(
+        (q) =>
+          (q as Record<string, unknown>).queryKey?.[0] === 'tools' &&
+          ((q as Record<string, unknown>).state as Record<string, unknown>)?.data?.length > 0
+      );
+    } catch {
+      return false;
+    }
+  });
 
-    getVerifiedToolKeys()
-      .then(keys => setVerifiedKeys(keys.length > 0 ? keys : FALLBACK_KEYS))
-      .catch(() => setVerifiedKeys(FALLBACK_KEYS))
-      .finally(() => clearTimeout(fallbackTimer));
-
-    getImgConvertTools().then(setImgConvertKeys).catch(() => { });
-
-    getCategories().then(cats => {
-      const ordered = CATEGORIES.filter(c => c === 'All' || cats.includes(c));
-      const extra = cats.filter((c: string) => !CATEGORIES.includes(c));
-      setDbCategories([...ordered, ...extra]);
-    }).catch(() => { });
-
-    insertAvifTools().then(err => { if (err) console.error('insertAvifTools error:', err); }).catch(() => { });
-    syncMissingTools(TOOLS.map(t => ({ id: t.id, title: t.title, category: t.category }))).catch(() => { });
-    insertMeeshoTool().then(err => { if (err) console.error('insertMeeshoTool error:', err); }).catch(() => { });
-    insertEcommerceCategory().then(err => { if (err) console.error('insertEcommerceCategory error:', err); }).catch(() => { });
-
-    return () => clearTimeout(fallbackTimer);
+  useLayoutEffect(() => {
+    setMounted(true);
   }, []);
 
-  useEffect(() => { setMounted(true); }, []);
+  const dbCategories = useMemo(() => {
+    if (!rawCategories) return CATEGORIES;
+    const ordered = CATEGORIES.filter(c => c === 'All' || rawCategories.includes(c));
+    const extra = rawCategories.filter((c: string) => !CATEGORIES.includes(c));
+    return [...ordered, ...extra];
+  }, [rawCategories]);
+
+  // Admin sync operations (run once on mount, write-only)
+  useEffect(() => {
+    insertAvifTools().catch(() => { });
+    insertMeeshoTool().catch(() => { });
+    insertEcommerceCategory().catch(() => { });
+  }, []);
 
   useEffect(() => {
     if (!mounted || activeCategory === displayCategory) return;
-    setIsLoading(true);
-    const t = setTimeout(() => { setDisplayCategory(activeCategory); setIsLoading(false); }, 300);
+    const t = setTimeout(() => { setDisplayCategory(activeCategory); }, 150);
     return () => clearTimeout(t);
-  }, [activeCategory, mounted]);
+  }, [activeCategory, displayCategory, mounted]);
 
-  const CATEGORY_ORDER = ['Organize', 'Optimize', 'Convert', 'Image Convert', 'Edit', 'Security', 'Special', 'Ecommerce', 'Sign'];
+  const mergedTools = useMemo(() => {
+    const source = allTools && allTools.length > 0 ? allTools : null;
+    if (!source) {
+      return Object.entries(TOOL_META).map(([key, meta]) => ({
+        id: key,
+        title: key,
+        category: 'Organize',
+        description: meta.description,
+        icon: meta.icon,
+        img_convert: false,
+      }));
+    }
+    return source
+      .filter(t => t.is_verified)
+      .map(t => {
+        const meta = TOOL_META[t.tool_key];
+        return {
+          id: t.tool_key,
+          title: t.title || t.tool_key,
+          category: t.category,
+          description: meta?.description ?? '',
+          icon: meta?.icon ?? null,
+          img_convert: t.img_convert,
+        };
+      })
+      .filter(t => t.icon !== null);
+  }, [allTools]);
 
   const filteredTools = useMemo(() => {
-    const tools = TOOLS.filter(t => {
-      const isVerified = (verifiedKeys ?? []).includes(t.id);
-      if (displayCategory === 'All') return isVerified;
-      if (displayCategory === 'Image Convert') return isVerified && imgConvertKeys.includes(t.id);
-      return isVerified && t.category === displayCategory;
+    const tools = mergedTools.filter(t => {
+      if (displayCategory === 'All') return true;
+      if (displayCategory === 'Image Convert') return t.img_convert;
+      return t.category === displayCategory;
     });
     if (displayCategory === 'All') {
       tools.sort((a, b) => CATEGORY_ORDER.indexOf(a.category) - CATEGORY_ORDER.indexOf(b.category));
     }
     return tools;
-  }, [displayCategory, verifiedKeys, imgConvertKeys]);
+  }, [displayCategory, mergedTools]);
 
-  const showGridSkeleton = !mounted || isLoading || verifiedKeys === null;
+  const showGridSkeleton = !mounted || (!cachedToolsExist && toolsLoading && !allTools);
 
   const skeletonCount = 8;
   const skeletonCategories = useMemo(() => {
     const cat = activeCategory;
-    if (cat === 'All') return TOOLS.slice(0, skeletonCount).map(t => t.category);
+    if (cat === 'All') return mergedTools.slice(0, skeletonCount).map(t => t.category);
     return Array.from({ length: skeletonCount }, () => cat);
-  }, [activeCategory]);
+  }, [activeCategory, mergedTools]);
 
   return (
     <div className="min-h-screen relative overflow-hidden">
@@ -289,36 +258,29 @@ export default function Home() {
               <div className="h-px flex-1 bg-gradient-to-l from-transparent via-slate-200 dark:via-slate-700 to-transparent" />
             </div>
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
-              {[
-                { id: 'merge', title: 'Merge PDF', desc: 'Combine multiple PDFs into one.', icon: Combine, gradient: 'linear-gradient(135deg,#f26522,#c2410c)' },
-                { id: 'compress', title: 'Compress PDF', desc: 'Reduce file size instantly.', icon: Zap, gradient: 'linear-gradient(135deg,#22c55e,#15803d)' },
-                { id: 'pdf-to-word', title: 'PDF to Word', desc: 'Convert PDF to editable DOCX.', icon: FileText, gradient: 'linear-gradient(135deg,#3182ce,#1e3a8a)' },
-                { id: 'split', title: 'Split PDF', desc: 'Divide PDF into separate files.', icon: Scissors, gradient: 'linear-gradient(135deg,#f26522,#c2410c)' },
-                { id: 'edit-pdf', title: 'Edit PDF', desc: 'Annotate, highlight & draw on PDFs.', icon: PenLine, gradient: 'linear-gradient(135deg,#E8465D,#843286)', href: '/edit' },
-                { id: 'crop-pdf', title: 'Crop PDF', desc: 'Trim margins from any PDF page.', icon: Crop, gradient: 'linear-gradient(135deg,#ef4444,#991b1b)' },
-                { id: 'protect', title: 'Protect PDF', desc: 'Encrypt PDF with a password.', icon: Lock, gradient: 'linear-gradient(135deg,#e53e3e,#7f1d1d)' },
-                { id: 'unlock', title: 'Unlock PDF', desc: 'Remove PDF password protection.', icon: Unlock, gradient: 'linear-gradient(135deg,#e53e3e,#7f1d1d)' },
-                { id: 'redact-pdf', title: 'Redact PDF', desc: 'Permanently hide sensitive content.', icon: EyeOff, gradient: 'linear-gradient(135deg,#e53e3e,#7f1d1d)' },
-                { id: 'ocr-pdf', title: 'OCR PDF', desc: 'Make scanned PDFs searchable.', icon: ScanText, gradient: 'linear-gradient(135deg,#3182ce,#1e3a8a)' },
-              ].map(tool => (
-                <a
-                  key={tool.id}
-                  href={tool.href ?? `/tool/${tool.id}`}
-                  onClick={() => trackToolClick(tool.id)}
-                  className="group flex items-center gap-3 p-3.5 bg-white dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200"
-                >
-                  <div
-                    className="w-10 h-10 shrink-0 rounded-xl flex items-center justify-center text-white shadow-md group-hover:scale-110 transition-transform duration-200"
-                    style={{ background: tool.gradient }}
+              {PRIORITY_TOOLS.map(tool => {
+                const meta = TOOL_META[tool.id];
+                const Icon = meta?.icon;
+                return (
+                  <Link
+                    key={tool.id}
+                    href={tool.href ?? `/tool/${tool.id}`}
+                    onClick={() => trackToolClick(tool.id)}
+                    className="group flex items-center gap-3 p-3.5 bg-white dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200"
                   >
-                    <tool.icon size={18} />
-                  </div>
-                  <div className="min-w-0">
-                    <p className="font-outfit text-[12px] font-medium text-slate-800 dark:text-white leading-tight truncate">{tool.title}</p>
-                    <p className="text-[10px] text-slate-400 dark:text-slate-400 leading-tight mt-0.5 truncate">{tool.desc}</p>
-                  </div>
-                </a>
-              ))}
+                    <div
+                      className="w-10 h-10 shrink-0 rounded-xl flex items-center justify-center text-white shadow-md group-hover:scale-110 transition-transform duration-200"
+                      style={{ background: tool.gradient }}
+                    >
+                      {Icon && <Icon size={18} />}
+                    </div>
+                    <div className="min-w-0">
+                      <p className="font-outfit text-[12px] font-medium text-slate-800 dark:text-white leading-tight truncate">{tool.title}</p>
+                      <p className="text-[10px] text-slate-400 dark:text-slate-400 leading-tight mt-0.5 truncate">{tool.desc}</p>
+                    </div>
+                  </Link>
+                );
+              })}
             </div>
           </div>
         )}
@@ -341,7 +303,7 @@ export default function Home() {
               const isLocked = isPremiumTool && !isPremium;
               return (
                 <div key={tool.id} className="tool-card-border" style={{ '--cat-gradient': style.gradient } as React.CSSProperties}>
-                  <a
+                  <Link
                     href={tool.id === 'esign' ? '/esign' : tool.id === 'edit-pdf' ? '/edit' : `/tool/${tool.id}`}
                     className={`tool-card relative ${isLocked ? 'grayscale-[30%] opacity-90' : ''}`}
                     onClick={() => trackToolClick(tool.id)}
@@ -353,14 +315,14 @@ export default function Home() {
                     )}
                     <div className="relative">
                       <div className={`tool-icon-wrapper shadow-xl ${style.shadow}`} style={{ backgroundImage: style.gradient }}>
-                        <tool.icon size={28} />
+                        {tool.icon && <tool.icon size={28} />}
                       </div>
                     </div>
                     <div className="space-y-3">
                       <h3 className="font-outfit text-lg font-black text-slate-900 dark:text-white tracking-tight">{tool.title}</h3>
                       <p className="text-[13px] font-medium text-slate-500 dark:text-slate-400 leading-snug">{tool.description}</p>
                     </div>
-                  </a>
+                  </Link>
                 </div>
               );
             })}

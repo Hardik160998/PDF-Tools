@@ -102,6 +102,27 @@ export async function getCategories(): Promise<string[]> {
   }
 }
 
+export interface AllToolRow {
+  tool_key: string;
+  title: string;
+  category: string;
+  url: string;
+  is_verified: boolean;
+  img_convert: boolean;
+}
+
+export async function getAllTools(): Promise<AllToolRow[]> {
+  try {
+    const { data } = await supabase
+      .from('allpdftools')
+      .select('tool_key, title, category, url, is_verified, img_convert')
+      .eq('is_verified', true);
+    return data ?? [];
+  } catch {
+    return [];
+  }
+}
+
 export async function getToolsByCategory(category: string): Promise<string[]> {
   const { data } = await supabase
     .from('allpdftools')
