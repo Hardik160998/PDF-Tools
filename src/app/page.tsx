@@ -110,9 +110,13 @@ export default function Home() {
       const parsed = JSON.parse(raw);
       const queries: unknown[] = parsed?.clientState?.queries ?? [];
       return queries.some(
-        (q) =>
-          (q as Record<string, unknown>).queryKey?.[0] === 'tools' &&
-          ((q as Record<string, unknown>).state as Record<string, unknown>)?.data?.length > 0
+        (q) => {
+          const query = q as { queryKey?: unknown[]; state?: { data?: unknown[] } };
+          return Array.isArray(query.queryKey) &&
+            query.queryKey[0] === 'tools' &&
+            Array.isArray(query.state?.data) &&
+            query.state.data.length > 0;
+        }
       );
     } catch {
       return false;
@@ -213,7 +217,7 @@ export default function Home() {
         </div>
 
         {/* Category Filter */}
-        <div className="mt-16 fade-in-up stagger-3 flex justify-center">
+        <div id="tools-grid" className="mt-16 fade-in-up stagger-3 flex justify-center">
           <div className="hidden md:flex justify-center w-full">
             <div className="category-nav">
               {dbCategories.map(cat => (
@@ -349,8 +353,8 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch max-w-5xl mx-auto">
             {/* Basic Plan */}
             <div className={`bg-white dark:bg-slate-800/60 rounded-3xl p-8 shadow-lg flex flex-col justify-between hover:-translate-y-1 transition-all duration-300 ${activePlan === "Basic Plan"
-                ? "border-2 border-amber-400 ring-1 ring-amber-400/20"
-                : "border border-slate-100 dark:border-slate-700/80"
+              ? "border-2 border-amber-400 ring-1 ring-amber-400/20"
+              : "border border-slate-100 dark:border-slate-700/80"
               }`}>
               <div className="space-y-6">
                 <div>
@@ -398,8 +402,8 @@ export default function Home() {
 
             {/* Yearly Pro Plan (Featured) */}
             <div className={`relative bg-white dark:bg-slate-800/60 rounded-3xl p-8 shadow-2xl flex flex-col justify-between hover:-translate-y-1 transition-all duration-300 scale-105 z-10 ${activePlan === "Yearly Pro" || (!activePlan && true)
-                ? "border-2 border-amber-400 ring-1 ring-amber-400/20"
-                : "border border-slate-100 dark:border-slate-700/80"
+              ? "border-2 border-amber-400 ring-1 ring-amber-400/20"
+              : "border border-slate-100 dark:border-slate-700/80"
               }`}>
               <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-amber-400 text-slate-900 text-[10px] font-black uppercase tracking-widest px-4 py-1.5 rounded-full shadow-md flex items-center gap-1">
                 <Crown size={12} className="fill-slate-900" /> Best Value
@@ -455,8 +459,8 @@ export default function Home() {
 
             {/* Monthly Pro Plan */}
             <div className={`bg-white dark:bg-slate-800/60 rounded-3xl p-8 shadow-lg flex flex-col justify-between hover:-translate-y-1 transition-all duration-300 ${activePlan === "Monthly Pro"
-                ? "border-2 border-amber-400 ring-1 ring-amber-400/20"
-                : "border border-slate-100 dark:border-slate-700/80"
+              ? "border-2 border-amber-400 ring-1 ring-amber-400/20"
+              : "border border-slate-100 dark:border-slate-700/80"
               }`}>
               <div className="space-y-6">
                 <div>
