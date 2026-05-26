@@ -1,6 +1,7 @@
 "use client";
 
 import { usePathname } from "next/navigation";
+import Link from "next/link";
 import { Heart } from "lucide-react";
 import AllToolsDropdown from "@/components/AllToolsDropdown";
 import MobileNav from "@/components/MobileNav";
@@ -32,11 +33,11 @@ export default function AppLayout({
       <header className="sticky top-0 z-[1000] bg-white dark:bg-slate-900 border-b border-slate-100 dark:border-slate-800 overflow-visible">
         <div className="w-full px-6 h-16 grid items-center" style={{ gridTemplateColumns: '1fr auto 1fr' }}>
           {/* Left — Logo */}
-          <a href="/" className={`${outfitClass} flex items-center gap-1.5 font-bold text-2xl tracking-tighter hover:opacity-80 transition-opacity justify-self-start`}>
+          <Link href="/" className={`${outfitClass} flex items-center gap-1.5 font-bold text-2xl tracking-tighter hover:opacity-80 transition-opacity justify-self-start`}>
             <span className="text-slate-900 dark:text-white uppercase">Smart</span>
             <Heart className="fill-red-500 text-red-500" size={24} />
             <span className="text-slate-900 dark:text-white uppercase">PDFs</span>
-          </a>
+          </Link>
 
           {/* Center — Desktop nav */}
           <nav className="desktop-nav">
@@ -45,9 +46,9 @@ export default function AppLayout({
               { label: 'SPLIT PDF', href: '/tool/split' },
               { label: 'COMPRESS PDF', href: '/tool/compress' },
             ].map(({ label, href }) => (
-              <a key={label} href={href} className={`${outfitClass} text-[14px] font-medium text-slate-500 dark:text-slate-400 hover:text-red-500 transition-colors uppercase tracking-wider whitespace-nowrap`}>
+              <Link key={label} href={href} className={`${outfitClass} text-[14px] font-medium text-slate-500 dark:text-slate-400 hover:text-red-500 transition-colors uppercase tracking-wider whitespace-nowrap`}>
                 {label}
-              </a>
+              </Link>
             ))}
             <ConvertDropdown />
             <EcommerceDropdown />
@@ -78,11 +79,11 @@ export default function AppLayout({
 
             {/* Col 1 — Logo + description */}
             <div className="space-y-4">
-              <a href="/" className={`${outfitClass} flex items-center gap-1.5 font-bold text-xl tracking-tighter`}>
+              <Link href="/" className={`${outfitClass} flex items-center gap-1.5 font-bold text-xl tracking-tighter`}>
                 <span className="text-slate-900 dark:text-white uppercase">Smart</span>
                 <Heart className="fill-red-500 text-red-500" size={20} />
                 <span className="text-slate-900 dark:text-white uppercase">PDFs</span>
-              </a>
+              </Link>
               <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed max-w-xs">
                 The most powerful free web-based PDF toolkit. Merge, split, compress, convert and secure your documents — entirely in your browser.
               </p>
@@ -104,9 +105,9 @@ export default function AppLayout({
                   { label: 'Contact Us', href: '/contact' },
                 ].map(({ label, href }) => (
                   <li key={label}>
-                    <a href={href} className="text-sm text-slate-500 dark:text-slate-400 hover:text-red-500 dark:hover:text-red-400 transition-colors font-medium">
+                    <Link href={href} className="text-sm text-slate-500 dark:text-slate-400 hover:text-red-500 dark:hover:text-red-400 transition-colors font-medium">
                       {label}
-                    </a>
+                    </Link>
                   </li>
                 ))}
               </ul>
@@ -160,10 +161,10 @@ export default function AppLayout({
           <div className="mt-10 pt-6 border-t border-slate-100 dark:border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-3">
             <p className="text-xs text-slate-400 font-medium">Built with ❤️ for productivity. 100% free &amp; secure.</p>
             <div className="flex items-center gap-4">
-              <a href="/blog" className="text-xs text-slate-400 hover:text-red-500 transition-colors">Blog</a>
-              <a href="/privacy" className="text-xs text-slate-400 hover:text-red-500 transition-colors">Privacy</a>
-              <a href="/terms" className="text-xs text-slate-400 hover:text-red-500 transition-colors">Terms</a>
-              <a href="/contact" className="text-xs text-slate-400 hover:text-red-500 transition-colors">Contact</a>
+              <Link href="/blog" className="text-xs text-slate-400 hover:text-red-500 transition-colors">Blog</Link>
+              <Link href="/privacy" className="text-xs text-slate-400 hover:text-red-500 transition-colors">Privacy</Link>
+              <Link href="/terms" className="text-xs text-slate-400 hover:text-red-500 transition-colors">Terms</Link>
+              <Link href="/contact" className="text-xs text-slate-400 hover:text-red-500 transition-colors">Contact</Link>
             </div>
           </div>
         </div>

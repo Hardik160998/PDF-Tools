@@ -1,51 +1,372 @@
-"use client";
-
 import MergeSplit from "@/components/tools/MergeSplit";
-import { Merge, SplitSquareHorizontal, FileText, ImageIcon, Lock, Unlock, Zap } from "lucide-react";
+import Link from "next/link";
+import type { Metadata } from "next";
+import { 
+  Scissors, FileText, ArrowRight, HelpCircle, Star, Check, ChevronDown 
+} from "lucide-react";
 
-const RELATED = [
-  { id: 'merge', title: 'Merge PDF', description: 'Combine multiple PDF files into one document in seconds.', icon: Merge, gradient: 'linear-gradient(135deg, #f97316, #c2410c)', shadow: 'rgba(249,115,22,0.3)', tag: 'Organize' },
-  { id: 'compress', title: 'Compress PDF', description: 'Reduce PDF file size without losing visible quality.', icon: Zap, gradient: 'linear-gradient(135deg, #22c55e, #15803d)', shadow: 'rgba(34,197,94,0.3)', tag: 'Optimize' },
-  { id: 'pdf-to-jpg', title: 'PDF to JPG', description: 'Convert every PDF page into a high-quality JPG image.', icon: ImageIcon, gradient: 'linear-gradient(135deg, #eab308, #a16207)', shadow: 'rgba(234,179,8,0.3)', tag: 'Convert' },
-  { id: 'word-to-pdf', title: 'Word to PDF', description: 'Convert DOCX files to PDF instantly with perfect formatting.', icon: FileText, gradient: 'linear-gradient(135deg, #3182ce, #1e3a8a)', shadow: 'rgba(49,130,206,0.3)', tag: 'Convert' },
-  { id: 'protect', title: 'Protect PDF', description: 'Encrypt your PDF with a password to keep it secure.', icon: Lock, gradient: 'linear-gradient(135deg, #ef4444, #b91c1c)', shadow: 'rgba(239,68,68,0.3)', tag: 'Security' },
-  { id: 'unlock', title: 'Unlock PDF', description: 'Remove password protection from a PDF instantly.', icon: Unlock, gradient: 'linear-gradient(135deg, #8b5cf6, #6d28d9)', shadow: 'rgba(139,92,246,0.3)', tag: 'Security' },
-];
+// Site URL for canonical/SEO links
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://smartpdfsplus.com';
+
+// 1. Dynamic Metadata Export for Next.js App Router
+export const metadata: Metadata = {
+  title: 'Split PDF Online Free - Extract Pages from PDF | SmartPDFs',
+  description: 'Split PDF files online for free. Extract specific page ranges or split every page into separate PDF documents instantly. 100% secure, local browser processing.',
+  keywords: 'split pdf, split pdf online, split pdf pages, extract pages from pdf, divide pdf online, split pdf free, extract pages online, free pdf tool, smartpdfs',
+  alternates: {
+    canonical: `${siteUrl}/tool/split`,
+  },
+  robots: {
+    index: true,
+    follow: true,
+    nocache: false,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
+  openGraph: {
+    type: 'website',
+    title: 'Split PDF Online Free - Extract Pages from PDF | SmartPDFs',
+    description: 'Split PDF files online for free. Extract specific page ranges or split every page into separate PDF documents instantly. 100% secure, local browser processing.',
+    siteName: 'SmartPDFs',
+    url: `${siteUrl}/tool/split`,
+    images: [
+      {
+        url: `${siteUrl}/img/split-pdf-og.png`,
+        width: 1200,
+        height: 630,
+        alt: 'Split PDF Online Free - SmartPDFs',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Split PDF Online Free - Extract Pages from PDF | SmartPDFs',
+    description: 'Split PDF files online for free. Extract specific page ranges or split every page into separate PDF documents instantly. 100% secure, local browser processing.',
+    images: [`${siteUrl}/img/split-pdf-og.png`],
+  },
+};
+
+// 3. Structured Data (JSON-LD Schemas)
+const webAppJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Split PDF Online Free",
+  "url": `${siteUrl}/tool/split`,
+  "image": `${siteUrl}/img/split-pdf-og.png`,
+  "description": "Split PDF files online for free. Extract specific page ranges or split every page into separate PDF documents instantly. 100% secure, local browser processing.",
+  "applicationCategory": "UtilityApplication",
+  "operatingSystem": "All",
+  "browserRequirements": "Requires HTML5 support",
+  "featureList": [
+    "100% Local processing in your browser",
+    "No file uploads to servers",
+    "Split PDF by page ranges or extract all pages",
+    "Visual thumbnails preview",
+    "Fast processing with no watermarks",
+    "Download result as separate files or unified ZIP"
+  ],
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  }
+};
+
+const breadcrumbJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": siteUrl
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Tools",
+      "item": `${siteUrl}/#tools-grid`
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Split PDF",
+      "item": `${siteUrl}/tool/split`
+    }
+  ]
+};
+
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How can I split a PDF file?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Upload your PDF file. Choose between two splitting modes: split into custom parts or extract specific page ranges. Specify your options in the settings panel and click 'Split All' to download the processed files."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is my PDF data safe when splitting files?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, absolutely! The splitting process is completed entirely on your local device. We never upload or save your documents to any external servers, maintaining total security."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I download the split pages separately or in a single file?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "You can download all split pages grouped inside a single unified ZIP archive, or save individual parts directly using the respective download buttons next to each split thumbnail."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does splitting a PDF reduce the layout quality?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. The splitting engine extracts original pages directly from the source PDF. All text elements, vector graphics, hyperlinked actions, and embedded images maintain 100% of their original quality."
+      }
+    }
+  ]
+};
 
 export default function SplitPage() {
   return (
     <div className="min-h-screen bg-slate-50/50 dark:bg-slate-950">
-      <div className="max-w-7xl mx-auto px-4 pt-10 sm:pt-16 pb-10">
-        <MergeSplit id="split" />
+      {/* Dynamic JSON-LD structured script injections for Google Crawler */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(webAppJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+      />
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-16 mb-16">
-          {[
-            { title: "Smart Splitting", desc: "Break down large PDF documents into individual pages or specific ranges with ease.", gradient: "linear-gradient(135deg,#8b5cf6,#6d28d9)" },
-            { title: "Extraction Mode", desc: "Extract every single page as a separate PDF file in a single click.", gradient: "linear-gradient(135deg,#8b5cf6,#6d28d9)" },
-            { title: "Secure Local", desc: "Your sensitive files never leave your device. All processing is 100% private.", gradient: "linear-gradient(135deg,#22c55e,#15803d)" }
-          ].map((feat, i) => (
-            <div key={i} className="bg-white dark:bg-slate-900 p-8 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-xl transition-all group text-left">
-              <div className="w-12 h-12 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform shadow-lg" style={{ background: feat.gradient }}>
-                <div className="text-white font-black">{i + 1}</div>
-              </div>
-              <h3 className="text-xl font-black text-slate-900 dark:text-white uppercase tracking-tight mb-2">{feat.title}</h3>
-              <p className="text-slate-500 dark:text-slate-400 text-sm leading-relaxed">{feat.desc}</p>
+      <div className="max-w-7xl mx-auto px-4 pt-6 sm:pt-10 pb-16">
+        {/* Navigation Breadcrumbs */}
+        <nav aria-label="Breadcrumb" className="mb-8">
+          <ol className="flex items-center space-x-2 text-xs font-semibold text-slate-400 uppercase tracking-widest">
+            <li>
+              <Link href="/" className="hover:text-violet-500 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 rounded px-1">
+                Home
+              </Link>
+            </li>
+            <li className="flex items-center gap-1.5" aria-hidden="true">
+              <span>/</span>
+              <Link href="/#tools-grid" className="hover:text-violet-500 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 rounded px-1">
+                Tools
+              </Link>
+            </li>
+            <li className="flex items-center gap-1.5 text-slate-600 dark:text-slate-200" aria-current="page">
+              <span>/</span>
+              <span>Split PDF</span>
+            </li>
+          </ol>
+        </nav>
+
+        {/* Dynamic Client Tool Component */}
+        <div className="mb-16">
+          <MergeSplit id="split" />
+        </div>
+
+        {/* Rich SEO Content Section */}
+        <article className="space-y-16 max-w-7xl mx-auto mt-20">
+          
+          {/* Main heading and description */}
+          <section className="text-center max-w-4xl mx-auto space-y-4">
+            <h2 className="font-outfit text-3xl md:text-5xl font-black tracking-tighter leading-tight bg-clip-text text-transparent bg-gradient-to-r from-slate-900 via-violet-950 to-violet-600 dark:from-white dark:via-violet-100 dark:to-violet-400 uppercase">
+              Split PDF Online Free — 100% Secure
+            </h2>
+            <p className="text-lg font-medium text-slate-500 dark:text-slate-400 leading-relaxed">
+              Separate your PDF pages into individual documents or extract custom page ranges instantly. Fast and secure local processing ensures your files never leave your device.
+            </p>
+          </section>
+
+          {/* How It Works Section */}
+          <section className="space-y-10">
+            <div className="text-center space-y-2">
+              <h3 className="font-outfit text-2xl md:text-3xl font-black text-slate-900 dark:text-white uppercase tracking-tight">
+                How to Split PDF Pages Online?
+              </h3>
+              <p className="text-sm font-medium text-slate-400 uppercase tracking-wider">Visual step-by-step guide</p>
             </div>
-          ))}
-        </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {RELATED.map(t => (
-            <a key={t.id} href={`/tool/${t.id}`} className="group bg-white dark:bg-slate-900 rounded-3xl p-6 shadow-sm border border-slate-100 dark:border-slate-800 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 flex flex-col gap-4 text-left">
-              <div className="flex items-start justify-between">
-                <div className="w-14 h-14 rounded-2xl flex items-center justify-center text-white shadow-lg" style={{ background: t.gradient, boxShadow: `0 8px 20px -4px ${t.shadow}` }}><t.icon size={26} /></div>
-                <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 bg-slate-50 dark:bg-slate-800 px-2 py-1 rounded-full border border-slate-100 dark:border-slate-700">{t.tag}</span>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
+              {[
+                {
+                  step: "01",
+                  title: "Upload Document",
+                  desc: "Select or drag & drop your PDF file into the splitter workspace. The file loads instantly in your browser."
+                },
+                {
+                  step: "02",
+                  title: "Choose Split Settings",
+                  desc: "Select splitting modes: split into custom parts, or define exact page ranges to extract from the source."
+                },
+                {
+                  step: "03",
+                  title: "Download Results",
+                  desc: "Click 'Split All' to process. Save your split documents immediately as separate PDFs or a single ZIP."
+                }
+              ].map((item, index) => (
+                <div key={index} className="relative bg-white dark:bg-slate-900 rounded-3xl p-8 border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-md transition-all group flex flex-col justify-between">
+                  <div className="space-y-4">
+                    <div className="flex items-center justify-between">
+                      <span className="font-outfit text-4xl font-black text-violet-500/20 group-hover:text-violet-500 transition-colors duration-300">
+                        {item.step}
+                      </span>
+                      <div className="w-10 h-10 rounded-xl bg-violet-50 dark:bg-violet-950/20 text-violet-500 flex items-center justify-center font-bold text-sm">
+                        {index + 1}
+                      </div>
+                    </div>
+                    <h4 className="font-outfit text-lg font-black text-slate-800 dark:text-white uppercase tracking-tight">
+                      {item.title}
+                    </h4>
+                    <p className="text-slate-500 dark:text-slate-400 text-sm font-medium leading-relaxed">
+                      {item.desc}
+                    </p>
+                  </div>
+                  {index < 2 && (
+                    <div className="hidden md:block absolute top-1/2 -right-4 transform -translate-y-1/2 z-10 text-slate-300 dark:text-slate-700 animate-pulse">
+                      <ArrowRight size={24} />
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          </section>
+
+          {/* Features and Benefits Grid */}
+          <section className="bg-gradient-to-tr from-white to-violet-50/20 dark:from-slate-900 dark:to-slate-950 p-8 sm:p-12 rounded-[2.5rem] border border-violet-100/50 dark:border-slate-800/80 space-y-10">
+            <div className="flex flex-col lg:flex-row gap-8 lg:items-center justify-between border-b border-violet-100/30 dark:border-slate-800/50 pb-8">
+              <div className="space-y-3">
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-violet-100/50 dark:bg-violet-950/20 text-violet-600 dark:text-violet-400 text-xs font-black uppercase tracking-widest border border-violet-100 dark:border-violet-900/30">
+                  <Star size={12} className="fill-violet-500" /> Premium Benefits
+                </span>
+                <h3 className="font-outfit text-2xl md:text-3xl font-black text-slate-900 dark:text-white uppercase tracking-tight">
+                  Visual PDF Splitter Benefits
+                </h3>
               </div>
-              <div><h3 className="text-base font-black text-slate-900 dark:text-white mb-1 group-hover:text-violet-500 transition-colors">{t.title}</h3><p className="text-sm text-slate-500 dark:text-slate-400 font-medium leading-relaxed">{t.description}</p></div>
-              <div className="mt-auto pt-2 text-xs font-bold text-violet-500 flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">Open tool &#8594;</div>
-            </a>
-          ))}
-        </div>
+              <p className="text-sm font-medium text-slate-500 dark:text-slate-400 max-w-md">
+                Fast browser-based operations without queues or subscriptions. Tailor files instantly and secure privacy.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              {[
+                { title: "No Server Access", desc: "Your PDF is processed inside your browser tab. Zero data uploads, zero security concerns." },
+                { title: "Custom Splitting", desc: "Divide documents into equal parts or extract specific page ranges as desired." },
+                { title: "High-Quality Preserved", desc: "Maintains all fonts, forms, vector graphics, and images from original files." },
+                { title: "Dynamic ZIP Packaging", desc: "Save multiple split files together in a clean ZIP bundle for organized downloading." }
+              ].map((feat, i) => (
+                <div key={i} className="space-y-3 p-2">
+                  <div className="w-8 h-8 rounded-lg bg-violet-500 text-white flex items-center justify-center shadow-lg shadow-violet-500/25">
+                    <Check size={16} className="stroke-[3]" />
+                  </div>
+                  <h4 className="font-outfit text-base font-black text-slate-900 dark:text-white uppercase tracking-tight">
+                    {feat.title}
+                  </h4>
+                  <p className="text-xs font-medium text-slate-500 dark:text-slate-400 leading-relaxed">
+                    {feat.desc}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          {/* FAQs Accordion */}
+          <section className="space-y-8 max-w-4xl mx-auto">
+            <div className="text-center space-y-2">
+              <h3 className="font-outfit text-2xl md:text-3xl font-black text-slate-900 dark:text-white uppercase tracking-tight">
+                Frequently Asked Questions
+              </h3>
+              <p className="text-sm font-medium text-slate-400 uppercase tracking-wider">Split PDF FAQs</p>
+            </div>
+
+            <div className="space-y-4">
+              {[
+                {
+                  q: "How can I split a PDF file?",
+                  a: "Upload your PDF file. Choose between two splitting modes: split into custom parts or extract specific page ranges. Specify your options in the settings panel and click 'Split All' to download the processed files."
+                },
+                {
+                  q: "Is my PDF data safe when splitting files?",
+                  a: "Yes, absolutely! The splitting process is completed entirely on your local device. We never upload or save your documents to any external servers, maintaining total security."
+                },
+                {
+                  q: "Can I download the split pages separately or in a single file?",
+                  a: "You can download all split pages grouped inside a single unified ZIP archive, or save individual parts directly using the respective download buttons next to each split thumbnail."
+                },
+                {
+                  q: "Does splitting a PDF reduce the layout quality?",
+                  a: "No. The splitting engine extracts original pages directly from the source PDF. All text elements, vector graphics, hyperlinked actions, and embedded images maintain 100% of their original quality."
+                }
+              ].map((faq, idx) => (
+                <details
+                  key={idx}
+                  className="group bg-white dark:bg-slate-900 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm overflow-hidden transition-all [&_summary::-webkit-details-marker]:hidden"
+                >
+                  <summary className="flex items-center justify-between p-6 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500">
+                    <span className="font-outfit text-sm sm:text-base font-black text-slate-800 dark:text-white uppercase tracking-tight flex items-center gap-3">
+                      <HelpCircle size={18} className="text-violet-500 shrink-0" />
+                      {faq.q}
+                    </span>
+                    <ChevronDown size={18} className="text-slate-400 transition-transform duration-300 group-open:rotate-180 shrink-0 ml-4" />
+                  </summary>
+                  <div className="px-6 pb-6 border-t border-slate-50 dark:border-slate-800 pt-4">
+                    <p className="text-sm text-slate-500 dark:text-slate-400 font-medium leading-relaxed">
+                      {faq.a}
+                    </p>
+                  </div>
+                </details>
+              ))}
+            </div>
+          </section>
+
+          {/* Internal Links/Related tools */}
+          <section className="pt-10 border-t border-slate-100 dark:border-slate-800/80">
+            <h3 className="font-outfit text-sm font-black text-slate-400 uppercase tracking-widest mb-6 text-center">
+              Related Document Tools
+            </h3>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              {[
+                { name: "Merge PDF", path: "/tool/merge", desc: "Combine files in order" },
+                { name: "Organize PDF", path: "/tool/organize", desc: "Reorder & rotate pages" },
+                { name: "Extract Pages", path: "/tool/extract-pages", desc: "Isolate page numbers" },
+                { name: "Compress PDF", path: "/tool/compress", desc: "Shrink file size locally" }
+              ].map((tool, idx) => (
+                <Link
+                  key={idx}
+                  href={tool.path}
+                  className="group p-4 bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-2xl shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all text-center flex flex-col justify-center"
+                >
+                  <span className="font-outfit text-xs sm:text-sm font-black text-slate-800 dark:text-white uppercase tracking-tight group-hover:text-violet-500 transition-colors">
+                    {tool.name}
+                  </span>
+                  <span className="text-[10px] text-slate-400 mt-1 font-medium leading-none">
+                    {tool.desc}
+                  </span>
+                </Link>
+              ))}
+            </div>
+          </section>
+        </article>
       </div>
     </div>
   );
