@@ -324,8 +324,9 @@ export default function Home() {
         )}
 
         {/* Divider before full grid — only visible when 'All' is selected */}
+         <div id="tools-grid" style="background:#C0C0C0"></div>
         {displayCategory === 'All' && (
-          <div id="tools-grid" className="flex items-center gap-3 mb-8">
+          <div  className="flex items-center gap-3 mb-8">
             <div className="h-px flex-1 bg-gradient-to-r from-transparent via-slate-200 dark:via-slate-700 to-transparent" />
             <span className="text-[10px] font-medium uppercase tracking-[0.2em] text-slate-400 dark:text-slate-400 px-3">All Tools</span>
             <div className="h-px flex-1 bg-gradient-to-l from-transparent via-slate-200 dark:via-slate-700 to-transparent" />
