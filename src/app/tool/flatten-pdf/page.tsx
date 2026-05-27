@@ -2,8 +2,9 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import dynamic from "next/dynamic";
 import { 
-  Stamp, FileDigit, Settings, Lock, Unlock, PenLine, ShieldCheck, FileSignature,
-  Info, ArrowRight, Star, Check, HelpCircle, ChevronDown, Loader2, Shield, Zap
+  Layers, Upload, Download, CheckCircle, Combine, Scissors,
+  Lock, Settings, Info, ArrowRight, Star, Check, 
+  HelpCircle, ChevronDown, Loader2, Shield, Zap
 } from 'lucide-react';
 
 // Site URL for canonical/SEO links
@@ -11,11 +12,11 @@ const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://smartpdfsplus.com';
 
 // 1. Dynamic Metadata Export for Next.js App Router
 export const metadata: Metadata = {
-  title: 'Sign PDF Online Free - Draw & Add Electronic Signatures',
-  description: 'Sign PDF documents online for free. Draw, type, or upload an image of your signature to sign your PDF files in seconds with 100% local browser security.',
-  keywords: 'sign pdf online, electronic signature pdf, free esign tool, sign document online, add signature to pdf, smartpdfs plus',
+  title: 'Flatten PDF Online Free - Flatten Form Fields & Annotations',
+  description: 'Flatten PDF files online for free. Merge form fields, annotations, and shapes permanently into the PDF page content to prevent further editing.',
+  keywords: 'flatten pdf, flatten form fields pdf, flatten annotations pdf, flatten pdf online, secure pdf flattener, smartpdfs plus',
   alternates: {
-    canonical: `${siteUrl}/esign`,
+    canonical: `${siteUrl}/tool/flatten-pdf`,
   },
   robots: {
     index: true,
@@ -31,23 +32,23 @@ export const metadata: Metadata = {
   },
   openGraph: {
     type: 'website',
-    title: 'Sign PDF Online Free - Draw & Add Electronic Signatures',
-    description: 'Sign PDF documents online for free. Draw, type, or upload an image of your signature to sign your PDF files in seconds with 100% local browser security.',
+    title: 'Flatten PDF Online Free - Flatten Form Fields & Annotations',
+    description: 'Flatten PDF files online for free. Merge form fields, annotations, and shapes permanently into the PDF page content to prevent further editing.',
     siteName: 'SmartPDFs Plus',
-    url: `${siteUrl}/esign`,
+    url: `${siteUrl}/tool/flatten-pdf`,
     images: [
       {
         url: `${siteUrl}/img/snapdeal-label.png`,
         width: 1200,
         height: 630,
-        alt: 'Sign PDF Tool Online - SmartPDFs Plus',
+        alt: 'Flatten PDF Tool Online - SmartPDFs Plus',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Sign PDF Online Free - Draw & Add Electronic Signatures',
-    description: 'Sign PDF documents online for free. Draw, type, or upload an image of your signature to sign your PDF files in seconds with 100% local browser security.',
+    title: 'Flatten PDF Online Free - Flatten Form Fields & Annotations',
+    description: 'Flatten PDF files online for free. Merge form fields, annotations, and shapes permanently into the PDF page content to prevent further editing.',
     images: [`${siteUrl}/img/snapdeal-label.png`],
   },
 };
@@ -56,19 +57,19 @@ export const metadata: Metadata = {
 const webAppJsonLd = {
   "@context": "https://schema.org",
   "@type": "WebApplication",
-  "name": "Sign PDF Online Free",
-  "url": `${siteUrl}/esign`,
+  "name": "Flatten PDF Online Free",
+  "url": `${siteUrl}/tool/flatten-pdf`,
   "image": `${siteUrl}/img/snapdeal-label.png`,
-  "description": "Sign PDF documents online for free. Draw, type, or upload an image of your signature to sign your PDF files in seconds with 100% local browser security.",
+  "description": "Flatten PDF files online for free. Merge form fields, annotations, and shapes permanently into the PDF page content to prevent further editing.",
   "applicationCategory": "UtilityApplication",
   "operatingSystem": "All",
   "browserRequirements": "Requires HTML5 support",
   "featureList": [
-    "100% Local browser processing",
-    "Draw signature with mouse or touch",
-    "Type signature using elegant cursive scripts",
-    "Upload signature image with transparency keying",
-    "Fast, free, and no watermarks added"
+    "100% Local processing in your browser",
+    "No file uploads to servers",
+    "Flatten form fields and text inputs",
+    "Flatten comments, shapes, and annotations",
+    "Fast and free with no watermark"
   ],
   "offers": {
     "@type": "Offer",
@@ -96,8 +97,8 @@ const breadcrumbJsonLd = {
     {
       "@type": "ListItem",
       "position": 3,
-      "name": "Sign PDF",
-      "item": `${siteUrl}/esign`
+      "name": "Flatten PDF",
+      "item": `${siteUrl}/tool/flatten-pdf`
     }
   ]
 };
@@ -108,34 +109,34 @@ const faqJsonLd = {
   "mainEntity": [
     {
       "@type": "Question",
-      "name": "Is my electronic signature legally binding?",
+      "name": "What does flattening a PDF mean?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Yes. Electronic signatures are legally recognized in most jurisdictions (including the US ESIGN Act and European Union eIDAS regulations) for most business and personal agreements."
+        "text": "Flattening a PDF merges interactive elements like form text fields, checkboxes, drop-downs, and annotations directly into the background page content. This converts interactive layers into static visual elements, preventing anyone from editing, modifying, or changing the form values."
       }
     },
     {
       "@type": "Question",
-      "name": "Are my signatures and documents secure?",
+      "name": "Is my data safe using the Flatten PDF tool?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Absolutely. Our tool operates completely in your web browser. Neither your PDF document nor the signature you draw or upload is ever transmitted to a server. Everything remains local on your device."
+        "text": "Yes, absolutely. Like all tools on SmartPDFs Plus, the Flatten PDF process is run 100% locally in your web browser. Your document is processed in local memory and is never uploaded to any cloud server, ensuring full data privacy."
       }
     },
     {
       "@type": "Question",
-      "name": "Can I sign multiple pages in the same PDF?",
+      "name": "Does flattening a PDF reduce its file size?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Yes. The editor allows you to navigate through pages and place multiple instances of your signature, date, initials, or custom text boxes on any page."
-      }
+        "text": "In many cases, yes. Removing interactive form layers and metadata can reduce the overhead of the PDF structure, leading to a smaller, more optimized file size."
+      },
     },
     {
       "@type": "Question",
-      "name": "Can I type my signature instead of drawing it?",
+      "name": "Will the links in my PDF still work after flattening?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Yes. You can draw your signature, type it using elegant cursive fonts, or upload a scanned image of your physical signature."
+        "text": "Annotations such as comments or editable text fields will be flattened and made uneditable. However, standard hypertext links can be preserved depending on the flattener settings. Our tool prioritizes turning interactive fields static."
       }
     }
   ]
@@ -143,11 +144,11 @@ const faqJsonLd = {
 
 // 8. Internal links configuration
 const RELATED = [
-  { id: 'watermark', title: 'Watermark PDF', description: 'Stamp a text or image watermark over your PDF. Set transparency and positions.', icon: Stamp, gradient: 'linear-gradient(135deg, #8b5cf6, #6d28d9)', shadow: 'rgba(139,92,246,0.3)', tag: 'Sign & Mark' },
-  { id: 'page-numbers', title: 'Page Numbers', description: 'Add professional page numbers to your PDF. Choose position and layout styling.', icon: FileDigit, gradient: 'linear-gradient(135deg, #6366f1, #4338ca)', shadow: 'rgba(99,102,241,0.3)', tag: 'Annotate' },
-  { id: 'metadata', title: 'Edit Metadata', description: 'Add or update Author, Title, Subject and other document metadata fields.', icon: Settings, gradient: 'linear-gradient(135deg, #64748b, #334155)', shadow: 'rgba(100,116,139,0.3)', tag: 'Document Info' },
-  { id: 'protect', title: 'Protect PDF', description: 'Encrypt your PDF with a password. Control access permissions.', icon: Lock, gradient: 'linear-gradient(135deg, #ef4444, #b91c1c)', shadow: 'rgba(239,68,68,0.3)', tag: 'Security' },
-  { id: 'unlock', title: 'Unlock PDF', description: 'Remove password restrictions from your PDF and restore full access.', icon: Unlock, gradient: 'linear-gradient(135deg, #f97316, #c2410c)', shadow: 'rgba(249,115,22,0.3)', tag: 'Security' },
+  { id: 'merge', title: 'Merge PDF', description: 'Combine multiple PDF files into one document in the order you choose.', icon: Combine, gradient: 'linear-gradient(135deg, #f26522, #c2410c)', shadow: 'rgba(242,101,34,0.3)', tag: 'Organize' },
+  { id: 'split', title: 'Split PDF', description: 'Split PDF files into individual pages or custom ranges.', icon: Scissors, gradient: 'linear-gradient(135deg, #3b82f6, #1d4ed8)', shadow: 'rgba(59,130,246,0.3)', tag: 'Organize' },
+  { id: 'compress', title: 'Compress PDF', description: 'Reduce PDF file size locally without losing quality.', icon: Loader2, gradient: 'linear-gradient(135deg, #10b981, #047857)', shadow: 'rgba(16,185,129,0.3)', tag: 'Optimize' },
+  { id: 'metadata', title: 'Edit Metadata', description: 'Add or change PDF metadata like title, author, and subject.', icon: Settings, gradient: 'linear-gradient(135deg, #E8465D, #843286)', shadow: 'rgba(232,70,93,0.3)', tag: 'Edit' },
+  { id: 'protect', title: 'Protect PDF', description: 'Encrypt your PDF with a password to prevent unauthorized access.', icon: Lock, gradient: 'linear-gradient(135deg, #ef4444, #b91c1c)', shadow: 'rgba(239,68,68,0.3)', tag: 'Security' },
 ];
 
 // 12. Breadcrumb Navigation Component
@@ -162,13 +163,13 @@ function Breadcrumb() {
         Tools
       </Link>
       <span aria-hidden="true">/</span>
-      <span className="text-slate-600 dark:text-slate-300" aria-current="page">Sign PDF</span>
+      <span className="text-slate-600 dark:text-slate-300" aria-current="page">Flatten PDF</span>
     </nav>
   );
 }
 
 // 5. Loading Skeleton to Improve Core Web Vitals (CLS)
-function ESignSkeleton() {
+function FlattenPdfSkeleton() {
   return (
     <div className="max-w-3xl mx-auto py-4 sm:py-12 px-2 sm:px-4 text-center animate-pulse">
       <div className="bg-white dark:bg-slate-800 rounded-[1.2rem] sm:rounded-[2.5rem] p-4 sm:p-12 border border-slate-100 dark:border-slate-700 shadow-2xl space-y-6 sm:space-y-10">
@@ -192,11 +193,11 @@ function ESignSkeleton() {
 }
 
 // Dynamic Import of Client Component
-const ESignTool = dynamic(() => import("@/components/tools/ESignTool"), {
-  loading: () => <ESignSkeleton />
+const FlattenPdf = dynamic(() => import("@/components/tools/FlattenPdf"), {
+  loading: () => <FlattenPdfSkeleton />
 });
 
-export default function ESignPage() {
+export default function FlattenPdfPage() {
   return (
     <main className="min-h-screen bg-slate-50/50 dark:bg-slate-950">
       {/* 2. Structured data scripts for search indexing */}
@@ -217,9 +218,9 @@ export default function ESignPage() {
         {/* Breadcrumb Navigation */}
         <Breadcrumb />
 
-        {/* Interactive ESign Tool */}
-        <section aria-label="Electronic Signature Application" className="mb-16">
-          <ESignTool id="esign" />
+        {/* Interactive Flatten PDF Tool */}
+        <section aria-label="PDF Flattening Application" className="mb-16">
+          <FlattenPdf id="flatten-pdf" />
         </section>
 
         {/* Premium Banner */}
@@ -233,7 +234,7 @@ export default function ESignPage() {
                 </div>
                 <div>
                   <p className="text-sm font-black text-slate-900 dark:text-slate-100">Unlock SmartPDFs Plus — Go Premium</p>
-                  <p className="text-xs text-slate-500 dark:text-slate-400 font-medium mt-0.5">Custom layout templates · Digital cryptographic signatures · Unlimited page sizes · Priority processing</p>
+                  <p className="text-xs text-slate-500 dark:text-slate-400 font-medium mt-0.5">Batch flattening · Complete OCR extraction · Priority processing · No limits</p>
                 </div>
               </div>
               <Link href="/premium-plans" className="shrink-0 inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-white text-xs font-black uppercase tracking-widest shadow-md transition-transform hover:scale-105 bg-gradient-to-br from-[#8b5cf6] to-[#6d28d9]">
@@ -246,9 +247,9 @@ export default function ESignPage() {
         {/* Feature Cards Grid */}
         <section aria-label="Tool Benefits Quick Overview" className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-20">
           {[
-            { title: "Draw, Type, or Upload", desc: "Draw with touch/mouse, type your name using beautiful cursive fonts, or scan your physical signature.", gradient: "linear-gradient(135deg,#8b5cf6,#6d28d9)" },
-            { title: "Multi-page Annotations", desc: "Easily navigate through pages and place your signature, initials, date stamps, or initials.", gradient: "linear-gradient(135deg,#8b5cf6,#6d28d9)" },
-            { title: "100% Secure & Private", desc: "Your documents never touch a server. All canvas drawing and merging run locally on your device.", gradient: "linear-gradient(135deg,#22c55e,#15803d)" }
+            { title: "Form Field Locking", desc: "Convert form input boxes, drop-downs, and checklists into permanent background elements.", gradient: "linear-gradient(135deg,#8b5cf6,#6d28d9)" },
+            { title: "Annotation Merging", desc: "Permanently merge stamps, comments, sketches, and shapes into your PDF document.", gradient: "linear-gradient(135deg,#8b5cf6,#6d28d9)" },
+            { title: "100% Browser Privacy", desc: "Your files never leave your computer. All rendering is performed locally in JS.", gradient: "linear-gradient(135deg,#22c55e,#15803d)" }
           ].map((feat, i) => (
             <div key={i} className="bg-white dark:bg-slate-900 p-8 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-xl transition-all group text-left">
               <div className="w-12 h-12 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform shadow-lg" style={{ background: feat.gradient }}>
@@ -267,26 +268,26 @@ export default function ESignPage() {
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[100px] bg-violet-500/10 dark:bg-violet-500/5 blur-[80px] rounded-full -z-10 pointer-events-none" />
 
             <h1 className="text-4xl sm:text-6xl font-black tracking-tight mb-6 uppercase leading-tight bg-gradient-to-r from-slate-950 via-slate-800 to-violet-600 dark:from-white dark:via-slate-200 dark:to-violet-500 bg-clip-text text-transparent">
-              Sign PDF Online Free <br />
-              <span className="text-violet-500 dark:text-violet-400">Secure Electronic Signatures</span>
+              Flatten PDF Online Free <br />
+              <span className="text-violet-500 dark:text-violet-400">Lock Forms & Annotations</span>
             </h1>
             <p className="text-base sm:text-lg text-slate-500 dark:text-slate-400 font-medium max-w-2xl mx-auto leading-relaxed">
-              Create, place, and embed electronic signatures on your PDF agreements, invoices, and contracts. Complete the entire signature flow safely inside your browser.
+              Permanently merge fillable form fields, checklists, signature marks, and text boxes into the PDF page content. Ensure security and lock values from editing.
             </p>
           </div>
 
           <article className="space-y-16">
-            {/* What is E-Signing Card */}
+            {/* What is PDF Flattening Card */}
             <div className="bg-gradient-to-tr from-white to-slate-50/50 dark:from-slate-900 dark:to-slate-900/30 p-8 sm:p-10 rounded-[2.5rem] border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-md transition-all duration-300 flex flex-col md:flex-row gap-8 items-start">
               <div className="p-4 rounded-2xl bg-violet-500/10 text-violet-500 shrink-0">
                 <Info size={32} />
               </div>
               <div className="space-y-4">
                 <h2 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white uppercase tracking-tight">
-                  What is Online PDF Signing?
+                  What is PDF Flattening?
                 </h2>
                 <p className="text-slate-600 dark:text-slate-300 leading-relaxed font-medium text-sm sm:text-base">
-                  Online PDF signing lets you add visual electronic signatures directly onto your PDF pages. By avoiding the printing, signing with a pen, and scanning cycle, you save significant time. Our tool provides full drawing canvases, typing controls, and signature scaling options to fit your signature neatly into contract blocks.
+                  Normally, fillable PDFs contain an interactive layer where users can type text, select check-boxes, or add digital signature blocks. PDF flattening is the process of combining this interactive overlay directly into the main visual background layer.
                 </p>
                 <p className="text-slate-500 dark:text-slate-400 leading-relaxed font-medium text-sm">
                   SmartPDFs Plus processes your documents <strong className="text-violet-600 font-black dark:text-violet-450">100% locally in your browser's memory</strong>. No uploads are sent to server folders, which completely eliminates data intercept risks and ensures instant rendering.
@@ -298,16 +299,16 @@ export default function ESignPage() {
             <div className="bg-white dark:bg-slate-900 p-8 sm:p-12 rounded-[2.5rem] border border-slate-100 dark:border-slate-800 shadow-sm">
               <h2 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white uppercase tracking-tight mb-10 flex items-center gap-3">
                 <span className="p-2 rounded-xl bg-violet-500/10 text-violet-500"><ArrowRight size={24} /></span>
-                How to Sign PDF Documents in 3 Simple Steps
+                How to Flatten PDF Online in 3 Simple Steps
               </h2>
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8 sm:gap-12 relative">
                 <div className="hidden md:block absolute top-6 left-[16%] right-[16%] h-0.5 bg-slate-100 dark:bg-slate-800/80 -z-0" />
 
                 {[
-                  { step: "01", title: "Upload PDF", desc: "Select your PDF document or image file. The file is opened instantly in your browser workspace." },
-                  { step: "02", title: "Add Custom Signature", desc: "Draw your signature, type it, or upload a PNG image, then drag it to your target page position." },
-                  { step: "03", title: "Download Signed File", desc: "Place it, scale it, and download your updated PDF immediately without watermark overlays." }
+                  { step: "01", title: "Upload PDF", desc: "Drag and drop your fillable PDF document or click the browse panel to load it locally inside your browser." },
+                  { step: "02", title: "Configure Flattening", desc: "Confirm whether you want to flatten all annotations, forms, and overlays permanently." },
+                  { step: "03", title: "Download Secured PDF", desc: "Click Apply to lock all inputs and download the updated, static PDF instantly." }
                 ].map((s, idx) => (
                   <div key={idx} className="relative z-10 flex flex-col gap-4 group">
                     <div className="w-12 h-12 rounded-full bg-slate-50 dark:bg-slate-800 flex items-center justify-center font-outfit text-lg font-black text-violet-500 border-2 border-slate-100 dark:border-slate-800 shadow-sm group-hover:scale-110 group-hover:border-violet-500/40 transition-all duration-300">
@@ -331,16 +332,16 @@ export default function ESignPage() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div className="bg-gradient-to-br from-white to-slate-50/30 dark:from-slate-900 dark:to-slate-900/50 p-8 rounded-[2rem] border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-md transition-all duration-300 flex flex-col gap-4 group">
                   <div className="w-12 h-12 rounded-2xl bg-green-500/10 text-green-500 flex items-center justify-center shadow-inner group-hover:scale-110 transition-transform duration-300"><Shield size={22} /></div>
-                  <h3 className="text-xl font-black text-slate-900 dark:text-white uppercase tracking-tight group-hover:text-green-500 transition-colors">100% Private local edit</h3>
+                  <h3 className="text-xl font-black text-slate-900 dark:text-white uppercase tracking-tight group-hover:text-green-500 transition-colors">100% Client-Side Privacy</h3>
                   <p className="text-slate-500 dark:text-slate-400 text-sm leading-relaxed font-medium">
-                    Because we execute the canvas composition locally on your computer, your signatures and sensitive contracts are never exposed to external cloud servers.
+                    Privacy is our baseline. Our tool edits your files inside the browser client memory. Your PDF documents never leave your computer, ensuring absolute safety for business audits.
                   </p>
                 </div>
                 <div className="bg-gradient-to-br from-white to-slate-50/30 dark:from-slate-900 dark:to-slate-900/50 p-8 rounded-[2rem] border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-md transition-all duration-300 flex flex-col gap-4 group">
                   <div className="w-12 h-12 rounded-2xl bg-violet-500/10 text-violet-500 flex items-center justify-center shadow-inner group-hover:scale-110 transition-transform duration-300"><Zap size={22} /></div>
-                  <h3 className="text-xl font-black text-slate-900 dark:text-white uppercase tracking-tight group-hover:text-violet-500 transition-colors">Multiple signature formats</h3>
+                  <h3 className="text-xl font-black text-slate-900 dark:text-white uppercase tracking-tight group-hover:text-violet-500 transition-colors">Prevent Values Modification</h3>
                   <p className="text-slate-500 dark:text-slate-400 text-sm leading-relaxed font-medium">
-                    Freely switch between typing cursive script names, drawing custom shapes, or uploading scanned signature files. Set exact colors and size constraints.
+                    Prevents anyone from editing details on invoices, agreements, certificates, or applications after submission. Flattening renders the text immutable.
                   </p>
                 </div>
               </div>
@@ -348,10 +349,10 @@ export default function ESignPage() {
               <div className="bg-slate-50/50 dark:bg-slate-900/30 rounded-3xl border border-slate-100 dark:border-slate-855 p-6 sm:p-8">
                 <ul className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   {[
-                    "Supports adding text labels like signing dates, names, titles, and locations.",
-                    "Smooth signature layout placement with quick mouse dragging or touch drag inputs.",
-                    "Complies with PDF specification tags, compatible with global PDF reader catalogs.",
-                    "Completely free, no watermarks, and no sign-up registration is required."
+                    "Secures interactive text boxes by embedding typography directly into the page canvas.",
+                    "Stops unauthorized script runs or form changes inside third-party PDF viewers.",
+                    "Free, instant processing with no watermarks and no registration required.",
+                    "Optimizes document structures to reduce file sizes for easy emailing."
                   ].map((item, idx) => (
                     <li key={idx} className="flex items-start gap-3 text-sm text-slate-600 dark:text-slate-400 font-medium">
                       <span className="p-0.5 rounded-full bg-violet-500/10 text-violet-600 mt-0.5 shrink-0"><Check size={12} /></span>
@@ -371,20 +372,20 @@ export default function ESignPage() {
               <div className="space-y-4">
                 {[
                   {
-                    q: "Is my electronic signature legally binding?",
-                    a: "Yes. Electronic signatures are legally recognized in most jurisdictions (including the US ESIGN Act and European Union eIDAS regulations) for most business and personal agreements."
+                    q: "What does flattening a PDF mean?",
+                    a: "Flattening a PDF merges interactive elements like form text fields, checkboxes, drop-downs, and annotations directly into the background page content. This converts interactive layers into static visual elements, preventing anyone from editing, modifying, or changing the form values."
                   },
                   {
-                    q: "Are my signatures and documents secure?",
-                    a: "Absolutely. Our tool operates completely in your web browser. Neither your PDF document nor the signature you draw or upload is ever transmitted to a server. Everything remains local on your device."
+                    q: "Is my data safe using the Flatten PDF tool?",
+                    a: "Yes, absolutely. Like all tools on SmartPDFs Plus, the Flatten PDF process is run 100% locally in your web browser. Your document is processed in local memory and is never uploaded to any cloud server, ensuring full data privacy."
                   },
                   {
-                    q: "Can I sign multiple pages in the same PDF?",
-                    a: "Yes. The editor allows you to navigate through pages and place multiple instances of your signature, date, initials, or custom text boxes on any page."
+                    q: "Does flattening a PDF reduce its file size?",
+                    a: "In many cases, yes. Removing interactive form layers and metadata can reduce the overhead of the PDF structure, leading to a smaller, more optimized file size."
                   },
                   {
-                    q: "Can I type my signature instead of drawing it?",
-                    a: "Yes. You can draw your signature, type it using elegant cursive fonts, or upload a scanned image of your physical signature."
+                    q: "Will the links in my PDF still work after flattening?",
+                    a: "Annotations such as comments or editable text fields will be flattened and made uneditable. However, standard hypertext links can be preserved depending on the flattener settings. Our tool prioritizes turning interactive fields static."
                   }
                 ].map((item, idx) => (
                   <details

@@ -45,26 +45,31 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <head>
         <meta name="color-scheme" content="light dark" />
+        <script
+          id="theme-init"
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                try {
+                  var stored = localStorage.getItem('theme');
+                  var systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                  var theme = stored === 'dark' || (stored === null && systemDark) ? 'dark' : 'light';
+                  if (theme === 'dark') {
+                    document.documentElement.classList.add('dark');
+                    document.documentElement.setAttribute('data-theme', 'dark');
+                    document.documentElement.style.colorScheme = 'dark';
+                  } else {
+                    document.documentElement.classList.remove('dark');
+                    document.documentElement.setAttribute('data-theme', 'light');
+                    document.documentElement.style.colorScheme = 'light';
+                  }
+                } catch (e) {}
+              })();
+            `,
+          }}
+        />
       </head>
       <body className={`${inter.className} ${outfit.variable} antialiased`} suppressHydrationWarning>
-        <Script id="theme-init" strategy="beforeInteractive">{`
-          (function() {
-            try {
-              var stored = localStorage.getItem('theme');
-              var systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-              var theme = stored === 'dark' || (stored === null && systemDark) ? 'dark' : 'light';
-              if (theme === 'dark') {
-                document.documentElement.classList.add('dark');
-                document.documentElement.setAttribute('data-theme', 'dark');
-                document.documentElement.style.colorScheme = 'dark';
-              } else {
-                document.documentElement.classList.remove('dark');
-                document.documentElement.setAttribute('data-theme', 'light');
-                document.documentElement.style.colorScheme = 'light';
-              }
-            } catch (e) {}
-          })();
-        `}</Script>
         <QueryProvider>
           <ThemeProvider>
             <AuthProvider>

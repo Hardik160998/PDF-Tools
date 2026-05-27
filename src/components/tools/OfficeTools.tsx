@@ -121,7 +121,7 @@ export default function OfficeTools({ id }: { id: string }) {
                   className="w-full py-3.5 sm:py-5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl sm:rounded-2xl text-base sm:text-2xl font-medium shadow-xl shadow-blue-500/20 flex items-center justify-center gap-3 sm:gap-4 group transition-all"
                 >
                   {processing ? <Loader2 className="animate-spin" /> : <Sparkles size={24} className="sm:w-7 sm:h-7 fill-white/20" />}
-                  {processing ? 'Converting File...' : 'Convert to PDF'}
+                  {processing ? 'Converting File...' : `Convert to ${info.title.split(' to ')[1]}`}
                 </button>
               </div>
             )}
