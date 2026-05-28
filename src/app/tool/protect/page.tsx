@@ -3,8 +3,9 @@ import Link from 'next/link';
 import type { Metadata } from 'next';
 import {
   Lock, Upload, KeyRound, Download, Unlock, Stamp, Hash, Settings, PenLine, Combine,
-  ArrowRight, HelpCircle, Info, Star, Check, ChevronDown
+  ArrowRight, HelpCircle, Info, Star, Check, ChevronDown, Zap, SplitSquareHorizontal, FileText
 } from 'lucide-react';
+import { CenteredCardSkeleton } from "@/app/tool/[id]/skeletons";
 
 // Site URL for canonical/SEO links
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://smartpdfsplus.com';
@@ -143,15 +144,17 @@ const faqJsonLd = {
 
 // 8. Internal links configuration
 const RELATED = [
-  { id: 'unlock', title: 'Unlock PDF', description: 'Remove password protection and access restrictions from a PDF instantly.', icon: Unlock, gradient: 'linear-gradient(135deg, #f97316, #c2410c)', shadow: 'rgba(249,115,22,0.3)', tag: 'Security', href: '/tool/unlock' },
+  { id: 'compress', title: 'Compress PDF', description: 'Reduce PDF file size without losing visible quality.', icon: Zap, gradient: 'linear-gradient(135deg, #22c55e, #15803d)', shadow: 'rgba(34,197,94,0.3)', tag: 'Optimize', href: '/tool/compress' },
+  { id: 'split', title: 'Split PDF', description: 'Split a PDF into individual pages or custom page ranges.', icon: SplitSquareHorizontal, gradient: 'linear-gradient(135deg, #f97316, #c2410c)', shadow: 'rgba(249,115,22,0.3)', tag: 'Organize', href: '/tool/split' },
+  { id: 'pdf-to-word', title: 'PDF to Word', description: 'Convert PDF files to editable Word documents online for free.', icon: FileText, gradient: 'linear-gradient(135deg, #3182ce, #1e3a8a)', shadow: 'rgba(49,130,206,0.3)', tag: 'Convert', href: '/tool/pdf-to-word' },
+  { id: 'unlock', title: 'Unlock PDF', description: 'Remove password protection and access restrictions from a PDF instantly.', icon: Unlock, gradient: 'linear-gradient(135deg, #ef4444, #b91c1c)', shadow: 'rgba(239,68,68,0.3)', tag: 'Security', href: '/tool/unlock' },
   { id: 'watermark', title: 'Watermark PDF', description: 'Stamp a text or image watermark over every page of your PDF.', icon: Stamp, gradient: 'linear-gradient(135deg, #8b5cf6, #6d28d9)', shadow: 'rgba(139,92,246,0.3)', tag: 'Edit', href: '/tool/watermark' },
-  { id: 'page-numbers', title: 'Page Numbers', description: 'Add professional page numbers to your PDF automatically.', icon: Hash, gradient: 'linear-gradient(135deg, #6366f1, #4338ca)', shadow: 'rgba(99,102,241,0.3)', tag: 'Edit', href: '/tool/page-numbers' },
-  { id: 'metadata', title: 'Edit Metadata', description: 'Add or update Author, Title, Subject and other document metadata fields.', icon: Settings, gradient: 'linear-gradient(135deg, #64748b, #334155)', shadow: 'rgba(100,116,139,0.3)', tag: 'Edit', href: '/tool/metadata' },
-  { id: 'esign', title: 'E-Sign PDF', description: 'Draw or type your signature and place it anywhere on a PDF instantly.', icon: PenLine, gradient: 'linear-gradient(135deg, #8b5cf6, #ec4899)', shadow: 'rgba(139,92,246,0.3)', tag: 'Sign', href: '/esign' },
   { id: 'merge', title: 'Merge PDF', description: 'Combine multiple PDF files into one document in the order you choose.', icon: Combine, gradient: 'linear-gradient(135deg, #f26522, #c2410c)', shadow: 'rgba(242,101,34,0.3)', tag: 'Organize', href: '/tool/merge' },
 ];
 
-import SecurityToolsWrapper from "@/components/tools/SecurityToolsWrapper";
+const SecurityToolsWrapper = dynamic(() => import("@/components/tools/SecurityToolsWrapper"), {
+  loading: () => <CenteredCardSkeleton accent="#ef4444" />,
+});
 
 // 12. Breadcrumb Navigation Component
 function Breadcrumb() {

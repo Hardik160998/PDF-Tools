@@ -3,8 +3,9 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import {
   EyeOff, Upload, Shield, Download, Combine, Lock, Unlock, Layers, GitCompare,
-  ArrowRight, HelpCircle, Info, Star, Check, ChevronDown, Trash2
+  ArrowRight, HelpCircle, Info, Star, Check, ChevronDown, Trash2, Zap, SplitSquareHorizontal, FileText
 } from "lucide-react";
+import { CenteredCardSkeleton } from "@/app/tool/[id]/skeletons";
 
 // Site URL for canonical/SEO links
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://smartpdfsplus.com';
@@ -143,16 +144,19 @@ const faqJsonLd = {
 
 // 8. Internal links configuration
 const RELATED = [
+  { id: 'compress', title: 'Compress PDF', description: 'Reduce PDF file size without losing visible quality.', icon: Zap, gradient: 'linear-gradient(135deg, #22c55e, #15803d)', shadow: 'rgba(34,197,94,0.3)', tag: 'Optimize' },
+  { id: 'split', title: 'Split PDF', description: 'Split a PDF into individual pages or custom page ranges.', icon: SplitSquareHorizontal, gradient: 'linear-gradient(135deg, #f97316, #c2410c)', shadow: 'rgba(249,115,22,0.3)', tag: 'Organize' },
+  { id: 'pdf-to-word', title: 'PDF to Word', description: 'Convert PDF files to editable Word documents online for free.', icon: FileText, gradient: 'linear-gradient(135deg, #3182ce, #1e3a8a)', shadow: 'rgba(49,130,206,0.3)', tag: 'Convert' },
   { id: 'protect', title: 'Protect PDF', description: 'Encrypt your PDF with a password to control who can open it.', icon: Lock, gradient: 'linear-gradient(135deg, #ef4444, #b91c1c)', shadow: 'rgba(239,68,68,0.3)', tag: 'Security' },
   { id: 'unlock', title: 'Unlock PDF', description: 'Remove password protection and restrictions from a PDF instantly.', icon: Unlock, gradient: 'linear-gradient(135deg, #8b5cf6, #6d28d9)', shadow: 'rgba(139,92,246,0.3)', tag: 'Security' },
-  { id: 'compare-pdf', title: 'Compare PDF', description: 'Compare two PDFs side by side and spot every text and visual difference.', icon: GitCompare, gradient: 'linear-gradient(135deg, #6366f1, #4f46e5)', shadow: 'rgba(99,102,241,0.3)', tag: 'Analyze' },
-  { id: 'extract-pages', title: 'Extract Pages', description: 'Pick individual pages or a range and download them as a new PDF.', icon: Layers, gradient: 'linear-gradient(135deg, #f97316, #c2410c)', shadow: 'rgba(249,115,22,0.3)', tag: 'Organize' },
   { id: 'watermark', title: 'Watermark PDF', description: 'Stamp a text or image watermark over every page of your PDF.', icon: Shield, gradient: 'linear-gradient(135deg, #10b981, #047857)', shadow: 'rgba(16,185,129,0.3)', tag: 'Edit' },
-  { id: 'merge', title: 'Merge PDF', description: 'Combine multiple PDF files into one document in the order you choose.', icon: Combine, gradient: 'linear-gradient(135deg, #f59e0b, #b45309)', shadow: 'rgba(245,158,11,0.3)', tag: 'Organize' },
 ];
 
-import RedactPdfWrapper from "@/components/tools/RedactPdfWrapper";
 import CreditGate from "@/components/credits/CreditGate";
+
+const RedactPdfWrapper = dynamic(() => import("@/components/tools/RedactPdfWrapper"), {
+  loading: () => <CenteredCardSkeleton accent="#ef4444" />,
+});
 
 // 12. Breadcrumb Navigation Component
 function Breadcrumb() {

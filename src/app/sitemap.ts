@@ -31,6 +31,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/tool/pdf-to-ppt',
     '/tool/protect',
     '/tool/unlock',
+    '/tool/redact-pdf',
     '/tool/bookmark-pdf',
     '/tool/watermark',
     '/tool/page-numbers',
