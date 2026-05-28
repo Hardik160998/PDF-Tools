@@ -11,11 +11,11 @@ const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://smartpdfsplus.com";
 
 // 1. Dynamic Metadata Export for Next.js App Router (SEO & Indexing Fix)
 export const metadata: Metadata = {
-  title: "Convert JPG to WebP Online Free | Optimize Images for Web",
-  description: "Convert JPG and JPEG images to WebP format online for free. Reduce file size up to 30% while retaining lossless visual details. 100% private in-browser conversion.",
-  keywords: "jpg to webp, convert jpg to webp, jpeg to webp converter, free image optimizer, convert image to webp, online webp converter, local image conversion, smartpdfs",
+  title: "Convert PNG to AVIF Online Free | Lossless Image Compressor",
+  description: "Convert PNG images to AVIF format online for free. Compress and convert images to AVIF up to 35% smaller while preserving alpha transparency. 100% private.",
+  keywords: "png to avif, convert png to avif, png to avif converter, free image compressor, convert image to avif, online avif converter, local image conversion, smartpdfs",
   alternates: {
-    canonical: `${siteUrl}/tool/jpg-to-webp`,
+    canonical: `${siteUrl}/tool/png-to-avif`,
   },
   robots: {
     index: true,
@@ -31,24 +31,24 @@ export const metadata: Metadata = {
   },
   openGraph: {
     type: "website",
-    title: "Convert JPG to WebP Online Free | Optimize Images for Web",
-    description: "Convert JPG and JPEG images to WebP format online for free. Reduce file size up to 30% while retaining lossless visual details. 100% private in-browser conversion.",
+    title: "Convert PNG to AVIF Online Free | Lossless Image Compressor",
+    description: "Convert PNG images to AVIF format online for free. Compress and convert images to AVIF up to 35% smaller while preserving alpha transparency. 100% private.",
     siteName: "SmartPDFs Plus",
-    url: `${siteUrl}/tool/jpg-to-webp`,
+    url: `${siteUrl}/tool/png-to-avif`,
     images: [
       {
-        url: `${siteUrl}/img/jpg-to-webp-og.png`,
+        url: `${siteUrl}/img/png-to-avif-og.png`,
         width: 1200,
         height: 630,
-        alt: "Convert JPG to WebP Online - SmartPDFs Plus",
+        alt: "Convert PNG to AVIF Online - SmartPDFs Plus",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Convert JPG to WebP Online Free | Optimize Images for Web",
-    description: "Convert JPG and JPEG images to WebP format online for free. Reduce file size up to 30% while retaining lossless visual details. 100% private in-browser conversion.",
-    images: [`${siteUrl}/img/jpg-to-webp-og.png`],
+    title: "Convert PNG to AVIF Online Free | Lossless Image Compressor",
+    description: "Convert PNG images to AVIF format online for free. Compress and convert images to AVIF up to 35% smaller while preserving alpha transparency. 100% private.",
+    images: [`${siteUrl}/img/png-to-avif-og.png`],
   },
 };
 
@@ -56,17 +56,17 @@ export const metadata: Metadata = {
 const webAppJsonLd = {
   "@context": "https://schema.org",
   "@type": "WebApplication",
-  "name": "JPG to WebP Converter",
-  "url": `${siteUrl}/tool/jpg-to-webp`,
-  "image": `${siteUrl}/img/jpg-to-webp-og.png`,
-  "description": "Convert JPG and JPEG images to WebP format online for free. Reduce file size up to 30% while retaining lossless visual details.",
+  "name": "PNG to AVIF Converter",
+  "url": `${siteUrl}/tool/png-to-avif`,
+  "image": `${siteUrl}/img/png-to-avif-og.png`,
+  "description": "Convert PNG images to AVIF format online for free. Compress and convert images to AVIF up to 35% smaller while preserving alpha transparency.",
   "applicationCategory": "UtilityApplication",
   "operatingSystem": "All",
   "browserRequirements": "Requires HTML5 support",
   "featureList": [
     "100% Local processing in your browser sandbox",
     "No file uploads to servers",
-    "Reduces file sizes by up to 30% relative to JPG",
+    "Preserves image alpha transparency layers",
     "Batch processing for multiple images",
     "Free with no registrations or watermarks"
   ],
@@ -96,8 +96,8 @@ const breadcrumbJsonLd = {
     {
       "@type": "ListItem",
       "position": 3,
-      "name": "JPG to WebP",
-      "item": `${siteUrl}/tool/jpg-to-webp`
+      "name": "PNG to AVIF",
+      "item": `${siteUrl}/tool/png-to-avif`
     }
   ]
 };
@@ -108,55 +108,55 @@ const faqJsonLd = {
   "mainEntity": [
     {
       "@type": "Question",
-      "name": "Why should I convert my JPG images to WebP?",
+      "name": "Will converting my PNG to AVIF support transparency?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "WebP is a modern next-generation image format that provides superior lossy and lossless compression for web images. Converting JPG to WebP can compress files up to 30% smaller, accelerating your site load times."
+        "text": "Yes, AVIF supports full alpha channel transparency. Converting your PNG to AVIF will retain transparent background structures perfectly."
       }
     },
     {
       "@type": "Question",
-      "name": "Do you upload my JPG files to any server?",
+      "name": "How much smaller will my AVIF file be compared to PNG?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "No. The entire conversion process occurs within your local web browser using client-side JavaScript. Your files are processed entirely offline and are never stored or transmitted to our servers."
+        "text": "On average, AVIF files are up to 35-40% smaller than lossless PNG files at equivalent visual details, helping websites load much faster."
       }
     },
     {
       "@type": "Question",
-      "name": "Are WebP files supported by all modern web browsers?",
+      "name": "Is this tool secure to use with company assets?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Yes, WebP is fully supported by all modern browsers, including Google Chrome, Apple Safari, Mozilla Firefox, and Microsoft Edge."
+        "text": "Absolutely. The converter processes assets entirely local inside your browser memory using WebAssembly/JavaScript. Your files never touch external servers."
       }
     },
     {
       "@type": "Question",
-      "name": "Can I convert multiple images in a batch?",
+      "name": "Can I convert multiple PNGs to AVIFs in one go?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Yes. Simply upload multiple files into the workspace. The tool converts them all in parallel, and you can download them at once as a single ZIP archive."
+        "text": "Yes. Upload all target PNGs in batch. The system converts them in parallel and packages the outputs inside a single ZIP file for downloading."
       }
     }
   ]
 };
 
 const STEPS = [
-  { icon: Upload,            title: "Upload JPG",     desc: "Select any JPG or JPEG image from your device." },
-  { icon: SlidersHorizontal, title: "Auto Convert",   desc: "Your image is converted to modern WebP format instantly in your browser." },
-  { icon: Download,          title: "Download WebP",  desc: "Download the converted WebP file immediately — smaller and web-optimized." },
+  { icon: Upload,            title: "Upload PNG",     desc: "Select any PNG image from your device." },
+  { icon: SlidersHorizontal, title: "Auto Convert",   desc: "Your PNG is converted to AVIF format instantly in your browser." },
+  { icon: Download,          title: "Download AVIF",  desc: "Download the converted AVIF file — smaller and web-optimized." },
 ];
 
 const RELATED = [
-  { id: "webp-to-jpg", title: "WebP to JPG", description: "Convert WebP images back to universally compatible JPG format.",              icon: ImageIcon, gradient: "linear-gradient(135deg, #ec4899, #be185d)", shadow: "rgba(236,72,153,0.3)",  tag: "Image Convert" },
-  { id: "png-to-webp", title: "PNG to WebP", description: "Convert PNG images to WebP for smaller sizes without quality loss.",          icon: ImageIcon, gradient: "linear-gradient(135deg, #06b6d4, #0e7490)", shadow: "rgba(6,182,212,0.3)",   tag: "Image Convert" },
+  { id: "jpg-to-avif", title: "JPG to AVIF", description: "Convert JPG images to modern AVIF for smaller file sizes.",                   icon: ImageIcon, gradient: "linear-gradient(135deg, #7c3aed, #4c1d95)", shadow: "rgba(124,58,237,0.3)",  tag: "Image Convert" },
+  { id: "avif-to-jpg", title: "AVIF to JPG", description: "Convert AVIF images back to universally compatible JPG format.",              icon: ImageIcon, gradient: "linear-gradient(135deg, #ec4899, #be185d)", shadow: "rgba(236,72,153,0.3)",  tag: "Image Convert" },
   { id: "jpg-to-png",  title: "JPG to PNG",  description: "Convert JPG images to lossless PNG format instantly.",                        icon: ImageIcon, gradient: "linear-gradient(135deg, #22c55e, #15803d)", shadow: "rgba(34,197,94,0.3)",   tag: "Image Convert" },
   { id: "png-to-jpg",  title: "PNG to JPG",  description: "Convert PNG images to JPG for smaller file sizes.",                           icon: ImageIcon, gradient: "linear-gradient(135deg, #f59e0b, #b45309)", shadow: "rgba(245,158,11,0.3)",  tag: "Image Convert" },
-  { id: "jpg-to-pdf",  title: "JPG to PDF",  description: "Turn one or multiple JPG images into a single PDF document.",                 icon: ImageIcon, gradient: "linear-gradient(135deg, #eab308, #a16207)", shadow: "rgba(234,179,8,0.3)",   tag: "Convert" },
+  { id: "jpg-to-webp", title: "JPG to WebP", description: "Optimize JPG images for the web by converting them to WebP format.",        icon: ImageIcon, gradient: "linear-gradient(135deg, #06b6d4, #0891b2)", shadow: "rgba(6,182,212,0.3)",   tag: "Image Convert" },
   { id: "compress",    title: "Compress PDF", description: "Reduce PDF file size while keeping quality sharp and text crisp.",           icon: Zap,       gradient: "linear-gradient(135deg, #22c55e, #15803d)", shadow: "rgba(34,197,94,0.3)",   tag: "Optimize" },
 ];
 
-export default function JpgToWebpPage() {
+export default function PngToAvifPage() {
   return (
     <main className="min-h-screen bg-slate-50/50 dark:bg-slate-950">
       {/* 2. Structured data scripts for search indexing */}
@@ -185,24 +185,24 @@ export default function JpgToWebpPage() {
             Tools
           </Link>
           <span aria-hidden="true">/</span>
-          <span className="text-slate-600 dark:text-slate-300" aria-current="page">JPG to WebP</span>
+          <span className="text-slate-600 dark:text-slate-300" aria-current="page">PNG to AVIF</span>
         </nav>
 
         {/* Dynamic Client Tool Component */}
-        <section aria-label="JPG to WebP Image Converter Application" className="mb-16">
-          <ImageConverter id="jpg-to-webp" />
+        <section aria-label="PNG to AVIF Image Converter Application" className="mb-16">
+          <ImageConverter id="png-to-avif" />
         </section>
 
         {/* Dynamic visual statistics element */}
         <section className="py-10">
           <div className="max-w-4xl mx-auto">
-            <div className="bg-gradient-to-r from-cyan-50 to-blue-50 dark:from-cyan-900/10 dark:to-blue-900/10 border border-cyan-100 dark:border-cyan-800/60 rounded-3xl p-8">
-              <h2 className="text-xl font-black text-slate-900 dark:text-white mb-4 text-center uppercase tracking-tight">Why Convert to WebP?</h2>
+            <div className="bg-gradient-to-r from-cyan-50 to-sky-50 dark:from-cyan-900/10 dark:to-sky-900/10 border border-cyan-100 dark:border-cyan-800 rounded-3xl p-8">
+              <h2 className="text-xl font-black text-slate-900 dark:text-white mb-4 text-center uppercase tracking-tight">PNG vs AVIF</h2>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 text-center">
                 {[
-                  { stat: "~30%", label: "Smaller than JPG", sub: "Same visual quality" },
-                  { stat: "~25%", label: "Smaller than PNG", sub: "With transparency support" },
-                  { stat: "100%", label: "Browser Support", sub: "All modern browsers" },
+                  { stat: "~35%", label: "Smaller file size", sub: "vs lossless PNG" },
+                  { stat: "✓", label: "Transparency kept", sub: "Alpha channel preserved" },
+                  { stat: "⚡", label: "Faster loading", sub: "Better web performance" },
                 ].map(({ stat, label, sub }) => (
                   <div key={label} className="space-y-1">
                     <div className="text-3xl font-black text-cyan-600 dark:text-cyan-400">{stat}</div>
@@ -234,30 +234,30 @@ export default function JpgToWebpPage() {
           <div className="mb-16 text-center relative">
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[100px] bg-cyan-500/10 dark:bg-cyan-500/5 blur-[80px] rounded-full -z-10 pointer-events-none" />
             <h1 className="text-4xl sm:text-6xl font-black tracking-tight mb-6 uppercase leading-tight bg-gradient-to-r from-slate-950 via-slate-800 to-cyan-600 dark:from-white dark:via-slate-200 dark:to-cyan-500 bg-clip-text text-transparent">
-              Convert JPG to WebP Online <br />
+              Convert PNG to AVIF Online <br />
               <span className="text-cyan-500 dark:text-cyan-400">100% Free & Secure</span>
             </h1>
             <p className="text-base sm:text-lg text-slate-500 dark:text-slate-400 font-medium max-w-2xl mx-auto leading-relaxed">
-              Convert JPEG photographs to optimized next-generation WebP images. Enhance Core Web Vitals and reduce bundle load weights with our 100% local browser converter tool.
+              Convert transparent or solid PNG graphics into lightweight next-generation AVIF formats. Optimize page loading benchmarks and enhance website SEO indexing with zero server uploads.
             </p>
           </div>
 
           <article className="space-y-16">
             
-            {/* What is JPG to WebP */}
+            {/* What is PNG to AVIF */}
             <div className="bg-gradient-to-tr from-white to-slate-50/50 dark:from-slate-900 dark:to-slate-900/30 p-8 sm:p-10 rounded-[2.5rem] border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-md transition-all duration-300 flex flex-col md:flex-row gap-8 items-start">
               <div className="p-4 rounded-2xl bg-cyan-500/10 text-cyan-500 shrink-0">
                 <Info size={32} />
               </div>
               <div className="space-y-4">
                 <h2 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white uppercase tracking-tight">
-                  What is JPG to WebP format optimization?
+                  What is PNG to AVIF conversion?
                 </h2>
                 <p className="text-slate-600 dark:text-slate-300 leading-relaxed font-medium text-sm sm:text-base">
-                  WebP is a modern image standard created by Google that delivers superior compression compared to legacy JPEG/JPG structures. It features lossy and lossless algorithms that produce files up to 30% smaller without sacrificing perceived fidelity, dramatically improving website page loading speed.
+                  PNG is the web standard for transparency, but files are often unnecessarily large. AVIF achieves lossless and lossy structures that are much smaller while maintaining identical alpha transparencies and vector definitions, leading to improved page load speeds.
                 </p>
                 <p className="text-slate-500 dark:text-slate-400 leading-relaxed font-medium text-sm">
-                  Converting standard JPG images to WebP helps you achieve high performance scores on Google Lighthouse. Since our tool executes <strong className="text-cyan-500 font-black">100% client-side inside your browser</strong>, your proprietary graphs, charts, and digital photo layouts are protected locally on your device hardware.
+                  Converting PNG structures to AVIF is a critical SEO performance optimization. Our tool runs <strong className="text-cyan-500 font-black">entirely client-side inside your browser sandbox</strong>, meaning your files are never uploaded, stored, or processed on external servers.
                 </p>
               </div>
             </div>
@@ -266,14 +266,14 @@ export default function JpgToWebpPage() {
             <div className="bg-white dark:bg-slate-900 p-8 sm:p-12 rounded-[2.5rem] border border-slate-100 dark:border-slate-800 shadow-sm">
               <h2 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white uppercase tracking-tight mb-10 flex items-center gap-3">
                 <span className="p-2 rounded-xl bg-cyan-500/10 text-cyan-500"><ArrowRight size={24} /></span>
-                How to convert JPG to WebP in 3 Steps
+                How to convert PNG to AVIF in 3 Steps
               </h2>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8 sm:gap-12 relative">
                 <div className="hidden md:block absolute top-6 left-[16%] right-[16%] h-0.5 bg-slate-100 dark:bg-slate-800/80 -z-0" />
                 {[
-                  { step: "01", title: "Select JPGs", desc: "Drag and drop your JPG or JPEG images into the optimization converter block above." },
-                  { step: "02", title: "Compress Instantly", desc: "Our engine optimizes the character byte map to produce highly efficient WebP files in seconds." },
-                  { step: "03", title: "Save and Optimize", desc: "Download the converted WebP images individually, or export them altogether as a ZIP package." }
+                  { step: "01", title: "Select PNGs", desc: "Drag and drop PNG images directly into the converter box above." },
+                  { step: "02", title: "Compress Automatically", desc: "The browser script converts the layout structures and processes PNG transparency to AVIF instantly." },
+                  { step: "03", title: "Download AVIF", desc: "Export the lightweight AVIF files individually or as a single batch ZIP file." }
                 ].map((s, idx) => (
                   <div key={idx} className="relative z-10 flex flex-col gap-4 group">
                     <div className="w-12 h-12 rounded-full bg-slate-50 dark:bg-slate-800 flex items-center justify-center font-outfit text-lg font-black text-cyan-500 border-2 border-slate-100 dark:border-slate-800 shadow-sm group-hover:scale-110 group-hover:border-cyan-500/40 transition-all duration-300">
@@ -297,16 +297,16 @@ export default function JpgToWebpPage() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div className="bg-gradient-to-br from-white to-slate-50/30 dark:from-slate-900 dark:to-slate-900/50 p-8 rounded-[2rem] border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-md transition-all duration-300 flex flex-col gap-4 group">
                   <div className="w-12 h-12 rounded-2xl bg-green-500/10 text-green-500 flex items-center justify-center shadow-inner group-hover:scale-110 transition-transform duration-300"><Shield size={22} /></div>
-                  <h3 className="text-xl font-black text-slate-900 dark:text-white uppercase tracking-tight group-hover:text-green-500 transition-colors">Total Privacy Shield</h3>
+                  <h3 className="text-xl font-black text-slate-900 dark:text-white uppercase tracking-tight group-hover:text-green-500 transition-colors">Complete Device Security</h3>
                   <p className="text-slate-500 dark:text-slate-400 text-sm leading-relaxed font-medium">
-                    Security is central to our features. Conversions occur in the local browser context; your files are never transmitted to external servers.
+                    Because we value privacy, our client-side JavaScript processes everything within your local browser runtime sandbox. We never send your graphics to external cloud databases.
                   </p>
                 </div>
                 <div className="bg-gradient-to-br from-white to-slate-50/30 dark:from-slate-900 dark:to-slate-900/50 p-8 rounded-[2rem] border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-md transition-all duration-300 flex flex-col gap-4 group">
                   <div className="w-12 h-12 rounded-2xl bg-cyan-500/10 text-cyan-500 flex items-center justify-center shadow-inner group-hover:scale-110 transition-transform duration-300"><Zap size={22} /></div>
-                  <h3 className="text-xl font-black text-slate-900 dark:text-white uppercase tracking-tight group-hover:text-cyan-500 transition-colors">Accelerate Page Load Speeds</h3>
+                  <h3 className="text-xl font-black text-slate-900 dark:text-white uppercase tracking-tight group-hover:text-cyan-500 transition-colors">Fast and Watermark-Free</h3>
                   <p className="text-slate-500 dark:text-slate-400 text-sm leading-relaxed font-medium">
-                    WebP helps websites render up to 3 times faster by reducing image transfer payloads without degrading visually perceptible quality.
+                    Convert assets instantly with zero wait times. We do not insert watermarks, limit files, or charge for usage. It's built for rapid production environments.
                   </p>
                 </div>
               </div>
@@ -314,10 +314,10 @@ export default function JpgToWebpPage() {
               <div className="bg-slate-50/50 dark:bg-slate-900/30 rounded-3xl border border-slate-100 dark:border-slate-850 p-6 sm:p-8">
                 <ul className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   {[
-                    "Compresses images while maintaining lossless colors.",
-                    "Batch optimize dozens of pictures concurrently with zip pack downloads.",
-                    "Fully mobile-responsive layout designed for touch gestures.",
-                    "Free with no registrations, daily limits, or watermarks."
+                    "Supports full alpha transparency options.",
+                    "Batch processing lets you optimize multiple PNGs at once.",
+                    "Clean layout matches responsive sizing for mobile devices.",
+                    "No signup or user configurations required."
                   ].map((item, idx) => (
                     <li key={idx} className="flex items-start gap-3 text-sm text-slate-600 dark:text-slate-400 font-medium">
                       <span className="p-0.5 rounded-full bg-cyan-500/10 text-cyan-600 mt-0.5 shrink-0"><Check size={12} /></span>
@@ -337,20 +337,20 @@ export default function JpgToWebpPage() {
               <div className="space-y-4">
                 {[
                   {
-                    q: "Why should I convert my JPG images to WebP?",
-                    a: "WebP is a modern next-generation image format that provides superior lossy and lossless compression for web images. Converting JPG to WebP can compress files up to 30% smaller, accelerating your site load times."
+                    q: "Will converting my PNG to AVIF support transparency?",
+                    a: "Yes, AVIF supports full alpha channel transparency. Converting your PNG to AVIF will retain transparent background structures perfectly."
                   },
                   {
-                    q: "Do you upload my JPG files to any server?",
-                    a: "No. The entire conversion process occurs within your local web browser using client-side JavaScript. Your files are processed entirely offline and are never stored or transmitted to our servers."
+                    q: "How much smaller will my AVIF file be compared to PNG?",
+                    a: "On average, AVIF files are up to 35-40% smaller than lossless PNG files at equivalent visual details, helping websites load much faster."
                   },
                   {
-                    q: "Are WebP files supported by all modern web browsers?",
-                    a: "Yes, WebP is fully supported by all modern browsers, including Google Chrome, Apple Safari, Mozilla Firefox, and Microsoft Edge."
+                    q: "Is this tool secure to use with company assets?",
+                    a: "Absolutely. The converter processes assets entirely local inside your browser memory using WebAssembly/JavaScript. Your files never touch external servers."
                   },
                   {
-                    q: "Can I convert multiple images in a batch?",
-                    a: "Yes. Simply upload multiple files into the workspace. The tool converts them all in parallel, and you can download them at once as a single ZIP archive."
+                    q: "Can I convert multiple PNGs to AVIFs in one go?",
+                    a: "Yes. Upload all target PNGs in batch. The system converts them in parallel and packages the outputs inside a single ZIP file for downloading."
                   }
                 ].map((item, idx) => (
                   <details
