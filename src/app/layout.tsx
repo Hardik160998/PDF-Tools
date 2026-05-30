@@ -16,7 +16,7 @@ import Script from "next/script";
 const inter = Inter({ subsets: ["latin"], weight: ['400', '500', '600', '700', '800', '900'] });
 const outfit = Outfit({ subsets: ["latin"], weight: ['400', '500', '600', '700', '800', '900'], variable: '--font-outfit' });
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'SITE_OFFICIAL_DOMAIN';
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://smartpdfpro.com/';
 
 export const metadata: Metadata = {
   title: "SmartPDFs Plus | Every tool you need to work with PDFs",

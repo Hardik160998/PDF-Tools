@@ -7,7 +7,7 @@ import {
 } from "lucide-react";
 
 // Site URL for canonical/SEO links
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'SITE_OFFICIAL_DOMAIN';
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://smartpdfpro.com/';
 
 // 1. Dynamic Metadata Export for Next.js App Router
 export const metadata: Metadata = {

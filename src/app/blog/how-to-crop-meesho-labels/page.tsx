@@ -8,7 +8,7 @@ import FAQSchema from '@/components/seo/FAQSchema';
 import WebAppSchema from '@/components/seo/WebAppSchema';
 import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema';
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'SITE_OFFICIAL_DOMAIN';
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://smartpdfpro.com/';
 
 export const metadata: Metadata = {
   title: 'How to Crop Meesho Labels with Invoice for Thermal Printing | SmartPDFs Plus',

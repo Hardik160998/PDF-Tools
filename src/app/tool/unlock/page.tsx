@@ -8,7 +8,7 @@ import {
 import { CenteredCardSkeleton } from "@/app/tool/[id]/skeletons";
 
 // Site URL for canonical/SEO links
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'SITE_OFFICIAL_DOMAIN';
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://smartpdfpro.com/';
 
 // 1. Dynamic Metadata Export for Next.js App Router (Server-side)
 export const metadata: Metadata = {
