@@ -3,8 +3,7 @@
    Optimized for 100%-150% zoom levels on all desktop sizes
    ============================================================ */
 
-/* ── BASE HEADER STYLES ──────────────────────────────────── */
-header {
+/* ── BASE HEADER STYLES ──────────────────────────────────── */#site-header {
   position: sticky;
   top: 0;
   z-index: 50;
@@ -15,14 +14,14 @@ header {
   transition: all 0.2s ease;
 }
 
-html.dark header {
+html.dark#site-header {
   background: rgba(15, 23, 42, 0.95);
   border-bottom-color: #1e293b;
 }
 
 /* ── DESKTOP LAYOUT (1024px+) ──────────────────────────── */
 @media (min-width: 1024px) {
-  header > div {
+ #site-header > div {
     display: grid !important;
     grid-template-columns: 150px 1fr auto;
     align-items: center;
@@ -33,7 +32,7 @@ html.dark header {
     margin: 0 auto;
   }
 
-  header > div > a:first-child {
+ #site-header > div > a:first-child {
     justify-self: start;
     font-size: 1.15rem;
   }
@@ -105,7 +104,7 @@ html.dark header {
 
 /* ── MEDIUM DESKTOP (1024px - 1280px) ──────────────────── */
 @media (min-width: 1024px) and (max-width: 1280px) {
-  header > div {
+ #site-header > div {
     grid-template-columns: 130px 1fr auto;
     gap: 0.4rem;
     padding: 0 0.65rem;
@@ -143,7 +142,7 @@ html.dark header {
 
 /* ── LARGE DESKTOP (1440px+) ────────────────────────────── */
 @media (min-width: 1440px) {
-  header > div {
+ #site-header > div {
     grid-template-columns: 160px 1fr auto;
     gap: 0.75rem;
     padding: 0 1rem;
@@ -181,7 +180,7 @@ html.dark header {
 
 /* ── EXTRA LARGE DESKTOP (1920px+) ──────────────────────── */
 @media (min-width: 1920px) {
-  header > div {
+ #site-header > div {
     grid-template-columns: 200px 1fr auto;
     gap: 1.25rem;
     padding: 0 1.5rem;
@@ -218,7 +217,7 @@ html.dark header {
 
 /* ── TABLET LAYOUT (768px - 1023px) ────────────────────── */
 @media (min-width: 768px) and (max-width: 1023px) {
-  header > div {
+ #site-header > div {
     display: flex !important;
     justify-content: space-between !important;
     align-items: center !important;
@@ -235,17 +234,17 @@ html.dark header {
     display: none !important;
   }
 
-  header > div > div.flex.items-center {
+ #site-header > div > div.flex.items-center {
     display: flex;
     align-items: center;
     gap: 0.75rem;
   }
 
-  header > div > a:first-child {
+ #site-header > div > a:first-child {
     font-size: 1.5rem;
   }
 
-  header > div > a:first-child svg {
+ #site-header > div > a:first-child svg {
     width: 20px;
     height: 20px;
   }
@@ -253,7 +252,7 @@ html.dark header {
 
 /* ── MOBILE LAYOUT (< 768px) ────────────────────────────── */
 @media (max-width: 767px) {
-  header > div {
+ #site-header > div {
     display: flex !important;
     justify-content: space-between !important;
     align-items: center !important;
@@ -270,17 +269,17 @@ html.dark header {
     display: none !important;
   }
 
-  header > div > div.flex.items-center {
+ #site-header > div > div.flex.items-center {
     display: flex;
     align-items: center;
     gap: 0.5rem;
   }
 
-  header > div > a:first-child {
+ #site-header > div > a:first-child {
     font-size: 1.25rem;
   }
 
-  header > div > a:first-child svg {
+ #site-header > div > a:first-child svg {
     width: 18px;
     height: 18px;
   }
@@ -288,22 +287,22 @@ html.dark header {
 
 /* ── EXTRA SMALL MOBILE (< 380px) ───────────────────────── */
 @media (max-width: 379px) {
-  header > div {
+ #site-header > div {
     padding: 0 0.75rem !important;
     height: 52px !important;
   }
 
-  header > div > a:first-child {
+ #site-header > div > a:first-child {
     font-size: 1.1rem;
     gap: 0.25rem;
   }
 
-  header > div > a:first-child svg {
+ #site-header > div > a:first-child svg {
     width: 16px;
     height: 16px;
   }
 
-  header > div > div.flex.items-center {
+ #site-header > div > div.flex.items-center {
     gap: 0.4rem;
   }
 
@@ -336,7 +335,7 @@ html.dark header {
 /* ── SAFE AREA INSETS ─────────────────────────────────── */
 @supports (padding: env(safe-area-inset-left)) {
   @media (max-width: 1023px) {
-    header > div {
+   #site-header > div {
       padding-left: max(1rem, env(safe-area-inset-left)) !important;
       padding-right: max(1rem, env(safe-area-inset-right)) !important;
     }
@@ -345,13 +344,13 @@ html.dark header {
 
 /* ── HOVER & INTERACTION STATES ─────────────────────────── */
 @media (min-width: 1024px) {
-  header a,
-  header button {
+ #site-header a,
+ #site-header button {
     transition: all 0.2s ease;
   }
 
-  header a:hover,
-  header button:hover {
+ #site-header a:hover,
+ #site-header button:hover {
     transform: translateY(-1px);
   }
 
@@ -363,31 +362,29 @@ html.dark header {
 
 /* ── TOUCH OPTIMIZATIONS ────────────────────────────────── */
 @media (max-width: 1023px) {
-  header a,
-  header button {
+ #site-header a,
+ #site-header button {
     -webkit-tap-highlight-color: transparent;
     touch-action: manipulation;
   }
 
-  header a:hover,
-  header button:hover {
+ #site-header a:hover,
+ #site-header button:hover {
     transform: none;
   }
 }
 
 /* ── ACCESSIBILITY ──────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
-  header,
-  header *,
+ #site-header,
+ #site-header *,
   .desktop-nav,
   .desktop-nav-actions {
     transition: none !important;
     animation: none !important;
   }
 }
-
-header a:focus-visible,
-header button:focus-visible {
+#site-header a:focus-visible,#site-header button:focus-visible {
   outline: 2px solid #ef4444;
   outline-offset: 2px;
   border-radius: 0.25rem;
@@ -434,25 +431,21 @@ header button:focus-visible {
   }
 }
 
-/* ── PREVENT OVERFLOW ───────────────────────────────────── */
-header,
-header > div,
-header * {
+/* ── PREVENT OVERFLOW ───────────────────────────────────── */#site-header,#site-header > div,#site-header * {
   box-sizing: border-box;
 }
 
 @media (max-width: 1023px) {
-  header {
+ #site-header {
     overflow-x: hidden;
   }
 
-  header > div {
+ #site-header > div {
     max-width: 100vw;
   }
 }
 
-/* ── Z-INDEX HIERARCHY ──────────────────────────────────── */
-header {
+/* ── Z-INDEX HIERARCHY ──────────────────────────────────── */#site-header {
   z-index: 50;
 }
 
@@ -479,22 +472,22 @@ header {
 
 /* ── SMOOTH SCROLLING ───────────────────────────────────── */
 @media (min-width: 1024px) {
-  header {
+ #site-header {
     transition: box-shadow 0.3s ease, background-color 0.3s ease;
   }
 
-  header.scrolled {
+ #site-header.scrolled {
     box-shadow: 0 4px 12px -2px rgba(0, 0, 0, 0.08);
   }
 
-  html.dark header.scrolled {
+  html.dark#site-header.scrolled {
     box-shadow: 0 4px 12px -2px rgba(0, 0, 0, 0.3);
   }
 }
 
 /* ── PRINT STYLES ───────────────────────────────────────── */
 @media print {
-  header {
+ #site-header {
     display: none !important;
   }
 }

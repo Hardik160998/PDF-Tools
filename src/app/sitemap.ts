@@ -44,6 +44,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/faq',
     '/contact',
     '/blog',
+    '/blog/how-to-merge-pdf',
+    '/blog/compress-pdf-without-losing-quality',
+    '/blog/organize-pdf-pages',
+    '/blog/ultimate-guide-to-organizing-pdfs',
     '/privacy',
     '/terms',
   ];

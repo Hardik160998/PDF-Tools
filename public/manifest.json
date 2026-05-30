@@ -1,0 +1,22 @@
+{
+  "name": "SmartPDFs Plus",
+  "short_name": "SmartPDFs",
+  "description": "Every tool you need to work with PDFs - 100% free and secure",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#f97316",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "256x256",
+      "type": "image/x-icon",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/img/snapdeal-label.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

@@ -30,7 +30,7 @@ export default function AppLayout({
 
   return (
     <div className="page-content">
-      <header className="sticky top-0 z-[1000] bg-white dark:bg-slate-900 border-b border-slate-100 dark:border-slate-800 overflow-visible">
+      <header id="site-header" className="sticky top-0 z-[1000] bg-white dark:bg-slate-900 border-b border-slate-100 dark:border-slate-800 overflow-visible">
         <div className="w-full px-6 h-16 grid items-center" style={{ gridTemplateColumns: '1fr auto 1fr' }}>
           {/* Left — Logo */}
           <Link href="/" className={`${outfitClass} flex items-center gap-1.5 font-bold text-2xl tracking-tighter hover:opacity-80 transition-opacity justify-self-start`}>
