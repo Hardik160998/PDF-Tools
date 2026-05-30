@@ -8,7 +8,7 @@ import FAQSchema from '@/components/seo/FAQSchema';
 import WebAppSchema from '@/components/seo/WebAppSchema';
 import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema';
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://smartpdfsplus.com';
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'SITE_OFFICIAL_DOMAIN';
 
 export const metadata: Metadata = {
   title: 'How to Crop Meesho Labels with Invoice for Thermal Printing | SmartPDFs Plus',
@@ -101,23 +101,23 @@ export default function CropMeeshoLabelPost() {
       <BreadcrumbSchema items={breadcrumbItems} />
       <FAQSchema />
       <WebAppSchema />
-      
+
       <article className="container mx-auto px-4 pt-10 pb-20 max-w-3xl">
         <nav aria-label="Breadcrumb navigation" className="mb-8">
           <Breadcrumbs items={breadcrumbItems} />
-          
-          <Link 
-            href="/blog" 
+
+          <Link
+            href="/blog"
             className="inline-flex items-center gap-2 text-sm text-slate-400 hover:text-pink-500 transition-colors font-bold mt-4 focus:outline-none focus-visible:ring-2 focus-visible:ring-pink-500 rounded p-1"
             aria-label="Navigate Back to Blog"
           >
             <ArrowLeft size={14} aria-hidden="true" /> Back to Blog
           </Link>
         </nav>
-        
+
         <header className="mb-8">
           <div className="flex items-center gap-4 mb-6">
-            <div 
+            <div
               className="w-12 h-12 bg-pink-500 rounded-2xl flex items-center justify-center text-white shadow-lg shrink-0"
               aria-hidden="true"
             >
@@ -140,11 +140,11 @@ export default function CropMeeshoLabelPost() {
           </div>
 
           <figure className="relative rounded-2xl overflow-hidden shadow-2xl mb-8 border border-slate-100 bg-slate-50">
-            <Image 
-              src="/img/mesho-invoice-label.png" 
-              alt="Visual guide demonstrating how to crop Meesho labels along with invoices for thermal printing" 
-              width={1200} 
-              height={630} 
+            <Image
+              src="/img/mesho-invoice-label.png"
+              alt="Visual guide demonstrating how to crop Meesho labels along with invoices for thermal printing"
+              width={1200}
+              height={630}
               priority
               className="w-full h-auto object-cover"
               sizes="(max-width: 768px) 100vw, 768px"
@@ -154,7 +154,7 @@ export default function CropMeeshoLabelPost() {
         </header>
 
         <section className="prose prose-slate max-w-none space-y-8" aria-label="Article Content">
-          
+
           <p className="text-lg text-slate-600 leading-relaxed font-medium">
             Scaling a Meesho e-commerce business comes with operational bottlenecks. One of the most frustrating bottlenecks is fulfilling orders using standard A4 laser printers. By default, the Meesho seller panel generates a combined PDF containing the shipping label (the barcode and address) at the top of an A4 page, and the tax invoice at the bottom.
           </p>
@@ -199,7 +199,7 @@ export default function CropMeeshoLabelPost() {
                   Thermal printers use 4x6 inch (roughly 100x150mm) sticker rolls. To print successfully, your PDF pages must match this exact aspect ratio.
                 </p>
               </div>
-              
+
               <div className="bg-white p-5 rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition-shadow">
                 <div className="flex items-center gap-2 mb-2 text-slate-900">
                   <Box size={18} className="text-pink-500" aria-hidden="true" />
@@ -227,7 +227,7 @@ export default function CropMeeshoLabelPost() {
             <p className="text-slate-600 leading-relaxed">
               Streamline your order processing by following these steps:
             </p>
-            
+
             <ol className="space-y-4 my-6 list-none p-0">
               {[
                 {
@@ -264,17 +264,17 @@ export default function CropMeeshoLabelPost() {
             <h2 className="text-2xl font-black text-slate-900 border-b pb-2">Frequently Asked Questions</h2>
             <div className="space-y-4 my-6" itemScope itemType="https://schema.org/FAQPage">
               {[
-                { 
-                  q: 'Does cropping reduce barcode quality?', 
-                  a: 'No. Because the tool alters the PDF bounding boxes mathematically rather than rasterizing the file into an image, the barcode vector remains pristine and perfectly scannable.' 
+                {
+                  q: 'Does cropping reduce barcode quality?',
+                  a: 'No. Because the tool alters the PDF bounding boxes mathematically rather than rasterizing the file into an image, the barcode vector remains pristine and perfectly scannable.'
                 },
-                { 
-                  q: 'Do I really need to print the invoice?', 
-                  a: 'It depends on your packaging workflow. Some sellers prefer to put the invoice inside the package and the sticker on the outside. If you only want the label, use our "Crop Label Only" tool instead.' 
+                {
+                  q: 'Do I really need to print the invoice?',
+                  a: 'It depends on your packaging workflow. Some sellers prefer to put the invoice inside the package and the sticker on the outside. If you only want the label, use our "Crop Label Only" tool instead.'
                 },
-                { 
-                  q: 'Can I upload a PDF with 500 orders?', 
-                  a: 'Yes. Our browser-based WebAssembly engine can handle massive batch files. A 500-page PDF will be processed in seconds directly using your computer\'s RAM.' 
+                {
+                  q: 'Can I upload a PDF with 500 orders?',
+                  a: 'Yes. Our browser-based WebAssembly engine can handle massive batch files. A 500-page PDF will be processed in seconds directly using your computer\'s RAM.'
                 },
                 {
                   q: 'Is this tool safe for my customer data?',
@@ -296,8 +296,8 @@ export default function CropMeeshoLabelPost() {
             <h2 className="font-black text-2xl text-slate-900 mt-0 mb-3">Optimize Your Fulfillment Workflow</h2>
             <p className="text-slate-600 mb-6 text-sm">Stop wasting A4 paper. Format your Meesho labels and invoices perfectly for your thermal printer in one click.</p>
             <div className="flex justify-center">
-              <Link 
-                href="/tool/meesho-label" 
+              <Link
+                href="/tool/meesho-label"
                 className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-pink-500 hover:bg-pink-600 text-white rounded-xl font-black text-sm transition-all focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-pink-500"
                 aria-label="Meesho Label & Invoice Cropper Tool"
               >

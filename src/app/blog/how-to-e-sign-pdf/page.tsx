@@ -8,7 +8,7 @@ import FAQSchema from '@/components/seo/FAQSchema';
 import WebAppSchema from '@/components/seo/WebAppSchema';
 import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema';
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://smartpdfsplus.com';
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'SITE_OFFICIAL_DOMAIN';
 
 export const metadata: Metadata = {
   title: 'How to E-Sign a PDF: Legal Electronic Signatures | SmartPDFs Plus',
@@ -101,23 +101,23 @@ export default function ESignPDFGuidePost() {
       <BreadcrumbSchema items={breadcrumbItems} />
       <FAQSchema />
       <WebAppSchema />
-      
+
       <article className="container mx-auto px-4 pt-10 pb-20 max-w-3xl">
         <nav aria-label="Breadcrumb navigation" className="mb-8">
           <Breadcrumbs items={breadcrumbItems} />
-          
-          <Link 
-            href="/blog" 
+
+          <Link
+            href="/blog"
             className="inline-flex items-center gap-2 text-sm text-slate-400 hover:text-emerald-600 transition-colors font-bold mt-4 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600 rounded p-1"
             aria-label="Navigate Back to Blog"
           >
             <ArrowLeft size={14} aria-hidden="true" /> Back to Blog
           </Link>
         </nav>
-        
+
         <header className="mb-8">
           <div className="flex items-center gap-4 mb-6">
-            <div 
+            <div
               className="w-12 h-12 bg-emerald-600 rounded-2xl flex items-center justify-center text-white shadow-lg shrink-0"
               aria-hidden="true"
             >
@@ -140,11 +140,11 @@ export default function ESignPDFGuidePost() {
           </div>
 
           <figure className="relative rounded-2xl overflow-hidden shadow-2xl mb-8 border border-slate-100 bg-slate-50">
-            <Image 
-              src="/img/e-sign-pdf.png" 
-              alt="Visual guide demonstrating the process of electronically signing a PDF document" 
-              width={1200} 
-              height={630} 
+            <Image
+              src="/img/e-sign-pdf.png"
+              alt="Visual guide demonstrating the process of electronically signing a PDF document"
+              width={1200}
+              height={630}
               priority
               className="w-full h-auto object-cover"
               sizes="(max-width: 768px) 100vw, 768px"
@@ -154,7 +154,7 @@ export default function ESignPDFGuidePost() {
         </header>
 
         <section className="prose prose-slate max-w-none space-y-8" aria-label="Article Content">
-          
+
           <p className="text-lg text-slate-600 leading-relaxed font-medium">
             Gone are the days of printing a 50-page contract, signing the last page in ink, scanning it back into your computer, and emailing a blurry, massive file. The transition to paperless workflows has made signing documents faster, cheaper, and significantly more secure.
           </p>
@@ -196,7 +196,7 @@ export default function ESignPDFGuidePost() {
                   This is a broad term encompassing any electronic process that indicates acceptance of an agreement. It can be a drawn signature on a tablet, a pasted PNG image of your ink signature, or even a typed name at the bottom of an email. <strong>This is what 99% of people use for daily business contracts.</strong>
                 </p>
               </div>
-              
+
               <div className="bg-white p-5 rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition-shadow">
                 <div className="flex items-center gap-2 mb-2 text-slate-900">
                   <Lock size={18} className="text-emerald-600" aria-hidden="true" />
@@ -214,7 +214,7 @@ export default function ESignPDFGuidePost() {
             <p className="text-slate-600 leading-relaxed">
               In almost all industrialized nations, yes. An electronic signature carries the exact same legal weight as an ink signature on paper, provided certain conditions regarding "intent to sign" are met.
             </p>
-            
+
             <div className="bg-emerald-50 border-l-4 border-emerald-600 p-5 rounded-r-xl my-6 flex gap-4">
               <Scale size={24} className="text-emerald-600 shrink-0" aria-hidden="true" />
               <div>
@@ -234,7 +234,7 @@ export default function ESignPDFGuidePost() {
               If you paste an image of your signature into a Word Document and save it as a PDF, or if you use a basic PDF editor to place a signature graphic, you must be incredibly careful about <strong>Flattening</strong>.
             </p>
             <p className="text-slate-600 leading-relaxed">
-              If a PDF is not flattened, the signature exists as a floating, editable annotation layer. The recipient of the contract could theoretically click on your signature image, copy it, and paste it onto an entirely different contract without your knowledge. 
+              If a PDF is not flattened, the signature exists as a floating, editable annotation layer. The recipient of the contract could theoretically click on your signature image, copy it, and paste it onto an entirely different contract without your knowledge.
             </p>
             <p className="text-slate-600 leading-relaxed font-bold">
               When you use a professional tool like SmartPDFs Plus to e-sign, the final generation step algorithmically merges your signature into the vector Base Layer of the PDF. This prevents casual tampering and ensures the signature cannot be easily moved or copied.
@@ -246,7 +246,7 @@ export default function ESignPDFGuidePost() {
             <p className="text-slate-600 leading-relaxed">
               Many corporate e-signature platforms require you to upload your sensitive contracts to their cloud servers, where they are stored indefinitely. Our WebAssembly-powered tool processes the signature entirely in your browser's RAM for absolute privacy.
             </p>
-            
+
             <ol className="space-y-4 my-6 list-none p-0">
               {[
                 {
@@ -283,17 +283,17 @@ export default function ESignPDFGuidePost() {
             <h2 className="text-2xl font-black text-slate-900 border-b pb-2">Frequently Asked Questions</h2>
             <div className="space-y-4 my-6" itemScope itemType="https://schema.org/FAQPage">
               {[
-                { 
-                  q: 'Does an e-signature need to look exactly like my ink signature?', 
-                  a: 'No. Legally, the validity of an e-signature rests on the "intent to sign" and the "association" of the mark with the individual. A typed name or a stylized font is generally just as valid as a physically drawn replica.' 
+                {
+                  q: 'Does an e-signature need to look exactly like my ink signature?',
+                  a: 'No. Legally, the validity of an e-signature rests on the "intent to sign" and the "association" of the mark with the individual. A typed name or a stylized font is generally just as valid as a physically drawn replica.'
                 },
-                { 
-                  q: 'What is an Audit Trail?', 
-                  a: 'Enterprise platforms like DocuSign provide an audit trail—a log of IP addresses, timestamps, and email verification attached to the signature. While our tool allows you to sign documents instantly and privately without accounts, it does not generate third-party cryptographic audit trails.' 
+                {
+                  q: 'What is an Audit Trail?',
+                  a: 'Enterprise platforms like DocuSign provide an audit trail—a log of IP addresses, timestamps, and email verification attached to the signature. While our tool allows you to sign documents instantly and privately without accounts, it does not generate third-party cryptographic audit trails.'
                 },
-                { 
-                  q: 'Is it safe to upload a picture of my signature?', 
-                  a: 'Yes, if the processing is local. Our tool processes your uploaded signature image locally in your browser memory. However, you should never upload a PNG of your raw signature to untrusted, cloud-based conversion websites.' 
+                {
+                  q: 'Is it safe to upload a picture of my signature?',
+                  a: 'Yes, if the processing is local. Our tool processes your uploaded signature image locally in your browser memory. However, you should never upload a PNG of your raw signature to untrusted, cloud-based conversion websites.'
                 }
               ].map(({ q, a }, i) => (
                 <div key={i} className="bg-slate-50 rounded-xl p-5 border border-slate-100 hover:border-emerald-200 transition-colors" itemScope itemProp="mainEntity" itemType="https://schema.org/Question">
@@ -311,8 +311,8 @@ export default function ESignPDFGuidePost() {
             <h2 className="font-black text-2xl text-slate-900 mt-0 mb-3">Sign Your Contracts Instantly</h2>
             <p className="text-slate-600 mb-6 text-sm">Draw, type, or upload your signature directly onto PDFs securely within your browser. No account required.</p>
             <div className="flex justify-center gap-4 flex-wrap">
-              <Link 
-                href="/tool/e-sign-pdf" 
+              <Link
+                href="/tool/e-sign-pdf"
                 className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl font-black text-sm transition-all focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-emerald-600"
                 aria-label="E-Sign PDF Tool"
               >

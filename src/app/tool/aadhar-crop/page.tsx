@@ -7,7 +7,7 @@ import {
 } from "lucide-react";
 
 // Site URL for canonical/SEO links
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://smartpdfsplus.com";
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "SITE_OFFICIAL_DOMAIN";
 
 // 1. Dynamic Metadata Export for Next.js App Router (SEO & Indexing Fix)
 export const metadata: Metadata = {
@@ -142,18 +142,18 @@ const faqJsonLd = {
 };
 
 const STEPS = [
-  { icon: Upload,   title: "Upload E-Aadhar PDF",        desc: "Select your e-Aadhar PDF or image. Everything is processed entirely in your browser — your Aadhar data never leaves your device." },
-  { icon: Crop,     title: "Crop Front & Back",          desc: "Use the visual cropper to select the front side of your Aadhar card, then the back side. Zoom and adjust for a perfect crop." },
-  { icon: Download, title: "Download Print-Ready PDF",   desc: "Download an A4 PDF with both sides formatted to standard ID card dimensions — ready for high-quality printing." },
+  { icon: Upload, title: "Upload E-Aadhar PDF", desc: "Select your e-Aadhar PDF or image. Everything is processed entirely in your browser — your Aadhar data never leaves your device." },
+  { icon: Crop, title: "Crop Front & Back", desc: "Use the visual cropper to select the front side of your Aadhar card, then the back side. Zoom and adjust for a perfect crop." },
+  { icon: Download, title: "Download Print-Ready PDF", desc: "Download an A4 PDF with both sides formatted to standard ID card dimensions — ready for high-quality printing." },
 ];
 
 const RELATED = [
-  { id: "pdf-to-jpg", title: "PDF to JPG",   description: "Convert every PDF page into a high-quality JPG image instantly.",                    icon: ImageIcon, gradient: "linear-gradient(135deg, #eab308, #a16207)", shadow: "rgba(234,179,8,0.3)",   tag: "Convert",  href: "/tool/pdf-to-jpg"   },
-  { id: "jpg-to-pdf", title: "JPG to PDF",   description: "Convert JPG or PNG images into a PDF document instantly.",                           icon: ImageIcon, gradient: "linear-gradient(135deg, #eab308, #a16207)", shadow: "rgba(234,179,8,0.3)",   tag: "Convert",  href: "/tool/jpg-to-pdf"   },
-  { id: "protect",    title: "Protect PDF",  description: "Encrypt your PDF with a password to keep sensitive documents secure.",               icon: Lock,      gradient: "linear-gradient(135deg, #ef4444, #b91c1c)", shadow: "rgba(239,68,68,0.3)",   tag: "Security", href: "/tool/protect"      },
-  { id: "unlock",     title: "Unlock PDF",   description: "Remove password protection from a PDF and restore full access.",                     icon: Unlock,    gradient: "linear-gradient(135deg, #f97316, #c2410c)", shadow: "rgba(249,115,22,0.3)",  tag: "Security", href: "/tool/unlock"       },
-  { id: "watermark",  title: "Watermark PDF",description: "Stamp a text or image watermark over every page of your PDF.",                      icon: Stamp,     gradient: "linear-gradient(135deg, #8b5cf6, #6d28d9)", shadow: "rgba(139,92,246,0.3)",  tag: "Edit",     href: "/tool/watermark"    },
-  { id: "esign",      title: "E-Sign PDF",   description: "Draw or type your signature and place it anywhere on a PDF instantly.",              icon: PenLine,   gradient: "linear-gradient(135deg, #8b5cf6, #ec4899)", shadow: "rgba(139,92,246,0.3)",  tag: "Sign",     href: "/esign"             },
+  { id: "pdf-to-jpg", title: "PDF to JPG", description: "Convert every PDF page into a high-quality JPG image instantly.", icon: ImageIcon, gradient: "linear-gradient(135deg, #eab308, #a16207)", shadow: "rgba(234,179,8,0.3)", tag: "Convert", href: "/tool/pdf-to-jpg" },
+  { id: "jpg-to-pdf", title: "JPG to PDF", description: "Convert JPG or PNG images into a PDF document instantly.", icon: ImageIcon, gradient: "linear-gradient(135deg, #eab308, #a16207)", shadow: "rgba(234,179,8,0.3)", tag: "Convert", href: "/tool/jpg-to-pdf" },
+  { id: "protect", title: "Protect PDF", description: "Encrypt your PDF with a password to keep sensitive documents secure.", icon: Lock, gradient: "linear-gradient(135deg, #ef4444, #b91c1c)", shadow: "rgba(239,68,68,0.3)", tag: "Security", href: "/tool/protect" },
+  { id: "unlock", title: "Unlock PDF", description: "Remove password protection from a PDF and restore full access.", icon: Unlock, gradient: "linear-gradient(135deg, #f97316, #c2410c)", shadow: "rgba(249,115,22,0.3)", tag: "Security", href: "/tool/unlock" },
+  { id: "watermark", title: "Watermark PDF", description: "Stamp a text or image watermark over every page of your PDF.", icon: Stamp, gradient: "linear-gradient(135deg, #8b5cf6, #6d28d9)", shadow: "rgba(139,92,246,0.3)", tag: "Edit", href: "/tool/watermark" },
+  { id: "esign", title: "E-Sign PDF", description: "Draw or type your signature and place it anywhere on a PDF instantly.", icon: PenLine, gradient: "linear-gradient(135deg, #8b5cf6, #ec4899)", shadow: "rgba(139,92,246,0.3)", tag: "Sign", href: "/esign" },
 ];
 
 export default function AadharCropPage() {
@@ -174,7 +174,7 @@ export default function AadharCropPage() {
       />
 
       <div className="max-w-7xl mx-auto px-4 pt-8 sm:pt-12 pb-16">
-        
+
         {/* Breadcrumb Navigation */}
         <nav aria-label="Breadcrumb" className="mb-6 flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-slate-400 dark:text-slate-500">
           <Link href="/" className="hover:text-red-500 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500 rounded px-1">
@@ -208,7 +208,7 @@ export default function AadharCropPage() {
 
         {/* 4. Complete SEO Optimized Content Section */}
         <section className="mt-20 border-t border-slate-200 dark:border-slate-800 pt-16 max-w-7xl mx-auto text-left">
-          
+
           <div className="mb-16 text-center relative">
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[100px] bg-red-500/10 dark:bg-red-500/5 blur-[80px] rounded-full -z-10 pointer-events-none" />
             <h1 className="text-4xl sm:text-6xl font-black tracking-tight mb-6 uppercase leading-tight bg-gradient-to-r from-slate-950 via-slate-800 to-red-600 dark:from-white dark:via-slate-200 dark:to-red-500 bg-clip-text text-transparent">
@@ -221,7 +221,7 @@ export default function AadharCropPage() {
           </div>
 
           <article className="space-y-16">
-            
+
             {/* What is Aadhar Crop */}
             <div className="bg-gradient-to-tr from-white to-slate-50/50 dark:from-slate-900 dark:to-slate-900/30 p-8 sm:p-10 rounded-[2.5rem] border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-md transition-all duration-300 flex flex-col md:flex-row gap-8 items-start">
               <div className="p-4 rounded-2xl bg-red-500/10 text-red-500 shrink-0">

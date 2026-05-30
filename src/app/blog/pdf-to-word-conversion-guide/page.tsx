@@ -8,7 +8,7 @@ import FAQSchema from '@/components/seo/FAQSchema';
 import WebAppSchema from '@/components/seo/WebAppSchema';
 import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema';
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://smartpdfsplus.com';
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'SITE_OFFICIAL_DOMAIN';
 
 export const metadata: Metadata = {
   title: 'Ultimate PDF to Word Conversion Guide: OCR, Formatting & Tools | SmartPDFs Plus',
@@ -101,13 +101,13 @@ export default function PDFToWordPost() {
       <BreadcrumbSchema items={breadcrumbItems} />
       <FAQSchema />
       <WebAppSchema />
-      
+
       <article className="container mx-auto px-4 pt-10 pb-20 max-w-3xl">
         <nav aria-label="Breadcrumb navigation" className="mb-8">
           <Breadcrumbs items={breadcrumbItems} />
-          
-          <Link 
-            href="/blog" 
+
+          <Link
+            href="/blog"
             className="inline-flex items-center gap-2 text-sm text-slate-400 hover:text-blue-500 transition-colors font-bold mt-4 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 rounded p-1"
             aria-label="Navigate Back to Blog"
           >
@@ -117,7 +117,7 @@ export default function PDFToWordPost() {
 
         <header className="mb-8">
           <div className="flex items-center gap-4 mb-6">
-            <div 
+            <div
               className="w-12 h-12 bg-blue-600 rounded-2xl flex items-center justify-center text-white shadow-lg shrink-0"
               aria-hidden="true"
             >
@@ -140,11 +140,11 @@ export default function PDFToWordPost() {
           </div>
 
           <figure className="relative rounded-2xl overflow-hidden shadow-2xl mb-8 border border-slate-100 bg-slate-50">
-            <Image 
-              src="/img/convert-pdf-all-tool.png" 
-              alt="PDF to Word Conversion Guide showcasing document formatting and OCR extraction" 
-              width={1200} 
-              height={630} 
+            <Image
+              src="/img/convert-pdf-all-tool.png"
+              alt="PDF to Word Conversion Guide showcasing document formatting and OCR extraction"
+              width={1200}
+              height={630}
               priority
               className="w-full h-auto object-cover"
               sizes="(max-width: 768px) 100vw, 768px"
@@ -154,7 +154,7 @@ export default function PDFToWordPost() {
         </header>
 
         <section className="prose prose-slate max-w-none space-y-8" aria-label="Article Content">
-          
+
           <p className="text-lg text-slate-600 leading-relaxed font-medium">
             PDFs are the undisputed king of document sharing. They look identical on every device, preserve strict formatting, and are inherently difficult to edit. But what happens when you receive a 50-page contract in PDF format and you desperately need to make revisions? Re-typing it is out of the question. You need a robust PDF to Word converter. In this guide, we explore the intricate technology behind PDF conversion, how Optical Character Recognition (OCR) bridges the gap between images and text, and how to guarantee your Word documents retain their original layout.
           </p>
@@ -191,7 +191,7 @@ export default function PDFToWordPost() {
             <p className="text-slate-600 leading-relaxed">
               Your conversion strategy depends entirely on the origin of your PDF. There are two primary types of PDF files in the wild:
             </p>
-            
+
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6">
               <div className="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
                 <div className="flex items-center gap-2 mb-2 text-slate-900">
@@ -202,7 +202,7 @@ export default function PDFToWordPost() {
                   These are created directly from a digital source (like exporting from Word, Google Docs, or InDesign). They contain actual text characters embedded in the file. You can highlight, copy, and search the text easily. These convert to Word with near 100% accuracy.
                 </p>
               </div>
-              
+
               <div className="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
                 <div className="flex items-center gap-2 mb-2 text-slate-900">
                   <ImageIcon size={18} className="text-blue-600" aria-hidden="true" />
@@ -239,17 +239,17 @@ export default function PDFToWordPost() {
             <h2 className="text-2xl font-black text-slate-900 border-b pb-2">Frequently Asked Questions</h2>
             <div className="space-y-4 my-6" itemScope itemType="https://schema.org/FAQPage">
               {[
-                { 
-                  q: 'Will the converted Word file look exactly like the PDF?', 
-                  a: 'In most cases, yes. Our engine uses advanced layout reconstruction to preserve fonts, tables, and exact spatial positioning. However, extremely intricate designs created in software like Adobe Illustrator might require minor manual padding adjustments in Word.' 
+                {
+                  q: 'Will the converted Word file look exactly like the PDF?',
+                  a: 'In most cases, yes. Our engine uses advanced layout reconstruction to preserve fonts, tables, and exact spatial positioning. However, extremely intricate designs created in software like Adobe Illustrator might require minor manual padding adjustments in Word.'
                 },
-                { 
-                  q: 'Is my confidential data safe during conversion?', 
-                  a: 'Absolutely. We employ TLS encryption for all file transfers. Your files are processed entirely in memory and are permanently wiped from our servers immediately upon conversion completion.' 
+                {
+                  q: 'Is my confidential data safe during conversion?',
+                  a: 'Absolutely. We employ TLS encryption for all file transfers. Your files are processed entirely in memory and are permanently wiped from our servers immediately upon conversion completion.'
                 },
-                { 
-                  q: 'Can I convert a password-protected PDF to Word?', 
-                  a: 'Yes, but you must know the password. You can use our Unlock PDF tool to remove the encryption first, and then run it through the Word converter.' 
+                {
+                  q: 'Can I convert a password-protected PDF to Word?',
+                  a: 'Yes, but you must know the password. You can use our Unlock PDF tool to remove the encryption first, and then run it through the Word converter.'
                 },
                 {
                   q: 'Does it support Mac (.pages) or just Windows (.docx)?',
@@ -271,15 +271,15 @@ export default function PDFToWordPost() {
             <h2 className="font-black text-2xl text-slate-900 mt-0 mb-3">Ready to edit your PDFs?</h2>
             <p className="text-slate-600 mb-6 text-sm">Transform locked, static PDF files into beautifully formatted, 100% editable Microsoft Word documents instantly.</p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link 
-                href="/tool/pdf-to-word" 
+              <Link
+                href="/tool/pdf-to-word"
                 className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-black text-sm transition-all focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-600"
                 aria-label="PDF to Word Tool"
               >
                 Convert to Word <ArrowRight size={16} aria-hidden="true" />
               </Link>
-              <Link 
-                href="/tool/ocr-pdf" 
+              <Link
+                href="/tool/ocr-pdf"
                 className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-white hover:bg-slate-50 text-slate-800 border-2 border-slate-200 rounded-xl font-black text-sm transition-all focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-slate-400"
                 aria-label="OCR Tool for Scanned PDFs"
               >

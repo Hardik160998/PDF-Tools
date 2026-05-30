@@ -7,7 +7,7 @@ import {
 } from "lucide-react";
 
 // Site URL for canonical/SEO links
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://smartpdfsplus.com";
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "SITE_OFFICIAL_DOMAIN";
 
 // 1. Dynamic Metadata Export for Next.js App Router (SEO & Indexing Fix)
 export const metadata: Metadata = {
@@ -142,9 +142,9 @@ const faqJsonLd = {
 };
 
 const STEPS = [
-  { icon: Upload,   title: "Upload Your PDF",        desc: "Select or drop your PDF file. All processing happens entirely in your browser — your file never leaves your device." },
-  { icon: Crop,     title: "Set the Crop Area",      desc: "Drag the orange handles to define exactly which area to keep. Apply the same crop to all pages or set a different crop per page." },
-  { icon: Download, title: "Download Cropped PDF",   desc: "Click 'Crop PDF' and instantly download your cropped PDF with all pages trimmed to your selected area." },
+  { icon: Upload, title: "Upload Your PDF", desc: "Select or drop your PDF file. All processing happens entirely in your browser — your file never leaves your device." },
+  { icon: Crop, title: "Set the Crop Area", desc: "Drag the orange handles to define exactly which area to keep. Apply the same crop to all pages or set a different crop per page." },
+  { icon: Download, title: "Download Cropped PDF", desc: "Click 'Crop PDF' and instantly download your cropped PDF with all pages trimmed to your selected area." },
 ];
 
 const RELATED = [
@@ -174,7 +174,7 @@ export default function CropPdfPage() {
       />
 
       <div className="max-w-7xl mx-auto px-4 pt-8 sm:pt-12 pb-16">
-        
+
         {/* Breadcrumb Navigation */}
         <nav aria-label="Breadcrumb" className="mb-6 flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-slate-400 dark:text-slate-500">
           <Link href="/" className="hover:text-orange-500 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-500 rounded px-1">
@@ -208,7 +208,7 @@ export default function CropPdfPage() {
 
         {/* 4. Complete SEO Optimized Content Section */}
         <section className="mt-20 border-t border-slate-200 dark:border-slate-800 pt-16 max-w-7xl mx-auto text-left">
-          
+
           <div className="mb-16 text-center relative">
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[100px] bg-orange-500/10 dark:bg-orange-500/5 blur-[80px] rounded-full -z-10 pointer-events-none" />
             <h1 className="text-4xl sm:text-6xl font-black tracking-tight mb-6 uppercase leading-tight bg-gradient-to-r from-slate-950 via-slate-800 to-orange-600 dark:from-white dark:via-slate-200 dark:to-orange-500 bg-clip-text text-transparent">
@@ -221,7 +221,7 @@ export default function CropPdfPage() {
           </div>
 
           <article className="space-y-16">
-            
+
             {/* What is PDF Cropper */}
             <div className="bg-gradient-to-tr from-white to-slate-50/50 dark:from-slate-900 dark:to-slate-900/30 p-8 sm:p-10 rounded-[2.5rem] border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-md transition-all duration-300 flex flex-col md:flex-row gap-8 items-start">
               <div className="p-4 rounded-2xl bg-orange-500/10 text-orange-500 shrink-0">

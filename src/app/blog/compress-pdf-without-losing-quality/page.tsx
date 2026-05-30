@@ -8,7 +8,7 @@ import FAQSchema from '@/components/seo/FAQSchema';
 import WebAppSchema from '@/components/seo/WebAppSchema';
 import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema';
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://smartpdfsplus.com';
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'SITE_OFFICIAL_DOMAIN';
 
 export const metadata: Metadata = {
   title: 'How to Compress a PDF Without Losing Quality (Free Guide) | SmartPDFs Plus',
@@ -69,21 +69,21 @@ export default function CompressPdfPost() {
       <BreadcrumbSchema items={breadcrumbItems} />
       <FAQSchema />
       <WebAppSchema />
-      
+
       <article className="container mx-auto px-4 pt-10 pb-20 max-w-3xl">
         <Breadcrumbs items={breadcrumbItems} />
-        
-        <Link 
-          href="/blog" 
+
+        <Link
+          href="/blog"
           className="inline-flex items-center gap-2 text-sm text-slate-400 hover:text-red-500 transition-colors font-bold mb-8 focus:outline-none focus:ring-2 focus:ring-red-500 rounded p-1"
           aria-label="Back to Blog"
         >
           <ArrowLeft size={14} aria-hidden="true" /> Back to Blog
         </Link>
-        
+
         <header className="mb-6">
           <div className="flex items-center gap-4 mb-6">
-            <div 
+            <div
               className="w-12 h-12 bg-green-500 rounded-2xl flex items-center justify-center text-white shadow-lg shrink-0"
               aria-hidden="true"
             >
@@ -110,9 +110,9 @@ export default function CompressPdfPost() {
         </header>
 
         <figure className="mb-8 shadow-2xl rounded-2xl overflow-hidden bg-slate-50 border border-slate-100 flex items-center justify-center">
-          <Image 
-            src="/img/compress-pdf.png" 
-            alt="How to Compress a PDF Without Losing Quality" 
+          <Image
+            src="/img/compress-pdf.png"
+            alt="How to Compress a PDF Without Losing Quality"
             width={1200}
             height={630}
             sizes="(max-width: 768px) 100vw, 800px"
@@ -195,7 +195,7 @@ export default function CompressPdfPost() {
             <p className="leading-relaxed mb-6">
               You do not need to purchase expensive desktop software to compress your files. SmartPDFs Plus offers a completely free, browser-based compression tool that processes everything locally on your device for maximum privacy.
             </p>
-            
+
             <div className="space-y-4">
               <div className="flex gap-5 p-5 bg-white rounded-2xl border border-slate-200 shadow-sm">
                 <div className="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center text-white font-black text-lg shrink-0 shadow-md" aria-hidden="true">1</div>
@@ -259,7 +259,7 @@ export default function CompressPdfPost() {
               </div>
             </div>
           </section>
-          
+
           <section aria-labelledby="features-of-tool">
             <h2 id="features-of-tool" className="text-2xl font-black text-slate-900 mt-10 mb-4">Features of Our Compression Engine</h2>
             <ul className="space-y-4">
@@ -321,8 +321,8 @@ export default function CompressPdfPost() {
               <h2 className="text-2xl font-black text-slate-900 mb-2">Ready to shrink your PDFs?</h2>
               <p className="text-sm text-slate-600 max-w-md mx-auto">Reduce file sizes by up to 80% while preserving pristine quality. 100% free and instantly secure.</p>
             </div>
-            <Link 
-              href="/tool/compress" 
+            <Link
+              href="/tool/compress"
               className="inline-flex items-center gap-2 px-8 py-4 bg-green-500 hover:bg-green-600 text-white rounded-xl font-black text-lg transition-transform hover:scale-105 active:scale-95 shadow-md focus:outline-none focus:ring-4 focus:ring-green-300"
               aria-label="Open Compress PDF Tool"
             >

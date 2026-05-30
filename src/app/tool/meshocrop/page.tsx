@@ -3,12 +3,12 @@ import type { Metadata } from "next";
 import MeeshoCropLabel from "@/components/tools/MeeshoCropLabel";
 import MeeshoTitleSync from "@/components/tools/MeeshoTitleSync";
 import CreditGate from "@/components/credits/CreditGate";
-import { 
+import {
   ShoppingBag, Upload, Scissors, Download, Zap, FileText, Wand2, Crop, Combine, Lock, Info, ArrowRight, HelpCircle, ChevronDown, Star, Check
 } from "lucide-react";
 
 // Site URL for canonical/SEO links
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://smartpdfsplus.com";
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "SITE_OFFICIAL_DOMAIN";
 
 // 1. Dynamic Metadata Export for Next.js App Router (SEO & Indexing Fix)
 export const metadata: Metadata = {
@@ -135,18 +135,18 @@ const faqJsonLd = {
 };
 
 const STEPS = [
-  { icon: Upload,   title: 'Upload Meesho Labels',   desc: 'Drop one or multiple Meesho shipping label PDFs. Everything runs in your browser — no uploads to any server.' },
-  { icon: Scissors, title: 'Auto Crop TAX INVOICE',  desc: 'The tool scans each page, finds "TAX INVOICE" text and crops everything from top to just above that line.' },
-  { icon: Download, title: 'Download Clean Labels',  desc: 'All cropped labels with only shipping info, return address & barcodes are merged into one PDF.' },
+  { icon: Upload, title: 'Upload Meesho Labels', desc: 'Drop one or multiple Meesho shipping label PDFs. Everything runs in your browser — no uploads to any server.' },
+  { icon: Scissors, title: 'Auto Crop TAX INVOICE', desc: 'The tool scans each page, finds "TAX INVOICE" text and crops everything from top to just above that line.' },
+  { icon: Download, title: 'Download Clean Labels', desc: 'All cropped labels with only shipping info, return address & barcodes are merged into one PDF.' },
 ];
 
 const RELATED_TOOLS = [
-  { id: 'meesho-cropper',  title: 'Meesho Invoice Cropper',  description: 'Remove invoice section below "Total" from Meesho labels. Complementary to this tool.',          icon: ShoppingBag, gradient: 'linear-gradient(135deg, #f26522, #f59e0b)', shadow: 'rgba(242,101,34,0.3)',  tag: 'Ecommerce'  },
-  { id: 'flipkart-cropper',title: 'Flipkart Cropper',         description: 'Perfectly crop Flipkart label PDFs using smart OCR detection anchors.',                     icon: ShoppingBag, gradient: 'linear-gradient(135deg, #f7941d, #c2410c)', shadow: 'rgba(247,148,29,0.3)', tag: 'Ecommerce'  },
-  { id: 'aadhar-crop',     title: 'Aadhar Cropper',          description: 'Perfectly crop Aadhar ID cards from e-Aadhar PDF for high quality printing.',                icon: Wand2,       gradient: 'linear-gradient(135deg, #ef4444, #991b1b)', shadow: 'rgba(239,68,68,0.3)',   tag: 'Special'  },
-  { id: 'crop-pdf',        title: 'Crop PDF',                description: 'Trim margins and crop any pages of your PDF with custom margin controls.',                     icon: Crop,        gradient: 'linear-gradient(135deg, #f26522, #c2410c)', shadow: 'rgba(242,101,34,0.3)',  tag: 'Special'  },
-  { id: 'merge',           title: 'Merge PDF',               description: 'Combine multiple PDF files into one document in the order you choose.',                        icon: Combine,     gradient: 'linear-gradient(135deg, #f26522, #c2410c)', shadow: 'rgba(242,101,34,0.3)',  tag: 'Organize' },
-  { id: 'compress',        title: 'Compress PDF',            description: 'Reduce PDF file size while keeping text sharp and content intact.',                            icon: Zap,         gradient: 'linear-gradient(135deg, #22c55e, #15803d)', shadow: 'rgba(34,197,94,0.3)',   tag: 'Optimize' },
+  { id: 'meesho-cropper', title: 'Meesho Invoice Cropper', description: 'Remove invoice section below "Total" from Meesho labels. Complementary to this tool.', icon: ShoppingBag, gradient: 'linear-gradient(135deg, #f26522, #f59e0b)', shadow: 'rgba(242,101,34,0.3)', tag: 'Ecommerce' },
+  { id: 'flipkart-cropper', title: 'Flipkart Cropper', description: 'Perfectly crop Flipkart label PDFs using smart OCR detection anchors.', icon: ShoppingBag, gradient: 'linear-gradient(135deg, #f7941d, #c2410c)', shadow: 'rgba(247,148,29,0.3)', tag: 'Ecommerce' },
+  { id: 'aadhar-crop', title: 'Aadhar Cropper', description: 'Perfectly crop Aadhar ID cards from e-Aadhar PDF for high quality printing.', icon: Wand2, gradient: 'linear-gradient(135deg, #ef4444, #991b1b)', shadow: 'rgba(239,68,68,0.3)', tag: 'Special' },
+  { id: 'crop-pdf', title: 'Crop PDF', description: 'Trim margins and crop any pages of your PDF with custom margin controls.', icon: Crop, gradient: 'linear-gradient(135deg, #f26522, #c2410c)', shadow: 'rgba(242,101,34,0.3)', tag: 'Special' },
+  { id: 'merge', title: 'Merge PDF', description: 'Combine multiple PDF files into one document in the order you choose.', icon: Combine, gradient: 'linear-gradient(135deg, #f26522, #c2410c)', shadow: 'rgba(242,101,34,0.3)', tag: 'Organize' },
+  { id: 'compress', title: 'Compress PDF', description: 'Reduce PDF file size while keeping text sharp and content intact.', icon: Zap, gradient: 'linear-gradient(135deg, #22c55e, #15803d)', shadow: 'rgba(34,197,94,0.3)', tag: 'Optimize' },
 ];
 
 export default function MeeshoCropPage() {
@@ -169,7 +169,7 @@ export default function MeeshoCropPage() {
       <MeeshoTitleSync />
 
       <div className="max-w-7xl mx-auto px-4 pt-8 sm:pt-12 pb-16">
-        
+
         {/* Breadcrumb Navigation */}
         <nav aria-label="Breadcrumb" className="mb-6 flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-slate-400 dark:text-slate-500">
           <Link href="/" className="hover:text-orange-500 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-500 rounded px-1">
@@ -215,10 +215,10 @@ export default function MeeshoCropPage() {
             <h2 className="text-2xl font-black text-slate-900 dark:text-white tracking-tight mb-8 text-center uppercase">Why Use This Tool</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {[
-                { icon: Zap,         color: '#f26522', title: 'Instant Processing',     desc: 'All processing happens in your browser using JavaScript — no server, no waiting, instant results.' },
-                { icon: FileText,    color: '#22c55e', title: '100% Private',           desc: 'Your PDF files never leave your device. Zero data collection, fully secure and offline-capable.' },
-                { icon: FileText,    color: '#3182ce', title: 'Batch PDF Support',      desc: 'Upload multiple Meesho label PDFs at once and process them all in a single click.' },
-                { icon: Scissors,    color: '#8b5cf6', title: 'Smart Auto-Crop',        desc: 'Automatically detects "TAX INVOICE" text on each page — no manual selection or configuration needed.' },
+                { icon: Zap, color: '#f26522', title: 'Instant Processing', desc: 'All processing happens in your browser using JavaScript — no server, no waiting, instant results.' },
+                { icon: FileText, color: '#22c55e', title: '100% Private', desc: 'Your PDF files never leave your device. Zero data collection, fully secure and offline-capable.' },
+                { icon: FileText, color: '#3182ce', title: 'Batch PDF Support', desc: 'Upload multiple Meesho label PDFs at once and process them all in a single click.' },
+                { icon: Scissors, color: '#8b5cf6', title: 'Smart Auto-Crop', desc: 'Automatically detects "TAX INVOICE" text on each page — no manual selection or configuration needed.' },
               ].map(f => (
                 <div key={f.title} className="bg-white dark:bg-slate-800 rounded-2xl p-5 border border-slate-100 dark:border-slate-700 shadow-sm flex gap-4 items-start">
                   <div className="w-11 h-11 rounded-xl flex items-center justify-center text-white shrink-0 shadow-md animate-pulse" style={{ background: f.color }}>
@@ -236,7 +236,7 @@ export default function MeeshoCropPage() {
 
         {/* 4. Complete SEO Optimized Content Section */}
         <section className="mt-20 border-t border-slate-200 dark:border-slate-800 pt-16 max-w-7xl mx-auto text-left">
-          
+
           <div className="mb-16 text-center relative">
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[100px] bg-orange-500/10 dark:bg-orange-500/5 blur-[80px] rounded-full -z-10 pointer-events-none" />
             <h1 className="text-4xl sm:text-6xl font-black tracking-tight mb-6 uppercase leading-tight bg-gradient-to-r from-slate-950 via-slate-800 to-orange-600 dark:from-white dark:via-slate-200 dark:to-orange-500 bg-clip-text text-transparent">
@@ -249,7 +249,7 @@ export default function MeeshoCropPage() {
           </div>
 
           <article className="space-y-16">
-            
+
             {/* What is Meesho Crop */}
             <div className="bg-gradient-to-tr from-white to-slate-50/50 dark:from-slate-900 dark:to-slate-900/30 p-8 sm:p-10 rounded-[2.5rem] border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-md transition-all duration-300 flex flex-col md:flex-row gap-8 items-start">
               <div className="p-4 rounded-2xl bg-orange-500/10 text-orange-500 shrink-0">

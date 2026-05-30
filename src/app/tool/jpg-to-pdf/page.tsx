@@ -7,7 +7,7 @@ import {
 } from "lucide-react";
 
 // Site URL for canonical/SEO links
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://smartpdfsplus.com';
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'SITE_OFFICIAL_DOMAIN';
 
 // 1. Dynamic Metadata Export for Next.js App Router
 export const metadata: Metadata = {
@@ -192,18 +192,18 @@ export default function JpgToPdfPage() {
         {/* Feature Cards Grid */}
         <section aria-label="Tool Benefits Quick Overview" className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-20">
           {[
-            { 
-              title: "Instant Conversion", 
+            {
+              title: "Instant Conversion",
               desc: "Convert multiple JPG, PNG, or TIFF images into a single professional PDF document.",
               gradient: "linear-gradient(135deg,#facc15,#eab308)"
             },
-            { 
-              title: "High Fidelity", 
+            {
+              title: "High Fidelity",
               desc: "Maintains original image resolution and color profiles for high-quality printing and sharing.",
               gradient: "linear-gradient(135deg,#facc15,#eab308)"
             },
-            { 
-              title: "Private Processing", 
+            {
+              title: "Private Processing",
               desc: "All image-to-PDF merging occurs locally in your browser. No files are uploaded to our servers.",
               gradient: "linear-gradient(135deg,#22c55e,#15803d)"
             }

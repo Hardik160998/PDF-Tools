@@ -8,7 +8,7 @@ import FAQSchema from '@/components/seo/FAQSchema';
 import WebAppSchema from '@/components/seo/WebAppSchema';
 import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema';
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://smartpdfsplus.com';
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'SITE_OFFICIAL_DOMAIN';
 
 export const metadata: Metadata = {
   title: 'How to Properly Redact a PDF: Avoid Data Leaks | SmartPDFs Plus',
@@ -101,23 +101,23 @@ export default function RedactPDFPost() {
       <BreadcrumbSchema items={breadcrumbItems} />
       <FAQSchema />
       <WebAppSchema />
-      
+
       <article className="container mx-auto px-4 pt-10 pb-20 max-w-3xl">
         <nav aria-label="Breadcrumb navigation" className="mb-8">
           <Breadcrumbs items={breadcrumbItems} />
-          
-          <Link 
-            href="/blog" 
+
+          <Link
+            href="/blog"
             className="inline-flex items-center gap-2 text-sm text-slate-400 hover:text-red-500 transition-colors font-bold mt-4 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 rounded p-1"
             aria-label="Navigate Back to Blog"
           >
             <ArrowLeft size={14} aria-hidden="true" /> Back to Blog
           </Link>
         </nav>
-        
+
         <header className="mb-8">
           <div className="flex items-center gap-4 mb-6">
-            <div 
+            <div
               className="w-12 h-12 bg-slate-900 rounded-2xl flex items-center justify-center text-white shadow-lg shrink-0"
               aria-hidden="true"
             >
@@ -140,11 +140,11 @@ export default function RedactPDFPost() {
           </div>
 
           <figure className="relative rounded-2xl overflow-hidden shadow-2xl mb-8 border border-slate-100 bg-slate-50">
-            <Image 
-              src="/img/redact-pdf.png" 
-              alt="How to Redact PDF Securely" 
-              width={1200} 
-              height={630} 
+            <Image
+              src="/img/redact-pdf.png"
+              alt="How to Redact PDF Securely"
+              width={1200}
+              height={630}
               priority
               className="w-full h-auto object-cover"
               sizes="(max-width: 768px) 100vw, 768px"
@@ -154,7 +154,7 @@ export default function RedactPDFPost() {
         </header>
 
         <section className="prose prose-slate max-w-none space-y-8" aria-label="Article Content">
-          
+
           <p className="text-lg text-slate-600 leading-relaxed font-medium">
             Every year, journalists, lawyers, and government agencies make front-page news for the exact same catastrophic mistake: improperly redacting a PDF. They draw a black box over a Social Security Number or a confidential informant's name, save the file, and publish it online. Within minutes, anyone can simply highlight the black box, copy the text, and paste the hidden secrets into Notepad.
           </p>
@@ -183,7 +183,7 @@ export default function RedactPDFPost() {
           <section>
             <h2 className="text-2xl font-black text-slate-900 border-b pb-2">1. The Anatomy of a PDF Leak</h2>
             <p className="text-slate-600 leading-relaxed">
-              To understand redaction failure, you have to understand PDF rendering. A PDF is a collection of objects drawn onto a digital canvas. The text "CONFIDENTIAL: John Doe" is an object. If you use a basic PDF editor to draw a black rectangle over "John Doe", you have simply added a new object to the end of the file. 
+              To understand redaction failure, you have to understand PDF rendering. A PDF is a collection of objects drawn onto a digital canvas. The text "CONFIDENTIAL: John Doe" is an object. If you use a basic PDF editor to draw a black rectangle over "John Doe", you have simply added a new object to the end of the file.
             </p>
             <p className="text-slate-600 leading-relaxed">
               When a user opens the PDF, the viewing software draws the text first, and then draws the black box over it. But the text object is still perfectly intact in the file's binary code. Anyone can use the "Select Text" cursor in Adobe Acrobat, highlight the entire line (including the black box), and copy it to their clipboard.
@@ -216,7 +216,7 @@ export default function RedactPDFPost() {
                   The redaction engine locates the exact coordinates of the blackout box. It then scans the PDF for any text objects, images, or vector paths that intersect with those coordinates.
                 </p>
               </div>
-              
+
               <div className="bg-white p-5 rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition-shadow">
                 <div className="flex items-center gap-2 mb-2 text-slate-900">
                   <Eraser size={18} className="text-slate-900" aria-hidden="true" />
@@ -253,17 +253,17 @@ export default function RedactPDFPost() {
             <h2 className="text-2xl font-black text-slate-900 border-b pb-2">Frequently Asked Questions</h2>
             <div className="space-y-4 my-6" itemScope itemType="https://schema.org/FAQPage">
               {[
-                { 
-                  q: 'Can a redacted PDF be unredacted?', 
-                  a: 'If redacted properly using structural deletion, no. The text data is permanently erased from the file structure. If redacted improperly by drawing a shape over it, anyone can simply copy the text underneath or use software to delete the shape.' 
+                {
+                  q: 'Can a redacted PDF be unredacted?',
+                  a: 'If redacted properly using structural deletion, no. The text data is permanently erased from the file structure. If redacted improperly by drawing a shape over it, anyone can simply copy the text underneath or use software to delete the shape.'
                 },
-                { 
-                  q: 'Does saving a PDF as an image (JPG/PNG) securely redact it?', 
-                  a: 'Yes! Converting a PDF to a JPG using our PDF to JPG tool flattens all layers into a single grid of pixels. The text is no longer machine-readable text; it is just a picture of black boxes. This is a highly secure workaround.' 
+                {
+                  q: 'Does saving a PDF as an image (JPG/PNG) securely redact it?',
+                  a: 'Yes! Converting a PDF to a JPG using our PDF to JPG tool flattens all layers into a single grid of pixels. The text is no longer machine-readable text; it is just a picture of black boxes. This is a highly secure workaround.'
                 },
-                { 
-                  q: 'Is redacting the same as password protecting?', 
-                  a: 'No. Password protection restricts who can open the file. Redaction removes specific sensitive information (like Social Security numbers) so that anyone can safely view the rest of the document.' 
+                {
+                  q: 'Is redacting the same as password protecting?',
+                  a: 'No. Password protection restricts who can open the file. Redaction removes specific sensitive information (like Social Security numbers) so that anyone can safely view the rest of the document.'
                 },
                 {
                   q: 'What should I do if I accidentally sent an improperly redacted file?',
@@ -285,15 +285,15 @@ export default function RedactPDFPost() {
             <h2 className="font-black text-2xl text-slate-900 mt-0 mb-3">Ensure 100% Secure Redaction</h2>
             <p className="text-slate-600 mb-6 text-sm">Don't risk a massive data leak. Use our advanced tools to convert, flatten, or encrypt your sensitive documents securely in your browser.</p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link 
-                href="/tool/pdf-to-jpg" 
+              <Link
+                href="/tool/pdf-to-jpg"
                 className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-slate-900 hover:bg-slate-800 text-white rounded-xl font-black text-sm transition-all focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-slate-900"
                 aria-label="Flatten PDF to JPG Tool"
               >
                 Flatten via PDF to JPG <ArrowRight size={16} aria-hidden="true" />
               </Link>
-              <Link 
-                href="/tool/protect" 
+              <Link
+                href="/tool/protect"
                 className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-white hover:bg-slate-50 text-slate-800 border-2 border-slate-200 rounded-xl font-black text-sm transition-all focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-slate-400"
                 aria-label="Protect PDF Tool"
               >

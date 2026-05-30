@@ -588,11 +588,11 @@ function PremiumPlansContent() {
                 <ul className="space-y-4">
                   {[
                     "Access to all tools & croppers",
+                    "All Ecommerce Label Croppers",
                     "Files up to 500MB limits",
                     "High-speed browser processing",
                     "Ad-free workspace",
-                    "Priority support",
-                    "Cancel or upgrade anytime"
+                    "Priority support"
                   ].map((feat, idx) => (
                     <li key={idx} className="flex items-start gap-3">
                       <CheckCircle2 size={16} className="text-emerald-500 shrink-0 mt-0.5" />

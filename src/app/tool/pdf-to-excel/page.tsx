@@ -1,14 +1,14 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import dynamic from "next/dynamic";
-import { 
-  FileSpreadsheet, Upload, Sparkles, Download, FileText, Presentation, 
-  Type, ImageIcon, Lock, Shield, Zap, Info, ArrowRight, Star, Check, 
-  HelpCircle, ChevronDown, Loader2 
+import {
+  FileSpreadsheet, Upload, Sparkles, Download, FileText, Presentation,
+  Type, ImageIcon, Lock, Shield, Zap, Info, ArrowRight, Star, Check,
+  HelpCircle, ChevronDown, Loader2
 } from 'lucide-react';
 
 // Site URL for canonical/SEO links
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://smartpdfsplus.com';
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'SITE_OFFICIAL_DOMAIN';
 
 // 1. Dynamic Metadata Export for Next.js App Router
 export const metadata: Metadata = {
@@ -243,7 +243,7 @@ export default function PdfToExcelPage() {
 
         {/* 4. Complete SEO Optimized Content Section */}
         <section className="mt-20 border-t border-slate-200 dark:border-slate-800 pt-16 max-w-7xl mx-auto text-left">
-          
+
           <div className="mb-16 text-center relative">
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[100px] bg-green-500/10 dark:bg-green-500/5 blur-[80px] rounded-full -z-10 pointer-events-none" />
 
