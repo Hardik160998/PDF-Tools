@@ -1,61 +1,35 @@
 import { MetadataRoute } from 'next';
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://smartpdfsplus.com';
+
 export default function sitemap(): MetadataRoute.Sitemap {
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://smartpdfsplus.com';
-  
-  // List of all static routes in our tool suite
-  const routes = [
+  const staticRoutes = [
     '',
+    '/blog',
+    '/blog/ultimate-pdf-optimization-guide',
+    '/blog/pdf-to-word-conversion-guide',
+    '/blog/how-to-merge-pdf',
+    '/blog/compress-pdf-without-losing-quality',
+    '/blog/protect-pdf-with-password',
+    '/blog/how-to-redact-pdf',
+    '/blog/how-to-crop-aadhar-card',
+    '/blog/how-to-crop-pdf',
     '/tool/merge',
     '/tool/split',
     '/tool/compress',
-    '/tool/organize',
-    '/tool/compare-pdf',
-    '/tool/extract-pages',
-    '/tool/delete-pages',
-    '/tool/add-blank-page',
-    '/tool/repair-pdf',
-    '/tool/optimize-pdf',
-    '/tool/extract-text',
-    '/tool/ocr-pdf',
-    '/tool/pdf-to-xml',
-    '/tool/pdf-to-jpg',
-    '/tool/jpg-to-pdf',
-    '/tool/word-to-pdf',
     '/tool/pdf-to-word',
-    '/tool/docx-to-pdf',
-    '/tool/pdf-to-docx',
-    '/tool/excel-to-pdf',
+    '/tool/word-to-pdf',
     '/tool/pdf-to-excel',
-    '/tool/ppt-to-pdf',
-    '/tool/pdf-to-ppt',
-    '/tool/protect',
-    '/tool/unlock',
-    '/tool/redact-pdf',
-    '/tool/bookmark-pdf',
-    '/tool/watermark',
-    '/tool/page-numbers',
-    '/tool/metadata',
-    '/tool/flatten-pdf',
-    '/tool/remove-ocr',
-    '/esign',
-    '/edit',
-    '/about',
-    '/faq',
-    '/contact',
-    '/blog',
-    '/blog/how-to-merge-pdf',
-    '/blog/compress-pdf-without-losing-quality',
-    '/blog/organize-pdf-pages',
-    '/blog/ultimate-guide-to-organizing-pdfs',
-    '/privacy',
-    '/terms',
+    '/tool/pdf-to-jpg',
+    '/tool/optimize-pdf',
+    '/login',
+    '/signup'
   ];
 
-  return routes.map((route) => ({
+  return staticRoutes.map((route) => ({
     url: `${siteUrl}${route}`,
     lastModified: new Date(),
-    changeFrequency: 'daily',
-    priority: route === '' ? 1.0 : route.startsWith('/tool/') ? 0.9 : 0.6,
+    changeFrequency: route.includes('/blog') ? 'weekly' : 'daily',
+    priority: route === '' ? 1.0 : route.includes('/tool') ? 0.9 : 0.8,
   }));
 }
