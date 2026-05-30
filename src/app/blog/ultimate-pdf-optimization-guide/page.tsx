@@ -8,7 +8,7 @@ import FAQSchema from '@/components/seo/FAQSchema';
 import WebAppSchema from '@/components/seo/WebAppSchema';
 import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema';
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://smartpdfsplus.com';
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'SITE_OFFICIAL_DOMAIN';
 
 export const metadata: Metadata = {
   title: 'Ultimate PDF Optimization Guide: Shrink, Repair & Clean Metadata | SmartPDFs Plus',
@@ -101,23 +101,23 @@ export default function PdfOptimizationGuidePost() {
       <BreadcrumbSchema items={breadcrumbItems} />
       <FAQSchema />
       <WebAppSchema />
-      
+
       <article className="container mx-auto px-4 pt-10 pb-20 max-w-3xl">
         <nav aria-label="Breadcrumb navigation" className="mb-8">
           <Breadcrumbs items={breadcrumbItems} />
-          
-          <Link 
-            href="/blog" 
+
+          <Link
+            href="/blog"
             className="inline-flex items-center gap-2 text-sm text-slate-400 hover:text-red-500 transition-colors font-bold mt-4 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 rounded p-1"
             aria-label="Navigate Back to Blog"
           >
             <ArrowLeft size={14} aria-hidden="true" /> Back to Blog
           </Link>
         </nav>
-        
+
         <header className="mb-8">
           <div className="flex items-center gap-4 mb-6">
-            <div 
+            <div
               className="w-12 h-12 bg-amber-500 rounded-2xl flex items-center justify-center text-white shadow-lg shrink-0"
               aria-hidden="true"
             >
@@ -140,11 +140,11 @@ export default function PdfOptimizationGuidePost() {
           </div>
 
           <figure className="relative rounded-2xl overflow-hidden shadow-2xl mb-8 border border-slate-100">
-            <Image 
-              src="/img/pdf-optimization.png" 
-              alt="Ultimate PDF Optimization Guide: Graphic showing compression and file repair icons" 
-              width={1200} 
-              height={630} 
+            <Image
+              src="/img/pdf-optimization.png"
+              alt="Ultimate PDF Optimization Guide: Graphic showing compression and file repair icons"
+              width={1200}
+              height={630}
               priority
               className="w-full h-auto object-cover"
               sizes="(max-width: 768px) 100vw, 768px"
@@ -154,7 +154,7 @@ export default function PdfOptimizationGuidePost() {
         </header>
 
         <section className="prose prose-slate max-w-none space-y-8" aria-label="Article Content">
-          
+
           <p className="text-lg text-slate-600 leading-relaxed font-medium">
             Are your PDF files too massive to attach to an email? Do they take minutes to load on your website, driving users away? Or perhaps you have a critical document that refuses to open due to corruption. Welcome to the ultimate masterclass in PDF optimization. In this comprehensive guide, we'll dive deep into the algorithms that power PDF compression, explore how to salvage broken files, and uncover the hidden metadata that could be compromising your privacy.
           </p>
@@ -195,7 +195,7 @@ export default function PdfOptimizationGuidePost() {
                   If you embed a 4000x3000 pixel photograph into a PDF, the raw data is stored. Compression algorithms analyze the actual display size of the image in the document and downsample the resolution to match, saving massive amounts of space.
                 </p>
               </div>
-              
+
               <div className="bg-white p-5 rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition-shadow">
                 <div className="flex items-center gap-2 mb-2 text-slate-900">
                   <SearchCode size={18} className="text-amber-500" aria-hidden="true" />
@@ -223,10 +223,10 @@ export default function PdfOptimizationGuidePost() {
             <p className="text-slate-600 leading-relaxed">
               When you create a PDF, the software automatically injects Extensible Metadata Platform (XMP) data into the file. This often includes your full name, the operating system you are using, the exact time of creation, and sometimes even the GPS coordinates if images were inserted directly from a smartphone.
             </p>
-            
+
             <div className="bg-slate-50 border-l-4 border-slate-400 p-5 rounded-r-xl my-6">
               <h3 className="font-bold text-slate-900 text-base mt-0 flex items-center gap-2">
-                <Shield size={18} className="text-slate-500" aria-hidden="true" /> 
+                <Shield size={18} className="text-slate-500" aria-hidden="true" />
                 Privacy Case Study
               </h3>
               <p className="text-sm text-slate-600 leading-relaxed mb-0">
@@ -242,7 +242,7 @@ export default function PdfOptimizationGuidePost() {
           <section>
             <h2 className="text-2xl font-black text-slate-900 border-b pb-2">4. Web Optimization (Linearization)</h2>
             <p className="text-slate-600 leading-relaxed">
-              If you host PDFs on your website, you must ensure they are "Linearized" or "Fast Web View" enabled. Standard PDFs store their structural data at the very end of the file. This means a browser must download the entire 20MB file before it can display page 1. 
+              If you host PDFs on your website, you must ensure they are "Linearized" or "Fast Web View" enabled. Standard PDFs store their structural data at the very end of the file. This means a browser must download the entire 20MB file before it can display page 1.
             </p>
             <p className="text-slate-600 leading-relaxed">
               Linearization reorganizes the internal structure of the PDF so that the data for the first page appears at the beginning of the file. This allows browsers to stream the PDF, displaying the first page instantly while the rest of the document downloads in the background. Our <Link href="/tool/optimize-pdf" className="text-red-500 font-semibold hover:underline">Advanced PDF Optimizer</Link> automatically linearizes your documents as it compresses them.
@@ -253,17 +253,17 @@ export default function PdfOptimizationGuidePost() {
             <h2 className="text-2xl font-black text-slate-900 border-b pb-2">Frequently Asked Questions</h2>
             <div className="space-y-4 my-6" itemScope itemType="https://schema.org/FAQPage">
               {[
-                { 
-                  q: 'Will I lose text quality when compressing?', 
-                  a: 'Absolutely not. Text and vector graphics are mathematically preserved. Only raster images (like photos) are compressed based on the optimization level you select.' 
+                {
+                  q: 'Will I lose text quality when compressing?',
+                  a: 'Absolutely not. Text and vector graphics are mathematically preserved. Only raster images (like photos) are compressed based on the optimization level you select.'
                 },
-                { 
-                  q: 'Can any broken PDF be repaired?', 
-                  a: 'Most files with structural corruption (broken XREF tables) can be fixed. However, if the file is 0 bytes, heavily encrypted, or physically missing data chunks due to a dropped connection, those specific missing sections cannot be conjured from thin air.' 
+                {
+                  q: 'Can any broken PDF be repaired?',
+                  a: 'Most files with structural corruption (broken XREF tables) can be fixed. However, if the file is 0 bytes, heavily encrypted, or physically missing data chunks due to a dropped connection, those specific missing sections cannot be conjured from thin air.'
                 },
-                { 
-                  q: 'Is it safe to upload confidential files for optimization?', 
-                  a: 'Yes. SmartPDFs Plus uses bank-grade AES-256 TLS encryption during transit. Files are processed entirely in memory or automatically purged from our temporary servers immediately after your session ends. We do not retain or read your data.' 
+                {
+                  q: 'Is it safe to upload confidential files for optimization?',
+                  a: 'Yes. SmartPDFs Plus uses bank-grade AES-256 TLS encryption during transit. Files are processed entirely in memory or automatically purged from our temporary servers immediately after your session ends. We do not retain or read your data.'
                 },
                 {
                   q: 'What is the maximum file size I can optimize?',
@@ -285,15 +285,15 @@ export default function PdfOptimizationGuidePost() {
             <h2 className="font-black text-2xl text-slate-900 mt-0 mb-3">Ready to optimize your PDFs?</h2>
             <p className="text-slate-600 mb-6 text-sm">Experience the power of advanced compression, structural repair, and metadata sanitization in your browser.</p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link 
-                href="/tool/compress" 
+              <Link
+                href="/tool/compress"
                 className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-amber-500 hover:bg-amber-600 text-white rounded-xl font-black text-sm transition-all focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-amber-500"
                 aria-label="Compress PDF Tool"
               >
                 Compress PDF <ArrowRight size={16} aria-hidden="true" />
               </Link>
-              <Link 
-                href="/tool/repair-pdf" 
+              <Link
+                href="/tool/repair-pdf"
                 className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-white hover:bg-slate-50 text-slate-800 border-2 border-slate-200 rounded-xl font-black text-sm transition-all focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-slate-400"
                 aria-label="Repair PDF Tool"
               >

@@ -8,7 +8,7 @@ import FAQSchema from '@/components/seo/FAQSchema';
 import WebAppSchema from '@/components/seo/WebAppSchema';
 import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema';
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://smartpdfsplus.com';
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'SITE_OFFICIAL_DOMAIN';
 
 export const metadata: Metadata = {
   title: 'The Ultimate Guide to PDF Editing, Redaction & Annotation | SmartPDFs Plus',
@@ -101,23 +101,23 @@ export default function UltimateEditingGuidePost() {
       <BreadcrumbSchema items={breadcrumbItems} />
       <FAQSchema />
       <WebAppSchema />
-      
+
       <article className="container mx-auto px-4 pt-10 pb-20 max-w-3xl">
         <nav aria-label="Breadcrumb navigation" className="mb-8">
           <Breadcrumbs items={breadcrumbItems} />
-          
-          <Link 
-            href="/blog" 
+
+          <Link
+            href="/blog"
             className="inline-flex items-center gap-2 text-sm text-slate-400 hover:text-indigo-500 transition-colors font-bold mt-4 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 rounded p-1"
             aria-label="Navigate Back to Blog"
           >
             <ArrowLeft size={14} aria-hidden="true" /> Back to Blog
           </Link>
         </nav>
-        
+
         <header className="mb-8">
           <div className="flex items-center gap-4 mb-6">
-            <div 
+            <div
               className="w-12 h-12 bg-indigo-500 rounded-2xl flex items-center justify-center text-white shadow-lg shrink-0"
               aria-hidden="true"
             >
@@ -140,11 +140,11 @@ export default function UltimateEditingGuidePost() {
           </div>
 
           <figure className="relative rounded-2xl overflow-hidden shadow-2xl mb-8 border border-slate-100 bg-slate-50">
-            <Image 
-              src="/img/edit-redact-sign-pdf.png" 
-              alt="Visual guide demonstrating the full suite of PDF editing tools including text modification, redaction, and e-signatures" 
-              width={1200} 
-              height={630} 
+            <Image
+              src="/img/edit-redact-sign-pdf.png"
+              alt="Visual guide demonstrating the full suite of PDF editing tools including text modification, redaction, and e-signatures"
+              width={1200}
+              height={630}
               priority
               className="w-full h-auto object-cover"
               sizes="(max-width: 768px) 100vw, 768px"
@@ -154,7 +154,7 @@ export default function UltimateEditingGuidePost() {
         </header>
 
         <section className="prose prose-slate max-w-none space-y-8" aria-label="Article Content">
-          
+
           <p className="text-lg text-slate-600 leading-relaxed font-medium">
             Over 2.5 trillion PDFs are created every year. From legal contracts and medical records to academic papers and corporate invoices, the PDF is the digital equivalent of paper. But unlike paper, a PDF can be modified after it is "printed"—if you have the right tools and understand the underlying architecture of the format.
           </p>
@@ -196,7 +196,7 @@ export default function UltimateEditingGuidePost() {
                   This involves altering the original text or images embedded when the PDF was created. It is technically complex because it requires matching embedded fonts and shifting the X/Y coordinates of surrounding vector paths. It leaves forensic traces in the file's metadata.
                 </p>
               </div>
-              
+
               <div className="bg-white p-5 rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition-shadow">
                 <div className="flex items-center gap-2 mb-2 text-slate-900">
                   <PenTool size={18} className="text-indigo-500" aria-hidden="true" />
@@ -215,12 +215,12 @@ export default function UltimateEditingGuidePost() {
               Perhaps the most dangerous misunderstanding in PDF editing involves redaction. Every year, governments, law firms, and corporations suffer catastrophic data leaks because they attempt to redact sensitive information using standard annotation tools.
             </p>
             <p className="text-slate-600 leading-relaxed font-bold">
-              Drawing a black box over a Social Security Number is NOT redaction. 
+              Drawing a black box over a Social Security Number is NOT redaction.
             </p>
             <p className="text-slate-600 leading-relaxed">
               If you draw a black rectangle over text using a standard editor, you are merely adding an annotation layer. Anyone who downloads that PDF can simply open it, select the black box, hit the "Delete" key, and reveal the sensitive text underneath. Furthermore, the text remains fully searchable by Google and readable by screen readers.
             </p>
-            
+
             <div className="bg-indigo-50 border-l-4 border-indigo-500 p-5 rounded-r-xl my-6 flex gap-4">
               <ShieldAlert size={24} className="text-indigo-600 shrink-0" aria-hidden="true" />
               <div>
@@ -235,7 +235,7 @@ export default function UltimateEditingGuidePost() {
           <section>
             <h2 className="text-2xl font-black text-slate-900 border-b pb-2">3. The Flattening Process</h2>
             <p className="text-slate-600 leading-relaxed">
-              When you finish adding annotations (like a digital signature, filled form fields, or typed notes), you must decide how to save the file. 
+              When you finish adding annotations (like a digital signature, filled form fields, or typed notes), you must decide how to save the file.
             </p>
             <p className="text-slate-600 leading-relaxed">
               If you simply "Save" the document, those annotations remain active. The next person to open the file can modify your form data or move your signature. To prevent this, you must <strong>Flatten</strong> the PDF.
@@ -250,7 +250,7 @@ export default function UltimateEditingGuidePost() {
             <p className="text-slate-600 leading-relaxed">
               SmartPDFs Plus offers a unified, WebAssembly-powered editing environment that handles all these workflows securely within your browser:
             </p>
-            
+
             <ol className="space-y-4 my-6 list-none p-0">
               {[
                 {
@@ -287,17 +287,17 @@ export default function UltimateEditingGuidePost() {
             <h2 className="text-2xl font-black text-slate-900 border-b pb-2">Frequently Asked Questions</h2>
             <div className="space-y-4 my-6" itemScope itemType="https://schema.org/FAQPage">
               {[
-                { 
-                  q: 'Can I edit a PDF that was created from a scanner?', 
-                  a: 'Not directly. A scanned PDF is essentially a photograph of a piece of paper wrapped in a PDF container. To edit it, you must first process it through an OCR (Optical Character Recognition) engine.' 
+                {
+                  q: 'Can I edit a PDF that was created from a scanner?',
+                  a: 'Not directly. A scanned PDF is essentially a photograph of a piece of paper wrapped in a PDF container. To edit it, you must first process it through an OCR (Optical Character Recognition) engine.'
                 },
-                { 
-                  q: 'Why does my text look different when I type in a PDF?', 
-                  a: 'If you type text using a font that is not installed on your system or fully embedded in the document, the editor will substitute it with a default font (like Arial or Times New Roman), causing a visual mismatch.' 
+                {
+                  q: 'Why does my text look different when I type in a PDF?',
+                  a: 'If you type text using a font that is not installed on your system or fully embedded in the document, the editor will substitute it with a default font (like Arial or Times New Roman), causing a visual mismatch.'
                 },
-                { 
-                  q: 'How do I know if a document has been truly redacted?', 
-                  a: 'Open the document in a standard reader and try to select the text underneath the black box with your cursor. Then, try searching for the hidden word using Ctrl+F. Finally, try copy-pasting the entire page into Notepad. If the text appears, it was not properly redacted.' 
+                {
+                  q: 'How do I know if a document has been truly redacted?',
+                  a: 'Open the document in a standard reader and try to select the text underneath the black box with your cursor. Then, try searching for the hidden word using Ctrl+F. Finally, try copy-pasting the entire page into Notepad. If the text appears, it was not properly redacted.'
                 }
               ].map(({ q, a }, i) => (
                 <div key={i} className="bg-slate-50 rounded-xl p-5 border border-slate-100 hover:border-indigo-200 transition-colors" itemScope itemProp="mainEntity" itemType="https://schema.org/Question">
@@ -315,16 +315,16 @@ export default function UltimateEditingGuidePost() {
             <h2 className="font-black text-2xl text-slate-900 mt-0 mb-3">Ready to Take Control of Your Documents?</h2>
             <p className="text-slate-600 mb-6 text-sm">Annotate, redact, and flatten your PDFs securely in your browser without expensive software subscriptions.</p>
             <div className="flex justify-center gap-4 flex-wrap">
-              <Link 
-                href="/tool/edit-pdf" 
+              <Link
+                href="/tool/edit-pdf"
                 className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-black text-sm transition-all focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-indigo-600"
                 aria-label="Edit PDF Tool"
               >
                 <Edit3 size={16} aria-hidden="true" />
                 Open PDF Editor
               </Link>
-              <Link 
-                href="/tool/redact-pdf" 
+              <Link
+                href="/tool/redact-pdf"
                 className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-slate-800 hover:bg-slate-900 text-white rounded-xl font-black text-sm transition-all focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-slate-800"
                 aria-label="Redact PDF Tool"
               >

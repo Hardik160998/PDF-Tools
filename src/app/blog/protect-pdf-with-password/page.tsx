@@ -8,7 +8,7 @@ import FAQSchema from '@/components/seo/FAQSchema';
 import WebAppSchema from '@/components/seo/WebAppSchema';
 import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema';
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://smartpdfsplus.com';
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'SITE_OFFICIAL_DOMAIN';
 
 export const metadata: Metadata = {
   title: 'How to Password Protect a PDF: AES-256 Encryption Guide | SmartPDFs Plus',
@@ -101,23 +101,23 @@ export default function ProtectPDFPost() {
       <BreadcrumbSchema items={breadcrumbItems} />
       <FAQSchema />
       <WebAppSchema />
-      
+
       <article className="container mx-auto px-4 pt-10 pb-20 max-w-3xl">
         <nav aria-label="Breadcrumb navigation" className="mb-8">
           <Breadcrumbs items={breadcrumbItems} />
-          
-          <Link 
-            href="/blog" 
+
+          <Link
+            href="/blog"
             className="inline-flex items-center gap-2 text-sm text-slate-400 hover:text-red-500 transition-colors font-bold mt-4 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 rounded p-1"
             aria-label="Navigate Back to Blog"
           >
             <ArrowLeft size={14} aria-hidden="true" /> Back to Blog
           </Link>
         </nav>
-        
+
         <header className="mb-8">
           <div className="flex items-center gap-4 mb-6">
-            <div 
+            <div
               className="w-12 h-12 bg-red-500 rounded-2xl flex items-center justify-center text-white shadow-lg shrink-0"
               aria-hidden="true"
             >
@@ -140,11 +140,11 @@ export default function ProtectPDFPost() {
           </div>
 
           <figure className="relative rounded-2xl overflow-hidden shadow-2xl mb-8 border border-slate-100 bg-slate-50">
-            <Image 
-              src="/img/protect-pdf-banner.png" 
-              alt="Security padlock graphic representing PDF password protection and encryption" 
-              width={1200} 
-              height={630} 
+            <Image
+              src="/img/protect-pdf-banner.png"
+              alt="Security padlock graphic representing PDF password protection and encryption"
+              width={1200}
+              height={630}
               priority
               className="w-full h-auto object-cover"
               sizes="(max-width: 768px) 100vw, 768px"
@@ -154,7 +154,7 @@ export default function ProtectPDFPost() {
         </header>
 
         <section className="prose prose-slate max-w-none space-y-8" aria-label="Article Content">
-          
+
           <p className="text-lg text-slate-600 leading-relaxed font-medium">
             In an era of rampant data breaches and intercepted communications, sending an unsecured PDF containing sensitive information is a massive liability. Whether you are transmitting financial statements, legal contracts, medical records, or proprietary business plans, password protecting your PDF is not just recommended—it's often a legal requirement under frameworks like HIPAA and GDPR.
           </p>
@@ -196,7 +196,7 @@ export default function ProtectPDFPost() {
                   This is the absolute lock. When you apply a User Password, the entire binary contents of the PDF are scrambled using an encryption cipher. When someone double-clicks the file, the PDF viewer immediately halts and demands a password. Without the exact string of characters, the file is literally unreadable garbage data.
                 </p>
               </div>
-              
+
               <div className="bg-white p-5 rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition-shadow">
                 <div className="flex items-center gap-2 mb-2 text-slate-900">
                   <ShieldCheck size={18} className="text-red-500" aria-hidden="true" />
@@ -227,7 +227,7 @@ export default function ProtectPDFPost() {
             <p className="text-slate-600 leading-relaxed">
               AES-256 encryption is impenetrable, which means the only weak link is the password itself. If you set your password to <code>"password123"</code>, a hacker doesn't need to break the AES math; they just try common dictionary words until the file unlocks.
             </p>
-            
+
             <ul className="space-y-3 my-6">
               {[
                 'Length is King: Every character you add exponentially increases security. Aim for 12+ characters.',
@@ -267,17 +267,17 @@ export default function ProtectPDFPost() {
             <h2 className="text-2xl font-black text-slate-900 border-b pb-2">Frequently Asked Questions</h2>
             <div className="space-y-4 my-6" itemScope itemType="https://schema.org/FAQPage">
               {[
-                { 
-                  q: 'Are my files uploaded to a server when I protect them?', 
-                  a: 'With SmartPDFs Plus, your files are encrypted locally in your web browser using WebAssembly. The unencrypted document never leaves your computer, ensuring absolute privacy.' 
+                {
+                  q: 'Are my files uploaded to a server when I protect them?',
+                  a: 'With SmartPDFs Plus, your files are encrypted locally in your web browser using WebAssembly. The unencrypted document never leaves your computer, ensuring absolute privacy.'
                 },
-                { 
-                  q: 'Can a hacker bypass a User Password without guessing it?', 
-                  a: 'If the PDF uses 128-bit or 256-bit AES encryption (which our tool utilizes), bypassing the password is mathematically impossible given current computing power. They must guess the password.' 
+                {
+                  q: 'Can a hacker bypass a User Password without guessing it?',
+                  a: 'If the PDF uses 128-bit or 256-bit AES encryption (which our tool utilizes), bypassing the password is mathematically impossible given current computing power. They must guess the password.'
                 },
-                { 
-                  q: 'Can permissions (Owner Passwords) be bypassed?', 
-                  a: 'Yes. Unlike User Passwords which encrypt the entire file, Owner Passwords simply flip a "flag" in the PDF metadata telling the viewer (like Adobe Acrobat) to restrict printing or copying. Some third-party PDF viewers ignore these flags entirely, allowing copying anyway. For true security, always use a User (Open) Password.' 
+                {
+                  q: 'Can permissions (Owner Passwords) be bypassed?',
+                  a: 'Yes. Unlike User Passwords which encrypt the entire file, Owner Passwords simply flip a "flag" in the PDF metadata telling the viewer (like Adobe Acrobat) to restrict printing or copying. Some third-party PDF viewers ignore these flags entirely, allowing copying anyway. For true security, always use a User (Open) Password.'
                 },
                 {
                   q: 'Will password protecting a file change its visual quality?',
@@ -299,16 +299,16 @@ export default function ProtectPDFPost() {
             <h2 className="font-black text-2xl text-slate-900 mt-0 mb-3">Ready to secure your documents?</h2>
             <p className="text-slate-600 mb-6 text-sm">Lock down your sensitive PDFs with unbreakable AES-256 bit encryption directly in your web browser.</p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link 
-                href="/tool/protect" 
+              <Link
+                href="/tool/protect"
                 className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-red-500 hover:bg-red-600 text-white rounded-xl font-black text-sm transition-all focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-red-500"
                 aria-label="Protect PDF Tool"
               >
                 <Lock size={16} aria-hidden="true" />
                 Protect PDF Now
               </Link>
-              <Link 
-                href="/tool/unlock" 
+              <Link
+                href="/tool/unlock"
                 className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-white hover:bg-slate-50 text-slate-800 border-2 border-slate-200 rounded-xl font-black text-sm transition-all focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-slate-400"
                 aria-label="Unlock PDF Tool"
               >

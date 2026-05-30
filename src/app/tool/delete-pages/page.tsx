@@ -1,12 +1,12 @@
 import DeletePages from "@/components/tools/DeletePages";
 import Link from "next/link";
 import type { Metadata } from "next";
-import { 
-  FileText, ArrowRight, HelpCircle, Star, Check, ChevronDown 
+import {
+  FileText, ArrowRight, HelpCircle, Star, Check, ChevronDown
 } from "lucide-react";
 
 // Site URL for canonical/SEO links
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://smartpdfsplus.com';
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'SITE_OFFICIAL_DOMAIN';
 
 // 1. Dynamic Metadata Export for Next.js App Router
 export const metadata: Metadata = {
@@ -187,7 +187,7 @@ export default function DeletePagesPage() {
 
         {/* Rich SEO Content Section */}
         <article className="space-y-16 max-w-7xl mx-auto mt-20">
-          
+
           {/* Main heading and description */}
           <section className="text-center max-w-4xl mx-auto space-y-4">
             <h2 className="font-outfit text-3xl md:text-5xl font-black tracking-tighter leading-tight bg-clip-text text-transparent bg-gradient-to-r from-slate-900 via-red-950 to-red-600 dark:from-white dark:via-red-100 dark:to-red-400 uppercase">

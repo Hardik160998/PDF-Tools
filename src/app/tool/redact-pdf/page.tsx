@@ -8,7 +8,7 @@ import {
 import { CenteredCardSkeleton } from "@/app/tool/[id]/skeletons";
 
 // Site URL for canonical/SEO links
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://smartpdfsplus.com';
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'SITE_OFFICIAL_DOMAIN';
 
 // 1. Dynamic Metadata Export for Next.js App Router (Server-side)
 export const metadata: Metadata = {
@@ -193,7 +193,7 @@ export default function RedactPdfPage() {
       />
 
       <div className="max-w-7xl mx-auto px-4 pt-8 sm:pt-12 pb-16">
-        
+
         {/* Breadcrumb navigation */}
         <Breadcrumb />
 

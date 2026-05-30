@@ -7,7 +7,7 @@ import {
 } from "lucide-react";
 
 // Site URL for canonical/SEO links
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://smartpdfsplus.com';
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'SITE_OFFICIAL_DOMAIN';
 
 // 1. Dynamic Metadata Export for Next.js App Router
 export const metadata: Metadata = {
@@ -192,20 +192,20 @@ export default function WordToPdfPage() {
         {/* Feature Cards Grid (How it Works) */}
         <section aria-label="Tool Steps Overview" className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-20">
           {[
-            { 
-              icon: Upload, 
-              title: 'Upload Word File', 
-              desc: 'Select your .doc or .docx file. It is securely uploaded over HTTPS for cloud conversion.' 
+            {
+              icon: Upload,
+              title: 'Upload Word File',
+              desc: 'Select your .doc or .docx file. It is securely uploaded over HTTPS for cloud conversion.'
             },
-            { 
-              icon: Sparkles, 
-              title: 'Convert to PDF', 
-              desc: 'Our conversion engine preserves all fonts, images, tables, and formatting from your Word document.' 
+            {
+              icon: Sparkles,
+              title: 'Convert to PDF',
+              desc: 'Our conversion engine preserves all fonts, images, tables, and formatting from your Word document.'
             },
-            { 
-              icon: Download, 
-              title: 'Download PDF', 
-              desc: 'Your converted PDF is ready instantly. Download it and your file is permanently deleted within 1 hour.' 
+            {
+              icon: Download,
+              title: 'Download PDF',
+              desc: 'Your converted PDF is ready instantly. Download it and your file is permanently deleted within 1 hour.'
             },
           ].map((s, i) => (
             <div key={i} className="bg-white dark:bg-slate-900 p-8 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-xl transition-all group text-left">

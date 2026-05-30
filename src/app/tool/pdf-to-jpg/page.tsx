@@ -7,7 +7,7 @@ import {
 } from "lucide-react";
 
 // Site URL for canonical/SEO links
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://smartpdfsplus.com';
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'SITE_OFFICIAL_DOMAIN';
 
 // 1. Dynamic Metadata Export for Next.js App Router
 export const metadata: Metadata = {
@@ -192,18 +192,18 @@ export default function PdfToJpgPage() {
         {/* Feature Cards Grid */}
         <section aria-label="Tool Benefits Quick Overview" className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-20">
           {[
-            { 
-              title: "Pixel Perfect", 
+            {
+              title: "Pixel Perfect",
               desc: "Render PDF pages into high-resolution JPG images with crisp text and vibrant colors.",
               gradient: "linear-gradient(135deg,#facc15,#eab308)"
             },
-            { 
-              title: "Batch Export", 
+            {
+              title: "Batch Export",
               desc: "Convert every page of your document in one go and download them as a clean ZIP archive.",
               gradient: "linear-gradient(135deg,#facc15,#eab308)"
             },
-            { 
-              title: "Private Rendering", 
+            {
+              title: "Private Rendering",
               desc: "All image generation occurs in your browser sandbox. Your data never leaves your device.",
               gradient: "linear-gradient(135deg,#22c55e,#15803d)"
             }

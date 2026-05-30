@@ -8,7 +8,7 @@ import FAQSchema from '@/components/seo/FAQSchema';
 import WebAppSchema from '@/components/seo/WebAppSchema';
 import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema';
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://smartpdfsplus.com';
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'SITE_OFFICIAL_DOMAIN';
 
 export const metadata: Metadata = {
   title: 'How to Edit PDF Files: Text, Images & Annotations | SmartPDFs Plus',
@@ -101,23 +101,23 @@ export default function EditPDFGuidePost() {
       <BreadcrumbSchema items={breadcrumbItems} />
       <FAQSchema />
       <WebAppSchema />
-      
+
       <article className="container mx-auto px-4 pt-10 pb-20 max-w-3xl">
         <nav aria-label="Breadcrumb navigation" className="mb-8">
           <Breadcrumbs items={breadcrumbItems} />
-          
-          <Link 
-            href="/blog" 
+
+          <Link
+            href="/blog"
             className="inline-flex items-center gap-2 text-sm text-slate-400 hover:text-cyan-500 transition-colors font-bold mt-4 focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-500 rounded p-1"
             aria-label="Navigate Back to Blog"
           >
             <ArrowLeft size={14} aria-hidden="true" /> Back to Blog
           </Link>
         </nav>
-        
+
         <header className="mb-8">
           <div className="flex items-center gap-4 mb-6">
-            <div 
+            <div
               className="w-12 h-12 bg-cyan-500 rounded-2xl flex items-center justify-center text-white shadow-lg shrink-0"
               aria-hidden="true"
             >
@@ -140,11 +140,11 @@ export default function EditPDFGuidePost() {
           </div>
 
           <figure className="relative rounded-2xl overflow-hidden shadow-2xl mb-8 border border-slate-100 bg-slate-50">
-            <Image 
-              src="/img/edit-pdf.png" 
-              alt="Visual guide demonstrating how to modify vector text and replace images within a PDF document" 
-              width={1200} 
-              height={630} 
+            <Image
+              src="/img/edit-pdf.png"
+              alt="Visual guide demonstrating how to modify vector text and replace images within a PDF document"
+              width={1200}
+              height={630}
               priority
               className="w-full h-auto object-cover"
               sizes="(max-width: 768px) 100vw, 768px"
@@ -154,7 +154,7 @@ export default function EditPDFGuidePost() {
         </header>
 
         <section className="prose prose-slate max-w-none space-y-8" aria-label="Article Content">
-          
+
           <p className="text-lg text-slate-600 leading-relaxed font-medium">
             Unlike Microsoft Word documents which are designed dynamically around flowing text, the PDF (Portable Document Format) was engineered by Adobe in the 1990s as a final digital print format. Its primary goal is absolute visual consistency across all devices and operating systems.
           </p>
@@ -196,7 +196,7 @@ export default function EditPDFGuidePost() {
                   This involves altering the underlying binary vector data. It requires identifying the embedded font, matching the kerning, and shifting the X/Y coordinates of surrounding words to accommodate new characters.
                 </p>
               </div>
-              
+
               <div className="bg-white p-5 rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition-shadow">
                 <div className="flex items-center gap-2 mb-2 text-slate-900">
                   <Edit3 size={18} className="text-cyan-500" aria-hidden="true" />
@@ -225,7 +225,7 @@ export default function EditPDFGuidePost() {
               If you try to change the word "Contract" to "Agreement" in a PDF, the editing software faces a massive hurdle: Font substitution.
             </p>
             <p className="text-slate-600 leading-relaxed">
-              To ensure a PDF looks the same on a Mac, Windows, and Linux machine, the creator usually <em>embeds</em> the required fonts directly into the file. However, to save file size, they often "subset" the font. This means if the document only uses the letters A, B, and C, only those three letters of the font are embedded. 
+              To ensure a PDF looks the same on a Mac, Windows, and Linux machine, the creator usually <em>embeds</em> the required fonts directly into the file. However, to save file size, they often "subset" the font. This means if the document only uses the letters A, B, and C, only those three letters of the font are embedded.
             </p>
             <p className="text-slate-600 leading-relaxed font-bold">
               If you try to type a "D" into that document, the editor will fail unless you have the exact original font installed on your local operating system. Advanced editors will attempt to substitute a visually similar font (like swapping Arial for Helvetica), but this often results in jagged formatting.
@@ -235,7 +235,7 @@ export default function EditPDFGuidePost() {
           <section>
             <h2 className="text-2xl font-black text-slate-900 border-b pb-2">3. Replacing and Modifying Images</h2>
             <p className="text-slate-600 leading-relaxed">
-              Images inside a PDF are stored in a dictionary object with specific width/height matrices. 
+              Images inside a PDF are stored in a dictionary object with specific width/height matrices.
             </p>
             <p className="text-slate-600 leading-relaxed">
               When you replace an image using a PDF editor, the software must carefully swap the binary data stream of the new image into the dictionary without breaking the surrounding layout vectors. Because PDFs do not have "reflow" logic, if you insert an image that is significantly larger than the original, it will likely overlap and cover up the text below it rather than pushing the text down the page.
@@ -247,7 +247,7 @@ export default function EditPDFGuidePost() {
             <p className="text-slate-600 leading-relaxed">
               Because PDFs often contain highly sensitive legal or financial data, uploading them to remote cloud servers for editing is a massive security risk. SmartPDFs Plus provides a secure, WebAssembly-powered annotation environment:
             </p>
-            
+
             <div className="bg-cyan-50 border-l-4 border-cyan-500 p-5 rounded-r-xl my-6 flex gap-4">
               <ShieldCheck size={24} className="text-cyan-600 shrink-0" aria-hidden="true" />
               <div>
@@ -257,7 +257,7 @@ export default function EditPDFGuidePost() {
                 </p>
               </div>
             </div>
-            
+
             <ol className="space-y-4 my-6 list-none p-0">
               {[
                 {
@@ -290,17 +290,17 @@ export default function EditPDFGuidePost() {
             <h2 className="text-2xl font-black text-slate-900 border-b pb-2">Frequently Asked Questions</h2>
             <div className="space-y-4 my-6" itemScope itemType="https://schema.org/FAQPage">
               {[
-                { 
-                  q: 'Why can I not select the text in my PDF?', 
-                  a: 'If you cannot highlight words with your cursor, your PDF is likely a scanned image. You must use an OCR (Optical Character Recognition) tool to analyze the image and generate a readable text layer.' 
+                {
+                  q: 'Why can I not select the text in my PDF?',
+                  a: 'If you cannot highlight words with your cursor, your PDF is likely a scanned image. You must use an OCR (Optical Character Recognition) tool to analyze the image and generate a readable text layer.'
                 },
-                { 
-                  q: 'Does editing a PDF leave a digital footprint?', 
-                  a: 'Yes. Most professional PDF editors update the document metadata when saved, modifying the "Creator" and "ModifiedDate" tags. Advanced forensics can often determine what software was used to alter the file.' 
+                {
+                  q: 'Does editing a PDF leave a digital footprint?',
+                  a: 'Yes. Most professional PDF editors update the document metadata when saved, modifying the "Creator" and "ModifiedDate" tags. Advanced forensics can often determine what software was used to alter the file.'
                 },
-                { 
-                  q: 'How do I edit a password-protected PDF?', 
-                  a: 'You cannot edit an encrypted PDF without the owner password. If the file only has an "Owner/Permissions" password preventing edits, you must use an unlock tool first. If it has a "User" password, you cannot even open it without the key.' 
+                {
+                  q: 'How do I edit a password-protected PDF?',
+                  a: 'You cannot edit an encrypted PDF without the owner password. If the file only has an "Owner/Permissions" password preventing edits, you must use an unlock tool first. If it has a "User" password, you cannot even open it without the key.'
                 }
               ].map(({ q, a }, i) => (
                 <div key={i} className="bg-slate-50 rounded-xl p-5 border border-slate-100 hover:border-cyan-200 transition-colors" itemScope itemProp="mainEntity" itemType="https://schema.org/Question">
@@ -318,8 +318,8 @@ export default function EditPDFGuidePost() {
             <h2 className="font-black text-2xl text-slate-900 mt-0 mb-3">Ready to Markup Your Documents?</h2>
             <p className="text-slate-600 mb-6 text-sm">Add text, highlight clauses, and draw signatures securely in your browser without uploading your sensitive files.</p>
             <div className="flex justify-center gap-4">
-              <Link 
-                href="/tool/edit-pdf" 
+              <Link
+                href="/tool/edit-pdf"
                 className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-cyan-600 hover:bg-cyan-700 text-white rounded-xl font-black text-sm transition-all focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-cyan-600"
                 aria-label="Edit PDF Tool"
               >

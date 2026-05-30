@@ -8,7 +8,7 @@ import FAQSchema from '@/components/seo/FAQSchema';
 import WebAppSchema from '@/components/seo/WebAppSchema';
 import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema';
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://smartpdfsplus.com';
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'SITE_OFFICIAL_DOMAIN';
 
 export const metadata: Metadata = {
   title: 'How to Crop Flipkart Labels for Thermal Printing | SmartPDFs Plus',
@@ -101,23 +101,23 @@ export default function CropFlipkartLabelPost() {
       <BreadcrumbSchema items={breadcrumbItems} />
       <FAQSchema />
       <WebAppSchema />
-      
+
       <article className="container mx-auto px-4 pt-10 pb-20 max-w-3xl">
         <nav aria-label="Breadcrumb navigation" className="mb-8">
           <Breadcrumbs items={breadcrumbItems} />
-          
-          <Link 
-            href="/blog" 
+
+          <Link
+            href="/blog"
             className="inline-flex items-center gap-2 text-sm text-slate-400 hover:text-blue-500 transition-colors font-bold mt-4 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 rounded p-1"
             aria-label="Navigate Back to Blog"
           >
             <ArrowLeft size={14} aria-hidden="true" /> Back to Blog
           </Link>
         </nav>
-        
+
         <header className="mb-8">
           <div className="flex items-center gap-4 mb-6">
-            <div 
+            <div
               className="w-12 h-12 bg-blue-500 rounded-2xl flex items-center justify-center text-white shadow-lg shrink-0"
               aria-hidden="true"
             >
@@ -140,11 +140,11 @@ export default function CropFlipkartLabelPost() {
           </div>
 
           <figure className="relative rounded-2xl overflow-hidden shadow-2xl mb-8 border border-slate-100 bg-slate-50">
-            <Image 
-              src="/img/flipkart-label.png" 
-              alt="Visual guide demonstrating how to format Flipkart seller labels for thermal printers" 
-              width={1200} 
-              height={630} 
+            <Image
+              src="/img/flipkart-label.png"
+              alt="Visual guide demonstrating how to format Flipkart seller labels for thermal printers"
+              width={1200}
+              height={630}
               priority
               className="w-full h-auto object-cover"
               sizes="(max-width: 768px) 100vw, 768px"
@@ -154,7 +154,7 @@ export default function CropFlipkartLabelPost() {
         </header>
 
         <section className="prose prose-slate max-w-none space-y-8" aria-label="Article Content">
-          
+
           <p className="text-lg text-slate-600 leading-relaxed font-medium">
             Processing orders on the Flipkart Seller Hub is seamless until it's time to print the labels. Flipkart generates a standard A4 PDF containing the shipping label and the tax invoice. If you are fulfilling orders under the Smart Fulfillment program, you know that printing these A4 sheets on laser printers, folding them, and inserting them into transparent polybags is extremely inefficient.
           </p>
@@ -196,7 +196,7 @@ export default function CropFlipkartLabelPost() {
                   If you send the A4 file straight to a thermal printer, it shrinks the entire page to fit a 4-inch width. This causes the intricate lines of the barcode to blur together.
                 </p>
               </div>
-              
+
               <div className="bg-white p-5 rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition-shadow">
                 <div className="flex items-center gap-2 mb-2 text-slate-900">
                   <Barcode size={18} className="text-blue-500" aria-hidden="true" />
@@ -222,9 +222,9 @@ export default function CropFlipkartLabelPost() {
           <section>
             <h2 className="text-2xl font-black text-slate-900 border-b pb-2">3. Zero-Knowledge Privacy for Sellers</h2>
             <p className="text-slate-600 leading-relaxed">
-              As a seller, your PDFs contain highly sensitive Personally Identifiable Information (PII) including customer names, addresses, and phone numbers. 
+              As a seller, your PDFs contain highly sensitive Personally Identifiable Information (PII) including customer names, addresses, and phone numbers.
             </p>
-            
+
             <div className="bg-blue-50 border-l-4 border-blue-500 p-5 rounded-r-xl my-6 flex gap-4">
               <ShieldCheck size={24} className="text-blue-500 shrink-0" aria-hidden="true" />
               <div>
@@ -241,7 +241,7 @@ export default function CropFlipkartLabelPost() {
             <p className="text-slate-600 leading-relaxed">
               Transform your dispatch process with these four simple steps:
             </p>
-            
+
             <ol className="space-y-4 my-6 list-none p-0">
               {[
                 {
@@ -278,17 +278,17 @@ export default function CropFlipkartLabelPost() {
             <h2 className="text-2xl font-black text-slate-900 border-b pb-2">Frequently Asked Questions</h2>
             <div className="space-y-4 my-6" itemScope itemType="https://schema.org/FAQPage">
               {[
-                { 
-                  q: 'Will the Ekart scanner read the cropped barcode?', 
-                  a: 'Yes, 100%. Our tool preserves the original vector paths of the barcode. It does not rasterize or reduce the DPI, ensuring perfect scans.' 
+                {
+                  q: 'Will the Ekart scanner read the cropped barcode?',
+                  a: 'Yes, 100%. Our tool preserves the original vector paths of the barcode. It does not rasterize or reduce the DPI, ensuring perfect scans.'
                 },
-                { 
-                  q: 'Can I use this for Flipkart Smart Fulfillment?', 
-                  a: 'Yes, this tool is specifically designed for the label formats generated by the Flipkart Smart Fulfillment program.' 
+                {
+                  q: 'Can I use this for Flipkart Smart Fulfillment?',
+                  a: 'Yes, this tool is specifically designed for the label formats generated by the Flipkart Smart Fulfillment program.'
                 },
-                { 
-                  q: 'What if Flipkart changes their PDF layout?', 
-                  a: 'We constantly monitor the major e-commerce platforms. If Flipkart updates their label coordinates, we instantly update our backend slicing algorithms to match.' 
+                {
+                  q: 'What if Flipkart changes their PDF layout?',
+                  a: 'We constantly monitor the major e-commerce platforms. If Flipkart updates their label coordinates, we instantly update our backend slicing algorithms to match.'
                 }
               ].map(({ q, a }, i) => (
                 <div key={i} className="bg-slate-50 rounded-xl p-5 border border-slate-100 hover:border-blue-200 transition-colors" itemScope itemProp="mainEntity" itemType="https://schema.org/Question">
@@ -306,8 +306,8 @@ export default function CropFlipkartLabelPost() {
             <h2 className="font-black text-2xl text-slate-900 mt-0 mb-3">Upgrade Your Fulfillment Pipeline</h2>
             <p className="text-slate-600 mb-6 text-sm">Stop folding A4 paper. Automate your Flipkart label cropping and print directly to thermal rolls in seconds.</p>
             <div className="flex justify-center">
-              <Link 
-                href="/tool/flipkart-label" 
+              <Link
+                href="/tool/flipkart-label"
                 className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-blue-500 hover:bg-blue-600 text-white rounded-xl font-black text-sm transition-all focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
                 aria-label="Flipkart Label Cropper Tool"
               >

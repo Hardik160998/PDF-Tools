@@ -8,7 +8,7 @@ import FAQSchema from '@/components/seo/FAQSchema';
 import WebAppSchema from '@/components/seo/WebAppSchema';
 import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema';
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://smartpdfsplus.com';
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'SITE_OFFICIAL_DOMAIN';
 
 export const metadata: Metadata = {
   title: 'The Ultimate Guide to Organizing PDFs — Merge, Split & Rearrange | SmartPDFs Plus',
@@ -69,21 +69,21 @@ export default function UltimateGuidePdfsPost() {
       <BreadcrumbSchema items={breadcrumbItems} />
       <FAQSchema />
       <WebAppSchema />
-      
+
       <article className="container mx-auto px-4 pt-10 pb-20 max-w-3xl">
         <Breadcrumbs items={breadcrumbItems} />
-        
-        <Link 
-          href="/blog" 
+
+        <Link
+          href="/blog"
           className="inline-flex items-center gap-2 text-sm text-slate-400 hover:text-red-500 transition-colors font-bold mb-8 focus:outline-none focus:ring-2 focus:ring-red-500 rounded p-1"
           aria-label="Back to Blog"
         >
           <ArrowLeft size={14} aria-hidden="true" /> Back to Blog
         </Link>
-        
+
         <header className="mb-6">
           <div className="flex items-center gap-4 mb-6">
-            <div 
+            <div
               className="w-12 h-12 bg-indigo-600 rounded-2xl flex items-center justify-center text-white shadow-lg shrink-0"
               aria-hidden="true"
             >
@@ -110,9 +110,9 @@ export default function UltimateGuidePdfsPost() {
         </header>
 
         <figure className="mb-8 shadow-2xl rounded-2xl overflow-hidden bg-slate-50 border border-slate-100 flex items-center justify-center">
-          <Image 
-            src="/img/organizing-pdfs.png" 
-            alt="The Ultimate Guide to Organizing PDFs" 
+          <Image
+            src="/img/organizing-pdfs.png"
+            alt="The Ultimate Guide to Organizing PDFs"
             width={1200}
             height={630}
             sizes="(max-width: 768px) 100vw, 800px"
@@ -308,20 +308,20 @@ export default function UltimateGuidePdfsPost() {
               <p className="text-sm text-slate-600 max-w-md mx-auto">Merge, split, extract, and visually rearrange your PDF files with zero uploads and perfect privacy.</p>
             </div>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-6">
-              <Link 
-                href="/tool/merge" 
+              <Link
+                href="/tool/merge"
                 className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-bold text-sm transition-colors shadow-sm"
               >
                 <Combine size={16} /> Merge PDFs
               </Link>
-              <Link 
-                href="/tool/split" 
+              <Link
+                href="/tool/split"
                 className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-bold text-sm transition-colors shadow-sm"
               >
                 <SplitSquareVertical size={16} /> Split PDFs
               </Link>
-              <Link 
-                href="/tool/organize" 
+              <Link
+                href="/tool/organize"
                 className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-bold text-sm transition-colors shadow-sm"
               >
                 <LayoutGrid size={16} /> Visual Organizer

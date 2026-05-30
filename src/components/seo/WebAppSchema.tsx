@@ -7,7 +7,7 @@ export default function WebAppSchema() {
     "applicationCategory": "UtilitiesApplication",
     "operatingSystem": "All",
     "browserRequirements": "Requires a modern web browser with JavaScript enabled.",
-    "url": "https://smartpdfsplus.com/tool/merge",
+    "url": "SITE_OFFICIAL_DOMAIN/tool/merge",
     "offers": {
       "@type": "Offer",
       "price": "0.00",

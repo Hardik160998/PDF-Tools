@@ -8,7 +8,7 @@ import FAQSchema from '@/components/seo/FAQSchema';
 import WebAppSchema from '@/components/seo/WebAppSchema';
 import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema';
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://smartpdfsplus.com';
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'SITE_OFFICIAL_DOMAIN';
 
 export const metadata: Metadata = {
   title: 'How to Crop PDF Pages Online: Remove White Space & Margins | SmartPDFs Plus',
@@ -101,23 +101,23 @@ export default function CropPDFPost() {
       <BreadcrumbSchema items={breadcrumbItems} />
       <FAQSchema />
       <WebAppSchema />
-      
+
       <article className="container mx-auto px-4 pt-10 pb-20 max-w-3xl">
         <nav aria-label="Breadcrumb navigation" className="mb-8">
           <Breadcrumbs items={breadcrumbItems} />
-          
-          <Link 
-            href="/blog" 
+
+          <Link
+            href="/blog"
             className="inline-flex items-center gap-2 text-sm text-slate-400 hover:text-indigo-500 transition-colors font-bold mt-4 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 rounded p-1"
             aria-label="Navigate Back to Blog"
           >
             <ArrowLeft size={14} aria-hidden="true" /> Back to Blog
           </Link>
         </nav>
-        
+
         <header className="mb-8">
           <div className="flex items-center gap-4 mb-6">
-            <div 
+            <div
               className="w-12 h-12 bg-indigo-500 rounded-2xl flex items-center justify-center text-white shadow-lg shrink-0"
               aria-hidden="true"
             >
@@ -140,11 +140,11 @@ export default function CropPDFPost() {
           </div>
 
           <figure className="relative rounded-2xl overflow-hidden shadow-2xl mb-8 border border-slate-100 bg-slate-50">
-            <Image 
-              src="/img/crop-pdf.png" 
-              alt="Visual guide demonstrating how to adjust bounding boxes to crop a PDF page" 
-              width={1200} 
-              height={630} 
+            <Image
+              src="/img/crop-pdf.png"
+              alt="Visual guide demonstrating how to adjust bounding boxes to crop a PDF page"
+              width={1200}
+              height={630}
               priority
               className="w-full h-auto object-cover"
               sizes="(max-width: 768px) 100vw, 768px"
@@ -154,9 +154,9 @@ export default function CropPDFPost() {
         </header>
 
         <section className="prose prose-slate max-w-none space-y-8" aria-label="Article Content">
-          
+
           <p className="text-lg text-slate-600 leading-relaxed font-medium">
-            Whether you are reading academic papers on a 6-inch e-reader, trying to print a shipping label without wasting ink on blank space, or formatting a document for a presentation, wide margins and excessive white space in PDFs are incredibly frustrating. 
+            Whether you are reading academic papers on a 6-inch e-reader, trying to print a shipping label without wasting ink on blank space, or formatting a document for a presentation, wide margins and excessive white space in PDFs are incredibly frustrating.
           </p>
           <p className="text-lg text-slate-600 leading-relaxed font-medium">
             Cropping an image is simple: you just delete the pixels outside the boundary. But PDFs are not images; they are complex coordinate-based vector documents. In this comprehensive guide, we will explore the technical nuances of the PDF specification (including the mysterious CropBox and MediaBox), explain why some cropped PDFs revert back to their original size when printed, and show you how to crop your documents flawlessly.
@@ -196,7 +196,7 @@ export default function CropPDFPost() {
                   The absolute physical boundaries of the page medium. This is the largest box. If you create an A4 document, the MediaBox defines the 210x297mm paper size.
                 </p>
               </div>
-              
+
               <div className="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
                 <div className="flex items-center gap-2 mb-2 text-slate-900">
                   <Crop size={18} className="text-indigo-500" aria-hidden="true" />
@@ -237,7 +237,7 @@ export default function CropPDFPost() {
             <p className="text-slate-600 leading-relaxed">
               Using the SmartPDFs Plus <Link href="/tool/crop-pdf" className="text-indigo-500 font-semibold hover:underline">Visual PDF Cropper</Link>, removing vast swathes of white space is a breeze.
             </p>
-            
+
             <ol className="space-y-4 my-6 list-none p-0">
               {[
                 {
@@ -289,17 +289,17 @@ export default function CropPDFPost() {
             <h2 className="text-2xl font-black text-slate-900 border-b pb-2">Frequently Asked Questions</h2>
             <div className="space-y-4 my-6" itemScope itemType="https://schema.org/FAQPage">
               {[
-                { 
-                  q: 'Why does my cropped PDF still print on a full A4 page?', 
-                  a: 'Your printer software may be set to "Fit to Page" or "Center on A4". When you print, ensure your paper size settings match the new dimensions of the cropped PDF, and select "Actual Size" in the print dialog.' 
+                {
+                  q: 'Why does my cropped PDF still print on a full A4 page?',
+                  a: 'Your printer software may be set to "Fit to Page" or "Center on A4". When you print, ensure your paper size settings match the new dimensions of the cropped PDF, and select "Actual Size" in the print dialog.'
                 },
-                { 
-                  q: 'Does cropping reduce the PDF file size?', 
-                  a: 'Usually not. Because PDF cropping updates the viewing boundary (CropBox) rather than deleting the actual underlying data, the file size generally remains identical to the original.' 
+                {
+                  q: 'Does cropping reduce the PDF file size?',
+                  a: 'Usually not. Because PDF cropping updates the viewing boundary (CropBox) rather than deleting the actual underlying data, the file size generally remains identical to the original.'
                 },
-                { 
-                  q: 'Can I crop different pages to different sizes?', 
-                  a: 'Yes. Our visual cropper allows you to scroll through your document and apply unique bounding boxes to individual pages, overriding the batch-crop settings.' 
+                {
+                  q: 'Can I crop different pages to different sizes?',
+                  a: 'Yes. Our visual cropper allows you to scroll through your document and apply unique bounding boxes to individual pages, overriding the batch-crop settings.'
                 },
                 {
                   q: 'How do I un-crop a PDF?',
@@ -321,8 +321,8 @@ export default function CropPDFPost() {
             <h2 className="font-black text-2xl text-slate-900 mt-0 mb-3">Ready to trim the fat?</h2>
             <p className="text-slate-600 mb-6 text-sm">Remove wide margins and extract exactly what you need with our visual, drag-and-drop PDF cropper.</p>
             <div className="flex justify-center">
-              <Link 
-                href="/tool/crop-pdf" 
+              <Link
+                href="/tool/crop-pdf"
                 className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-black text-sm transition-all focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-indigo-600"
                 aria-label="Crop PDF Tool"
               >

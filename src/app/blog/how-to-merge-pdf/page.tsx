@@ -8,7 +8,7 @@ import FAQSchema from '@/components/seo/FAQSchema';
 import WebAppSchema from '@/components/seo/WebAppSchema';
 import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema';
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://smartpdfsplus.com';
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'SITE_OFFICIAL_DOMAIN';
 
 export const metadata: Metadata = {
   title: 'How to Merge Multiple PDFs into One File (Free & Easy) | SmartPDFs Plus',
@@ -69,21 +69,21 @@ export default function HowToMergePdfPage() {
       <BreadcrumbSchema items={breadcrumbItems} />
       <FAQSchema />
       <WebAppSchema />
-      
+
       <article className="container mx-auto px-4 pt-10 pb-20 max-w-3xl">
         <Breadcrumbs items={breadcrumbItems} />
-        
-        <Link 
-          href="/blog" 
+
+        <Link
+          href="/blog"
           className="inline-flex items-center gap-2 text-sm text-slate-400 hover:text-red-500 transition-colors font-bold mb-8 focus:outline-none focus:ring-2 focus:ring-red-500 rounded p-1"
           aria-label="Back to Blog"
         >
           <ArrowLeft size={14} aria-hidden="true" /> Back to Blog
         </Link>
-        
+
         <header className="mb-6">
           <div className="flex items-center gap-4 mb-6">
-            <div 
+            <div
               className="w-12 h-12 bg-orange-500 rounded-2xl flex items-center justify-center text-white shadow-lg shrink-0"
               aria-hidden="true"
             >
@@ -110,9 +110,9 @@ export default function HowToMergePdfPage() {
         </header>
 
         <figure className="mb-8 shadow-2xl rounded-2xl overflow-hidden bg-slate-50 border border-slate-100 flex items-center justify-center">
-          <Image 
-            src="/img/merge-multiple-pdfs.png" 
-            alt="How to Merge Multiple PDFs into One File" 
+          <Image
+            src="/img/merge-multiple-pdfs.png"
+            alt="How to Merge Multiple PDFs into One File"
             width={1200}
             height={630}
             sizes="(max-width: 768px) 100vw, 800px"
@@ -154,9 +154,9 @@ export default function HowToMergePdfPage() {
           <section aria-labelledby="why-merge-pdfs">
             <h2 id="why-merge-pdfs" className="text-2xl font-black text-slate-900 mt-10 mb-4">Why Merge PDF Files?</h2>
             <p className="leading-relaxed mb-4">
-              Managing a multitude of separate files can be chaotic. If you are applying for a job, you might have your resume, cover letter, and portfolio as three separate documents. If you are handling taxes, you have dozens of receipts. By combining them, you drastically reduce clutter. It also guarantees that the recipient views your documents in the exact order you intend, without missing an attachment. 
+              Managing a multitude of separate files can be chaotic. If you are applying for a job, you might have your resume, cover letter, and portfolio as three separate documents. If you are handling taxes, you have dozens of receipts. By combining them, you drastically reduce clutter. It also guarantees that the recipient views your documents in the exact order you intend, without missing an attachment.
             </p>
-            
+
             <h3 className="text-xl font-bold text-slate-800 mt-6 mb-3">Common Use Cases</h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="bg-white p-5 rounded-xl border border-slate-200 shadow-sm transition-shadow hover:shadow-md">
@@ -218,7 +218,7 @@ export default function HowToMergePdfPage() {
 
           <section aria-labelledby="how-to-merge-online">
             <h2 id="how-to-merge-online" className="text-2xl font-black text-slate-900 mt-10 mb-6">How to Merge PDF Online</h2>
-            
+
             <div className="space-y-4">
               <div className="flex gap-5 p-5 bg-white rounded-2xl border border-slate-200 shadow-sm">
                 <div className="w-10 h-10 bg-orange-500 rounded-full flex items-center justify-center text-white font-black text-lg shrink-0 shadow-md" aria-hidden="true">1</div>
@@ -299,8 +299,8 @@ export default function HowToMergePdfPage() {
               <h2 className="text-2xl font-black text-slate-900 mb-2">Ready to merge your PDFs?</h2>
               <p className="text-sm text-slate-600 max-w-md mx-auto">Combine multiple files into one seamless document in seconds, absolutely free and secure.</p>
             </div>
-            <Link 
-              href="/tool/merge" 
+            <Link
+              href="/tool/merge"
               className="inline-flex items-center gap-2 px-8 py-4 bg-orange-500 hover:bg-orange-600 text-white rounded-xl font-black text-lg transition-transform hover:scale-105 active:scale-95 shadow-md focus:outline-none focus:ring-4 focus:ring-orange-300"
               aria-label="Open Merge PDF Tool"
             >

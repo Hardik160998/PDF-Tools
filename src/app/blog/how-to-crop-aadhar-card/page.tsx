@@ -8,7 +8,7 @@ import FAQSchema from '@/components/seo/FAQSchema';
 import WebAppSchema from '@/components/seo/WebAppSchema';
 import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema';
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://smartpdfsplus.com';
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'SITE_OFFICIAL_DOMAIN';
 
 export const metadata: Metadata = {
   title: 'How to Crop e-Aadhar Card for PVC Printing Online | SmartPDFs Plus',
@@ -101,23 +101,23 @@ export default function CropAadharCardPost() {
       <BreadcrumbSchema items={breadcrumbItems} />
       <FAQSchema />
       <WebAppSchema />
-      
+
       <article className="container mx-auto px-4 pt-10 pb-20 max-w-3xl">
         <nav aria-label="Breadcrumb navigation" className="mb-8">
           <Breadcrumbs items={breadcrumbItems} />
-          
-          <Link 
-            href="/blog" 
+
+          <Link
+            href="/blog"
             className="inline-flex items-center gap-2 text-sm text-slate-400 hover:text-red-500 transition-colors font-bold mt-4 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 rounded p-1"
             aria-label="Navigate Back to Blog"
           >
             <ArrowLeft size={14} aria-hidden="true" /> Back to Blog
           </Link>
         </nav>
-        
+
         <header className="mb-8">
           <div className="flex items-center gap-4 mb-6">
-            <div 
+            <div
               className="w-12 h-12 bg-red-500 rounded-2xl flex items-center justify-center text-white shadow-lg shrink-0"
               aria-hidden="true"
             >
@@ -140,11 +140,11 @@ export default function CropAadharCardPost() {
           </div>
 
           <figure className="relative rounded-2xl overflow-hidden shadow-2xl mb-8 border border-slate-100 bg-slate-50">
-            <Image 
-              src="/img/crop-aadhar-card.png" 
-              alt="Illustration showing an e-Aadhar PDF being cropped into standard wallet-size ID dimensions" 
-              width={1200} 
-              height={630} 
+            <Image
+              src="/img/crop-aadhar-card.png"
+              alt="Illustration showing an e-Aadhar PDF being cropped into standard wallet-size ID dimensions"
+              width={1200}
+              height={630}
               priority
               className="w-full h-auto object-cover"
               sizes="(max-width: 768px) 100vw, 768px"
@@ -154,7 +154,7 @@ export default function CropAadharCardPost() {
         </header>
 
         <section className="prose prose-slate max-w-none space-y-8" aria-label="Article Content">
-          
+
           <p className="text-lg text-slate-600 leading-relaxed font-medium">
             Downloading an e-Aadhar from the official UIDAI portal is easy, but printing it is a nightmare. The official PDF is formatted as a full A4 page, with the actual wallet-sized identification card occupying only a small fraction of the space at the bottom. If you try to print this directly onto a PVC card or a standard photo printer, you will end up with a microscopic, illegible mess.
           </p>
@@ -195,7 +195,7 @@ export default function CropAadharCardPost() {
             <p className="text-slate-600 leading-relaxed">
               To print a professional-looking ID card, you must format the document to the global CR80 standard. This is the exact same dimension used for credit cards, driver's licenses, and standard PVC printing trays (like those used in Epson or Canon inkjet printers).
             </p>
-            
+
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6">
               <div className="bg-white p-5 rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition-shadow">
                 <div className="flex items-center gap-2 mb-2 text-slate-900">
@@ -208,18 +208,18 @@ export default function CropAadharCardPost() {
                   <li><strong>Aspect Ratio:</strong> 1.586 : 1</li>
                 </ul>
               </div>
-              
+
               <div className="bg-white p-5 rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition-shadow">
                 <div className="flex items-center gap-2 mb-2 text-slate-900">
                   <FileSearch size={18} className="text-red-500" aria-hidden="true" />
                   <h3 className="font-black text-sm m-0">Print Resolution (DPI)</h3>
                 </div>
                 <p className="text-sm text-slate-600 leading-relaxed m-0">
-                  To ensure the micro-printing and QR codes remain perfectly crisp, the cropped PDF must maintain a minimum of <strong>300 DPI</strong> (Dots Per Inch). 
+                  To ensure the micro-printing and QR codes remain perfectly crisp, the cropped PDF must maintain a minimum of <strong>300 DPI</strong> (Dots Per Inch).
                 </p>
               </div>
             </div>
-            
+
             <p className="text-slate-600 leading-relaxed mt-4">
               Our <Link href="/tool/crop-aadhar" className="text-red-500 font-semibold hover:underline">Aadhar Crop Tool</Link> mathematically isolates the vector coordinates of the card within the A4 sheet. It doesn't rasterize the image; it simply moves the PDF's <code>CropBox</code> and <code>MediaBox</code> boundaries to perfectly encase the 86x54mm area, preserving 100% of the original vector quality.
             </p>
@@ -228,9 +228,9 @@ export default function CropAadharCardPost() {
           <section>
             <h2 className="text-2xl font-black text-slate-900 border-b pb-2">3. The Security Imperative: Local Processing</h2>
             <p className="text-slate-600 leading-relaxed">
-              Your Aadhar card contains your name, date of birth, address, and biometric-linked identification number. It is arguably the most sensitive document you possess. 
+              Your Aadhar card contains your name, date of birth, address, and biometric-linked identification number. It is arguably the most sensitive document you possess.
             </p>
-            
+
             <div className="bg-red-50 border-l-4 border-red-500 p-5 rounded-r-xl my-6 flex gap-4">
               <ShieldCheck size={24} className="text-red-500 shrink-0" aria-hidden="true" />
               <div>
@@ -247,7 +247,7 @@ export default function CropAadharCardPost() {
             <p className="text-slate-600 leading-relaxed">
               Preparing your e-Aadhar for PVC printing takes less than 5 seconds. Here is the exact workflow:
             </p>
-            
+
             <ol className="space-y-4 my-6 list-none p-0">
               {[
                 {
@@ -284,17 +284,17 @@ export default function CropAadharCardPost() {
             <h2 className="text-2xl font-black text-slate-900 border-b pb-2">Frequently Asked Questions</h2>
             <div className="space-y-4 my-6" itemScope itemType="https://schema.org/FAQPage">
               {[
-                { 
-                  q: 'Will cropping the PDF degrade the QR Code?', 
-                  a: 'No. Because our tool adjusts the PDF bounding boxes rather than rasterizing the file into an image, the QR code remains in its original vector format. It will scan perfectly on any UIDAI scanner app.' 
+                {
+                  q: 'Will cropping the PDF degrade the QR Code?',
+                  a: 'No. Because our tool adjusts the PDF bounding boxes rather than rasterizing the file into an image, the QR code remains in its original vector format. It will scan perfectly on any UIDAI scanner app.'
                 },
-                { 
-                  q: 'Why is the tool asking for a password?', 
-                  a: 'The official e-Aadhar PDF is encrypted by the government. The cropping algorithm cannot read the layout of an encrypted file. You must unlock it with your UIDAI password first.' 
+                {
+                  q: 'Why is the tool asking for a password?',
+                  a: 'The official e-Aadhar PDF is encrypted by the government. The cropping algorithm cannot read the layout of an encrypted file. You must unlock it with your UIDAI password first.'
                 },
-                { 
-                  q: 'Can I print the cropped file on normal A4 paper?', 
-                  a: 'Yes. If you print the cropped 86x54mm PDF onto A4 paper, ensure your printer settings are set to "Actual Size" rather than "Fit to Page". You can then cut it out manually.' 
+                {
+                  q: 'Can I print the cropped file on normal A4 paper?',
+                  a: 'Yes. If you print the cropped 86x54mm PDF onto A4 paper, ensure your printer settings are set to "Actual Size" rather than "Fit to Page". You can then cut it out manually.'
                 },
                 {
                   q: 'Is my Aadhar data stored on your servers?',
@@ -316,16 +316,16 @@ export default function CropAadharCardPost() {
             <h2 className="font-black text-2xl text-slate-900 mt-0 mb-3">Ready to Crop Your e-Aadhar?</h2>
             <p className="text-slate-600 mb-6 text-sm">Instantly format your ID card for perfect PVC printing right in your web browser. 100% secure, offline-processing.</p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link 
-                href="/tool/crop-aadhar" 
+              <Link
+                href="/tool/crop-aadhar"
                 className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-red-500 hover:bg-red-600 text-white rounded-xl font-black text-sm transition-all focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-red-500"
                 aria-label="Crop Aadhar PDF Tool"
               >
                 <Wand2 size={16} aria-hidden="true" />
                 Crop e-Aadhar Now
               </Link>
-              <Link 
-                href="/tool/unlock" 
+              <Link
+                href="/tool/unlock"
                 className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-white hover:bg-slate-50 text-slate-800 border-2 border-slate-200 rounded-xl font-black text-sm transition-all focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-slate-400"
                 aria-label="Unlock PDF Tool (Prerequisite)"
               >

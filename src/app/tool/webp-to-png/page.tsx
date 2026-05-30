@@ -7,7 +7,7 @@ import {
 } from "lucide-react";
 
 // Site URL for canonical/SEO links
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://smartpdfsplus.com";
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "SITE_OFFICIAL_DOMAIN";
 
 // 1. Dynamic Metadata Export for Next.js App Router (SEO & Indexing Fix)
 export const metadata: Metadata = {
@@ -142,18 +142,18 @@ const faqJsonLd = {
 };
 
 const STEPS = [
-  { icon: Upload,            title: "Upload WebP",    desc: "Select any WebP image from your device." },
-  { icon: SlidersHorizontal, title: "Auto Convert",   desc: "Your WebP is converted to lossless PNG format instantly in your browser." },
-  { icon: Download,          title: "Download PNG",   desc: "Download the converted PNG — lossless quality, maximum compatibility." },
+  { icon: Upload, title: "Upload WebP", desc: "Select any WebP image from your device." },
+  { icon: SlidersHorizontal, title: "Auto Convert", desc: "Your WebP is converted to lossless PNG format instantly in your browser." },
+  { icon: Download, title: "Download PNG", desc: "Download the converted PNG — lossless quality, maximum compatibility." },
 ];
 
 const RELATED = [
-  { id: "png-to-webp", title: "PNG to WebP", description: "Convert PNG images to WebP for smaller sizes without quality loss.",           icon: ImageIcon, gradient: "linear-gradient(135deg, #06b6d4, #0e7490)", shadow: "rgba(6,182,212,0.3)",   tag: "Image Convert" },
-  { id: "jpg-to-webp", title: "JPG to WebP", description: "Convert JPG images to modern WebP for smaller file sizes.",                    icon: ImageIcon, gradient: "linear-gradient(135deg, #7c3aed, #4c1d95)", shadow: "rgba(124,58,237,0.3)",  tag: "Image Convert" },
-  { id: "webp-to-jpg", title: "WebP to JPG", description: "Convert WebP images to universally compatible JPG format.",                    icon: ImageIcon, gradient: "linear-gradient(135deg, #ec4899, #be185d)", shadow: "rgba(236,72,153,0.3)",  tag: "Image Convert" },
-  { id: "jpg-to-png",  title: "JPG to PNG",  description: "Convert JPG images to lossless PNG format instantly.",                         icon: ImageIcon, gradient: "linear-gradient(135deg, #22c55e, #15803d)", shadow: "rgba(34,197,94,0.3)",   tag: "Image Convert" },
-  { id: "jpg-to-pdf",  title: "JPG to PDF",  description: "Turn one or multiple JPG images into a single PDF document.",                  icon: ImageIcon, gradient: "linear-gradient(135deg, #eab308, #a16207)", shadow: "rgba(234,179,8,0.3)",   tag: "Convert" },
-  { id: "compress",    title: "Compress PDF", description: "Reduce PDF file size while keeping quality sharp and text crisp.",            icon: Zap,       gradient: "linear-gradient(135deg, #22c55e, #15803d)", shadow: "rgba(34,197,94,0.3)",   tag: "Optimize" },
+  { id: "png-to-webp", title: "PNG to WebP", description: "Convert PNG images to WebP for smaller sizes without quality loss.", icon: ImageIcon, gradient: "linear-gradient(135deg, #06b6d4, #0e7490)", shadow: "rgba(6,182,212,0.3)", tag: "Image Convert" },
+  { id: "jpg-to-webp", title: "JPG to WebP", description: "Convert JPG images to modern WebP for smaller file sizes.", icon: ImageIcon, gradient: "linear-gradient(135deg, #7c3aed, #4c1d95)", shadow: "rgba(124,58,237,0.3)", tag: "Image Convert" },
+  { id: "webp-to-jpg", title: "WebP to JPG", description: "Convert WebP images to universally compatible JPG format.", icon: ImageIcon, gradient: "linear-gradient(135deg, #ec4899, #be185d)", shadow: "rgba(236,72,153,0.3)", tag: "Image Convert" },
+  { id: "jpg-to-png", title: "JPG to PNG", description: "Convert JPG images to lossless PNG format instantly.", icon: ImageIcon, gradient: "linear-gradient(135deg, #22c55e, #15803d)", shadow: "rgba(34,197,94,0.3)", tag: "Image Convert" },
+  { id: "jpg-to-pdf", title: "JPG to PDF", description: "Turn one or multiple JPG images into a single PDF document.", icon: ImageIcon, gradient: "linear-gradient(135deg, #eab308, #a16207)", shadow: "rgba(234,179,8,0.3)", tag: "Convert" },
+  { id: "compress", title: "Compress PDF", description: "Reduce PDF file size while keeping quality sharp and text crisp.", icon: Zap, gradient: "linear-gradient(135deg, #22c55e, #15803d)", shadow: "rgba(34,197,94,0.3)", tag: "Optimize" },
 ];
 
 export default function WebpToPngPage() {
@@ -174,7 +174,7 @@ export default function WebpToPngPage() {
       />
 
       <div className="max-w-7xl mx-auto px-4 pt-8 sm:pt-12 pb-16">
-        
+
         {/* Breadcrumb Navigation */}
         <nav aria-label="Breadcrumb" className="mb-6 flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-slate-400 dark:text-slate-500">
           <Link href="/" className="hover:text-teal-500 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 rounded px-1">
@@ -230,7 +230,7 @@ export default function WebpToPngPage() {
 
         {/* 4. Complete SEO Optimized Content Section */}
         <section className="mt-20 border-t border-slate-200 dark:border-slate-800 pt-16 max-w-7xl mx-auto text-left">
-          
+
           <div className="mb-16 text-center relative">
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[100px] bg-teal-500/10 dark:bg-teal-500/5 blur-[80px] rounded-full -z-10 pointer-events-none" />
             <h1 className="text-4xl sm:text-6xl font-black tracking-tight mb-6 uppercase leading-tight bg-gradient-to-r from-slate-950 via-slate-800 to-teal-600 dark:from-white dark:via-slate-200 dark:to-teal-500 bg-clip-text text-transparent">
@@ -243,7 +243,7 @@ export default function WebpToPngPage() {
           </div>
 
           <article className="space-y-16">
-            
+
             {/* What is WebP to PNG */}
             <div className="bg-gradient-to-tr from-white to-slate-50/50 dark:from-slate-900 dark:to-slate-900/30 p-8 sm:p-10 rounded-[2.5rem] border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-md transition-all duration-300 flex flex-col md:flex-row gap-8 items-start">
               <div className="p-4 rounded-2xl bg-teal-500/10 text-teal-500 shrink-0">

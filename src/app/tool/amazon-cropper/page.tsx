@@ -2,12 +2,12 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import AmazonCropper from "@/components/tools/AmazonCropper";
 import CreditGate from "@/components/credits/CreditGate";
-import { 
+import {
   ShoppingBag, CheckCircle2, ShieldCheck, Zap, Crop, Combine, Info, ArrowRight, HelpCircle, ChevronDown, Star, Check
 } from "lucide-react";
 
 // Site URL for canonical/SEO links
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://smartpdfsplus.com";
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "SITE_OFFICIAL_DOMAIN";
 
 // 1. Dynamic Metadata Export for Next.js App Router (SEO & Indexing Fix)
 export const metadata: Metadata = {
@@ -134,12 +134,12 @@ const faqJsonLd = {
 };
 
 const RELATED_TOOLS = [
-  { id: 'meesho-cropper',   title: 'Meesho Label Cropper',   description: 'Remove invoice section below "Total" from Meesho shipping label PDFs.', icon: ShoppingBag, gradient: 'linear-gradient(135deg, #f26522, #f59e0b)', shadow: 'rgba(242,101,34,0.3)',  tag: 'Ecommerce', href: '/tool/meesho-cropper' },
-  { id: 'meshocrop',      title: 'Meesho Crop Label (without invoice)', description: 'Crop Meesho labels to keep only shipping address, return address & barcodes.',             icon: ShoppingBag, gradient: 'linear-gradient(135deg, #f26522, #f59e0b)', shadow: 'rgba(242,101,34,0.3)',  tag: 'Ecommerce', href: '/tool/meshocrop'      },
-  { id: 'flipkart-cropper', title: 'Flipkart Label Cropper', description: 'Smart OCR crop for Flipkart shipping labels. Keeps AWB & barcodes.', icon: ShoppingBag, gradient: 'linear-gradient(135deg, #f26522, #f59e0b)', shadow: 'rgba(242,101,34,0.3)',  tag: 'Ecommerce', href: '/tool/flipkart-cropper' },
-  { id: 'snapdeal-cropper', title: 'Snapdeal Label Cropper', description: 'Smart border detection to crop Snapdeal shipping labels perfectly.', icon: ShoppingBag, gradient: 'linear-gradient(135deg, #e40046, #f59e0b)', shadow: 'rgba(228,0,70,0.3)',  tag: 'Ecommerce', href: '/tool/snapdeal-cropper' },
-  { id: 'crop-pdf',         title: 'Crop PDF',               description: 'Trim margins and crop any pages of your PDF with custom margin controls.', icon: Crop, gradient: 'linear-gradient(135deg, #f26522, #c2410c)', shadow: 'rgba(242,101,34,0.3)',  tag: 'Special',   href: '/tool/crop-pdf'      },
-  { id: 'merge',            title: 'Merge PDF',              description: 'Combine multiple PDF files into one document in the order you choose.', icon: Combine, gradient: 'linear-gradient(135deg, #f26522, #c2410c)', shadow: 'rgba(242,101,34,0.3)',  tag: 'Organize',  href: '/tool/merge'         },
+  { id: 'meesho-cropper', title: 'Meesho Label Cropper', description: 'Remove invoice section below "Total" from Meesho shipping label PDFs.', icon: ShoppingBag, gradient: 'linear-gradient(135deg, #f26522, #f59e0b)', shadow: 'rgba(242,101,34,0.3)', tag: 'Ecommerce', href: '/tool/meesho-cropper' },
+  { id: 'meshocrop', title: 'Meesho Crop Label (without invoice)', description: 'Crop Meesho labels to keep only shipping address, return address & barcodes.', icon: ShoppingBag, gradient: 'linear-gradient(135deg, #f26522, #f59e0b)', shadow: 'rgba(242,101,34,0.3)', tag: 'Ecommerce', href: '/tool/meshocrop' },
+  { id: 'flipkart-cropper', title: 'Flipkart Label Cropper', description: 'Smart OCR crop for Flipkart shipping labels. Keeps AWB & barcodes.', icon: ShoppingBag, gradient: 'linear-gradient(135deg, #f26522, #f59e0b)', shadow: 'rgba(242,101,34,0.3)', tag: 'Ecommerce', href: '/tool/flipkart-cropper' },
+  { id: 'snapdeal-cropper', title: 'Snapdeal Label Cropper', description: 'Smart border detection to crop Snapdeal shipping labels perfectly.', icon: ShoppingBag, gradient: 'linear-gradient(135deg, #e40046, #f59e0b)', shadow: 'rgba(228,0,70,0.3)', tag: 'Ecommerce', href: '/tool/snapdeal-cropper' },
+  { id: 'crop-pdf', title: 'Crop PDF', description: 'Trim margins and crop any pages of your PDF with custom margin controls.', icon: Crop, gradient: 'linear-gradient(135deg, #f26522, #c2410c)', shadow: 'rgba(242,101,34,0.3)', tag: 'Special', href: '/tool/crop-pdf' },
+  { id: 'merge', title: 'Merge PDF', description: 'Combine multiple PDF files into one document in the order you choose.', icon: Combine, gradient: 'linear-gradient(135deg, #f26522, #c2410c)', shadow: 'rgba(242,101,34,0.3)', tag: 'Organize', href: '/tool/merge' },
 ];
 
 export default function AmazonCropperPage() {
@@ -162,7 +162,7 @@ export default function AmazonCropperPage() {
       />
 
       <div className="max-w-7xl mx-auto px-4 pt-8 sm:pt-12 pb-16">
-        
+
         {/* Breadcrumb Navigation */}
         <nav aria-label="Breadcrumb" className="mb-6 flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-slate-400 dark:text-slate-500">
           <Link href="/" className="hover:text-orange-500 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-500 rounded px-1">
@@ -216,7 +216,7 @@ export default function AmazonCropperPage() {
 
         {/* 4. Complete SEO Optimized Content Section */}
         <section className="mt-20 border-t border-slate-200 dark:border-slate-800 pt-16 max-w-7xl mx-auto text-left">
-          
+
           <div className="mb-16 text-center relative">
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[100px] bg-orange-500/10 dark:bg-orange-500/5 blur-[80px] rounded-full -z-10 pointer-events-none" />
             <h1 className="text-4xl sm:text-6xl font-black tracking-tight mb-6 uppercase leading-tight bg-gradient-to-r from-slate-950 via-slate-800 to-orange-600 dark:from-white dark:via-slate-200 dark:to-orange-500 bg-clip-text text-transparent">
@@ -229,7 +229,7 @@ export default function AmazonCropperPage() {
           </div>
 
           <article className="space-y-16">
-            
+
             {/* What is Amazon Cropper */}
             <div className="bg-gradient-to-tr from-white to-slate-50/50 dark:from-slate-900 dark:to-slate-900/30 p-8 sm:p-10 rounded-[2.5rem] border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-md transition-all duration-300 flex flex-col md:flex-row gap-8 items-start">
               <div className="p-4 rounded-2xl bg-orange-500/10 text-orange-500 shrink-0">

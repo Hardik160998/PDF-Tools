@@ -8,7 +8,7 @@ import FAQSchema from '@/components/seo/FAQSchema';
 import WebAppSchema from '@/components/seo/WebAppSchema';
 import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema';
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://smartpdfsplus.com';
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'SITE_OFFICIAL_DOMAIN';
 
 export const metadata: Metadata = {
   title: 'How to Crop Meesho Labels Without Invoice | SmartPDFs Plus',
@@ -101,23 +101,23 @@ export default function CropMeeshoLabelOnlyPost() {
       <BreadcrumbSchema items={breadcrumbItems} />
       <FAQSchema />
       <WebAppSchema />
-      
+
       <article className="container mx-auto px-4 pt-10 pb-20 max-w-3xl">
         <nav aria-label="Breadcrumb navigation" className="mb-8">
           <Breadcrumbs items={breadcrumbItems} />
-          
-          <Link 
-            href="/blog" 
+
+          <Link
+            href="/blog"
             className="inline-flex items-center gap-2 text-sm text-slate-400 hover:text-pink-600 transition-colors font-bold mt-4 focus:outline-none focus-visible:ring-2 focus-visible:ring-pink-600 rounded p-1"
             aria-label="Navigate Back to Blog"
           >
             <ArrowLeft size={14} aria-hidden="true" /> Back to Blog
           </Link>
         </nav>
-        
+
         <header className="mb-8">
           <div className="flex items-center gap-4 mb-6">
-            <div 
+            <div
               className="w-12 h-12 bg-pink-600 rounded-2xl flex items-center justify-center text-white shadow-lg shrink-0"
               aria-hidden="true"
             >
@@ -140,11 +140,11 @@ export default function CropMeeshoLabelOnlyPost() {
           </div>
 
           <figure className="relative rounded-2xl overflow-hidden shadow-2xl mb-8 border border-slate-100 bg-slate-50">
-            <Image 
-              src="/img/mesho-label.png" 
-              alt="Visual guide demonstrating how to isolate and extract only the shipping label from a Meesho PDF" 
-              width={1200} 
-              height={630} 
+            <Image
+              src="/img/mesho-label.png"
+              alt="Visual guide demonstrating how to isolate and extract only the shipping label from a Meesho PDF"
+              width={1200}
+              height={630}
               priority
               className="w-full h-auto object-cover"
               sizes="(max-width: 768px) 100vw, 768px"
@@ -154,9 +154,9 @@ export default function CropMeeshoLabelOnlyPost() {
         </header>
 
         <section className="prose prose-slate max-w-none space-y-8" aria-label="Article Content">
-          
+
           <p className="text-lg text-slate-600 leading-relaxed font-medium">
-            Not every Meesho seller wants to print the tax invoice. If you are fulfilling hundreds of low-margin orders daily, printing an extra 4x6 thermal sticker just for the tax invoice doubles your thermal paper consumption. 
+            Not every Meesho seller wants to print the tax invoice. If you are fulfilling hundreds of low-margin orders daily, printing an extra 4x6 thermal sticker just for the tax invoice doubles your thermal paper consumption.
           </p>
           <p className="text-lg text-slate-600 leading-relaxed font-medium">
             In many warehouse workflows, the invoice is either sent digitally, printed on cheap A4 paper separately, or completely omitted depending on local tax logistics. In this guide, we will show you how to use advanced PDF bounding-box exclusion to extract ONLY the shipping barcode section of the A4 page, entirely dropping the invoice.
@@ -206,7 +206,7 @@ export default function CropMeeshoLabelOnlyPost() {
                   Takes 1 A4 page and generates 2 thermal pages (Page A is the label, Page B is the invoice). Used by sellers who put the invoice inside the bag.
                 </p>
               </div>
-              
+
               <div className="bg-white p-5 rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition-shadow">
                 <div className="flex items-center gap-2 mb-2 text-slate-900">
                   <Filter size={18} className="text-pink-600" aria-hidden="true" />
@@ -224,7 +224,7 @@ export default function CropMeeshoLabelOnlyPost() {
             <p className="text-slate-600 leading-relaxed">
               Ready to save paper and speed up dispatch? Here is the exact workflow:
             </p>
-            
+
             <ol className="space-y-4 my-6 list-none p-0">
               {[
                 {
@@ -261,17 +261,17 @@ export default function CropMeeshoLabelOnlyPost() {
             <h2 className="text-2xl font-black text-slate-900 border-b pb-2">Frequently Asked Questions</h2>
             <div className="space-y-4 my-6" itemScope itemType="https://schema.org/FAQPage">
               {[
-                { 
-                  q: 'Is it legal to ship without the invoice?', 
-                  a: 'Platform rules change frequently, but many logistics partners only scan the primary shipping barcode. Always verify Meesho\'s current seller guidelines regarding physical tax invoices inside the package.' 
+                {
+                  q: 'Is it legal to ship without the invoice?',
+                  a: 'Platform rules change frequently, but many logistics partners only scan the primary shipping barcode. Always verify Meesho\'s current seller guidelines regarding physical tax invoices inside the package.'
                 },
-                { 
-                  q: 'Does the label size change when I drop the invoice?', 
-                  a: 'No. The top half of the Meesho A4 PDF is already formatted perfectly to the 1.5 aspect ratio required for 4x6 (100x150mm) printing. It fits perfectly.' 
+                {
+                  q: 'Does the label size change when I drop the invoice?',
+                  a: 'No. The top half of the Meesho A4 PDF is already formatted perfectly to the 1.5 aspect ratio required for 4x6 (100x150mm) printing. It fits perfectly.'
                 },
-                { 
-                  q: 'What if some pages in my PDF are different sizes?', 
-                  a: 'Our algorithm calculates the Y-axis split based on percentages, not static pixels. So even if the PDF generation shifts slightly, it reliably cuts at the halfway point.' 
+                {
+                  q: 'What if some pages in my PDF are different sizes?',
+                  a: 'Our algorithm calculates the Y-axis split based on percentages, not static pixels. So even if the PDF generation shifts slightly, it reliably cuts at the halfway point.'
                 }
               ].map(({ q, a }, i) => (
                 <div key={i} className="bg-slate-50 rounded-xl p-5 border border-slate-100 hover:border-pink-200 transition-colors" itemScope itemProp="mainEntity" itemType="https://schema.org/Question">
@@ -289,8 +289,8 @@ export default function CropMeeshoLabelOnlyPost() {
             <h2 className="font-black text-2xl text-slate-900 mt-0 mb-3">Cut Your Thermal Paper Costs in Half</h2>
             <p className="text-slate-600 mb-6 text-sm">Extract just the shipping label and discard the invoice automatically with zero loss in barcode quality.</p>
             <div className="flex justify-center">
-              <Link 
-                href="/tool/meesho-label-crop" 
+              <Link
+                href="/tool/meesho-label-crop"
                 className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-pink-600 hover:bg-pink-700 text-white rounded-xl font-black text-sm transition-all focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-pink-600"
                 aria-label="Crop Meesho Label Only Tool"
               >
