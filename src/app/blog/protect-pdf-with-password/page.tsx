@@ -100,7 +100,7 @@ export default function ProtectPDFPost() {
       />
       <BreadcrumbSchema items={breadcrumbItems} />
       <FAQSchema />
-      <WebAppSchema />
+      {/* <WebAppSchema name="Protect" descrioption="" url="" /> */}
 
       <article className="container mx-auto px-4 pt-10 pb-20 max-w-3xl">
         <nav aria-label="Breadcrumb navigation" className="mb-8">
