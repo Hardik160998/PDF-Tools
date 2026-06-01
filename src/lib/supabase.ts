@@ -116,6 +116,8 @@ export interface AllToolRow {
   url: string;
   is_verified: boolean;
   img_convert: boolean;
+  description?: string;
+  icon?: string;
 }
 
 export async function getAllTools(): Promise<AllToolRow[]> {
