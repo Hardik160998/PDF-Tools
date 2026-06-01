@@ -26,7 +26,7 @@ const CATEGORY_STYLES: Record<string, { gradient: string; shadow: string }> = {
   'Image Convert': { gradient: 'linear-gradient(135deg, #06b6d4, #0e7490)', shadow: 'shadow-cyan-500/20' },
   Special: { gradient: 'linear-gradient(135deg, #ef4444, #991b1b)', shadow: 'shadow-red-600/20' },
   Sign: { gradient: 'linear-gradient(135deg, #8b5cf6, #5b21b6)', shadow: 'shadow-purple-500/20' },
-  Ecommerce: { gradient: 'linear-gradient(135deg, #ef4444, #991b1b)', shadow: 'shadow-red-400/20' },
+  Ecommerce: { gradient: 'linear-gradient(135deg, #f26522, #f59e0b)', shadow: 'shadow-orange-400/20' },
 };
 
 

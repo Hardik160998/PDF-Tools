@@ -3,6 +3,7 @@
  * Returns current credit status for guest or authenticated user.
  * Never deducts — read-only endpoint.
  */
+export const dynamic = 'force-dynamic';
 import { NextRequest, NextResponse } from 'next/server';
 import { GUEST_SESSION_COOKIE } from '@/lib/credits/config';
 import { getGuestSession } from '@/lib/credits/guest';

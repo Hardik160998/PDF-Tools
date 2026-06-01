@@ -3,7 +3,7 @@
  * All functions run in API routes. Uses service-role Supabase client.
  */
 import { createServerSupabase } from '@/lib/supabase-server';
-import { AUTH_BONUS_CREDITS } from './config';
+import { AUTH_BONUS_CREDITS, GUEST_CREDITS } from './config';
 
 export interface UserCreditInfo {
   userId: string;
@@ -118,6 +118,7 @@ export async function mergeGuestCreditsIntoUser(
   userId: string,
   email: string,
   guestRemainingCredits: number,
+  guestUsedCredits: number = 0,
   guestToken: string | null = null
 ): Promise<{
   newCredits: number;
@@ -133,7 +134,24 @@ export async function mergeGuestCreditsIntoUser(
     .maybeSingle();
 
   if (existingUser?.credits_merged) {
-    return { newCredits: existingUser.remaining_credits, error: null };
+    let updatedCredits = existingUser.remaining_credits;
+    // For returning users, deduct any guest credits they used since the last merge
+    if (guestUsedCredits > 0) {
+       updatedCredits = Math.max(0, existingUser.remaining_credits - guestUsedCredits);
+       await supabase
+         .from('users')
+         .update({ remaining_credits: updatedCredits })
+         .eq('id', userId);
+         
+       if (guestToken) {
+         // Reset used_credits on the guest session so we don't double count if they log out and use more
+         await supabase
+           .from('users')
+           .update({ used_credits: 0 })
+           .eq('guest_session_id', guestToken);
+       }
+    }
+    return { newCredits: updatedCredits, error: null };
   }
 
   const newCredits = guestRemainingCredits + AUTH_BONUS_CREDITS;
@@ -155,53 +173,32 @@ export async function mergeGuestCreditsIntoUser(
     }
 
     if (guestToken) {
-      const hasServiceRole = !!process.env.SUPABASE_SERVICE_ROLE_KEY;
-      let deleteSuccessful = false;
-
-      if (hasServiceRole) {
-        const { error: deleteError, data: deleteData } = await supabase
-          .from('users')
-          .delete()
-          .eq('guest_session_id', guestToken)
-          .select('id');
-        
-        if (!deleteError && deleteData && deleteData.length > 0) {
-          deleteSuccessful = true;
-        }
-      }
-
-      if (!deleteSuccessful) {
-        // Fallback for local development when service role key is not configured or RLS restricts delete.
-        // Archive/clear the guest row so it doesn't cause guest session matches or unique constraint conflicts.
-        await supabase
-          .from('users')
-          .update({
-            guest_session_id: null,
-            is_guest: false,
-            account_type: 'guest_merged',
-            remaining_credits: 0,
-          })
-          .eq('guest_session_id', guestToken);
-      }
+      // Reset used_credits on the guest session so it doesn't double count if they log out and use more
+      await supabase
+        .from('users')
+        .update({ used_credits: 0 })
+        .eq('guest_session_id', guestToken);
     }
   } else if (guestToken) {
-    // No existing user row. Update the guest row directly to convert it!
-    const { error: updateError } = await supabase
-      .from('users')
-      .update({
-        id: userId,
-        email: email.toLowerCase().trim(),
-        is_guest: false,
-        account_type: 'free',
-        remaining_credits: newCredits,
-        credits_merged: true,
-        guest_session_id: null, // Clear guest_session_id so it's no longer associated
-      })
-      .eq('guest_session_id', guestToken);
+    // No existing user row. Insert a new user row instead of converting the guest row, so the guest session is preserved on logout.
+    const { error: insertError } = await supabase.from('users').insert({
+      id: userId,
+      email: email.toLowerCase().trim(),
+      is_guest: false,
+      account_type: 'free',
+      remaining_credits: newCredits,
+      credits_merged: true,
+    });
 
-    if (updateError) {
-      return { newCredits: 0, error: updateError.message };
+    if (insertError) {
+      return { newCredits: 0, error: insertError.message };
     }
+    
+    // Reset used_credits on the guest session
+    await supabase
+      .from('users')
+      .update({ used_credits: 0 })
+      .eq('guest_session_id', guestToken);
   } else {
     // No guest token, no existing row. Just create it (fallback)
     await supabase.from('users').insert({

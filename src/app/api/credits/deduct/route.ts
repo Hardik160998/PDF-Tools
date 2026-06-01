@@ -14,6 +14,7 @@
  * Auth header (for logged-in users):
  * Authorization: Bearer <token>
  */
+export const dynamic = 'force-dynamic';
 import { NextRequest, NextResponse } from 'next/server';
 import { GUEST_SESSION_COOKIE, isFreeTool } from '@/lib/credits/config';
 import { deductGuestCredit } from '@/lib/credits/guest';

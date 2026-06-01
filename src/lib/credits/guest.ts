@@ -13,6 +13,7 @@ function generateId(): string {
 export interface GuestSession {
   session_token: string;
   remaining_credits: number;
+  used_credits?: number;
 }
 
 /**
@@ -80,7 +81,7 @@ export async function getGuestSession(sessionToken: string): Promise<{
 
   const { data, error } = await supabase
     .from('users')
-    .select('remaining_credits')
+    .select('remaining_credits, used_credits')
     .eq('guest_session_id', sessionToken)
     .maybeSingle();
 
@@ -92,7 +93,7 @@ export async function getGuestSession(sessionToken: string): Promise<{
     return { session: null, error: 'Guest session not found.' };
   }
 
-  return { session: { session_token: sessionToken, remaining_credits: data.remaining_credits }, error: null };
+  return { session: { session_token: sessionToken, remaining_credits: data.remaining_credits, used_credits: data.used_credits || 0 }, error: null };
 }
 
 /**

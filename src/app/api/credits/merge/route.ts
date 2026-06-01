@@ -66,31 +66,25 @@ export async function POST(request: NextRequest) {
       userId = user.id;
     }
 
-    // Check if user already had credits merged
+    // Fetch user info (no early return so we can deduct guest usage if applicable)
     const { info } = await getUserCreditInfo(email);
-    if (info?.credits_merged) {
-      // Already merged — just return current credits
-      return NextResponse.json({
-        success: true,
-        newCredits: info.remaining_credits,
-        alreadyMerged: true,
-        message: 'Credits already merged.',
-      });
-    }
+
 
     // --- Merge flow ---
     let guestRemainingCredits = 0;
+    let guestUsedCredits = 0;
 
     if (guestToken) {
       const { session } = await getGuestSession(guestToken);
       if (session) {
         guestRemainingCredits = session.remaining_credits;
+        guestUsedCredits = session.used_credits || 0;
       }
     }
 
     // If no guest session found, give full bonus credits (direct signup, no prior guest usage)
     const { newCredits, error: mergeError } = guestToken && guestRemainingCredits >= 0
-      ? await mergeGuestCreditsIntoUser(userId, email, guestRemainingCredits, guestToken)
+      ? await mergeGuestCreditsIntoUser(userId, email, guestRemainingCredits, guestUsedCredits, guestToken)
       : await grantInitialUserCredits(userId);
 
     if (mergeError) {
@@ -107,11 +101,7 @@ export async function POST(request: NextRequest) {
       message: `🎉 Credits merged! You now have ${newCredits} credits.`,
     });
 
-    // Expire guest cookie
-    response.cookies.set(GUEST_SESSION_COOKIE, '', {
-      maxAge: 0,
-      path: '/',
-    });
+    // Do not expire guest cookie, so anonymous session resumes on logout
 
     return response;
   } catch (err: any) {

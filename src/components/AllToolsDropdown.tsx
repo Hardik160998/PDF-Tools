@@ -15,7 +15,7 @@ const CATEGORY_STYLES: Record<string, { color: string; gradient: string }> = {
   Security: { color: "#e53e3e", gradient: "linear-gradient(135deg, #e53e3e, #7f1d1d)" },
   'Image Convert': { color: "#06b6d4", gradient: "linear-gradient(135deg, #06b6d4, #0e7490)" },
   Special: { color: "#ef4444", gradient: "linear-gradient(135deg, #ef4444, #991b1b)" },
-  Ecommerce: { color: "#ef4444", gradient: "linear-gradient(135deg, #ef4444, #991b1b)" },
+  Ecommerce: { color: "#f26522", gradient: "linear-gradient(135deg, #f26522, #f59e0b)" },
   Sign: { color: "#8b5cf6", gradient: "linear-gradient(135deg, #8b5cf6, #5b21b6)" },
 };
 

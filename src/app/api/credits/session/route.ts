@@ -3,6 +3,7 @@
  * Creates a new guest session with 5 free credits.
  * Safe to call on every page load — idempotent via guestId.
  */
+export const dynamic = 'force-dynamic';
 import { NextRequest, NextResponse } from 'next/server';
 import { createGuestSession } from '@/lib/credits/guest';
 import { GUEST_SESSION_COOKIE } from '@/lib/credits/config';

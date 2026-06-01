@@ -366,10 +366,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       if (res.ok) {
         const data = await res.json();
         console.log("[mergeCreditsOnLogin] API Success. Returned data:", data);
-        // Clear guest session from localStorage after successful merge
-        if (typeof window !== "undefined") {
-          localStorage.removeItem("pdf_guest_session");
-        }
+        // Do not clear guest session from localStorage after successful merge so it resumes on logout
         // Update profile with new credits
         if (data.newCredits !== undefined) {
           setProfile(prev => prev ? { ...prev, remaining_credits: data.newCredits, credits_merged: true } : null);
