@@ -8,6 +8,20 @@ const nextConfig: NextConfig = {
       bodySizeLimit: '50mb',
     },
   },
+  async redirects() {
+    return [
+      {
+        source: '/edit',
+        destination: '/tool/edit',
+        permanent: true,
+      },
+      {
+        source: '/esign',
+        destination: '/tool/esign',
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default nextConfig;

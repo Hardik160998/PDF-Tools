@@ -153,7 +153,7 @@ const RELATED = [
   { id: "protect", title: "Protect PDF", description: "Encrypt your PDF with a password to keep sensitive documents secure.", icon: Lock, gradient: "linear-gradient(135deg, #ef4444, #b91c1c)", shadow: "rgba(239,68,68,0.3)", tag: "Security", href: "/tool/protect" },
   { id: "unlock", title: "Unlock PDF", description: "Remove password protection from a PDF and restore full access.", icon: Unlock, gradient: "linear-gradient(135deg, #f97316, #c2410c)", shadow: "rgba(249,115,22,0.3)", tag: "Security", href: "/tool/unlock" },
   { id: "watermark", title: "Watermark PDF", description: "Stamp a text or image watermark over every page of your PDF.", icon: Stamp, gradient: "linear-gradient(135deg, #8b5cf6, #6d28d9)", shadow: "rgba(139,92,246,0.3)", tag: "Edit", href: "/tool/watermark" },
-  { id: "esign", title: "E-Sign PDF", description: "Draw or type your signature and place it anywhere on a PDF instantly.", icon: PenLine, gradient: "linear-gradient(135deg, #8b5cf6, #ec4899)", shadow: "rgba(139,92,246,0.3)", tag: "Sign", href: "/esign" },
+  { id: "esign", title: "E-Sign PDF", description: "Draw or type your signature and place it anywhere on a PDF instantly.", icon: PenLine, gradient: "linear-gradient(135deg, #8b5cf6, #ec4899)", shadow: "rgba(139,92,246,0.3)", tag: "Sign", href: "/tool/esign" },
 ];
 
 export default function AadharCropPage() {

@@ -72,20 +72,20 @@ export async function POST(request: Request) {
 
     // 7. Insert subscription record
     if (userId) {
-      try {
-        await supabase
-          .from("subscriptions")
-          .upsert({
-            user_id: userId,
-            plan_id: planName,
-            status: "active",
-            current_start: startDate.toISOString(),
-            current_end: endDate.toISOString(),
-            razorpay_subscription_id: razorpay_payment_id,
-            updated_at: new Date().toISOString(),
-          }, { onConflict: 'razorpay_subscription_id' });
-      } catch (err) {
-        console.warn("Failed subscription insert:", err);
+      const { error: subError } = await supabase
+        .from("subscriptions")
+        .insert({
+          user_id: userId,
+          plan_id: planName,
+          status: "active",
+          current_start: startDate.toISOString(),
+          current_end: endDate.toISOString(),
+          razorpay_subscription_id: razorpay_payment_id,
+          updated_at: new Date().toISOString(),
+        });
+        
+      if (subError) {
+        console.error("Failed subscription insert DB Error:", subError);
       }
     }
 

@@ -77,9 +77,9 @@ export async function triggerRazorpayPayment({
 
           if (userRow?.id) {
             // Write simulated subscription
-            await supabase
+            const { error: simSubError } = await supabase
               .from("subscriptions")
-              .upsert({
+              .insert({
                 user_id: userRow.id,
                 plan_id: planName,
                 status: "active",
@@ -87,7 +87,11 @@ export async function triggerRazorpayPayment({
                 current_end: endDate.toISOString(),
                 razorpay_subscription_id: mockPaymentId,
                 updated_at: new Date().toISOString()
-              }, { onConflict: 'razorpay_subscription_id' });
+              });
+              
+            if (simSubError) {
+              console.error("Simulation Sub Insert Error:", simSubError);
+            }
 
             // Write simulated payment record
             await supabase

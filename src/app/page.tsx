@@ -554,7 +554,7 @@ export default function Home() {
                 <p className="text-base text-slate-500 dark:text-slate-400 font-medium leading-relaxed">
                   Fill in forms, e-sign contracts, and close deals in a few simple steps. You can also request e-signatures and track your document every step of the way.
                 </p>
-                <a href="/esign" className="inline-flex items-center gap-2 text-purple-600 dark:text-purple-400 font-medium text-base hover:gap-3 transition-all">Try eSign &#8594;</a>
+                <a href="/tool/esign" className="inline-flex items-center gap-2 text-purple-600 dark:text-purple-400 font-medium text-base hover:gap-3 transition-all">Try eSign &#8594;</a>
               </div>
               <div className="hidden md:flex flex-1 justify-center">
                 <div className="relative w-full max-w-md">
@@ -598,7 +598,7 @@ export default function Home() {
                 <p className="text-base text-slate-500 dark:text-slate-400 font-medium leading-relaxed">
                   Do more than just view PDFs. Highlight and add text, freehand annotations, and more — all processed locally in your browser. Zero uploads, 100% private.
                 </p>
-                <a href="/edit" className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-white font-medium text-sm uppercase tracking-widest shadow-lg transition-all hover:scale-105 hover:shadow-xl" style={{ background: 'linear-gradient(135deg,#3b82f6,#8b5cf6)' }}>
+                <a href="/tool/edit" className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-white font-medium text-sm uppercase tracking-widest shadow-lg transition-all hover:scale-105 hover:shadow-xl" style={{ background: 'linear-gradient(135deg,#3b82f6,#8b5cf6)' }}>
                   Open &amp; Edit a PDF &#8594;
                 </a>
               </div>

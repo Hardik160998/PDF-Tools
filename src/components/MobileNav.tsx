@@ -69,7 +69,7 @@ const SECTIONS = [
   {
     label: "Edit", color: "#E8465D", gradient: "linear-gradient(135deg, #E8465D, #843286)",
     links: [
-      { href: "/edit", label: "Edit PDF", icon: PenLine },
+      { href: "/tool/edit", label: "Edit PDF", icon: PenLine },
       { href: "/tool/bookmark-pdf", label: "Bookmark PDF", icon: Bookmark },
       { href: "/tool/watermark", label: "Watermark", icon: Stamp },
       { href: "/tool/page-numbers", label: "Page Numbers", icon: FileDigit },
@@ -106,7 +106,7 @@ const SECTIONS = [
   {
     label: "Sign", color: "#8b5cf6", gradient: "linear-gradient(135deg, #8b5cf6, #ec4899)",
     links: [
-      { href: "/esign", label: "E-Sign PDF", icon: PenLine },
+      { href: "/tool/esign", label: "E-Sign PDF", icon: PenLine },
     ],
   },
 ];

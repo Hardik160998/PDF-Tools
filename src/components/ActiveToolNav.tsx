@@ -54,8 +54,8 @@ const ALL_TOOLS: Record<string, { label: string; color: string }> = {
   "/tool/meesho-cropper":   { label: "Meesho Label with Invoice Cropper",  color: "#f26522" },
   "/tool/meshocrop":        { label: "Meesho Crop Label (without invoice)", color: "#f26522" },
   "/tool/flipkart-cropper": { label: "Flipkart Label Cropper",             color: "#F7941D" },
-  "/esign":                 { label: "E-Sign PDF",                         color: "#8b5cf6" },
-  "/edit":                  { label: "Edit PDF",                           color: "#E8465D" },
+  "/tool/esign":                 { label: "E-Sign PDF",                         color: "#8b5cf6" },
+  "/tool/edit":                  { label: "Edit PDF",                           color: "#E8465D" },
 };
 
 export default function ActiveToolNav() {
