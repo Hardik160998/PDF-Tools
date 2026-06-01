@@ -2,17 +2,24 @@ import ExtractText from "@/components/tools/ExtractText";
 import Link from "next/link";
 import type { Metadata } from "next";
 import {
-  FileText, ArrowRight, HelpCircle, Star, Check, ChevronDown
+  FileText,
+  ArrowRight,
+  HelpCircle,
+  Star,
+  Check,
+  ChevronDown,
 } from "lucide-react";
 
 // Site URL for canonical/SEO links
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://smartpdfpro.com/';
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://smartpdfpro.com";
 
 // 1. Dynamic Metadata Export for Next.js App Router
 export const metadata: Metadata = {
-  title: 'Convert PDF to XML Online - Free PDF to XML Parser | SmartPDFs',
-  description: 'Convert PDF files to structured XML data online for free. Deep-scan text blocks, paragraphs, and page attributes, and download clean XML instantly. 100% secure.',
-  keywords: 'convert pdf to xml, pdf to xml parser online, free pdf to xml converter, export pdf to xml, extract pdf text to xml, local pdf parse, smartpdfs',
+  title: "Convert PDF to XML Online - Free PDF to XML Parser | SmartPDFs",
+  description:
+    "Convert PDF files to structured XML data online for free. Deep-scan text blocks, paragraphs, and page attributes, and download clean XML instantly. 100% secure.",
+  keywords:
+    "convert pdf to xml, pdf to xml parser online, free pdf to xml converter, export pdf to xml, extract pdf text to xml, local pdf parse, smartpdfs",
   alternates: {
     canonical: `${siteUrl}/tool/pdf-to-xml`,
   },
@@ -23,30 +30,32 @@ export const metadata: Metadata = {
     googleBot: {
       index: true,
       follow: true,
-      'max-video-preview': -1,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
     },
   },
   openGraph: {
-    type: 'website',
-    title: 'Convert PDF to XML Online - Free PDF to XML Parser | SmartPDFs',
-    description: 'Convert PDF files to structured XML data online for free. Deep-scan text blocks, paragraphs, and page attributes, and download clean XML instantly. 100% secure.',
-    siteName: 'SmartPDFs',
+    type: "website",
+    title: "Convert PDF to XML Online - Free PDF to XML Parser | SmartPDFs",
+    description:
+      "Convert PDF files to structured XML data online for free. Deep-scan text blocks, paragraphs, and page attributes, and download clean XML instantly. 100% secure.",
+    siteName: "SmartPDFs",
     url: `${siteUrl}/tool/pdf-to-xml`,
     images: [
       {
         url: `${siteUrl}/img/pdf-to-xml-og.png`,
         width: 1200,
         height: 630,
-        alt: 'Convert PDF to XML Online - SmartPDFs',
+        alt: "Convert PDF to XML Online - SmartPDFs",
       },
     ],
   },
   twitter: {
-    card: 'summary_large_image',
-    title: 'Convert PDF to XML Online - Free PDF to XML Parser | SmartPDFs',
-    description: 'Convert PDF files to structured XML data online for free. Deep-scan text blocks, paragraphs, and page attributes, and download clean XML instantly. 100% secure.',
+    card: "summary_large_image",
+    title: "Convert PDF to XML Online - Free PDF to XML Parser | SmartPDFs",
+    description:
+      "Convert PDF files to structured XML data online for free. Deep-scan text blocks, paragraphs, and page attributes, and download clean XML instantly. 100% secure.",
     images: [`${siteUrl}/img/pdf-to-xml-og.png`],
   },
 };
@@ -55,90 +64,91 @@ export const metadata: Metadata = {
 const webAppJsonLd = {
   "@context": "https://schema.org",
   "@type": "WebApplication",
-  "name": "Convert PDF to XML Online Free",
-  "url": `${siteUrl}/tool/pdf-to-xml`,
-  "image": `${siteUrl}/img/pdf-to-xml-og.png`,
-  "description": "Convert PDF files to structured XML data online for free. Deep-scan text blocks, paragraphs, and page attributes, and download clean XML instantly. 100% secure.",
-  "applicationCategory": "UtilityApplication",
-  "operatingSystem": "All",
-  "browserRequirements": "Requires HTML5 support",
-  "featureList": [
+  name: "Convert PDF to XML Online Free",
+  url: `${siteUrl}/tool/pdf-to-xml`,
+  image: `${siteUrl}/img/pdf-to-xml-og.png`,
+  description:
+    "Convert PDF files to structured XML data online for free. Deep-scan text blocks, paragraphs, and page attributes, and download clean XML instantly. 100% secure.",
+  applicationCategory: "UtilityApplication",
+  operatingSystem: "All",
+  browserRequirements: "Requires HTML5 support",
+  featureList: [
     "100% Local processing in your browser sandbox",
     "No file uploads to servers",
     "Transforms text blocks into hierarchical XML tags",
     "Built-in code editor for instant review",
     "Cleans and escapes XML variables automatically",
-    "Fast processing with zero server queues"
+    "Fast processing with zero server queues",
   ],
-  "offers": {
+  offers: {
     "@type": "Offer",
-    "price": "0",
-    "priceCurrency": "USD"
-  }
+    price: "0",
+    priceCurrency: "USD",
+  },
 };
 
 const breadcrumbJsonLd = {
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
-  "itemListElement": [
+  itemListElement: [
     {
       "@type": "ListItem",
-      "position": 1,
-      "name": "Home",
-      "item": siteUrl
+      position: 1,
+      name: "Home",
+      item: siteUrl,
     },
     {
       "@type": "ListItem",
-      "position": 2,
-      "name": "Tools",
-      "item": `${siteUrl}/#tools-grid`
+      position: 2,
+      name: "Tools",
+      item: `${siteUrl}/#tools-grid`,
     },
     {
       "@type": "ListItem",
-      "position": 3,
-      "name": "PDF to XML",
-      "item": `${siteUrl}/tool/pdf-to-xml`
-    }
-  ]
+      position: 3,
+      name: "PDF to XML",
+      item: `${siteUrl}/tool/pdf-to-xml`,
+    },
+  ],
 };
 
 const faqJsonLd = {
   "@context": "https://schema.org",
   "@type": "FAQPage",
-  "mainEntity": [
+  mainEntity: [
     {
       "@type": "Question",
-      "name": "How can I convert a PDF to an XML file?",
-      "acceptedAnswer": {
+      name: "How can I convert a PDF to an XML file?",
+      acceptedAnswer: {
         "@type": "Answer",
-        "text": "Simply upload your PDF file to the converter. The parser extracts layout segments, lines, and text content locally. Review the generated XML structured schema in the editor and click copy or download to save the XML file."
-      }
+        text: "Simply upload your PDF file to the converter. The parser extracts layout segments, lines, and text content locally. Review the generated XML structured schema in the editor and click copy or download to save the XML file.",
+      },
     },
     {
       "@type": "Question",
-      "name": "Is my data secure when converting to XML?",
-      "acceptedAnswer": {
+      name: "Is my data secure when converting to XML?",
+      acceptedAnswer: {
         "@type": "Answer",
-        "text": "Yes, absolutely! The conversion process is completed entirely on your local device. We never upload or save your documents to any external servers, maintaining total security."
-      }
+        text: "Yes, absolutely! The conversion process is completed entirely on your local device. We never upload or save your documents to any external servers, maintaining total security.",
+      },
     },
     {
       "@type": "Question",
-      "name": "Does the XML parser support tables and columns?",
-      "acceptedAnswer": {
+      name: "Does the XML parser support tables and columns?",
+      acceptedAnswer: {
         "@type": "Answer",
-        "text": "Yes, our parser identifies page layout coordinates to structure columns and paragraphs into clear tags, making it easy to map database attributes or parse schemas."
-      }
+        text: "Yes, our parser identifies page layout coordinates to structure columns and paragraphs into clear tags, making it easy to map database attributes or parse schemas.",
+      },
     },
     {
       "@type": "Question",
-      "name": "Is there a file size limit for PDF to XML conversion?",
-      "acceptedAnswer": {
+      name: "Is there a file size limit for PDF to XML conversion?",
+      acceptedAnswer: {
         "@type": "Answer",
-        "text": "Since files are analyzed entirely within your web browser, size limits depend mostly on your computer's memory. We optimize memory usage so you can convert large documents smoothly."
-      }
-    }
-  ]
+        text: "Since files are analyzed entirely within your web browser, size limits depend mostly on your computer's memory. We optimize memory usage so you can convert large documents smoothly.",
+      },
+    },
+  ],
 };
 
 export default function PdfToXmlPage() {
@@ -163,17 +173,26 @@ export default function PdfToXmlPage() {
         <nav aria-label="Breadcrumb" className="mb-8">
           <ol className="flex items-center space-x-2 text-xs font-semibold text-slate-400 uppercase tracking-widest">
             <li>
-              <Link href="/" className="hover:text-blue-500 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 rounded px-1">
+              <Link
+                href="/"
+                className="hover:text-blue-500 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 rounded px-1"
+              >
                 Home
               </Link>
             </li>
             <li className="flex items-center gap-1.5" aria-hidden="true">
               <span>/</span>
-              <Link href="/#tools-grid" className="hover:text-blue-500 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 rounded px-1">
+              <Link
+                href="/#tools-grid"
+                className="hover:text-blue-500 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 rounded px-1"
+              >
                 Tools
               </Link>
             </li>
-            <li className="flex items-center gap-1.5 text-slate-600 dark:text-slate-200" aria-current="page">
+            <li
+              className="flex items-center gap-1.5 text-slate-600 dark:text-slate-200"
+              aria-current="page"
+            >
               <span>/</span>
               <span>PDF to XML</span>
             </li>
@@ -187,14 +206,15 @@ export default function PdfToXmlPage() {
 
         {/* Rich SEO Content Section */}
         <article className="space-y-16 max-w-7xl mx-auto mt-20">
-
           {/* Main heading and description */}
           <section className="text-center max-w-4xl mx-auto space-y-4">
             <h2 className="font-outfit text-3xl md:text-5xl font-black tracking-tighter leading-tight bg-clip-text text-transparent bg-gradient-to-r from-slate-900 via-blue-950 to-blue-600 dark:from-white dark:via-blue-100 dark:to-blue-400 uppercase">
               Convert PDF to XML Online — Free &amp; Secure
             </h2>
             <p className="text-lg font-medium text-slate-500 dark:text-slate-400 leading-relaxed">
-              Transform unstructured PDF document characters into organized, structured XML tag hierarchies. Edit, preview, and download clean XML schema files instantly, processed 100% locally.
+              Transform unstructured PDF document characters into organized,
+              structured XML tag hierarchies. Edit, preview, and download clean
+              XML schema files instantly, processed 100% locally.
             </p>
           </section>
 
@@ -204,7 +224,9 @@ export default function PdfToXmlPage() {
               <h3 className="font-outfit text-2xl md:text-3xl font-black text-slate-900 dark:text-white uppercase tracking-tight">
                 How to Convert PDF to XML Online?
               </h3>
-              <p className="text-sm font-medium text-slate-400 uppercase tracking-wider">Step-by-step conversion guide</p>
+              <p className="text-sm font-medium text-slate-400 uppercase tracking-wider">
+                Step-by-step conversion guide
+              </p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
@@ -212,20 +234,23 @@ export default function PdfToXmlPage() {
                 {
                   step: "01",
                   title: "Upload PDF File",
-                  desc: "Select or drag & drop your PDF file into our XML converter. The file loads instantly in your browser."
+                  desc: "Select or drag & drop your PDF file into our XML converter. The file loads instantly in your browser.",
                 },
                 {
                   step: "02",
                   title: "Hierarchical Parsing",
-                  desc: "Our parser reads character coordinates to map headers, paragraphs, and list lines into structured tags."
+                  desc: "Our parser reads character coordinates to map headers, paragraphs, and list lines into structured tags.",
                 },
                 {
                   step: "03",
                   title: "Verify & Export",
-                  desc: "Examine parsed XML blocks inside the code editor. Copy tags to your clipboard or download the XML file."
-                }
+                  desc: "Examine parsed XML blocks inside the code editor. Copy tags to your clipboard or download the XML file.",
+                },
               ].map((item, index) => (
-                <div key={index} className="relative bg-white dark:bg-slate-900 rounded-3xl p-8 border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-md transition-all group flex flex-col justify-between">
+                <div
+                  key={index}
+                  className="relative bg-white dark:bg-slate-900 rounded-3xl p-8 border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-md transition-all group flex flex-col justify-between"
+                >
                   <div className="space-y-4">
                     <div className="flex items-center justify-between">
                       <span className="font-outfit text-4xl font-black text-blue-500/20 group-hover:text-blue-500 transition-colors duration-300">
@@ -264,16 +289,29 @@ export default function PdfToXmlPage() {
                 </h3>
               </div>
               <p className="text-sm font-medium text-slate-500 dark:text-slate-400 max-w-md">
-                Fast browser-based operations without queues or subscriptions. Tailor files instantly and secure privacy.
+                Fast browser-based operations without queues or subscriptions.
+                Tailor files instantly and secure privacy.
               </p>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {[
-                { title: "No Server Access", desc: "Your PDF is processed inside your browser tab. Zero data uploads, zero security concerns." },
-                { title: "Hierarchical XML Tags", desc: "Generates tags describing pages, sections, coordinates, and text content." },
-                { title: "Built-In XML Editor", desc: "Review structural alignment directly inside the built-in dark code preview panel." },
-                { title: "Extract Text Sister", desc: "Need raw characters only? Use our Extract Text tool to parse text without tags." }
+                {
+                  title: "No Server Access",
+                  desc: "Your PDF is processed inside your browser tab. Zero data uploads, zero security concerns.",
+                },
+                {
+                  title: "Hierarchical XML Tags",
+                  desc: "Generates tags describing pages, sections, coordinates, and text content.",
+                },
+                {
+                  title: "Built-In XML Editor",
+                  desc: "Review structural alignment directly inside the built-in dark code preview panel.",
+                },
+                {
+                  title: "Extract Text Sister",
+                  desc: "Need raw characters only? Use our Extract Text tool to parse text without tags.",
+                },
               ].map((feat, i) => (
                 <div key={i} className="space-y-3 p-2">
                   <div className="w-8 h-8 rounded-lg bg-blue-500 text-white flex items-center justify-center shadow-lg shadow-blue-500/25">
@@ -296,27 +334,29 @@ export default function PdfToXmlPage() {
               <h3 className="font-outfit text-2xl md:text-3xl font-black text-slate-900 dark:text-white uppercase tracking-tight">
                 Frequently Asked Questions
               </h3>
-              <p className="text-sm font-medium text-slate-400 uppercase tracking-wider">PDF to XML FAQs</p>
+              <p className="text-sm font-medium text-slate-400 uppercase tracking-wider">
+                PDF to XML FAQs
+              </p>
             </div>
 
             <div className="space-y-4">
               {[
                 {
                   q: "How can I convert a PDF to an XML file?",
-                  a: "Simply upload your PDF file to the converter. The parser extracts layout segments, lines, and text content locally. Review the generated XML structured schema in the editor and click copy or download to save the XML file."
+                  a: "Simply upload your PDF file to the converter. The parser extracts layout segments, lines, and text content locally. Review the generated XML structured schema in the editor and click copy or download to save the XML file.",
                 },
                 {
                   q: "Is my data secure when converting to XML?",
-                  a: "Yes, absolutely! The conversion process is completed entirely on your local device. We never upload or save your documents to any external servers, maintaining total security."
+                  a: "Yes, absolutely! The conversion process is completed entirely on your local device. We never upload or save your documents to any external servers, maintaining total security.",
                 },
                 {
                   q: "Does the XML parser support tables and columns?",
-                  a: "Yes, our parser identifies page layout coordinates to structure columns and paragraphs into clear tags, making it easy to map database attributes or parse schemas."
+                  a: "Yes, our parser identifies page layout coordinates to structure columns and paragraphs into clear tags, making it easy to map database attributes or parse schemas.",
                 },
                 {
                   q: "Is there a file size limit for PDF to XML conversion?",
-                  a: "Since files are analyzed entirely within your web browser, size limits depend mostly on your computer's memory. We optimize memory usage so you can convert large documents smoothly."
-                }
+                  a: "Since files are analyzed entirely within your web browser, size limits depend mostly on your computer's memory. We optimize memory usage so you can convert large documents smoothly.",
+                },
               ].map((faq, idx) => (
                 <details
                   key={idx}
@@ -324,10 +364,16 @@ export default function PdfToXmlPage() {
                 >
                   <summary className="flex items-center justify-between p-6 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500">
                     <span className="font-outfit text-sm sm:text-base font-black text-slate-800 dark:text-white uppercase tracking-tight flex items-center gap-3">
-                      <HelpCircle size={18} className="text-blue-500 shrink-0" />
+                      <HelpCircle
+                        size={18}
+                        className="text-blue-500 shrink-0"
+                      />
                       {faq.q}
                     </span>
-                    <ChevronDown size={18} className="text-slate-400 transition-transform duration-300 group-open:rotate-180 shrink-0 ml-4" />
+                    <ChevronDown
+                      size={18}
+                      className="text-slate-400 transition-transform duration-300 group-open:rotate-180 shrink-0 ml-4"
+                    />
                   </summary>
                   <div className="px-6 pb-6 border-t border-slate-50 dark:border-slate-800 pt-4">
                     <p className="text-sm text-slate-500 dark:text-slate-400 font-medium leading-relaxed">
@@ -346,10 +392,26 @@ export default function PdfToXmlPage() {
             </h3>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               {[
-                { name: "Extract Text", path: "/tool/extract-text", desc: "Copy raw text blocks" },
-                { name: "OCR PDF", path: "/tool/ocr-pdf", desc: "Convert scans to text" },
-                { name: "Split PDF", path: "/tool/split", desc: "Separate documents" },
-                { name: "Merge PDF", path: "/tool/merge", desc: "Combine files in order" }
+                {
+                  name: "Extract Text",
+                  path: "/tool/extract-text",
+                  desc: "Copy raw text blocks",
+                },
+                {
+                  name: "OCR PDF",
+                  path: "/tool/ocr-pdf",
+                  desc: "Convert scans to text",
+                },
+                {
+                  name: "Split PDF",
+                  path: "/tool/split",
+                  desc: "Separate documents",
+                },
+                {
+                  name: "Merge PDF",
+                  path: "/tool/merge",
+                  desc: "Combine files in order",
+                },
               ].map((tool, idx) => (
                 <Link
                   key={idx}

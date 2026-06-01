@@ -2,17 +2,25 @@ import MergeSplit from "@/components/tools/MergeSplit";
 import Link from "next/link";
 import type { Metadata } from "next";
 import {
-  Scissors, FileText, ArrowRight, HelpCircle, Star, Check, ChevronDown
+  Scissors,
+  FileText,
+  ArrowRight,
+  HelpCircle,
+  Star,
+  Check,
+  ChevronDown,
 } from "lucide-react";
 
 // Site URL for canonical/SEO links
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://smartpdfpro.com/';
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://smartpdfpro.com";
 
 // 1. Dynamic Metadata Export for Next.js App Router
 export const metadata: Metadata = {
-  title: 'Split PDF Online Free - Extract Pages from PDF | SmartPDFs',
-  description: 'Split PDF files online for free. Extract specific page ranges or split every page into separate PDF documents instantly. 100% secure, local browser processing.',
-  keywords: 'split pdf, split pdf online, split pdf pages, extract pages from pdf, divide pdf online, split pdf free, extract pages online, free pdf tool, smartpdfs',
+  title: "Split PDF Online Free - Extract Pages from PDF | SmartPDFs",
+  description:
+    "Split PDF files online for free. Extract specific page ranges or split every page into separate PDF documents instantly. 100% secure, local browser processing.",
+  keywords:
+    "split pdf, split pdf online, split pdf pages, extract pages from pdf, divide pdf online, split pdf free, extract pages online, free pdf tool, smartpdfs",
   alternates: {
     canonical: `${siteUrl}/tool/split`,
   },
@@ -23,30 +31,32 @@ export const metadata: Metadata = {
     googleBot: {
       index: true,
       follow: true,
-      'max-video-preview': -1,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
     },
   },
   openGraph: {
-    type: 'website',
-    title: 'Split PDF Online Free - Extract Pages from PDF | SmartPDFs',
-    description: 'Split PDF files online for free. Extract specific page ranges or split every page into separate PDF documents instantly. 100% secure, local browser processing.',
-    siteName: 'SmartPDFs',
+    type: "website",
+    title: "Split PDF Online Free - Extract Pages from PDF | SmartPDFs",
+    description:
+      "Split PDF files online for free. Extract specific page ranges or split every page into separate PDF documents instantly. 100% secure, local browser processing.",
+    siteName: "SmartPDFs",
     url: `${siteUrl}/tool/split`,
     images: [
       {
         url: `${siteUrl}/img/split-pdf-og.png`,
         width: 1200,
         height: 630,
-        alt: 'Split PDF Online Free - SmartPDFs',
+        alt: "Split PDF Online Free - SmartPDFs",
       },
     ],
   },
   twitter: {
-    card: 'summary_large_image',
-    title: 'Split PDF Online Free - Extract Pages from PDF | SmartPDFs',
-    description: 'Split PDF files online for free. Extract specific page ranges or split every page into separate PDF documents instantly. 100% secure, local browser processing.',
+    card: "summary_large_image",
+    title: "Split PDF Online Free - Extract Pages from PDF | SmartPDFs",
+    description:
+      "Split PDF files online for free. Extract specific page ranges or split every page into separate PDF documents instantly. 100% secure, local browser processing.",
     images: [`${siteUrl}/img/split-pdf-og.png`],
   },
 };
@@ -55,90 +65,91 @@ export const metadata: Metadata = {
 const webAppJsonLd = {
   "@context": "https://schema.org",
   "@type": "WebApplication",
-  "name": "Split PDF Online Free",
-  "url": `${siteUrl}/tool/split`,
-  "image": `${siteUrl}/img/split-pdf-og.png`,
-  "description": "Split PDF files online for free. Extract specific page ranges or split every page into separate PDF documents instantly. 100% secure, local browser processing.",
-  "applicationCategory": "UtilityApplication",
-  "operatingSystem": "All",
-  "browserRequirements": "Requires HTML5 support",
-  "featureList": [
+  name: "Split PDF Online Free",
+  url: `${siteUrl}/tool/split`,
+  image: `${siteUrl}/img/split-pdf-og.png`,
+  description:
+    "Split PDF files online for free. Extract specific page ranges or split every page into separate PDF documents instantly. 100% secure, local browser processing.",
+  applicationCategory: "UtilityApplication",
+  operatingSystem: "All",
+  browserRequirements: "Requires HTML5 support",
+  featureList: [
     "100% Local processing in your browser",
     "No file uploads to servers",
     "Split PDF by page ranges or extract all pages",
     "Visual thumbnails preview",
     "Fast processing with no watermarks",
-    "Download result as separate files or unified ZIP"
+    "Download result as separate files or unified ZIP",
   ],
-  "offers": {
+  offers: {
     "@type": "Offer",
-    "price": "0",
-    "priceCurrency": "USD"
-  }
+    price: "0",
+    priceCurrency: "USD",
+  },
 };
 
 const breadcrumbJsonLd = {
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
-  "itemListElement": [
+  itemListElement: [
     {
       "@type": "ListItem",
-      "position": 1,
-      "name": "Home",
-      "item": siteUrl
+      position: 1,
+      name: "Home",
+      item: siteUrl,
     },
     {
       "@type": "ListItem",
-      "position": 2,
-      "name": "Tools",
-      "item": `${siteUrl}/#tools-grid`
+      position: 2,
+      name: "Tools",
+      item: `${siteUrl}/#tools-grid`,
     },
     {
       "@type": "ListItem",
-      "position": 3,
-      "name": "Split PDF",
-      "item": `${siteUrl}/tool/split`
-    }
-  ]
+      position: 3,
+      name: "Split PDF",
+      item: `${siteUrl}/tool/split`,
+    },
+  ],
 };
 
 const faqJsonLd = {
   "@context": "https://schema.org",
   "@type": "FAQPage",
-  "mainEntity": [
+  mainEntity: [
     {
       "@type": "Question",
-      "name": "How can I split a PDF file?",
-      "acceptedAnswer": {
+      name: "How can I split a PDF file?",
+      acceptedAnswer: {
         "@type": "Answer",
-        "text": "Upload your PDF file. Choose between two splitting modes: split into custom parts or extract specific page ranges. Specify your options in the settings panel and click 'Split All' to download the processed files."
-      }
+        text: "Upload your PDF file. Choose between two splitting modes: split into custom parts or extract specific page ranges. Specify your options in the settings panel and click 'Split All' to download the processed files.",
+      },
     },
     {
       "@type": "Question",
-      "name": "Is my PDF data safe when splitting files?",
-      "acceptedAnswer": {
+      name: "Is my PDF data safe when splitting files?",
+      acceptedAnswer: {
         "@type": "Answer",
-        "text": "Yes, absolutely! The splitting process is completed entirely on your local device. We never upload or save your documents to any external servers, maintaining total security."
-      }
+        text: "Yes, absolutely! The splitting process is completed entirely on your local device. We never upload or save your documents to any external servers, maintaining total security.",
+      },
     },
     {
       "@type": "Question",
-      "name": "Can I download the split pages separately or in a single file?",
-      "acceptedAnswer": {
+      name: "Can I download the split pages separately or in a single file?",
+      acceptedAnswer: {
         "@type": "Answer",
-        "text": "You can download all split pages grouped inside a single unified ZIP archive, or save individual parts directly using the respective download buttons next to each split thumbnail."
-      }
+        text: "You can download all split pages grouped inside a single unified ZIP archive, or save individual parts directly using the respective download buttons next to each split thumbnail.",
+      },
     },
     {
       "@type": "Question",
-      "name": "Does splitting a PDF reduce the layout quality?",
-      "acceptedAnswer": {
+      name: "Does splitting a PDF reduce the layout quality?",
+      acceptedAnswer: {
         "@type": "Answer",
-        "text": "No. The splitting engine extracts original pages directly from the source PDF. All text elements, vector graphics, hyperlinked actions, and embedded images maintain 100% of their original quality."
-      }
-    }
-  ]
+        text: "No. The splitting engine extracts original pages directly from the source PDF. All text elements, vector graphics, hyperlinked actions, and embedded images maintain 100% of their original quality.",
+      },
+    },
+  ],
 };
 
 export default function SplitPage() {
@@ -163,17 +174,26 @@ export default function SplitPage() {
         <nav aria-label="Breadcrumb" className="mb-8">
           <ol className="flex items-center space-x-2 text-xs font-semibold text-slate-400 uppercase tracking-widest">
             <li>
-              <Link href="/" className="hover:text-violet-500 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 rounded px-1">
+              <Link
+                href="/"
+                className="hover:text-violet-500 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 rounded px-1"
+              >
                 Home
               </Link>
             </li>
             <li className="flex items-center gap-1.5" aria-hidden="true">
               <span>/</span>
-              <Link href="/#tools-grid" className="hover:text-violet-500 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 rounded px-1">
+              <Link
+                href="/#tools-grid"
+                className="hover:text-violet-500 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 rounded px-1"
+              >
                 Tools
               </Link>
             </li>
-            <li className="flex items-center gap-1.5 text-slate-600 dark:text-slate-200" aria-current="page">
+            <li
+              className="flex items-center gap-1.5 text-slate-600 dark:text-slate-200"
+              aria-current="page"
+            >
               <span>/</span>
               <span>Split PDF</span>
             </li>
@@ -187,14 +207,15 @@ export default function SplitPage() {
 
         {/* Rich SEO Content Section */}
         <article className="space-y-16 max-w-7xl mx-auto mt-20">
-
           {/* Main heading and description */}
           <section className="text-center max-w-4xl mx-auto space-y-4">
             <h2 className="font-outfit text-3xl md:text-5xl font-black tracking-tighter leading-tight bg-clip-text text-transparent bg-gradient-to-r from-slate-900 via-violet-950 to-violet-600 dark:from-white dark:via-violet-100 dark:to-violet-400 uppercase">
               Split PDF Online Free — 100% Secure
             </h2>
             <p className="text-lg font-medium text-slate-500 dark:text-slate-400 leading-relaxed">
-              Separate your PDF pages into individual documents or extract custom page ranges instantly. Fast and secure local processing ensures your files never leave your device.
+              Separate your PDF pages into individual documents or extract
+              custom page ranges instantly. Fast and secure local processing
+              ensures your files never leave your device.
             </p>
           </section>
 
@@ -204,7 +225,9 @@ export default function SplitPage() {
               <h3 className="font-outfit text-2xl md:text-3xl font-black text-slate-900 dark:text-white uppercase tracking-tight">
                 How to Split PDF Pages Online?
               </h3>
-              <p className="text-sm font-medium text-slate-400 uppercase tracking-wider">Visual step-by-step guide</p>
+              <p className="text-sm font-medium text-slate-400 uppercase tracking-wider">
+                Visual step-by-step guide
+              </p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
@@ -212,20 +235,23 @@ export default function SplitPage() {
                 {
                   step: "01",
                   title: "Upload Document",
-                  desc: "Select or drag & drop your PDF file into the splitter workspace. The file loads instantly in your browser."
+                  desc: "Select or drag & drop your PDF file into the splitter workspace. The file loads instantly in your browser.",
                 },
                 {
                   step: "02",
                   title: "Choose Split Settings",
-                  desc: "Select splitting modes: split into custom parts, or define exact page ranges to extract from the source."
+                  desc: "Select splitting modes: split into custom parts, or define exact page ranges to extract from the source.",
                 },
                 {
                   step: "03",
                   title: "Download Results",
-                  desc: "Click 'Split All' to process. Save your split documents immediately as separate PDFs or a single ZIP."
-                }
+                  desc: "Click 'Split All' to process. Save your split documents immediately as separate PDFs or a single ZIP.",
+                },
               ].map((item, index) => (
-                <div key={index} className="relative bg-white dark:bg-slate-900 rounded-3xl p-8 border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-md transition-all group flex flex-col justify-between">
+                <div
+                  key={index}
+                  className="relative bg-white dark:bg-slate-900 rounded-3xl p-8 border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-md transition-all group flex flex-col justify-between"
+                >
                   <div className="space-y-4">
                     <div className="flex items-center justify-between">
                       <span className="font-outfit text-4xl font-black text-violet-500/20 group-hover:text-violet-500 transition-colors duration-300">
@@ -257,23 +283,37 @@ export default function SplitPage() {
             <div className="flex flex-col lg:flex-row gap-8 lg:items-center justify-between border-b border-violet-100/30 dark:border-slate-800/50 pb-8">
               <div className="space-y-3">
                 <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-violet-100/50 dark:bg-violet-950/20 text-violet-600 dark:text-violet-400 text-xs font-black uppercase tracking-widest border border-violet-100 dark:border-violet-900/30">
-                  <Star size={12} className="fill-violet-500" /> Premium Benefits
+                  <Star size={12} className="fill-violet-500" /> Premium
+                  Benefits
                 </span>
                 <h3 className="font-outfit text-2xl md:text-3xl font-black text-slate-900 dark:text-white uppercase tracking-tight">
                   Visual PDF Splitter Benefits
                 </h3>
               </div>
               <p className="text-sm font-medium text-slate-500 dark:text-slate-400 max-w-md">
-                Fast browser-based operations without queues or subscriptions. Tailor files instantly and secure privacy.
+                Fast browser-based operations without queues or subscriptions.
+                Tailor files instantly and secure privacy.
               </p>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {[
-                { title: "No Server Access", desc: "Your PDF is processed inside your browser tab. Zero data uploads, zero security concerns." },
-                { title: "Custom Splitting", desc: "Divide documents into equal parts or extract specific page ranges as desired." },
-                { title: "High-Quality Preserved", desc: "Maintains all fonts, forms, vector graphics, and images from original files." },
-                { title: "Dynamic ZIP Packaging", desc: "Save multiple split files together in a clean ZIP bundle for organized downloading." }
+                {
+                  title: "No Server Access",
+                  desc: "Your PDF is processed inside your browser tab. Zero data uploads, zero security concerns.",
+                },
+                {
+                  title: "Custom Splitting",
+                  desc: "Divide documents into equal parts or extract specific page ranges as desired.",
+                },
+                {
+                  title: "High-Quality Preserved",
+                  desc: "Maintains all fonts, forms, vector graphics, and images from original files.",
+                },
+                {
+                  title: "Dynamic ZIP Packaging",
+                  desc: "Save multiple split files together in a clean ZIP bundle for organized downloading.",
+                },
               ].map((feat, i) => (
                 <div key={i} className="space-y-3 p-2">
                   <div className="w-8 h-8 rounded-lg bg-violet-500 text-white flex items-center justify-center shadow-lg shadow-violet-500/25">
@@ -296,27 +336,29 @@ export default function SplitPage() {
               <h3 className="font-outfit text-2xl md:text-3xl font-black text-slate-900 dark:text-white uppercase tracking-tight">
                 Frequently Asked Questions
               </h3>
-              <p className="text-sm font-medium text-slate-400 uppercase tracking-wider">Split PDF FAQs</p>
+              <p className="text-sm font-medium text-slate-400 uppercase tracking-wider">
+                Split PDF FAQs
+              </p>
             </div>
 
             <div className="space-y-4">
               {[
                 {
                   q: "How can I split a PDF file?",
-                  a: "Upload your PDF file. Choose between two splitting modes: split into custom parts or extract specific page ranges. Specify your options in the settings panel and click 'Split All' to download the processed files."
+                  a: "Upload your PDF file. Choose between two splitting modes: split into custom parts or extract specific page ranges. Specify your options in the settings panel and click 'Split All' to download the processed files.",
                 },
                 {
                   q: "Is my PDF data safe when splitting files?",
-                  a: "Yes, absolutely! The splitting process is completed entirely on your local device. We never upload or save your documents to any external servers, maintaining total security."
+                  a: "Yes, absolutely! The splitting process is completed entirely on your local device. We never upload or save your documents to any external servers, maintaining total security.",
                 },
                 {
                   q: "Can I download the split pages separately or in a single file?",
-                  a: "You can download all split pages grouped inside a single unified ZIP archive, or save individual parts directly using the respective download buttons next to each split thumbnail."
+                  a: "You can download all split pages grouped inside a single unified ZIP archive, or save individual parts directly using the respective download buttons next to each split thumbnail.",
                 },
                 {
                   q: "Does splitting a PDF reduce the layout quality?",
-                  a: "No. The splitting engine extracts original pages directly from the source PDF. All text elements, vector graphics, hyperlinked actions, and embedded images maintain 100% of their original quality."
-                }
+                  a: "No. The splitting engine extracts original pages directly from the source PDF. All text elements, vector graphics, hyperlinked actions, and embedded images maintain 100% of their original quality.",
+                },
               ].map((faq, idx) => (
                 <details
                   key={idx}
@@ -324,10 +366,16 @@ export default function SplitPage() {
                 >
                   <summary className="flex items-center justify-between p-6 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500">
                     <span className="font-outfit text-sm sm:text-base font-black text-slate-800 dark:text-white uppercase tracking-tight flex items-center gap-3">
-                      <HelpCircle size={18} className="text-violet-500 shrink-0" />
+                      <HelpCircle
+                        size={18}
+                        className="text-violet-500 shrink-0"
+                      />
                       {faq.q}
                     </span>
-                    <ChevronDown size={18} className="text-slate-400 transition-transform duration-300 group-open:rotate-180 shrink-0 ml-4" />
+                    <ChevronDown
+                      size={18}
+                      className="text-slate-400 transition-transform duration-300 group-open:rotate-180 shrink-0 ml-4"
+                    />
                   </summary>
                   <div className="px-6 pb-6 border-t border-slate-50 dark:border-slate-800 pt-4">
                     <p className="text-sm text-slate-500 dark:text-slate-400 font-medium leading-relaxed">
@@ -346,10 +394,26 @@ export default function SplitPage() {
             </h3>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               {[
-                { name: "Merge PDF", path: "/tool/merge", desc: "Combine files in order" },
-                { name: "Organize PDF", path: "/tool/organize", desc: "Reorder & rotate pages" },
-                { name: "Extract Pages", path: "/tool/extract-pages", desc: "Isolate page numbers" },
-                { name: "Compress PDF", path: "/tool/compress", desc: "Shrink file size locally" }
+                {
+                  name: "Merge PDF",
+                  path: "/tool/merge",
+                  desc: "Combine files in order",
+                },
+                {
+                  name: "Organize PDF",
+                  path: "/tool/organize",
+                  desc: "Reorder & rotate pages",
+                },
+                {
+                  name: "Extract Pages",
+                  path: "/tool/extract-pages",
+                  desc: "Isolate page numbers",
+                },
+                {
+                  name: "Compress PDF",
+                  path: "/tool/compress",
+                  desc: "Shrink file size locally",
+                },
               ].map((tool, idx) => (
                 <Link
                   key={idx}

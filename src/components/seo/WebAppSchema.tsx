@@ -1,18 +1,29 @@
-export default function WebAppSchema() {
+type WebAppSchemaProps = {
+  name: string;
+  description: string;
+  url: string;
+};
+
+export default function WebAppSchema({ name, description, url }: WebAppSchemaProps) {
   const schema = {
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    "name": "SmartPDFs Plus Merge PDF",
-    "description": "A free, instant, browser-based tool to merge multiple PDF files into one single document.",
-    "applicationCategory": "UtilitiesApplication",
-    "operatingSystem": "All",
-    "browserRequirements": "Requires a modern web browser with JavaScript enabled.",
-    "url": "http://smartpdfpro.com//tool/merge",
-    "offers": {
+    name,
+    description,
+    url,
+    applicationCategory: "ProductivityApplication",
+    operatingSystem: "Any",
+    browserRequirements: "Requires a modern browser with JavaScript enabled.",
+    offers: {
       "@type": "Offer",
-      "price": "0.00",
-      "priceCurrency": "USD"
-    }
+      price: "0",
+      priceCurrency: "USD",
+    },
+    creator: {
+      "@type": "Organization",
+      name: "SmartPDFPro",
+      url: "https://smartpdfpro.com",
+    },
   };
 
   return (

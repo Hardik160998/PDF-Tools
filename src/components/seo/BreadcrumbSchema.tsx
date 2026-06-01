@@ -8,21 +8,21 @@ interface BreadcrumbSchemaProps {
 }
 
 export default function BreadcrumbSchema({ items }: BreadcrumbSchemaProps) {
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://smartpdfpro.com/';
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://smartpdfpro.com";
 
   const schemaListElements = [
     {
       "@type": "ListItem",
-      "position": 1,
-      "name": "Home",
-      "item": siteUrl
+      position: 1,
+      name: "Home",
+      item: siteUrl,
     },
     ...items.map((item, index) => ({
       "@type": "ListItem",
-      "position": index + 2,
-      "name": "Blog", // Default fallback, but overriden below if needed
-      "item": `${siteUrl}${item.href}`
-    }))
+      position: index + 2,
+      name: "Blog", // Default fallback, but overriden below if needed
+      item: `${siteUrl}${item.href}`,
+    })),
   ];
 
   // Fix up names
@@ -33,7 +33,7 @@ export default function BreadcrumbSchema({ items }: BreadcrumbSchemaProps) {
   const schema = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
-    "itemListElement": schemaListElements
+    itemListElement: schemaListElements,
   };
 
   return (

@@ -2,17 +2,24 @@ import AddBlankPage from "@/components/tools/AddBlankPage";
 import Link from "next/link";
 import type { Metadata } from "next";
 import {
-  FileText, ArrowRight, HelpCircle, Star, Check, ChevronDown
+  FileText,
+  ArrowRight,
+  HelpCircle,
+  Star,
+  Check,
+  ChevronDown,
 } from "lucide-react";
 
 // Site URL for canonical/SEO links
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://smartpdfpro.com/';
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://smartpdfpro.com";
 
 // 1. Dynamic Metadata Export for Next.js App Router
 export const metadata: Metadata = {
-  title: 'Add Blank Pages to PDF Online - Free PDF Page Inserter | SmartPDFs',
-  description: 'Insert blank pages into your PDF files online for free. Choose page size (A4, Letter) and insert locations instantly. 100% secure local browser processing.',
-  keywords: 'add blank page to pdf, insert page into pdf online, add page to pdf free, pdf page inserter, insert empty page pdf, smartpdfs',
+  title: "Add Blank Pages to PDF Online - Free PDF Page Inserter | SmartPDFs",
+  description:
+    "Insert blank pages into your PDF files online for free. Choose page size (A4, Letter) and insert locations instantly. 100% secure local browser processing.",
+  keywords:
+    "add blank page to pdf, insert page into pdf online, add page to pdf free, pdf page inserter, insert empty page pdf, smartpdfs",
   alternates: {
     canonical: `${siteUrl}/tool/add-blank-page`,
   },
@@ -23,30 +30,32 @@ export const metadata: Metadata = {
     googleBot: {
       index: true,
       follow: true,
-      'max-video-preview': -1,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
     },
   },
   openGraph: {
-    type: 'website',
-    title: 'Add Blank Pages to PDF Online - Free PDF Page Inserter | SmartPDFs',
-    description: 'Insert blank pages into your PDF files online for free. Choose page size (A4, Letter) and insert locations instantly. 100% secure local browser processing.',
-    siteName: 'SmartPDFs',
+    type: "website",
+    title: "Add Blank Pages to PDF Online - Free PDF Page Inserter | SmartPDFs",
+    description:
+      "Insert blank pages into your PDF files online for free. Choose page size (A4, Letter) and insert locations instantly. 100% secure local browser processing.",
+    siteName: "SmartPDFs",
     url: `${siteUrl}/tool/add-blank-page`,
     images: [
       {
         url: `${siteUrl}/img/add-blank-page-og.png`,
         width: 1200,
         height: 630,
-        alt: 'Add Blank Pages to PDF Online - SmartPDFs',
+        alt: "Add Blank Pages to PDF Online - SmartPDFs",
       },
     ],
   },
   twitter: {
-    card: 'summary_large_image',
-    title: 'Add Blank Pages to PDF Online - Free PDF Page Inserter | SmartPDFs',
-    description: 'Insert blank pages into your PDF files online for free. Choose page size (A4, Letter) and insert locations instantly. 100% secure local browser processing.',
+    card: "summary_large_image",
+    title: "Add Blank Pages to PDF Online - Free PDF Page Inserter | SmartPDFs",
+    description:
+      "Insert blank pages into your PDF files online for free. Choose page size (A4, Letter) and insert locations instantly. 100% secure local browser processing.",
     images: [`${siteUrl}/img/add-blank-page-og.png`],
   },
 };
@@ -55,90 +64,91 @@ export const metadata: Metadata = {
 const webAppJsonLd = {
   "@context": "https://schema.org",
   "@type": "WebApplication",
-  "name": "Add Blank Page to PDF Online Free",
-  "url": `${siteUrl}/tool/add-blank-page`,
-  "image": `${siteUrl}/img/add-blank-page-og.png`,
-  "description": "Insert blank pages into your PDF files online for free. Choose page size (A4, Letter) and insert locations instantly. 100% secure local browser processing.",
-  "applicationCategory": "UtilityApplication",
-  "operatingSystem": "All",
-  "browserRequirements": "Requires HTML5 support",
-  "featureList": [
+  name: "Add Blank Page to PDF Online Free",
+  url: `${siteUrl}/tool/add-blank-page`,
+  image: `${siteUrl}/img/add-blank-page-og.png`,
+  description:
+    "Insert blank pages into your PDF files online for free. Choose page size (A4, Letter) and insert locations instantly. 100% secure local browser processing.",
+  applicationCategory: "UtilityApplication",
+  operatingSystem: "All",
+  browserRequirements: "Requires HTML5 support",
+  featureList: [
     "100% Local processing in your browser",
     "No file uploads to servers",
     "Insert empty pages anywhere in PDF",
     "Auto-match existing page dimensions",
     "Standard page templates (A4, Letter, Legal)",
-    "Clean page insertion with no watermarks"
+    "Clean page insertion with no watermarks",
   ],
-  "offers": {
+  offers: {
     "@type": "Offer",
-    "price": "0",
-    "priceCurrency": "USD"
-  }
+    price: "0",
+    priceCurrency: "USD",
+  },
 };
 
 const breadcrumbJsonLd = {
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
-  "itemListElement": [
+  itemListElement: [
     {
       "@type": "ListItem",
-      "position": 1,
-      "name": "Home",
-      "item": siteUrl
+      position: 1,
+      name: "Home",
+      item: siteUrl,
     },
     {
       "@type": "ListItem",
-      "position": 2,
-      "name": "Tools",
-      "item": `${siteUrl}/#tools-grid`
+      position: 2,
+      name: "Tools",
+      item: `${siteUrl}/#tools-grid`,
     },
     {
       "@type": "ListItem",
-      "position": 3,
-      "name": "Add Blank Page",
-      "item": `${siteUrl}/tool/add-blank-page`
-    }
-  ]
+      position: 3,
+      name: "Add Blank Page",
+      item: `${siteUrl}/tool/add-blank-page`,
+    },
+  ],
 };
 
 const faqJsonLd = {
   "@context": "https://schema.org",
   "@type": "FAQPage",
-  "mainEntity": [
+  mainEntity: [
     {
       "@type": "Question",
-      "name": "How can I add a blank page to my PDF?",
-      "acceptedAnswer": {
+      name: "How can I add a blank page to my PDF?",
+      acceptedAnswer: {
         "@type": "Answer",
-        "text": "Upload your PDF file to our tool. Specify where you want to insert the blank page (e.g. at the beginning, end, or after a specific page number). Choose the desired blank page size (such as matching existing size or A4), and click 'Insert Blank Page' to download the updated PDF file."
-      }
+        text: "Upload your PDF file to our tool. Specify where you want to insert the blank page (e.g. at the beginning, end, or after a specific page number). Choose the desired blank page size (such as matching existing size or A4), and click 'Insert Blank Page' to download the updated PDF file.",
+      },
     },
     {
       "@type": "Question",
-      "name": "Is my PDF file kept private when inserting blank pages?",
-      "acceptedAnswer": {
+      name: "Is my PDF file kept private when inserting blank pages?",
+      acceptedAnswer: {
         "@type": "Answer",
-        "text": "Yes, absolutely! The insertion process is completed entirely on your local device. We never upload or save your documents to any external servers, maintaining total security."
-      }
+        text: "Yes, absolutely! The insertion process is completed entirely on your local device. We never upload or save your documents to any external servers, maintaining total security.",
+      },
     },
     {
       "@type": "Question",
-      "name": "Can I match the exact dimensions of the current PDF pages?",
-      "acceptedAnswer": {
+      name: "Can I match the exact dimensions of the current PDF pages?",
+      acceptedAnswer: {
         "@type": "Answer",
-        "text": "Yes, our tool reads the dimensions of your uploaded PDF pages and allows you to auto-match the dimensions for the newly inserted empty page, ensuring layout consistency."
-      }
+        text: "Yes, our tool reads the dimensions of your uploaded PDF pages and allows you to auto-match the dimensions for the newly inserted empty page, ensuring layout consistency.",
+      },
     },
     {
       "@type": "Question",
-      "name": "Can I insert multiple blank pages at different places in a single session?",
-      "acceptedAnswer": {
+      name: "Can I insert multiple blank pages at different places in a single session?",
+      acceptedAnswer: {
         "@type": "Answer",
-        "text": "You can insert one or more blank pages at a specified index in a single run. If you need to distribute empty pages across various distinct points, you can download the PDF and re-upload it to insert another page, or use our visual PDF Organizer tool to arrange pages as you like."
-      }
-    }
-  ]
+        text: "You can insert one or more blank pages at a specified index in a single run. If you need to distribute empty pages across various distinct points, you can download the PDF and re-upload it to insert another page, or use our visual PDF Organizer tool to arrange pages as you like.",
+      },
+    },
+  ],
 };
 
 export default function AddBlankPagePage() {
@@ -163,17 +173,26 @@ export default function AddBlankPagePage() {
         <nav aria-label="Breadcrumb" className="mb-8">
           <ol className="flex items-center space-x-2 text-xs font-semibold text-slate-400 uppercase tracking-widest">
             <li>
-              <Link href="/" className="hover:text-indigo-500 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 rounded px-1">
+              <Link
+                href="/"
+                className="hover:text-indigo-500 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 rounded px-1"
+              >
                 Home
               </Link>
             </li>
             <li className="flex items-center gap-1.5" aria-hidden="true">
               <span>/</span>
-              <Link href="/#tools-grid" className="hover:text-indigo-500 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 rounded px-1">
+              <Link
+                href="/#tools-grid"
+                className="hover:text-indigo-500 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 rounded px-1"
+              >
                 Tools
               </Link>
             </li>
-            <li className="flex items-center gap-1.5 text-slate-600 dark:text-slate-200" aria-current="page">
+            <li
+              className="flex items-center gap-1.5 text-slate-600 dark:text-slate-200"
+              aria-current="page"
+            >
               <span>/</span>
               <span>Add Blank Page</span>
             </li>
@@ -187,14 +206,15 @@ export default function AddBlankPagePage() {
 
         {/* Rich SEO Content Section */}
         <article className="space-y-16 max-w-7xl mx-auto mt-20">
-
           {/* Main heading and description */}
           <section className="text-center max-w-4xl mx-auto space-y-4">
             <h2 className="font-outfit text-3xl md:text-5xl font-black tracking-tighter leading-tight bg-clip-text text-transparent bg-gradient-to-r from-slate-900 via-indigo-950 to-indigo-600 dark:from-white dark:via-indigo-100 dark:to-indigo-400 uppercase">
               Add Blank Pages to PDF Online — Free &amp; Secure
             </h2>
             <p className="text-lg font-medium text-slate-500 dark:text-slate-400 leading-relaxed">
-              Insert blank templates or empty pages into PDF files effortlessly. Match original page dimensions automatically. Processes 100% locally in your web browser, ensuring complete privacy.
+              Insert blank templates or empty pages into PDF files effortlessly.
+              Match original page dimensions automatically. Processes 100%
+              locally in your web browser, ensuring complete privacy.
             </p>
           </section>
 
@@ -204,7 +224,9 @@ export default function AddBlankPagePage() {
               <h3 className="font-outfit text-2xl md:text-3xl font-black text-slate-900 dark:text-white uppercase tracking-tight">
                 How to Insert Blank Pages in a PDF?
               </h3>
-              <p className="text-sm font-medium text-slate-400 uppercase tracking-wider">Visual step-by-step guide</p>
+              <p className="text-sm font-medium text-slate-400 uppercase tracking-wider">
+                Visual step-by-step guide
+              </p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
@@ -212,20 +234,23 @@ export default function AddBlankPagePage() {
                 {
                   step: "01",
                   title: "Upload Document",
-                  desc: "Select or drag & drop your PDF file into our blank page inserter. Pages are rendered immediately."
+                  desc: "Select or drag & drop your PDF file into our blank page inserter. Pages are rendered immediately.",
                 },
                 {
                   step: "02",
                   title: "Choose Size & Location",
-                  desc: "Specify where to insert (start, end, or after custom pages) and pick page dimensions (A4, Letter, etc.)."
+                  desc: "Specify where to insert (start, end, or after custom pages) and pick page dimensions (A4, Letter, etc.).",
                 },
                 {
                   step: "03",
                   title: "Insert & Download",
-                  desc: "Click 'Insert Blank Page' to run. Instantly download your updated PDF file with the new empty page included."
-                }
+                  desc: "Click 'Insert Blank Page' to run. Instantly download your updated PDF file with the new empty page included.",
+                },
               ].map((item, index) => (
-                <div key={index} className="relative bg-white dark:bg-slate-900 rounded-3xl p-8 border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-md transition-all group flex flex-col justify-between">
+                <div
+                  key={index}
+                  className="relative bg-white dark:bg-slate-900 rounded-3xl p-8 border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-md transition-all group flex flex-col justify-between"
+                >
                   <div className="space-y-4">
                     <div className="flex items-center justify-between">
                       <span className="font-outfit text-4xl font-black text-indigo-500/20 group-hover:text-indigo-500 transition-colors duration-300">
@@ -257,23 +282,37 @@ export default function AddBlankPagePage() {
             <div className="flex flex-col lg:flex-row gap-8 lg:items-center justify-between border-b border-indigo-100/30 dark:border-slate-800/50 pb-8">
               <div className="space-y-3">
                 <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-indigo-100/50 dark:bg-indigo-950/20 text-indigo-600 dark:text-indigo-400 text-xs font-black uppercase tracking-widest border border-indigo-100 dark:border-indigo-900/30">
-                  <Star size={12} className="fill-indigo-500" /> Premium Benefits
+                  <Star size={12} className="fill-indigo-500" /> Premium
+                  Benefits
                 </span>
                 <h3 className="font-outfit text-2xl md:text-3xl font-black text-slate-900 dark:text-white uppercase tracking-tight">
                   Blank Page Insertion Benefits
                 </h3>
               </div>
               <p className="text-sm font-medium text-slate-500 dark:text-slate-400 max-w-md">
-                Fast browser-based operations without queues or subscriptions. Tailor files instantly and secure privacy.
+                Fast browser-based operations without queues or subscriptions.
+                Tailor files instantly and secure privacy.
               </p>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {[
-                { title: "No Cloud Uploads", desc: "Runs directly on your computer's browser using local WebAssembly. Safe, fast, and confidential." },
-                { title: "Template Match Dimensions", desc: "Select custom layout dimensions or auto-match pages sizes so there are no page size shifts." },
-                { title: "Visual Page Indexing", desc: "View all pages clearly. Specify exactly where blank inserts go to add notes or separation." },
-                { title: "No Quality Loss", desc: "Vector graphics and existing fonts are kept intact, without file resizing artifacts." }
+                {
+                  title: "No Cloud Uploads",
+                  desc: "Runs directly on your computer's browser using local WebAssembly. Safe, fast, and confidential.",
+                },
+                {
+                  title: "Template Match Dimensions",
+                  desc: "Select custom layout dimensions or auto-match pages sizes so there are no page size shifts.",
+                },
+                {
+                  title: "Visual Page Indexing",
+                  desc: "View all pages clearly. Specify exactly where blank inserts go to add notes or separation.",
+                },
+                {
+                  title: "No Quality Loss",
+                  desc: "Vector graphics and existing fonts are kept intact, without file resizing artifacts.",
+                },
               ].map((feat, i) => (
                 <div key={i} className="space-y-3 p-2">
                   <div className="w-8 h-8 rounded-lg bg-indigo-500 text-white flex items-center justify-center shadow-lg shadow-indigo-500/25">
@@ -296,27 +335,29 @@ export default function AddBlankPagePage() {
               <h3 className="font-outfit text-2xl md:text-3xl font-black text-slate-900 dark:text-white uppercase tracking-tight">
                 Frequently Asked Questions
               </h3>
-              <p className="text-sm font-medium text-slate-400 uppercase tracking-wider">Add Blank Page FAQs</p>
+              <p className="text-sm font-medium text-slate-400 uppercase tracking-wider">
+                Add Blank Page FAQs
+              </p>
             </div>
 
             <div className="space-y-4">
               {[
                 {
                   q: "How can I add a blank page to my PDF?",
-                  a: "Upload your PDF file to our tool. Specify where you want to insert the blank page (e.g. at the beginning, end, or after a specific page number). Choose the desired blank page size (such as matching existing size or A4), and click 'Insert Blank Page' to download the updated PDF file."
+                  a: "Upload your PDF file to our tool. Specify where you want to insert the blank page (e.g. at the beginning, end, or after a specific page number). Choose the desired blank page size (such as matching existing size or A4), and click 'Insert Blank Page' to download the updated PDF file.",
                 },
                 {
                   q: "Is my PDF file kept private when inserting blank pages?",
-                  a: "Yes, absolutely! The insertion process is completed entirely on your local device. We never upload or save your documents to any external servers, maintaining total security."
+                  a: "Yes, absolutely! The insertion process is completed entirely on your local device. We never upload or save your documents to any external servers, maintaining total security.",
                 },
                 {
                   q: "Can I match the exact dimensions of the current PDF pages?",
-                  a: "Yes, our tool reads the dimensions of your uploaded PDF pages and allows you to auto-match the dimensions for the newly inserted empty page, ensuring layout consistency."
+                  a: "Yes, our tool reads the dimensions of your uploaded PDF pages and allows you to auto-match the dimensions for the newly inserted empty page, ensuring layout consistency.",
                 },
                 {
                   q: "Can I insert multiple blank pages at different places in a single session?",
-                  a: "You can insert one or more blank pages at a specified index in a single run. If you need to distribute empty pages across various distinct points, you can download the PDF and re-upload it to insert another page, or use our visual PDF Organizer tool to arrange pages as you like."
-                }
+                  a: "You can insert one or more blank pages at a specified index in a single run. If you need to distribute empty pages across various distinct points, you can download the PDF and re-upload it to insert another page, or use our visual PDF Organizer tool to arrange pages as you like.",
+                },
               ].map((faq, idx) => (
                 <details
                   key={idx}
@@ -324,10 +365,16 @@ export default function AddBlankPagePage() {
                 >
                   <summary className="flex items-center justify-between p-6 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500">
                     <span className="font-outfit text-sm sm:text-base font-black text-slate-800 dark:text-white uppercase tracking-tight flex items-center gap-3">
-                      <HelpCircle size={18} className="text-indigo-500 shrink-0" />
+                      <HelpCircle
+                        size={18}
+                        className="text-indigo-500 shrink-0"
+                      />
                       {faq.q}
                     </span>
-                    <ChevronDown size={18} className="text-slate-400 transition-transform duration-300 group-open:rotate-180 shrink-0 ml-4" />
+                    <ChevronDown
+                      size={18}
+                      className="text-slate-400 transition-transform duration-300 group-open:rotate-180 shrink-0 ml-4"
+                    />
                   </summary>
                   <div className="px-6 pb-6 border-t border-slate-50 dark:border-slate-800 pt-4">
                     <p className="text-sm text-slate-500 dark:text-slate-400 font-medium leading-relaxed">
@@ -346,10 +393,26 @@ export default function AddBlankPagePage() {
             </h3>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               {[
-                { name: "Organize PDF", path: "/tool/organize", desc: "Reorder & rotate pages" },
-                { name: "Delete Pages", path: "/tool/delete-pages", desc: "Visual page remover" },
-                { name: "Extract Pages", path: "/tool/extract-pages", desc: "Isolate page numbers" },
-                { name: "Merge PDF", path: "/tool/merge", desc: "Combine files in order" }
+                {
+                  name: "Organize PDF",
+                  path: "/tool/organize",
+                  desc: "Reorder & rotate pages",
+                },
+                {
+                  name: "Delete Pages",
+                  path: "/tool/delete-pages",
+                  desc: "Visual page remover",
+                },
+                {
+                  name: "Extract Pages",
+                  path: "/tool/extract-pages",
+                  desc: "Isolate page numbers",
+                },
+                {
+                  name: "Merge PDF",
+                  path: "/tool/merge",
+                  desc: "Combine files in order",
+                },
               ].map((tool, idx) => (
                 <Link
                   key={idx}

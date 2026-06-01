@@ -2,17 +2,24 @@ import DeletePages from "@/components/tools/DeletePages";
 import Link from "next/link";
 import type { Metadata } from "next";
 import {
-  FileText, ArrowRight, HelpCircle, Star, Check, ChevronDown
+  FileText,
+  ArrowRight,
+  HelpCircle,
+  Star,
+  Check,
+  ChevronDown,
 } from "lucide-react";
 
 // Site URL for canonical/SEO links
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://smartpdfpro.com/';
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://smartpdfpro.com";
 
 // 1. Dynamic Metadata Export for Next.js App Router
 export const metadata: Metadata = {
-  title: 'Delete PDF Pages Online - Free PDF Page Remover | SmartPDFs',
-  description: 'Delete pages from PDF online for free. Visual page remover lets you select and remove unwanted or blank pages instantly. 100% secure, local browser processing.',
-  keywords: 'delete pdf pages, remove pdf pages online, delete pages from pdf, pdf page remover, crop and delete pdf pages, smartpdfs',
+  title: "Delete PDF Pages Online - Free PDF Page Remover | SmartPDFs",
+  description:
+    "Delete pages from PDF online for free. Visual page remover lets you select and remove unwanted or blank pages instantly. 100% secure, local browser processing.",
+  keywords:
+    "delete pdf pages, remove pdf pages online, delete pages from pdf, pdf page remover, crop and delete pdf pages, smartpdfs",
   alternates: {
     canonical: `${siteUrl}/tool/delete-pages`,
   },
@@ -23,30 +30,32 @@ export const metadata: Metadata = {
     googleBot: {
       index: true,
       follow: true,
-      'max-video-preview': -1,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
     },
   },
   openGraph: {
-    type: 'website',
-    title: 'Delete PDF Pages Online - Free PDF Page Remover | SmartPDFs',
-    description: 'Delete pages from PDF online for free. Visual page remover lets you select and remove unwanted or blank pages instantly. 100% secure, local browser processing.',
-    siteName: 'SmartPDFs',
+    type: "website",
+    title: "Delete PDF Pages Online - Free PDF Page Remover | SmartPDFs",
+    description:
+      "Delete pages from PDF online for free. Visual page remover lets you select and remove unwanted or blank pages instantly. 100% secure, local browser processing.",
+    siteName: "SmartPDFs",
     url: `${siteUrl}/tool/delete-pages`,
     images: [
       {
         url: `${siteUrl}/img/delete-pages-og.png`,
         width: 1200,
         height: 630,
-        alt: 'Delete PDF Pages Online - SmartPDFs',
+        alt: "Delete PDF Pages Online - SmartPDFs",
       },
     ],
   },
   twitter: {
-    card: 'summary_large_image',
-    title: 'Delete PDF Pages Online - Free PDF Page Remover | SmartPDFs',
-    description: 'Delete pages from PDF online for free. Visual page remover lets you select and remove unwanted or blank pages instantly. 100% secure, local browser processing.',
+    card: "summary_large_image",
+    title: "Delete PDF Pages Online - Free PDF Page Remover | SmartPDFs",
+    description:
+      "Delete pages from PDF online for free. Visual page remover lets you select and remove unwanted or blank pages instantly. 100% secure, local browser processing.",
     images: [`${siteUrl}/img/delete-pages-og.png`],
   },
 };
@@ -55,90 +64,91 @@ export const metadata: Metadata = {
 const webAppJsonLd = {
   "@context": "https://schema.org",
   "@type": "WebApplication",
-  "name": "Delete PDF Pages Online Free",
-  "url": `${siteUrl}/tool/delete-pages`,
-  "image": `${siteUrl}/img/delete-pages-og.png`,
-  "description": "Delete pages from PDF online for free. Visual page remover lets you select and remove unwanted or blank pages instantly. 100% secure, local browser processing.",
-  "applicationCategory": "UtilityApplication",
-  "operatingSystem": "All",
-  "browserRequirements": "Requires HTML5 support",
-  "featureList": [
+  name: "Delete PDF Pages Online Free",
+  url: `${siteUrl}/tool/delete-pages`,
+  image: `${siteUrl}/img/delete-pages-og.png`,
+  description:
+    "Delete pages from PDF online for free. Visual page remover lets you select and remove unwanted or blank pages instantly. 100% secure, local browser processing.",
+  applicationCategory: "UtilityApplication",
+  operatingSystem: "All",
+  browserRequirements: "Requires HTML5 support",
+  featureList: [
     "100% Local processing in your browser",
     "No file uploads to servers",
     "Visual thumbnails selection for deletion",
     "Delete individual pages or ranges",
     "Fast processing with no watermarks",
-    "Zero file compression loss during removal"
+    "Zero file compression loss during removal",
   ],
-  "offers": {
+  offers: {
     "@type": "Offer",
-    "price": "0",
-    "priceCurrency": "USD"
-  }
+    price: "0",
+    priceCurrency: "USD",
+  },
 };
 
 const breadcrumbJsonLd = {
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
-  "itemListElement": [
+  itemListElement: [
     {
       "@type": "ListItem",
-      "position": 1,
-      "name": "Home",
-      "item": siteUrl
+      position: 1,
+      name: "Home",
+      item: siteUrl,
     },
     {
       "@type": "ListItem",
-      "position": 2,
-      "name": "Tools",
-      "item": `${siteUrl}/#tools-grid`
+      position: 2,
+      name: "Tools",
+      item: `${siteUrl}/#tools-grid`,
     },
     {
       "@type": "ListItem",
-      "position": 3,
-      "name": "Delete Pages",
-      "item": `${siteUrl}/tool/delete-pages`
-    }
-  ]
+      position: 3,
+      name: "Delete Pages",
+      item: `${siteUrl}/tool/delete-pages`,
+    },
+  ],
 };
 
 const faqJsonLd = {
   "@context": "https://schema.org",
   "@type": "FAQPage",
-  "mainEntity": [
+  mainEntity: [
     {
       "@type": "Question",
-      "name": "How do I delete pages from a PDF document?",
-      "acceptedAnswer": {
+      name: "How do I delete pages from a PDF document?",
+      acceptedAnswer: {
         "@type": "Answer",
-        "text": "Upload your PDF document to the page remover tool. Hover over any page thumbnail and click the delete trash icon, or input page numbers/ranges in the sidebar. Click 'Delete Pages' to download your newly trimmed PDF."
-      }
+        text: "Upload your PDF document to the page remover tool. Hover over any page thumbnail and click the delete trash icon, or input page numbers/ranges in the sidebar. Click 'Delete Pages' to download your newly trimmed PDF.",
+      },
     },
     {
       "@type": "Question",
-      "name": "Are my documents kept secure and private?",
-      "acceptedAnswer": {
+      name: "Are my documents kept secure and private?",
+      acceptedAnswer: {
         "@type": "Answer",
-        "text": "Yes, completely! Page deletion is carried out entirely on your own device using local WebAssembly. We never copy, view, or upload your files to remote cloud storage."
-      }
+        text: "Yes, completely! Page deletion is carried out entirely on your own device using local WebAssembly. We never copy, view, or upload your files to remote cloud storage.",
+      },
     },
     {
       "@type": "Question",
-      "name": "Can I remove blank pages or duplicate pages?",
-      "acceptedAnswer": {
+      name: "Can I remove blank pages or duplicate pages?",
+      acceptedAnswer: {
         "@type": "Answer",
-        "text": "Yes. Our tool generates high-quality thumbnails for every page in your document. You can easily spot empty spaces, duplicate files, or layout errors and discard them visually."
-      }
+        text: "Yes. Our tool generates high-quality thumbnails for every page in your document. You can easily spot empty spaces, duplicate files, or layout errors and discard them visually.",
+      },
     },
     {
       "@type": "Question",
-      "name": "Does deleting pages reduce the quality of the remaining pages?",
-      "acceptedAnswer": {
+      name: "Does deleting pages reduce the quality of the remaining pages?",
+      acceptedAnswer: {
         "@type": "Answer",
-        "text": "No. The pages that you choose to keep remain fully intact, maintaining their original vector graphics, layout styles, compression levels, and text fonts."
-      }
-    }
-  ]
+        text: "No. The pages that you choose to keep remain fully intact, maintaining their original vector graphics, layout styles, compression levels, and text fonts.",
+      },
+    },
+  ],
 };
 
 export default function DeletePagesPage() {
@@ -163,17 +173,26 @@ export default function DeletePagesPage() {
         <nav aria-label="Breadcrumb" className="mb-8">
           <ol className="flex items-center space-x-2 text-xs font-semibold text-slate-400 uppercase tracking-widest">
             <li>
-              <Link href="/" className="hover:text-red-500 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500 rounded px-1">
+              <Link
+                href="/"
+                className="hover:text-red-500 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500 rounded px-1"
+              >
                 Home
               </Link>
             </li>
             <li className="flex items-center gap-1.5" aria-hidden="true">
               <span>/</span>
-              <Link href="/#tools-grid" className="hover:text-red-500 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500 rounded px-1">
+              <Link
+                href="/#tools-grid"
+                className="hover:text-red-500 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500 rounded px-1"
+              >
                 Tools
               </Link>
             </li>
-            <li className="flex items-center gap-1.5 text-slate-600 dark:text-slate-200" aria-current="page">
+            <li
+              className="flex items-center gap-1.5 text-slate-600 dark:text-slate-200"
+              aria-current="page"
+            >
               <span>/</span>
               <span>Delete Pages</span>
             </li>
@@ -187,14 +206,15 @@ export default function DeletePagesPage() {
 
         {/* Rich SEO Content Section */}
         <article className="space-y-16 max-w-7xl mx-auto mt-20">
-
           {/* Main heading and description */}
           <section className="text-center max-w-4xl mx-auto space-y-4">
             <h2 className="font-outfit text-3xl md:text-5xl font-black tracking-tighter leading-tight bg-clip-text text-transparent bg-gradient-to-r from-slate-900 via-red-950 to-red-600 dark:from-white dark:via-red-100 dark:to-red-400 uppercase">
               Delete PDF Pages Online — Free &amp; Secure
             </h2>
             <p className="text-lg font-medium text-slate-500 dark:text-slate-400 leading-relaxed">
-              Remove extra, blank, or unwanted pages from your PDF documents visually. Trim down file size and custom-clean your PDFs with our responsive tool, executing completely in your browser sandbox.
+              Remove extra, blank, or unwanted pages from your PDF documents
+              visually. Trim down file size and custom-clean your PDFs with our
+              responsive tool, executing completely in your browser sandbox.
             </p>
           </section>
 
@@ -204,7 +224,9 @@ export default function DeletePagesPage() {
               <h3 className="font-outfit text-2xl md:text-3xl font-black text-slate-900 dark:text-white uppercase tracking-tight">
                 How to Delete Pages from a PDF?
               </h3>
-              <p className="text-sm font-medium text-slate-400 uppercase tracking-wider">Visual step-by-step guide</p>
+              <p className="text-sm font-medium text-slate-400 uppercase tracking-wider">
+                Visual step-by-step guide
+              </p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
@@ -212,20 +234,23 @@ export default function DeletePagesPage() {
                 {
                   step: "01",
                   title: "Upload Document",
-                  desc: "Select or drag & drop your PDF file into the page remover workspace. Pages will display instantly."
+                  desc: "Select or drag & drop your PDF file into the page remover workspace. Pages will display instantly.",
                 },
                 {
                   step: "02",
                   title: "Select for Deletion",
-                  desc: "Select unwanted page thumbnails, or specify page ranges (e.g. 2-4) to remove them in batch."
+                  desc: "Select unwanted page thumbnails, or specify page ranges (e.g. 2-4) to remove them in batch.",
                 },
                 {
                   step: "03",
                   title: "Generate PDF",
-                  desc: "Click 'Delete Pages' to finalize removal. Download the clean, trimmed PDF file to your local drive."
-                }
+                  desc: "Click 'Delete Pages' to finalize removal. Download the clean, trimmed PDF file to your local drive.",
+                },
               ].map((item, index) => (
-                <div key={index} className="relative bg-white dark:bg-slate-900 rounded-3xl p-8 border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-md transition-all group flex flex-col justify-between">
+                <div
+                  key={index}
+                  className="relative bg-white dark:bg-slate-900 rounded-3xl p-8 border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-md transition-all group flex flex-col justify-between"
+                >
                   <div className="space-y-4">
                     <div className="flex items-center justify-between">
                       <span className="font-outfit text-4xl font-black text-red-500/20 group-hover:text-red-500 transition-colors duration-300">
@@ -264,16 +289,29 @@ export default function DeletePagesPage() {
                 </h3>
               </div>
               <p className="text-sm font-medium text-slate-500 dark:text-slate-400 max-w-md">
-                Fast browser-based operations without queues or subscriptions. Tailor files instantly and secure privacy.
+                Fast browser-based operations without queues or subscriptions.
+                Tailor files instantly and secure privacy.
               </p>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {[
-                { title: "Privacy Guaranteed", desc: "No uploads to servers. All operations perform in-browser, securing your data from third parties." },
-                { title: "Grid Thumbnail Viewer", desc: "Easily spot layout irregularities, blank slides, or duplicate pages visually before deletion." },
-                { title: "Precise Trim Options", desc: "Combine select clicking and text fields to isolate and drop exactly the pages you choose." },
-                { title: "No Quality Loss", desc: "Preserves the original dimensions, color profiles, links, and text formatting of the kept pages." }
+                {
+                  title: "Privacy Guaranteed",
+                  desc: "No uploads to servers. All operations perform in-browser, securing your data from third parties.",
+                },
+                {
+                  title: "Grid Thumbnail Viewer",
+                  desc: "Easily spot layout irregularities, blank slides, or duplicate pages visually before deletion.",
+                },
+                {
+                  title: "Precise Trim Options",
+                  desc: "Combine select clicking and text fields to isolate and drop exactly the pages you choose.",
+                },
+                {
+                  title: "No Quality Loss",
+                  desc: "Preserves the original dimensions, color profiles, links, and text formatting of the kept pages.",
+                },
               ].map((feat, i) => (
                 <div key={i} className="space-y-3 p-2">
                   <div className="w-8 h-8 rounded-lg bg-red-500 text-white flex items-center justify-center shadow-lg shadow-red-500/25">
@@ -296,27 +334,29 @@ export default function DeletePagesPage() {
               <h3 className="font-outfit text-2xl md:text-3xl font-black text-slate-900 dark:text-white uppercase tracking-tight">
                 Frequently Asked Questions
               </h3>
-              <p className="text-sm font-medium text-slate-400 uppercase tracking-wider">Delete Pages FAQs</p>
+              <p className="text-sm font-medium text-slate-400 uppercase tracking-wider">
+                Delete Pages FAQs
+              </p>
             </div>
 
             <div className="space-y-4">
               {[
                 {
                   q: "How do I delete pages from a PDF document?",
-                  a: "Upload your PDF document to the page remover tool. Hover over any page thumbnail and click the delete trash icon, or input page numbers/ranges in the sidebar. Click 'Delete Pages' to download your newly trimmed PDF."
+                  a: "Upload your PDF document to the page remover tool. Hover over any page thumbnail and click the delete trash icon, or input page numbers/ranges in the sidebar. Click 'Delete Pages' to download your newly trimmed PDF.",
                 },
                 {
                   q: "Are my documents kept secure and private?",
-                  a: "Yes, completely! Page deletion is carried out entirely on your own device using local WebAssembly. We never copy, view, or upload your files to remote cloud storage."
+                  a: "Yes, completely! Page deletion is carried out entirely on your own device using local WebAssembly. We never copy, view, or upload your files to remote cloud storage.",
                 },
                 {
                   q: "Can I remove blank pages or duplicate pages?",
-                  a: "Yes. Our tool generates high-quality thumbnails for every page in your document. You can easily spot empty spaces, duplicate files, or layout errors and discard them visually."
+                  a: "Yes. Our tool generates high-quality thumbnails for every page in your document. You can easily spot empty spaces, duplicate files, or layout errors and discard them visually.",
                 },
                 {
                   q: "Does deleting pages reduce the quality of the remaining pages?",
-                  a: "No. The pages that you choose to keep remain fully intact, maintaining their original vector graphics, layout styles, compression levels, and text fonts."
-                }
+                  a: "No. The pages that you choose to keep remain fully intact, maintaining their original vector graphics, layout styles, compression levels, and text fonts.",
+                },
               ].map((faq, idx) => (
                 <details
                   key={idx}
@@ -327,7 +367,10 @@ export default function DeletePagesPage() {
                       <HelpCircle size={18} className="text-red-500 shrink-0" />
                       {faq.q}
                     </span>
-                    <ChevronDown size={18} className="text-slate-400 transition-transform duration-300 group-open:rotate-180 shrink-0 ml-4" />
+                    <ChevronDown
+                      size={18}
+                      className="text-slate-400 transition-transform duration-300 group-open:rotate-180 shrink-0 ml-4"
+                    />
                   </summary>
                   <div className="px-6 pb-6 border-t border-slate-50 dark:border-slate-800 pt-4">
                     <p className="text-sm text-slate-500 dark:text-slate-400 font-medium leading-relaxed">
@@ -346,10 +389,26 @@ export default function DeletePagesPage() {
             </h3>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               {[
-                { name: "Extract Pages", path: "/tool/extract-pages", desc: "Isolate page numbers" },
-                { name: "Organize PDF", path: "/tool/organize", desc: "Reorder & rotate pages" },
-                { name: "Split PDF", path: "/tool/split", desc: "Extract files pages" },
-                { name: "Merge PDF", path: "/tool/merge", desc: "Combine files in order" }
+                {
+                  name: "Extract Pages",
+                  path: "/tool/extract-pages",
+                  desc: "Isolate page numbers",
+                },
+                {
+                  name: "Organize PDF",
+                  path: "/tool/organize",
+                  desc: "Reorder & rotate pages",
+                },
+                {
+                  name: "Split PDF",
+                  path: "/tool/split",
+                  desc: "Extract files pages",
+                },
+                {
+                  name: "Merge PDF",
+                  path: "/tool/merge",
+                  desc: "Combine files in order",
+                },
               ].map((tool, idx) => (
                 <Link
                   key={idx}
