@@ -5,6 +5,7 @@ import SkeletonGrid from '@/components/SkeletonGrid';
 import BlogImage from '@/components/BlogImage';
 import { trackToolClick, insertAvifTools, insertMeeshoTool, insertEcommerceCategory } from '@/lib/supabase';
 import { Lock, Sparkles, ChevronDown, Crown, CheckCircle2, BookOpen } from 'lucide-react';
+import * as LucideIcons from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
@@ -12,7 +13,7 @@ import { triggerRazorpayPayment } from '@/lib/razorpay';
 import { PREMIUM_TOOL_IDS } from '@/components/SubscriptionGate';
 import PaymentSuccessModal from '@/components/PaymentSuccessModal';
 import { useAllTools, useDbCategories } from '@/hooks/useTools';
-import { TOOL_META, PRIORITY_TOOLS, CATEGORY_ORDER } from '@/data/tools';
+import { TOOL_META, CATEGORY_ORDER } from '@/data/tools';
 
 const CATEGORIES = ['All', 'Organize', 'Optimize', 'Convert', 'Image Convert', 'Edit', 'Security', 'Special', 'Ecommerce', 'Sign'];
 
@@ -24,8 +25,8 @@ const CATEGORY_STYLES: Record<string, { gradient: string; shadow: string }> = {
   Security: { gradient: 'linear-gradient(135deg, #e53e3e, #7f1d1d)', shadow: 'shadow-red-500/20' },
   'Image Convert': { gradient: 'linear-gradient(135deg, #06b6d4, #0e7490)', shadow: 'shadow-cyan-500/20' },
   Special: { gradient: 'linear-gradient(135deg, #ef4444, #991b1b)', shadow: 'shadow-red-600/20' },
-  Sign: { gradient: 'linear-gradient(135deg, #8b5cf6, #ec4899)', shadow: 'shadow-purple-500/20' },
-  Ecommerce: { gradient: 'linear-gradient(135deg, #f26522, #f59e0b)', shadow: 'shadow-orange-400/20' },
+  Sign: { gradient: 'linear-gradient(135deg, #8b5cf6, #5b21b6)', shadow: 'shadow-purple-500/20' },
+  Ecommerce: { gradient: 'linear-gradient(135deg, #ef4444, #991b1b)', shadow: 'shadow-red-400/20' },
 };
 
 
@@ -129,9 +130,8 @@ export default function Home() {
 
   const dbCategories = useMemo(() => {
     if (!rawCategories) return CATEGORIES;
-    const ordered = CATEGORIES.filter(c => c === 'All' || rawCategories.includes(c));
-    const extra = rawCategories.filter((c: string) => !CATEGORIES.includes(c));
-    return [...ordered, ...extra];
+    const names = Array.from(new Set(rawCategories.map((c: any) => c.name)));
+    return ['All', ...names.filter((c: string) => c !== 'All')];
   }, [rawCategories]);
 
   // Admin sync operations (run once on mount, write-only)
@@ -150,29 +150,22 @@ export default function Home() {
   const mergedTools = useMemo(() => {
     const source = allTools && allTools.length > 0 ? allTools : null;
     if (!source) {
-      return Object.entries(TOOL_META).map(([key, meta]) => ({
-        id: key,
-        title: key,
-        category: 'Organize',
-        description: meta.description,
-        icon: meta.icon,
-        img_convert: false,
-      }));
+      return [];
     }
     return source
       .filter(t => t.is_verified)
       .map(t => {
-        const meta = TOOL_META[t.tool_key];
+        const iconName = t.icon || 'FileText';
+        const IconComponent = (LucideIcons as any)[iconName] || LucideIcons.FileText;
         return {
           id: t.tool_key,
           title: t.title || t.tool_key,
           category: t.category,
-          description: meta?.description ?? '',
-          icon: meta?.icon ?? null,
+          description: t.description || 'Easy and secure PDF tool.',
+          icon: IconComponent,
           img_convert: t.img_convert,
         };
-      })
-      .filter(t => t.icon !== null);
+      });
   }, [allTools]);
 
   const filteredTools = useMemo(() => {
@@ -182,10 +175,14 @@ export default function Home() {
       return t.category === displayCategory;
     });
     if (displayCategory === 'All') {
-      tools.sort((a, b) => CATEGORY_ORDER.indexOf(a.category) - CATEGORY_ORDER.indexOf(b.category));
+      tools.sort((a, b) => {
+        const indexA = dbCategories.indexOf(a.category);
+        const indexB = dbCategories.indexOf(b.category);
+        return (indexA === -1 ? 999 : indexA) - (indexB === -1 ? 999 : indexB);
+      });
     }
     return tools;
-  }, [displayCategory, mergedTools]);
+  }, [displayCategory, mergedTools, dbCategories]);
 
   const showGridSkeleton = !mounted || (!cachedToolsExist && toolsLoading && !allTools);
 
@@ -253,50 +250,6 @@ export default function Home() {
       {/* -- TOOLS GRID -- */}
       <section ref={toolsGridRef} className="container mx-auto px-4 pb-20">
 
-        {/* Priority Tools — only visible when 'All' is selected */}
-        {displayCategory === 'All' && (
-          <div className="mb-10">
-            <div className="flex items-center gap-3 mb-5">
-              <div className="h-px flex-1 bg-gradient-to-r from-transparent via-slate-200 dark:via-slate-700 to-transparent" />
-              <span className="text-[10px] font-medium uppercase tracking-[0.2em] text-slate-400 dark:text-slate-400 px-3">Most Used Tools</span>
-              <div className="h-px flex-1 bg-gradient-to-l from-transparent via-slate-200 dark:via-slate-700 to-transparent" />
-            </div>
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
-              {PRIORITY_TOOLS.map(tool => {
-                const meta = TOOL_META[tool.id];
-                const Icon = meta?.icon;
-                return (
-                  <Link
-                    key={tool.id}
-                    href={tool.href ?? `/tool/${tool.id}`}
-                    onClick={() => trackToolClick(tool.id)}
-                    className="group flex items-center gap-3 p-3.5 bg-white dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200"
-                  >
-                    <div
-                      className="w-10 h-10 shrink-0 rounded-xl flex items-center justify-center text-white shadow-md group-hover:scale-110 transition-transform duration-200"
-                      style={{ background: tool.gradient }}
-                    >
-                      {Icon && <Icon size={18} />}
-                    </div>
-                    <div className="min-w-0">
-                      <p className="font-outfit text-[12px] font-medium text-slate-800 dark:text-white leading-tight truncate">{tool.title}</p>
-                      <p className="text-[10px] text-slate-400 dark:text-slate-400 leading-tight mt-0.5 truncate">{tool.desc}</p>
-                    </div>
-                  </Link>
-                );
-              })}
-            </div>
-          </div>
-        )}
-
-        {/* Divider before full grid — only visible when 'All' is selected */}
-        {displayCategory === 'All' && (
-          <div  className="flex items-center gap-3 mb-8">
-            <div className="h-px flex-1 bg-gradient-to-r from-transparent via-slate-200 dark:via-slate-700 to-transparent" />
-            <span className="text-[10px] font-medium uppercase tracking-[0.2em] text-slate-400 dark:text-slate-400 px-3">All Tools</span>
-            <div className="h-px flex-1 bg-gradient-to-l from-transparent via-slate-200 dark:via-slate-700 to-transparent" />
-          </div>
-        )}
         {showGridSkeleton ? (
           <SkeletonGrid count={skeletonCount} categories={skeletonCategories} />
         ) : (
@@ -318,7 +271,7 @@ export default function Home() {
                       </div>
                     )}
                     <div className="relative">
-                      <div className={`tool-icon-wrapper shadow-xl ${style.shadow}`} style={{ backgroundImage: style.gradient }}>
+                      <div className={`tool-icon-wrapper shadow-xl ${style.shadow}`} style={{ background: style.gradient }}>
                         {tool.icon && <tool.icon size={28} />}
                       </div>
                     </div>

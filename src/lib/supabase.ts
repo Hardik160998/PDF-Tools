@@ -89,16 +89,23 @@ export async function getImgConvertTools(): Promise<string[]> {
   }
 }
 
-export async function getCategories(): Promise<string[]> {
+export interface CategoryRow {
+  name: string;
+  icon: string;
+}
+
+export async function getCategories(): Promise<CategoryRow[]> {
   try {
-    const { data } = await supabase
+    const { data, error } = await supabase
       .from('categories')
-      .select('name')
+      .select('name, icon')
       .eq('is_active', true)
       .order('sort_order', { ascending: true });
-    return data?.map(r => r.name) ?? ['Organize','Optimize','Convert','Image Convert','Edit','Security','Special','Ecommerce','Sign'];
-  } catch {
-    return ['Organize','Optimize','Convert','Image Convert','Edit','Security','Special','Ecommerce','Sign'];
+    console.log("getCategories Result:", { data, error });
+    return data ?? [];
+  } catch (err) {
+    console.error("getCategories Exception:", err);
+    return [];
   }
 }
 
@@ -113,12 +120,14 @@ export interface AllToolRow {
 
 export async function getAllTools(): Promise<AllToolRow[]> {
   try {
-    const { data } = await supabase
+    const { data, error } = await supabase
       .from('allpdftools')
-      .select('tool_key, title, category, url, is_verified, img_convert')
+      .select('tool_key, title, category, url, is_verified, img_convert, description, icon')
       .eq('is_verified', true);
+    console.log("getAllTools Result:", { data, error });
     return data ?? [];
-  } catch {
+  } catch (err) {
+    console.error("getAllTools Exception:", err);
     return [];
   }
 }
@@ -182,7 +191,7 @@ export async function insertMeeshoTool() {
     .from('allpdftools')
     .select('tool_key')
     .eq('tool_key', 'meesho-cropper')
-    .single();
+    .maybeSingle();
   if (existing) {
     await supabase.from('allpdftools').update({ category: 'Ecommerce', category_id: 11, is_verified: true }).eq('tool_key', 'meesho-cropper');
     return null;
@@ -205,7 +214,7 @@ export async function insertMeeshoCropTool() {
     .from('allpdftools')
     .select('tool_key')
     .eq('tool_key', 'meshocrop')
-    .single();
+    .maybeSingle();
   if (existing) {
     await supabase.from('allpdftools').update({ category: 'Ecommerce', category_id: 11, is_verified: true }).eq('tool_key', 'meshocrop');
     return null;
@@ -227,7 +236,7 @@ export async function insertEcommerceCategory() {
     .from('categories')
     .select('name')
     .eq('name', 'Ecommerce')
-    .single();
+    .maybeSingle();
   if (existing) return null;
   const { error } = await supabase
     .from('categories')
@@ -261,7 +270,7 @@ export async function trackToolClick(tool_key: string) {
     .from('allpdftools')
     .select('id')
     .eq('tool_key', tool_key)
-    .single();
+    .maybeSingle();
   if (data) await supabase.from('tool_clicks').insert({ tool_id: data.id });
 }
 
