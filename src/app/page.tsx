@@ -13,7 +13,7 @@ import { triggerRazorpayPayment } from '@/lib/razorpay';
 import { PREMIUM_TOOL_IDS } from '@/components/SubscriptionGate';
 import PaymentSuccessModal from '@/components/PaymentSuccessModal';
 import { useAllTools, useDbCategories } from '@/hooks/useTools';
-import { TOOL_META, CATEGORY_ORDER } from '@/data/tools';
+import { CATEGORY_ORDER } from '@/data/tools';
 
 const CATEGORIES = ['All', 'Organize', 'Optimize', 'Convert', 'Image Convert', 'Edit', 'Security', 'Special', 'Ecommerce', 'Sign'];
 
