@@ -1,35 +1,49 @@
-type WebAppSchemaProps = {
+interface WebAppSchemaProps {
   name: string;
   description: string;
   url: string;
-};
+  /** Optional: override the default applicationCategory */
+  applicationCategory?: string;
+}
 
-export default function WebAppSchema({ name, description, url }: WebAppSchemaProps) {
+/**
+ * Renders a WebApplication JSON-LD schema script tag.
+ * Follows Google Structured Data guidelines for Rich Results.
+ * https://schema.org/WebApplication
+ */
+export default function WebAppSchema({
+  name,
+  description,
+  url,
+  applicationCategory = 'UtilitiesApplication',
+}: WebAppSchemaProps) {
   const schema = {
-    "@context": "https://schema.org",
-    "@type": "WebApplication",
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
     name,
     description,
     url,
-    applicationCategory: "ProductivityApplication",
-    operatingSystem: "Any",
-    browserRequirements: "Requires a modern browser with JavaScript enabled.",
+    applicationCategory,
+    operatingSystem: 'All',
+    browserRequirements: 'Requires JavaScript',
+    inLanguage: 'en',
+    isAccessibleForFree: true,
     offers: {
-      "@type": "Offer",
-      price: "0",
-      priceCurrency: "USD",
+      '@type': 'Offer',
+      price: '0',
+      priceCurrency: 'USD',
     },
     creator: {
-      "@type": "Organization",
-      name: "SmartPDFPro",
-      url: "https://smartpdfpro.com",
+      '@type': 'Organization',
+      name: 'SmartPDFPro',
+      url: 'https://smartpdfpro.com',
     },
   };
 
   return (
     <script
       type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema, null, 0) }}
     />
   );
 }
