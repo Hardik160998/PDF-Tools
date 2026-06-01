@@ -7,34 +7,39 @@ interface BreadcrumbSchemaProps {
   items: BreadcrumbItem[];
 }
 
-const SITE_URL = 'https://smartpdfpro.com';
-
-/**
- * Renders a BreadcrumbList JSON-LD schema script tag.
- * Home is always prepended automatically as position 1.
- * https://schema.org/BreadcrumbList
- */
 export default function BreadcrumbSchema({ items }: BreadcrumbSchemaProps) {
-  const allItems = [
-    { label: 'Home', href: '/' },
-    ...items,
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://smartpdfpro.com";
+
+  const schemaListElements = [
+    {
+      "@type": "ListItem",
+      position: 1,
+      name: "Home",
+      item: siteUrl,
+    },
+    ...items.map((item, index) => ({
+      "@type": "ListItem",
+      position: index + 2,
+      name: "Blog", // Default fallback, but overriden below if needed
+      item: `${siteUrl}${item.href}`,
+    })),
   ];
 
+  // Fix up names
+  items.forEach((item, index) => {
+    schemaListElements[index + 1].name = item.label;
+  });
+
   const schema = {
-    '@context': 'https://schema.org',
-    '@type': 'BreadcrumbList',
-    itemListElement: allItems.map((item, index) => ({
-      '@type': 'ListItem',
-      position: index + 1,
-      name: item.label,
-      item: `${SITE_URL}${item.href}`,
-    })),
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: schemaListElements,
   };
 
   return (
     <script
       type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema, null, 0) }}
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
     />
   );
 }
