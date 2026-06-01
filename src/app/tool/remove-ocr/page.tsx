@@ -2,19 +2,35 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import dynamic from "next/dynamic";
 import {
-  EyeOff, Upload, Download, FileText, ScanText, Lock,
-  Combine, Scissors, Info, ArrowRight, Star, Check,
-  HelpCircle, ChevronDown, Loader2, Shield, Zap
-} from 'lucide-react';
+  EyeOff,
+  Upload,
+  Download,
+  FileText,
+  ScanText,
+  Lock,
+  Combine,
+  Scissors,
+  Info,
+  ArrowRight,
+  Star,
+  Check,
+  HelpCircle,
+  ChevronDown,
+  Loader2,
+  Shield,
+  Zap,
+} from "lucide-react";
 
 // Site URL for canonical/SEO links
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://smartpdfpro.com/';
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://smartpdfpro.com";
 
 // 1. Dynamic Metadata Export for Next.js App Router
 export const metadata: Metadata = {
-  title: 'Remove OCR from PDF Online Free - Flatten PDF Text Layer',
-  description: 'Remove OCR and searchable text layers from your PDF online for free. Convert your searchable PDF to a scanned-only image PDF to prevent text selection and copying.',
-  keywords: 'remove ocr from pdf, remove text layer pdf, flatten pdf to image, convert searchable pdf to scanned, un-ocr pdf, smartpdfs plus',
+  title: "Remove OCR from PDF Online Free - Flatten PDF Text Layer",
+  description:
+    "Remove OCR and searchable text layers from your PDF online for free. Convert your searchable PDF to a scanned-only image PDF to prevent text selection and copying.",
+  keywords:
+    "remove ocr from pdf, remove text layer pdf, flatten pdf to image, convert searchable pdf to scanned, un-ocr pdf, smartpdfs plus",
   alternates: {
     canonical: `${siteUrl}/tool/remove-ocr`,
   },
@@ -25,30 +41,32 @@ export const metadata: Metadata = {
     googleBot: {
       index: true,
       follow: true,
-      'max-video-preview': -1,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
     },
   },
   openGraph: {
-    type: 'website',
-    title: 'Remove OCR from PDF Online Free - Flatten PDF Text Layer',
-    description: 'Remove OCR and searchable text layers from your PDF online for free. Convert your searchable PDF to a scanned-only image PDF to prevent text selection and copying.',
-    siteName: 'SmartPDFs Plus',
+    type: "website",
+    title: "Remove OCR from PDF Online Free - Flatten PDF Text Layer",
+    description:
+      "Remove OCR and searchable text layers from your PDF online for free. Convert your searchable PDF to a scanned-only image PDF to prevent text selection and copying.",
+    siteName: "SmartPDFs Plus",
     url: `${siteUrl}/tool/remove-ocr`,
     images: [
       {
         url: `${siteUrl}/img/snapdeal-label.png`,
         width: 1200,
         height: 630,
-        alt: 'Remove OCR Tool Online - SmartPDFs Plus',
+        alt: "Remove OCR Tool Online - SmartPDFs Plus",
       },
     ],
   },
   twitter: {
-    card: 'summary_large_image',
-    title: 'Remove OCR from PDF Online Free - Flatten PDF Text Layer',
-    description: 'Remove OCR and searchable text layers from your PDF online for free. Convert your searchable PDF to a scanned-only image PDF to prevent text selection and copying.',
+    card: "summary_large_image",
+    title: "Remove OCR from PDF Online Free - Flatten PDF Text Layer",
+    description:
+      "Remove OCR and searchable text layers from your PDF online for free. Convert your searchable PDF to a scanned-only image PDF to prevent text selection and copying.",
     images: [`${siteUrl}/img/snapdeal-label.png`],
   },
 };
@@ -57,113 +75,169 @@ export const metadata: Metadata = {
 const webAppJsonLd = {
   "@context": "https://schema.org",
   "@type": "WebApplication",
-  "name": "Remove OCR from PDF Online Free",
-  "url": `${siteUrl}/tool/remove-ocr`,
-  "image": `${siteUrl}/img/snapdeal-label.png`,
-  "description": "Remove OCR and searchable text layers from your PDF online for free. Convert your searchable PDF to a scanned-only image PDF to prevent text selection and copying.",
-  "applicationCategory": "UtilityApplication",
-  "operatingSystem": "All",
-  "browserRequirements": "Requires HTML5 support",
-  "featureList": [
+  name: "Remove OCR from PDF Online Free",
+  url: `${siteUrl}/tool/remove-ocr`,
+  image: `${siteUrl}/img/snapdeal-label.png`,
+  description:
+    "Remove OCR and searchable text layers from your PDF online for free. Convert your searchable PDF to a scanned-only image PDF to prevent text selection and copying.",
+  applicationCategory: "UtilityApplication",
+  operatingSystem: "All",
+  browserRequirements: "Requires HTML5 support",
+  featureList: [
     "100% Local processing in your browser",
     "No file uploads to servers",
     "Convert searchable PDF to scanned image-only PDF",
     "Render pages at high-fidelity 3x resolution",
-    "Fast and free with no watermark"
+    "Fast and free with no watermark",
   ],
-  "offers": {
+  offers: {
     "@type": "Offer",
-    "price": "0",
-    "priceCurrency": "USD"
-  }
+    price: "0",
+    priceCurrency: "USD",
+  },
 };
 
 const breadcrumbJsonLd = {
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
-  "itemListElement": [
+  itemListElement: [
     {
       "@type": "ListItem",
-      "position": 1,
-      "name": "Home",
-      "item": siteUrl
+      position: 1,
+      name: "Home",
+      item: siteUrl,
     },
     {
       "@type": "ListItem",
-      "position": 2,
-      "name": "Tools",
-      "item": `${siteUrl}/#tools-grid`
+      position: 2,
+      name: "Tools",
+      item: `${siteUrl}/#tools-grid`,
     },
     {
       "@type": "ListItem",
-      "position": 3,
-      "name": "Remove OCR",
-      "item": `${siteUrl}/tool/remove-ocr`
-    }
-  ]
+      position: 3,
+      name: "Remove OCR",
+      item: `${siteUrl}/tool/remove-ocr`,
+    },
+  ],
 };
 
 const faqJsonLd = {
   "@context": "https://schema.org",
   "@type": "FAQPage",
-  "mainEntity": [
+  mainEntity: [
     {
       "@type": "Question",
-      "name": "How does the Remove OCR tool work?",
-      "acceptedAnswer": {
+      name: "How does the Remove OCR tool work?",
+      acceptedAnswer: {
         "@type": "Answer",
-        "text": "The tool renders each page of your PDF into a high-resolution image at 3x resolution, then bundles these images back into a new PDF. This completely removes the underlying invisible text layer and any selectable characters, leaving an image-only PDF."
-      }
+        text: "The tool renders each page of your PDF into a high-resolution image at 3x resolution, then bundles these images back into a new PDF. This completely removes the underlying invisible text layer and any selectable characters, leaving an image-only PDF.",
+      },
     },
     {
       "@type": "Question",
-      "name": "Can someone recover the text after using this tool?",
-      "acceptedAnswer": {
+      name: "Can someone recover the text after using this tool?",
+      acceptedAnswer: {
         "@type": "Answer",
-        "text": "No. Once the text layer is removed and converted to flat raster images, the text is permanently gone. The only way to retrieve the text would be to run a new OCR engine on the output document."
-      }
+        text: "No. Once the text layer is removed and converted to flat raster images, the text is permanently gone. The only way to retrieve the text would be to run a new OCR engine on the output document.",
+      },
     },
     {
       "@type": "Question",
-      "name": "Does this tool upload my PDF to a server?",
-      "acceptedAnswer": {
+      name: "Does this tool upload my PDF to a server?",
+      acceptedAnswer: {
         "@type": "Answer",
-        "text": "Never. The entire rendering and PDF generation process is executed entirely on your local machine using client-side JavaScript. Your confidential files never touch our servers."
-      }
+        text: "Never. The entire rendering and PDF generation process is executed entirely on your local machine using client-side JavaScript. Your confidential files never touch our servers.",
+      },
     },
     {
       "@type": "Question",
-      "name": "Will the visual quality of my PDF decrease?",
-      "acceptedAnswer": {
+      name: "Will the visual quality of my PDF decrease?",
+      acceptedAnswer: {
         "@type": "Answer",
-        "text": "Our tool uses a high-resolution 3x rendering scale to convert pages into images. This maintains crisp, readable text and clear layouts while ensuring the text layer is completely removed."
-      }
-    }
-  ]
+        text: "Our tool uses a high-resolution 3x rendering scale to convert pages into images. This maintains crisp, readable text and clear layouts while ensuring the text layer is completely removed.",
+      },
+    },
+  ],
 };
 
 // 8. Internal links configuration
 const RELATED = [
-  { id: 'ocr-pdf', title: 'OCR PDF', description: 'Add a selectable text layer to scanned PDFs using advanced OCR.', icon: ScanText, gradient: 'linear-gradient(135deg, #3b82f6, #1e3a8a)', shadow: 'rgba(59,130,246,0.3)', tag: 'OCR' },
-  { id: 'flatten-pdf', title: 'Flatten PDF', description: 'Merge all annotations and form fields into static page content.', icon: FileText, gradient: 'linear-gradient(135deg, #8b5cf6, #6d28d9)', shadow: 'rgba(139,92,246,0.3)', tag: 'Edit' },
-  { id: 'protect', title: 'Protect PDF', description: 'Encrypt your PDF with a password to prevent unauthorized access.', icon: Lock, gradient: 'linear-gradient(135deg, #ef4444, #b91c1c)', shadow: 'rgba(239,68,68,0.3)', tag: 'Security' },
-  { id: 'merge', title: 'Merge PDF', description: 'Combine multiple PDF files into one document in the order you choose.', icon: Combine, gradient: 'linear-gradient(135deg, #f26522, #c2410c)', shadow: 'rgba(242,101,34,0.3)', tag: 'Organize' },
-  { id: 'split', title: 'Split PDF', description: 'Split PDF files into individual pages or custom ranges.', icon: Scissors, gradient: 'linear-gradient(135deg, #3b82f6, #1d4ed8)', shadow: 'rgba(59,130,246,0.3)', tag: 'Organize' },
+  {
+    id: "ocr-pdf",
+    title: "OCR PDF",
+    description:
+      "Add a selectable text layer to scanned PDFs using advanced OCR.",
+    icon: ScanText,
+    gradient: "linear-gradient(135deg, #3b82f6, #1e3a8a)",
+    shadow: "rgba(59,130,246,0.3)",
+    tag: "OCR",
+  },
+  {
+    id: "flatten-pdf",
+    title: "Flatten PDF",
+    description:
+      "Merge all annotations and form fields into static page content.",
+    icon: FileText,
+    gradient: "linear-gradient(135deg, #8b5cf6, #6d28d9)",
+    shadow: "rgba(139,92,246,0.3)",
+    tag: "Edit",
+  },
+  {
+    id: "protect",
+    title: "Protect PDF",
+    description:
+      "Encrypt your PDF with a password to prevent unauthorized access.",
+    icon: Lock,
+    gradient: "linear-gradient(135deg, #ef4444, #b91c1c)",
+    shadow: "rgba(239,68,68,0.3)",
+    tag: "Security",
+  },
+  {
+    id: "merge",
+    title: "Merge PDF",
+    description:
+      "Combine multiple PDF files into one document in the order you choose.",
+    icon: Combine,
+    gradient: "linear-gradient(135deg, #f26522, #c2410c)",
+    shadow: "rgba(242,101,34,0.3)",
+    tag: "Organize",
+  },
+  {
+    id: "split",
+    title: "Split PDF",
+    description: "Split PDF files into individual pages or custom ranges.",
+    icon: Scissors,
+    gradient: "linear-gradient(135deg, #3b82f6, #1d4ed8)",
+    shadow: "rgba(59,130,246,0.3)",
+    tag: "Organize",
+  },
 ];
 
 // 12. Breadcrumb Navigation Component
 function Breadcrumb() {
   return (
-    <nav aria-label="Breadcrumb" className="mb-6 flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-slate-400 dark:text-slate-500">
-      <Link href="/" className="hover:text-violet-500 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 rounded px-1">
+    <nav
+      aria-label="Breadcrumb"
+      className="mb-6 flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-slate-400 dark:text-slate-500"
+    >
+      <Link
+        href="/"
+        className="hover:text-violet-500 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 rounded px-1"
+      >
         Home
       </Link>
       <span aria-hidden="true">/</span>
-      <Link href="/tool" className="hover:text-violet-500 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 rounded px-1">
+      <Link
+        href="/tool"
+        className="hover:text-violet-500 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 rounded px-1"
+      >
         Tools
       </Link>
       <span aria-hidden="true">/</span>
-      <span className="text-slate-600 dark:text-slate-300" aria-current="page">Remove OCR</span>
+      <span className="text-slate-600 dark:text-slate-300" aria-current="page">
+        Remove OCR
+      </span>
     </nav>
   );
 }
@@ -194,7 +268,7 @@ function RemoveOcrSkeleton() {
 
 // Dynamic Import of Client Component
 const RemoveOcr = dynamic(() => import("@/components/tools/RemoveOcr"), {
-  loading: () => <RemoveOcrSkeleton />
+  loading: () => <RemoveOcrSkeleton />,
 });
 
 export default function RemoveOcrPage() {
@@ -226,18 +300,32 @@ export default function RemoveOcrPage() {
         {/* Premium Banner */}
         <section className="py-6 mb-12" aria-label="Premium Upgrades">
           <div className="relative overflow-hidden rounded-2xl border border-violet-100 dark:border-violet-500/20 shadow-lg bg-gradient-to-br from-[#faf5ff] via-[#f3e8ff] to-[#e9d5ff]/20 dark:from-[#1e293b] dark:via-[#1e293b] dark:to-[#581c87]/20">
-            <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(ellipse at 80% 50%,rgba(139,92,246,0.12) 0%,transparent 70%)" }} />
+            <div
+              className="absolute inset-0 pointer-events-none"
+              style={{
+                background:
+                  "radial-gradient(ellipse at 80% 50%,rgba(139,92,246,0.12) 0%,transparent 70%)",
+              }}
+            />
             <div className="relative flex flex-col sm:flex-row items-center justify-between gap-4 px-6 py-5">
               <div className="flex items-center gap-4 text-left">
                 <div className="shrink-0 w-12 h-12 rounded-xl flex items-center justify-center text-white shadow-md bg-gradient-to-br from-[#8b5cf6] to-[#6d28d9]">
                   <Star size={22} className="fill-white/20" />
                 </div>
                 <div>
-                  <p className="text-sm font-black text-slate-900 dark:text-slate-100">Unlock SmartPDFs Plus — Go Premium</p>
-                  <p className="text-xs text-slate-500 dark:text-slate-400 font-medium mt-0.5">Batch OCR removal · Unlimited document sizes · Priority rendering · No limits</p>
+                  <p className="text-sm font-black text-slate-900 dark:text-slate-100">
+                    Unlock SmartPDFs Plus — Go Premium
+                  </p>
+                  <p className="text-xs text-slate-500 dark:text-slate-400 font-medium mt-0.5">
+                    Batch OCR removal · Unlimited document sizes · Priority
+                    rendering · No limits
+                  </p>
                 </div>
               </div>
-              <Link href="/premium-plans" className="shrink-0 inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-white text-xs font-black uppercase tracking-widest shadow-md transition-transform hover:scale-105 bg-gradient-to-br from-[#8b5cf6] to-[#6d28d9]">
+              <Link
+                href="/premium-plans"
+                className="shrink-0 inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-white text-xs font-black uppercase tracking-widest shadow-md transition-transform hover:scale-105 bg-gradient-to-br from-[#8b5cf6] to-[#6d28d9]"
+              >
                 Upgrade Now <span aria-hidden="true">&#8594;</span>
               </Link>
             </div>
@@ -245,34 +333,64 @@ export default function RemoveOcrPage() {
         </section>
 
         {/* Feature Cards Grid */}
-        <section aria-label="Tool Benefits Quick Overview" className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-20">
+        <section
+          aria-label="Tool Benefits Quick Overview"
+          className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-20"
+        >
           {[
-            { title: "Permanent Text Removal", desc: "Renders document pages as static images. Selected text, highlights, and fonts are completely erased.", gradient: "linear-gradient(135deg,#8b5cf6,#6d28d9)" },
-            { title: "High-Resolution Output", desc: "Converts pages at a crisp 3x resolution scale to ensure text characters remain sharp and legible.", gradient: "linear-gradient(135deg,#8b5cf6,#6d28d9)" },
-            { title: "100% Browser Privacy", desc: "Your files never leave your computer. All rendering is performed locally in JS.", gradient: "linear-gradient(135deg,#22c55e,#15803d)" }
+            {
+              title: "Permanent Text Removal",
+              desc: "Renders document pages as static images. Selected text, highlights, and fonts are completely erased.",
+              gradient: "linear-gradient(135deg,#8b5cf6,#6d28d9)",
+            },
+            {
+              title: "High-Resolution Output",
+              desc: "Converts pages at a crisp 3x resolution scale to ensure text characters remain sharp and legible.",
+              gradient: "linear-gradient(135deg,#8b5cf6,#6d28d9)",
+            },
+            {
+              title: "100% Browser Privacy",
+              desc: "Your files never leave your computer. All rendering is performed locally in JS.",
+              gradient: "linear-gradient(135deg,#22c55e,#15803d)",
+            },
           ].map((feat, i) => (
-            <div key={i} className="bg-white dark:bg-slate-900 p-8 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-xl transition-all group text-left">
-              <div className="w-12 h-12 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform shadow-lg" style={{ background: feat.gradient }}>
-                <div className="text-white font-black" aria-hidden="true">{i + 1}</div>
+            <div
+              key={i}
+              className="bg-white dark:bg-slate-900 p-8 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-xl transition-all group text-left"
+            >
+              <div
+                className="w-12 h-12 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform shadow-lg"
+                style={{ background: feat.gradient }}
+              >
+                <div className="text-white font-black" aria-hidden="true">
+                  {i + 1}
+                </div>
               </div>
-              <h3 className="text-xl font-black text-slate-900 dark:text-white uppercase tracking-tight mb-2">{feat.title}</h3>
-              <p className="text-slate-500 dark:text-slate-400 text-sm leading-relaxed">{feat.desc}</p>
+              <h3 className="text-xl font-black text-slate-900 dark:text-white uppercase tracking-tight mb-2">
+                {feat.title}
+              </h3>
+              <p className="text-slate-500 dark:text-slate-400 text-sm leading-relaxed">
+                {feat.desc}
+              </p>
             </div>
           ))}
         </section>
 
         {/* 4. Complete SEO Optimized Content Section */}
         <section className="mt-20 border-t border-slate-200 dark:border-slate-800 pt-16 max-w-7xl mx-auto text-left">
-
           <div className="mb-16 text-center relative">
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[100px] bg-violet-500/10 dark:bg-violet-500/5 blur-[80px] rounded-full -z-10 pointer-events-none" />
 
             <h1 className="text-4xl sm:text-6xl font-black tracking-tight mb-6 uppercase leading-tight bg-gradient-to-r from-slate-950 via-slate-800 to-violet-600 dark:from-white dark:via-slate-200 dark:to-violet-500 bg-clip-text text-transparent">
               Remove OCR from PDF <br />
-              <span className="text-violet-500 dark:text-violet-400">Flatten text into images</span>
+              <span className="text-violet-500 dark:text-violet-400">
+                Flatten text into images
+              </span>
             </h1>
             <p className="text-base sm:text-lg text-slate-500 dark:text-slate-400 font-medium max-w-2xl mx-auto leading-relaxed">
-              Convert searchable PDFs to flat scanned PDFs. Erase hidden text metadata, layers, and character tables to prevent copying, highlight, or selection.
+              Convert searchable PDFs to flat scanned PDFs. Erase hidden text
+              metadata, layers, and character tables to prevent copying,
+              highlight, or selection.
             </p>
           </div>
 
@@ -287,10 +405,20 @@ export default function RemoveOcrPage() {
                   What does it mean to Remove OCR?
                 </h2>
                 <p className="text-slate-600 dark:text-slate-300 leading-relaxed font-medium text-sm sm:text-base">
-                  Searchable PDFs contain an invisible text overlay matching the visual document. While useful for searching, this layer allows users to copy-paste text and makes confidential files vulnerable to content extraction bots. Removing OCR (or Un-OCR) flattens this text layer, converting the document back into a pure scanned-image PDF format.
+                  Searchable PDFs contain an invisible text overlay matching the
+                  visual document. While useful for searching, this layer allows
+                  users to copy-paste text and makes confidential files
+                  vulnerable to content extraction bots. Removing OCR (or
+                  Un-OCR) flattens this text layer, converting the document back
+                  into a pure scanned-image PDF format.
                 </p>
                 <p className="text-slate-500 dark:text-slate-400 leading-relaxed font-medium text-sm">
-                  SmartPDFs Plus processes your documents <strong className="text-violet-600 font-black dark:text-violet-450">100% locally in your browser's memory</strong>. No uploads are sent to server folders, which completely eliminates data intercept risks and ensures instant rendering.
+                  SmartPDFs Plus processes your documents{" "}
+                  <strong className="text-violet-600 font-black dark:text-violet-450">
+                    100% locally in your browser's memory
+                  </strong>
+                  . No uploads are sent to server folders, which completely
+                  eliminates data intercept risks and ensures instant rendering.
                 </p>
               </div>
             </div>
@@ -298,7 +426,9 @@ export default function RemoveOcrPage() {
             {/* How to use the tool card */}
             <div className="bg-white dark:bg-slate-900 p-8 sm:p-12 rounded-[2.5rem] border border-slate-100 dark:border-slate-800 shadow-sm">
               <h2 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white uppercase tracking-tight mb-10 flex items-center gap-3">
-                <span className="p-2 rounded-xl bg-violet-500/10 text-violet-500"><ArrowRight size={24} /></span>
+                <span className="p-2 rounded-xl bg-violet-500/10 text-violet-500">
+                  <ArrowRight size={24} />
+                </span>
                 How to Remove PDF OCR text in 3 Simple Steps
               </h2>
 
@@ -306,17 +436,36 @@ export default function RemoveOcrPage() {
                 <div className="hidden md:block absolute top-6 left-[16%] right-[16%] h-0.5 bg-slate-100 dark:bg-slate-800/80 -z-0" />
 
                 {[
-                  { step: "01", title: "Select PDF File", desc: "Drag and drop your PDF or click the browse panel to load it locally inside your browser." },
-                  { step: "02", title: "Convert to Images", desc: "Confirm the page rendering parameters. Pages will be converted into high-fidelity image sheets." },
-                  { step: "03", title: "Download Flattened PDF", desc: "Click Apply to render the image layers and download the un-searchable, flat PDF instantly." }
+                  {
+                    step: "01",
+                    title: "Select PDF File",
+                    desc: "Drag and drop your PDF or click the browse panel to load it locally inside your browser.",
+                  },
+                  {
+                    step: "02",
+                    title: "Convert to Images",
+                    desc: "Confirm the page rendering parameters. Pages will be converted into high-fidelity image sheets.",
+                  },
+                  {
+                    step: "03",
+                    title: "Download Flattened PDF",
+                    desc: "Click Apply to render the image layers and download the un-searchable, flat PDF instantly.",
+                  },
                 ].map((s, idx) => (
-                  <div key={idx} className="relative z-10 flex flex-col gap-4 group">
+                  <div
+                    key={idx}
+                    className="relative z-10 flex flex-col gap-4 group"
+                  >
                     <div className="w-12 h-12 rounded-full bg-slate-50 dark:bg-slate-800 flex items-center justify-center font-outfit text-lg font-black text-violet-500 border-2 border-slate-100 dark:border-slate-800 shadow-sm group-hover:scale-110 group-hover:border-violet-500/40 transition-all duration-300">
                       {s.step}
                     </div>
                     <div className="space-y-2">
-                      <h3 className="text-lg font-black text-slate-900 dark:text-white uppercase tracking-tight">{s.title}</h3>
-                      <p className="text-slate-500 dark:text-slate-400 text-sm leading-relaxed font-medium">{s.desc}</p>
+                      <h3 className="text-lg font-black text-slate-900 dark:text-white uppercase tracking-tight">
+                        {s.title}
+                      </h3>
+                      <p className="text-slate-500 dark:text-slate-400 text-sm leading-relaxed font-medium">
+                        {s.desc}
+                      </p>
                     </div>
                   </div>
                 ))}
@@ -326,22 +475,36 @@ export default function RemoveOcrPage() {
             {/* Detailed Benefits and Features */}
             <div className="space-y-8">
               <h2 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white uppercase tracking-tight flex items-center gap-3">
-                <span className="p-2 rounded-xl bg-violet-500/10 text-violet-500"><Star size={24} /></span>
+                <span className="p-2 rounded-xl bg-violet-500/10 text-violet-500">
+                  <Star size={24} />
+                </span>
                 Key Benefits & Features
               </h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div className="bg-gradient-to-br from-white to-slate-50/30 dark:from-slate-900 dark:to-slate-900/50 p-8 rounded-[2rem] border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-md transition-all duration-300 flex flex-col gap-4 group">
-                  <div className="w-12 h-12 rounded-2xl bg-green-500/10 text-green-500 flex items-center justify-center shadow-inner group-hover:scale-110 transition-transform duration-300"><Shield size={22} /></div>
-                  <h3 className="text-xl font-black text-slate-900 dark:text-white uppercase tracking-tight group-hover:text-green-500 transition-colors">100% Client-Side Privacy</h3>
+                  <div className="w-12 h-12 rounded-2xl bg-green-500/10 text-green-500 flex items-center justify-center shadow-inner group-hover:scale-110 transition-transform duration-300">
+                    <Shield size={22} />
+                  </div>
+                  <h3 className="text-xl font-black text-slate-900 dark:text-white uppercase tracking-tight group-hover:text-green-500 transition-colors">
+                    100% Client-Side Privacy
+                  </h3>
                   <p className="text-slate-500 dark:text-slate-400 text-sm leading-relaxed font-medium">
-                    Privacy is our baseline. Our tool edits your files inside the browser client memory. Your PDF documents never leave your computer, ensuring absolute safety for business audits.
+                    Privacy is our baseline. Our tool edits your files inside
+                    the browser client memory. Your PDF documents never leave
+                    your computer, ensuring absolute safety for business audits.
                   </p>
                 </div>
                 <div className="bg-gradient-to-br from-white to-slate-50/30 dark:from-slate-900 dark:to-slate-900/50 p-8 rounded-[2rem] border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-md transition-all duration-300 flex flex-col gap-4 group">
-                  <div className="w-12 h-12 rounded-2xl bg-violet-500/10 text-violet-500 flex items-center justify-center shadow-inner group-hover:scale-110 transition-transform duration-300"><Zap size={22} /></div>
-                  <h3 className="text-xl font-black text-slate-900 dark:text-white uppercase tracking-tight group-hover:text-violet-500 transition-colors">Prevent Copying & Selection</h3>
+                  <div className="w-12 h-12 rounded-2xl bg-violet-500/10 text-violet-500 flex items-center justify-center shadow-inner group-hover:scale-110 transition-transform duration-300">
+                    <Zap size={22} />
+                  </div>
+                  <h3 className="text-xl font-black text-slate-900 dark:text-white uppercase tracking-tight group-hover:text-violet-500 transition-colors">
+                    Prevent Copying & Selection
+                  </h3>
                   <p className="text-slate-500 dark:text-slate-400 text-sm leading-relaxed font-medium">
-                    Stop readers from extracting text data, copying content blocks, or using screen scrapers. Flattening pages ensures high security.
+                    Stop readers from extracting text data, copying content
+                    blocks, or using screen scrapers. Flattening pages ensures
+                    high security.
                   </p>
                 </div>
               </div>
@@ -352,10 +515,15 @@ export default function RemoveOcrPage() {
                     "Stops indexing bots and web crawlers from reading text strings in your files.",
                     "Retains visual font sizes, images, diagrams, and formatting layout details.",
                     "Runs directly inside the browser using HTML5 Canvas APIs for maximum speed.",
-                    "No file transfers, completely private processing with no user registration."
+                    "No file transfers, completely private processing with no user registration.",
                   ].map((item, idx) => (
-                    <li key={idx} className="flex items-start gap-3 text-sm text-slate-600 dark:text-slate-400 font-medium">
-                      <span className="p-0.5 rounded-full bg-violet-500/10 text-violet-600 mt-0.5 shrink-0"><Check size={12} /></span>
+                    <li
+                      key={idx}
+                      className="flex items-start gap-3 text-sm text-slate-600 dark:text-slate-400 font-medium"
+                    >
+                      <span className="p-0.5 rounded-full bg-violet-500/10 text-violet-600 mt-0.5 shrink-0">
+                        <Check size={12} />
+                      </span>
                       <span>{item}</span>
                     </li>
                   ))}
@@ -366,27 +534,29 @@ export default function RemoveOcrPage() {
             {/* FAQ Block */}
             <div className="bg-white dark:bg-slate-900 p-8 sm:p-12 rounded-[2.5rem] border border-slate-100 dark:border-slate-800 shadow-sm">
               <h2 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white uppercase tracking-tight mb-8 flex items-center gap-3">
-                <span className="p-2 rounded-xl bg-violet-500/10 text-violet-500"><HelpCircle size={24} /></span>
+                <span className="p-2 rounded-xl bg-violet-500/10 text-violet-500">
+                  <HelpCircle size={24} />
+                </span>
                 Frequently Asked Questions
               </h2>
               <div className="space-y-4">
                 {[
                   {
                     q: "How does the Remove OCR tool work?",
-                    a: "The tool renders each page of your PDF into a high-resolution image at 3x resolution, then bundles these images back into a new PDF. This completely removes the underlying invisible text layer and any selectable characters, leaving an image-only PDF."
+                    a: "The tool renders each page of your PDF into a high-resolution image at 3x resolution, then bundles these images back into a new PDF. This completely removes the underlying invisible text layer and any selectable characters, leaving an image-only PDF.",
                   },
                   {
                     q: "Can someone recover the text after using this tool?",
-                    a: "No. Once the text layer is removed and converted to flat raster images, the text is permanently gone. The only way to retrieve the text would be to run a new OCR engine on the output document."
+                    a: "No. Once the text layer is removed and converted to flat raster images, the text is permanently gone. The only way to retrieve the text would be to run a new OCR engine on the output document.",
                   },
                   {
                     q: "Does this tool upload my PDF to a server?",
-                    a: "Never. The entire rendering and PDF generation process is executed entirely on your local machine using client-side JavaScript. Your confidential files never touch our servers."
+                    a: "Never. The entire rendering and PDF generation process is executed entirely on your local machine using client-side JavaScript. Your confidential files never touch our servers.",
                   },
                   {
                     q: "Will the visual quality of my PDF decrease?",
-                    a: "Our tool uses a high-resolution 3x rendering scale to convert pages into images. This maintains crisp, readable text and clear layouts while ensuring the text layer is completely removed."
-                  }
+                    a: "Our tool uses a high-resolution 3x rendering scale to convert pages into images. This maintains crisp, readable text and clear layouts while ensuring the text layer is completely removed.",
+                  },
                 ].map((item, idx) => (
                   <details
                     key={idx}
@@ -416,25 +586,39 @@ export default function RemoveOcrPage() {
             Explore More PDF Tools
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {RELATED.map(t => (
+            {RELATED.map((t) => (
               <Link
                 key={t.id}
-                href={t.id.startsWith('/') ? t.id : `/tool/${t.id}`}
+                href={t.id.startsWith("/") ? t.id : `/tool/${t.id}`}
                 title={`Use the ${t.title} tool`}
                 aria-label={`Open the ${t.title} tool to ${t.description.toLowerCase()}`}
                 className="group bg-white dark:bg-slate-900 rounded-3xl p-6 shadow-sm border border-slate-100 dark:border-slate-800 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 flex flex-col gap-4 text-left focus-visible:ring-2 focus-visible:ring-violet-500 focus-visible:outline-none"
               >
                 <div className="flex items-start justify-between">
-                  <div className="w-14 h-14 rounded-2xl flex items-center justify-center text-white shadow-lg" style={{ background: t.gradient, boxShadow: `0 8px 20px -4px ${t.shadow}` }}>
+                  <div
+                    className="w-14 h-14 rounded-2xl flex items-center justify-center text-white shadow-lg"
+                    style={{
+                      background: t.gradient,
+                      boxShadow: `0 8px 20px -4px ${t.shadow}`,
+                    }}
+                  >
                     <t.icon size={26} aria-hidden="true" />
                   </div>
-                  <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 bg-slate-50 dark:bg-slate-800 px-2 py-1 rounded-full border border-slate-100 dark:border-slate-700">{t.tag}</span>
+                  <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 bg-slate-50 dark:bg-slate-800 px-2 py-1 rounded-full border border-slate-100 dark:border-slate-700">
+                    {t.tag}
+                  </span>
                 </div>
                 <div>
-                  <h3 className="text-base font-black text-slate-900 dark:text-white mb-1 group-hover:text-violet-500 transition-colors">{t.title}</h3>
-                  <p className="text-sm text-slate-500 dark:text-slate-400 font-medium leading-relaxed">{t.description}</p>
+                  <h3 className="text-base font-black text-slate-900 dark:text-white mb-1 group-hover:text-violet-500 transition-colors">
+                    {t.title}
+                  </h3>
+                  <p className="text-sm text-slate-500 dark:text-slate-400 font-medium leading-relaxed">
+                    {t.description}
+                  </p>
                 </div>
-                <div className="mt-auto pt-2 text-xs font-bold text-violet-500 flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">Open tool <span aria-hidden="true">&#8594;</span></div>
+                <div className="mt-auto pt-2 text-xs font-bold text-violet-500 flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                  Open tool <span aria-hidden="true">&#8594;</span>
+                </div>
               </Link>
             ))}
           </div>

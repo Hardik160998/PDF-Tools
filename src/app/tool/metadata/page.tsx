@@ -2,19 +2,37 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import dynamic from "next/dynamic";
 import {
-  PenLine, Upload, Download, Stamp, Hash, Lock, Unlock, Combine,
-  Zap, Settings, Shield, Globe, Info, ArrowRight, Star, Check, HelpCircle,
-  ChevronDown, Loader2
-} from 'lucide-react';
+  PenLine,
+  Upload,
+  Download,
+  Stamp,
+  Hash,
+  Lock,
+  Unlock,
+  Combine,
+  Zap,
+  Settings,
+  Shield,
+  Globe,
+  Info,
+  ArrowRight,
+  Star,
+  Check,
+  HelpCircle,
+  ChevronDown,
+  Loader2,
+} from "lucide-react";
 
 // Site URL for canonical/SEO links
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://smartpdfpro.com/';
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://smartpdfpro.com";
 
 // 1. Dynamic Metadata Export for Next.js App Router
 export const metadata: Metadata = {
-  title: 'Edit PDF Metadata Online Free | PDF Metadata Editor',
-  description: 'Edit PDF metadata tags like Title, Author, Subject, and Keywords online for free. 100% secure local browser processing.',
-  keywords: 'edit pdf metadata, pdf metadata editor, change pdf author, pdf keywords editor, free pdf metadata tool, smartpdfs plus',
+  title: "Edit PDF Metadata Online Free | PDF Metadata Editor",
+  description:
+    "Edit PDF metadata tags like Title, Author, Subject, and Keywords online for free. 100% secure local browser processing.",
+  keywords:
+    "edit pdf metadata, pdf metadata editor, change pdf author, pdf keywords editor, free pdf metadata tool, smartpdfs plus",
   alternates: {
     canonical: `${siteUrl}/tool/metadata`,
   },
@@ -25,30 +43,32 @@ export const metadata: Metadata = {
     googleBot: {
       index: true,
       follow: true,
-      'max-video-preview': -1,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
     },
   },
   openGraph: {
-    type: 'website',
-    title: 'Edit PDF Metadata Online Free | PDF Metadata Editor',
-    description: 'Edit PDF metadata tags like Title, Author, Subject, and Keywords online for free. 100% secure local browser processing.',
-    siteName: 'SmartPDFs Plus',
+    type: "website",
+    title: "Edit PDF Metadata Online Free | PDF Metadata Editor",
+    description:
+      "Edit PDF metadata tags like Title, Author, Subject, and Keywords online for free. 100% secure local browser processing.",
+    siteName: "SmartPDFs Plus",
     url: `${siteUrl}/tool/metadata`,
     images: [
       {
         url: `${siteUrl}/img/snapdeal-label.png`,
         width: 1200,
         height: 630,
-        alt: 'Edit PDF Metadata Online - SmartPDFs Plus',
+        alt: "Edit PDF Metadata Online - SmartPDFs Plus",
       },
     ],
   },
   twitter: {
-    card: 'summary_large_image',
-    title: 'Edit PDF Metadata Online Free | PDF Metadata Editor',
-    description: 'Edit PDF metadata tags like Title, Author, Subject, and Keywords online for free. 100% secure local browser processing.',
+    card: "summary_large_image",
+    title: "Edit PDF Metadata Online Free | PDF Metadata Editor",
+    description:
+      "Edit PDF metadata tags like Title, Author, Subject, and Keywords online for free. 100% secure local browser processing.",
     images: [`${siteUrl}/img/snapdeal-label.png`],
   },
 };
@@ -57,114 +77,177 @@ export const metadata: Metadata = {
 const webAppJsonLd = {
   "@context": "https://schema.org",
   "@type": "WebApplication",
-  "name": "PDF Metadata Editor Online Free",
-  "url": `${siteUrl}/tool/metadata`,
-  "image": `${siteUrl}/img/snapdeal-label.png`,
-  "description": "Edit PDF metadata tags like Title, Author, Subject, and Keywords online for free. 100% secure local browser processing.",
-  "applicationCategory": "UtilityApplication",
-  "operatingSystem": "All",
-  "browserRequirements": "Requires HTML5 support",
-  "featureList": [
+  name: "PDF Metadata Editor Online Free",
+  url: `${siteUrl}/tool/metadata`,
+  image: `${siteUrl}/img/snapdeal-label.png`,
+  description:
+    "Edit PDF metadata tags like Title, Author, Subject, and Keywords online for free. 100% secure local browser processing.",
+  applicationCategory: "UtilityApplication",
+  operatingSystem: "All",
+  browserRequirements: "Requires HTML5 support",
+  featureList: [
     "100% Local processing in your browser",
     "No file uploads to servers",
     "Edit Title, Author, Subject, and Keywords",
     "Modify Creator, Producer, and Date stamps",
-    "Fast and free with no watermark"
+    "Fast and free with no watermark",
   ],
-  "offers": {
+  offers: {
     "@type": "Offer",
-    "price": "0",
-    "priceCurrency": "USD"
-  }
+    price: "0",
+    priceCurrency: "USD",
+  },
 };
 
 const breadcrumbJsonLd = {
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
-  "itemListElement": [
+  itemListElement: [
     {
       "@type": "ListItem",
-      "position": 1,
-      "name": "Home",
-      "item": siteUrl
+      position: 1,
+      name: "Home",
+      item: siteUrl,
     },
     {
       "@type": "ListItem",
-      "position": 2,
-      "name": "Tools",
-      "item": `${siteUrl}/#tools-grid`
+      position: 2,
+      name: "Tools",
+      item: `${siteUrl}/#tools-grid`,
     },
     {
       "@type": "ListItem",
-      "position": 3,
-      "name": "Edit PDF Metadata",
-      "item": `${siteUrl}/tool/metadata`
-    }
-  ]
+      position: 3,
+      name: "Edit PDF Metadata",
+      item: `${siteUrl}/tool/metadata`,
+    },
+  ],
 };
 
 const faqJsonLd = {
   "@context": "https://schema.org",
   "@type": "FAQPage",
-  "mainEntity": [
+  mainEntity: [
     {
       "@type": "Question",
-      "name": "Is the metadata editor secure?",
-      "acceptedAnswer": {
+      name: "Is the metadata editor secure?",
+      acceptedAnswer: {
         "@type": "Answer",
-        "text": "Yes, absolutely. Unlike other online tools that upload your files to external servers, our PDF metadata editor performs the entire process 100% locally in your web browser. Your private documents never leave your computer."
-      }
+        text: "Yes, absolutely. Unlike other online tools that upload your files to external servers, our PDF metadata editor performs the entire process 100% locally in your web browser. Your private documents never leave your computer.",
+      },
     },
     {
       "@type": "Question",
-      "name": "Which metadata fields can I edit?",
-      "acceptedAnswer": {
+      name: "Which metadata fields can I edit?",
+      acceptedAnswer: {
         "@type": "Answer",
-        "text": "You can modify Title, Author, Subject, Keywords, Creator (software used to make the PDF), Producer (engine used to compile), and document creation/modification dates."
-      }
+        text: "You can modify Title, Author, Subject, Keywords, Creator (software used to make the PDF), Producer (engine used to compile), and document creation/modification dates.",
+      },
     },
     {
       "@type": "Question",
-      "name": "Will editing metadata change my original PDF text or layout formatting?",
-      "acceptedAnswer": {
+      name: "Will editing metadata change my original PDF text or layout formatting?",
+      acceptedAnswer: {
         "@type": "Answer",
-        "text": "No. Metadata is saved in a separate document info dictionary block at the end of the file structure. Your page text, fonts, and inline graphics remain untouched."
-      }
+        text: "No. Metadata is saved in a separate document info dictionary block at the end of the file structure. Your page text, fonts, and inline graphics remain untouched.",
+      },
     },
     {
       "@type": "Question",
-      "name": "Is there a page or size limit?",
-      "acceptedAnswer": {
+      name: "Is there a page or size limit?",
+      acceptedAnswer: {
         "@type": "Answer",
-        "text": "Because all processing happens client-side in your browser, there is no server-imposed upload limit. It depends only on your local system's memory and CPU."
-      }
-    }
-  ]
+        text: "Because all processing happens client-side in your browser, there is no server-imposed upload limit. It depends only on your local system's memory and CPU.",
+      },
+    },
+  ],
 };
 
 // 8. Internal links configuration
 const RELATED = [
-  { id: 'watermark', title: 'Watermark PDF', description: 'Stamp a text or image watermark over every page of your PDF.', icon: Stamp, gradient: 'linear-gradient(135deg, #8b5cf6, #6d28d9)', shadow: 'rgba(139,92,246,0.3)', tag: 'Edit' },
-  { id: 'page-numbers', title: 'Page Numbers', description: 'Add professional page numbers to your PDF automatically.', icon: Hash, gradient: 'linear-gradient(135deg, #6366f1, #4338ca)', shadow: 'rgba(99,102,241,0.3)', tag: 'Edit' },
-  { id: 'protect', title: 'Protect PDF', description: 'Encrypt your PDF with a password to keep it secure.', icon: Lock, gradient: 'linear-gradient(135deg, #ef4444, #b91c1c)', shadow: 'rgba(239,68,68,0.3)', tag: 'Security' },
-  { id: 'unlock', title: 'Unlock PDF', description: 'Remove password protection from a PDF and restore full access.', icon: Unlock, gradient: 'linear-gradient(135deg, #f97316, #c2410c)', shadow: 'rgba(249,115,22,0.3)', tag: 'Security' },
-  { id: 'compress', title: 'Compress PDF', description: 'Reduce PDF file size while keeping quality sharp and text crisp.', icon: Zap, gradient: 'linear-gradient(135deg, #22c55e, #15803d)', shadow: 'rgba(34,197,94,0.3)', tag: 'Optimize' },
-  { id: 'merge', title: 'Merge PDF', description: 'Combine multiple PDF files into one document in the order you choose.', icon: Combine, gradient: 'linear-gradient(135deg, #f26522, #c2410c)', shadow: 'rgba(242,101,34,0.3)', tag: 'Organize' },
+  {
+    id: "watermark",
+    title: "Watermark PDF",
+    description: "Stamp a text or image watermark over every page of your PDF.",
+    icon: Stamp,
+    gradient: "linear-gradient(135deg, #8b5cf6, #6d28d9)",
+    shadow: "rgba(139,92,246,0.3)",
+    tag: "Edit",
+  },
+  {
+    id: "page-numbers",
+    title: "Page Numbers",
+    description: "Add professional page numbers to your PDF automatically.",
+    icon: Hash,
+    gradient: "linear-gradient(135deg, #6366f1, #4338ca)",
+    shadow: "rgba(99,102,241,0.3)",
+    tag: "Edit",
+  },
+  {
+    id: "protect",
+    title: "Protect PDF",
+    description: "Encrypt your PDF with a password to keep it secure.",
+    icon: Lock,
+    gradient: "linear-gradient(135deg, #ef4444, #b91c1c)",
+    shadow: "rgba(239,68,68,0.3)",
+    tag: "Security",
+  },
+  {
+    id: "unlock",
+    title: "Unlock PDF",
+    description:
+      "Remove password protection from a PDF and restore full access.",
+    icon: Unlock,
+    gradient: "linear-gradient(135deg, #f97316, #c2410c)",
+    shadow: "rgba(249,115,22,0.3)",
+    tag: "Security",
+  },
+  {
+    id: "compress",
+    title: "Compress PDF",
+    description:
+      "Reduce PDF file size while keeping quality sharp and text crisp.",
+    icon: Zap,
+    gradient: "linear-gradient(135deg, #22c55e, #15803d)",
+    shadow: "rgba(34,197,94,0.3)",
+    tag: "Optimize",
+  },
+  {
+    id: "merge",
+    title: "Merge PDF",
+    description:
+      "Combine multiple PDF files into one document in the order you choose.",
+    icon: Combine,
+    gradient: "linear-gradient(135deg, #f26522, #c2410c)",
+    shadow: "rgba(242,101,34,0.3)",
+    tag: "Organize",
+  },
 ];
 
 // 12. Breadcrumb Navigation Component
 function Breadcrumb() {
   return (
-    <nav aria-label="Breadcrumb" className="mb-6 flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-slate-400 dark:text-slate-500">
-      <Link href="/" className="hover:text-slate-500 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-500 rounded px-1">
+    <nav
+      aria-label="Breadcrumb"
+      className="mb-6 flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-slate-400 dark:text-slate-500"
+    >
+      <Link
+        href="/"
+        className="hover:text-slate-500 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-500 rounded px-1"
+      >
         Home
       </Link>
       <span aria-hidden="true">/</span>
-      <Link href="/tool" className="hover:text-slate-500 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-500 rounded px-1">
+      <Link
+        href="/tool"
+        className="hover:text-slate-500 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-500 rounded px-1"
+      >
         Tools
       </Link>
       <span aria-hidden="true">/</span>
-      <span className="text-slate-600 dark:text-slate-300" aria-current="page">PDF Metadata</span>
+      <span className="text-slate-600 dark:text-slate-300" aria-current="page">
+        PDF Metadata
+      </span>
     </nav>
   );
 }
@@ -195,7 +278,7 @@ function EditToolsSkeleton() {
 
 // Dynamic Import of Client Component
 const EditTools = dynamic(() => import("@/components/tools/EditTools"), {
-  loading: () => <EditToolsSkeleton />
+  loading: () => <EditToolsSkeleton />,
 });
 
 export default function MetadataPage() {
@@ -225,33 +308,64 @@ export default function MetadataPage() {
         </section>
 
         {/* Feature Cards Grid */}
-        <section aria-label="Tool Features Quick Overview" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-20 animate-fade-in">
+        <section
+          aria-label="Tool Features Quick Overview"
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-20 animate-fade-in"
+        >
           {[
-            { title: 'Metadata Fields', desc: 'Read and edit PDF details including Title, Author, Subject, Keywords, Creator, and dates.', icon: Settings },
-            { title: '100% Offline', desc: 'Editing is executed client-side in browser JS. Your files never touch a server.', icon: Shield },
-            { title: 'Fidelity Guard', desc: 'Fidelity is fully preserved. Formats document information according to PDF standards.', icon: Zap },
-            { title: 'Works Everywhere', desc: 'No software to install. Works on any device — Windows, Mac, Linux, iOS, or Android.', icon: Globe },
+            {
+              title: "Metadata Fields",
+              desc: "Read and edit PDF details including Title, Author, Subject, Keywords, Creator, and dates.",
+              icon: Settings,
+            },
+            {
+              title: "100% Offline",
+              desc: "Editing is executed client-side in browser JS. Your files never touch a server.",
+              icon: Shield,
+            },
+            {
+              title: "Fidelity Guard",
+              desc: "Fidelity is fully preserved. Formats document information according to PDF standards.",
+              icon: Zap,
+            },
+            {
+              title: "Works Everywhere",
+              desc: "No software to install. Works on any device — Windows, Mac, Linux, iOS, or Android.",
+              icon: Globe,
+            },
           ].map((item, i) => (
-            <div key={i} className="bg-white dark:bg-slate-900 p-8 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-xl transition-all group text-center flex flex-col items-center gap-3">
-              <div className="inline-flex p-4 rounded-2xl bg-slate-50 dark:bg-slate-500/10 text-slate-500 group-hover:scale-110 transition-transform"><item.icon size={26} /></div>
-              <h3 className="text-sm font-black text-slate-900 dark:text-white uppercase tracking-tight">{item.title}</h3>
-              <p className="text-xs text-slate-500 dark:text-slate-400 font-medium leading-relaxed">{item.desc}</p>
+            <div
+              key={i}
+              className="bg-white dark:bg-slate-900 p-8 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-xl transition-all group text-center flex flex-col items-center gap-3"
+            >
+              <div className="inline-flex p-4 rounded-2xl bg-slate-50 dark:bg-slate-500/10 text-slate-500 group-hover:scale-110 transition-transform">
+                <item.icon size={26} />
+              </div>
+              <h3 className="text-sm font-black text-slate-900 dark:text-white uppercase tracking-tight">
+                {item.title}
+              </h3>
+              <p className="text-xs text-slate-500 dark:text-slate-400 font-medium leading-relaxed">
+                {item.desc}
+              </p>
             </div>
           ))}
         </section>
 
         {/* 4. Complete SEO Optimized Content Section */}
         <section className="mt-20 border-t border-slate-200 dark:border-slate-800 pt-16 max-w-7xl mx-auto text-left">
-
           <div className="mb-16 text-center relative">
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[100px] bg-slate-500/10 dark:bg-slate-500/5 blur-[80px] rounded-full -z-10 pointer-events-none" />
 
             <h1 className="text-4xl sm:text-6xl font-black tracking-tight mb-6 uppercase leading-tight bg-gradient-to-r from-slate-950 via-slate-800 to-slate-650 dark:from-white dark:via-slate-200 dark:to-slate-400 bg-clip-text text-transparent">
               Edit PDF Metadata Online <br />
-              <span className="text-slate-600 dark:text-slate-400">Free, Fast & Secure</span>
+              <span className="text-slate-600 dark:text-slate-400">
+                Free, Fast & Secure
+              </span>
             </h1>
             <p className="text-base sm:text-lg text-slate-500 dark:text-slate-400 font-medium max-w-2xl mx-auto leading-relaxed">
-              Read, edit, or clear document properties like Author, Title, and Subject in seconds. Process everything inside your web browser — no files are uploaded to any server.
+              Read, edit, or clear document properties like Author, Title, and
+              Subject in seconds. Process everything inside your web browser —
+              no files are uploaded to any server.
             </p>
           </div>
 
@@ -266,10 +380,21 @@ export default function MetadataPage() {
                   What is PDF Metadata?
                 </h2>
                 <p className="text-slate-600 dark:text-slate-300 leading-relaxed font-medium text-sm sm:text-base">
-                  PDF metadata tags are document properties embedded inside the PDF file container (usually in the Info dictionary block). These properties include Title, Author, Subject, Creator, Producer, Keywords, and dates. Correct metadata is crucial for search engine indexing of PDFs, catalog filing, and document indexing systems.
+                  PDF metadata tags are document properties embedded inside the
+                  PDF file container (usually in the Info dictionary block).
+                  These properties include Title, Author, Subject, Creator,
+                  Producer, Keywords, and dates. Correct metadata is crucial for
+                  search engine indexing of PDFs, catalog filing, and document
+                  indexing systems.
                 </p>
                 <p className="text-slate-500 dark:text-slate-400 leading-relaxed font-medium text-sm">
-                  With SmartPDFs Plus, your editing is executed <strong className="text-slate-650 font-black dark:text-slate-300">100% locally in your web browser</strong> using native JavaScript libraries. Your files never touch our servers, guaranteeing complete document privacy and instant offline tag execution.
+                  With SmartPDFs Plus, your editing is executed{" "}
+                  <strong className="text-slate-650 font-black dark:text-slate-300">
+                    100% locally in your web browser
+                  </strong>{" "}
+                  using native JavaScript libraries. Your files never touch our
+                  servers, guaranteeing complete document privacy and instant
+                  offline tag execution.
                 </p>
               </div>
             </div>
@@ -277,7 +402,9 @@ export default function MetadataPage() {
             {/* How to use the tool card */}
             <div className="bg-white dark:bg-slate-900 p-8 sm:p-12 rounded-[2.5rem] border border-slate-100 dark:border-slate-800 shadow-sm">
               <h2 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white uppercase tracking-tight mb-10 flex items-center gap-3">
-                <span className="p-2 rounded-xl bg-slate-550/10 text-slate-500"><ArrowRight size={24} /></span>
+                <span className="p-2 rounded-xl bg-slate-550/10 text-slate-500">
+                  <ArrowRight size={24} />
+                </span>
                 How to Edit PDF Metadata in 3 Simple Steps
               </h2>
 
@@ -285,17 +412,36 @@ export default function MetadataPage() {
                 <div className="hidden md:block absolute top-6 left-[16%] right-[16%] h-0.5 bg-slate-100 dark:bg-slate-800/80 -z-0" />
 
                 {[
-                  { step: "01", title: "Select PDF File", desc: "Drag and drop your document or click the upload panel to choose a PDF from your computer or mobile device." },
-                  { step: "02", title: "Edit Info Fields", desc: "Edit Author, Title, Subject, Keywords, Creator, or date parameters inside the settings form." },
-                  { step: "03", title: "Apply & Save", desc: "Click Apply Metadata and download your updated PDF document instantly. Free from watermarks." }
+                  {
+                    step: "01",
+                    title: "Select PDF File",
+                    desc: "Drag and drop your document or click the upload panel to choose a PDF from your computer or mobile device.",
+                  },
+                  {
+                    step: "02",
+                    title: "Edit Info Fields",
+                    desc: "Edit Author, Title, Subject, Keywords, Creator, or date parameters inside the settings form.",
+                  },
+                  {
+                    step: "03",
+                    title: "Apply & Save",
+                    desc: "Click Apply Metadata and download your updated PDF document instantly. Free from watermarks.",
+                  },
                 ].map((s, idx) => (
-                  <div key={idx} className="relative z-10 flex flex-col gap-4 group">
+                  <div
+                    key={idx}
+                    className="relative z-10 flex flex-col gap-4 group"
+                  >
                     <div className="w-12 h-12 rounded-full bg-slate-50 dark:bg-slate-800 flex items-center justify-center font-outfit text-lg font-black text-slate-500 border-2 border-slate-100 dark:border-slate-800 shadow-sm group-hover:scale-110 group-hover:border-slate-500/40 transition-all duration-300">
                       {s.step}
                     </div>
                     <div className="space-y-2">
-                      <h3 className="text-lg font-black text-slate-900 dark:text-white uppercase tracking-tight">{s.title}</h3>
-                      <p className="text-slate-500 dark:text-slate-400 text-sm leading-relaxed font-medium">{s.desc}</p>
+                      <h3 className="text-lg font-black text-slate-900 dark:text-white uppercase tracking-tight">
+                        {s.title}
+                      </h3>
+                      <p className="text-slate-500 dark:text-slate-400 text-sm leading-relaxed font-medium">
+                        {s.desc}
+                      </p>
                     </div>
                   </div>
                 ))}
@@ -305,22 +451,37 @@ export default function MetadataPage() {
             {/* Detailed Benefits and Features */}
             <div className="space-y-8">
               <h2 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white uppercase tracking-tight flex items-center gap-3">
-                <span className="p-2 rounded-xl bg-slate-500/10 text-slate-500"><Star size={24} /></span>
+                <span className="p-2 rounded-xl bg-slate-500/10 text-slate-500">
+                  <Star size={24} />
+                </span>
                 Key Benefits & Features
               </h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div className="bg-gradient-to-br from-white to-slate-50/30 dark:from-slate-900 dark:to-slate-900/50 p-8 rounded-[2rem] border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-md transition-all duration-300 flex flex-col gap-4 group">
-                  <div className="w-12 h-12 rounded-2xl bg-green-500/10 text-green-500 flex items-center justify-center shadow-inner group-hover:scale-110 transition-transform duration-300"><Shield size={22} /></div>
-                  <h3 className="text-xl font-black text-slate-900 dark:text-white uppercase tracking-tight group-hover:text-green-500 transition-colors">100% Client-Side Privacy</h3>
+                  <div className="w-12 h-12 rounded-2xl bg-green-500/10 text-green-500 flex items-center justify-center shadow-inner group-hover:scale-110 transition-transform duration-300">
+                    <Shield size={22} />
+                  </div>
+                  <h3 className="text-xl font-black text-slate-900 dark:text-white uppercase tracking-tight group-hover:text-green-500 transition-colors">
+                    100% Client-Side Privacy
+                  </h3>
                   <p className="text-slate-500 dark:text-slate-400 text-sm leading-relaxed font-medium">
-                    Security is our baseline. Our tool works locally inside your browser sandbox. It reads and edits the PDFs directly in your computer's memory, so your files are never transmitted across the internet.
+                    Security is our baseline. Our tool works locally inside your
+                    browser sandbox. It reads and edits the PDFs directly in
+                    your computer's memory, so your files are never transmitted
+                    across the internet.
                   </p>
                 </div>
                 <div className="bg-gradient-to-br from-white to-slate-50/30 dark:from-slate-900 dark:to-slate-900/50 p-8 rounded-[2rem] border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-md transition-all duration-300 flex flex-col gap-4 group">
-                  <div className="w-12 h-12 rounded-2xl bg-slate-500/10 text-slate-500 flex items-center justify-center shadow-inner group-hover:scale-110 transition-transform duration-300"><Zap size={22} /></div>
-                  <h3 className="text-xl font-black text-slate-900 dark:text-white uppercase tracking-tight group-hover:text-slate-650 transition-colors">Formatted Tag Outputs</h3>
+                  <div className="w-12 h-12 rounded-2xl bg-slate-500/10 text-slate-500 flex items-center justify-center shadow-inner group-hover:scale-110 transition-transform duration-300">
+                    <Zap size={22} />
+                  </div>
+                  <h3 className="text-xl font-black text-slate-900 dark:text-white uppercase tracking-tight group-hover:text-slate-650 transition-colors">
+                    Formatted Tag Outputs
+                  </h3>
                   <p className="text-slate-500 dark:text-slate-400 text-sm leading-relaxed font-medium">
-                    Adjust tags and parameters cleanly, keeping the PDF document properties compliant with modern search engines and web directories.
+                    Adjust tags and parameters cleanly, keeping the PDF document
+                    properties compliant with modern search engines and web
+                    directories.
                   </p>
                 </div>
               </div>
@@ -331,10 +492,15 @@ export default function MetadataPage() {
                     "Supports document title, author, creation, and modifier fields.",
                     "Quick metadata cleaning to remove all tags for tracking privacy.",
                     "Zero signup required — start editing properties immediately without accounts.",
-                    "Mobile-friendly layouts that let you update properties on your phone."
+                    "Mobile-friendly layouts that let you update properties on your phone.",
                   ].map((item, idx) => (
-                    <li key={idx} className="flex items-start gap-3 text-sm text-slate-600 dark:text-slate-400 font-medium">
-                      <span className="p-0.5 rounded-full bg-slate-500/10 text-slate-600 mt-0.5 shrink-0"><Check size={12} /></span>
+                    <li
+                      key={idx}
+                      className="flex items-start gap-3 text-sm text-slate-600 dark:text-slate-400 font-medium"
+                    >
+                      <span className="p-0.5 rounded-full bg-slate-500/10 text-slate-600 mt-0.5 shrink-0">
+                        <Check size={12} />
+                      </span>
                       <span>{item}</span>
                     </li>
                   ))}
@@ -345,27 +511,29 @@ export default function MetadataPage() {
             {/* FAQ Block */}
             <div className="bg-white dark:bg-slate-900 p-8 sm:p-12 rounded-[2.5rem] border border-slate-100 dark:border-slate-800 shadow-sm">
               <h2 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white uppercase tracking-tight mb-8 flex items-center gap-3">
-                <span className="p-2 rounded-xl bg-slate-500/10 text-slate-500"><HelpCircle size={24} /></span>
+                <span className="p-2 rounded-xl bg-slate-500/10 text-slate-500">
+                  <HelpCircle size={24} />
+                </span>
                 Frequently Asked Questions
               </h2>
               <div className="space-y-4">
                 {[
                   {
                     q: "Is the metadata editor secure?",
-                    a: "Yes, absolutely. Unlike other online tools that upload your files to external servers, our PDF metadata editor performs the entire process 100% locally in your web browser. Your private documents never leave your computer."
+                    a: "Yes, absolutely. Unlike other online tools that upload your files to external servers, our PDF metadata editor performs the entire process 100% locally in your web browser. Your private documents never leave your computer.",
                   },
                   {
                     q: "Which metadata fields can I edit?",
-                    a: "You can modify Title, Author, Subject, Keywords, Creator (software used to make the PDF), Producer (engine used to compile), and document creation/modification dates."
+                    a: "You can modify Title, Author, Subject, Keywords, Creator (software used to make the PDF), Producer (engine used to compile), and document creation/modification dates.",
                   },
                   {
                     q: "Will editing metadata change my original PDF text or layout formatting?",
-                    a: "No. Metadata is saved in a separate document info dictionary block at the end of the file structure. Your page text, fonts, and inline graphics remain untouched."
+                    a: "No. Metadata is saved in a separate document info dictionary block at the end of the file structure. Your page text, fonts, and inline graphics remain untouched.",
                   },
                   {
                     q: "Is there a page or size limit?",
-                    a: "Because all processing happens client-side in your browser, there is no server-imposed upload limit. It depends only on your local system's memory and CPU."
-                  }
+                    a: "Because all processing happens client-side in your browser, there is no server-imposed upload limit. It depends only on your local system's memory and CPU.",
+                  },
                 ].map((item, idx) => (
                   <details
                     key={idx}
@@ -395,7 +563,7 @@ export default function MetadataPage() {
             Explore More PDF Tools
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {RELATED.map(t => (
+            {RELATED.map((t) => (
               <Link
                 key={t.id}
                 href={`/tool/${t.id}`}
@@ -404,16 +572,30 @@ export default function MetadataPage() {
                 className="group bg-white dark:bg-slate-900 rounded-3xl p-6 shadow-sm border border-slate-100 dark:border-slate-800 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 flex flex-col gap-4 text-left focus-visible:ring-2 focus-visible:ring-slate-500 focus-visible:outline-none"
               >
                 <div className="flex items-start justify-between">
-                  <div className="w-14 h-14 rounded-2xl flex items-center justify-center text-white shadow-lg" style={{ background: t.gradient, boxShadow: `0 8px 20px -4px ${t.shadow}` }}>
+                  <div
+                    className="w-14 h-14 rounded-2xl flex items-center justify-center text-white shadow-lg"
+                    style={{
+                      background: t.gradient,
+                      boxShadow: `0 8px 20px -4px ${t.shadow}`,
+                    }}
+                  >
                     <t.icon size={26} aria-hidden="true" />
                   </div>
-                  <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 bg-slate-50 dark:bg-slate-800 px-2 py-1 rounded-full border border-slate-100 dark:border-slate-700">{t.tag}</span>
+                  <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 bg-slate-50 dark:bg-slate-800 px-2 py-1 rounded-full border border-slate-100 dark:border-slate-700">
+                    {t.tag}
+                  </span>
                 </div>
                 <div>
-                  <h3 className="text-base font-black text-slate-900 dark:text-white mb-1 group-hover:text-slate-650 transition-colors">{t.title}</h3>
-                  <p className="text-sm text-slate-500 dark:text-slate-400 font-medium leading-relaxed">{t.description}</p>
+                  <h3 className="text-base font-black text-slate-900 dark:text-white mb-1 group-hover:text-slate-650 transition-colors">
+                    {t.title}
+                  </h3>
+                  <p className="text-sm text-slate-500 dark:text-slate-400 font-medium leading-relaxed">
+                    {t.description}
+                  </p>
                 </div>
-                <div className="mt-auto pt-2 text-xs font-bold text-slate-500 flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">Open tool <span aria-hidden="true">&#8594;</span></div>
+                <div className="mt-auto pt-2 text-xs font-bold text-slate-500 flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                  Open tool <span aria-hidden="true">&#8594;</span>
+                </div>
               </Link>
             ))}
           </div>

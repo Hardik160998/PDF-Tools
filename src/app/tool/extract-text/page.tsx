@@ -2,17 +2,24 @@ import ExtractText from "@/components/tools/ExtractText";
 import Link from "next/link";
 import type { Metadata } from "next";
 import {
-  FileText, ArrowRight, HelpCircle, Star, Check, ChevronDown
+  FileText,
+  ArrowRight,
+  HelpCircle,
+  Star,
+  Check,
+  ChevronDown,
 } from "lucide-react";
 
 // Site URL for canonical/SEO links
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://smartpdfpro.com/';
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://smartpdfpro.com";
 
 // 1. Dynamic Metadata Export for Next.js App Router
 export const metadata: Metadata = {
-  title: 'Extract Text from PDF Online - Free PDF to Text | SmartPDFs',
-  description: 'Extract text from PDF files online for free. Copy, export, and download text layers from PDF documents instantly. 100% secure, local browser parsing.',
-  keywords: 'extract text from pdf, pdf to text converter, extract pdf text, copy text from pdf online, free pdf text extractor, local pdf parse, smartpdfs',
+  title: "Extract Text from PDF Online - Free PDF to Text | SmartPDFs",
+  description:
+    "Extract text from PDF files online for free. Copy, export, and download text layers from PDF documents instantly. 100% secure, local browser parsing.",
+  keywords:
+    "extract text from pdf, pdf to text converter, extract pdf text, copy text from pdf online, free pdf text extractor, local pdf parse, smartpdfs",
   alternates: {
     canonical: `${siteUrl}/tool/extract-text`,
   },
@@ -23,30 +30,32 @@ export const metadata: Metadata = {
     googleBot: {
       index: true,
       follow: true,
-      'max-video-preview': -1,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
     },
   },
   openGraph: {
-    type: 'website',
-    title: 'Extract Text from PDF Online - Free PDF to Text | SmartPDFs',
-    description: 'Extract text from PDF files online for free. Copy, export, and download text layers from PDF documents instantly. 100% secure, local browser parsing.',
-    siteName: 'SmartPDFs',
+    type: "website",
+    title: "Extract Text from PDF Online - Free PDF to Text | SmartPDFs",
+    description:
+      "Extract text from PDF files online for free. Copy, export, and download text layers from PDF documents instantly. 100% secure, local browser parsing.",
+    siteName: "SmartPDFs",
     url: `${siteUrl}/tool/extract-text`,
     images: [
       {
         url: `${siteUrl}/img/extract-text-og.png`,
         width: 1200,
         height: 630,
-        alt: 'Extract Text from PDF Online - SmartPDFs',
+        alt: "Extract Text from PDF Online - SmartPDFs",
       },
     ],
   },
   twitter: {
-    card: 'summary_large_image',
-    title: 'Extract Text from PDF Online - Free PDF to Text | SmartPDFs',
-    description: 'Extract text from PDF files online for free. Copy, export, and download text layers from PDF documents instantly. 100% secure, local browser parsing.',
+    card: "summary_large_image",
+    title: "Extract Text from PDF Online - Free PDF to Text | SmartPDFs",
+    description:
+      "Extract text from PDF files online for free. Copy, export, and download text layers from PDF documents instantly. 100% secure, local browser parsing.",
     images: [`${siteUrl}/img/extract-text-og.png`],
   },
 };
@@ -55,90 +64,91 @@ export const metadata: Metadata = {
 const webAppJsonLd = {
   "@context": "https://schema.org",
   "@type": "WebApplication",
-  "name": "Extract Text from PDF Online Free",
-  "url": `${siteUrl}/tool/extract-text`,
-  "image": `${siteUrl}/img/extract-text-og.png`,
-  "description": "Extract text from PDF files online for free. Copy, export, and download text layers from PDF documents instantly. 100% secure, local browser parsing.",
-  "applicationCategory": "UtilityApplication",
-  "operatingSystem": "All",
-  "browserRequirements": "Requires HTML5 support",
-  "featureList": [
+  name: "Extract Text from PDF Online Free",
+  url: `${siteUrl}/tool/extract-text`,
+  image: `${siteUrl}/img/extract-text-og.png`,
+  description:
+    "Extract text from PDF files online for free. Copy, export, and download text layers from PDF documents instantly. 100% secure, local browser parsing.",
+  applicationCategory: "UtilityApplication",
+  operatingSystem: "All",
+  browserRequirements: "Requires HTML5 support",
+  featureList: [
     "100% Local processing in your browser",
     "No file uploads to servers",
     "Preserves character flows and layout lines",
     "Built-in terminal-style text editor",
     "Fast one-click copy to clipboard",
-    "Supports multiple languages and file encodings"
+    "Supports multiple languages and file encodings",
   ],
-  "offers": {
+  offers: {
     "@type": "Offer",
-    "price": "0",
-    "priceCurrency": "USD"
-  }
+    price: "0",
+    priceCurrency: "USD",
+  },
 };
 
 const breadcrumbJsonLd = {
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
-  "itemListElement": [
+  itemListElement: [
     {
       "@type": "ListItem",
-      "position": 1,
-      "name": "Home",
-      "item": siteUrl
+      position: 1,
+      name: "Home",
+      item: siteUrl,
     },
     {
       "@type": "ListItem",
-      "position": 2,
-      "name": "Tools",
-      "item": `${siteUrl}/#tools-grid`
+      position: 2,
+      name: "Tools",
+      item: `${siteUrl}/#tools-grid`,
     },
     {
       "@type": "ListItem",
-      "position": 3,
-      "name": "Extract Text",
-      "item": `${siteUrl}/tool/extract-text`
-    }
-  ]
+      position: 3,
+      name: "Extract Text",
+      item: `${siteUrl}/tool/extract-text`,
+    },
+  ],
 };
 
 const faqJsonLd = {
   "@context": "https://schema.org",
   "@type": "FAQPage",
-  "mainEntity": [
+  mainEntity: [
     {
       "@type": "Question",
-      "name": "How can I copy text from a PDF file?",
-      "acceptedAnswer": {
+      name: "How can I copy text from a PDF file?",
+      acceptedAnswer: {
         "@type": "Answer",
-        "text": "Simply upload your PDF document. The tool extracts all readable text layers in real-time. Review the parsed content in the editor box and copy it to your clipboard or download it as a plain TXT file."
-      }
+        text: "Simply upload your PDF document. The tool extracts all readable text layers in real-time. Review the parsed content in the editor box and copy it to your clipboard or download it as a plain TXT file.",
+      },
     },
     {
       "@type": "Question",
-      "name": "Is my text data safe when parsing files?",
-      "acceptedAnswer": {
+      name: "Is my text data safe when parsing files?",
+      acceptedAnswer: {
         "@type": "Answer",
-        "text": "Yes! All extraction is performed entirely inside your web browser. No text fragments or document pages are ever uploaded or transmitted to remote servers."
-      }
+        text: "Yes! All extraction is performed entirely inside your web browser. No text fragments or document pages are ever uploaded or transmitted to remote servers.",
+      },
     },
     {
       "@type": "Question",
-      "name": "Why is the extracted text empty for some pages?",
-      "acceptedAnswer": {
+      name: "Why is the extracted text empty for some pages?",
+      acceptedAnswer: {
         "@type": "Answer",
-        "text": "If a PDF page is a scanned image or photo without selectable text elements, standard extractors cannot read it. In such cases, you can use our local OCR PDF tool to identify and extract text from images."
-      }
+        text: "If a PDF page is a scanned image or photo without selectable text elements, standard extractors cannot read it. In such cases, you can use our local OCR PDF tool to identify and extract text from images.",
+      },
     },
     {
       "@type": "Question",
-      "name": "Does this tool preserve paragraphs and spacing?",
-      "acceptedAnswer": {
+      name: "Does this tool preserve paragraphs and spacing?",
+      acceptedAnswer: {
         "@type": "Answer",
-        "text": "Yes, our extractor analyzes character coordinate positions to preserve formatting layouts, line breaks, and paragraph flows as closely as possible."
-      }
-    }
-  ]
+        text: "Yes, our extractor analyzes character coordinate positions to preserve formatting layouts, line breaks, and paragraph flows as closely as possible.",
+      },
+    },
+  ],
 };
 
 export default function ExtractTextPage() {
@@ -163,17 +173,26 @@ export default function ExtractTextPage() {
         <nav aria-label="Breadcrumb" className="mb-8">
           <ol className="flex items-center space-x-2 text-xs font-semibold text-slate-400 uppercase tracking-widest">
             <li>
-              <Link href="/" className="hover:text-blue-500 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 rounded px-1">
+              <Link
+                href="/"
+                className="hover:text-blue-500 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 rounded px-1"
+              >
                 Home
               </Link>
             </li>
             <li className="flex items-center gap-1.5" aria-hidden="true">
               <span>/</span>
-              <Link href="/#tools-grid" className="hover:text-blue-500 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 rounded px-1">
+              <Link
+                href="/#tools-grid"
+                className="hover:text-blue-500 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 rounded px-1"
+              >
                 Tools
               </Link>
             </li>
-            <li className="flex items-center gap-1.5 text-slate-600 dark:text-slate-200" aria-current="page">
+            <li
+              className="flex items-center gap-1.5 text-slate-600 dark:text-slate-200"
+              aria-current="page"
+            >
               <span>/</span>
               <span>Extract Text</span>
             </li>
@@ -187,14 +206,15 @@ export default function ExtractTextPage() {
 
         {/* Rich SEO Content Section */}
         <article className="space-y-16 max-w-7xl mx-auto mt-20">
-
           {/* Main heading and description */}
           <section className="text-center max-w-4xl mx-auto space-y-4">
             <h2 className="font-outfit text-3xl md:text-5xl font-black tracking-tighter leading-tight bg-clip-text text-transparent bg-gradient-to-r from-slate-900 via-blue-950 to-blue-600 dark:from-white dark:via-blue-100 dark:to-blue-400 uppercase">
               Extract Text from PDF Online — Free &amp; Secure
             </h2>
             <p className="text-lg font-medium text-slate-500 dark:text-slate-400 leading-relaxed">
-              Export and copy text layers from PDF documents instantly. Built-in visual editor allows editing, sorting, and direct downloading of plain TXT files, processed 100% locally.
+              Export and copy text layers from PDF documents instantly. Built-in
+              visual editor allows editing, sorting, and direct downloading of
+              plain TXT files, processed 100% locally.
             </p>
           </section>
 
@@ -204,7 +224,9 @@ export default function ExtractTextPage() {
               <h3 className="font-outfit text-2xl md:text-3xl font-black text-slate-900 dark:text-white uppercase tracking-tight">
                 How to Extract Text from a PDF?
               </h3>
-              <p className="text-sm font-medium text-slate-400 uppercase tracking-wider">Step-by-step extraction guide</p>
+              <p className="text-sm font-medium text-slate-400 uppercase tracking-wider">
+                Step-by-step extraction guide
+              </p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
@@ -212,20 +234,23 @@ export default function ExtractTextPage() {
                 {
                   step: "01",
                   title: "Upload Document",
-                  desc: "Select or drag & drop your PDF file into the extractor workspace. The file loads instantly in your browser."
+                  desc: "Select or drag & drop your PDF file into the extractor workspace. The file loads instantly in your browser.",
                 },
                 {
                   step: "02",
                   title: "Automatic Parse",
-                  desc: "The extractor scans and pulls out readable character strings, separating them by page numbers and line flows."
+                  desc: "The extractor scans and pulls out readable character strings, separating them by page numbers and line flows.",
                 },
                 {
                   step: "03",
                   title: "Copy & Export",
-                  desc: "Examine parsed layout blocks. Copy text directly to your clipboard or download it as a structured plain TXT file."
-                }
+                  desc: "Examine parsed layout blocks. Copy text directly to your clipboard or download it as a structured plain TXT file.",
+                },
               ].map((item, index) => (
-                <div key={index} className="relative bg-white dark:bg-slate-900 rounded-3xl p-8 border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-md transition-all group flex flex-col justify-between">
+                <div
+                  key={index}
+                  className="relative bg-white dark:bg-slate-900 rounded-3xl p-8 border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-md transition-all group flex flex-col justify-between"
+                >
                   <div className="space-y-4">
                     <div className="flex items-center justify-between">
                       <span className="font-outfit text-4xl font-black text-blue-500/20 group-hover:text-blue-500 transition-colors duration-300">
@@ -264,16 +289,29 @@ export default function ExtractTextPage() {
                 </h3>
               </div>
               <p className="text-sm font-medium text-slate-500 dark:text-slate-400 max-w-md">
-                Fast browser-based operations without queues or subscriptions. Tailor files instantly and secure privacy.
+                Fast browser-based operations without queues or subscriptions.
+                Tailor files instantly and secure privacy.
               </p>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {[
-                { title: "No Server Access", desc: "Your PDF is processed inside your browser tab. Zero data uploads, zero security concerns." },
-                { title: "Interactive Workspace", desc: "View, copy, or download extracted text blocks. Edit them right in the browser before exporting." },
-                { title: "Preserves Spacing", desc: "Attempts to keep formatting coordinates intact, capturing columns and tables." },
-                { title: "Supports Scans (OCR)", desc: "Combine with our local OCR tool to identify and read characters inside images." }
+                {
+                  title: "No Server Access",
+                  desc: "Your PDF is processed inside your browser tab. Zero data uploads, zero security concerns.",
+                },
+                {
+                  title: "Interactive Workspace",
+                  desc: "View, copy, or download extracted text blocks. Edit them right in the browser before exporting.",
+                },
+                {
+                  title: "Preserves Spacing",
+                  desc: "Attempts to keep formatting coordinates intact, capturing columns and tables.",
+                },
+                {
+                  title: "Supports Scans (OCR)",
+                  desc: "Combine with our local OCR tool to identify and read characters inside images.",
+                },
               ].map((feat, i) => (
                 <div key={i} className="space-y-3 p-2">
                   <div className="w-8 h-8 rounded-lg bg-blue-500 text-white flex items-center justify-center shadow-lg shadow-blue-500/25">
@@ -296,27 +334,29 @@ export default function ExtractTextPage() {
               <h3 className="font-outfit text-2xl md:text-3xl font-black text-slate-900 dark:text-white uppercase tracking-tight">
                 Frequently Asked Questions
               </h3>
-              <p className="text-sm font-medium text-slate-400 uppercase tracking-wider">Extract Text FAQs</p>
+              <p className="text-sm font-medium text-slate-400 uppercase tracking-wider">
+                Extract Text FAQs
+              </p>
             </div>
 
             <div className="space-y-4">
               {[
                 {
                   q: "How can I copy text from a PDF file?",
-                  a: "Simply upload your PDF document. The tool extracts all readable text layers in real-time. Review the parsed content in the editor box and copy it to your clipboard or download it as a plain TXT file."
+                  a: "Simply upload your PDF document. The tool extracts all readable text layers in real-time. Review the parsed content in the editor box and copy it to your clipboard or download it as a plain TXT file.",
                 },
                 {
                   q: "Is my text data safe when parsing files?",
-                  a: "Yes! All extraction is performed entirely inside your web browser. No text fragments or document pages are ever uploaded or transmitted to remote servers."
+                  a: "Yes! All extraction is performed entirely inside your web browser. No text fragments or document pages are ever uploaded or transmitted to remote servers.",
                 },
                 {
                   q: "Why is the extracted text empty for some pages?",
-                  a: "If a PDF page is a scanned image or photo without selectable text elements, standard extractors cannot read it. In such cases, you can use our local OCR PDF tool to identify and extract text from images."
+                  a: "If a PDF page is a scanned image or photo without selectable text elements, standard extractors cannot read it. In such cases, you can use our local OCR PDF tool to identify and extract text from images.",
                 },
                 {
                   q: "Does this tool preserve paragraphs and spacing?",
-                  a: "Yes, our extractor analyzes character coordinate positions to preserve formatting layouts, line breaks, and paragraph flows as closely as possible."
-                }
+                  a: "Yes, our extractor analyzes character coordinate positions to preserve formatting layouts, line breaks, and paragraph flows as closely as possible.",
+                },
               ].map((faq, idx) => (
                 <details
                   key={idx}
@@ -324,10 +364,16 @@ export default function ExtractTextPage() {
                 >
                   <summary className="flex items-center justify-between p-6 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500">
                     <span className="font-outfit text-sm sm:text-base font-black text-slate-800 dark:text-white uppercase tracking-tight flex items-center gap-3">
-                      <HelpCircle size={18} className="text-blue-500 shrink-0" />
+                      <HelpCircle
+                        size={18}
+                        className="text-blue-500 shrink-0"
+                      />
                       {faq.q}
                     </span>
-                    <ChevronDown size={18} className="text-slate-400 transition-transform duration-300 group-open:rotate-180 shrink-0 ml-4" />
+                    <ChevronDown
+                      size={18}
+                      className="text-slate-400 transition-transform duration-300 group-open:rotate-180 shrink-0 ml-4"
+                    />
                   </summary>
                   <div className="px-6 pb-6 border-t border-slate-50 dark:border-slate-800 pt-4">
                     <p className="text-sm text-slate-500 dark:text-slate-400 font-medium leading-relaxed">
@@ -346,10 +392,26 @@ export default function ExtractTextPage() {
             </h3>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               {[
-                { name: "OCR PDF", path: "/tool/ocr-pdf", desc: "Convert scans to text" },
-                { name: "PDF to XML", path: "/tool/pdf-to-xml", desc: "Format structured XML tags" },
-                { name: "Split PDF", path: "/tool/split", desc: "Separate documents" },
-                { name: "Merge PDF", path: "/tool/merge", desc: "Combine files in order" }
+                {
+                  name: "OCR PDF",
+                  path: "/tool/ocr-pdf",
+                  desc: "Convert scans to text",
+                },
+                {
+                  name: "PDF to XML",
+                  path: "/tool/pdf-to-xml",
+                  desc: "Format structured XML tags",
+                },
+                {
+                  name: "Split PDF",
+                  path: "/tool/split",
+                  desc: "Separate documents",
+                },
+                {
+                  name: "Merge PDF",
+                  path: "/tool/merge",
+                  desc: "Combine files in order",
+                },
               ].map((tool, idx) => (
                 <Link
                   key={idx}

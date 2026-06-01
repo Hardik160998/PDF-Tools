@@ -2,18 +2,35 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import dynamic from "next/dynamic";
 import {
-  Stamp, FileDigit, Settings, Lock, Unlock, PenLine, ShieldCheck, FileSignature,
-  Info, ArrowRight, Star, Check, HelpCircle, ChevronDown, Loader2, Shield, Zap
-} from 'lucide-react';
+  Stamp,
+  FileDigit,
+  Settings,
+  Lock,
+  Unlock,
+  PenLine,
+  ShieldCheck,
+  FileSignature,
+  Info,
+  ArrowRight,
+  Star,
+  Check,
+  HelpCircle,
+  ChevronDown,
+  Loader2,
+  Shield,
+  Zap,
+} from "lucide-react";
 
 // Site URL for canonical/SEO links
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://smartpdfpro.com/';
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://smartpdfpro.com";
 
 // 1. Dynamic Metadata Export for Next.js App Router
 export const metadata: Metadata = {
-  title: 'Sign PDF Online Free - Draw & Add Electronic Signatures',
-  description: 'Sign PDF documents online for free. Draw, type, or upload an image of your signature to sign your PDF files in seconds with 100% local browser security.',
-  keywords: 'sign pdf online, electronic signature pdf, free esign tool, sign document online, add signature to pdf, smartpdfs plus',
+  title: "Sign PDF Online Free - Draw & Add Electronic Signatures",
+  description:
+    "Sign PDF documents online for free. Draw, type, or upload an image of your signature to sign your PDF files in seconds with 100% local browser security.",
+  keywords:
+    "sign pdf online, electronic signature pdf, free esign tool, sign document online, add signature to pdf, smartpdfs plus",
   alternates: {
     canonical: `${siteUrl}/esign`,
   },
@@ -24,30 +41,32 @@ export const metadata: Metadata = {
     googleBot: {
       index: true,
       follow: true,
-      'max-video-preview': -1,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
     },
   },
   openGraph: {
-    type: 'website',
-    title: 'Sign PDF Online Free - Draw & Add Electronic Signatures',
-    description: 'Sign PDF documents online for free. Draw, type, or upload an image of your signature to sign your PDF files in seconds with 100% local browser security.',
-    siteName: 'SmartPDFs Plus',
+    type: "website",
+    title: "Sign PDF Online Free - Draw & Add Electronic Signatures",
+    description:
+      "Sign PDF documents online for free. Draw, type, or upload an image of your signature to sign your PDF files in seconds with 100% local browser security.",
+    siteName: "SmartPDFs Plus",
     url: `${siteUrl}/esign`,
     images: [
       {
         url: `${siteUrl}/img/snapdeal-label.png`,
         width: 1200,
         height: 630,
-        alt: 'Sign PDF Tool Online - SmartPDFs Plus',
+        alt: "Sign PDF Tool Online - SmartPDFs Plus",
       },
     ],
   },
   twitter: {
-    card: 'summary_large_image',
-    title: 'Sign PDF Online Free - Draw & Add Electronic Signatures',
-    description: 'Sign PDF documents online for free. Draw, type, or upload an image of your signature to sign your PDF files in seconds with 100% local browser security.',
+    card: "summary_large_image",
+    title: "Sign PDF Online Free - Draw & Add Electronic Signatures",
+    description:
+      "Sign PDF documents online for free. Draw, type, or upload an image of your signature to sign your PDF files in seconds with 100% local browser security.",
     images: [`${siteUrl}/img/snapdeal-label.png`],
   },
 };
@@ -56,113 +75,170 @@ export const metadata: Metadata = {
 const webAppJsonLd = {
   "@context": "https://schema.org",
   "@type": "WebApplication",
-  "name": "Sign PDF Online Free",
-  "url": `${siteUrl}/esign`,
-  "image": `${siteUrl}/img/snapdeal-label.png`,
-  "description": "Sign PDF documents online for free. Draw, type, or upload an image of your signature to sign your PDF files in seconds with 100% local browser security.",
-  "applicationCategory": "UtilityApplication",
-  "operatingSystem": "All",
-  "browserRequirements": "Requires HTML5 support",
-  "featureList": [
+  name: "Sign PDF Online Free",
+  url: `${siteUrl}/esign`,
+  image: `${siteUrl}/img/snapdeal-label.png`,
+  description:
+    "Sign PDF documents online for free. Draw, type, or upload an image of your signature to sign your PDF files in seconds with 100% local browser security.",
+  applicationCategory: "UtilityApplication",
+  operatingSystem: "All",
+  browserRequirements: "Requires HTML5 support",
+  featureList: [
     "100% Local browser processing",
     "Draw signature with mouse or touch",
     "Type signature using elegant cursive scripts",
     "Upload signature image with transparency keying",
-    "Fast, free, and no watermarks added"
+    "Fast, free, and no watermarks added",
   ],
-  "offers": {
+  offers: {
     "@type": "Offer",
-    "price": "0",
-    "priceCurrency": "USD"
-  }
+    price: "0",
+    priceCurrency: "USD",
+  },
 };
 
 const breadcrumbJsonLd = {
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
-  "itemListElement": [
+  itemListElement: [
     {
       "@type": "ListItem",
-      "position": 1,
-      "name": "Home",
-      "item": siteUrl
+      position: 1,
+      name: "Home",
+      item: siteUrl,
     },
     {
       "@type": "ListItem",
-      "position": 2,
-      "name": "Tools",
-      "item": `${siteUrl}/#tools-grid`
+      position: 2,
+      name: "Tools",
+      item: `${siteUrl}/#tools-grid`,
     },
     {
       "@type": "ListItem",
-      "position": 3,
-      "name": "Sign PDF",
-      "item": `${siteUrl}/esign`
-    }
-  ]
+      position: 3,
+      name: "Sign PDF",
+      item: `${siteUrl}/esign`,
+    },
+  ],
 };
 
 const faqJsonLd = {
   "@context": "https://schema.org",
   "@type": "FAQPage",
-  "mainEntity": [
+  mainEntity: [
     {
       "@type": "Question",
-      "name": "Is my electronic signature legally binding?",
-      "acceptedAnswer": {
+      name: "Is my electronic signature legally binding?",
+      acceptedAnswer: {
         "@type": "Answer",
-        "text": "Yes. Electronic signatures are legally recognized in most jurisdictions (including the US ESIGN Act and European Union eIDAS regulations) for most business and personal agreements."
-      }
+        text: "Yes. Electronic signatures are legally recognized in most jurisdictions (including the US ESIGN Act and European Union eIDAS regulations) for most business and personal agreements.",
+      },
     },
     {
       "@type": "Question",
-      "name": "Are my signatures and documents secure?",
-      "acceptedAnswer": {
+      name: "Are my signatures and documents secure?",
+      acceptedAnswer: {
         "@type": "Answer",
-        "text": "Absolutely. Our tool operates completely in your web browser. Neither your PDF document nor the signature you draw or upload is ever transmitted to a server. Everything remains local on your device."
-      }
+        text: "Absolutely. Our tool operates completely in your web browser. Neither your PDF document nor the signature you draw or upload is ever transmitted to a server. Everything remains local on your device.",
+      },
     },
     {
       "@type": "Question",
-      "name": "Can I sign multiple pages in the same PDF?",
-      "acceptedAnswer": {
+      name: "Can I sign multiple pages in the same PDF?",
+      acceptedAnswer: {
         "@type": "Answer",
-        "text": "Yes. The editor allows you to navigate through pages and place multiple instances of your signature, date, initials, or custom text boxes on any page."
-      }
+        text: "Yes. The editor allows you to navigate through pages and place multiple instances of your signature, date, initials, or custom text boxes on any page.",
+      },
     },
     {
       "@type": "Question",
-      "name": "Can I type my signature instead of drawing it?",
-      "acceptedAnswer": {
+      name: "Can I type my signature instead of drawing it?",
+      acceptedAnswer: {
         "@type": "Answer",
-        "text": "Yes. You can draw your signature, type it using elegant cursive fonts, or upload a scanned image of your physical signature."
-      }
-    }
-  ]
+        text: "Yes. You can draw your signature, type it using elegant cursive fonts, or upload a scanned image of your physical signature.",
+      },
+    },
+  ],
 };
 
 // 8. Internal links configuration
 const RELATED = [
-  { id: 'watermark', title: 'Watermark PDF', description: 'Stamp a text or image watermark over your PDF. Set transparency and positions.', icon: Stamp, gradient: 'linear-gradient(135deg, #8b5cf6, #6d28d9)', shadow: 'rgba(139,92,246,0.3)', tag: 'Sign & Mark' },
-  { id: 'page-numbers', title: 'Page Numbers', description: 'Add professional page numbers to your PDF. Choose position and layout styling.', icon: FileDigit, gradient: 'linear-gradient(135deg, #6366f1, #4338ca)', shadow: 'rgba(99,102,241,0.3)', tag: 'Annotate' },
-  { id: 'metadata', title: 'Edit Metadata', description: 'Add or update Author, Title, Subject and other document metadata fields.', icon: Settings, gradient: 'linear-gradient(135deg, #64748b, #334155)', shadow: 'rgba(100,116,139,0.3)', tag: 'Document Info' },
-  { id: 'protect', title: 'Protect PDF', description: 'Encrypt your PDF with a password. Control access permissions.', icon: Lock, gradient: 'linear-gradient(135deg, #ef4444, #b91c1c)', shadow: 'rgba(239,68,68,0.3)', tag: 'Security' },
-  { id: 'unlock', title: 'Unlock PDF', description: 'Remove password restrictions from your PDF and restore full access.', icon: Unlock, gradient: 'linear-gradient(135deg, #f97316, #c2410c)', shadow: 'rgba(249,115,22,0.3)', tag: 'Security' },
+  {
+    id: "watermark",
+    title: "Watermark PDF",
+    description:
+      "Stamp a text or image watermark over your PDF. Set transparency and positions.",
+    icon: Stamp,
+    gradient: "linear-gradient(135deg, #8b5cf6, #6d28d9)",
+    shadow: "rgba(139,92,246,0.3)",
+    tag: "Sign & Mark",
+  },
+  {
+    id: "page-numbers",
+    title: "Page Numbers",
+    description:
+      "Add professional page numbers to your PDF. Choose position and layout styling.",
+    icon: FileDigit,
+    gradient: "linear-gradient(135deg, #6366f1, #4338ca)",
+    shadow: "rgba(99,102,241,0.3)",
+    tag: "Annotate",
+  },
+  {
+    id: "metadata",
+    title: "Edit Metadata",
+    description:
+      "Add or update Author, Title, Subject and other document metadata fields.",
+    icon: Settings,
+    gradient: "linear-gradient(135deg, #64748b, #334155)",
+    shadow: "rgba(100,116,139,0.3)",
+    tag: "Document Info",
+  },
+  {
+    id: "protect",
+    title: "Protect PDF",
+    description:
+      "Encrypt your PDF with a password. Control access permissions.",
+    icon: Lock,
+    gradient: "linear-gradient(135deg, #ef4444, #b91c1c)",
+    shadow: "rgba(239,68,68,0.3)",
+    tag: "Security",
+  },
+  {
+    id: "unlock",
+    title: "Unlock PDF",
+    description:
+      "Remove password restrictions from your PDF and restore full access.",
+    icon: Unlock,
+    gradient: "linear-gradient(135deg, #f97316, #c2410c)",
+    shadow: "rgba(249,115,22,0.3)",
+    tag: "Security",
+  },
 ];
 
 // 12. Breadcrumb Navigation Component
 function Breadcrumb() {
   return (
-    <nav aria-label="Breadcrumb" className="mb-6 flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-slate-400 dark:text-slate-500">
-      <Link href="/" className="hover:text-violet-500 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 rounded px-1">
+    <nav
+      aria-label="Breadcrumb"
+      className="mb-6 flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-slate-400 dark:text-slate-500"
+    >
+      <Link
+        href="/"
+        className="hover:text-violet-500 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 rounded px-1"
+      >
         Home
       </Link>
       <span aria-hidden="true">/</span>
-      <Link href="/tool" className="hover:text-violet-500 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 rounded px-1">
+      <Link
+        href="/tool"
+        className="hover:text-violet-500 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 rounded px-1"
+      >
         Tools
       </Link>
       <span aria-hidden="true">/</span>
-      <span className="text-slate-600 dark:text-slate-300" aria-current="page">Sign PDF</span>
+      <span className="text-slate-600 dark:text-slate-300" aria-current="page">
+        Sign PDF
+      </span>
     </nav>
   );
 }
@@ -193,7 +269,7 @@ function ESignSkeleton() {
 
 // Dynamic Import of Client Component
 const ESignTool = dynamic(() => import("@/components/tools/ESignTool"), {
-  loading: () => <ESignSkeleton />
+  loading: () => <ESignSkeleton />,
 });
 
 export default function ESignPage() {
@@ -218,25 +294,42 @@ export default function ESignPage() {
         <Breadcrumb />
 
         {/* Interactive ESign Tool */}
-        <section aria-label="Electronic Signature Application" className="mb-16">
+        <section
+          aria-label="Electronic Signature Application"
+          className="mb-16"
+        >
           <ESignTool id="esign" />
         </section>
 
         {/* Premium Banner */}
         <section className="py-6 mb-12" aria-label="Premium Upgrades">
           <div className="relative overflow-hidden rounded-2xl border border-violet-100 dark:border-violet-500/20 shadow-lg bg-gradient-to-br from-[#faf5ff] via-[#f3e8ff] to-[#e9d5ff]/20 dark:from-[#1e293b] dark:via-[#1e293b] dark:to-[#581c87]/20">
-            <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(ellipse at 80% 50%,rgba(139,92,246,0.12) 0%,transparent 70%)" }} />
+            <div
+              className="absolute inset-0 pointer-events-none"
+              style={{
+                background:
+                  "radial-gradient(ellipse at 80% 50%,rgba(139,92,246,0.12) 0%,transparent 70%)",
+              }}
+            />
             <div className="relative flex flex-col sm:flex-row items-center justify-between gap-4 px-6 py-5">
               <div className="flex items-center gap-4 text-left">
                 <div className="shrink-0 w-12 h-12 rounded-xl flex items-center justify-center text-white shadow-md bg-gradient-to-br from-[#8b5cf6] to-[#6d28d9]">
                   <Star size={22} className="fill-white/20" />
                 </div>
                 <div>
-                  <p className="text-sm font-black text-slate-900 dark:text-slate-100">Unlock SmartPDFs Plus — Go Premium</p>
-                  <p className="text-xs text-slate-500 dark:text-slate-400 font-medium mt-0.5">Custom layout templates · Digital cryptographic signatures · Unlimited page sizes · Priority processing</p>
+                  <p className="text-sm font-black text-slate-900 dark:text-slate-100">
+                    Unlock SmartPDFs Plus — Go Premium
+                  </p>
+                  <p className="text-xs text-slate-500 dark:text-slate-400 font-medium mt-0.5">
+                    Custom layout templates · Digital cryptographic signatures ·
+                    Unlimited page sizes · Priority processing
+                  </p>
                 </div>
               </div>
-              <Link href="/premium-plans" className="shrink-0 inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-white text-xs font-black uppercase tracking-widest shadow-md transition-transform hover:scale-105 bg-gradient-to-br from-[#8b5cf6] to-[#6d28d9]">
+              <Link
+                href="/premium-plans"
+                className="shrink-0 inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-white text-xs font-black uppercase tracking-widest shadow-md transition-transform hover:scale-105 bg-gradient-to-br from-[#8b5cf6] to-[#6d28d9]"
+              >
                 Upgrade Now <span aria-hidden="true">&#8594;</span>
               </Link>
             </div>
@@ -244,34 +337,64 @@ export default function ESignPage() {
         </section>
 
         {/* Feature Cards Grid */}
-        <section aria-label="Tool Benefits Quick Overview" className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-20">
+        <section
+          aria-label="Tool Benefits Quick Overview"
+          className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-20"
+        >
           {[
-            { title: "Draw, Type, or Upload", desc: "Draw with touch/mouse, type your name using beautiful cursive fonts, or scan your physical signature.", gradient: "linear-gradient(135deg,#8b5cf6,#6d28d9)" },
-            { title: "Multi-page Annotations", desc: "Easily navigate through pages and place your signature, initials, date stamps, or initials.", gradient: "linear-gradient(135deg,#8b5cf6,#6d28d9)" },
-            { title: "100% Secure & Private", desc: "Your documents never touch a server. All canvas drawing and merging run locally on your device.", gradient: "linear-gradient(135deg,#22c55e,#15803d)" }
+            {
+              title: "Draw, Type, or Upload",
+              desc: "Draw with touch/mouse, type your name using beautiful cursive fonts, or scan your physical signature.",
+              gradient: "linear-gradient(135deg,#8b5cf6,#6d28d9)",
+            },
+            {
+              title: "Multi-page Annotations",
+              desc: "Easily navigate through pages and place your signature, initials, date stamps, or initials.",
+              gradient: "linear-gradient(135deg,#8b5cf6,#6d28d9)",
+            },
+            {
+              title: "100% Secure & Private",
+              desc: "Your documents never touch a server. All canvas drawing and merging run locally on your device.",
+              gradient: "linear-gradient(135deg,#22c55e,#15803d)",
+            },
           ].map((feat, i) => (
-            <div key={i} className="bg-white dark:bg-slate-900 p-8 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-xl transition-all group text-left">
-              <div className="w-12 h-12 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform shadow-lg" style={{ background: feat.gradient }}>
-                <div className="text-white font-black" aria-hidden="true">{i + 1}</div>
+            <div
+              key={i}
+              className="bg-white dark:bg-slate-900 p-8 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-xl transition-all group text-left"
+            >
+              <div
+                className="w-12 h-12 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform shadow-lg"
+                style={{ background: feat.gradient }}
+              >
+                <div className="text-white font-black" aria-hidden="true">
+                  {i + 1}
+                </div>
               </div>
-              <h3 className="text-xl font-black text-slate-900 dark:text-white uppercase tracking-tight mb-2">{feat.title}</h3>
-              <p className="text-slate-500 dark:text-slate-400 text-sm leading-relaxed">{feat.desc}</p>
+              <h3 className="text-xl font-black text-slate-900 dark:text-white uppercase tracking-tight mb-2">
+                {feat.title}
+              </h3>
+              <p className="text-slate-500 dark:text-slate-400 text-sm leading-relaxed">
+                {feat.desc}
+              </p>
             </div>
           ))}
         </section>
 
         {/* 4. Complete SEO Optimized Content Section */}
         <section className="mt-20 border-t border-slate-200 dark:border-slate-800 pt-16 max-w-7xl mx-auto text-left">
-
           <div className="mb-16 text-center relative">
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[100px] bg-violet-500/10 dark:bg-violet-500/5 blur-[80px] rounded-full -z-10 pointer-events-none" />
 
             <h1 className="text-4xl sm:text-6xl font-black tracking-tight mb-6 uppercase leading-tight bg-gradient-to-r from-slate-950 via-slate-800 to-violet-600 dark:from-white dark:via-slate-200 dark:to-violet-500 bg-clip-text text-transparent">
               Sign PDF Online Free <br />
-              <span className="text-violet-500 dark:text-violet-400">Secure Electronic Signatures</span>
+              <span className="text-violet-500 dark:text-violet-400">
+                Secure Electronic Signatures
+              </span>
             </h1>
             <p className="text-base sm:text-lg text-slate-500 dark:text-slate-400 font-medium max-w-2xl mx-auto leading-relaxed">
-              Create, place, and embed electronic signatures on your PDF agreements, invoices, and contracts. Complete the entire signature flow safely inside your browser.
+              Create, place, and embed electronic signatures on your PDF
+              agreements, invoices, and contracts. Complete the entire signature
+              flow safely inside your browser.
             </p>
           </div>
 
@@ -286,10 +409,20 @@ export default function ESignPage() {
                   What is Online PDF Signing?
                 </h2>
                 <p className="text-slate-600 dark:text-slate-300 leading-relaxed font-medium text-sm sm:text-base">
-                  Online PDF signing lets you add visual electronic signatures directly onto your PDF pages. By avoiding the printing, signing with a pen, and scanning cycle, you save significant time. Our tool provides full drawing canvases, typing controls, and signature scaling options to fit your signature neatly into contract blocks.
+                  Online PDF signing lets you add visual electronic signatures
+                  directly onto your PDF pages. By avoiding the printing,
+                  signing with a pen, and scanning cycle, you save significant
+                  time. Our tool provides full drawing canvases, typing
+                  controls, and signature scaling options to fit your signature
+                  neatly into contract blocks.
                 </p>
                 <p className="text-slate-500 dark:text-slate-400 leading-relaxed font-medium text-sm">
-                  SmartPDFs Plus processes your documents <strong className="text-violet-600 font-black dark:text-violet-450">100% locally in your browser's memory</strong>. No uploads are sent to server folders, which completely eliminates data intercept risks and ensures instant rendering.
+                  SmartPDFs Plus processes your documents{" "}
+                  <strong className="text-violet-600 font-black dark:text-violet-450">
+                    100% locally in your browser's memory
+                  </strong>
+                  . No uploads are sent to server folders, which completely
+                  eliminates data intercept risks and ensures instant rendering.
                 </p>
               </div>
             </div>
@@ -297,7 +430,9 @@ export default function ESignPage() {
             {/* How to use the tool card */}
             <div className="bg-white dark:bg-slate-900 p-8 sm:p-12 rounded-[2.5rem] border border-slate-100 dark:border-slate-800 shadow-sm">
               <h2 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white uppercase tracking-tight mb-10 flex items-center gap-3">
-                <span className="p-2 rounded-xl bg-violet-500/10 text-violet-500"><ArrowRight size={24} /></span>
+                <span className="p-2 rounded-xl bg-violet-500/10 text-violet-500">
+                  <ArrowRight size={24} />
+                </span>
                 How to Sign PDF Documents in 3 Simple Steps
               </h2>
 
@@ -305,17 +440,36 @@ export default function ESignPage() {
                 <div className="hidden md:block absolute top-6 left-[16%] right-[16%] h-0.5 bg-slate-100 dark:bg-slate-800/80 -z-0" />
 
                 {[
-                  { step: "01", title: "Upload PDF", desc: "Select your PDF document or image file. The file is opened instantly in your browser workspace." },
-                  { step: "02", title: "Add Custom Signature", desc: "Draw your signature, type it, or upload a PNG image, then drag it to your target page position." },
-                  { step: "03", title: "Download Signed File", desc: "Place it, scale it, and download your updated PDF immediately without watermark overlays." }
+                  {
+                    step: "01",
+                    title: "Upload PDF",
+                    desc: "Select your PDF document or image file. The file is opened instantly in your browser workspace.",
+                  },
+                  {
+                    step: "02",
+                    title: "Add Custom Signature",
+                    desc: "Draw your signature, type it, or upload a PNG image, then drag it to your target page position.",
+                  },
+                  {
+                    step: "03",
+                    title: "Download Signed File",
+                    desc: "Place it, scale it, and download your updated PDF immediately without watermark overlays.",
+                  },
                 ].map((s, idx) => (
-                  <div key={idx} className="relative z-10 flex flex-col gap-4 group">
+                  <div
+                    key={idx}
+                    className="relative z-10 flex flex-col gap-4 group"
+                  >
                     <div className="w-12 h-12 rounded-full bg-slate-50 dark:bg-slate-800 flex items-center justify-center font-outfit text-lg font-black text-violet-500 border-2 border-slate-100 dark:border-slate-800 shadow-sm group-hover:scale-110 group-hover:border-violet-500/40 transition-all duration-300">
                       {s.step}
                     </div>
                     <div className="space-y-2">
-                      <h3 className="text-lg font-black text-slate-900 dark:text-white uppercase tracking-tight">{s.title}</h3>
-                      <p className="text-slate-500 dark:text-slate-400 text-sm leading-relaxed font-medium">{s.desc}</p>
+                      <h3 className="text-lg font-black text-slate-900 dark:text-white uppercase tracking-tight">
+                        {s.title}
+                      </h3>
+                      <p className="text-slate-500 dark:text-slate-400 text-sm leading-relaxed font-medium">
+                        {s.desc}
+                      </p>
                     </div>
                   </div>
                 ))}
@@ -325,22 +479,36 @@ export default function ESignPage() {
             {/* Detailed Benefits and Features */}
             <div className="space-y-8">
               <h2 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white uppercase tracking-tight flex items-center gap-3">
-                <span className="p-2 rounded-xl bg-violet-500/10 text-violet-500"><Star size={24} /></span>
+                <span className="p-2 rounded-xl bg-violet-500/10 text-violet-500">
+                  <Star size={24} />
+                </span>
                 Key Benefits & Features
               </h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div className="bg-gradient-to-br from-white to-slate-50/30 dark:from-slate-900 dark:to-slate-900/50 p-8 rounded-[2rem] border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-md transition-all duration-300 flex flex-col gap-4 group">
-                  <div className="w-12 h-12 rounded-2xl bg-green-500/10 text-green-500 flex items-center justify-center shadow-inner group-hover:scale-110 transition-transform duration-300"><Shield size={22} /></div>
-                  <h3 className="text-xl font-black text-slate-900 dark:text-white uppercase tracking-tight group-hover:text-green-500 transition-colors">100% Private local edit</h3>
+                  <div className="w-12 h-12 rounded-2xl bg-green-500/10 text-green-500 flex items-center justify-center shadow-inner group-hover:scale-110 transition-transform duration-300">
+                    <Shield size={22} />
+                  </div>
+                  <h3 className="text-xl font-black text-slate-900 dark:text-white uppercase tracking-tight group-hover:text-green-500 transition-colors">
+                    100% Private local edit
+                  </h3>
                   <p className="text-slate-500 dark:text-slate-400 text-sm leading-relaxed font-medium">
-                    Because we execute the canvas composition locally on your computer, your signatures and sensitive contracts are never exposed to external cloud servers.
+                    Because we execute the canvas composition locally on your
+                    computer, your signatures and sensitive contracts are never
+                    exposed to external cloud servers.
                   </p>
                 </div>
                 <div className="bg-gradient-to-br from-white to-slate-50/30 dark:from-slate-900 dark:to-slate-900/50 p-8 rounded-[2rem] border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-md transition-all duration-300 flex flex-col gap-4 group">
-                  <div className="w-12 h-12 rounded-2xl bg-violet-500/10 text-violet-500 flex items-center justify-center shadow-inner group-hover:scale-110 transition-transform duration-300"><Zap size={22} /></div>
-                  <h3 className="text-xl font-black text-slate-900 dark:text-white uppercase tracking-tight group-hover:text-violet-500 transition-colors">Multiple signature formats</h3>
+                  <div className="w-12 h-12 rounded-2xl bg-violet-500/10 text-violet-500 flex items-center justify-center shadow-inner group-hover:scale-110 transition-transform duration-300">
+                    <Zap size={22} />
+                  </div>
+                  <h3 className="text-xl font-black text-slate-900 dark:text-white uppercase tracking-tight group-hover:text-violet-500 transition-colors">
+                    Multiple signature formats
+                  </h3>
                   <p className="text-slate-500 dark:text-slate-400 text-sm leading-relaxed font-medium">
-                    Freely switch between typing cursive script names, drawing custom shapes, or uploading scanned signature files. Set exact colors and size constraints.
+                    Freely switch between typing cursive script names, drawing
+                    custom shapes, or uploading scanned signature files. Set
+                    exact colors and size constraints.
                   </p>
                 </div>
               </div>
@@ -351,10 +519,15 @@ export default function ESignPage() {
                     "Supports adding text labels like signing dates, names, titles, and locations.",
                     "Smooth signature layout placement with quick mouse dragging or touch drag inputs.",
                     "Complies with PDF specification tags, compatible with global PDF reader catalogs.",
-                    "Completely free, no watermarks, and no sign-up registration is required."
+                    "Completely free, no watermarks, and no sign-up registration is required.",
                   ].map((item, idx) => (
-                    <li key={idx} className="flex items-start gap-3 text-sm text-slate-600 dark:text-slate-400 font-medium">
-                      <span className="p-0.5 rounded-full bg-violet-500/10 text-violet-600 mt-0.5 shrink-0"><Check size={12} /></span>
+                    <li
+                      key={idx}
+                      className="flex items-start gap-3 text-sm text-slate-600 dark:text-slate-400 font-medium"
+                    >
+                      <span className="p-0.5 rounded-full bg-violet-500/10 text-violet-600 mt-0.5 shrink-0">
+                        <Check size={12} />
+                      </span>
                       <span>{item}</span>
                     </li>
                   ))}
@@ -365,27 +538,29 @@ export default function ESignPage() {
             {/* FAQ Block */}
             <div className="bg-white dark:bg-slate-900 p-8 sm:p-12 rounded-[2.5rem] border border-slate-100 dark:border-slate-800 shadow-sm">
               <h2 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white uppercase tracking-tight mb-8 flex items-center gap-3">
-                <span className="p-2 rounded-xl bg-violet-500/10 text-violet-500"><HelpCircle size={24} /></span>
+                <span className="p-2 rounded-xl bg-violet-500/10 text-violet-500">
+                  <HelpCircle size={24} />
+                </span>
                 Frequently Asked Questions
               </h2>
               <div className="space-y-4">
                 {[
                   {
                     q: "Is my electronic signature legally binding?",
-                    a: "Yes. Electronic signatures are legally recognized in most jurisdictions (including the US ESIGN Act and European Union eIDAS regulations) for most business and personal agreements."
+                    a: "Yes. Electronic signatures are legally recognized in most jurisdictions (including the US ESIGN Act and European Union eIDAS regulations) for most business and personal agreements.",
                   },
                   {
                     q: "Are my signatures and documents secure?",
-                    a: "Absolutely. Our tool operates completely in your web browser. Neither your PDF document nor the signature you draw or upload is ever transmitted to a server. Everything remains local on your device."
+                    a: "Absolutely. Our tool operates completely in your web browser. Neither your PDF document nor the signature you draw or upload is ever transmitted to a server. Everything remains local on your device.",
                   },
                   {
                     q: "Can I sign multiple pages in the same PDF?",
-                    a: "Yes. The editor allows you to navigate through pages and place multiple instances of your signature, date, initials, or custom text boxes on any page."
+                    a: "Yes. The editor allows you to navigate through pages and place multiple instances of your signature, date, initials, or custom text boxes on any page.",
                   },
                   {
                     q: "Can I type my signature instead of drawing it?",
-                    a: "Yes. You can draw your signature, type it using elegant cursive fonts, or upload a scanned image of your physical signature."
-                  }
+                    a: "Yes. You can draw your signature, type it using elegant cursive fonts, or upload a scanned image of your physical signature.",
+                  },
                 ].map((item, idx) => (
                   <details
                     key={idx}
@@ -415,25 +590,39 @@ export default function ESignPage() {
             Explore More PDF Tools
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {RELATED.map(t => (
+            {RELATED.map((t) => (
               <Link
                 key={t.id}
-                href={t.id.startsWith('/') ? t.id : `/tool/${t.id}`}
+                href={t.id.startsWith("/") ? t.id : `/tool/${t.id}`}
                 title={`Use the ${t.title} tool`}
                 aria-label={`Open the ${t.title} tool to ${t.description.toLowerCase()}`}
                 className="group bg-white dark:bg-slate-900 rounded-3xl p-6 shadow-sm border border-slate-100 dark:border-slate-800 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 flex flex-col gap-4 text-left focus-visible:ring-2 focus-visible:ring-violet-500 focus-visible:outline-none"
               >
                 <div className="flex items-start justify-between">
-                  <div className="w-14 h-14 rounded-2xl flex items-center justify-center text-white shadow-lg" style={{ background: t.gradient, boxShadow: `0 8px 20px -4px ${t.shadow}` }}>
+                  <div
+                    className="w-14 h-14 rounded-2xl flex items-center justify-center text-white shadow-lg"
+                    style={{
+                      background: t.gradient,
+                      boxShadow: `0 8px 20px -4px ${t.shadow}`,
+                    }}
+                  >
                     <t.icon size={26} aria-hidden="true" />
                   </div>
-                  <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 bg-slate-50 dark:bg-slate-800 px-2 py-1 rounded-full border border-slate-100 dark:border-slate-700">{t.tag}</span>
+                  <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 bg-slate-50 dark:bg-slate-800 px-2 py-1 rounded-full border border-slate-100 dark:border-slate-700">
+                    {t.tag}
+                  </span>
                 </div>
                 <div>
-                  <h3 className="text-base font-black text-slate-900 dark:text-white mb-1 group-hover:text-violet-500 transition-colors">{t.title}</h3>
-                  <p className="text-sm text-slate-500 dark:text-slate-400 font-medium leading-relaxed">{t.description}</p>
+                  <h3 className="text-base font-black text-slate-900 dark:text-white mb-1 group-hover:text-violet-500 transition-colors">
+                    {t.title}
+                  </h3>
+                  <p className="text-sm text-slate-500 dark:text-slate-400 font-medium leading-relaxed">
+                    {t.description}
+                  </p>
                 </div>
-                <div className="mt-auto pt-2 text-xs font-bold text-violet-500 flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">Open tool <span aria-hidden="true">&#8594;</span></div>
+                <div className="mt-auto pt-2 text-xs font-bold text-violet-500 flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                  Open tool <span aria-hidden="true">&#8594;</span>
+                </div>
               </Link>
             ))}
           </div>

@@ -2,18 +2,32 @@ import ComparePdf from "@/components/tools/ComparePdf";
 import Link from "next/link";
 import type { Metadata } from "next";
 import {
-  GitCompare, FileText, Upload, Search,
-  Lock, RefreshCw, Zap, Shield, ArrowRight, HelpCircle, Info, Star, Check, ChevronDown
+  GitCompare,
+  FileText,
+  Upload,
+  Search,
+  Lock,
+  RefreshCw,
+  Zap,
+  Shield,
+  ArrowRight,
+  HelpCircle,
+  Info,
+  Star,
+  Check,
+  ChevronDown,
 } from "lucide-react";
 
 // Site URL for canonical/SEO links
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://smartpdfpro.com/';
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://smartpdfpro.com";
 
 // 1. Dynamic Metadata Export for Next.js App Router
 export const metadata: Metadata = {
-  title: 'Compare PDF Files Online - Free Side-by-Side PDF Diff | SmartPDFs',
-  description: 'Compare two PDF documents side-by-side to highlight text differences and visual page edits. Pixel-by-pixel accuracy, 100% private in-browser analysis.',
-  keywords: 'compare pdf online, compare pdf files, side by side pdf diff, visual pdf comparison free, highlight pdf differences, pdf text compare, free pdf tool, smartpdfs',
+  title: "Compare PDF Files Online - Free Side-by-Side PDF Diff | SmartPDFs",
+  description:
+    "Compare two PDF documents side-by-side to highlight text differences and visual page edits. Pixel-by-pixel accuracy, 100% private in-browser analysis.",
+  keywords:
+    "compare pdf online, compare pdf files, side by side pdf diff, visual pdf comparison free, highlight pdf differences, pdf text compare, free pdf tool, smartpdfs",
   alternates: {
     canonical: `${siteUrl}/tool/compare-pdf`,
   },
@@ -24,30 +38,32 @@ export const metadata: Metadata = {
     googleBot: {
       index: true,
       follow: true,
-      'max-video-preview': -1,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
     },
   },
   openGraph: {
-    type: 'website',
-    title: 'Compare PDF Files Online - Free Side-by-Side PDF Diff | SmartPDFs',
-    description: 'Compare two PDF documents side-by-side to highlight text differences and visual page edits. Pixel-by-pixel accuracy, 100% private in-browser analysis.',
-    siteName: 'SmartPDFs',
+    type: "website",
+    title: "Compare PDF Files Online - Free Side-by-Side PDF Diff | SmartPDFs",
+    description:
+      "Compare two PDF documents side-by-side to highlight text differences and visual page edits. Pixel-by-pixel accuracy, 100% private in-browser analysis.",
+    siteName: "SmartPDFs",
     url: `${siteUrl}/tool/compare-pdf`,
     images: [
       {
         url: `${siteUrl}/img/compare-pdf-og.png`,
         width: 1200,
         height: 630,
-        alt: 'Compare PDF Documents Online - SmartPDFs',
+        alt: "Compare PDF Documents Online - SmartPDFs",
       },
     ],
   },
   twitter: {
-    card: 'summary_large_image',
-    title: 'Compare PDF Files Online - Free Side-by-Side PDF Diff | SmartPDFs',
-    description: 'Compare two PDF documents side-by-side to highlight text differences and visual page edits. Pixel-by-pixel accuracy, 100% private in-browser analysis.',
+    card: "summary_large_image",
+    title: "Compare PDF Files Online - Free Side-by-Side PDF Diff | SmartPDFs",
+    description:
+      "Compare two PDF documents side-by-side to highlight text differences and visual page edits. Pixel-by-pixel accuracy, 100% private in-browser analysis.",
     images: [`${siteUrl}/img/compare-pdf-og.png`],
   },
 };
@@ -56,90 +72,91 @@ export const metadata: Metadata = {
 const webAppJsonLd = {
   "@context": "https://schema.org",
   "@type": "WebApplication",
-  "name": "Compare PDF Files Online Free",
-  "url": `${siteUrl}/tool/compare-pdf`,
-  "image": `${siteUrl}/img/compare-pdf-og.png`,
-  "description": "Compare two PDF documents side-by-side to highlight text differences and visual page edits. Pixel-by-pixel accuracy, 100% private in-browser analysis.",
-  "applicationCategory": "UtilityApplication",
-  "operatingSystem": "All",
-  "browserRequirements": "Requires HTML5 support",
-  "featureList": [
+  name: "Compare PDF Files Online Free",
+  url: `${siteUrl}/tool/compare-pdf`,
+  image: `${siteUrl}/img/compare-pdf-og.png`,
+  description:
+    "Compare two PDF documents side-by-side to highlight text differences and visual page edits. Pixel-by-pixel accuracy, 100% private in-browser analysis.",
+  applicationCategory: "UtilityApplication",
+  operatingSystem: "All",
+  browserRequirements: "Requires HTML5 support",
+  featureList: [
     "100% Local processing in your browser",
     "No file uploads to servers",
     "Side-by-side visual and text comparisons",
     "Highlight additions and removals",
     "Shows percentage differences",
-    "Instant comparison with no delays"
+    "Instant comparison with no delays",
   ],
-  "offers": {
+  offers: {
     "@type": "Offer",
-    "price": "0",
-    "priceCurrency": "USD"
-  }
+    price: "0",
+    priceCurrency: "USD",
+  },
 };
 
 const breadcrumbJsonLd = {
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
-  "itemListElement": [
+  itemListElement: [
     {
       "@type": "ListItem",
-      "position": 1,
-      "name": "Home",
-      "item": siteUrl
+      position: 1,
+      name: "Home",
+      item: siteUrl,
     },
     {
       "@type": "ListItem",
-      "position": 2,
-      "name": "Tools",
-      "item": `${siteUrl}/#tools-grid`
+      position: 2,
+      name: "Tools",
+      item: `${siteUrl}/#tools-grid`,
     },
     {
       "@type": "ListItem",
-      "position": 3,
-      "name": "Compare PDF",
-      "item": `${siteUrl}/tool/compare-pdf`
-    }
-  ]
+      position: 3,
+      name: "Compare PDF",
+      item: `${siteUrl}/tool/compare-pdf`,
+    },
+  ],
 };
 
 const faqJsonLd = {
   "@context": "https://schema.org",
   "@type": "FAQPage",
-  "mainEntity": [
+  mainEntity: [
     {
       "@type": "Question",
-      "name": "How can I compare two PDF files online?",
-      "acceptedAnswer": {
+      name: "How can I compare two PDF files online?",
+      acceptedAnswer: {
         "@type": "Answer",
-        "text": "Upload the two PDF documents you want to compare into the 'PDF A' and 'PDF B' zones. Click 'Compare PDFs'. The tool renders each page side-by-side, displaying visual similarities and highlighting added or removed text lines."
-      }
+        text: "Upload the two PDF documents you want to compare into the 'PDF A' and 'PDF B' zones. Click 'Compare PDFs'. The tool renders each page side-by-side, displaying visual similarities and highlighting added or removed text lines.",
+      },
     },
     {
       "@type": "Question",
-      "name": "Does this tool upload my documents to a server?",
-      "acceptedAnswer": {
+      name: "Does this tool upload my documents to a server?",
+      acceptedAnswer: {
         "@type": "Answer",
-        "text": "No! All text extraction and page comparisons are performed 100% locally in your web browser. No files are uploaded to remote servers, giving you complete privacy and confidence for sensitive data."
-      }
+        text: "No! All text extraction and page comparisons are performed 100% locally in your web browser. No files are uploaded to remote servers, giving you complete privacy and confidence for sensitive data.",
+      },
     },
     {
       "@type": "Question",
-      "name": "Can I compare scanned PDFs?",
-      "acceptedAnswer": {
+      name: "Can I compare scanned PDFs?",
+      acceptedAnswer: {
         "@type": "Answer",
-        "text": "The tool uses pixel-by-pixel comparisons, so it will highlight visual differences on scanned pages. However, text line differences are generated from embedded document text, which requires selectable text elements (non-scanned or OCR-processed files)."
-      }
+        text: "The tool uses pixel-by-pixel comparisons, so it will highlight visual differences on scanned pages. However, text line differences are generated from embedded document text, which requires selectable text elements (non-scanned or OCR-processed files).",
+      },
     },
     {
       "@type": "Question",
-      "name": "Is there a limit on file size for PDF comparisons?",
-      "acceptedAnswer": {
+      name: "Is there a limit on file size for PDF comparisons?",
+      acceptedAnswer: {
         "@type": "Answer",
-        "text": "Since files are analyzed entirely within your web browser, size limits depend mostly on your computer's memory. We optimize memory usage so you can compare large documents smoothly."
-      }
-    }
-  ]
+        text: "Since files are analyzed entirely within your web browser, size limits depend mostly on your computer's memory. We optimize memory usage so you can compare large documents smoothly.",
+      },
+    },
+  ],
 };
 
 export default function ComparePdfPage() {
@@ -164,17 +181,26 @@ export default function ComparePdfPage() {
         <nav aria-label="Breadcrumb" className="mb-8">
           <ol className="flex items-center space-x-2 text-xs font-semibold text-slate-400 uppercase tracking-widest">
             <li>
-              <Link href="/" className="hover:text-indigo-500 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 rounded px-1">
+              <Link
+                href="/"
+                className="hover:text-indigo-500 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 rounded px-1"
+              >
                 Home
               </Link>
             </li>
             <li className="flex items-center gap-1.5" aria-hidden="true">
               <span>/</span>
-              <Link href="/#tools-grid" className="hover:text-indigo-500 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 rounded px-1">
+              <Link
+                href="/#tools-grid"
+                className="hover:text-indigo-500 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 rounded px-1"
+              >
                 Tools
               </Link>
             </li>
-            <li className="flex items-center gap-1.5 text-slate-600 dark:text-slate-200" aria-current="page">
+            <li
+              className="flex items-center gap-1.5 text-slate-600 dark:text-slate-200"
+              aria-current="page"
+            >
               <span>/</span>
               <span>Compare PDF</span>
             </li>
@@ -188,14 +214,16 @@ export default function ComparePdfPage() {
 
         {/* Rich SEO Content Section */}
         <article className="space-y-16 max-w-7xl mx-auto mt-20">
-
           {/* Main heading and description */}
           <section className="text-center max-w-4xl mx-auto space-y-4">
             <h2 className="font-outfit text-3xl md:text-5xl font-black tracking-tighter leading-tight bg-clip-text text-transparent bg-gradient-to-r from-slate-900 via-indigo-950 to-indigo-600 dark:from-white dark:via-indigo-100 dark:to-indigo-400 uppercase">
               Compare PDF Files Online — Free &amp; Secure
             </h2>
             <p className="text-lg font-medium text-slate-500 dark:text-slate-400 leading-relaxed">
-              Compare two PDF documents side-by-side to highlight text differences and visual page edits. Spot modifications, additions, and removals with pixel-level precision, processed completely locally in your browser.
+              Compare two PDF documents side-by-side to highlight text
+              differences and visual page edits. Spot modifications, additions,
+              and removals with pixel-level precision, processed completely
+              locally in your browser.
             </p>
           </section>
 
@@ -205,7 +233,9 @@ export default function ComparePdfPage() {
               <h3 className="font-outfit text-2xl md:text-3xl font-black text-slate-900 dark:text-white uppercase tracking-tight">
                 How to Compare PDF Documents?
               </h3>
-              <p className="text-sm font-medium text-slate-400 uppercase tracking-wider">Step-by-step diff guide</p>
+              <p className="text-sm font-medium text-slate-400 uppercase tracking-wider">
+                Step-by-step diff guide
+              </p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
@@ -213,20 +243,23 @@ export default function ComparePdfPage() {
                 {
                   step: "01",
                   title: "Upload Documents",
-                  desc: "Select or drag & drop two files into the PDF A and PDF B zones. Both files load instantly in your browser."
+                  desc: "Select or drag & drop two files into the PDF A and PDF B zones. Both files load instantly in your browser.",
                 },
                 {
                   step: "02",
                   title: "Click Compare",
-                  desc: "Click 'Compare PDFs'. The tool reads both files and matches pages pixel-by-pixel and line-by-line."
+                  desc: "Click 'Compare PDFs'. The tool reads both files and matches pages pixel-by-pixel and line-by-line.",
                 },
                 {
                   step: "03",
                   title: "Review Differences",
-                  desc: "Examine diff lines. Added lines are highlighted in green, deleted in red, and identical pages in green outline."
-                }
+                  desc: "Examine diff lines. Added lines are highlighted in green, deleted in red, and identical pages in green outline.",
+                },
               ].map((item, index) => (
-                <div key={index} className="relative bg-white dark:bg-slate-900 rounded-3xl p-8 border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-md transition-all group flex flex-col justify-between">
+                <div
+                  key={index}
+                  className="relative bg-white dark:bg-slate-900 rounded-3xl p-8 border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-md transition-all group flex flex-col justify-between"
+                >
                   <div className="space-y-4">
                     <div className="flex items-center justify-between">
                       <span className="font-outfit text-4xl font-black text-indigo-500/20 group-hover:text-indigo-500 transition-colors duration-300">
@@ -258,23 +291,37 @@ export default function ComparePdfPage() {
             <div className="flex flex-col lg:flex-row gap-8 lg:items-center justify-between border-b border-indigo-100/30 dark:border-slate-800/50 pb-8">
               <div className="space-y-3">
                 <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-indigo-100/50 dark:bg-indigo-950/20 text-indigo-600 dark:text-indigo-400 text-xs font-black uppercase tracking-widest border border-indigo-100 dark:border-indigo-900/30">
-                  <Star size={12} className="fill-indigo-500" /> Premium Benefits
+                  <Star size={12} className="fill-indigo-500" /> Premium
+                  Benefits
                 </span>
                 <h3 className="font-outfit text-2xl md:text-3xl font-black text-slate-900 dark:text-white uppercase tracking-tight">
                   Why Compare PDFs Locally?
                 </h3>
               </div>
               <p className="text-sm font-medium text-slate-500 dark:text-slate-400 max-w-md">
-                Fast browser-based operations without queues or subscriptions. Spot contract differences and revisions instantly.
+                Fast browser-based operations without queues or subscriptions.
+                Spot contract differences and revisions instantly.
               </p>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {[
-                { title: "Privacy Guaranteed", desc: "No remote file servers. All processing operates in the browser sandbox. 100% confidential." },
-                { title: "Double Viewmodes", desc: "Toggle between visual page differences (image rendering) or inline text diff lines." },
-                { title: "Line-Level LCS Diff", desc: "Accurate text analysis lists exact characters added or deleted between versions." },
-                { title: "Summary Reports", desc: "Instantly see the number of changed pages, lines added, and lines removed." }
+                {
+                  title: "Privacy Guaranteed",
+                  desc: "No remote file servers. All processing operates in the browser sandbox. 100% confidential.",
+                },
+                {
+                  title: "Double Viewmodes",
+                  desc: "Toggle between visual page differences (image rendering) or inline text diff lines.",
+                },
+                {
+                  title: "Line-Level LCS Diff",
+                  desc: "Accurate text analysis lists exact characters added or deleted between versions.",
+                },
+                {
+                  title: "Summary Reports",
+                  desc: "Instantly see the number of changed pages, lines added, and lines removed.",
+                },
               ].map((feat, i) => (
                 <div key={i} className="space-y-3 p-2">
                   <div className="w-8 h-8 rounded-lg bg-indigo-500 text-white flex items-center justify-center shadow-lg shadow-indigo-500/25">
@@ -297,27 +344,29 @@ export default function ComparePdfPage() {
               <h3 className="font-outfit text-2xl md:text-3xl font-black text-slate-900 dark:text-white uppercase tracking-tight">
                 Frequently Asked Questions
               </h3>
-              <p className="text-sm font-medium text-slate-400 uppercase tracking-wider">Compare PDF FAQs</p>
+              <p className="text-sm font-medium text-slate-400 uppercase tracking-wider">
+                Compare PDF FAQs
+              </p>
             </div>
 
             <div className="space-y-4">
               {[
                 {
                   q: "How can I compare two PDF files online?",
-                  a: "Upload the two PDF documents you want to compare into the 'PDF A' and 'PDF B' zones. Click 'Compare PDFs'. The tool renders each page side-by-side, displaying visual similarities and highlighting added or removed text lines."
+                  a: "Upload the two PDF documents you want to compare into the 'PDF A' and 'PDF B' zones. Click 'Compare PDFs'. The tool renders each page side-by-side, displaying visual similarities and highlighting added or removed text lines.",
                 },
                 {
                   q: "Does this tool upload my documents to a server?",
-                  a: "No! All text extraction and page comparisons are performed 100% locally in your web browser. No files are uploaded to remote servers, giving you complete privacy and confidence for sensitive data."
+                  a: "No! All text extraction and page comparisons are performed 100% locally in your web browser. No files are uploaded to remote servers, giving you complete privacy and confidence for sensitive data.",
                 },
                 {
                   q: "Can I compare scanned PDFs?",
-                  a: "The tool uses pixel-by-pixel comparisons, so it will highlight visual differences on scanned pages. However, text line differences are generated from embedded document text, which requires selectable text elements (non-scanned or OCR-processed files)."
+                  a: "The tool uses pixel-by-pixel comparisons, so it will highlight visual differences on scanned pages. However, text line differences are generated from embedded document text, which requires selectable text elements (non-scanned or OCR-processed files).",
                 },
                 {
                   q: "Is there a limit on file size for PDF comparisons?",
-                  a: "Since files are analyzed entirely within your web browser, size limits depend mostly on your computer's memory. We optimize memory usage so you can compare large documents smoothly."
-                }
+                  a: "Since files are analyzed entirely within your web browser, size limits depend mostly on your computer's memory. We optimize memory usage so you can compare large documents smoothly.",
+                },
               ].map((faq, idx) => (
                 <details
                   key={idx}
@@ -325,10 +374,16 @@ export default function ComparePdfPage() {
                 >
                   <summary className="flex items-center justify-between p-6 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500">
                     <span className="font-outfit text-sm sm:text-base font-black text-slate-800 dark:text-white uppercase tracking-tight flex items-center gap-3">
-                      <HelpCircle size={18} className="text-indigo-500 shrink-0" />
+                      <HelpCircle
+                        size={18}
+                        className="text-indigo-500 shrink-0"
+                      />
                       {faq.q}
                     </span>
-                    <ChevronDown size={18} className="text-slate-400 transition-transform duration-300 group-open:rotate-180 shrink-0 ml-4" />
+                    <ChevronDown
+                      size={18}
+                      className="text-slate-400 transition-transform duration-300 group-open:rotate-180 shrink-0 ml-4"
+                    />
                   </summary>
                   <div className="px-6 pb-6 border-t border-slate-50 dark:border-slate-800 pt-4">
                     <p className="text-sm text-slate-500 dark:text-slate-400 font-medium leading-relaxed">
@@ -347,10 +402,26 @@ export default function ComparePdfPage() {
             </h3>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               {[
-                { name: "Organize PDF", path: "/tool/organize", desc: "Reorder & rotate pages" },
-                { name: "Merge PDF", path: "/tool/merge", desc: "Combine files in order" },
-                { name: "Split PDF", path: "/tool/split", desc: "Extract files pages" },
-                { name: "Compress PDF", path: "/tool/compress", desc: "Shrink file size locally" }
+                {
+                  name: "Organize PDF",
+                  path: "/tool/organize",
+                  desc: "Reorder & rotate pages",
+                },
+                {
+                  name: "Merge PDF",
+                  path: "/tool/merge",
+                  desc: "Combine files in order",
+                },
+                {
+                  name: "Split PDF",
+                  path: "/tool/split",
+                  desc: "Extract files pages",
+                },
+                {
+                  name: "Compress PDF",
+                  path: "/tool/compress",
+                  desc: "Shrink file size locally",
+                },
               ].map((tool, idx) => (
                 <Link
                   key={idx}
