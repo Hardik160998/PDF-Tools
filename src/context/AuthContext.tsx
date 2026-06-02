@@ -276,15 +276,27 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     try {
       setLoading(true);
       localStorage.removeItem("sb-mock-session");
+      localStorage.removeItem("sb-user");
+      localStorage.removeItem("sb-user-profile");
+      
+      // Forcefully clear Supabase auth tokens in case signOut fails on the backend
+      if (typeof window !== "undefined") {
+        Object.keys(localStorage).forEach(key => {
+          if (key.startsWith('sb-') && key.endsWith('-auth-token')) {
+            localStorage.removeItem(key);
+          }
+        });
+      }
+
       const authClient = supabase.auth;
       if (authClient && typeof authClient.signOut === "function") {
-        await supabase.auth.signOut();
+        await supabase.auth.signOut().catch(err => console.warn("Supabase signout API error:", err));
       }
-      setUser(null);
-      setProfile(null);
     } catch (err) {
       console.error("Logout error:", err);
     } finally {
+      setUser(null);
+      setProfile(null);
       setLoading(false);
     }
   };
