@@ -1,4 +1,4 @@
-import { getToolMeta, getToolUrl } from "@/data/toolMeta";
+import { getToolMeta, getToolUrl } from "@/data/toolData";
 import WebAppSchema from '@/components/seo/WebAppSchema';
 import FAQSchema from '@/components/seo/FAQSchema';
 import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema';
