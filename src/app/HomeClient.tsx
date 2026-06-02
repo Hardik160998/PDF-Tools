@@ -316,11 +316,10 @@ export default function HomeClient() {
             {/* Most Used Tools Section (Only visible when All is selected) */}
             {displayCategory === 'All' && mergedTools.some(t => t.is_most_used) && (
               <div>
-                <div className="mb-8 flex items-center justify-center gap-3">
-                  <div className="p-2.5 bg-amber-100 dark:bg-amber-900/30 rounded-xl shadow-inner border border-amber-200 dark:border-amber-800/50">
-                    <Sparkles className="text-amber-500" size={24} />
-                  </div>
-                  <h3 className="font-outfit text-2xl md:text-3xl font-black text-slate-900 dark:text-white tracking-tight">Most Used Tools</h3>
+                <div className="mb-6 flex items-center justify-center gap-4">
+                  <div className="h-[2px] bg-slate-200 dark:bg-slate-700/80 w-12 rounded-full"></div>
+                  <h3 className="font-outfit text-xs font-bold uppercase tracking-[0.2em] text-slate-400 dark:text-slate-500">Most Used Tools</h3>
+                  <div className="h-[2px] bg-slate-200 dark:bg-slate-700/80 w-12 rounded-full"></div>
                 </div>
                 <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
                   {mergedTools.filter(t => t.is_most_used).map(renderSmallToolCard)}
@@ -331,11 +330,10 @@ export default function HomeClient() {
             {/* All Tools Section */}
             <div>
               {displayCategory === 'All' && mergedTools.some(t => t.is_most_used) && (
-                <div className="mb-8 flex items-center justify-center gap-3">
-                  <div className="p-2.5 bg-blue-100 dark:bg-blue-900/30 rounded-xl shadow-inner border border-blue-200 dark:border-blue-800/50">
-                    <Crown className="text-blue-500" size={24} />
-                  </div>
-                  <h3 className="font-outfit text-2xl md:text-3xl font-black text-slate-900 dark:text-white tracking-tight">All PDF Tools</h3>
+                <div className="mb-6 flex items-center justify-center gap-4">
+                  <div className="h-[2px] bg-slate-200 dark:bg-slate-700/80 w-12 rounded-full"></div>
+                  <h3 className="font-outfit text-xs font-bold uppercase tracking-[0.2em] text-slate-400 dark:text-slate-500">All PDF Tools</h3>
+                  <div className="h-[2px] bg-slate-200 dark:bg-slate-700/80 w-12 rounded-full"></div>
                 </div>
               )}
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
