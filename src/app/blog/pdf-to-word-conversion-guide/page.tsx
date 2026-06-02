@@ -1,5 +1,6 @@
 import React, { useMemo } from "react";
 import { Metadata } from "next";
+import ArticleSchema from "@/components/seo/ArticleSchema";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -117,6 +118,13 @@ export default function PDFToWordPost() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+      />
+      
+      <ArticleSchema 
+        title="Ultimate PDF to Word Conversion Guide: OCR, Formatting & Tools | SmartPDFs Plus" 
+        description="Learn how to perfectly convert PDF documents to editable Microsoft Word files. Discover OCR technology, formatting preservation techniques, and batch conversion secrets." 
+        url={`${siteUrl}/blog/pdf-to-word-conversion-guide`} 
+        datePublished="2026-06-01T13:25:51.364Z" 
       />
       <BreadcrumbSchema items={breadcrumbItems} />
       <FAQSchema />

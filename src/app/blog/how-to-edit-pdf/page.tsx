@@ -1,5 +1,6 @@
 import React, { useMemo } from "react";
 import { Metadata } from "next";
+import ArticleSchema from "@/components/seo/ArticleSchema";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -114,6 +115,13 @@ export default function EditPDFGuidePost() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+      />
+      
+      <ArticleSchema 
+        title="How to Edit PDF Files: Text, Images & Annotations | SmartPDFs Plus" 
+        description="The definitive guide to PDF editing. Learn how to modify vector text, replace embedded images, utilize OCR for scanned documents, and annotate PDFs online securely." 
+        url={`${siteUrl}/blog/how-to-edit-pdf`} 
+        datePublished="2026-06-01T13:25:51.356Z" 
       />
       <BreadcrumbSchema items={breadcrumbItems} />
       <FAQSchema />

@@ -1,5 +1,6 @@
 import React, { useMemo } from "react";
 import { Metadata } from "next";
+import ArticleSchema from "@/components/seo/ArticleSchema";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -118,6 +119,13 @@ export default function CropMeeshoLabelPost() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+      />
+      
+      <ArticleSchema 
+        title="How to Crop Meesho Labels with Invoice for Thermal Printing | SmartPDFs Plus" 
+        description="A complete guide for Meesho sellers on how to perfectly crop and format Meesho shipping labels combined with invoices for standard 4x6 thermal printers." 
+        url={`${siteUrl}/blog/how-to-crop-meesho-labels`} 
+        datePublished="2026-06-01T13:25:51.342Z" 
       />
       <BreadcrumbSchema items={breadcrumbItems} />
       <FAQSchema />

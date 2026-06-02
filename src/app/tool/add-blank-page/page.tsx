@@ -1,3 +1,7 @@
+import { getToolMeta, getToolUrl } from "@/data/toolMeta";
+import WebAppSchema from '@/components/seo/WebAppSchema';
+import FAQSchema from '@/components/seo/FAQSchema';
+import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema';
 import AddBlankPage from "@/components/tools/AddBlankPage";
 import Link from "next/link";
 import type { Metadata } from "next";
@@ -14,51 +18,7 @@ import {
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://smartpdfpro.com";
 
 // 1. Dynamic Metadata Export for Next.js App Router
-export const metadata: Metadata = {
-  title: "Add Blank Pages to PDF Online - Free PDF Page Inserter | SmartPDFs",
-  description:
-    "Insert blank pages into your PDF files online for free. Choose page size (A4, Letter) and insert locations instantly. 100% secure local browser processing.",
-  keywords:
-    "add blank page to pdf, insert page into pdf online, add page to pdf free, pdf page inserter, insert empty page pdf, smartpdfs",
-  alternates: {
-    canonical: `${siteUrl}/tool/add-blank-page`,
-  },
-  robots: {
-    index: true,
-    follow: true,
-    nocache: false,
-    googleBot: {
-      index: true,
-      follow: true,
-      "max-video-preview": -1,
-      "max-image-preview": "large",
-      "max-snippet": -1,
-    },
-  },
-  openGraph: {
-    type: "website",
-    title: "Add Blank Pages to PDF Online - Free PDF Page Inserter | SmartPDFs",
-    description:
-      "Insert blank pages into your PDF files online for free. Choose page size (A4, Letter) and insert locations instantly. 100% secure local browser processing.",
-    siteName: "SmartPDFs",
-    url: `${siteUrl}/tool/add-blank-page`,
-    images: [
-      {
-        url: `${siteUrl}/img/add-blank-page-og.png`,
-        width: 1200,
-        height: 630,
-        alt: "Add Blank Pages to PDF Online - SmartPDFs",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Add Blank Pages to PDF Online - Free PDF Page Inserter | SmartPDFs",
-    description:
-      "Insert blank pages into your PDF files online for free. Choose page size (A4, Letter) and insert locations instantly. 100% secure local browser processing.",
-    images: [`${siteUrl}/img/add-blank-page-og.png`],
-  },
-};
+
 
 // 3. Structured Data (JSON-LD Schemas)
 const webAppJsonLd = {
@@ -151,22 +111,58 @@ const faqJsonLd = {
   ],
 };
 
+
+export function generateMetadata() {
+  const id = 'add-blank-page';
+  const meta = getToolMeta(id);
+  if (!meta) return { title: 'PDF Tool | SmartPDFPro' };
+
+  const url = getToolUrl(id);
+  return {
+    title: `${meta.title} | SmartPDFPro`,
+    description: meta.description,
+    keywords: meta.keywords,
+    alternates: { canonical: url },
+    openGraph: {
+      type: 'website',
+      title: `${meta.title} | SmartPDFPro`,
+      description: meta.description,
+      url,
+      siteName: 'SmartPDFPro',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${meta.title} | SmartPDFPro`,
+      description: meta.description,
+    },
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: { index: true, follow: true, 'max-snippet': -1, 'max-image-preview': 'large' },
+    },
+  };
+}
+
 export default function AddBlankPagePage() {
   return (
     <div className="min-h-screen bg-slate-50/50 dark:bg-slate-950">
+
+      {/* Dynamic SEO Schemas */}
+      {(() => {
+        const meta = getToolMeta('add-blank-page');
+        return meta ? (
+          <>
+            <WebAppSchema name={`${meta.title} – Free Online Tool`} description={meta.description} url={getToolUrl('add-blank-page')} />
+            {meta.faqs.length > 0 && <FAQSchema faqs={meta.faqs} />}
+            <BreadcrumbSchema items={[{ label: 'Tools', href: '/#tools' }, { label: meta.title, href: `/tool/add-blank-page` }]} />
+          </>
+        ) : null;
+      })()}
+
       {/* Dynamic JSON-LD structured script injections for Google Crawler */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(webAppJsonLd) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
-      />
+      
+      
+      
 
       <div className="max-w-7xl mx-auto px-4 pt-6 sm:pt-10 pb-16">
         {/* Navigation Breadcrumbs */}

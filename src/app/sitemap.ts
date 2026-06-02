@@ -1,42 +1,64 @@
 import { MetadataRoute } from "next";
+import { TOOL_META_MAP } from "@/data/toolMeta";
+import fs from "fs";
+import path from "path";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://smartpdfpro.com";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const staticRoutes = [
     "/",
+    "/about",
+    "/contact",
+    "/faq",
+    "/privacy",
+    "/terms",
+    "/premium-plans",
     "/blog",
-    "/blog/ultimate-pdf-optimization-guide",
-    "/blog/pdf-to-word-conversion-guide",
-    "/blog/how-to-merge-pdf",
-    "/blog/compress-pdf-without-losing-quality",
-    "/blog/protect-pdf-with-password",
-    "/blog/how-to-redact-pdf",
-    "/blog/how-to-crop-aadhar-card",
-    "/blog/how-to-crop-pdf",
-    "/blog/how-to-crop-meesho-labels",
-    "/blog/how-to-crop-meesho-labels-without-invoice",
-    "/blog/how-to-crop-flipkart-labels",
-    "/blog/how-to-crop-amazon-labels",
-    "/blog/how-to-crop-snapdeal-labels",
-    "/blog/ultimate-image-conversion-guide",
-    "/blog/how-to-edit-pdf",
-    "/blog/ultimate-pdf-editing-guide",
-    "/blog/how-to-e-sign-pdf",
-    "/tool/merge",
-    "/tool/split",
-    "/tool/compress",
-    "/tool/pdf-to-word",
-    "/tool/word-to-pdf",
-    "/tool/pdf-to-excel",
-    "/tool/pdf-to-jpg",
-    "/tool/optimize-pdf",
   ];
 
-  return staticRoutes.map((route) => ({
-    url: `${siteUrl}${route}`,
-    lastModified: new Date("2026-06-01"),
-    changeFrequency: route.startsWith("/blog") ? "weekly" : "daily",
-    priority: route === "/" ? 1.0 : route.startsWith("/tool") ? 0.9 : 0.8,
-  }));
+  // Dynamic reading of blog pages since there is no central config for blogs
+  let blogRoutes: string[] = [];
+  try {
+    const blogDir = path.join(process.cwd(), "src/app/blog");
+    if (fs.existsSync(blogDir)) {
+      blogRoutes = fs
+        .readdirSync(blogDir)
+        .filter((dir) => fs.statSync(path.join(blogDir, dir)).isDirectory())
+        .map((dir) => `/blog/${dir}`);
+    }
+  } catch (error) {
+    console.error("Error reading blog directory for sitemap:", error);
+  }
+
+  // All tools from TOOL_META_MAP
+  const toolRoutes = Object.keys(TOOL_META_MAP).map((slug) => `/tool/${slug}`);
+
+  const allRoutes = [...staticRoutes, ...blogRoutes, ...toolRoutes];
+
+  // Remove duplicates just in case
+  const uniqueRoutes = Array.from(new Set(allRoutes));
+
+  return uniqueRoutes.map((route) => {
+    let priority = 0.7;
+    let changeFrequency: "always" | "hourly" | "daily" | "weekly" | "monthly" | "yearly" | "never" = "monthly";
+
+    if (route === "/") {
+      priority = 1.0;
+      changeFrequency = "weekly";
+    } else if (route.startsWith("/tool")) {
+      priority = 0.9;
+      changeFrequency = "weekly";
+    } else if (route.startsWith("/blog")) {
+      priority = 0.8;
+      changeFrequency = "monthly";
+    }
+
+    return {
+      url: `${siteUrl}${route}`,
+      lastModified: new Date(),
+      changeFrequency,
+      priority,
+    };
+  });
 }

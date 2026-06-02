@@ -1,5 +1,6 @@
 import React, { useMemo } from "react";
 import { Metadata } from "next";
+import ArticleSchema from "@/components/seo/ArticleSchema";
 import Image from "next/image";
 import Link from "next/link";
 import { Zap, Clock, CheckCircle2, ArrowRight, ArrowLeft } from "lucide-react";
@@ -77,6 +78,13 @@ export default function CompressPdfPost() {
 
   return (
     <main className="min-h-screen">
+      
+      <ArticleSchema 
+        title="How to Compress a PDF Without Losing Quality (Free Guide) | SmartPDFs Plus" 
+        description="Learn the exact steps to compress your PDF files to make them smaller without sacrificing text clarity or image resolution. 100% free online PDF compressor." 
+        url={`${siteUrl}/blog/compress-pdf-without-losing-quality`} 
+        datePublished="2026-06-01T13:25:51.319Z" 
+      />
       <BreadcrumbSchema items={breadcrumbItems} />
       <FAQSchema />
       <WebAppSchema

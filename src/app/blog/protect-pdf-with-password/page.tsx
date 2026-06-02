@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react';
-import { Metadata } from 'next';
+import { Metadata } from "next";
+import ArticleSchema from "@/components/seo/ArticleSchema";
 import Image from 'next/image';
 import Link from 'next/link';
 import { Lock, Clock, ArrowRight, CheckCircle2, ArrowLeft, AlertTriangle, ShieldCheck, Key, FileCheck } from 'lucide-react';
@@ -97,6 +98,13 @@ export default function ProtectPDFPost() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+      />
+      
+      <ArticleSchema 
+        title="How to Password Protect a PDF: AES-256 Encryption Guide | SmartPDFs Plus" 
+        description="Learn how to secure your sensitive documents by password protecting your PDF files. Discover the difference between User and Owner passwords, and AES-256 encryption." 
+        url={`${siteUrl}/blog/protect-pdf-with-password`} 
+        datePublished="2026-06-01T13:25:51.365Z" 
       />
       <BreadcrumbSchema items={breadcrumbItems} />
       <FAQSchema />

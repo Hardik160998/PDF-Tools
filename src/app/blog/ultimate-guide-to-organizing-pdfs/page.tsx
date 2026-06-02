@@ -1,5 +1,6 @@
 import React, { useMemo } from "react";
 import { Metadata } from "next";
+import ArticleSchema from "@/components/seo/ArticleSchema";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -89,6 +90,13 @@ export default function UltimateGuidePdfsPost() {
 
   return (
     <main className="min-h-screen">
+      
+      <ArticleSchema 
+        title="The Ultimate Guide to Organizing PDFs — Merge, Split & Rearrange | SmartPDFs Plus" 
+        description="Master the art of PDF organization. Learn the exact steps to merge multiple files, split large documents, extract pages, and visually rearrange your PDFs." 
+        url={`${siteUrl}/blog/ultimate-guide-to-organizing-pdfs`} 
+        datePublished="2026-06-01T13:25:51.367Z" 
+      />
       <BreadcrumbSchema items={breadcrumbItems} />
       <FAQSchema />
       <WebAppSchema

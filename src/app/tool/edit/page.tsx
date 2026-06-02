@@ -1,3 +1,7 @@
+import { getToolMeta, getToolUrl } from "@/data/toolMeta";
+import WebAppSchema from '@/components/seo/WebAppSchema';
+import FAQSchema from '@/components/seo/FAQSchema';
+import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema';
 import Link from "next/link";
 import type { Metadata } from "next";
 import dynamic from "next/dynamic";
@@ -25,51 +29,7 @@ import {
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://smartpdfpro.com";
 
 // 1. Dynamic Metadata Export for Next.js App Router
-export const metadata: Metadata = {
-  title: "Free Online PDF Editor - Edit PDF Files Directly in Browser",
-  description:
-    "Edit PDF documents online for free. Add text, insert images, draw annotations, and redact content locally inside your browser with 100% privacy.",
-  keywords:
-    "edit pdf online, free pdf editor, write on pdf, annotate pdf, redact pdf, edit pdf text, smartpdfs plus",
-  alternates: {
-    canonical: `${siteUrl}/edit`,
-  },
-  robots: {
-    index: true,
-    follow: true,
-    nocache: false,
-    googleBot: {
-      index: true,
-      follow: true,
-      "max-video-preview": -1,
-      "max-image-preview": "large",
-      "max-snippet": -1,
-    },
-  },
-  openGraph: {
-    type: "website",
-    title: "Free Online PDF Editor - Edit PDF Files Directly in Browser",
-    description:
-      "Edit PDF documents online for free. Add text, insert images, draw annotations, and redact content locally inside your browser with 100% privacy.",
-    siteName: "SmartPDFs Plus",
-    url: `${siteUrl}/edit`,
-    images: [
-      {
-        url: `${siteUrl}/img/snapdeal-label.png`,
-        width: 1200,
-        height: 630,
-        alt: "Edit PDF Tool Online - SmartPDFs Plus",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Free Online PDF Editor - Edit PDF Files Directly in Browser",
-    description:
-      "Edit PDF documents online for free. Add text, insert images, draw annotations, and redact content locally inside your browser with 100% privacy.",
-    images: [`${siteUrl}/img/snapdeal-label.png`],
-  },
-};
+
 
 // 3. Structured Data (JSON-LD Schemas)
 const webAppJsonLd = {
@@ -255,6 +215,19 @@ function Breadcrumb() {
 function EditSkeleton() {
   return (
     <div className="max-w-[1600px] mx-auto py-4 sm:py-6 px-2 sm:px-4 text-center animate-pulse">
+
+      {/* Dynamic SEO Schemas */}
+      {(() => {
+        const meta = getToolMeta('edit');
+        return meta ? (
+          <>
+            <WebAppSchema name={`${meta.title} – Free Online Tool`} description={meta.description} url={getToolUrl('edit')} />
+            {meta.faqs.length > 0 && <FAQSchema faqs={meta.faqs} />}
+            <BreadcrumbSchema items={[{ label: 'Tools', href: '/#tools' }, { label: meta.title, href: `/tool/edit` }]} />
+          </>
+        ) : null;
+      })()}
+
       <div className="bg-white dark:bg-slate-800 rounded-[1.2rem] sm:rounded-[2.5rem] p-4 sm:p-12 border border-slate-100 dark:border-slate-700 shadow-2xl space-y-6 sm:space-y-10">
         <div className="space-y-2 sm:space-y-4 flex flex-col items-center">
           <div className="inline-flex p-3 sm:p-5 rounded-xl sm:rounded-3xl bg-slate-100 dark:bg-slate-700 text-slate-350 font-black">
@@ -280,22 +253,45 @@ const PdfEditor = dynamic(() => import("@/components/tools/PdfEditor"), {
   loading: () => <EditSkeleton />,
 });
 
+
+export function generateMetadata() {
+  const id = 'edit';
+  const meta = getToolMeta(id);
+  if (!meta) return { title: 'PDF Tool | SmartPDFPro' };
+
+  const url = getToolUrl(id);
+  return {
+    title: `${meta.title} | SmartPDFPro`,
+    description: meta.description,
+    keywords: meta.keywords,
+    alternates: { canonical: url },
+    openGraph: {
+      type: 'website',
+      title: `${meta.title} | SmartPDFPro`,
+      description: meta.description,
+      url,
+      siteName: 'SmartPDFPro',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${meta.title} | SmartPDFPro`,
+      description: meta.description,
+    },
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: { index: true, follow: true, 'max-snippet': -1, 'max-image-preview': 'large' },
+    },
+  };
+}
+
 export default function EditPage() {
   return (
     <main className="min-h-screen bg-slate-50/50 dark:bg-slate-950">
       {/* 2. Structured data scripts for search indexing */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(webAppJsonLd) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
-      />
+      
+      
+      
 
       <div className="max-w-[1600px] mx-auto px-4 pt-8 sm:pt-12 pb-16">
         {/* Breadcrumb Navigation */}

@@ -1,5 +1,6 @@
 import React, { useMemo } from "react";
 import { Metadata } from "next";
+import ArticleSchema from "@/components/seo/ArticleSchema";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -114,6 +115,13 @@ export default function CropAmazonLabelPost() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+      />
+      
+      <ArticleSchema 
+        title="How to Crop Amazon Labels for Thermal Printing | SmartPDFs Plus" 
+        description="A complete guide for Amazon FBA and Easy Ship sellers on how to perfectly crop and format Amazon shipping labels and tax invoices for 4x6 thermal printers." 
+        url={`${siteUrl}/blog/how-to-crop-amazon-labels`} 
+        datePublished="2026-06-01T13:25:51.338Z" 
       />
       <BreadcrumbSchema items={breadcrumbItems} />
       <FAQSchema />

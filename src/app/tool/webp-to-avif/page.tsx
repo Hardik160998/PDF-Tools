@@ -1,3 +1,7 @@
+import { getToolMeta, getToolUrl } from "@/data/toolMeta";
+import WebAppSchema from '@/components/seo/WebAppSchema';
+import FAQSchema from '@/components/seo/FAQSchema';
+import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema';
 import Link from "next/link";
 import type { Metadata } from "next";
 import ImageConverter from "@/components/tools/ImageConverter";
@@ -22,51 +26,7 @@ import {
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://smartpdfpro.com";
 
 // 1. Dynamic Metadata Export for Next.js App Router (SEO & Indexing Fix)
-export const metadata: Metadata = {
-  title: "Convert WebP to AVIF Online Free | Next-Gen Image Optimizer",
-  description:
-    "Convert WebP images to AVIF format online for free. AVIF provides next-generation compression that compresses files up to 35% smaller than WebP. 100% private.",
-  keywords:
-    "webp to avif, convert webp to avif, webp to avif converter, free image compressor, convert image to avif, online avif converter, local image conversion, smartpdfs",
-  alternates: {
-    canonical: `${siteUrl}/tool/webp-to-avif`,
-  },
-  robots: {
-    index: true,
-    follow: true,
-    nocache: false,
-    googleBot: {
-      index: true,
-      follow: true,
-      "max-video-preview": -1,
-      "max-image-preview": "large",
-      "max-snippet": -1,
-    },
-  },
-  openGraph: {
-    type: "website",
-    title: "Convert WebP to AVIF Online Free | Next-Gen Image Optimizer",
-    description:
-      "Convert WebP images to AVIF format online for free. AVIF provides next-generation compression that compresses files up to 35% smaller than WebP. 100% private.",
-    siteName: "SmartPDFs Plus",
-    url: `${siteUrl}/tool/webp-to-avif`,
-    images: [
-      {
-        url: `${siteUrl}/img/webp-to-avif-og.png`,
-        width: 1200,
-        height: 630,
-        alt: "Convert WebP to AVIF Online - SmartPDFs Plus",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Convert WebP to AVIF Online Free | Next-Gen Image Optimizer",
-    description:
-      "Convert WebP images to AVIF format online for free. AVIF provides next-generation compression that compresses files up to 35% smaller than WebP. 100% private.",
-    images: [`${siteUrl}/img/webp-to-avif-og.png`],
-  },
-};
+
 
 // 3. Structured Data (JSON-LD Schemas)
 const webAppJsonLd = {
@@ -236,22 +196,58 @@ const RELATED = [
   },
 ];
 
+
+export function generateMetadata() {
+  const id = 'webp-to-avif';
+  const meta = getToolMeta(id);
+  if (!meta) return { title: 'PDF Tool | SmartPDFPro' };
+
+  const url = getToolUrl(id);
+  return {
+    title: `${meta.title} | SmartPDFPro`,
+    description: meta.description,
+    keywords: meta.keywords,
+    alternates: { canonical: url },
+    openGraph: {
+      type: 'website',
+      title: `${meta.title} | SmartPDFPro`,
+      description: meta.description,
+      url,
+      siteName: 'SmartPDFPro',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${meta.title} | SmartPDFPro`,
+      description: meta.description,
+    },
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: { index: true, follow: true, 'max-snippet': -1, 'max-image-preview': 'large' },
+    },
+  };
+}
+
 export default function WebpToAvifPage() {
   return (
     <main className="min-h-screen bg-slate-50/50 dark:bg-slate-950">
+
+      {/* Dynamic SEO Schemas */}
+      {(() => {
+        const meta = getToolMeta('webp-to-avif');
+        return meta ? (
+          <>
+            <WebAppSchema name={`${meta.title} – Free Online Tool`} description={meta.description} url={getToolUrl('webp-to-avif')} />
+            {meta.faqs.length > 0 && <FAQSchema faqs={meta.faqs} />}
+            <BreadcrumbSchema items={[{ label: 'Tools', href: '/#tools' }, { label: meta.title, href: `/tool/webp-to-avif` }]} />
+          </>
+        ) : null;
+      })()}
+
       {/* 2. Structured data scripts for search indexing */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(webAppJsonLd) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
-      />
+      
+      
+      
 
       <div className="max-w-7xl mx-auto px-4 pt-8 sm:pt-12 pb-16">
         {/* Breadcrumb Navigation */}

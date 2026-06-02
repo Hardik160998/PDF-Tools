@@ -1,3 +1,7 @@
+import { getToolMeta, getToolUrl } from "@/data/toolMeta";
+import WebAppSchema from '@/components/seo/WebAppSchema';
+import FAQSchema from '@/components/seo/FAQSchema';
+import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema';
 import MergeSplit from "@/components/tools/MergeSplit";
 import Link from "next/link";
 import type { Metadata } from "next";
@@ -10,47 +14,7 @@ import {
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
 
 // 1. Dynamic Metadata Export for Next.js App Router
-export const metadata: Metadata = {
-  title: 'Merge PDF Online Free | Fast & Secure PDF Merger Tool',
-  description: 'Merge PDF files online for free. Combine multiple PDF documents into one instantly with 100% secure local browser processing. No watermark.',
-  keywords: 'merge pdf, pdf merger, combine pdf online, free pdf tool, combine pdf files, secure pdf merger, merge pdf locally, smartpdfs plus',
-  alternates: {
-    canonical: `${siteUrl}/tool/merge`,
-  },
-  robots: {
-    index: true,
-    follow: true,
-    nocache: false,
-    googleBot: {
-      index: true,
-      follow: true,
-      'max-video-preview': -1,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
-    },
-  },
-  openGraph: {
-    type: 'website',
-    title: 'Merge PDF Online Free | Fast & Secure PDF Merger Tool',
-    description: 'Merge PDF files online for free. Combine multiple PDF documents into one instantly with 100% secure local browser processing.',
-    siteName: 'SmartPDFs Plus',
-    url: `${siteUrl}/tool/merge`,
-    images: [
-      {
-        url: `${siteUrl}/img/merge-multiple-pdfs.png`,
-        width: 1200,
-        height: 630,
-        alt: 'Merge PDF Documents Online - SmartPDFs Plus',
-      },
-    ],
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'Merge PDF Online Free | Fast & Secure PDF Merger Tool',
-    description: 'Merge PDF files online for free. Combine multiple PDF documents into one instantly with 100% secure local browser processing.',
-    images: [`${siteUrl}/img/merge-multiple-pdfs.png`],
-  },
-};
+
 
 // 3. Structured Data (JSON-LD Schemas)
 const webAppJsonLd = {
@@ -168,22 +132,58 @@ function Breadcrumb() {
   );
 }
 
+
+export function generateMetadata() {
+  const id = 'merge';
+  const meta = getToolMeta(id);
+  if (!meta) return { title: 'PDF Tool | SmartPDFPro' };
+
+  const url = getToolUrl(id);
+  return {
+    title: `${meta.title} | SmartPDFPro`,
+    description: meta.description,
+    keywords: meta.keywords,
+    alternates: { canonical: url },
+    openGraph: {
+      type: 'website',
+      title: `${meta.title} | SmartPDFPro`,
+      description: meta.description,
+      url,
+      siteName: 'SmartPDFPro',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${meta.title} | SmartPDFPro`,
+      description: meta.description,
+    },
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: { index: true, follow: true, 'max-snippet': -1, 'max-image-preview': 'large' },
+    },
+  };
+}
+
 export default function MergePage() {
   return (
     <main className="min-h-screen bg-slate-50/50 dark:bg-slate-950">
+
+      {/* Dynamic SEO Schemas */}
+      {(() => {
+        const meta = getToolMeta('merge');
+        return meta ? (
+          <>
+            <WebAppSchema name={`${meta.title} – Free Online Tool`} description={meta.description} url={getToolUrl('merge')} />
+            {meta.faqs.length > 0 && <FAQSchema faqs={meta.faqs} />}
+            <BreadcrumbSchema items={[{ label: 'Tools', href: '/#tools' }, { label: meta.title, href: `/tool/merge` }]} />
+          </>
+        ) : null;
+      })()}
+
       {/* 2. Structured data scripts for search indexing */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(webAppJsonLd) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
-      />
+      
+      
+      
 
       <div className="max-w-7xl mx-auto px-4 pt-8 sm:pt-12 pb-16">
 

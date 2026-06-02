@@ -1,3 +1,7 @@
+import { getToolMeta, getToolUrl } from "@/data/toolMeta";
+import WebAppSchema from '@/components/seo/WebAppSchema';
+import FAQSchema from '@/components/seo/FAQSchema';
+import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema';
 import Link from "next/link";
 import type { Metadata } from "next";
 import AadharCropper from "@/components/tools/AadharCropper";
@@ -10,47 +14,7 @@ import {
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://smartpdfpro.com/";
 
 // 1. Dynamic Metadata Export for Next.js App Router (SEO & Indexing Fix)
-export const metadata: Metadata = {
-  title: "Aadhar Card Cropper Online Free | Standard ID Card Sizes",
-  description: "Crop your e-Aadhar card PDF or image online for free. Adjust and crop the front and back sides to standard ID dimensions ready for print. 100% private.",
-  keywords: "aadhar crop, crop aadhar card, online aadhar cropper, e-aadhar cropper, print ready aadhar card, crop id card online, local image conversion, smartpdfs",
-  alternates: {
-    canonical: `${siteUrl}/tool/aadhar-crop`,
-  },
-  robots: {
-    index: true,
-    follow: true,
-    nocache: false,
-    googleBot: {
-      index: true,
-      follow: true,
-      "max-video-preview": -1,
-      "max-image-preview": "large",
-      "max-snippet": -1,
-    },
-  },
-  openGraph: {
-    type: "website",
-    title: "Aadhar Card Cropper Online Free | Standard ID Card Sizes",
-    description: "Crop your e-Aadhar card PDF or image online for free. Adjust and crop the front and back sides to standard ID dimensions ready for print. 100% private.",
-    siteName: "SmartPDFs Plus",
-    url: `${siteUrl}/tool/aadhar-crop`,
-    images: [
-      {
-        url: `${siteUrl}/img/aadhar-crop-og.png`,
-        width: 1200,
-        height: 630,
-        alt: "Aadhar Card Cropper Online - SmartPDFs Plus",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Aadhar Card Cropper Online Free | Standard ID Card Sizes",
-    description: "Crop your e-Aadhar card PDF or image online for free. Adjust and crop the front and back sides to standard ID dimensions ready for print. 100% private.",
-    images: [`${siteUrl}/img/aadhar-crop-og.png`],
-  },
-};
+
 
 // 3. Structured Data (JSON-LD Schemas)
 const webAppJsonLd = {
@@ -156,22 +120,58 @@ const RELATED = [
   { id: "esign", title: "E-Sign PDF", description: "Draw or type your signature and place it anywhere on a PDF instantly.", icon: PenLine, gradient: "linear-gradient(135deg, #8b5cf6, #ec4899)", shadow: "rgba(139,92,246,0.3)", tag: "Sign", href: "/tool/esign" },
 ];
 
+
+export function generateMetadata() {
+  const id = 'aadhar-crop';
+  const meta = getToolMeta(id);
+  if (!meta) return { title: 'PDF Tool | SmartPDFPro' };
+
+  const url = getToolUrl(id);
+  return {
+    title: `${meta.title} | SmartPDFPro`,
+    description: meta.description,
+    keywords: meta.keywords,
+    alternates: { canonical: url },
+    openGraph: {
+      type: 'website',
+      title: `${meta.title} | SmartPDFPro`,
+      description: meta.description,
+      url,
+      siteName: 'SmartPDFPro',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${meta.title} | SmartPDFPro`,
+      description: meta.description,
+    },
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: { index: true, follow: true, 'max-snippet': -1, 'max-image-preview': 'large' },
+    },
+  };
+}
+
 export default function AadharCropPage() {
   return (
     <main className="min-h-screen bg-slate-50/50 dark:bg-slate-950">
+
+      {/* Dynamic SEO Schemas */}
+      {(() => {
+        const meta = getToolMeta('aadhar-crop');
+        return meta ? (
+          <>
+            <WebAppSchema name={`${meta.title} – Free Online Tool`} description={meta.description} url={getToolUrl('aadhar-crop')} />
+            {meta.faqs.length > 0 && <FAQSchema faqs={meta.faqs} />}
+            <BreadcrumbSchema items={[{ label: 'Tools', href: '/#tools' }, { label: meta.title, href: `/tool/aadhar-crop` }]} />
+          </>
+        ) : null;
+      })()}
+
       {/* 2. Structured data scripts for search indexing */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(webAppJsonLd) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
-      />
+      
+      
+      
 
       <div className="max-w-7xl mx-auto px-4 pt-8 sm:pt-12 pb-16">
 

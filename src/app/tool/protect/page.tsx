@@ -1,3 +1,7 @@
+import { getToolMeta, getToolUrl } from "@/data/toolMeta";
+import WebAppSchema from '@/components/seo/WebAppSchema';
+import FAQSchema from '@/components/seo/FAQSchema';
+import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema';
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import type { Metadata } from "next";
@@ -28,51 +32,7 @@ import { CenteredCardSkeleton } from "@/app/tool/[id]/skeletons";
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://smartpdfpro.com";
 
 // 1. Dynamic Metadata Export for Next.js App Router (Server-side)
-export const metadata: Metadata = {
-  title: "Protect PDF Online Free | Password Protect PDF Files",
-  description:
-    "Protect PDF files online for free. Encrypt your PDF document with a strong password to prevent unauthorized opening, editing, copying, or printing.",
-  keywords:
-    "protect pdf, password protect pdf, encrypt pdf file, secure pdf online, add password to pdf, lock pdf file, smartpdfs plus",
-  alternates: {
-    canonical: `${siteUrl}/tool/protect`,
-  },
-  robots: {
-    index: true,
-    follow: true,
-    nocache: false,
-    googleBot: {
-      index: true,
-      follow: true,
-      "max-video-preview": -1,
-      "max-image-preview": "large",
-      "max-snippet": -1,
-    },
-  },
-  openGraph: {
-    type: "website",
-    title: "Protect PDF Online Free | Secure PDF Encrypter",
-    description:
-      "Encrypt your PDF with a strong password to control access. Secure your documents with military-grade encryption in seconds.",
-    siteName: "SmartPDFs Plus",
-    url: `${siteUrl}/tool/protect`,
-    images: [
-      {
-        url: `${siteUrl}/img/protect-pdf.png`,
-        width: 1200,
-        height: 630,
-        alt: "Password Protect PDF Documents Online - SmartPDFs Plus",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Protect PDF Online Free | Secure PDF Encrypter",
-    description:
-      "Encrypt your PDF with a strong password to control access. Secure your documents with military-grade encryption in seconds.",
-    images: [`${siteUrl}/img/protect-pdf.png`],
-  },
-};
+
 
 // 3. Structured Data (JSON-LD Schemas)
 const webAppJsonLd = {
@@ -266,22 +226,58 @@ function Breadcrumb() {
   );
 }
 
+
+export function generateMetadata() {
+  const id = 'protect';
+  const meta = getToolMeta(id);
+  if (!meta) return { title: 'PDF Tool | SmartPDFPro' };
+
+  const url = getToolUrl(id);
+  return {
+    title: `${meta.title} | SmartPDFPro`,
+    description: meta.description,
+    keywords: meta.keywords,
+    alternates: { canonical: url },
+    openGraph: {
+      type: 'website',
+      title: `${meta.title} | SmartPDFPro`,
+      description: meta.description,
+      url,
+      siteName: 'SmartPDFPro',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${meta.title} | SmartPDFPro`,
+      description: meta.description,
+    },
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: { index: true, follow: true, 'max-snippet': -1, 'max-image-preview': 'large' },
+    },
+  };
+}
+
 export default function ProtectPage() {
   return (
     <main className="min-h-screen bg-slate-50/50 dark:bg-slate-950">
+
+      {/* Dynamic SEO Schemas */}
+      {(() => {
+        const meta = getToolMeta('protect');
+        return meta ? (
+          <>
+            <WebAppSchema name={`${meta.title} – Free Online Tool`} description={meta.description} url={getToolUrl('protect')} />
+            {meta.faqs.length > 0 && <FAQSchema faqs={meta.faqs} />}
+            <BreadcrumbSchema items={[{ label: 'Tools', href: '/#tools' }, { label: meta.title, href: `/tool/protect` }]} />
+          </>
+        ) : null;
+      })()}
+
       {/* 2. Structured data scripts for search indexing */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(webAppJsonLd) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
-      />
+      
+      
+      
 
       <div className="max-w-7xl mx-auto px-4 pt-8 sm:pt-12 pb-16">
         {/* Breadcrumb navigation */}

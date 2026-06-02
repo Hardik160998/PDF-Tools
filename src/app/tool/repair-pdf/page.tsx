@@ -1,3 +1,7 @@
+import { getToolMeta, getToolUrl } from "@/data/toolMeta";
+import WebAppSchema from '@/components/seo/WebAppSchema';
+import FAQSchema from '@/components/seo/FAQSchema';
+import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema';
 import RepairTool from "@/components/tools/RepairTool";
 import Link from "next/link";
 import type { Metadata } from "next";
@@ -14,51 +18,7 @@ import {
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://smartpdfpro.com";
 
 // 1. Dynamic Metadata Export for Next.js App Router
-export const metadata: Metadata = {
-  title: "Repair PDF Online Free - Fix Corrupted PDF | SmartPDFs",
-  description:
-    "Repair corrupted PDF files online for free. Scan, recover, and rebuild broken object layout streams or cross-reference tables instantly. 100% secure local processing.",
-  keywords:
-    "repair pdf, fix corrupted pdf, recover broken pdf, fix damaged pdf, rebuild pdf index, repair cross-reference table, free pdf repair online, smartpdfs",
-  alternates: {
-    canonical: `${siteUrl}/tool/repair-pdf`,
-  },
-  robots: {
-    index: true,
-    follow: true,
-    nocache: false,
-    googleBot: {
-      index: true,
-      follow: true,
-      "max-video-preview": -1,
-      "max-image-preview": "large",
-      "max-snippet": -1,
-    },
-  },
-  openGraph: {
-    type: "website",
-    title: "Repair PDF Online Free - Fix Corrupted PDF | SmartPDFs",
-    description:
-      "Repair corrupted PDF files online for free. Scan, recover, and rebuild broken object layout streams or cross-reference tables instantly. 100% secure local processing.",
-    siteName: "SmartPDFs",
-    url: `${siteUrl}/tool/repair-pdf`,
-    images: [
-      {
-        url: `${siteUrl}/img/repair-pdf-og.png`,
-        width: 1200,
-        height: 630,
-        alt: "Repair Corrupted PDF Online - SmartPDFs",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Repair PDF Online Free - Fix Corrupted PDF | SmartPDFs",
-    description:
-      "Repair corrupted PDF files online for free. Scan, recover, and rebuild broken object layout streams or cross-reference tables instantly. 100% secure local processing.",
-    images: [`${siteUrl}/img/repair-pdf-og.png`],
-  },
-};
+
 
 // 3. Structured Data (JSON-LD Schemas)
 const webAppJsonLd = {
@@ -151,22 +111,58 @@ const faqJsonLd = {
   ],
 };
 
+
+export function generateMetadata() {
+  const id = 'repair-pdf';
+  const meta = getToolMeta(id);
+  if (!meta) return { title: 'PDF Tool | SmartPDFPro' };
+
+  const url = getToolUrl(id);
+  return {
+    title: `${meta.title} | SmartPDFPro`,
+    description: meta.description,
+    keywords: meta.keywords,
+    alternates: { canonical: url },
+    openGraph: {
+      type: 'website',
+      title: `${meta.title} | SmartPDFPro`,
+      description: meta.description,
+      url,
+      siteName: 'SmartPDFPro',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${meta.title} | SmartPDFPro`,
+      description: meta.description,
+    },
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: { index: true, follow: true, 'max-snippet': -1, 'max-image-preview': 'large' },
+    },
+  };
+}
+
 export default function RepairPdfPage() {
   return (
     <div className="min-h-screen bg-slate-50/50 dark:bg-slate-950">
+
+      {/* Dynamic SEO Schemas */}
+      {(() => {
+        const meta = getToolMeta('repair-pdf');
+        return meta ? (
+          <>
+            <WebAppSchema name={`${meta.title} – Free Online Tool`} description={meta.description} url={getToolUrl('repair-pdf')} />
+            {meta.faqs.length > 0 && <FAQSchema faqs={meta.faqs} />}
+            <BreadcrumbSchema items={[{ label: 'Tools', href: '/#tools' }, { label: meta.title, href: `/tool/repair-pdf` }]} />
+          </>
+        ) : null;
+      })()}
+
       {/* Dynamic JSON-LD structured script injections for Google Crawler */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(webAppJsonLd) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
-      />
+      
+      
+      
 
       <div className="max-w-7xl mx-auto px-4 pt-6 sm:pt-10 pb-16">
         {/* Navigation Breadcrumbs */}

@@ -1,5 +1,6 @@
 import React, { useMemo } from "react";
 import { Metadata } from "next";
+import ArticleSchema from "@/components/seo/ArticleSchema";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -120,6 +121,13 @@ export default function PdfOptimizationGuidePost() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+      />
+      
+      <ArticleSchema 
+        title="Ultimate PDF Optimization Guide: Shrink, Repair & Clean Metadata | SmartPDFs Plus" 
+        description="Learn how to expertly optimize your PDF files. Reduce file size without losing quality, repair corrupted documents, and clean hidden metadata for maximum security." 
+        url={`${siteUrl}/blog/ultimate-pdf-optimization-guide`} 
+        datePublished="2026-06-01T13:25:51.373Z" 
       />
       <BreadcrumbSchema items={breadcrumbItems} />
       <FAQSchema />

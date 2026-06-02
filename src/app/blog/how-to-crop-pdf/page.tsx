@@ -1,5 +1,6 @@
 import React, { useMemo } from "react";
 import { Metadata } from "next";
+import ArticleSchema from "@/components/seo/ArticleSchema";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -115,6 +116,13 @@ export default function CropPDFPost() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+      />
+      
+      <ArticleSchema 
+        title="How to Crop PDF Pages Online: Remove White Space & Margins | SmartPDFs Plus" 
+        description="Learn how to accurately crop PDF pages to remove margins, trim white space, or extract specific regions. Understand PDF CropBox vs MediaBox specifications." 
+        url={`${siteUrl}/blog/how-to-crop-pdf`} 
+        datePublished="2026-06-01T13:25:51.346Z" 
       />
       <BreadcrumbSchema items={breadcrumbItems} />
       <FAQSchema />

@@ -1,5 +1,6 @@
 import React, { useMemo } from "react";
 import { Metadata } from "next";
+import ArticleSchema from "@/components/seo/ArticleSchema";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -117,6 +118,13 @@ export default function CropMeeshoLabelOnlyPost() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+      />
+      
+      <ArticleSchema 
+        title="How to Crop Meesho Labels Without Invoice | SmartPDFs Plus" 
+        description="Learn how to automatically extract only the shipping labels from your Meesho PDFs. Exclude invoices to save thermal paper and speed up dispatch." 
+        url={`${siteUrl}/blog/how-to-crop-meesho-labels-without-invoice`} 
+        datePublished="2026-06-01T13:25:51.344Z" 
       />
       <BreadcrumbSchema items={breadcrumbItems} />
       <FAQSchema />

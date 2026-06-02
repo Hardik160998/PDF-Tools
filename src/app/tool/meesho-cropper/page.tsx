@@ -1,3 +1,7 @@
+import { getToolMeta, getToolUrl } from "@/data/toolMeta";
+import WebAppSchema from '@/components/seo/WebAppSchema';
+import FAQSchema from '@/components/seo/FAQSchema';
+import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema';
 import Link from "next/link";
 import type { Metadata } from "next";
 import MeeshoCropper from "@/components/tools/MeeshoCropper";
@@ -26,51 +30,7 @@ import {
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://smartpdfpro.com";
 
 // 1. Dynamic Metadata Export for Next.js App Router (SEO & Indexing Fix)
-export const metadata: Metadata = {
-  title: "Meesho Label with Invoice Cropper | Auto Crop & Sort Online",
-  description:
-    "Crop Meesho shipping label PDFs online for free. Automatically remove the invoice section below 'Total', sort by SKU or Quantity, and download a print-ready PDF instantly.",
-  keywords:
-    "meesho cropper, crop meesho labels, meesho label cropper, meesho invoice remover, meesho shipping label cropper, split meesho pdf, crop pdf online",
-  alternates: {
-    canonical: `${siteUrl}/tool/meesho-cropper`,
-  },
-  robots: {
-    index: true,
-    follow: true,
-    nocache: false,
-    googleBot: {
-      index: true,
-      follow: true,
-      "max-video-preview": -1,
-      "max-image-preview": "large",
-      "max-snippet": -1,
-    },
-  },
-  openGraph: {
-    type: "website",
-    title: "Meesho Label with Invoice Cropper | Auto Crop & Sort Online",
-    description:
-      "Crop Meesho shipping label PDFs online for free. Automatically remove the invoice section below 'Total', sort by SKU or Quantity, and download a print-ready PDF instantly.",
-    siteName: "SmartPDFs Plus",
-    url: `${siteUrl}/tool/meesho-cropper`,
-    images: [
-      {
-        url: `${siteUrl}/img/meesho-cropper-og.png`,
-        width: 1200,
-        height: 630,
-        alt: "Meesho Label with Invoice Cropper - SmartPDFs Plus",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Meesho Label with Invoice Cropper | Auto Crop & Sort Online",
-    description:
-      "Crop Meesho shipping label PDFs online for free. Automatically remove the invoice section below 'Total', sort by SKU or Quantity, and download a print-ready PDF instantly.",
-    images: [`${siteUrl}/img/meesho-cropper-og.png`],
-  },
-};
+
 
 // 3. Structured Data (JSON-LD Schemas)
 const webAppJsonLd = {
@@ -243,22 +203,58 @@ const RELATED_TOOLS = [
   },
 ];
 
+
+export function generateMetadata() {
+  const id = 'meesho-cropper';
+  const meta = getToolMeta(id);
+  if (!meta) return { title: 'PDF Tool | SmartPDFPro' };
+
+  const url = getToolUrl(id);
+  return {
+    title: `${meta.title} | SmartPDFPro`,
+    description: meta.description,
+    keywords: meta.keywords,
+    alternates: { canonical: url },
+    openGraph: {
+      type: 'website',
+      title: `${meta.title} | SmartPDFPro`,
+      description: meta.description,
+      url,
+      siteName: 'SmartPDFPro',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${meta.title} | SmartPDFPro`,
+      description: meta.description,
+    },
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: { index: true, follow: true, 'max-snippet': -1, 'max-image-preview': 'large' },
+    },
+  };
+}
+
 export default function MeeshoCropperPage() {
   return (
     <main className="min-h-screen bg-slate-50/50 dark:bg-slate-950">
+
+      {/* Dynamic SEO Schemas */}
+      {(() => {
+        const meta = getToolMeta('meesho-cropper');
+        return meta ? (
+          <>
+            <WebAppSchema name={`${meta.title} – Free Online Tool`} description={meta.description} url={getToolUrl('meesho-cropper')} />
+            {meta.faqs.length > 0 && <FAQSchema faqs={meta.faqs} />}
+            <BreadcrumbSchema items={[{ label: 'Tools', href: '/#tools' }, { label: meta.title, href: `/tool/meesho-cropper` }]} />
+          </>
+        ) : null;
+      })()}
+
       {/* 2. Structured data scripts for search indexing */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(webAppJsonLd) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
-      />
+      
+      
+      
 
       <MeeshoTitleSync />
 

@@ -1,4 +1,21 @@
+import { Metadata } from 'next';
 import { Heart, Shield, Zap, Globe, Users, Lock, FileText, Combine, Scissors, CheckCircle2, Star, ArrowRight } from 'lucide-react';
+import OrganizationSchema from '@/components/seo/OrganizationSchema';
+
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://smartpdfpro.com';
+
+export const metadata: Metadata = {
+  title: 'About Us | SmartPDFs Plus',
+  description: 'Learn about SmartPDFs Plus, our mission to provide free, secure, and fast PDF tools, and the team behind the platform.',
+  alternates: {
+    canonical: '/about',
+  },
+  openGraph: {
+    title: 'About Us | SmartPDFs Plus',
+    description: 'Learn about SmartPDFs Plus, our mission to provide free, secure, and fast PDF tools, and the team behind the platform.',
+    url: `${siteUrl}/about`,
+  },
+};
 
 const STATS = [
   { value: '22+', label: 'PDF Tools', desc: 'Free to use, no sign-up' },
@@ -76,6 +93,7 @@ const TIMELINE = [
 export default function AboutPage() {
   return (
     <div className="min-h-screen">
+      <OrganizationSchema />
 
       {/* Hero */}
       <section className="container mx-auto px-4 pt-16 pb-12 text-center max-w-4xl">

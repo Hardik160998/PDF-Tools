@@ -1,3 +1,7 @@
+import { getToolMeta, getToolUrl } from "@/data/toolMeta";
+import WebAppSchema from '@/components/seo/WebAppSchema';
+import FAQSchema from '@/components/seo/FAQSchema';
+import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema';
 import ImageConverter from "@/components/tools/ImageConverter";
 import Link from "next/link";
 import type { Metadata } from "next";
@@ -21,51 +25,7 @@ import {
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://smartpdfpro.com";
 
 // 1. Dynamic Metadata Export for Next.js App Router
-export const metadata: Metadata = {
-  title: "Convert PDF to JPG Online - Free PDF to Image | SmartPDFs",
-  description:
-    "Convert PDF files to high-quality JPG images online for free. Extract images or convert entire PDF pages to JPG locally and securely in your browser.",
-  keywords:
-    "pdf to jpg, convert pdf to jpg, pdf to image, extract images from pdf, free pdf converter, secure pdf to jpg, pdf to jpg offline, smartpdfs",
-  alternates: {
-    canonical: `${siteUrl}/tool/pdf-to-jpg`,
-  },
-  robots: {
-    index: true,
-    follow: true,
-    nocache: false,
-    googleBot: {
-      index: true,
-      follow: true,
-      "max-video-preview": -1,
-      "max-image-preview": "large",
-      "max-snippet": -1,
-    },
-  },
-  openGraph: {
-    type: "website",
-    title: "Convert PDF to JPG Online - Free PDF to Image | SmartPDFs",
-    description:
-      "Convert PDF files to high-quality JPG images online for free. Extract images or convert entire PDF pages to JPG locally and securely in your browser.",
-    siteName: "SmartPDFs",
-    url: `${siteUrl}/tool/pdf-to-jpg`,
-    images: [
-      {
-        url: `${siteUrl}/img/pdf-to-jpg-og.png`,
-        width: 1200,
-        height: 630,
-        alt: "Convert PDF to JPG Online Free - SmartPDFs",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Convert PDF to JPG Online - Free PDF to Image | SmartPDFs",
-    description:
-      "Convert PDF files to high-quality JPG images online for free. Extract images or convert entire PDF pages to JPG locally and securely in your browser.",
-    images: [`${siteUrl}/img/pdf-to-jpg-og.png`],
-  },
-};
+
 
 // 3. Structured Data (JSON-LD Schemas)
 const webAppJsonLd = {
@@ -241,21 +201,57 @@ function Breadcrumb() {
   );
 }
 
+
+export function generateMetadata() {
+  const id = 'pdf-to-jpg';
+  const meta = getToolMeta(id);
+  if (!meta) return { title: 'PDF Tool | SmartPDFPro' };
+
+  const url = getToolUrl(id);
+  return {
+    title: `${meta.title} | SmartPDFPro`,
+    description: meta.description,
+    keywords: meta.keywords,
+    alternates: { canonical: url },
+    openGraph: {
+      type: 'website',
+      title: `${meta.title} | SmartPDFPro`,
+      description: meta.description,
+      url,
+      siteName: 'SmartPDFPro',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${meta.title} | SmartPDFPro`,
+      description: meta.description,
+    },
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: { index: true, follow: true, 'max-snippet': -1, 'max-image-preview': 'large' },
+    },
+  };
+}
+
 export default function PdfToJpgPage() {
   return (
     <main className="min-h-screen bg-slate-50/50 dark:bg-slate-950">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(webAppJsonLd) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
-      />
+
+      {/* Dynamic SEO Schemas */}
+      {(() => {
+        const meta = getToolMeta('pdf-to-jpg');
+        return meta ? (
+          <>
+            <WebAppSchema name={`${meta.title} – Free Online Tool`} description={meta.description} url={getToolUrl('pdf-to-jpg')} />
+            {meta.faqs.length > 0 && <FAQSchema faqs={meta.faqs} />}
+            <BreadcrumbSchema items={[{ label: 'Tools', href: '/#tools' }, { label: meta.title, href: `/tool/pdf-to-jpg` }]} />
+          </>
+        ) : null;
+      })()}
+
+      
+      
+      
 
       <div className="max-w-7xl mx-auto px-4 pt-8 sm:pt-12 pb-16">
         <Breadcrumb />

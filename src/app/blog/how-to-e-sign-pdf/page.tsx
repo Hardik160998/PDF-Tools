@@ -1,5 +1,6 @@
 import React, { useMemo } from "react";
 import { Metadata } from "next";
+import ArticleSchema from "@/components/seo/ArticleSchema";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -114,6 +115,13 @@ export default function ESignPDFGuidePost() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+      />
+      
+      <ArticleSchema 
+        title="How to E-Sign a PDF: Legal Electronic Signatures | SmartPDFs Plus" 
+        description="Learn how to legally sign a PDF document online. Understand the difference between Electronic Signatures and Digital Signatures (eIDAS & ESIGN compliance)." 
+        url={`${siteUrl}/blog/how-to-e-sign-pdf`} 
+        datePublished="2026-06-01T13:25:51.353Z" 
       />
       <BreadcrumbSchema items={breadcrumbItems} />
       <FAQSchema />
