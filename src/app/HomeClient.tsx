@@ -256,7 +256,7 @@ export default function HomeClient() {
       <div className="bg-mesh-premium" />
 
       {/* -- HERO -- */}
-      <section className="container mx-auto px-4 py-24 text-center relative z-10">
+      <section className="container mx-auto px-4 pt-24 pb-8 text-center relative z-10">
         <div className="max-w-6xl mx-auto space-y-8">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-red-50 text-red-600 border border-red-100 text-xs font-medium uppercase tracking-widest shadow-sm fade-in-up mb-4">
             <Sparkles size={14} className="fill-red-500" />
@@ -306,13 +306,13 @@ export default function HomeClient() {
       </section>
 
       {/* -- TOOLS GRID -- */}
-      <section ref={toolsGridRef} className="container mx-auto px-4 pb-20">
+      <section ref={toolsGridRef} className="container mx-auto px-4 pb-10">
 
         {showGridSkeleton ? (
           <SkeletonGrid count={skeletonCount} categories={skeletonCategories} />
         ) : (
-          <div className="animate-fade-in space-y-16">
-            
+          <div className="animate-fade-in space-y-8">
+
             {/* Most Used Tools Section (Only visible when All is selected) */}
             {displayCategory === 'All' && mergedTools.some(t => t.is_most_used) && (
               <div>
@@ -330,7 +330,7 @@ export default function HomeClient() {
             {/* All Tools Section */}
             <div>
               {displayCategory === 'All' && mergedTools.some(t => t.is_most_used) && (
-                <div className="mb-6 flex items-center justify-center gap-4">
+                <div className="mb-8 flex items-center justify-center gap-4">
                   <div className="h-[2px] bg-slate-200 dark:bg-slate-700/80 w-12 rounded-full"></div>
                   <h3 className="font-outfit text-xs font-bold uppercase tracking-[0.2em] text-slate-400 dark:text-slate-500">All PDF Tools</h3>
                   <div className="h-[2px] bg-slate-200 dark:bg-slate-700/80 w-12 rounded-full"></div>
