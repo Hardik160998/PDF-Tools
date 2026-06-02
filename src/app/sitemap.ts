@@ -1,5 +1,5 @@
 import { MetadataRoute } from "next";
-import { TOOL_META_MAP } from "@/data/toolMeta";
+import { TOOL_META_MAP } from "@/data/toolData";
 import fs from "fs";
 import path from "path";
 
