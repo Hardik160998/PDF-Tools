@@ -1,5 +1,6 @@
 import React, { useMemo } from "react";
 import { Metadata } from "next";
+import ArticleSchema from "@/components/seo/ArticleSchema";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -117,6 +118,13 @@ export default function CropFlipkartLabelPost() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+      />
+      
+      <ArticleSchema 
+        title="How to Crop Flipkart Labels for Thermal Printing | SmartPDFs Plus" 
+        description="A complete guide for Flipkart sellers on how to perfectly crop and format Flipkart shipping labels and invoices for standard 4x6 thermal printers." 
+        url={`${siteUrl}/blog/how-to-crop-flipkart-labels`} 
+        datePublished="2026-06-01T13:25:51.340Z" 
       />
       <BreadcrumbSchema items={breadcrumbItems} />
       <FAQSchema />

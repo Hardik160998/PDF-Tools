@@ -1,3 +1,7 @@
+import { getToolMeta, getToolUrl } from "@/data/toolMeta";
+import WebAppSchema from '@/components/seo/WebAppSchema';
+import FAQSchema from '@/components/seo/FAQSchema';
+import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema';
 import MergeSplit from "@/components/tools/MergeSplit";
 import Link from "next/link";
 import type { Metadata } from "next";
@@ -15,51 +19,7 @@ import {
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://smartpdfpro.com";
 
 // 1. Dynamic Metadata Export for Next.js App Router
-export const metadata: Metadata = {
-  title: "Split PDF Online Free - Extract Pages from PDF | SmartPDFs",
-  description:
-    "Split PDF files online for free. Extract specific page ranges or split every page into separate PDF documents instantly. 100% secure, local browser processing.",
-  keywords:
-    "split pdf, split pdf online, split pdf pages, extract pages from pdf, divide pdf online, split pdf free, extract pages online, free pdf tool, smartpdfs",
-  alternates: {
-    canonical: `${siteUrl}/tool/split`,
-  },
-  robots: {
-    index: true,
-    follow: true,
-    nocache: false,
-    googleBot: {
-      index: true,
-      follow: true,
-      "max-video-preview": -1,
-      "max-image-preview": "large",
-      "max-snippet": -1,
-    },
-  },
-  openGraph: {
-    type: "website",
-    title: "Split PDF Online Free - Extract Pages from PDF | SmartPDFs",
-    description:
-      "Split PDF files online for free. Extract specific page ranges or split every page into separate PDF documents instantly. 100% secure, local browser processing.",
-    siteName: "SmartPDFs",
-    url: `${siteUrl}/tool/split`,
-    images: [
-      {
-        url: `${siteUrl}/img/split-pdf-og.png`,
-        width: 1200,
-        height: 630,
-        alt: "Split PDF Online Free - SmartPDFs",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Split PDF Online Free - Extract Pages from PDF | SmartPDFs",
-    description:
-      "Split PDF files online for free. Extract specific page ranges or split every page into separate PDF documents instantly. 100% secure, local browser processing.",
-    images: [`${siteUrl}/img/split-pdf-og.png`],
-  },
-};
+
 
 // 3. Structured Data (JSON-LD Schemas)
 const webAppJsonLd = {
@@ -152,22 +112,58 @@ const faqJsonLd = {
   ],
 };
 
+
+export function generateMetadata() {
+  const id = 'split';
+  const meta = getToolMeta(id);
+  if (!meta) return { title: 'PDF Tool | SmartPDFPro' };
+
+  const url = getToolUrl(id);
+  return {
+    title: `${meta.title} | SmartPDFPro`,
+    description: meta.description,
+    keywords: meta.keywords,
+    alternates: { canonical: url },
+    openGraph: {
+      type: 'website',
+      title: `${meta.title} | SmartPDFPro`,
+      description: meta.description,
+      url,
+      siteName: 'SmartPDFPro',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${meta.title} | SmartPDFPro`,
+      description: meta.description,
+    },
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: { index: true, follow: true, 'max-snippet': -1, 'max-image-preview': 'large' },
+    },
+  };
+}
+
 export default function SplitPage() {
   return (
     <div className="min-h-screen bg-slate-50/50 dark:bg-slate-950">
+
+      {/* Dynamic SEO Schemas */}
+      {(() => {
+        const meta = getToolMeta('split');
+        return meta ? (
+          <>
+            <WebAppSchema name={`${meta.title} – Free Online Tool`} description={meta.description} url={getToolUrl('split')} />
+            {meta.faqs.length > 0 && <FAQSchema faqs={meta.faqs} />}
+            <BreadcrumbSchema items={[{ label: 'Tools', href: '/#tools' }, { label: meta.title, href: `/tool/split` }]} />
+          </>
+        ) : null;
+      })()}
+
       {/* Dynamic JSON-LD structured script injections for Google Crawler */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(webAppJsonLd) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
-      />
+      
+      
+      
 
       <div className="max-w-7xl mx-auto px-4 pt-6 sm:pt-10 pb-16">
         {/* Navigation Breadcrumbs */}

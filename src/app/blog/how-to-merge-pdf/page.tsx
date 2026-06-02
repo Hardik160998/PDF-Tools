@@ -1,5 +1,6 @@
 import React, { useMemo } from "react";
 import { Metadata } from "next";
+import ArticleSchema from "@/components/seo/ArticleSchema";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -80,6 +81,13 @@ export default function HowToMergePdfPage() {
 
   return (
     <main className="min-h-screen">
+      
+      <ArticleSchema 
+        title="How to Merge Multiple PDFs into One File (Free & Easy) | SmartPDFs Plus" 
+        description="Learn how to easily merge, combine, and organize multiple PDF files into one single document for free. No software installation required." 
+        url={`${siteUrl}/blog/how-to-merge-pdf`} 
+        datePublished="2026-06-01T13:25:51.358Z" 
+      />
       <BreadcrumbSchema items={breadcrumbItems} />
       <FAQSchema />
       <WebAppSchema

@@ -1,3 +1,7 @@
+import { getToolMeta, getToolUrl } from "@/data/toolMeta";
+import WebAppSchema from '@/components/seo/WebAppSchema';
+import FAQSchema from '@/components/seo/FAQSchema';
+import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema';
 import ExtractText from "@/components/tools/ExtractText";
 import Link from "next/link";
 import type { Metadata } from "next";
@@ -14,51 +18,7 @@ import {
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://smartpdfpro.com";
 
 // 1. Dynamic Metadata Export for Next.js App Router
-export const metadata: Metadata = {
-  title: "Convert PDF to XML Online - Free PDF to XML Parser | SmartPDFs",
-  description:
-    "Convert PDF files to structured XML data online for free. Deep-scan text blocks, paragraphs, and page attributes, and download clean XML instantly. 100% secure.",
-  keywords:
-    "convert pdf to xml, pdf to xml parser online, free pdf to xml converter, export pdf to xml, extract pdf text to xml, local pdf parse, smartpdfs",
-  alternates: {
-    canonical: `${siteUrl}/tool/pdf-to-xml`,
-  },
-  robots: {
-    index: true,
-    follow: true,
-    nocache: false,
-    googleBot: {
-      index: true,
-      follow: true,
-      "max-video-preview": -1,
-      "max-image-preview": "large",
-      "max-snippet": -1,
-    },
-  },
-  openGraph: {
-    type: "website",
-    title: "Convert PDF to XML Online - Free PDF to XML Parser | SmartPDFs",
-    description:
-      "Convert PDF files to structured XML data online for free. Deep-scan text blocks, paragraphs, and page attributes, and download clean XML instantly. 100% secure.",
-    siteName: "SmartPDFs",
-    url: `${siteUrl}/tool/pdf-to-xml`,
-    images: [
-      {
-        url: `${siteUrl}/img/pdf-to-xml-og.png`,
-        width: 1200,
-        height: 630,
-        alt: "Convert PDF to XML Online - SmartPDFs",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Convert PDF to XML Online - Free PDF to XML Parser | SmartPDFs",
-    description:
-      "Convert PDF files to structured XML data online for free. Deep-scan text blocks, paragraphs, and page attributes, and download clean XML instantly. 100% secure.",
-    images: [`${siteUrl}/img/pdf-to-xml-og.png`],
-  },
-};
+
 
 // 3. Structured Data (JSON-LD Schemas)
 const webAppJsonLd = {
@@ -151,22 +111,58 @@ const faqJsonLd = {
   ],
 };
 
+
+export function generateMetadata() {
+  const id = 'pdf-to-xml';
+  const meta = getToolMeta(id);
+  if (!meta) return { title: 'PDF Tool | SmartPDFPro' };
+
+  const url = getToolUrl(id);
+  return {
+    title: `${meta.title} | SmartPDFPro`,
+    description: meta.description,
+    keywords: meta.keywords,
+    alternates: { canonical: url },
+    openGraph: {
+      type: 'website',
+      title: `${meta.title} | SmartPDFPro`,
+      description: meta.description,
+      url,
+      siteName: 'SmartPDFPro',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${meta.title} | SmartPDFPro`,
+      description: meta.description,
+    },
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: { index: true, follow: true, 'max-snippet': -1, 'max-image-preview': 'large' },
+    },
+  };
+}
+
 export default function PdfToXmlPage() {
   return (
     <div className="min-h-screen bg-slate-50/50 dark:bg-slate-950">
+
+      {/* Dynamic SEO Schemas */}
+      {(() => {
+        const meta = getToolMeta('pdf-to-xml');
+        return meta ? (
+          <>
+            <WebAppSchema name={`${meta.title} – Free Online Tool`} description={meta.description} url={getToolUrl('pdf-to-xml')} />
+            {meta.faqs.length > 0 && <FAQSchema faqs={meta.faqs} />}
+            <BreadcrumbSchema items={[{ label: 'Tools', href: '/#tools' }, { label: meta.title, href: `/tool/pdf-to-xml` }]} />
+          </>
+        ) : null;
+      })()}
+
       {/* Dynamic JSON-LD structured script injections for Google Crawler */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(webAppJsonLd) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
-      />
+      
+      
+      
 
       <div className="max-w-7xl mx-auto px-4 pt-6 sm:pt-10 pb-16">
         {/* Navigation Breadcrumbs */}

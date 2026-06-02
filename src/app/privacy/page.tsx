@@ -1,4 +1,20 @@
 import { Shield, Lock, Eye, Trash2, Server, Users, Bell, CheckCircle2, ArrowRight, FileText, Globe } from 'lucide-react';
+import { Metadata } from 'next';
+
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://smartpdfpro.com';
+
+export const metadata: Metadata = {
+  title: 'Privacy Policy | SmartPDFs Plus',
+  description: 'Read our privacy policy to understand how SmartPDFs Plus protects your data and privacy while using our free PDF tools.',
+  alternates: {
+    canonical: '/privacy',
+  },
+  openGraph: {
+    title: 'Privacy Policy | SmartPDFs Plus',
+    description: 'Read our privacy policy to understand how SmartPDFs Plus protects your data and privacy while using our free PDF tools.',
+    url: `${siteUrl}/privacy`,
+  },
+};
 
 const HIGHLIGHTS = [
   { icon: Eye, title: 'No File Reading', desc: 'We never read or analyze your PDF content', color: 'bg-green-500' },

@@ -1,3 +1,7 @@
+import { getToolMeta, getToolUrl } from "@/data/toolMeta";
+import WebAppSchema from '@/components/seo/WebAppSchema';
+import FAQSchema from '@/components/seo/FAQSchema';
+import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema';
 import Compressor from "@/components/tools/Compressor";
 import Link from "next/link";
 import type { Metadata } from "next";
@@ -15,51 +19,7 @@ import {
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://smartpdfpro.com";
 
 // 1. Dynamic Metadata Export for Next.js App Router
-export const metadata: Metadata = {
-  title: "Compress PDF Online Free - Shrink PDF File Size | SmartPDFs",
-  description:
-    "Compress PDF files online for free. Reduce PDF document size while maintaining high quality. 100% secure local browser processing, no server uploads.",
-  keywords:
-    "compress pdf, shrink pdf, reduce pdf size, optimize pdf size, pdf compressor online, free pdf compressor, local pdf compress, smartpdfs",
-  alternates: {
-    canonical: `${siteUrl}/tool/compress`,
-  },
-  robots: {
-    index: true,
-    follow: true,
-    nocache: false,
-    googleBot: {
-      index: true,
-      follow: true,
-      "max-video-preview": -1,
-      "max-image-preview": "large",
-      "max-snippet": -1,
-    },
-  },
-  openGraph: {
-    type: "website",
-    title: "Compress PDF Online Free - Shrink PDF File Size | SmartPDFs",
-    description:
-      "Compress PDF files online for free. Reduce PDF document size while maintaining high quality. 100% secure local browser processing.",
-    siteName: "SmartPDFs",
-    url: `${siteUrl}/tool/compress`,
-    images: [
-      {
-        url: `${siteUrl}/img/compress-pdf-og.png`,
-        width: 1200,
-        height: 630,
-        alt: "Compress PDF Documents Online - SmartPDFs",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Compress PDF Online Free - Shrink PDF File Size | SmartPDFs",
-    description:
-      "Compress PDF files online for free. Reduce PDF document size while maintaining high quality. 100% secure local browser processing.",
-    images: [`${siteUrl}/img/compress-pdf-og.png`],
-  },
-};
+
 
 // 3. Structured Data (JSON-LD Schemas)
 const webAppJsonLd = {
@@ -152,22 +112,58 @@ const faqJsonLd = {
   ],
 };
 
+
+export function generateMetadata() {
+  const id = 'compress';
+  const meta = getToolMeta(id);
+  if (!meta) return { title: 'PDF Tool | SmartPDFPro' };
+
+  const url = getToolUrl(id);
+  return {
+    title: `${meta.title} | SmartPDFPro`,
+    description: meta.description,
+    keywords: meta.keywords,
+    alternates: { canonical: url },
+    openGraph: {
+      type: 'website',
+      title: `${meta.title} | SmartPDFPro`,
+      description: meta.description,
+      url,
+      siteName: 'SmartPDFPro',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${meta.title} | SmartPDFPro`,
+      description: meta.description,
+    },
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: { index: true, follow: true, 'max-snippet': -1, 'max-image-preview': 'large' },
+    },
+  };
+}
+
 export default function CompressPage() {
   return (
     <div className="min-h-screen bg-slate-50/50 dark:bg-slate-950">
+
+      {/* Dynamic SEO Schemas */}
+      {(() => {
+        const meta = getToolMeta('compress');
+        return meta ? (
+          <>
+            <WebAppSchema name={`${meta.title} – Free Online Tool`} description={meta.description} url={getToolUrl('compress')} />
+            {meta.faqs.length > 0 && <FAQSchema faqs={meta.faqs} />}
+            <BreadcrumbSchema items={[{ label: 'Tools', href: '/#tools' }, { label: meta.title, href: `/tool/compress` }]} />
+          </>
+        ) : null;
+      })()}
+
       {/* Dynamic JSON-LD structured script injections for Google Crawler */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(webAppJsonLd) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
-      />
+      
+      
+      
 
       <div className="max-w-7xl mx-auto px-4 pt-6 sm:pt-10 pb-16">
         {/* Navigation Breadcrumbs */}

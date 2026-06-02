@@ -1,5 +1,6 @@
 import React, { useMemo } from "react";
 import { Metadata } from "next";
+import ArticleSchema from "@/components/seo/ArticleSchema";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -114,6 +115,13 @@ export default function RedactPDFPost() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+      />
+      
+      <ArticleSchema 
+        title="How to Properly Redact a PDF: Avoid Data Leaks | SmartPDFs Plus" 
+        description="Learn the correct way to redact sensitive information in PDF files. Drawing a black box is not enough! Discover how to permanently remove hidden text layers and metadata." 
+        url={`${siteUrl}/blog/how-to-redact-pdf`} 
+        datePublished="2026-06-01T13:25:51.360Z" 
       />
       <BreadcrumbSchema items={breadcrumbItems} />
       <FAQSchema />

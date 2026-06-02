@@ -1,5 +1,6 @@
 import React, { useMemo } from "react";
 import { Metadata } from "next";
+import ArticleSchema from "@/components/seo/ArticleSchema";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -118,6 +119,13 @@ export default function UltimateEditingGuidePost() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+      />
+      
+      <ArticleSchema 
+        title="The Ultimate Guide to PDF Editing, Redaction & Annotation | SmartPDFs Plus" 
+        description="Master advanced PDF editing. Learn the differences between text replacement, drawing annotations, and secure redaction for legal documents." 
+        url={`${siteUrl}/blog/ultimate-pdf-editing-guide`} 
+        datePublished="2026-06-01T13:25:51.371Z" 
       />
       <BreadcrumbSchema items={breadcrumbItems} />
       <FAQSchema />

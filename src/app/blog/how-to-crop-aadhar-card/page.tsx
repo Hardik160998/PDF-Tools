@@ -1,5 +1,6 @@
 import React, { useMemo } from "react";
 import { Metadata } from "next";
+import ArticleSchema from "@/components/seo/ArticleSchema";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -118,6 +119,13 @@ export default function CropAadharCardPost() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+      />
+      
+      <ArticleSchema 
+        title="How to Crop e-Aadhar Card for PVC Printing Online | SmartPDFs Plus" 
+        description="Learn how to perfectly crop your downloaded e-Aadhar PDF file to exact PVC card dimensions (86mm x 54mm) for seamless printing without losing quality." 
+        url={`${siteUrl}/blog/how-to-crop-aadhar-card`} 
+        datePublished="2026-06-01T13:25:51.336Z" 
       />
       <BreadcrumbSchema items={breadcrumbItems} />
       <FAQSchema />

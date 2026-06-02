@@ -1,4 +1,20 @@
 import { FileText, CheckCircle2, XCircle, Scale, Shield, Server, Code, AlertTriangle, Globe, ArrowRight, RefreshCw } from 'lucide-react';
+import { Metadata } from 'next';
+
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://smartpdfpro.com';
+
+export const metadata: Metadata = {
+  title: 'Terms of Service | SmartPDFs Plus',
+  description: 'Read our terms of service to understand the rules, guidelines, and policies for using SmartPDFs Plus free PDF tools.',
+  alternates: {
+    canonical: '/terms',
+  },
+  openGraph: {
+    title: 'Terms of Service | SmartPDFs Plus',
+    description: 'Read our terms of service to understand the rules, guidelines, and policies for using SmartPDFs Plus free PDF tools.',
+    url: `${siteUrl}/terms`,
+  },
+};
 
 const ALLOWED = [
   'Merge, split, compress, and organize your own PDF files',

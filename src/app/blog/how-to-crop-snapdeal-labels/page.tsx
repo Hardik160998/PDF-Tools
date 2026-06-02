@@ -1,5 +1,6 @@
 import React, { useMemo } from "react";
 import { Metadata } from "next";
+import ArticleSchema from "@/components/seo/ArticleSchema";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -117,6 +118,13 @@ export default function CropSnapdealLabelPost() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+      />
+      
+      <ArticleSchema 
+        title="How to Crop Snapdeal Labels for Thermal Printing | SmartPDFs Plus" 
+        description="A complete guide for Snapdeal sellers on how to perfectly crop and format Snapdeal shipping labels and tax invoices for 4x6 thermal printers." 
+        url={`${siteUrl}/blog/how-to-crop-snapdeal-labels`} 
+        datePublished="2026-06-01T13:25:51.347Z" 
       />
       <BreadcrumbSchema items={breadcrumbItems} />
       <FAQSchema />

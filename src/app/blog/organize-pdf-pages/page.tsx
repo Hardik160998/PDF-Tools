@@ -1,5 +1,6 @@
 import React, { useMemo } from "react";
 import { Metadata } from "next";
+import ArticleSchema from "@/components/seo/ArticleSchema";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -82,6 +83,13 @@ export default function OrganizePdfPost() {
 
   return (
     <main className="min-h-screen">
+      
+      <ArticleSchema 
+        title="How to Rearrange, Rotate & Delete PDF Pages Online (Free Guide) | SmartPDFs Plus" 
+        description="Learn the exact steps to easily organize your PDF files. Rearrange pages, rotate scanned documents, and delete unwanted pages online for free." 
+        url={`${siteUrl}/blog/organize-pdf-pages`} 
+        datePublished="2026-06-01T13:25:51.362Z" 
+      />
       <BreadcrumbSchema items={breadcrumbItems} />
       <FAQSchema />
       <WebAppSchema

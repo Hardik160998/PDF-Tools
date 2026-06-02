@@ -1,5 +1,6 @@
 import React, { useMemo } from "react";
 import { Metadata } from "next";
+import ArticleSchema from "@/components/seo/ArticleSchema";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -117,6 +118,13 @@ export default function ImageConversionGuidePost() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+      />
+      
+      <ArticleSchema 
+        title="The Ultimate Guide to Image Conversion: JPG, PNG, WebP & PDF | SmartPDFs Plus" 
+        description="Master image conversion. Learn the technical differences between lossy and lossless formats (JPG, PNG, WebP) and how to convert images to vector PDFs without losing quality." 
+        url={`${siteUrl}/blog/ultimate-image-conversion-guide`} 
+        datePublished="2026-06-01T13:25:51.370Z" 
       />
       <BreadcrumbSchema items={breadcrumbItems} />
       <FAQSchema />
