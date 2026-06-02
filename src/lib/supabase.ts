@@ -135,7 +135,7 @@ export async function getAllTools(): Promise<AllToolRow[]> {
         .from('allpdftools')
         .select('tool_key, title, category, url, is_verified, img_convert, description, icon')
         .eq('is_verified', true);
-      data = fallback.data;
+      data = fallback.data as any;
       error = fallback.error;
     }
 
