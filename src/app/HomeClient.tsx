@@ -14,6 +14,7 @@ import { PREMIUM_TOOL_IDS } from '@/components/SubscriptionGate';
 import PaymentSuccessModal from '@/components/PaymentSuccessModal';
 import { useAllTools, useDbCategories } from '@/hooks/useTools';
 import { CATEGORY_ORDER } from '@/data/tools';
+import { TOOL_META_MAP } from '@/data/toolData';
 
 const CATEGORIES = ['All', 'Organize', 'Optimize', 'Convert', 'Image Convert', 'Edit', 'Security', 'Special', 'Ecommerce', 'Sign'];
 
@@ -161,7 +162,7 @@ export default function HomeClient() {
           id: t.tool_key,
           title: t.title || t.tool_key,
           category: t.category,
-          description: t.description || 'Easy and secure PDF tool.',
+          description: t.description || TOOL_META_MAP[t.tool_key]?.description || 'Easy and secure PDF tool.',
           icon: IconComponent,
           img_convert: t.img_convert,
           is_most_used: t.is_most_used,
@@ -217,7 +218,7 @@ export default function HomeClient() {
           </div>
           <div className="space-y-3">
             <h3 className="font-outfit text-lg font-black text-slate-900 dark:text-white tracking-tight">{tool.title}</h3>
-            <p className="text-[13px] font-medium text-slate-500 dark:text-slate-400 leading-snug">{tool.description}</p>
+            <p className="text-[13px] font-medium text-slate-500 dark:text-slate-400 leading-snug line-clamp-2" title={tool.description}>{tool.description}</p>
           </div>
         </Link>
       </div>
