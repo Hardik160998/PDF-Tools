@@ -164,6 +164,7 @@ export default function HomeClient() {
           description: t.description || 'Easy and secure PDF tool.',
           icon: IconComponent,
           img_convert: t.img_convert,
+          is_most_used: t.is_most_used,
         };
       });
   }, [allTools]);
@@ -192,6 +193,36 @@ export default function HomeClient() {
     if (cat === 'All') return mergedTools.slice(0, skeletonCount).map(t => t.category);
     return Array.from({ length: skeletonCount }, () => cat);
   }, [activeCategory, mergedTools]);
+
+  const renderToolCard = (tool: any) => {
+    const style = CATEGORY_STYLES[tool.category] || CATEGORY_STYLES.Special;
+    const isPremiumTool = PREMIUM_TOOL_IDS.includes(tool.id);
+    const isLocked = isPremiumTool && !isPremium;
+    return (
+      <div key={tool.id} className="tool-card-border" style={{ '--cat-gradient': style.gradient } as React.CSSProperties}>
+        <Link
+          href={tool.id === 'esign' ? '/esign' : tool.id === 'edit-pdf' ? '/edit' : `/tool/${tool.id}`}
+          className={`tool-card relative ${isLocked ? 'grayscale-[30%] opacity-90' : ''}`}
+          onClick={() => trackToolClick(tool.id)}
+        >
+          {isLocked && (
+            <div className="absolute top-4 right-4 flex items-center gap-1 bg-gradient-to-r from-amber-500 to-orange-500 text-white text-[9px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full shadow-md z-10">
+              <Lock size={8} /> Pro
+            </div>
+          )}
+          <div className="relative">
+            <div className={`tool-icon-wrapper shadow-xl ${style.shadow}`} style={{ background: style.gradient }}>
+              {tool.icon && <tool.icon size={28} />}
+            </div>
+          </div>
+          <div className="space-y-3">
+            <h3 className="font-outfit text-lg font-black text-slate-900 dark:text-white tracking-tight">{tool.title}</h3>
+            <p className="text-[13px] font-medium text-slate-500 dark:text-slate-400 leading-snug">{tool.description}</p>
+          </div>
+        </Link>
+      </div>
+    );
+  };
 
   return (
     <div className="min-h-screen relative overflow-hidden">
@@ -253,36 +284,38 @@ export default function HomeClient() {
         {showGridSkeleton ? (
           <SkeletonGrid count={skeletonCount} categories={skeletonCategories} />
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 animate-fade-in">
-            {filteredTools.map((tool) => {
-              const style = CATEGORY_STYLES[tool.category] || CATEGORY_STYLES.Special;
-              const isPremiumTool = PREMIUM_TOOL_IDS.includes(tool.id);
-              const isLocked = isPremiumTool && !isPremium;
-              return (
-                <div key={tool.id} className="tool-card-border" style={{ '--cat-gradient': style.gradient } as React.CSSProperties}>
-                  <Link
-                    href={tool.id === 'esign' ? '/esign' : tool.id === 'edit-pdf' ? '/edit' : `/tool/${tool.id}`}
-                    className={`tool-card relative ${isLocked ? 'grayscale-[30%] opacity-90' : ''}`}
-                    onClick={() => trackToolClick(tool.id)}
-                  >
-                    {isLocked && (
-                      <div className="absolute top-4 right-4 flex items-center gap-1 bg-gradient-to-r from-amber-500 to-orange-500 text-white text-[9px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full shadow-md z-10">
-                        <Lock size={8} /> Pro
-                      </div>
-                    )}
-                    <div className="relative">
-                      <div className={`tool-icon-wrapper shadow-xl ${style.shadow}`} style={{ background: style.gradient }}>
-                        {tool.icon && <tool.icon size={28} />}
-                      </div>
-                    </div>
-                    <div className="space-y-3">
-                      <h3 className="font-outfit text-lg font-black text-slate-900 dark:text-white tracking-tight">{tool.title}</h3>
-                      <p className="text-[13px] font-medium text-slate-500 dark:text-slate-400 leading-snug">{tool.description}</p>
-                    </div>
-                  </Link>
+          <div className="animate-fade-in space-y-16">
+            
+            {/* Most Used Tools Section (Only visible when All is selected) */}
+            {displayCategory === 'All' && mergedTools.some(t => t.is_most_used) && (
+              <div>
+                <div className="mb-8 flex items-center gap-3">
+                  <div className="p-2.5 bg-amber-100 dark:bg-amber-900/30 rounded-xl shadow-inner border border-amber-200 dark:border-amber-800/50">
+                    <Sparkles className="text-amber-500" size={24} />
+                  </div>
+                  <h3 className="font-outfit text-2xl md:text-3xl font-black text-slate-900 dark:text-white tracking-tight">Most Used Tools</h3>
                 </div>
-              );
-            })}
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                  {mergedTools.filter(t => t.is_most_used).map(renderToolCard)}
+                </div>
+              </div>
+            )}
+
+            {/* All Tools Section */}
+            <div>
+              {displayCategory === 'All' && mergedTools.some(t => t.is_most_used) && (
+                <div className="mb-8 flex items-center gap-3">
+                  <div className="p-2.5 bg-blue-100 dark:bg-blue-900/30 rounded-xl shadow-inner border border-blue-200 dark:border-blue-800/50">
+                    <Crown className="text-blue-500" size={24} />
+                  </div>
+                  <h3 className="font-outfit text-2xl md:text-3xl font-black text-slate-900 dark:text-white tracking-tight">All PDF Tools</h3>
+                </div>
+              )}
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                {filteredTools.map(renderToolCard)}
+              </div>
+            </div>
+
           </div>
         )}
       </section>
