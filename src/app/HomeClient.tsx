@@ -15,6 +15,7 @@ import PaymentSuccessModal from '@/components/PaymentSuccessModal';
 import { useAllTools, useDbCategories } from '@/hooks/useTools';
 import { CATEGORY_ORDER } from '@/data/tools';
 import { TOOL_META_MAP } from '@/data/toolData';
+import { TOOL_ICONS } from '@/data/toolIcons';
 
 const CATEGORIES = ['All', 'Organize', 'Optimize', 'Convert', 'Image Convert', 'Edit', 'Security', 'Special', 'Ecommerce', 'Sign'];
 
@@ -156,7 +157,7 @@ export default function HomeClient() {
     return source
       .filter(t => t.is_verified)
       .map(t => {
-        const iconName = t.icon || 'FileText';
+        const iconName = t.icon || TOOL_ICONS[t.tool_key] || 'FileText';
         const IconComponent = (LucideIcons as any)[iconName] || LucideIcons.FileText;
         return {
           id: t.tool_key,

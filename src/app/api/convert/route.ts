@@ -30,30 +30,26 @@ export async function POST(request: Request) {
     // Handle webpage-to-pdf (URL input, no file)
     if (fromId === 'webpage-to-pdf') {
       if (!webUrl) return NextResponse.json({ error: 'No URL provided' }, { status: 400 });
-      const endpoint = `https://v2.convertapi.com/convert/web/to/pdf?Secret=${safeSecret}`;
-      const response = await fetch(endpoint, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ Parameters: [{ Name: 'Url', Value: webUrl }] }),
-      });
+      
+      // Fallback to free Microlink API instead of ConvertAPI for webpages
+      const endpoint = `https://api.microlink.io/?url=${encodeURIComponent(webUrl)}&pdf=true`;
+      const response = await fetch(endpoint);
       const result = await response.json();
-      if (!response.ok) throw new Error(result.Message || `Cloud error: ${response.status}`);
-      const fileData = result.Files?.[0]?.FileData;
-      const fileUrl = result.Files?.[0]?.Url;
-      if (fileData) {
-        const pdfBuffer = Buffer.from(fileData, 'base64');
-        return new Response(pdfBuffer, {
-          headers: { 'Content-Type': 'application/pdf', 'Content-Disposition': 'attachment; filename="webpage.pdf"' },
-        });
+      
+      if (!response.ok || result.status === 'error') {
+        throw new Error(result.message || `Cloud error: ${response.status}`);
       }
-      if (fileUrl) {
-        const pdfRes = await fetch(fileUrl);
-        const pdfBuffer = await pdfRes.arrayBuffer();
-        return new Response(pdfBuffer, {
-          headers: { 'Content-Type': 'application/pdf', 'Content-Disposition': 'attachment; filename="webpage.pdf"' },
-        });
+      
+      const fileUrl = result.data?.pdf?.url;
+      if (!fileUrl) {
+        throw new Error('No result file returned from provider.');
       }
-      throw new Error('No result file returned from provider.');
+      
+      const pdfRes = await fetch(fileUrl);
+      const pdfBuffer = await pdfRes.arrayBuffer();
+      return new Response(pdfBuffer, {
+        headers: { 'Content-Type': 'application/pdf', 'Content-Disposition': 'attachment; filename="webpage.pdf"' },
+      });
     }
 
     if (!file) {

@@ -26,16 +26,7 @@ const LANGUAGES = [
 ];
 
 async function createOcrWorker(lang: string): Promise<Tesseract.Worker> {
-  const base = typeof window !== "undefined" ? window.location.origin : "";
-  return Tesseract.createWorker(lang as any, 1, {
-    workerPath: `${base}/workers/worker.min.js`,
-    workerBlobURL: false,
-    corePath: `${base}/workers/tesseract-core`,
-    langPath: `${base}/workers`,
-    cacheMethod: "write",
-    gzip: false,
-    legacyLang: false,
-  });
+  return Tesseract.createWorker(lang as any);
 }
 
 type FileStatus = "pending" | "processing" | "done" | "error";

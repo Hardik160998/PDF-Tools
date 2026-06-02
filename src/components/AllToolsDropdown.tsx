@@ -5,6 +5,7 @@ import { ChevronDown } from "lucide-react";
 import * as LucideIcons from "lucide-react";
 import { recordLocalToolClick } from "@/lib/toolHistory";
 import { useAllTools, useDbCategories } from "@/hooks/useTools";
+import { TOOL_ICONS } from "@/data/toolIcons";
 
 // Fallback styles for dynamically fetched categories
 const CATEGORY_STYLES: Record<string, { color: string; gradient: string }> = {
@@ -35,7 +36,7 @@ export default function AllToolsDropdown() {
 
     return dbCategories.map(cat => {
       const catTools = allTools.filter(t => t.category === cat.name).map(t => {
-        const iconName = t.icon || 'FileText';
+        const iconName = t.icon || TOOL_ICONS[t.tool_key] || 'FileText';
         const IconComponent = (LucideIcons as any)[iconName] || LucideIcons.FileText;
         return {
           id: t.tool_key,
