@@ -16,19 +16,19 @@ let _serverClient: SupabaseClient | null = null;
  * Falls back to anon key if service role key is not configured.
  */
 export function getServerSupabase(): SupabaseClient {
-  if (!_serverClient) {
-    const key = serviceRoleKey || anonKey;
-    if (!supabaseUrl || !key) {
-      throw new Error('Supabase URL or key is not configured in environment variables.');
-    }
-    _serverClient = createClient(supabaseUrl, key, {
-      auth: {
-        autoRefreshToken: false,
-        persistSession: false,
-      },
-    });
-  }
-  return _serverClient;
+ if (!_serverClient) {
+ const key = serviceRoleKey || anonKey;
+ if (!supabaseUrl || !key) {
+ throw new Error('Supabase URL or key is not configured in environment variables.');
+ }
+ _serverClient = createClient(supabaseUrl, key, {
+ auth: {
+ autoRefreshToken: false,
+ persistSession: false,
+ },
+ });
+ }
+ return _serverClient;
 }
 
 /**
@@ -36,16 +36,16 @@ export function getServerSupabase(): SupabaseClient {
  * Uses service role key for full DB access bypassing RLS.
  */
 export function createServerSupabase(): SupabaseClient {
-  const key = serviceRoleKey || anonKey;
-  if (!supabaseUrl || !key) {
-    throw new Error('Supabase URL or key is not configured in environment variables.');
-  }
-  return createClient(supabaseUrl, key, {
-    auth: {
-      autoRefreshToken: false,
-      persistSession: false,
-    },
-  });
+ const key = serviceRoleKey || anonKey;
+ if (!supabaseUrl || !key) {
+ throw new Error('Supabase URL or key is not configured in environment variables.');
+ }
+ return createClient(supabaseUrl, key, {
+ auth: {
+ autoRefreshToken: false,
+ persistSession: false,
+ },
+ });
 }
 
 /**
@@ -53,15 +53,15 @@ export function createServerSupabase(): SupabaseClient {
  * Used to verify user identity in API routes.
  */
 export function createUserSupabase(accessToken: string): SupabaseClient {
-  return createClient(supabaseUrl, anonKey, {
-    global: {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    },
-    auth: {
-      autoRefreshToken: false,
-      persistSession: false,
-    },
-  });
+ return createClient(supabaseUrl, anonKey, {
+ global: {
+ headers: {
+ Authorization: `Bearer ${accessToken}`,
+ },
+ },
+ auth: {
+ autoRefreshToken: false,
+ persistSession: false,
+ },
+ });
 }

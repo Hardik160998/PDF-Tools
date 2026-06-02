@@ -6,52 +6,52 @@ import { createServerSupabase } from '@/lib/supabase-server';
 import { AUTH_BONUS_CREDITS, GUEST_CREDITS } from './config';
 
 export interface UserCreditInfo {
-  userId: string;
-  email: string;
-  remaining_credits: number;
-  credits_merged: boolean;
-  isPremium: boolean;
+ userId: string;
+ email: string;
+ remaining_credits: number;
+ credits_merged: boolean;
+ isPremium: boolean;
 }
 
 /**
  * Fetches a user's credit information from the users table by email.
  */
 export async function getUserCreditInfo(email: string): Promise<{
-  info: UserCreditInfo | null;
-  error: string | null;
+ info: UserCreditInfo | null;
+ error: string | null;
 }> {
-  const supabase = createServerSupabase();
+ const supabase = createServerSupabase();
 
-  const { data, error } = await supabase
-    .from('users')
-    .select('id, email, remaining_credits, credits_merged, current_plan, plan')
-    .eq('email', email.toLowerCase().trim())
-    .maybeSingle();
+ const { data, error } = await supabase
+ .from('users')
+ .select('id, email, remaining_credits, credits_merged, current_plan, plan')
+ .eq('email', email.toLowerCase().trim())
+ .maybeSingle();
 
-  if (error || !data) {
-    return { info: null, error: error?.message || 'User not found.' };
-  }
+ if (error || !data) {
+ return { info: null, error: error?.message || 'User not found.' };
+ }
 
-  const userPlan = data.current_plan || data.plan || 'Basic Plan';
-  const isPremium =
-    userPlan.toLowerCase().includes('pro') ||
-    userPlan.toLowerCase().includes('premium');
+ const userPlan = data.current_plan || data.plan || 'Basic Plan';
+ const isPremium =
+ userPlan.toLowerCase().includes('pro') ||
+ userPlan.toLowerCase().includes('premium');
 
-  // Default to 10 credits if column is NULL
-  const remaining_credits = data.remaining_credits !== null && data.remaining_credits !== undefined
-    ? data.remaining_credits
-    : 10;
+ // Default to 10 credits if column is NULL
+ const remaining_credits = data.remaining_credits !== null && data.remaining_credits !== undefined
+ ? data.remaining_credits
+ : 10;
 
-  return {
-    info: {
-      userId: data.id,
-      email: data.email,
-      remaining_credits,
-      credits_merged: data.credits_merged ?? false,
-      isPremium,
-    },
-    error: null,
-  };
+ return {
+ info: {
+ userId: data.id,
+ email: data.email,
+ remaining_credits,
+ credits_merged: data.credits_merged ?? false,
+ isPremium,
+ },
+ error: null,
+ };
 }
 
 /**
@@ -60,52 +60,52 @@ export async function getUserCreditInfo(email: string): Promise<{
  * Premium users are always allowed (unlimited).
  */
 export async function deductUserCredit(
-  email: string,
-  toolName: string,
-  idempotencyKey: string // Kept for signature compatibility but unused
+ email: string,
+ toolName: string,
+ idempotencyKey: string // Kept for signature compatibility but unused
 ): Promise<{
-  allowed: boolean;
-  remaining: number;
-  unlimited: boolean;
-  error: string | null;
+ allowed: boolean;
+ remaining: number;
+ unlimited: boolean;
+ error: string | null;
 }> {
-  const supabase = createServerSupabase();
+ const supabase = createServerSupabase();
 
-  // 1. Fetch user info
-  const { info, error: infoError } = await getUserCreditInfo(email);
-  if (!info || infoError) {
-    return { allowed: false, remaining: 0, unlimited: false, error: infoError || 'User not found.' };
-  }
+ // 1. Fetch user info
+ const { info, error: infoError } = await getUserCreditInfo(email);
+ if (!info || infoError) {
+ return { allowed: false, remaining: 0, unlimited: false, error: infoError || 'User not found.' };
+ }
 
-  // 2. Premium users — unlimited
-  if (info.isPremium) {
-    return { allowed: true, remaining: 9999, unlimited: true, error: null };
-  }
+ // 2. Premium users — unlimited
+ if (info.isPremium) {
+ return { allowed: true, remaining: 9999, unlimited: true, error: null };
+ }
 
-  // 3. Check credits
-  if (info.remaining_credits <= 0) {
-    return {
-      allowed: false,
-      remaining: 0,
-      unlimited: false,
-      error: 'No credits remaining. Upgrade to Premium for unlimited usage.',
-    };
-  }
+ // 3. Check credits
+ if (info.remaining_credits <= 0) {
+ return {
+ allowed: false,
+ remaining: 0,
+ unlimited: false,
+ error: 'No credits remaining. Upgrade to Premium for unlimited usage.',
+ };
+ }
 
-  const newCredits = info.remaining_credits - 1;
+ const newCredits = info.remaining_credits - 1;
 
-  // 4. Deduct from DB
-  const { error: updateError } = await supabase
-    .from('users')
-    .update({ remaining_credits: newCredits })
-    .eq('email', email.toLowerCase().trim());
+ // 4. Deduct from DB
+ const { error: updateError } = await supabase
+ .from('users')
+ .update({ remaining_credits: newCredits })
+ .eq('email', email.toLowerCase().trim());
 
-  if (updateError) {
-    console.error('[deductUserCredit] Update error:', updateError);
-    return { allowed: false, remaining: info.remaining_credits, unlimited: false, error: updateError.message };
-  }
+ if (updateError) {
+ console.error('[deductUserCredit] Update error:', updateError);
+ return { allowed: false, remaining: info.remaining_credits, unlimited: false, error: updateError.message };
+ }
 
-  return { allowed: true, remaining: newCredits, unlimited: false, error: null };
+ return { allowed: true, remaining: newCredits, unlimited: false, error: null };
 }
 
 /**
@@ -115,103 +115,103 @@ export async function deductUserCredit(
  * - Safe to call multiple times — idempotent via credits_merged flag
  */
 export async function mergeGuestCreditsIntoUser(
-  userId: string,
-  email: string,
-  guestRemainingCredits: number,
-  guestUsedCredits: number = 0,
-  guestToken: string | null = null
+ userId: string,
+ email: string,
+ guestRemainingCredits: number,
+ guestUsedCredits: number = 0,
+ guestToken: string | null = null
 ): Promise<{
-  newCredits: number;
-  error: string | null;
+ newCredits: number;
+ error: string | null;
 }> {
-  const supabase = createServerSupabase();
+ const supabase = createServerSupabase();
 
-  // 1. Fetch current user (if it exists)
-  const { data: existingUser } = await supabase
-    .from('users')
-    .select('id, remaining_credits, credits_merged')
-    .eq('id', userId)
-    .maybeSingle();
+ // 1. Fetch current user (if it exists)
+ const { data: existingUser } = await supabase
+ .from('users')
+ .select('id, remaining_credits, credits_merged')
+ .eq('id', userId)
+ .maybeSingle();
 
-  if (existingUser?.credits_merged) {
-    let updatedCredits = existingUser.remaining_credits;
-    // For returning users, deduct any guest credits they used since the last merge
-    if (guestUsedCredits > 0) {
-       updatedCredits = Math.max(0, existingUser.remaining_credits - guestUsedCredits);
-       await supabase
-         .from('users')
-         .update({ remaining_credits: updatedCredits })
-         .eq('id', userId);
-         
-       if (guestToken) {
-         // Reset used_credits on the guest session so we don't double count if they log out and use more
-         await supabase
-           .from('users')
-           .update({ used_credits: 0 })
-           .eq('guest_session_id', guestToken);
-       }
-    }
-    return { newCredits: updatedCredits, error: null };
-  }
+ if (existingUser?.credits_merged) {
+ let updatedCredits = existingUser.remaining_credits;
+ // For returning users, deduct any guest credits they used since the last merge
+ if (guestUsedCredits > 0) {
+ updatedCredits = Math.max(0, existingUser.remaining_credits - guestUsedCredits);
+ await supabase
+ .from('users')
+ .update({ remaining_credits: updatedCredits })
+ .eq('id', userId);
+ 
+ if (guestToken) {
+ // Reset used_credits on the guest session so we don't double count if they log out and use more
+ await supabase
+ .from('users')
+ .update({ used_credits: 0 })
+ .eq('guest_session_id', guestToken);
+ }
+ }
+ return { newCredits: updatedCredits, error: null };
+ }
 
-  const newCredits = guestRemainingCredits + AUTH_BONUS_CREDITS;
+ const newCredits = guestRemainingCredits + AUTH_BONUS_CREDITS;
 
-  if (existingUser) {
-    // A user row already exists (e.g. from a trigger/upsert). Update it to regular free user.
-    const { error: updateError } = await supabase
-      .from('users')
-      .update({
-        remaining_credits: newCredits,
-        credits_merged: true,
-        is_guest: false,
-        account_type: 'free',
-      })
-      .eq('id', userId);
+ if (existingUser) {
+ // A user row already exists (e.g. from a trigger/upsert). Update it to regular free user.
+ const { error: updateError } = await supabase
+ .from('users')
+ .update({
+ remaining_credits: newCredits,
+ credits_merged: true,
+ is_guest: false,
+ account_type: 'free',
+ })
+ .eq('id', userId);
 
-    if (updateError) {
-      return { newCredits: 0, error: updateError.message };
-    }
+ if (updateError) {
+ return { newCredits: 0, error: updateError.message };
+ }
 
-    if (guestToken) {
-      // Reset used_credits on the guest session so it doesn't double count if they log out and use more
-      await supabase
-        .from('users')
-        .update({ used_credits: 0 })
-        .eq('guest_session_id', guestToken);
-    }
-  } else if (guestToken) {
-    // No existing user row. Insert a new user row instead of converting the guest row, so the guest session is preserved on logout.
-    const { error: insertError } = await supabase.from('users').insert({
-      id: userId,
-      email: email.toLowerCase().trim(),
-      is_guest: false,
-      account_type: 'free',
-      remaining_credits: newCredits,
-      credits_merged: true,
-    });
+ if (guestToken) {
+ // Reset used_credits on the guest session so it doesn't double count if they log out and use more
+ await supabase
+ .from('users')
+ .update({ used_credits: 0 })
+ .eq('guest_session_id', guestToken);
+ }
+ } else if (guestToken) {
+ // No existing user row. Insert a new user row instead of converting the guest row, so the guest session is preserved on logout.
+ const { error: insertError } = await supabase.from('users').insert({
+ id: userId,
+ email: email.toLowerCase().trim(),
+ is_guest: false,
+ account_type: 'free',
+ remaining_credits: newCredits,
+ credits_merged: true,
+ });
 
-    if (insertError) {
-      return { newCredits: 0, error: insertError.message };
-    }
-    
-    // Reset used_credits on the guest session
-    await supabase
-      .from('users')
-      .update({ used_credits: 0 })
-      .eq('guest_session_id', guestToken);
-  } else {
-    // No guest token, no existing row. Just create it (fallback)
-    await supabase.from('users').insert({
-      id: userId,
-      email: email.toLowerCase().trim(),
-      is_guest: false,
-      account_type: 'free',
-      remaining_credits: newCredits,
-      credits_merged: true,
-    });
-  }
+ if (insertError) {
+ return { newCredits: 0, error: insertError.message };
+ }
+ 
+ // Reset used_credits on the guest session
+ await supabase
+ .from('users')
+ .update({ used_credits: 0 })
+ .eq('guest_session_id', guestToken);
+ } else {
+ // No guest token, no existing row. Just create it (fallback)
+ await supabase.from('users').insert({
+ id: userId,
+ email: email.toLowerCase().trim(),
+ is_guest: false,
+ account_type: 'free',
+ remaining_credits: newCredits,
+ credits_merged: true,
+ });
+ }
 
-  return { newCredits, error: null };
+ return { newCredits, error: null };
 }
 
 /**
@@ -219,37 +219,37 @@ export async function mergeGuestCreditsIntoUser(
  * Only runs once — guarded by credits_merged flag.
  */
 export async function grantInitialUserCredits(userId: string): Promise<{
-  newCredits: number;
-  error: string | null;
+ newCredits: number;
+ error: string | null;
 }> {
-  const supabase = createServerSupabase();
+ const supabase = createServerSupabase();
 
-  const { data: user } = await supabase
-    .from('users')
-    .select('credits_merged, remaining_credits')
-    .eq('id', userId)
-    .maybeSingle();
+ const { data: user } = await supabase
+ .from('users')
+ .select('credits_merged, remaining_credits')
+ .eq('id', userId)
+ .maybeSingle();
 
-  // Already initialized
-  if (user?.credits_merged) {
-    return { newCredits: user.remaining_credits, error: null };
-  }
+ // Already initialized
+ if (user?.credits_merged) {
+ return { newCredits: user.remaining_credits, error: null };
+ }
 
-  // New user with no guest session — give full 10 credits
-  const initialCredits = 10;
-  const { error } = await supabase
-    .from('users')
-    .update({
-      remaining_credits: initialCredits,
-      credits_merged: true,
-      is_guest: false,
-      account_type: 'free',
-    })
-    .eq('id', userId);
+ // New user with no guest session — give full 10 credits
+ const initialCredits = 10;
+ const { error } = await supabase
+ .from('users')
+ .update({
+ remaining_credits: initialCredits,
+ credits_merged: true,
+ is_guest: false,
+ account_type: 'free',
+ })
+ .eq('id', userId);
 
-  if (error) {
-    return { newCredits: 0, error: error.message };
-  }
+ if (error) {
+ return { newCredits: 0, error: error.message };
+ }
 
-  return { newCredits: initialCredits, error: null };
+ return { newCredits: initialCredits, error: null };
 }

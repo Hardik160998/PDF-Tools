@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Outfit } from "next/font/google";
+import { Lato, Outfit } from "next/font/google";
 import "./globals.css";
 import "./mobileview.css";
 import "./mobilefixes.css";
@@ -12,91 +12,95 @@ import QueryProvider from "@/lib/QueryProvider";
 import AppLayout from "@/components/AppLayout";
 import Script from "next/script";
 
-const inter = Inter({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800", "900"],
+const lato = Lato({
+ subsets: ["latin"],
+ weight: ["300", "400", "700", "900"],
+ variable: "--font-lato",
+ display: "swap",
 });
+
 const outfit = Outfit({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800", "900"],
-  variable: "--font-outfit",
+ subsets: ["latin"],
+ weight: ["400", "700", "900"],
+ variable: "--font-outfit",
+ display: "swap",
 });
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://smartpdfpro.com";
 
 export const metadata: Metadata = {
-  title: "SmartPDFs Plus | Every tool you need to work with PDFs",
-  description:
-    "Merge, split, compress, convert, rotate, unlock and watermark PDFs with just a few clicks.",
-  openGraph: {
-    type: "website",
-    title: "SmartPDFs Plus | Every tool you need to work with PDFs",
-    description:
-      "Merge, split, compress, convert, rotate, unlock and watermark PDFs with just a few clicks.",
-    siteName: "SmartPDFs Plus",
-    images: [
-      { url: `${siteUrl}/img/snapdeal-label.png`, width: 1200, height: 630 },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "SmartPDFs Plus | Every tool you need to work with PDFs",
-    description:
-      "Merge, split, compress, convert, rotate, unlock and watermark PDFs with just a few clicks.",
-    images: [`${siteUrl}/img/snapdeal-label.png`],
-  },
+ title: "SmartPDFs Plus | Every tool you need to work with PDFs",
+ description:
+ "Merge, split, compress, convert, rotate, unlock and watermark PDFs with just a few clicks.",
+ openGraph: {
+ type: "website",
+ title: "SmartPDFs Plus | Every tool you need to work with PDFs",
+ description:
+ "Merge, split, compress, convert, rotate, unlock and watermark PDFs with just a few clicks.",
+ siteName: "SmartPDFs Plus",
+ images: [
+ { url: `${siteUrl}/img/snapdeal-label.png`, width: 1200, height: 630 },
+ ],
+ },
+ twitter: {
+ card: "summary_large_image",
+ title: "SmartPDFs Plus | Every tool you need to work with PDFs",
+ description:
+ "Merge, split, compress, convert, rotate, unlock and watermark PDFs with just a few clicks.",
+ images: [`${siteUrl}/img/snapdeal-label.png`],
+ },
 };
 
 export default function RootLayout({
-  children,
+ children,
 }: Readonly<{
-  children: React.ReactNode;
+ children: React.ReactNode;
 }>) {
-  return (
-    <html lang="en" suppressHydrationWarning>
-      <head>
-        <meta name="color-scheme" content="light dark" />
-        <script
-          id="theme-init"
-          dangerouslySetInnerHTML={{
-            __html: `
-              (function() {
-                try {
-                  var stored = localStorage.getItem('theme');
-                  var systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-                  var theme = stored === 'dark' || (stored === null && systemDark) ? 'dark' : 'light';
-                  if (theme === 'dark') {
-                    document.documentElement.classList.add('dark');
-                    document.documentElement.setAttribute('data-theme', 'dark');
-                    document.documentElement.style.colorScheme = 'dark';
-                  } else {
-                    document.documentElement.classList.remove('dark');
-                    document.documentElement.setAttribute('data-theme', 'light');
-                    document.documentElement.style.colorScheme = 'light';
-                  }
-                } catch (e) {}
-              })();
-            `,
-          }}
-        />
-      </head>
-      <body
-        className={`${inter.className} ${outfit.variable} antialiased`}
-        suppressHydrationWarning
-      >
-        <QueryProvider>
-          <ThemeProvider>
-            <AuthProvider>
-              <AppLayout
-                outfitClass={outfit.className}
-                outfitVariable={outfit.variable}
-              >
-                {children}
-              </AppLayout>
-            </AuthProvider>
-          </ThemeProvider>
-        </QueryProvider>
-      </body>
-    </html>
-  );
+ return (
+ <html lang="en" suppressHydrationWarning>
+ <head>
+ <meta name="color-scheme" content="light dark" />
+ <script
+ id="theme-init"
+ dangerouslySetInnerHTML={{
+ __html: `
+ (function() {
+ try {
+ var stored = localStorage.getItem('theme');
+ var systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+ var theme = stored === 'dark' || (stored === null && systemDark) ? 'dark' : 'light';
+ if (theme === 'dark') {
+ document.documentElement.classList.add('dark');
+ document.documentElement.setAttribute('data-theme', 'dark');
+ document.documentElement.style.colorScheme = 'dark';
+ } else {
+ document.documentElement.classList.remove('dark');
+ document.documentElement.setAttribute('data-theme', 'light');
+ document.documentElement.style.colorScheme = 'light';
+ }
+ } catch (e) {}
+ })();
+ `,
+ }}
+ />
+ </head>
+ <body
+ className={`${lato.variable} ${outfit.variable} ${lato.className} antialiased bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 min-h-screen flex flex-col selection:bg-blue-500/30`}
+ suppressHydrationWarning
+ >
+ <QueryProvider>
+ <ThemeProvider>
+ <AuthProvider>
+ <AppLayout
+ latoClass={lato.className}
+ latoVariable={lato.variable}
+ >
+ {children}
+ </AppLayout>
+ </AuthProvider>
+ </ThemeProvider>
+ </QueryProvider>
+ </body>
+ </html>
+ );
 }

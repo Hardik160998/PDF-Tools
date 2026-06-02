@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
 
 export default function ToolPage() {
-  redirect("/#tools-grid");
+ redirect("/#tools-grid");
 }
