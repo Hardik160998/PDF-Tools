@@ -224,6 +224,32 @@ export default function HomeClient() {
     );
   };
 
+  const renderSmallToolCard = (tool: any) => {
+    const style = CATEGORY_STYLES[tool.category] || CATEGORY_STYLES.Special;
+    const isPremiumTool = PREMIUM_TOOL_IDS.includes(tool.id);
+    const isLocked = isPremiumTool && !isPremium;
+    return (
+      <Link
+        key={tool.id}
+        href={tool.id === 'esign' ? '/esign' : tool.id === 'edit-pdf' ? '/edit' : `/tool/${tool.id}`}
+        className={`bg-white dark:bg-slate-800 rounded-xl p-3 shadow-sm hover:shadow-md border border-slate-100 dark:border-slate-700/80 transition-all hover:-translate-y-1 flex items-center gap-3 ${isLocked ? 'grayscale-[30%] opacity-90' : ''}`}
+        onClick={() => trackToolClick(tool.id)}
+      >
+        <div className={`w-10 h-10 rounded-lg flex items-center justify-center text-white shadow-md shrink-0 ${style.shadow}`} style={{ background: style.gradient }}>
+          {tool.icon && <tool.icon size={18} />}
+        </div>
+        <div className="flex-1 min-w-0 flex flex-col justify-center">
+          <h3 className="font-outfit text-[13px] font-bold text-slate-900 dark:text-white truncate leading-tight">{tool.title}</h3>
+        </div>
+        {isLocked && (
+          <div className="shrink-0 text-amber-500">
+            <Lock size={12} />
+          </div>
+        )}
+      </Link>
+    );
+  };
+
   return (
     <div className="min-h-screen relative overflow-hidden">
       <div className="bg-mesh-premium" />
@@ -289,14 +315,14 @@ export default function HomeClient() {
             {/* Most Used Tools Section (Only visible when All is selected) */}
             {displayCategory === 'All' && mergedTools.some(t => t.is_most_used) && (
               <div>
-                <div className="mb-8 flex items-center gap-3">
+                <div className="mb-8 flex items-center justify-center gap-3">
                   <div className="p-2.5 bg-amber-100 dark:bg-amber-900/30 rounded-xl shadow-inner border border-amber-200 dark:border-amber-800/50">
                     <Sparkles className="text-amber-500" size={24} />
                   </div>
                   <h3 className="font-outfit text-2xl md:text-3xl font-black text-slate-900 dark:text-white tracking-tight">Most Used Tools</h3>
                 </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                  {mergedTools.filter(t => t.is_most_used).map(renderToolCard)}
+                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+                  {mergedTools.filter(t => t.is_most_used).map(renderSmallToolCard)}
                 </div>
               </div>
             )}
@@ -304,7 +330,7 @@ export default function HomeClient() {
             {/* All Tools Section */}
             <div>
               {displayCategory === 'All' && mergedTools.some(t => t.is_most_used) && (
-                <div className="mb-8 flex items-center gap-3">
+                <div className="mb-8 flex items-center justify-center gap-3">
                   <div className="p-2.5 bg-blue-100 dark:bg-blue-900/30 rounded-xl shadow-inner border border-blue-200 dark:border-blue-800/50">
                     <Crown className="text-blue-500" size={24} />
                   </div>
