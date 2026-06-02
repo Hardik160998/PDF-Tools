@@ -118,14 +118,27 @@ export interface AllToolRow {
   img_convert: boolean;
   description?: string;
   icon?: string;
+  is_most_used?: boolean;
 }
 
 export async function getAllTools(): Promise<AllToolRow[]> {
   try {
-    const { data, error } = await supabase
+    let { data, error } = await supabase
       .from('allpdftools')
-      .select('tool_key, title, category, url, is_verified, img_convert, description, icon')
+      .select('tool_key, title, category, url, is_verified, img_convert, description, icon, is_most_used')
       .eq('is_verified', true);
+
+    // If the column 'is_most_used' doesn't exist yet, fallback to the old query
+    if (error && error.code === 'PGRST200') {
+      console.warn("is_most_used column not found. Falling back to default query.");
+      const fallback = await supabase
+        .from('allpdftools')
+        .select('tool_key, title, category, url, is_verified, img_convert, description, icon')
+        .eq('is_verified', true);
+      data = fallback.data;
+      error = fallback.error;
+    }
+
     console.log("getAllTools Result:", { data, error });
     return data ?? [];
   } catch (err) {
