@@ -1,13 +1,15 @@
 import { NextResponse } from 'next/server';
 import { supabase } from '@/lib/supabase';
 
-// Revalidate the cache every hour (3600 seconds) so that when new tools 
-// are added to the database, the llms.txt file is updated dynamically.
-export const revalidate = 3600;
+export const revalidate = 3600; // Cache for 1 hour
 
 export async function GET() {
   try {
-    // 1. Fetch active categories ordered by sort_order
+    // Canonical domain
+    const DOMAIN = 'https://smartpdfpro.com';
+    const LAST_UPDATED = new Date().toISOString();
+
+    // 1. Fetch categories
     const { data: categories, error: catError } = await supabase
       .from('categories')
       .select('name, is_active')
@@ -18,10 +20,11 @@ export async function GET() {
       console.error('Error fetching categories for llms.txt:', catError);
     }
 
-    // 2. Fetch all verified tools ordered by title
+    // 2. Fetch tools
+    // We try to fetch description if available, otherwise we use a dynamic fallback
     const { data: tools, error: toolError } = await supabase
       .from('allpdftools')
-      .select('title, url, category')
+      .select('title, url, category, description')
       .eq('is_verified', true)
       .order('title', { ascending: true });
 
@@ -29,66 +32,141 @@ export async function GET() {
       console.error('Error fetching tools for llms.txt:', toolError);
     }
 
-    // Format the tools section
+    // Map categories to Semantic Headings for SEO
+    const categoryHeadings: Record<string, string> = {
+      'Ecommerce': 'Ecommerce Label Automation Tools',
+      'Organize': 'PDF Organization Tools',
+      'Optimize': 'PDF Processing Tools',
+      'Convert': 'PDF Conversion Tools',
+      'Edit': 'PDF Editing Tools',
+      'Security': 'PDF Security Tools',
+      'Special': 'Specialized PDF Tools',
+      'Sign': 'PDF Signature Tools',
+      'Image Convert': 'Image Conversion Tools',
+    };
+
+    // Group tools by category
+    const groupedTools: Record<string, typeof tools> = {};
+    if (tools) {
+      tools.forEach(tool => {
+        const cat = tool.category || 'Uncategorized';
+        if (!groupedTools[cat]) groupedTools[cat] = [];
+        groupedTools[cat].push(tool);
+      });
+    }
+
+    // Build the Tools Markdown
     let toolsMarkdown = '';
-    if (tools && tools.length > 0) {
-      toolsMarkdown = tools.map((tool) => {
-        const description = `Easily process your documents with the ${tool.title} tool.`;
-        return `* **${tool.title}**\n  * URL: https://www.smartpdfpro.com${tool.url}\n  * Category: ${tool.category || 'Tool'}\n  * Description: ${description}`;
-      }).join('\n\n');
+    
+    // Always prioritize Ecommerce tools first as requested
+    const sortedCategories = Object.keys(groupedTools).sort((a, b) => {
+      if (a === 'Ecommerce') return -1;
+      if (b === 'Ecommerce') return 1;
+      return a.localeCompare(b);
+    });
+
+    if (sortedCategories.length > 0) {
+      sortedCategories.forEach(categoryName => {
+        const heading = categoryHeadings[categoryName] || \`\${categoryName} Tools\`;
+        toolsMarkdown += \`## \${heading}\\n\\n\`;
+        
+        groupedTools[categoryName]!.forEach(tool => {
+          // Generate a highly relevant fallback description if missing
+          let desc = tool.description;
+          if (!desc) {
+            if (categoryName === 'Ecommerce') {
+              desc = \`Automate your warehouse logistics and order processing with \${tool.title}. Expertly built for ecommerce sellers to streamline shipping label workflows.\`;
+            } else if (categoryName === 'Convert') {
+              desc = \`Seamlessly convert your files with \${tool.title}. High-quality, secure, and fast conversion preserving document integrity.\`;
+            } else {
+              desc = \`Professional-grade \${tool.title} tool to efficiently manage, process, and optimize your documents securely in your browser.\`;
+            }
+          }
+          
+          toolsMarkdown += \`\${tool.title}\\n\${DOMAIN}\${tool.url}\\n\\nDescription:\\n\${desc}\\n\\n\`;
+        });
+      });
     } else {
-      toolsMarkdown = '* No active tools found at the moment.';
+      toolsMarkdown = 'Tools temporarily unavailable.\n\n';
     }
 
-    // Format the categories section
-    let categoriesMarkdown = '';
-    if (categories && categories.length > 0) {
-      categoriesMarkdown = categories.map((cat) => `* ${cat.name}`).join('\n');
-    } else {
-      categoriesMarkdown = '* PDF Tools';
-    }
+    // Compile the full llms.txt file
+    const content = \`# SmartPDFPro
 
-    // Since a blog table doesn't exist yet based on our schema, we can safely leave 
-    // a placeholder or link to the main blog directory if one gets added later.
-    const blogMarkdown = `* [SmartPDFPro Blog](https://www.smartpdfpro.com/blog)`;
+SmartPDFPro is an advanced online PDF toolkit and Ecommerce Warehouse Automation Platform. We help users manage, convert, edit, organize, compress, and secure PDF documents, alongside specialized logistics automation tools for marketplace sellers.
 
-    const content = `# SmartPDFPro
+## AI Metadata
 
-SmartPDFPro is an online PDF toolkit that helps users manage, convert, edit, organize, compress, and secure PDF documents.
+Site Name: SmartPDFPro
+Site Type: Online PDF Tools & Ecommerce Automation Platform
+Category: PDF Utilities & Warehouse Logistics Automation
+Language: English
+Supported Languages: English
+Devices: Desktop, Mobile, Tablet
+Accessibility: Web-based, No installation required
+Business Model: Freemium Subscription
 
-## Main Tools
+## Keywords
 
-${toolsMarkdown}
+PDF tools
+PDF converter
+Merge PDF
+Compress PDF
+PDF editor
+Shipping labels
+Warehouse automation
+Ecommerce automation
+Flipkart labels
+Amazon labels
+Meesho labels
+Snapdeal labels
+SKU sorting
+Courier sorting
+Invoice extraction
+Order processing
+Logistics automation
 
-## Categories
+\${toolsMarkdown}## Important Website Pages
 
-${categoriesMarkdown}
+About
+\${DOMAIN}/about
 
-## Features
+Contact
+\${DOMAIN}/contact
 
-* Browser-based PDF processing
-* No software installation required
-* Secure file handling
-* Fast document processing
-* Mobile friendly
-* Cross-platform compatibility
+Pricing
+\${DOMAIN}/premium-plans
 
-## Blog
+Privacy Policy
+\${DOMAIN}/privacy
 
-${blogMarkdown}
+Terms of Service
+\${DOMAIN}/terms
 
-## Website
+FAQ
+\${DOMAIN}/faq
 
-https://www.smartpdfpro.com
+Blog
+\${DOMAIN}/blog
+
+## Support
+
+Support Email: support@smartpdfpro.com
+Contact URL: \${DOMAIN}/contact
+Help URL: \${DOMAIN}/faq
 
 ## Sitemap
 
-https://www.smartpdfpro.com/sitemap.xml
+\${DOMAIN}/sitemap.xml
 
 ## Robots
 
-https://www.smartpdfpro.com/robots.txt
-`;
+\${DOMAIN}/robots.txt
+
+## Last Updated
+
+\${LAST_UPDATED}
+\`;
 
     return new NextResponse(content, {
       status: 200,
@@ -99,7 +177,10 @@ https://www.smartpdfpro.com/robots.txt
     });
   } catch (error) {
     console.error('Critical error generating llms.txt:', error);
-    return new NextResponse('Internal Server Error generating llms.txt', { status: 500 });
+    // Fallback system to ensure it doesn't crash or return empty
+    return new NextResponse('Tools temporarily unavailable. Please check back later.\\n\\nWebsite: https://smartpdfpro.com', {
+      status: 200,
+      headers: { 'Content-Type': 'text/plain; charset=utf-8' }
+    });
   }
 }
-
