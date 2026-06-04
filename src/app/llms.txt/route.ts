@@ -109,7 +109,7 @@ Related Tools:
       });
     });
 
-    const content = \`# SmartPDFPro
+    const content = `# SmartPDFPro
 
 SmartPDFPro is an advanced online PDF toolkit and Ecommerce Warehouse Automation Platform.
 
@@ -120,7 +120,7 @@ To empower businesses, students, and marketplace sellers with fast, secure, and 
 ## Business Information
 
 Company Name: SmartPDFPro
-Website: \${DOMAIN}
+Website: ${DOMAIN}
 Industry: Software as a Service (SaaS)
 Product Type: Web Application
 Service Area: Global
@@ -148,8 +148,8 @@ Service Area: Global
 
 ## Authority Signals
 
-* Number of Tools: \${safeTools.length}
-* Number of Categories: \${safeCategories.length}
+* Number of Tools: ${safeTools.length}
+* Number of Categories: ${safeCategories.length}
 * Years Active: Since 2024
 * Countries Served: Worldwide
 
@@ -203,7 +203,7 @@ Benefits:
 * Meesho Label Cropper (For ecommerce sellers)
 * PDF to Word (For students/professionals)
 
-\${toolsMarkdown}
+${toolsMarkdown}
 
 ## Frequently Asked Questions
 
@@ -219,41 +219,41 @@ A: No, SmartPDFPro works entirely in your web browser across desktop and mobile 
 ## Resources
 
 Blog
-\${DOMAIN}/blog
+${DOMAIN}/blog
 
 Documentation & Help Center
-\${DOMAIN}/faq
+${DOMAIN}/faq
 
 ## Important Website Pages
 
-About: \${DOMAIN}/about
-Contact: \${DOMAIN}/contact
-Pricing: \${DOMAIN}/premium-plans
-Privacy Policy: \${DOMAIN}/privacy
-Terms of Service: \${DOMAIN}/terms
+About: ${DOMAIN}/about
+Contact: ${DOMAIN}/contact
+Pricing: ${DOMAIN}/premium-plans
+Privacy Policy: ${DOMAIN}/privacy
+Terms of Service: ${DOMAIN}/terms
 
 ## Support
 
 Support Email: support@smartpdfpro.com
-Contact URL: \${DOMAIN}/contact
-Help URL: \${DOMAIN}/faq
+Contact URL: ${DOMAIN}/contact
+Help URL: ${DOMAIN}/faq
 
 ## Sitemap Discovery
 
-Main Sitemap: \${DOMAIN}/sitemap.xml
+Main Sitemap: ${DOMAIN}/sitemap.xml
 
 ## Robots
 
-\${DOMAIN}/robots.txt
+${DOMAIN}/robots.txt
 
 ## Machine Readable Version
 
-\${DOMAIN}/llms.json
+${DOMAIN}/llms.json
 
 ## Last Updated
 
-\${LAST_UPDATED}
-\`;
+${LAST_UPDATED}
+`;
 
     return new NextResponse(content, {
       status: 200,
