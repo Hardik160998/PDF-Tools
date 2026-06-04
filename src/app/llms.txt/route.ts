@@ -50,9 +50,9 @@ export async function GET() {
     const getDynamicKeywords = (title: string, category: string) => {
       const base = title.toLowerCase();
       if (category === 'Ecommerce') {
-        return [base, \`\${base} automation\`, 'ecommerce label crop', 'warehouse logistics'];
+        return [base, `${base} automation`, 'ecommerce label crop', 'warehouse logistics'];
       }
-      return [base, \`free \${base}\`, \`online \${base} tool\`, 'pdf utility'];
+      return [base, `free ${base}`, `online ${base} tool`, 'pdf utility'];
     };
 
     const getDynamicUseCases = (title: string, category: string) => {
@@ -80,32 +80,32 @@ export async function GET() {
     });
 
     sortedCategories.forEach(categoryName => {
-      const catDesc = categoryDescriptions[categoryName] || \`Professional \${categoryName} tools for efficient document processing.\`;
-      toolsMarkdown += \`## \${categoryName === 'Ecommerce' ? 'Ecommerce Label Automation Tools' : categoryName + ' Tools'}\\n\\n\${catDesc}\\n\\n\`;
+      const catDesc = categoryDescriptions[categoryName] || `Professional ${categoryName} tools for efficient document processing.`;
+      toolsMarkdown += `## ${categoryName === 'Ecommerce' ? 'Ecommerce Label Automation Tools' : categoryName + ' Tools'}\n\n${catDesc}\n\n`;
       
       groupedTools[categoryName].forEach(tool => {
         let desc = tool.description;
         if (!desc) {
           desc = categoryName === 'Ecommerce' 
-            ? \`Automate your warehouse logistics and order processing with \${tool.title}. Expertly built for ecommerce sellers to streamline shipping label workflows.\`
-            : \`Professional-grade \${tool.title} tool to efficiently manage, process, and optimize your documents securely in your browser.\`;
+            ? `Automate your warehouse logistics and order processing with ${tool.title}. Expertly built for ecommerce sellers to streamline shipping label workflows.`
+            : `Professional-grade ${tool.title} tool to efficiently manage, process, and optimize your documents securely in your browser.`;
         }
 
         const keywords = getDynamicKeywords(tool.title, categoryName);
         const useCases = getDynamicUseCases(tool.title, categoryName);
         const related = getRelatedTools(tool.title, categoryName);
 
-        toolsMarkdown += \`### \${tool.title}
-URL: \${DOMAIN}\${tool.url}
-Description: \${desc}
-Category: \${categoryName}
-Keywords: \${keywords.join(', ')}
+        toolsMarkdown += `### ${tool.title}
+URL: ${DOMAIN}${tool.url}
+Description: ${desc}
+Category: ${categoryName}
+Keywords: ${keywords.join(', ')}
 Use Cases:
-\${useCases.map(uc => \`- \${uc}\`).join('\\n')}
+${useCases.map(uc => `- ${uc}`).join('\n')}
 Related Tools:
-\${related.length > 0 ? related.map(rt => \`- \${rt}\`).join('\\n') : '- None'}
+${related.length > 0 ? related.map(rt => `- ${rt}`).join('\n') : '- None'}
 
-\`;
+`;
       });
     });
 
@@ -264,7 +264,7 @@ ${LAST_UPDATED}
     });
   } catch (error) {
     console.error('Critical error generating llms.txt:', error);
-    return new NextResponse('Tools temporarily unavailable. Please check back later.\\n\\nWebsite: https://smartpdfpro.com', {
+    return new NextResponse('Tools temporarily unavailable. Please check back later.\n\nWebsite: https://smartpdfpro.com', {
       status: 200,
       headers: { 'Content-Type': 'text/plain; charset=utf-8' }
     });

@@ -47,9 +47,9 @@ export async function GET() {
     const getDynamicKeywords = (title: string, category: string) => {
       const base = title.toLowerCase();
       if (category === 'Ecommerce') {
-        return [base, \`\${base} automation\`, 'ecommerce label crop', 'warehouse logistics'];
+        return [base, `${base} automation`, 'ecommerce label crop', 'warehouse logistics'];
       }
-      return [base, \`free \${base}\`, \`online \${base} tool\`, 'pdf utility'];
+      return [base, `free ${base}`, `online ${base} tool`, 'pdf utility'];
     };
 
     const getDynamicUseCases = (title: string, category: string) => {
@@ -72,12 +72,12 @@ export async function GET() {
       let desc = tool.description;
       if (!desc) {
         desc = categoryName === 'Ecommerce' 
-          ? \`Automate your warehouse logistics and order processing with \${tool.title}. Expertly built for ecommerce sellers to streamline shipping label workflows.\`
-          : \`Professional-grade \${tool.title} tool to efficiently manage, process, and optimize your documents securely in your browser.\`;
+          ? `Automate your warehouse logistics and order processing with ${tool.title}. Expertly built for ecommerce sellers to streamline shipping label workflows.`
+          : `Professional-grade ${tool.title} tool to efficiently manage, process, and optimize your documents securely in your browser.`;
       }
       return {
         name: tool.title,
-        url: \`\${DOMAIN}\${tool.url}\`,
+        url: `${DOMAIN}${tool.url}`,
         description: desc,
         category: categoryName,
         keywords: getDynamicKeywords(tool.title, categoryName),
@@ -142,7 +142,7 @@ export async function GET() {
       },
       categories: safeCategories.map(cat => ({
         name: cat.name,
-        description: categoryDescriptions[cat.name] || \`Professional \${cat.name} tools for efficient document processing.\`
+        description: categoryDescriptions[cat.name] || `Professional ${cat.name} tools for efficient document processing.`
       })),
       popular_tools: [
         'Meesho Label Cropper',
@@ -171,25 +171,25 @@ export async function GET() {
         }
       ],
       resources: {
-        blog: \`\${DOMAIN}/blog\`,
-        documentation_and_help_center: \`\${DOMAIN}/faq\`
+        blog: `${DOMAIN}/blog`,
+        documentation_and_help_center: `${DOMAIN}/faq`
       },
       important_website_pages: {
-        about: \`\${DOMAIN}/about\`,
-        contact: \`\${DOMAIN}/contact\`,
-        pricing: \`\${DOMAIN}/premium-plans\`,
-        privacy_policy: \`\${DOMAIN}/privacy\`,
-        terms_of_service: \`\${DOMAIN}/terms\`
+        about: `${DOMAIN}/about`,
+        contact: `${DOMAIN}/contact`,
+        pricing: `${DOMAIN}/premium-plans`,
+        privacy_policy: `${DOMAIN}/privacy`,
+        terms_of_service: `${DOMAIN}/terms`
       },
       support: {
         email: 'support@smartpdfpro.com',
-        contact_url: \`\${DOMAIN}/contact\`,
-        help_url: \`\${DOMAIN}/faq\`
+        contact_url: `${DOMAIN}/contact`,
+        help_url: `${DOMAIN}/faq`
       },
       sitemap_discovery: {
-        main: \`\${DOMAIN}/sitemap.xml\`
+        main: `${DOMAIN}/sitemap.xml`
       },
-      robots: \`\${DOMAIN}/robots.txt\`
+      robots: `${DOMAIN}/robots.txt`
     };
 
     return NextResponse.json(payload, {
