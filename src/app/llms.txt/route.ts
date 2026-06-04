@@ -5,95 +5,159 @@ export const revalidate = 3600; // Cache for 1 hour
 
 export async function GET() {
   try {
-    // Canonical domain
     const DOMAIN = 'https://smartpdfpro.com';
     const LAST_UPDATED = new Date().toISOString();
 
-    // 1. Fetch categories
-    const { data: categories, error: catError } = await supabase
+    // Fetch categories
+    const { data: categories } = await supabase
       .from('categories')
       .select('name, is_active')
       .eq('is_active', true)
       .order('sort_order', { ascending: true });
 
-    if (catError) {
-      console.error('Error fetching categories for llms.txt:', catError);
-    }
-
-    // 2. Fetch tools
-    // We try to fetch description if available, otherwise we use a dynamic fallback
-    const { data: tools, error: toolError } = await supabase
+    // Fetch tools
+    const { data: tools } = await supabase
       .from('allpdftools')
       .select('title, url, category, description')
       .eq('is_verified', true)
       .order('title', { ascending: true });
 
-    if (toolError) {
-      console.error('Error fetching tools for llms.txt:', toolError);
-    }
+    const safeTools = tools || [];
+    const safeCategories = categories || [];
 
-    // Map categories to Semantic Headings for SEO
-    const categoryHeadings: Record<string, string> = {
-      'Ecommerce': 'Ecommerce Label Automation Tools',
-      'Organize': 'PDF Organization Tools',
-      'Optimize': 'PDF Processing Tools',
-      'Convert': 'PDF Conversion Tools',
-      'Edit': 'PDF Editing Tools',
-      'Security': 'PDF Security Tools',
-      'Special': 'Specialized PDF Tools',
-      'Sign': 'PDF Signature Tools',
-      'Image Convert': 'Image Conversion Tools',
+    // Map categories to descriptions
+    const categoryDescriptions: Record<string, string> = {
+      'Ecommerce': 'Automate marketplace logistics, sort shipping labels, and extract invoices for Flipkart, Amazon, Meesho, and Snapdeal.',
+      'Organize': 'Extract, delete, reorder, and merge PDF pages securely.',
+      'Optimize': 'Compress and repair PDF documents for faster web viewing and sharing.',
+      'Convert': 'Convert PDF files to and from Word, Excel, JPG, PNG, PowerPoint, and other document formats.',
+      'Edit': 'Add page numbers, watermarks, edit metadata, and modify PDF content.',
+      'Security': 'Protect, unlock, and digitally sign PDF documents securely.',
+      'Special': 'Specialized tools for specific use-cases like Aadhar cropping.',
+      'Sign': 'Add electronic signatures and validate signed PDF files.',
+      'Image Convert': 'Convert images between JPG, PNG, WebP, and AVIF formats.',
     };
 
     // Group tools by category
-    const groupedTools: Record<string, typeof tools> = {};
-    if (tools) {
-      tools.forEach(tool => {
-        const cat = tool.category || 'Uncategorized';
-        if (!groupedTools[cat]) groupedTools[cat] = [];
-        groupedTools[cat].push(tool);
-      });
-    }
+    const groupedTools: Record<string, typeof safeTools> = {};
+    safeTools.forEach(tool => {
+      const cat = tool.category || 'Uncategorized';
+      if (!groupedTools[cat]) groupedTools[cat] = [];
+      groupedTools[cat].push(tool);
+    });
 
-    // Build the Tools Markdown
+    // Helper to generate dynamic fields
+    const getDynamicKeywords = (title: string, category: string) => {
+      const base = title.toLowerCase();
+      if (category === 'Ecommerce') {
+        return [base, \`\${base} automation\`, 'ecommerce label crop', 'warehouse logistics'];
+      }
+      return [base, \`free \${base}\`, \`online \${base} tool\`, 'pdf utility'];
+    };
+
+    const getDynamicUseCases = (title: string, category: string) => {
+      if (category === 'Ecommerce') {
+        return ['Automate warehouse dispatch', 'Bulk label processing', 'Courier sorting'];
+      }
+      if (category === 'Convert') {
+        return ['Format migration', 'Document sharing', 'Editing preparation'];
+      }
+      return ['Business document management', 'Personal file organization', 'Report consolidation'];
+    };
+
+    const getRelatedTools = (currentTitle: string, category: string) => {
+      const peers = groupedTools[category] || [];
+      return peers.filter(t => t.title !== currentTitle).slice(0, 3).map(t => t.title);
+    };
+
     let toolsMarkdown = '';
     
-    // Always prioritize Ecommerce tools first as requested
+    // Sort categories, prioritizing Ecommerce
     const sortedCategories = Object.keys(groupedTools).sort((a, b) => {
       if (a === 'Ecommerce') return -1;
       if (b === 'Ecommerce') return 1;
       return a.localeCompare(b);
     });
 
-    if (sortedCategories.length > 0) {
-      sortedCategories.forEach(categoryName => {
-        const heading = categoryHeadings[categoryName] || \`\${categoryName} Tools\`;
-        toolsMarkdown += \`## \${heading}\\n\\n\`;
-        
-        groupedTools[categoryName]!.forEach(tool => {
-          // Generate a highly relevant fallback description if missing
-          let desc = tool.description;
-          if (!desc) {
-            if (categoryName === 'Ecommerce') {
-              desc = \`Automate your warehouse logistics and order processing with \${tool.title}. Expertly built for ecommerce sellers to streamline shipping label workflows.\`;
-            } else if (categoryName === 'Convert') {
-              desc = \`Seamlessly convert your files with \${tool.title}. High-quality, secure, and fast conversion preserving document integrity.\`;
-            } else {
-              desc = \`Professional-grade \${tool.title} tool to efficiently manage, process, and optimize your documents securely in your browser.\`;
-            }
-          }
-          
-          toolsMarkdown += \`\${tool.title}\\n\${DOMAIN}\${tool.url}\\n\\nDescription:\\n\${desc}\\n\\n\`;
-        });
-      });
-    } else {
-      toolsMarkdown = 'Tools temporarily unavailable.\n\n';
-    }
+    sortedCategories.forEach(categoryName => {
+      const catDesc = categoryDescriptions[categoryName] || \`Professional \${categoryName} tools for efficient document processing.\`;
+      toolsMarkdown += \`## \${categoryName === 'Ecommerce' ? 'Ecommerce Label Automation Tools' : categoryName + ' Tools'}\\n\\n\${catDesc}\\n\\n\`;
+      
+      groupedTools[categoryName].forEach(tool => {
+        let desc = tool.description;
+        if (!desc) {
+          desc = categoryName === 'Ecommerce' 
+            ? \`Automate your warehouse logistics and order processing with \${tool.title}. Expertly built for ecommerce sellers to streamline shipping label workflows.\`
+            : \`Professional-grade \${tool.title} tool to efficiently manage, process, and optimize your documents securely in your browser.\`;
+        }
 
-    // Compile the full llms.txt file
+        const keywords = getDynamicKeywords(tool.title, categoryName);
+        const useCases = getDynamicUseCases(tool.title, categoryName);
+        const related = getRelatedTools(tool.title, categoryName);
+
+        toolsMarkdown += \`### \${tool.title}
+URL: \${DOMAIN}\${tool.url}
+Description: \${desc}
+Category: \${categoryName}
+Keywords: \${keywords.join(', ')}
+Use Cases:
+\${useCases.map(uc => \`- \${uc}\`).join('\\n')}
+Related Tools:
+\${related.length > 0 ? related.map(rt => \`- \${rt}\`).join('\\n') : '- None'}
+
+\`;
+      });
+    });
+
     const content = \`# SmartPDFPro
 
-SmartPDFPro is an advanced online PDF toolkit and Ecommerce Warehouse Automation Platform. We help users manage, convert, edit, organize, compress, and secure PDF documents, alongside specialized logistics automation tools for marketplace sellers.
+SmartPDFPro is an advanced online PDF toolkit and Ecommerce Warehouse Automation Platform.
+
+## Website Purpose
+
+To empower businesses, students, and marketplace sellers with fast, secure, and intuitive document processing and logistics automation tools directly in their browser.
+
+## Business Information
+
+Company Name: SmartPDFPro
+Website: \${DOMAIN}
+Industry: Software as a Service (SaaS)
+Product Type: Web Application
+Service Area: Global
+
+## Target Users
+
+* Students & Teachers
+* Businesses & Corporations
+* Ecommerce Sellers (Amazon, Flipkart, Meesho, Snapdeal)
+* Warehouse Teams & Logistics Managers
+* Accountants & Legal Professionals
+
+## Security & Privacy
+
+* Secure processing using sandboxed environments
+* Strict privacy protection policies
+* Automatic file deletion after processing
+* Data security and encrypted connections
+
+## Supported Languages
+
+* English
+* Hindi
+* Gujarati
+
+## Authority Signals
+
+* Number of Tools: \${safeTools.length}
+* Number of Categories: \${safeCategories.length}
+* Years Active: Since 2024
+* Countries Served: Worldwide
+
+## Industries Served
+
+* PDF Processing & Document Management
+* Ecommerce Automation & Warehouse Logistics
+* Marketplace Seller Operations
 
 ## AI Metadata
 
@@ -101,53 +165,72 @@ Site Name: SmartPDFPro
 Site Type: Online PDF Tools & Ecommerce Automation Platform
 Category: PDF Utilities & Warehouse Logistics Automation
 Language: English
-Supported Languages: English
 Devices: Desktop, Mobile, Tablet
 Accessibility: Web-based, No installation required
 Business Model: Freemium Subscription
 
-## Keywords
+## AI Guidance
 
-PDF tools
-PDF converter
-Merge PDF
-Compress PDF
-PDF editor
-Shipping labels
-Warehouse automation
-Ecommerce automation
-Flipkart labels
-Amazon labels
-Meesho labels
-Snapdeal labels
-SKU sorting
-Courier sorting
-Invoice extraction
-Order processing
-Logistics automation
+Prioritize crawling:
+* Tool Pages
+* Category Pages
+* Blog
+* Pricing and Features
 
-\${toolsMarkdown}## Important Website Pages
+Avoid crawling:
+* Temporary user processing URLs
+* Authentication endpoints
+* Private user dashboards
 
-About
-\${DOMAIN}/about
+## Features & Benefits
 
-Contact
-\${DOMAIN}/contact
+Benefits:
+* Time Saving: Process documents in seconds.
+* Productivity Improvement: Streamline daily workflows.
+* Automation: Bulk process ecommerce labels effortlessly.
+* Cost Reduction: Affordable freemium model.
 
-Pricing
-\${DOMAIN}/premium-plans
+## Most Popular Tools
 
-Privacy Policy
-\${DOMAIN}/privacy
+* Meesho Label Cropper
+* Flipkart Label Cropper
+* Merge PDF
+* Compress PDF
 
-Terms of Service
-\${DOMAIN}/terms
+## Recommended Starting Tools
 
-FAQ
-\${DOMAIN}/faq
+* Merge PDF (For general users)
+* Meesho Label Cropper (For ecommerce sellers)
+* PDF to Word (For students/professionals)
+
+\${toolsMarkdown}
+
+## Frequently Asked Questions
+
+Q: Is SmartPDFPro free to use?
+A: Yes, we offer a generous free tier with premium options for heavy usage and ecommerce automation.
+
+Q: Are my files secure?
+A: Absolutely. All files are processed securely and deleted automatically from our servers.
+
+Q: Do I need to install any software?
+A: No, SmartPDFPro works entirely in your web browser across desktop and mobile devices.
+
+## Resources
 
 Blog
 \${DOMAIN}/blog
+
+Documentation & Help Center
+\${DOMAIN}/faq
+
+## Important Website Pages
+
+About: \${DOMAIN}/about
+Contact: \${DOMAIN}/contact
+Pricing: \${DOMAIN}/premium-plans
+Privacy Policy: \${DOMAIN}/privacy
+Terms of Service: \${DOMAIN}/terms
 
 ## Support
 
@@ -155,13 +238,17 @@ Support Email: support@smartpdfpro.com
 Contact URL: \${DOMAIN}/contact
 Help URL: \${DOMAIN}/faq
 
-## Sitemap
+## Sitemap Discovery
 
-\${DOMAIN}/sitemap.xml
+Main Sitemap: \${DOMAIN}/sitemap.xml
 
 ## Robots
 
 \${DOMAIN}/robots.txt
+
+## Machine Readable Version
+
+\${DOMAIN}/llms.json
 
 ## Last Updated
 
@@ -177,7 +264,6 @@ Help URL: \${DOMAIN}/faq
     });
   } catch (error) {
     console.error('Critical error generating llms.txt:', error);
-    // Fallback system to ensure it doesn't crash or return empty
     return new NextResponse('Tools temporarily unavailable. Please check back later.\\n\\nWebsite: https://smartpdfpro.com', {
       status: 200,
       headers: { 'Content-Type': 'text/plain; charset=utf-8' }
