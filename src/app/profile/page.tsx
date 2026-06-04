@@ -94,14 +94,11 @@ export default function ProfilePage() {
  try {
  const { error } = await supabase
  .from("users")
- .upsert(
- {
- email: user.email,
+ .update({
  full_name: fullName,
  last_login: new Date().toISOString(),
- },
- { onConflict: "email" }
- );
+ })
+ .eq("email", user.email);
 
  if (error) {
  throw error;

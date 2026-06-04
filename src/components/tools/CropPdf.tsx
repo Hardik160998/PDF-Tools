@@ -428,45 +428,84 @@ export default function CropPdf({ id: _id }: { id: string }) {
  <span className="text-[8px] font-medium uppercase text-slate-400">Height</span>
  <span className="text-sm font-medium text-slate-900 dark:text-white uppercase tracking-widest">{activePg ? Math.round(cropBox.h * activePg.pdfH) : 0} pt</span>
  </div>
- </div>
- </div>
- </div>
- );
+  </div>
+  </div>
+  </div>
+  );
 
- const renderStep3 = () => (
- <div className="w-full max-w-4xl mx-auto py-8 sm:py-16 px-4 sm:px-6">
- <div className="bg-white dark:bg-slate-900 rounded-[32px] sm:rounded-[40px] p-6 sm:p-12 border border-slate-100 dark:border-slate-800 shadow-2xl text-center space-y-8 sm:space-y-10">
- <div className="w-24 h-24 rounded-full bg-green-50 dark:bg-green-500/10 flex items-center justify-center mx-auto text-green-500 shadow-xl">
- <CheckCircle2 size={48} />
- </div>
- <div>
- <h2 className="text-2xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-widest mb-2">Batch Process Ready!</h2>
- <p className="text-slate-500 dark:text-slate-400 font-bold uppercase tracking-widest text-[9px] sm:text-xs">Successfully cropped {files.length} documents.</p>
- </div>
+  const renderStep3 = () => (
+    <div className="w-full max-w-4xl mx-auto py-8 sm:py-16 px-4 sm:px-6 animate-in fade-in zoom-in-95 duration-700">
+      <div className="relative bg-white dark:bg-slate-900 rounded-[32px] sm:rounded-[48px] p-8 sm:p-16 border border-slate-100 dark:border-slate-800 shadow-[0_20px_80px_rgba(0,0,0,0.05)] dark:shadow-[0_20px_80px_rgba(0,0,0,0.4)] text-center space-y-10 sm:space-y-12 overflow-hidden">
+        
+        {/* Decorative Background */}
+        <div className="absolute top-0 inset-x-0 h-40 bg-gradient-to-b from-green-500/10 to-transparent dark:from-green-500/5" />
+        <div className="absolute -top-32 -right-32 w-96 h-96 bg-green-500/10 rounded-full blur-3xl opacity-50 dark:opacity-20 animate-pulse" />
+        <div className="absolute -bottom-32 -left-32 w-96 h-96 bg-orange-500/10 rounded-full blur-3xl opacity-50 dark:opacity-20" />
 
- <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 max-w-2xl mx-auto">
- {files.map((f, i) => (
- <div key={f.id} className="flex flex-col gap-3 sm:gap-4 p-4 sm:p-6 bg-slate-50 dark:bg-slate-800 rounded-2xl sm:rounded-3xl border border-slate-100 dark:border-slate-700">
- <div className="flex items-center gap-3 sm:gap-4 text-left min-w-0">
- <div className="p-2 sm:p-3 bg-white dark:bg-slate-900 rounded-xl shadow-sm text-orange-500 shrink-0"><FileText size={18} /></div>
- <div className="min-w-0 flex-1">
- <p className="text-xs font-medium uppercase truncate text-slate-900 dark:text-white">{f.file.name}</p>
- <p className="text-[9px] font-medium text-slate-400 uppercase">Ready for pickup</p>
- </div>
- </div>
- <a href={f.resultUrl} download={`cropped_${f.file.name}`} className="w-full py-3 bg-slate-900 dark:bg-white text-white dark:text-slate-900 rounded-xl font-medium text-[10px] uppercase tracking-widest shadow-lg hover:scale-105 transition-all flex items-center justify-center gap-2">
- <Download size={14} /> Download
- </a>
- </div>
- ))}
- </div>
+        <div className="relative">
+          <div className="relative w-28 h-28 mx-auto flex items-center justify-center">
+            {/* Animated rings */}
+            <div className="absolute inset-0 bg-green-500/20 rounded-full animate-ping opacity-75" style={{ animationDuration: '3s' }} />
+            <div className="absolute inset-2 bg-green-500/20 rounded-full animate-pulse" />
+            
+            <div className="relative w-20 h-20 rounded-full bg-gradient-to-tr from-green-500 to-emerald-400 flex items-center justify-center text-white shadow-2xl shadow-green-500/40">
+              <CheckCircle2 size={40} className="drop-shadow-md" />
+            </div>
+          </div>
+          
+          <div className="mt-8 space-y-3">
+            <h2 className="text-3xl sm:text-5xl font-black text-slate-900 dark:text-white uppercase tracking-tighter leading-tight">
+              Batch Process <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-500 to-emerald-500">Ready!</span>
+            </h2>
+            <p className="text-slate-500 dark:text-slate-400 font-bold uppercase tracking-widest text-[10px] sm:text-sm flex items-center justify-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" /> 
+              Successfully cropped {files.length} document{files.length !== 1 ? 's' : ''}
+            </p>
+          </div>
+        </div>
 
- <div className="pt-6 sm:pt-8 border-t border-slate-50 dark:border-slate-800">
- <button onClick={reset} className="w-full sm:w-auto px-10 py-4 bg-slate-100 dark:bg-slate-800 text-slate-500 rounded-2xl font-bold text-[10px] sm:text-xs uppercase tracking-widest hover:bg-slate-200 transition-all">Start New Batch</button>
- </div>
- </div>
- </div>
- );
+        <div className={`grid grid-cols-1 ${files.length > 1 ? 'sm:grid-cols-2' : 'max-w-xl'} gap-4 sm:gap-6 max-w-3xl mx-auto relative z-10`}>
+          {files.map((f, i) => (
+            <div 
+              key={f.id} 
+              className="group flex flex-col justify-between gap-5 p-5 sm:p-6 bg-white dark:bg-slate-800 rounded-3xl border border-slate-200/60 dark:border-slate-700 hover:border-green-500/30 dark:hover:border-green-500/30 shadow-sm hover:shadow-xl hover:shadow-green-500/5 transition-all duration-300 animate-in slide-in-from-bottom-4"
+              style={{ animationDelay: `${i * 100}ms`, animationFillMode: 'both' }}
+            >
+              <div className="flex items-center gap-4 text-left min-w-0">
+                <div className="p-3 bg-orange-50 dark:bg-slate-900 rounded-2xl shadow-inner text-orange-500 shrink-0 group-hover:scale-110 transition-transform">
+                  <FileText size={24} strokeWidth={1.5} />
+                </div>
+                <div className="min-w-0 flex-1">
+                  <p className="text-sm font-bold uppercase tracking-tight text-slate-900 dark:text-white truncate" title={f.file.name}>{f.file.name}</p>
+                  <p className="text-[10px] font-bold text-green-500 uppercase tracking-widest mt-0.5 flex items-center gap-1">
+                    <CheckCircle2 size={10} /> Ready for pickup
+                  </p>
+                </div>
+              </div>
+              
+              <a 
+                href={f.resultUrl} 
+                download={`cropped_${f.file.name}`} 
+                className="relative w-full py-3.5 sm:py-4 bg-slate-900 hover:bg-slate-800 dark:bg-white dark:hover:bg-slate-100 text-white dark:text-slate-900 rounded-xl sm:rounded-2xl font-bold text-[11px] sm:text-xs uppercase tracking-widest shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all flex items-center justify-center gap-2 overflow-hidden"
+              >
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full duration-1000 transition-transform" />
+                <Download size={16} className="group-hover:-translate-y-0.5 transition-transform" /> Download
+              </a>
+            </div>
+          ))}
+        </div>
+
+        <div className="pt-8 sm:pt-10 border-t border-slate-100 dark:border-slate-800 relative z-10">
+          <button 
+            onClick={reset} 
+            className="w-full sm:w-auto px-10 py-4 bg-slate-50 hover:bg-slate-100 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 rounded-2xl font-bold text-[11px] sm:text-xs uppercase tracking-widest hover:scale-105 transition-all flex items-center justify-center gap-2 mx-auto"
+          >
+            <RefreshCw size={14} /> Start New Batch
+          </button>
+        </div>
+      </div>
+    </div>
+  );
 
  return (
  <div className="min-h-screen bg-slate-50/50 dark:bg-slate-950 ">
