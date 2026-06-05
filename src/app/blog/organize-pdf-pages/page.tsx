@@ -575,7 +575,7 @@ export default function OrganizePdfPost() {
  </div>
  </section>
 
- <div className="bg-gradient-to-br from-purple-50 to-white border-2 border-purple-500 rounded-3xl p-8 text-center text-slate-900 space-y-4 shadow-lg hover:shadow-xl transition-all duration-300 mt-12 mb-8">
+ <div className="bg-gradient-to-br from-purple-50 to-white dark:from-slate-900 dark:to-slate-800 border-2 border-purple-500 rounded-3xl p-8 text-center text-slate-900 space-y-4 shadow-lg hover:shadow-xl transition-all duration-300 mt-12 mb-8">
  <div>
  <h2 className="text-2xl font-black text-slate-900 mb-2">
  Ready to organize your PDFs?
@@ -598,3 +598,4 @@ export default function OrganizePdfPost() {
  </main>
  );
 }
+

@@ -303,7 +303,7 @@ export default function ProtectPDFPost() {
  </section>
 
  {/* Call to Action */}
- <section className="bg-gradient-to-br from-white to-red-50/30 border-2 border-red-500 rounded-2xl p-8 text-center shadow-lg hover:shadow-xl transition-shadow mt-10">
+ <section className="bg-gradient-to-br from-white to-red-50/30 dark:from-slate-900 dark:to-slate-800 border-2 border-red-500 rounded-2xl p-8 text-center shadow-lg hover:shadow-xl transition-shadow mt-10">
  <h2 className="font-black text-2xl text-slate-900 mt-0 mb-3">Ready to secure your documents?</h2>
  <p className="text-slate-600 mb-6 text-sm">Lock down your sensitive PDFs with unbreakable AES-256 bit encryption directly in your web browser.</p>
  <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -330,3 +330,4 @@ export default function ProtectPDFPost() {
  </main>
  );
 }
+

@@ -438,7 +438,7 @@ export default function RedactPDFPost() {
  </section>
 
  {/* Call to Action */}
- <section className="bg-gradient-to-br from-white to-slate-100 border-2 border-slate-900 rounded-2xl p-8 text-center shadow-lg hover:shadow-xl transition-shadow mt-10">
+ <section className="bg-gradient-to-br from-white to-slate-100 dark:from-slate-900 dark:to-slate-800 border-2 border-slate-900 rounded-2xl p-8 text-center shadow-lg hover:shadow-xl transition-shadow mt-10">
  <h2 className="font-black text-2xl text-slate-900 mt-0 mb-3">
  Ensure 100% Secure Redaction
  </h2>
@@ -470,3 +470,4 @@ export default function RedactPDFPost() {
  </main>
  );
 }
+

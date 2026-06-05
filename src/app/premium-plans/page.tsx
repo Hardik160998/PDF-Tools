@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
 import { triggerRazorpayPayment } from '@/lib/razorpay';
-import { Crown, CheckCircle2, Sparkles, Check, HelpCircle, CreditCard, Download } from 'lucide-react';
+import { Crown, CheckCircle2, Sparkles, Check, HelpCircle, CreditCard, Download, Eye, X } from 'lucide-react';
 import PaymentSuccessModal from '@/components/PaymentSuccessModal';
 
 const PLAN_TOOLS = [
@@ -97,6 +97,7 @@ function PremiumPlansContent() {
  const [isDownloading, setIsDownloading] = useState(false);
  const [successModalOpen, setSuccessModalOpen] = useState(false);
  const [successModalData, setSuccessModalData] = useState({ planName: "", paymentId: "" });
+ const [isInvoiceModalOpen, setIsInvoiceModalOpen] = useState(false);
 
  const activePlan = user ? (profile?.current_plan || profile?.plan || "Basic Plan") : null;
 
@@ -291,55 +292,56 @@ function PremiumPlansContent() {
  {loading && !(user && activePlan && activePlan !== "Basic Plan") ? (
  /* ── Loading state: show clean skeleton table without empty message overlay ── */
  <div className="overflow-x-auto w-full">
- <table className="w-full text-left border-collapse min-w-[780px]">
+ <table className="w-full text-left border-collapse md:min-w-[780px] min-w-full">
  <thead>
  <tr className="bg-slate-50 dark:bg-slate-800/70">
- <th className="px-6 py-3.5 text-[10px] font-bold text-slate-500 dark:text-slate-300 uppercase tracking-wider whitespace-nowrap">
+ <th className="px-4 md:px-6 py-3.5 text-[10px] font-bold text-slate-500 dark:text-slate-300 uppercase tracking-wider whitespace-nowrap">
  Invoice #
  </th>
- <th className="px-4 py-3.5 text-[10px] font-bold text-slate-500 dark:text-slate-300 uppercase tracking-wider whitespace-nowrap">
+ <th className="hidden md:table-cell px-4 py-3.5 text-[10px] font-bold text-slate-500 dark:text-slate-300 uppercase tracking-wider whitespace-nowrap">
  Subscription Start
  </th>
- <th className="px-4 py-3.5 text-[10px] font-bold text-slate-500 dark:text-slate-300 uppercase tracking-wider whitespace-nowrap">
+ <th className="hidden md:table-cell px-4 py-3.5 text-[10px] font-bold text-slate-500 dark:text-slate-300 uppercase tracking-wider whitespace-nowrap">
  Subscription End
  </th>
- <th className="px-4 py-3.5 text-[10px] font-bold text-slate-500 dark:text-slate-300 uppercase tracking-wider whitespace-nowrap">
+ <th className="hidden md:table-cell px-4 py-3.5 text-[10px] font-bold text-slate-500 dark:text-slate-300 uppercase tracking-wider whitespace-nowrap">
  Plan Name
  </th>
  <th className="px-4 py-3.5 text-[10px] font-bold text-slate-500 dark:text-slate-300 uppercase tracking-wider whitespace-nowrap">
  Amount
  </th>
- <th className="px-4 py-3.5 text-[10px] font-bold text-slate-500 dark:text-slate-300 uppercase tracking-wider whitespace-nowrap">
+ <th className="hidden md:table-cell px-4 py-3.5 text-[10px] font-bold text-slate-500 dark:text-slate-300 uppercase tracking-wider whitespace-nowrap">
  Status
  </th>
- <th className="px-6 py-3.5 text-[10px] font-bold text-slate-500 dark:text-slate-300 uppercase tracking-wider text-right whitespace-nowrap">
- Download Invoice
+ <th className="px-4 md:px-6 py-3.5 text-[10px] font-bold text-slate-500 dark:text-slate-300 uppercase tracking-wider text-right whitespace-nowrap">
+ Actions
  </th>
  </tr>
  </thead>
  <tbody className="divide-y divide-slate-100 dark:divide-slate-700/80">
  {[1, 2].map((i) => (
  <tr key={i} className="group hover:bg-slate-50/60 dark:hover:bg-slate-800/30 transition-colors duration-150">
- <td className="px-6 py-5">
- <div className="h-6 w-24 bg-slate-200 dark:bg-slate-700 rounded-lg animate-pulse" />
+ <td className="px-4 md:px-6 py-5">
+ <div className="h-6 w-20 md:w-24 bg-slate-200 dark:bg-slate-700 rounded-lg animate-pulse" />
  </td>
- <td className="px-4 py-5">
+ <td className="hidden md:table-cell px-4 py-5">
  <div className="h-4 w-28 bg-slate-200 dark:bg-slate-700 rounded animate-pulse" />
  </td>
- <td className="px-4 py-5">
+ <td className="hidden md:table-cell px-4 py-5">
  <div className="h-4 w-28 bg-slate-200 dark:bg-slate-700 rounded animate-pulse" />
  </td>
- <td className="px-4 py-5">
+ <td className="hidden md:table-cell px-4 py-5">
  <div className="h-6 w-20 bg-slate-200 dark:bg-slate-700 rounded-full animate-pulse" />
  </td>
  <td className="px-4 py-5">
  <div className="h-8 w-16 bg-slate-200 dark:bg-slate-700 rounded animate-pulse" />
  </td>
- <td className="px-4 py-5">
+ <td className="hidden md:table-cell px-4 py-5">
  <div className="h-6 w-14 bg-slate-200 dark:bg-slate-700 rounded-full animate-pulse" />
  </td>
- <td className="px-6 py-5 text-right flex justify-end">
- <div className="h-8 w-24 bg-slate-200 dark:bg-slate-700 rounded-xl animate-pulse" />
+ <td className="px-4 md:px-6 py-5 text-right flex justify-end gap-2">
+ <div className="h-8 w-8 md:hidden bg-slate-200 dark:bg-slate-700 rounded-xl animate-pulse" />
+ <div className="h-8 w-8 md:w-24 bg-slate-200 dark:bg-slate-700 rounded-xl animate-pulse" />
  </td>
  </tr>
  ))}
@@ -349,54 +351,54 @@ function PremiumPlansContent() {
  ) : (
  /* ── Paid user: show billing rows ── */
  <div className="overflow-x-auto w-full">
- <table className="w-full text-left border-collapse min-w-[780px]">
+ <table className="w-full text-left border-collapse md:min-w-[780px] min-w-full">
  <thead>
  <tr className="bg-slate-50 dark:bg-slate-800/70">
- <th className="px-6 py-3.5 text-[10px] font-bold text-slate-500 dark:text-slate-300 uppercase tracking-wider whitespace-nowrap">
+ <th className="px-4 md:px-6 py-3.5 text-[10px] font-bold text-slate-500 dark:text-slate-300 uppercase tracking-wider whitespace-nowrap">
  Invoice #
  </th>
- <th className="px-4 py-3.5 text-[10px] font-bold text-slate-500 dark:text-slate-300 uppercase tracking-wider whitespace-nowrap">
+ <th className="hidden md:table-cell px-4 py-3.5 text-[10px] font-bold text-slate-500 dark:text-slate-300 uppercase tracking-wider whitespace-nowrap">
  Subscription Start
  </th>
- <th className="px-4 py-3.5 text-[10px] font-bold text-slate-500 dark:text-slate-300 uppercase tracking-wider whitespace-nowrap">
+ <th className="hidden md:table-cell px-4 py-3.5 text-[10px] font-bold text-slate-500 dark:text-slate-300 uppercase tracking-wider whitespace-nowrap">
  Subscription End
  </th>
- <th className="px-4 py-3.5 text-[10px] font-bold text-slate-500 dark:text-slate-300 uppercase tracking-wider whitespace-nowrap">
+ <th className="hidden md:table-cell px-4 py-3.5 text-[10px] font-bold text-slate-500 dark:text-slate-300 uppercase tracking-wider whitespace-nowrap">
  Plan Name
  </th>
  <th className="px-4 py-3.5 text-[10px] font-bold text-slate-500 dark:text-slate-300 uppercase tracking-wider whitespace-nowrap">
  Amount
  </th>
- <th className="px-4 py-3.5 text-[10px] font-bold text-slate-500 dark:text-slate-300 uppercase tracking-wider whitespace-nowrap">
+ <th className="hidden md:table-cell px-4 py-3.5 text-[10px] font-bold text-slate-500 dark:text-slate-300 uppercase tracking-wider whitespace-nowrap">
  Status
  </th>
- <th className="px-6 py-3.5 text-[10px] font-bold text-slate-500 dark:text-slate-300 uppercase tracking-wider text-right whitespace-nowrap">
- Download Invoice
+ <th className="px-4 md:px-6 py-3.5 text-[10px] font-bold text-slate-500 dark:text-slate-300 uppercase tracking-wider text-right whitespace-nowrap">
+ Actions
  </th>
  </tr>
  </thead>
  <tbody className="divide-y divide-slate-100 dark:divide-slate-700/80">
  <tr className="group hover:bg-slate-50/60 dark:hover:bg-slate-800/30 transition-colors duration-150">
  {/* Invoice Number */}
- <td className="px-6 py-5">
- <span className="font-mono text-xs font-bold text-slate-800 dark:text-slate-100 tracking-wider bg-slate-100 dark:bg-slate-700 px-2.5 py-1 rounded-lg">
+ <td className="px-4 md:px-6 py-5">
+ <span className="font-mono text-xs font-bold text-slate-800 dark:text-slate-100 tracking-wider bg-slate-100 dark:bg-slate-700 px-2.5 py-1 rounded-lg break-words">
  {stableInvoiceNum}
  </span>
  </td>
  {/* Start Date */}
- <td className="px-4 py-5 text-xs font-semibold text-slate-700 dark:text-slate-200 whitespace-nowrap">
+ <td className="hidden md:table-cell px-4 py-5 text-xs font-semibold text-slate-700 dark:text-slate-200 whitespace-nowrap">
  {profile?.subscription_start_date
  ? new Date(profile.subscription_start_date).toLocaleDateString("en-IN", { year: 'numeric', month: 'long', day: 'numeric' })
  : <span className="text-slate-400">—</span>}
  </td>
  {/* End Date */}
- <td className="px-4 py-5 text-xs font-semibold text-slate-700 dark:text-slate-200 whitespace-nowrap">
+ <td className="hidden md:table-cell px-4 py-5 text-xs font-semibold text-slate-700 dark:text-slate-200 whitespace-nowrap">
  {profile?.subscription_end_date
  ? new Date(profile.subscription_end_date).toLocaleDateString("en-IN", { year: 'numeric', month: 'long', day: 'numeric' })
  : <span className="text-slate-400 dark:text-slate-400">—</span>}
  </td>
  {/* Plan Name */}
- <td className="px-4 py-5">
+ <td className="hidden md:table-cell px-4 py-5">
  <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider ${
  activePlan === "Yearly Pro"
  ? "bg-amber-100 dark:bg-amber-950/30 text-amber-700 dark:text-amber-400 border border-amber-200/60 dark:border-amber-900/30"
@@ -412,29 +414,38 @@ function PremiumPlansContent() {
  <span className="text-sm font-bold text-slate-900 dark:text-white">
  {activePlan === "Yearly Pro" ? "₹1,699.00" : activePlan === "Monthly Pro" ? "₹399.00" : "—"}
  </span>
- <span className="text-[10px] text-slate-500 dark:text-slate-400 font-medium">
+ <span className="text-[10px] text-slate-500 dark:text-slate-400 font-medium whitespace-nowrap">
  {activePlan === "Yearly Pro" ? "$19.99 USD" : activePlan === "Monthly Pro" ? "$4.99 USD" : ""}
  </span>
  </div>
  </td>
  {/* Status */}
- <td className="px-4 py-5">
+ <td className="hidden md:table-cell px-4 py-5">
  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-100 dark:bg-emerald-950/30 text-emerald-700 dark:text-emerald-400 border border-emerald-200/50 dark:border-emerald-900/30 text-[10px] font-bold uppercase tracking-wider">
  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 inline-block" />
  Paid
  </span>
  </td>
- {/* Download */}
- <td className="px-6 py-5 text-right">
+ {/* Actions */}
+ <td className="px-4 md:px-6 py-5 text-right">
+ <div className="flex justify-end gap-2 items-center">
+ <button
+ type="button"
+ onClick={() => setIsInvoiceModalOpen(true)}
+ className="md:hidden inline-flex items-center justify-center p-2 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 shadow-sm"
+ >
+ <Eye size={16} />
+ </button>
  <button
  type="button"
  disabled={isDownloading}
  onClick={() => handleDownloadReceipt(stableInvoiceNum)}
- className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-[11px] font-bold text-white bg-blue-600 hover:bg-blue-500 active:bg-blue-700 disabled:bg-blue-400 disabled:cursor-not-allowed transition-all uppercase tracking-wider cursor-pointer shadow-md hover:shadow-lg shadow-blue-600/20 hover:-translate-y-0.5"
+ className="inline-flex items-center justify-center gap-1.5 p-2 md:px-4 md:py-2 rounded-xl text-[11px] font-bold text-white bg-blue-600 hover:bg-blue-500 active:bg-blue-700 disabled:bg-blue-400 disabled:cursor-not-allowed transition-all uppercase tracking-wider cursor-pointer shadow-md hover:shadow-lg shadow-blue-600/20 hover:-translate-y-0.5"
  >
- <Download size={11} className={isDownloading ? "animate-bounce" : ""} />
- {isDownloading ? "Generating..." : "Download"}
+ <Download size={14} className={isDownloading ? "animate-bounce" : ""} />
+ <span className="hidden md:inline-block">{isDownloading ? "Generating..." : "Download"}</span>
  </button>
+ </div>
  </td>
  </tr>
  </tbody>
@@ -723,6 +734,55 @@ function PremiumPlansContent() {
  planName={successModalData.planName}
  paymentId={successModalData.paymentId}
  />
+
+ {isInvoiceModalOpen && (
+ <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm" onClick={() => setIsInvoiceModalOpen(false)}>
+ <div className="bg-white dark:bg-slate-900 rounded-3xl w-full max-w-sm p-6 shadow-2xl border border-slate-100 dark:border-slate-800" onClick={e => e.stopPropagation()}>
+ <div className="flex justify-between items-center mb-5 pb-4 border-b border-slate-100 dark:border-slate-800">
+ <h3 className="text-lg font-black text-slate-900 dark:text-white">Invoice Details</h3>
+ <button onClick={() => setIsInvoiceModalOpen(false)} className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 bg-slate-100 dark:bg-slate-800 p-2 rounded-full transition-colors">
+ <X size={16} />
+ </button>
+ </div>
+ <div className="space-y-4 text-sm mb-6">
+ <div className="flex justify-between items-center">
+ <span className="text-slate-500 dark:text-slate-400 font-medium">Invoice #</span>
+ <span className="font-mono text-xs font-bold text-slate-800 dark:text-slate-100 bg-slate-100 dark:bg-slate-800 px-2 py-1 rounded-md">{stableInvoiceNum}</span>
+ </div>
+ <div className="flex justify-between items-center">
+ <span className="text-slate-500 dark:text-slate-400 font-medium">Start Date</span>
+ <span className="font-bold text-slate-800 dark:text-slate-200">{profile?.subscription_start_date ? new Date(profile.subscription_start_date).toLocaleDateString("en-IN", { year: 'numeric', month: 'short', day: 'numeric' }) : "—"}</span>
+ </div>
+ <div className="flex justify-between items-center">
+ <span className="text-slate-500 dark:text-slate-400 font-medium">End Date</span>
+ <span className="font-bold text-slate-800 dark:text-slate-200">{profile?.subscription_end_date ? new Date(profile.subscription_end_date).toLocaleDateString("en-IN", { year: 'numeric', month: 'short', day: 'numeric' }) : "—"}</span>
+ </div>
+ <div className="flex justify-between items-center">
+ <span className="text-slate-500 dark:text-slate-400 font-medium">Plan</span>
+ <span className="font-bold text-indigo-600 dark:text-indigo-400 flex items-center gap-1.5"><Crown size={12} /> {activePlan}</span>
+ </div>
+ <div className="flex justify-between items-center">
+ <span className="text-slate-500 dark:text-slate-400 font-medium">Amount</span>
+ <div className="text-right">
+ <span className="block font-black text-slate-900 dark:text-white text-base">{activePlan === "Yearly Pro" ? "₹1,699.00" : "₹399.00"}</span>
+ <span className="block text-[10px] text-slate-500">{activePlan === "Yearly Pro" ? "$19.99 USD" : "$4.99 USD"}</span>
+ </div>
+ </div>
+ <div className="flex justify-between items-center">
+ <span className="text-slate-500 dark:text-slate-400 font-medium">Status</span>
+ <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400 text-[10px] font-bold uppercase tracking-wider"><span className="w-1.5 h-1.5 rounded-full bg-emerald-500 inline-block" />Paid</span>
+ </div>
+ </div>
+ <button
+ disabled={isDownloading}
+ onClick={() => { setIsInvoiceModalOpen(false); handleDownloadReceipt(stableInvoiceNum); }}
+ className="w-full py-3.5 bg-blue-600 hover:bg-blue-500 text-white text-sm uppercase tracking-widest font-bold rounded-xl flex items-center justify-center gap-2 transition-colors disabled:bg-blue-400"
+ >
+ <Download size={16} className={isDownloading ? "animate-bounce" : ""} /> {isDownloading ? "Generating..." : "Download Receipt"}
+ </button>
+ </div>
+ </div>
+ )}
  </div>
  );
 }

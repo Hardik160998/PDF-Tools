@@ -462,7 +462,7 @@ export default function ESignPDFGuidePost() {
  </section>
 
  {/* Call to Action */}
- <section className="bg-gradient-to-br from-white to-emerald-50/30 border-2 border-emerald-600 rounded-2xl p-8 text-center shadow-lg hover:shadow-xl transition-shadow mt-10">
+ <section className="bg-gradient-to-br from-white to-emerald-50/30 dark:from-slate-900 dark:to-slate-800 border-2 border-emerald-600 rounded-2xl p-8 text-center shadow-lg hover:shadow-xl transition-shadow mt-10">
  <h2 className="font-black text-2xl text-slate-900 mt-0 mb-3">
  Sign Your Contracts Instantly
  </h2>
@@ -486,3 +486,4 @@ export default function ESignPDFGuidePost() {
  </main>
  );
 }
+

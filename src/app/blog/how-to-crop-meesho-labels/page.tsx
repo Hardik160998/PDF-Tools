@@ -428,7 +428,7 @@ export default function CropMeeshoLabelPost() {
  </section>
 
  {/* Call to Action */}
- <section className="bg-gradient-to-br from-white to-pink-50/30 border-2 border-pink-500 rounded-2xl p-8 text-center shadow-lg hover:shadow-xl transition-shadow mt-10">
+ <section className="bg-gradient-to-br from-white to-pink-50/30 dark:from-slate-900 dark:to-slate-800 border-2 border-pink-500 rounded-2xl p-8 text-center shadow-lg hover:shadow-xl transition-shadow mt-10">
  <h2 className="font-black text-2xl text-slate-900 mt-0 mb-3">
  Optimize Your Fulfillment Workflow
  </h2>
@@ -452,3 +452,4 @@ export default function CropMeeshoLabelPost() {
  </main>
  );
 }
+

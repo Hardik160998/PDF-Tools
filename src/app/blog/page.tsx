@@ -324,7 +324,7 @@ export default function BlogPage() {
  <h2 className="text-xl font-black text-slate-900 uppercase tracking-tight">{category}</h2>
  <p className="text-sm text-slate-500 mt-1">{CATEGORY_DESCRIPTIONS[category] || ""}</p>
  </div>
- <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
+ <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
  {categoryPosts.map(post => (
  <a key={post.slug} href={`/blog/${post.slug}`}
  className="group bg-white rounded-2xl border border-slate-100 shadow-sm hover:shadow-2xl hover:-translate-y-1 transition-all overflow-hidden flex flex-col">

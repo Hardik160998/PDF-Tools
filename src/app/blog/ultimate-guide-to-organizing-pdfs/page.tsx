@@ -610,7 +610,7 @@ export default function UltimateGuidePdfsPost() {
  </div>
  </section>
 
- <div className="bg-gradient-to-br from-indigo-50 to-white border-2 border-indigo-500 rounded-3xl p-8 text-center text-slate-900 space-y-4 shadow-lg hover:shadow-xl transition-all duration-300 mt-12 mb-8">
+ <div className="bg-gradient-to-br from-indigo-50 to-white dark:from-slate-900 dark:to-slate-800 border-2 border-indigo-500 rounded-3xl p-8 text-center text-slate-900 space-y-4 shadow-lg hover:shadow-xl transition-all duration-300 mt-12 mb-8">
  <div>
  <h2 className="text-2xl font-black text-slate-900 mb-2">
  Ready to take control of your documents?
@@ -646,3 +646,4 @@ export default function UltimateGuidePdfsPost() {
  </main>
  );
 }
+

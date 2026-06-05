@@ -34,12 +34,31 @@ export default function FAQPage() {
 
  {/* Category sidebar */}
  <div className="lg:w-56 shrink-0">
- <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-2 flex lg:flex-col gap-1 overflow-x-auto lg:overflow-visible">
+ {/* Mobile Dropdown */}
+ <div className="lg:hidden mb-4 relative">
+ <select
+ value={activeCategory}
+ onChange={(e) => { setActiveCategory(e.target.value); setOpenIndex(0); }}
+ className="w-full appearance-none bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-red-500 shadow-sm"
+ >
+ {CATEGORIES.map(({ id, label, faqs }) => (
+ <option key={id} value={id}>
+ {label} ({faqs.length})
+ </option>
+ ))}
+ </select>
+ <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-slate-400">
+ <ChevronDown size={16} />
+ </div>
+ </div>
+
+ {/* Desktop Sidebar */}
+ <div className="hidden lg:flex bg-white rounded-2xl border border-slate-100 shadow-sm p-2 flex-col gap-1">
  {CATEGORIES.map(({ id, label, icon: Icon, color, faqs }) => (
  <button
  key={id}
  onClick={() => { setActiveCategory(id); setOpenIndex(0); }}
- className={`flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-left transition-all whitespace-nowrap lg:whitespace-normal w-full ${
+ className={`flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-left transition-all whitespace-normal w-full ${
  activeCategory === id
  ? 'bg-slate-900 text-white'
  : 'text-slate-600 hover:bg-slate-50'
