@@ -11,59 +11,61 @@ import { AuthProvider } from "@/context/AuthContext";
 import QueryProvider from "@/lib/QueryProvider";
 import AppLayout from "@/components/AppLayout";
 import Script from "next/script";
+import { GoogleAnalytics } from "@/components/GoogleAnalytics";
 
 const lato = Lato({
- subsets: ["latin"],
- weight: ["300", "400", "700", "900"],
- variable: "--font-lato",
- display: "swap",
+  subsets: ["latin"],
+  weight: ["300", "400", "700", "900"],
+  variable: "--font-lato",
+  display: "swap",
 });
 
 const outfit = Outfit({
- subsets: ["latin"],
- weight: ["400", "700", "900"],
- variable: "--font-outfit",
- display: "swap",
+  subsets: ["latin"],
+  weight: ["400", "700", "900"],
+  variable: "--font-outfit",
+  display: "swap",
 });
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://smartpdfpro.com";
 
 export const metadata: Metadata = {
- title: "SmartPDFs Plus | Every tool you need to work with PDFs",
- description:
- "Merge, split, compress, convert, rotate, unlock and watermark PDFs with just a few clicks.",
- openGraph: {
- type: "website",
- title: "SmartPDFs Plus | Every tool you need to work with PDFs",
- description:
- "Merge, split, compress, convert, rotate, unlock and watermark PDFs with just a few clicks.",
- siteName: "SmartPDFs Plus",
- images: [
- { url: `${siteUrl}/img/snapdeal-label.png`, width: 1200, height: 630 },
- ],
- },
- twitter: {
- card: "summary_large_image",
- title: "SmartPDFs Plus | Every tool you need to work with PDFs",
- description:
- "Merge, split, compress, convert, rotate, unlock and watermark PDFs with just a few clicks.",
- images: [`${siteUrl}/img/snapdeal-label.png`],
- },
+  title: "SmartPDFs Plus | Every tool you need to work with PDFs",
+  description:
+    "Merge, split, compress, convert, rotate, unlock and watermark PDFs with just a few clicks.",
+  openGraph: {
+    type: "website",
+    title: "SmartPDFs Plus | Every tool you need to work with PDFs",
+    description:
+      "Merge, split, compress, convert, rotate, unlock and watermark PDFs with just a few clicks.",
+    siteName: "SmartPDFs Plus",
+    images: [
+      { url: `${siteUrl}/img/snapdeal-label.png`, width: 1200, height: 630 },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "SmartPDFs Plus | Every tool you need to work with PDFs",
+    description:
+      "Merge, split, compress, convert, rotate, unlock and watermark PDFs with just a few clicks.",
+    images: [`${siteUrl}/img/snapdeal-label.png`],
+  },
 };
 
 export default function RootLayout({
- children,
+  children,
 }: Readonly<{
- children: React.ReactNode;
+  children: React.ReactNode;
 }>) {
- return (
- <html lang="en" suppressHydrationWarning>
- <head>
- <meta name="color-scheme" content="light dark" />
- <script
- id="theme-init"
- dangerouslySetInnerHTML={{
- __html: `
+  return (
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <meta name="color-scheme" content="light dark" />
+        <GoogleAnalytics />
+        <script
+          id="theme-init"
+          dangerouslySetInnerHTML={{
+            __html: `
  (function() {
  try {
  var stored = localStorage.getItem('theme');
@@ -81,26 +83,26 @@ export default function RootLayout({
  } catch (e) {}
  })();
  `,
- }}
- />
- </head>
- <body
- className={`${lato.variable} ${outfit.variable} ${lato.className} antialiased bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 min-h-screen flex flex-col selection:bg-blue-500/30`}
- suppressHydrationWarning
- >
- <QueryProvider>
- <ThemeProvider>
- <AuthProvider>
- <AppLayout
- latoClass={lato.className}
- latoVariable={lato.variable}
- >
- {children}
- </AppLayout>
- </AuthProvider>
- </ThemeProvider>
- </QueryProvider>
- </body>
- </html>
- );
+          }}
+        />
+      </head>
+      <body
+        className={`${lato.variable} ${outfit.variable} ${lato.className} antialiased bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 min-h-screen flex flex-col selection:bg-blue-500/30`}
+        suppressHydrationWarning
+      >
+        <QueryProvider>
+          <ThemeProvider>
+            <AuthProvider>
+              <AppLayout
+                latoClass={lato.className}
+                latoVariable={lato.variable}
+              >
+                {children}
+              </AppLayout>
+            </AuthProvider>
+          </ThemeProvider>
+        </QueryProvider>
+      </body>
+    </html>
+  );
 }
