@@ -153,7 +153,7 @@ export async function triggerRazorpayPayment({
  currency: "INR",
  name: "SmartPDFs Plus",
  description: `${planName} Subscription Plan`,
- image: "https://raw.githubusercontent.com/Hardik160998/PDF-Tools/main/public/favicon.ico",
+ image: "/img/favicons/512x512.png",
  order_id: orderId,
  handler: async function (response: any) {
  try {

@@ -4,6 +4,7 @@ import { useState, useEffect, Suspense } from "react";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 import { Lock, Eye, EyeOff, Heart, ArrowRight } from "lucide-react";
+import Image from "next/image";
 
 function ResetPasswordForm() {
  const router = useRouter();
@@ -164,111 +165,145 @@ function ResetPasswordForm() {
  };
 
  return (
- <div className="w-full max-w-md bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-8 sm:p-12 shadow-2xl relative z-10 auth-card">
- {/* Logo */}
- <div className="flex justify-center mb-8">
- <a href="/" className="flex items-center gap-1.5 font-bold text-xl tracking-tighter hover:opacity-90 transition-opacity">
- <span className="uppercase text-slate-900 dark:text-white">Smart</span>
- <Heart className="fill-red-500 text-red-500" size={20} />
- <span className="uppercase text-slate-900 dark:text-white">PDFs</span>
- </a>
- </div>
+   <div className="w-full max-w-md bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-8 sm:p-12 shadow-2xl relative z-10 auth-card">
+     {/* Logo */}
+     <div className="flex justify-center mb-8">
+       <a
+         href="/"
+         className="flex items-center gap-1.5 font-bold text-xl tracking-tighter hover:opacity-90 transition-opacity"
+       >
+         <div className="flex items-center">
+           {/* Light Mode Logo */}
+           <Image
+             src="/img/logo-v-trans.png"
+             alt="SmartPDFPro"
+             width={180}
+             height={40}
+             className="block dark:hidden"
+             priority
+           />
 
- {/* Header */}
- <div className="text-center space-y-2 mb-8">
- <h3 className="text-2xl font-[900] tracking-tight text-slate-900 dark:text-white flex items-center justify-center gap-2">
- Update Password <Lock size={20} className="text-blue-500" />
- </h3>
- <p className="text-slate-500 dark:text-slate-400 text-sm font-semibold">
- Choose a strong, secure new password below.
- </p>
- </div>
+           {/* Dark Mode Logo */}
+           <Image
+             src="/img/logo-v-trans-dark.png"
+             alt="SmartPDFPro"
+             width={180}
+             height={40}
+             className="hidden dark:block"
+             priority
+           />
+         </div>
+       </a>
+     </div>
 
- {/* Status Message */}
- {statusMessage && (
- <div className={`p-4 mb-6 rounded-xl text-xs font-bold leading-relaxed tracking-wide ${
- statusMessage.type === 'success'
- ? 'bg-green-50 dark:bg-green-950/30 text-green-800 dark:text-green-400 border border-green-200/50 dark:border-green-800/30'
- : 'bg-red-50 dark:bg-red-950/30 text-red-800 dark:text-red-400 border border-red-100/50 dark:border-red-800/30'
- }`}>
- <div>{statusMessage.text}</div>
- </div>
- )}
+     {/* Header */}
+     <div className="text-center space-y-2 mb-8">
+       <h3 className="text-2xl font-[900] tracking-tight text-slate-900 dark:text-white flex items-center justify-center gap-2">
+         Update Password <Lock size={20} className="text-blue-500" />
+       </h3>
+       <p className="text-slate-500 dark:text-slate-400 text-sm font-semibold">
+         Choose a strong, secure new password below.
+       </p>
+     </div>
 
- {/* Form */}
- <form onSubmit={handleResetPassword} className="space-y-5">
- {/* New Password */}
- <div className="space-y-2">
- <label htmlFor="password" className="block text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
- New Password
- </label>
- <div className="relative">
- <input
- type={showPassword ? "text" : "password"}
- id="password"
- required
- disabled={isLoading}
- value={password}
- onChange={(e) => setPassword(e.target.value)}
- placeholder="••••••••"
- className="w-full pl-4 pr-12 py-3.5 bg-slate-50/50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl text-sm text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:bg-white dark:focus:bg-slate-800 focus:border-blue-500 transition-all font-semibold disabled:opacity-50"
- />
- <button
- type="button"
- onClick={() => setShowPassword(!showPassword)}
- className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 focus:outline-none cursor-pointer"
- disabled={isLoading}
- aria-label={showPassword ? "Hide password" : "Show password"}
- >
- {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
- </button>
- </div>
- </div>
+     {/* Status Message */}
+     {statusMessage && (
+       <div
+         className={`p-4 mb-6 rounded-xl text-xs font-bold leading-relaxed tracking-wide ${
+           statusMessage.type === "success"
+             ? "bg-green-50 dark:bg-green-950/30 text-green-800 dark:text-green-400 border border-green-200/50 dark:border-green-800/30"
+             : "bg-red-50 dark:bg-red-950/30 text-red-800 dark:text-red-400 border border-red-100/50 dark:border-red-800/30"
+         }`}
+       >
+         <div>{statusMessage.text}</div>
+       </div>
+     )}
 
- {/* Confirm Password */}
- <div className="space-y-2">
- <label htmlFor="confirmPassword" className="block text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
- Confirm Password
- </label>
- <div className="relative">
- <input
- type={showConfirmPassword ? "text" : "password"}
- id="confirmPassword"
- required
- disabled={isLoading}
- value={confirmPassword}
- onChange={(e) => setConfirmPassword(e.target.value)}
- placeholder="••••••••"
- className="w-full pl-4 pr-12 py-3.5 bg-slate-50/50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl text-sm text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:bg-white dark:focus:bg-slate-800 focus:border-blue-500 transition-all font-semibold disabled:opacity-50"
- />
- <button
- type="button"
- onClick={() => setShowConfirmPassword(!showConfirmPassword)}
- className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 focus:outline-none cursor-pointer"
- disabled={isLoading}
- aria-label={showConfirmPassword ? "Hide password" : "Show password"}
- >
- {showConfirmPassword ? <EyeOff size={18} /> : <Eye size={18} />}
- </button>
- </div>
- </div>
+     {/* Form */}
+     <form onSubmit={handleResetPassword} className="space-y-5">
+       {/* New Password */}
+       <div className="space-y-2">
+         <label
+           htmlFor="password"
+           className="block text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400"
+         >
+           New Password
+         </label>
+         <div className="relative">
+           <input
+             type={showPassword ? "text" : "password"}
+             id="password"
+             required
+             disabled={isLoading}
+             value={password}
+             onChange={(e) => setPassword(e.target.value)}
+             placeholder="••••••••"
+             className="w-full pl-4 pr-12 py-3.5 bg-slate-50/50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl text-sm text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:bg-white dark:focus:bg-slate-800 focus:border-blue-500 transition-all font-semibold disabled:opacity-50"
+           />
+           <button
+             type="button"
+             onClick={() => setShowPassword(!showPassword)}
+             className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 focus:outline-none cursor-pointer"
+             disabled={isLoading}
+             aria-label={showPassword ? "Hide password" : "Show password"}
+           >
+             {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+           </button>
+         </div>
+       </div>
 
- {/* Submit Button */}
- <button
- type="submit"
- disabled={isLoading || hasSession === false}
- className="w-full py-4 mt-6 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white font-bold text-xs uppercase tracking-widest rounded-xl transition-all shadow-lg shadow-blue-500/10 flex items-center justify-center gap-1.5 cursor-pointer disabled:opacity-50"
- >
- {isLoading ? <>⏳ Updating...</> : <>🔑 Update Password</>}
- </button>
- </form>
+       {/* Confirm Password */}
+       <div className="space-y-2">
+         <label
+           htmlFor="confirmPassword"
+           className="block text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400"
+         >
+           Confirm Password
+         </label>
+         <div className="relative">
+           <input
+             type={showConfirmPassword ? "text" : "password"}
+             id="confirmPassword"
+             required
+             disabled={isLoading}
+             value={confirmPassword}
+             onChange={(e) => setConfirmPassword(e.target.value)}
+             placeholder="••••••••"
+             className="w-full pl-4 pr-12 py-3.5 bg-slate-50/50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl text-sm text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:bg-white dark:focus:bg-slate-800 focus:border-blue-500 transition-all font-semibold disabled:opacity-50"
+           />
+           <button
+             type="button"
+             onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+             className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 focus:outline-none cursor-pointer"
+             disabled={isLoading}
+             aria-label={
+               showConfirmPassword ? "Hide password" : "Show password"
+             }
+           >
+             {showConfirmPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+           </button>
+         </div>
+       </div>
 
- <div className="mt-8 text-center text-xs font-semibold text-slate-500 dark:text-slate-400">
- <a href="/login" className="text-blue-600 hover:text-blue-500 transition-colors inline-flex items-center gap-1">
- Back to login <ArrowRight size={14} />
- </a>
- </div>
- </div>
+       {/* Submit Button */}
+       <button
+         type="submit"
+         disabled={isLoading || hasSession === false}
+         className="w-full py-4 mt-6 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white font-bold text-xs uppercase tracking-widest rounded-xl transition-all shadow-lg shadow-blue-500/10 flex items-center justify-center gap-1.5 cursor-pointer disabled:opacity-50"
+       >
+         {isLoading ? <>⏳ Updating...</> : <>🔑 Update Password</>}
+       </button>
+     </form>
+
+     <div className="mt-8 text-center text-xs font-semibold text-slate-500 dark:text-slate-400">
+       <a
+         href="/login"
+         className="text-blue-600 hover:text-blue-500 transition-colors inline-flex items-center gap-1"
+       >
+         Back to login <ArrowRight size={14} />
+       </a>
+     </div>
+   </div>
  );
 }
 

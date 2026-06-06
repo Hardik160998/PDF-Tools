@@ -29,26 +29,33 @@ const outfit = Outfit({
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://smartpdfpro.com";
 
 export const metadata: Metadata = {
- title: "SmartPDFs Plus | Every tool you need to work with PDFs",
- description:
- "Merge, split, compress, convert, rotate, unlock and watermark PDFs with just a few clicks.",
- openGraph: {
- type: "website",
- title: "SmartPDFs Plus | Every tool you need to work with PDFs",
- description:
- "Merge, split, compress, convert, rotate, unlock and watermark PDFs with just a few clicks.",
- siteName: "SmartPDFs Plus",
- images: [
- { url: `${siteUrl}/img/snapdeal-label.png`, width: 1200, height: 630 },
- ],
- },
- twitter: {
- card: "summary_large_image",
- title: "SmartPDFs Plus | Every tool you need to work with PDFs",
- description:
- "Merge, split, compress, convert, rotate, unlock and watermark PDFs with just a few clicks.",
- images: [`${siteUrl}/img/snapdeal-label.png`],
- },
+  title: "SmartPDFs Plus | Every tool you need to work with PDFs",
+  description:
+    "Merge, split, compress, convert, rotate, unlock and watermark PDFs with just a few clicks.",
+  openGraph: {
+    type: "website",
+    title: "SmartPDFs Plus | Every tool you need to work with PDFs",
+    description:
+      "Merge, split, compress, convert, rotate, unlock and watermark PDFs with just a few clicks.",
+    siteName: "SmartPDFs Plus",
+    images: [
+      { url: `${siteUrl}/img/snapdeal-label.png`, width: 1200, height: 630 },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "SmartPDFs Plus | Every tool you need to work with PDFs",
+    description:
+      "Merge, split, compress, convert, rotate, unlock and watermark PDFs with just a few clicks.",
+    images: [`${siteUrl}/img/snapdeal-label.png`],
+  },
+  icons: {
+    icon: "/img/favicons/favicon.ico",
+
+    shortcut: "/img/favicons/favicon-16x16.png",
+
+    apple: "/img/favicons/apple-touch-icon.png",
+  },
 };
 
 export default function RootLayout({
@@ -58,7 +65,26 @@ export default function RootLayout({
 }>) {
  return (
  <html lang="en" suppressHydrationWarning>
- <head>
+         <head>
+               {/* Google Analytics */}
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-CJBE2GYFFR"
+          strategy="afterInteractive"
+        />
+
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+
+            function gtag(){
+              dataLayer.push(arguments);
+            }
+
+            gtag('js', new Date());
+
+            gtag('config', 'G-CJBE2GYFFR');
+          `}
+        </Script>
  <meta name="color-scheme" content="light dark" />
  <script
  id="theme-init"

@@ -82,7 +82,7 @@ export default function ProtectPDFPost() {
  name: 'SmartPDFs Plus',
  logo: {
  '@type': 'ImageObject',
- url: `${siteUrl}/favicon.ico`
+ url: `${siteUrl}/icon.png`
  }
  },
  datePublished: '2026-05-12T00:00:00.000Z',
