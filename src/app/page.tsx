@@ -2,6 +2,7 @@ import { Metadata } from 'next';
 import HomeClient from './HomeClient';
 import WebSiteSchema from '@/components/seo/WebSiteSchema';
 import OrganizationSchema from '@/components/seo/OrganizationSchema';
+import { getAllTools, getCategories } from '@/lib/supabase';
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://smartpdfpro.com';
 
@@ -30,12 +31,19 @@ export const metadata: Metadata = {
  },
 };
 
-export default function Page() {
+export const revalidate = 300;
+
+export default async function Page() {
+ const [allTools, categories] = await Promise.all([
+ getAllTools(),
+ getCategories()
+ ]);
+
  return (
  <>
  <WebSiteSchema />
  <OrganizationSchema />
- <HomeClient />
+ <HomeClient initialTools={allTools} initialCategories={categories} />
  </>
  );
 }

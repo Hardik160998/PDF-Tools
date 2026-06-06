@@ -8,10 +8,11 @@ export const toolKeys = {
  categories: ["categories"] as const,
 };
 
-export function useAllTools() {
+export function useAllTools(initialData?: any[]) {
  return useQuery({
  queryKey: toolKeys.all,
  queryFn: getAllTools,
+ initialData,
  staleTime: 1000 * 60 * 5, // 5 minutes
  gcTime: 1000 * 60 * 60, // 1 hour
  refetchOnMount: true,
@@ -21,10 +22,11 @@ export function useAllTools() {
  });
 }
 
-export function useDbCategories() {
+export function useDbCategories(initialData?: any[]) {
  return useQuery({
  queryKey: toolKeys.categories,
  queryFn: getCategories,
+ initialData,
  staleTime: 1000 * 60 * 5,
  gcTime: 1000 * 60 * 60,
  refetchOnMount: true,

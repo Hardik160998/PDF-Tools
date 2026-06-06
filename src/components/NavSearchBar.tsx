@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect, useMemo } from "react";
 import { Search, X } from "lucide-react";
-import * as LucideIcons from "lucide-react";
+import { IconMap } from "@/lib/icons";
 import { useAllTools } from "@/hooks/useTools";
 import { TOOL_ICONS } from "@/data/toolIcons";
 
@@ -32,7 +32,7 @@ export default function NavSearchBar() {
  if (!allTools) return [];
  return allTools.map(t => {
  const iconName = t.icon || TOOL_ICONS[t.tool_key] || 'FileText';
- const IconComponent = (LucideIcons as any)[iconName] || LucideIcons.FileText;
+ const IconComponent = IconMap[iconName] || IconMap['FileText'];
  return {
  id: t.tool_key,
  label: t.title,

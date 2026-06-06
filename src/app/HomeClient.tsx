@@ -5,7 +5,7 @@ import SkeletonGrid from '@/components/SkeletonGrid';
 import BlogImage from '@/components/BlogImage';
 import { trackToolClick, insertAvifTools, insertMeeshoTool, insertEcommerceCategory } from '@/lib/supabase';
 import { Lock, Sparkles, ChevronDown, Crown, CheckCircle2, BookOpen } from 'lucide-react';
-import * as LucideIcons from 'lucide-react';
+import { IconMap } from '@/lib/icons';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
@@ -57,7 +57,7 @@ function FeatureSectionShimmer({ reverse = false }: { reverse?: boolean }) {
     );
 }
 
-export default function HomeClient() {
+export default function HomeClient({ initialTools, initialCategories }: { initialTools?: any[], initialCategories?: any[] }) {
     const { user, profile, refreshProfile, updateProfilePlan } = useAuth();
     const router = useRouter();
     const userPlan = profile?.current_plan || profile?.plan || "Basic Plan";
@@ -99,36 +99,12 @@ export default function HomeClient() {
     const [activeCategory, setActiveCategory] = useState('All');
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [displayCategory, setDisplayCategory] = useState('All');
-    const [mounted, setMounted] = useState(false);
     const toolsGridRef = useRef<HTMLElement>(null);
 
-    const { data: allTools, isLoading: toolsLoading } = useAllTools();
-    const { data: rawCategories } = useDbCategories();
+    const { data: allTools, isLoading: toolsLoading } = useAllTools(initialTools);
+    const { data: rawCategories } = useDbCategories(initialCategories);
 
-    const [cachedToolsExist] = useState(() => {
-        if (typeof window === 'undefined') return false;
-        try {
-            const raw = localStorage.getItem('REACT_QUERY_CACHE');
-            if (!raw) return false;
-            const parsed = JSON.parse(raw);
-            const queries: unknown[] = parsed?.clientState?.queries ?? [];
-            return queries.some(
-                (q) => {
-                    const query = q as { queryKey?: unknown[]; state?: { data?: unknown[] } };
-                    return Array.isArray(query.queryKey) &&
-                        query.queryKey[0] === 'tools' &&
-                        Array.isArray(query.state?.data) &&
-                        query.state.data.length > 0;
-                }
-            );
-        } catch {
-            return false;
-        }
-    });
 
-    useLayoutEffect(() => {
-        setMounted(true);
-    }, []);
 
     const dbCategories = useMemo(() => {
         if (!rawCategories) return CATEGORIES;
@@ -144,10 +120,10 @@ export default function HomeClient() {
     }, []);
 
     useEffect(() => {
-        if (!mounted || activeCategory === displayCategory) return;
+        if (activeCategory === displayCategory) return;
         const t = setTimeout(() => { setDisplayCategory(activeCategory); }, 150);
         return () => clearTimeout(t);
-    }, [activeCategory, displayCategory, mounted]);
+    }, [activeCategory, displayCategory]);
 
     const mergedTools = useMemo(() => {
         const source = allTools && allTools.length > 0 ? allTools : null;
@@ -158,7 +134,7 @@ export default function HomeClient() {
             .filter(t => t.is_verified)
             .map(t => {
                 const iconName = t.icon || TOOL_ICONS[t.tool_key] || 'FileText';
-                const IconComponent = (LucideIcons as any)[iconName] || LucideIcons.FileText;
+                const IconComponent = IconMap[iconName] || IconMap['FileText'];
                 return {
                     id: t.tool_key,
                     title: t.title || t.tool_key,
@@ -187,9 +163,9 @@ export default function HomeClient() {
         return tools;
     }, [displayCategory, mergedTools, dbCategories]);
 
-    const showGridSkeleton = !mounted || (!cachedToolsExist && toolsLoading && !allTools);
+    const showGridSkeleton = !initialTools;
 
-    const skeletonCount = 8;
+    const skeletonCount = 36;
     const skeletonCategories = useMemo(() => {
         const cat = activeCategory;
         if (cat === 'All') return mergedTools.slice(0, skeletonCount).map(t => t.category);
@@ -310,7 +286,37 @@ export default function HomeClient() {
             <section ref={toolsGridRef} className="container mx-auto px-4 pb-10">
 
                 {showGridSkeleton ? (
-                    <SkeletonGrid count={skeletonCount} categories={skeletonCategories} />
+                    <div className="animate-fade-in space-y-8">
+                        {displayCategory === 'All' && (
+                            <div>
+                                <div className="mb-6 flex items-center justify-center gap-4">
+                                    <div className="h-[2px] bg-slate-200 dark:bg-slate-700/80 w-12 rounded-full"></div>
+                                    <h3 className="text-xs font-bold uppercase tracking-[0.2em] text-slate-400 dark:text-slate-500">Most Used Tools</h3>
+                                    <div className="h-[2px] bg-slate-200 dark:bg-slate-700/80 w-12 rounded-full"></div>
+                                </div>
+                                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+                                    {Array.from({ length: 5 }).map((_, i) => (
+                                        <div key={i} className="bg-white dark:bg-slate-800 rounded-xl p-3 shadow-sm border border-slate-100 dark:border-slate-700/80 flex items-center gap-3">
+                                            <Sh className="w-10 h-10 rounded-lg shrink-0" />
+                                            <div className="flex-1 min-w-0">
+                                                <Sh className="h-4 w-3/4 rounded" />
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+                        <div>
+                            {displayCategory === 'All' && (
+                                <div className="mb-8 flex items-center justify-center gap-4">
+                                    <div className="h-[2px] bg-slate-200 dark:bg-slate-700/80 w-12 rounded-full"></div>
+                                    <h3 className="text-xs font-bold uppercase tracking-[0.2em] text-slate-400 dark:text-slate-500">All PDF Tools</h3>
+                                    <div className="h-[2px] bg-slate-200 dark:bg-slate-700/80 w-12 rounded-full"></div>
+                                </div>
+                            )}
+                            <SkeletonGrid count={skeletonCount} categories={skeletonCategories} />
+                        </div>
+                    </div>
                 ) : (
                     <div className="animate-fade-in space-y-8">
 
@@ -523,17 +529,7 @@ export default function HomeClient() {
             </section>
 
             {/* -- TAGLINE -- */}
-            {!mounted ? (
-                <section className="py-20 bg-white dark:bg-slate-900">
-                    <div className="container mx-auto px-4 max-w-3xl flex flex-col items-center gap-4">
-                        <Sh className="h-12 w-3/4" />
-                        <Sh className="h-12 w-1/2" />
-                        <Sh className="h-5 w-2/3 mt-2" />
-                        <Sh className="h-5 w-1/2" />
-                    </div>
-                </section>
-            ) : (
-                <section className="py-20 text-center bg-white dark:bg-slate-900">
+            <section className="py-20 text-center bg-white dark:bg-slate-900">
                     <div className="container mx-auto px-4 max-w-3xl">
                         <h2 className="text-4xl md:text-5xl font-black text-slate-900 dark:text-white tracking-tighter mb-4">
                             Keep Your Simple Tasks Simple
@@ -543,17 +539,9 @@ export default function HomeClient() {
                         </p>
                     </div>
                 </section>
-            )}
 
             {/* -- CREATE THE PERFECT DOCUMENT -- */}
-            {!mounted ? (
-                <section className="py-20 bg-slate-50 dark:bg-slate-800/40">
-                    <div className="container mx-auto px-4">
-                        <FeatureSectionShimmer />
-                    </div>
-                </section>
-            ) : (
-                <section className="py-20 bg-slate-50 dark:bg-slate-800/40">
+            <section className="py-20 bg-slate-50 dark:bg-slate-800/40">
                     <div className="container mx-auto px-4">
                         <div className="flex flex-col md:flex-row items-center gap-16 max-w-6xl mx-auto">
                             <div className="flex-1 space-y-6">
@@ -595,17 +583,9 @@ export default function HomeClient() {
                         </div>
                     </div>
                 </section>
-            )}
 
             {/* -- DIGITAL SIGNATURES -- */}
-            {!mounted ? (
-                <section className="py-16 bg-white dark:bg-slate-900">
-                    <div className="container mx-auto px-4">
-                        <FeatureSectionShimmer reverse />
-                    </div>
-                </section>
-            ) : (
-                <section className="py-16 bg-white dark:bg-slate-900">
+            <section className="py-16 bg-white dark:bg-slate-900">
                     <div className="container mx-auto px-4">
                         <div className="flex flex-col md:flex-row-reverse items-center gap-12 max-w-6xl mx-auto">
                             <div className="flex-1 space-y-5">
@@ -639,17 +619,9 @@ export default function HomeClient() {
                         </div>
                     </div>
                 </section>
-            )}
 
             {/* -- WORK DIRECTLY ON YOUR FILES -- */}
-            {!mounted ? (
-                <section className="py-16 bg-slate-50 dark:bg-slate-800/40">
-                    <div className="container mx-auto px-4">
-                        <FeatureSectionShimmer />
-                    </div>
-                </section>
-            ) : (
-                <section className="py-16 bg-slate-50 dark:bg-slate-800/40">
+            <section className="py-16 bg-slate-50 dark:bg-slate-800/40">
                     <div className="container mx-auto px-4">
                         <div className="flex flex-col md:flex-row items-center gap-12 max-w-6xl mx-auto">
                             <div className="flex-1 space-y-5">
@@ -683,7 +655,6 @@ export default function HomeClient() {
                         </div>
                     </div>
                 </section>
-            )}
 
             {/* -- LATEST BLOG POSTS -- */}
             <section className="py-20 bg-white dark:bg-slate-900">

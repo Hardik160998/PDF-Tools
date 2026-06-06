@@ -2,7 +2,7 @@
 
 import React, { useState, useRef, useMemo } from "react";
 import { ChevronDown } from "lucide-react";
-import * as LucideIcons from "lucide-react";
+import { IconMap } from "@/lib/icons";
 import { recordLocalToolClick } from "@/lib/toolHistory";
 import { useAllTools, useDbCategories } from "@/hooks/useTools";
 import { TOOL_ICONS } from "@/data/toolIcons";
@@ -37,7 +37,7 @@ export default function AllToolsDropdown() {
  return dbCategories.map(cat => {
  const catTools = allTools.filter(t => t.category === cat.name).map(t => {
  const iconName = t.icon || TOOL_ICONS[t.tool_key] || 'FileText';
- const IconComponent = (LucideIcons as any)[iconName] || LucideIcons.FileText;
+ const IconComponent = IconMap[iconName] || IconMap['FileText'];
  return {
  id: t.tool_key,
  label: t.title,
