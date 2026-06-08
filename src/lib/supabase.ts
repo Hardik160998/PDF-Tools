@@ -100,7 +100,7 @@ export async function getCategories(): Promise<CategoryRow[]> {
  .select('name, icon')
  .eq('is_active', true)
  .order('sort_order', { ascending: true });
- console.log("getCategories Result:", { data, error });
+//  console.log("getCategories Result:", { data, error });
  return data ?? [];
  } catch (err) {
  console.error("getCategories Exception:", err);
@@ -138,7 +138,7 @@ export async function getAllTools(): Promise<AllToolRow[]> {
  error = fallback.error;
  }
 
- console.log("getAllTools Result:", { data, error });
+//  console.log("getAllTools Result:", { data, error });
  return data ?? [];
  } catch (err) {
  console.error("getAllTools Exception:", err);

@@ -27,6 +27,10 @@ export const CATEGORIES = [
         q: "Can I use SmartPDFs Plus on mobile?",
         a: "Yes! SmartPDFs Plus is fully responsive and optimized for mobile. All tools work on iOS (Safari, Chrome) and Android (Chrome, Firefox). The Organize PDF tool even supports touch drag-and-drop for reordering pages.",
       },
+      {
+        q: "Are my PDF files secure on SmartPDFPro?",
+        a: "Absolutely. All uploaded files are processed securely and automatically deleted after processing to protect user privacy.",
+      },
     ],
   },
   {
@@ -90,6 +94,30 @@ export const CATEGORIES = [
       {
         q: "How do I unlock a password-protected PDF?",
         a: 'Go to Unlock PDF → upload your encrypted PDF → enter the current password → click "Unlock PDF" → download the unlocked version. Note: You must know the password — this tool removes protection from PDFs you own.',
+      },
+      {
+        q: "Can I export labels as PNG files?",
+        a: "Yes, SmartPDFPro supports PNG export for shipping labels and ecommerce workflows.",
+      },
+      {
+        q: "Is signup required to use SmartPDFPro?",
+        a: "No, most SmartPDFPro tools work instantly without registration or login.",
+      },
+      {
+        q: "Can SmartPDFPro unlock password-protected PDFs?",
+        a: "Yes, SmartPDFPro provides secure PDF unlock and protection tools.",
+      },
+      {
+        q: "What file formats can SmartPDFPro convert?",
+        a: "SmartPDFPro supports PDF, Word, Excel, JPG, PNG, PowerPoint, and multiple image conversion formats.",
+      },
+      {
+        q: "Is SmartPDFPro suitable for students and businesses?",
+        a: "Yes, SmartPDFPro is ideal for students, teachers, office professionals, ecommerce sellers, and businesses.",
+      },
+      {
+        q: "Why choose SmartPDFPro over other PDF tools?",
+        a: "SmartPDFPro combines powerful PDF utilities with ecommerce warehouse automation tools in one fast, secure, and easy-to-use platform.",
       },
     ],
   },

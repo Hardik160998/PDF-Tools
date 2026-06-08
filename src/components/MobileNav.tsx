@@ -171,8 +171,9 @@ export default function MobileNav() {
                  <Image
                    src="/img/logo-v-trans.png"
                    alt="SmartPDFPro"
-                   width={180}
-                   height={40}
+                   width={0}
+                   height={0}
+                   sizes="100vw"
                    className="h-10 w-auto"
                  />
                </a>

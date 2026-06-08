@@ -47,8 +47,9 @@ export default function AppLayout({
             <Image
               src="/img/logo-v-trans.png"
               alt="SmartPDFPro"
-              width={180}
-              height={40}
+              width={0}
+              height={0}
+              sizes="100vw"
               className="h-10 w-auto"
             />
           </Link>
@@ -103,8 +104,9 @@ export default function AppLayout({
                 <Image
                   src="/img/logo-v-trans.png"
                   alt="SmartPDFPro"
-                  width={180}
-                  height={40}
+                  width={0}
+                  height={0}
+                  sizes="100vw"
                   className="h-10 w-auto"
                 />
               </Link>
@@ -166,7 +168,12 @@ export default function AppLayout({
                     <rect width="20" height="16" x="2" y="4" rx="2" />
                     <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
                   </svg>
-                  <a href="mailto:smartpdfpro@gmail.com">
+                  <a
+                    href="mailto:smartpdfpro@gmail.com"
+                    className="hover:text-red-500 transition-colors"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
                     smartpdfpro@gmail.com
                   </a>
                 </li>
@@ -185,7 +192,9 @@ export default function AppLayout({
                     <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
                     <circle cx="12" cy="10" r="3" />
                   </svg>
-                  <span>India</span>
+                  <span className="hover:text-red-500 transition-colors">
+                    India
+                  </span>
                 </li>
               </ul>
 
