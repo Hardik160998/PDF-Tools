@@ -44,28 +44,13 @@ export default function AppLayout({
             href="/"
             className={`${latoClass} flex items-center gap-1.5 font-bold text-2xl tracking-tighter hover:opacity-80 transition-opacity justify-self-start`}
           >
-           
-            <div className="flex items-center">
-              {/* Light Mode Logo */}
-              <Image
-                src="/img/logo-v-trans.png"
-                alt="SmartPDFPro"
-                width={180}
-                height={40}
-                className="block dark:hidden"
-                priority
-              />
-
-              {/* Dark Mode Logo */}
-              <Image
-                src="/img/logo-v-trans-dark.png"
-                alt="SmartPDFPro"
-                width={180}
-                height={40}
-                className="hidden dark:block"
-                priority
-              />
-            </div>
+            <Image
+              src="/img/logo-v-trans.png"
+              alt="SmartPDFPro"
+              width={180}
+              height={40}
+              className="h-10 w-auto"
+            />
           </Link>
 
           {/* Center — Desktop nav */}
@@ -115,13 +100,13 @@ export default function AppLayout({
                 href="/"
                 className={`${latoClass} flex items-center gap-1.5 font-bold text-xl tracking-tighter`}
               >
-                <span className="text-slate-900 dark:text-white uppercase">
-                  Smart
-                </span>
-                <Heart className="fill-red-500 text-red-500" size={20} />
-                <span className="text-slate-900 dark:text-white uppercase">
-                  PDFs
-                </span>
+                <Image
+                  src="/img/logo-v-trans.png"
+                  alt="SmartPDFPro"
+                  width={180}
+                  height={40}
+                  className="h-10 w-auto"
+                />
               </Link>
               <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed max-w-xs">
                 The most powerful free web-based PDF toolkit. Merge, split,

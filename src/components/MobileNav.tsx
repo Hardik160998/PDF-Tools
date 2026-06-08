@@ -168,27 +168,13 @@ export default function MobileNav() {
            <div className={`mob-drawer ${open ? "mob-drawer--open" : ""}`}>
              <div className="mob-drawer-header">
                <a href="/" className="mob-drawer-logo" onClick={close}>
-                 <div className="flex items-center">
-                   {/* Light Mode Logo */}
-                   <Image
-                     src="/img/logo-v-trans.png"
-                     alt="SmartPDFPro"
-                     width={180}
-                     height={40}
-                     className="block dark:hidden"
-                     priority
-                   />
-
-                   {/* Dark Mode Logo */}
-                   <Image
-                     src="/img/logo-v-trans-dark.png"
-                     alt="SmartPDFPro"
-                     width={180}
-                     height={40}
-                     className="hidden dark:block"
-                     priority
-                   />
-                 </div>
+                 <Image
+                   src="/img/logo-v-trans.png"
+                   alt="SmartPDFPro"
+                   width={180}
+                   height={40}
+                   className="h-10 w-auto"
+                 />
                </a>
                <button className="mob-drawer-close" onClick={close}>
                  <X size={20} />

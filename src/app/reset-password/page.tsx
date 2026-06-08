@@ -172,27 +172,13 @@ function ResetPasswordForm() {
          href="/"
          className="flex items-center gap-1.5 font-bold text-xl tracking-tighter hover:opacity-90 transition-opacity"
        >
-         <div className="flex items-center">
-           {/* Light Mode Logo */}
-           <Image
-             src="/img/logo-v-trans.png"
-             alt="SmartPDFPro"
-             width={180}
-             height={40}
-             className="block dark:hidden"
-             priority
-           />
-
-           {/* Dark Mode Logo */}
-           <Image
-             src="/img/logo-v-trans-dark.png"
-             alt="SmartPDFPro"
-             width={180}
-             height={40}
-             className="hidden dark:block"
-             priority
-           />
-         </div>
+         <Image
+           src="/img/logo-v-trans.png"
+           alt="SmartPDFPro"
+           width={180}
+           height={40}
+           className="h-10 w-auto"
+         />
        </a>
      </div>
 
