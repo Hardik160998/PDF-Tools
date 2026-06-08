@@ -57,7 +57,7 @@ export default function ContactPage() {
  {/* Contact Info */}
  <div className="space-y-4">
  {[
- { icon: Mail, title: 'Email Us', value: 'support@smartpdfs.com', sub: 'We reply within 24 hours', color: 'bg-red-500' },
+ { icon: Mail, title: 'Email Us', value: 'smartpdfpro@gmail.com', sub: 'We reply within 24 hours', color: 'bg-red-500' },
  { icon: MapPin, title: 'Location', value: 'India', sub: 'Serving users worldwide', color: 'bg-blue-500' },
  { icon: Clock, title: 'Support Hours', value: 'Mon – Sat', sub: '9:00 AM – 6:00 PM IST', color: 'bg-green-500' },
  ].map(({ icon: Icon, title, value, sub, color }) => (

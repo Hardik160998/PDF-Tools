@@ -261,7 +261,7 @@ Terms of Service: ${DOMAIN}/terms
 
 ## Support
 
-Support Email: support@smartpdfpro.com
+Support Email: smartpdfpro@gmail.com
 Contact URL: ${DOMAIN}/contact
 Help URL: ${DOMAIN}/faq
 
