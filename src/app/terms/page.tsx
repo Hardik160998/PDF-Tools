@@ -161,7 +161,7 @@ const SECTIONS = [
       },
       {
         subtitle: "Maximum Liability",
-        text: "Since SmartPDFs Pro is a free service, our maximum liability to you for any claim arising from use of the service is limited to INR 0 (zero). This reflects the fact that you have not paid for the service.",
+        text: "To the maximum extent permitted by law, SmartPDFs Pro's liability for claims relating to paid services shall not exceed the amount paid by the user for the applicable service.",
       },
       {
         subtitle: "Data Loss",
@@ -185,6 +185,18 @@ const SECTIONS = [
       {
         subtitle: "External Links",
         text: "SmartPDFs Pro may contain links to third-party websites. We are not responsible for the content, privacy practices, or terms of any third-party websites. Visiting external links is at your own risk.",
+      },
+      {
+        subtitle: "Advertising Services",
+        text: "SmartPDFs Pro may display advertisements from third-party advertising partners such as Google AdSense. These advertising providers may use cookies or similar technologies to personalize ads and measure advertising performance.",
+      },
+      {
+        subtitle: "Analytics Services",
+        text: "We may use analytics services such as Google Analytics to understand website traffic, improve performance, and enhance user experience.",
+      },
+      {
+        subtitle: "Razorpay Payments",
+        text: "Payments for premium services are securely processed through Razorpay. SmartPDFs Pro does not store full debit card, credit card, UPI, or banking credentials on its servers.",
       },
     ],
   },

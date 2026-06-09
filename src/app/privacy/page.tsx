@@ -117,6 +117,10 @@ const SECTIONS = [
         subtitle: "Disabling Cookies",
         text: "You can disable cookies in your browser settings at any time. Disabling cookies will not affect the core functionality of any PDF tool — all tools will continue to work normally.",
       },
+      {
+        subtitle: "Google Analytics",
+        text: "We use Google Analytics to understand website traffic, user interactions, and improve our services. Google Analytics may collect anonymous usage information such as browser type, pages visited, session duration, and device information. No uploaded document content is analyzed.",
+      },
     ],
   },
   {
@@ -152,8 +156,16 @@ const SECTIONS = [
         text: "We use Supabase for optional user authentication features. Supabase is an open-source Firebase alternative with strong privacy practices. No file content is ever stored in Supabase — only account credentials if you choose to create an account.",
       },
       {
-        subtitle: "No Advertising Networks",
-        text: "SmartPDFs Pro does not use Google AdSense, Facebook Ads, or any other advertising network. We do not share your data with advertisers.",
+        subtitle: "Advertising & Analytics",
+        text: "SmartPDFs Pro may display advertisements from trusted advertising partners such as Google AdSense. These partners may use cookies or similar technologies to serve relevant ads and measure performance. We do not sell personal file data to advertisers.",
+      },
+      {
+        subtitle: "Advertising Preferences",
+        text: "Users can control personalized advertising through Google Ad Settings and browser cookie preferences.",
+      },
+      {
+        subtitle: "Payment Processing",
+        text: "Payments on SmartPDFs Pro are securely processed through Razorpay. We do not store your full card or banking information on our servers.",
       },
     ],
   },
@@ -177,6 +189,17 @@ const SECTIONS = [
       {
         subtitle: "GDPR & Indian IT Act",
         text: "SmartPDFs Pro complies with GDPR (EU General Data Protection Regulation) and the Indian Information Technology Act, 2000. Users in the EU have additional rights under GDPR including the right to object to processing.",
+      },
+    ],
+  },
+  {
+    icon: Shield,
+    title: "Children's Privacy",
+    color: "bg-pink-500",
+    content: [
+      {
+        subtitle: "Age Restrictions",
+        text: "SmartPDFs Pro is not directed toward children under the age of 13. We do not knowingly collect personal information from children.",
       },
     ],
   },

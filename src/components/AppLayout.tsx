@@ -132,6 +132,15 @@ export default function AppLayout({
                   { label: "FAQ's", href: "/faq" },
                   { label: "Blog", href: "/blog" },
                   { label: "Privacy Policy", href: "/privacy" },
+                  { label: "Refund Policy", href: "/refund-policy" },
+                  {
+                    label: "Cancellation Policy",
+                    href: "/cancellation-policy",
+                  },
+                  {
+                    label: "Shipping & Delivery Policy",
+                    href: "/shipping-delivery-policy",
+                  },
                   { label: "Terms & Conditions", href: "/terms" },
                   { label: "Contact Us", href: "/contact" },
                 ].map(({ label, href }) => (
