@@ -53,6 +53,7 @@ export default function AppLayout({
               width={232}
               height={60}
               className="h-10 w-auto"
+              priority
             />
           </Link>
 
