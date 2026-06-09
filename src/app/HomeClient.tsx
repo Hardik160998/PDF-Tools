@@ -104,11 +104,16 @@ export default function HomeClient({ initialTools, initialCategories }: { initia
     const [displayCategory, setDisplayCategory] = useState('All');
     const toolsGridRef = useRef<HTMLElement>(null);
     const [deferTools, setDeferTools] = useState(true);
+    const [renderLimit, setRenderLimit] = useState(12);
 
     useEffect(() => {
         const timer = setTimeout(() => setDeferTools(false), 200);
         return () => clearTimeout(timer);
     }, []);
+
+    useEffect(() => {
+        setRenderLimit(12);
+    }, [displayCategory]);
 
     const { data: allTools, isLoading: toolsLoading } = useAllTools(initialTools);
     const { data: rawCategories } = useDbCategories(initialCategories);
@@ -351,9 +356,21 @@ export default function HomeClient({ initialTools, initialCategories }: { initia
                             {deferTools ? (
                                 <SkeletonGrid count={8} categories={[]} />
                             ) : (
-                                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                                    {filteredTools.map(renderToolCard)}
-                                </div>
+                                <>
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                                        {filteredTools.slice(0, renderLimit).map(renderToolCard)}
+                                    </div>
+                                    {renderLimit < filteredTools.length && (
+                                        <div className="mt-8 flex justify-center">
+                                            <button 
+                                                onClick={() => setRenderLimit(100)}
+                                                className="px-6 py-3 bg-red-600 hover:bg-red-700 text-white font-bold rounded-full shadow-lg transition-transform active:scale-95"
+                                            >
+                                                Show All {filteredTools.length} PDF Tools
+                                            </button>
+                                        </div>
+                                    )}
+                                </>
                             )}
                         </div>
 

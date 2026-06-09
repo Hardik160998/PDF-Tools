@@ -16,7 +16,7 @@ export const metadata: Metadata = {
   description:
     "Read the shipping and delivery policy for SmartPDFs Pro digital services and premium subscriptions.",
   alternates: {
-    canonical: "/shipping-delivery",
+    canonical: "/shipping-delivery/policy",
   },
 };
 
