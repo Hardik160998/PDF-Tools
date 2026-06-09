@@ -11,6 +11,7 @@ import ThemeToggle from "@/components/ThemeToggle";
 import EcommerceDropdown from "@/components/EcommerceDropdown";
 import HeaderActions from "@/components/HeaderActions";
 import Image from "next/image";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 export default function AppLayout({
   children,
@@ -303,6 +304,7 @@ export default function AppLayout({
           </div>
         </div>
       </footer>
+      <SpeedInsights />
     </div>
   );
 }
