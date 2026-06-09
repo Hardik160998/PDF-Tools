@@ -13,11 +13,11 @@ export function useAllTools(initialData?: any[]) {
  queryKey: toolKeys.all,
  queryFn: getAllTools,
  initialData,
- staleTime: 1000 * 60 * 5, // 5 minutes
+ staleTime: Infinity,
  gcTime: 1000 * 60 * 60, // 1 hour
- refetchOnMount: true,
- refetchOnWindowFocus: true,
- refetchOnReconnect: true,
+ refetchOnMount: false,
+ refetchOnWindowFocus: false,
+ refetchOnReconnect: false,
  select: (data) => data.filter((t) => t.is_verified),
  });
 }
@@ -27,11 +27,11 @@ export function useDbCategories(initialData?: any[]) {
  queryKey: toolKeys.categories,
  queryFn: getCategories,
  initialData,
- staleTime: 1000 * 60 * 5,
+ staleTime: Infinity,
  gcTime: 1000 * 60 * 60,
- refetchOnMount: true,
- refetchOnWindowFocus: true,
- refetchOnReconnect: true,
+ refetchOnMount: false,
+ refetchOnWindowFocus: false,
+ refetchOnReconnect: false,
  });
 }
 
