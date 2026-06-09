@@ -6,7 +6,7 @@ import { ThemeProvider } from "@/context/ThemeContext";
 import { AuthProvider } from "@/context/AuthContext";
 import QueryProvider from "@/lib/QueryProvider";
 import AppLayout from "@/components/AppLayout";
-import { GoogleAnalytics } from "@next/third-parties/google";
+
 
 const lato = Lato({
   subsets: ["latin"],
