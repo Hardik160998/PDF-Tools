@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, startTransition } from "react";
 import { createPortal } from "react-dom";
 import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
@@ -154,7 +154,7 @@ export default function MobileNav() {
    <>
      <button
        className="mob-hamburger"
-       onClick={() => setOpen((o) => !o)}
+       onClick={() => startTransition(() => setOpen((o) => !o))}
        aria-label="Toggle menu"
      >
        {open ? <X size={22} /> : <Menu size={22} />}

@@ -10,7 +10,7 @@ import { ThemeProvider } from "@/context/ThemeContext";
 import { AuthProvider } from "@/context/AuthContext";
 import QueryProvider from "@/lib/QueryProvider";
 import AppLayout from "@/components/AppLayout";
-import Script from "next/script";
+import { GoogleAnalytics } from "@next/third-parties/google";
 
 const lato = Lato({
   subsets: ["latin"],
@@ -66,25 +66,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        {/* Google Analytics - Loaded lazily to avoid blocking the main thread (High TBT fix) */}
-        <Script
-          src="https://www.googletagmanager.com/gtag/js?id=G-CJBE2GYFFR"
-          strategy="lazyOnload"
-        />
-
-        <Script id="google-analytics" strategy="lazyOnload">
-          {`
-            window.dataLayer = window.dataLayer || [];
-
-            function gtag(){
-              dataLayer.push(arguments);
-            }
-
-            gtag('js', new Date());
-
-            gtag('config', 'G-CJBE2GYFFR');
-          `}
-        </Script>
+        <GoogleAnalytics gaId="G-CJBE2GYFFR" />
         <meta name="color-scheme" content="light dark" />
         <script
           id="theme-init"

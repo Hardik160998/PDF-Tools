@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo, useEffect, useLayoutEffect, useRef } from 'react';
+import { useState, useMemo, useEffect, useLayoutEffect, useRef, startTransition } from 'react';
 import SkeletonGrid from '@/components/SkeletonGrid';
 import { trackToolClick } from '@/lib/supabase';
 import { Lock, Sparkles, ChevronDown, Crown, CheckCircle2, BookOpen } from 'lucide-react';
@@ -263,7 +263,7 @@ export default function HomeClient({ initialTools, initialCategories }: { initia
                     <div className="hidden md:flex justify-center w-full">
                         <div className="category-nav">
                             {dbCategories.map(cat => (
-                                <button key={cat} onClick={() => setActiveCategory(cat)} className={`filter-tab ${activeCategory === cat ? 'active' : ''}`}>
+                                <button key={cat} onClick={() => startTransition(() => setActiveCategory(cat))} className={`filter-tab ${activeCategory === cat ? 'active' : ''}`}>
                                     {cat}
                                 </button>
                             ))}
@@ -272,7 +272,7 @@ export default function HomeClient({ initialTools, initialCategories }: { initia
                     <div className="md:hidden w-full px-4 relative z-50">
                         {isMobileMenuOpen && <div className="fixed inset-0 z-[-1]" onClick={() => setIsMobileMenuOpen(false)} />}
                         <button
-                            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                            onClick={() => startTransition(() => setIsMobileMenuOpen(!isMobileMenuOpen))}
                             className="w-full flex items-center justify-between px-6 py-4 bg-white/80 dark:bg-slate-800/80 backdrop-blur-md border border-slate-200 dark:border-slate-700 rounded-2xl shadow-lg focus:outline-none transition-all active:scale-[0.98]"
                         >
                             <span className="text-sm font-medium uppercase tracking-widest text-slate-900 dark:text-white">{activeCategory}</span>
@@ -281,7 +281,7 @@ export default function HomeClient({ initialTools, initialCategories }: { initia
                         {isMobileMenuOpen && (
                             <div className="absolute top-full left-4 right-4 mt-2 py-2 glass-dropdown mobile-dropdown-shadow rounded-2xl animate-in fade-in slide-in-from-top-2 duration-200 overflow-hidden z-[60]">
                                 {dbCategories.map(cat => (
-                                    <button key={cat} onClick={() => { setActiveCategory(cat); setIsMobileMenuOpen(false); }}
+                                    <button key={cat} onClick={() => startTransition(() => { setActiveCategory(cat); setIsMobileMenuOpen(false); })}
                                         className={`w-full text-left px-6 py-3 text-sm font-medium transition-colors ${activeCategory === cat ? 'bg-red-50 text-red-600 dark:bg-red-900/20 dark:text-red-400' : 'text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-700/50'}`}>
                                         {cat}
                                     </button>
