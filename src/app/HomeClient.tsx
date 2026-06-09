@@ -56,7 +56,7 @@ function FeatureSectionShimmer({ reverse = false }: { reverse?: boolean }) {
             <div className="flex-1 w-full">
                 <Sh className="w-full h-56 rounded-2xl" />
             </div>
-        </>
+        </div>
     );
 }
 
@@ -371,7 +371,7 @@ export default function HomeClient({ initialTools, initialCategories }: { initia
                 planName={successModalData.planName}
                 paymentId={successModalData.paymentId}
             />
-        </div>
+        </>
     );
 }
 
