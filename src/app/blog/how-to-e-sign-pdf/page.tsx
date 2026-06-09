@@ -22,7 +22,7 @@ import BreadcrumbSchema from "@/components/seo/BreadcrumbSchema";
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://smartpdfpro.com";
 
 export const metadata: Metadata = {
-  title: "How to E-Sign a PDF: Legal Electronic Signatures | SmartPDFs Plus",
+  title: "How to E-Sign a PDF: Legal Electronic Signatures | SmartPDFs Pro",
   description:
     "Learn how to legally sign a PDF document online. Understand the difference between Electronic Signatures and Digital Signatures (eIDAS & ESIGN compliance).",
   keywords:
@@ -47,7 +47,7 @@ export const metadata: Metadata = {
     description:
       "Learn how to legally sign a PDF document online. Understand the difference between Electronic Signatures and Cryptographic Digital Signatures.",
     url: `${siteUrl}/blog/how-to-e-sign-pdf`,
-    siteName: "SmartPDFs Plus",
+    siteName: "SmartPDFs Pro",
     images: [
       {
         url: "/img/e-sign-pdf.png",
@@ -58,7 +58,7 @@ export const metadata: Metadata = {
     ],
     locale: "en_US",
     type: "article",
-    authors: ["SmartPDFs Plus Team"],
+    authors: ["SmartPDFs Pro Team"],
     publishedTime: "2026-06-01T00:00:00.000Z",
     modifiedTime: new Date().toISOString(),
   },
@@ -70,7 +70,7 @@ export const metadata: Metadata = {
     images: ["/img/e-sign-pdf.png"],
   },
   category: "PDF Tools",
-  authors: [{ name: "SmartPDFs Plus Team", url: siteUrl }],
+  authors: [{ name: "SmartPDFs Pro Team", url: siteUrl }],
 };
 
 export default function ESignPDFGuidePost() {
@@ -91,12 +91,12 @@ export default function ESignPDFGuidePost() {
     image: "/img/e-sign-pdf.png",
     author: {
       "@type": "Organization",
-      name: "SmartPDFs Plus Team",
+      name: "SmartPDFs Pro Team",
       url: siteUrl,
     },
     publisher: {
       "@type": "Organization",
-      name: "SmartPDFs Plus",
+      name: "SmartPDFs Pro",
       logo: {
         "@type": "ImageObject",
         url: `${siteUrl}/logo.png`,
@@ -118,7 +118,7 @@ export default function ESignPDFGuidePost() {
       />
 
       <ArticleSchema
-        title="How to E-Sign a PDF: Legal Electronic Signatures | SmartPDFs Plus"
+        title="How to E-Sign a PDF: Legal Electronic Signatures | SmartPDFs Pro"
         description="Learn how to legally sign a PDF document online. Understand the difference between Electronic Signatures and Digital Signatures (eIDAS & ESIGN compliance)."
         url={`${siteUrl}/blog/how-to-e-sign-pdf`}
         datePublished="2026-06-01T13:25:51.353Z"
@@ -350,11 +350,10 @@ export default function ESignPDFGuidePost() {
               onto an entirely different contract without your knowledge.
             </p>
             <p className="text-slate-600 leading-relaxed font-bold">
-              When you use a professional tool like SmartPDFs Plus to e-sign,
-              the final generation step algorithmically merges your signature
-              into the vector Base Layer of the PDF. This prevents casual
-              tampering and ensures the signature cannot be easily moved or
-              copied.
+              When you use a professional tool like SmartPDFs Pro to e-sign, the
+              final generation step algorithmically merges your signature into
+              the vector Base Layer of the PDF. This prevents casual tampering
+              and ensures the signature cannot be easily moved or copied.
             </p>
           </section>
 
@@ -373,7 +372,7 @@ export default function ESignPDFGuidePost() {
               {[
                 {
                   title: "Open the Document Locally",
-                  desc: "Navigate to the SmartPDFs Plus E-Sign tool. Drag and drop your PDF into the viewer. The file remains on your device.",
+                  desc: "Navigate to the SmartPDFs Pro E-Sign tool. Drag and drop your PDF into the viewer. The file remains on your device.",
                 },
                 {
                   title: "Create Your Signature",

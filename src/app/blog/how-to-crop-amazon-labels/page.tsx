@@ -22,7 +22,7 @@ import BreadcrumbSchema from "@/components/seo/BreadcrumbSchema";
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://smartpdfpro.com";
 
 export const metadata: Metadata = {
-  title: "How to Crop Amazon Labels for Thermal Printing | SmartPDFs Plus",
+  title: "How to Crop Amazon Labels for Thermal Printing | SmartPDFs Pro",
   description:
     "A complete guide for Amazon FBA and Easy Ship sellers on how to perfectly crop and format Amazon shipping labels and tax invoices for 4x6 thermal printers.",
   keywords:
@@ -47,7 +47,7 @@ export const metadata: Metadata = {
     description:
       "Optimize your Amazon Easy Ship & FBA order fulfillment. Auto-crop your Amazon shipping labels perfectly for 4x6 inch thermal printers.",
     url: `${siteUrl}/blog/how-to-crop-amazon-labels`,
-    siteName: "SmartPDFs Plus",
+    siteName: "SmartPDFs Pro",
     images: [
       {
         url: "/img/amazone-label.png",
@@ -58,7 +58,7 @@ export const metadata: Metadata = {
     ],
     locale: "en_IN",
     type: "article",
-    authors: ["SmartPDFs Plus Team"],
+    authors: ["SmartPDFs Pro Team"],
     publishedTime: "2026-05-28T00:00:00.000Z",
     modifiedTime: new Date().toISOString(),
   },
@@ -70,7 +70,7 @@ export const metadata: Metadata = {
     images: ["/img/amazone-label.png"],
   },
   category: "Ecommerce",
-  authors: [{ name: "SmartPDFs Plus Team", url: siteUrl }],
+  authors: [{ name: "SmartPDFs Pro Team", url: siteUrl }],
 };
 
 export default function CropAmazonLabelPost() {
@@ -91,12 +91,12 @@ export default function CropAmazonLabelPost() {
     image: "/img/amazone-label.png",
     author: {
       "@type": "Organization",
-      name: "SmartPDFs Plus Team",
+      name: "SmartPDFs Pro Team",
       url: siteUrl,
     },
     publisher: {
       "@type": "Organization",
-      name: "SmartPDFs Plus",
+      name: "SmartPDFs Pro",
       logo: {
         "@type": "ImageObject",
         url: `${siteUrl}/logo.png`,
@@ -118,7 +118,7 @@ export default function CropAmazonLabelPost() {
       />
 
       <ArticleSchema
-        title="How to Crop Amazon Labels for Thermal Printing | SmartPDFs Plus"
+        title="How to Crop Amazon Labels for Thermal Printing | SmartPDFs Pro"
         description="A complete guide for Amazon FBA and Easy Ship sellers on how to perfectly crop and format Amazon shipping labels and tax invoices for 4x6 thermal printers."
         url={`${siteUrl}/blog/how-to-crop-amazon-labels`}
         datePublished="2026-06-01T13:25:51.338Z"
@@ -336,7 +336,7 @@ export default function CropAmazonLabelPost() {
                 </h3>
                 <p className="text-sm text-yellow-800 leading-relaxed m-0">
                   Never upload unencrypted customer orders to random internet
-                  servers! SmartPDFs Plus uses WebAssembly to execute the
+                  servers! SmartPDFs Pro uses WebAssembly to execute the
                   cropping algorithm entirely within your browser. The PDF is
                   processed using your local computer's memory. No sensitive
                   data is ever transmitted to our cloud servers.
@@ -360,7 +360,7 @@ export default function CropAmazonLabelPost() {
                   desc: 'In your Amazon Seller Central dashboard, select your pending orders and click "Print Packing Slips". Save the resulting combined PDF.',
                 },
                 {
-                  title: "Upload to SmartPDFs Plus",
+                  title: "Upload to SmartPDFs Pro",
                   desc: "Drag the massive A4 PDF into the Amazon Cropper interface.",
                 },
                 {

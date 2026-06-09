@@ -1,5 +1,5 @@
 /* ============================================================
-   SMARTPDFS PLUS â€” MOBILE VIEW CSS
+   SmartPDFs Pro â€” MOBILE VIEW CSS
    Covers: Navbar, Homepage, All Tool Pages, Dropdowns, Search
    Breakpoints: max-width 768px (mobile), max-width 1024px (tablet)
    ============================================================ */
@@ -57,7 +57,7 @@
     display: none !important;
   }
 
- #site-header>div {
+  #site-header > div {
     display: flex !important;
     justify-content: space-between !important;
     align-items: center !important;
@@ -66,7 +66,7 @@
     height: 56px !important;
   }
 
- #site-header>div>div.flex.items-center {
+  #site-header > div > div.flex.items-center {
     gap: 0.5rem !important;
   }
 
@@ -171,7 +171,6 @@
 
 /* â”€â”€ TOOL PAGE WRAPPER â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 @media (max-width: 768px) {
-
   .max-w-3xl.mx-auto.py-12,
   .max-w-4xl.mx-auto.py-12,
   .max-w-5xl.mx-auto.py-12 {
@@ -187,19 +186,19 @@
   }
 
   /* Spacing overrides */
-  .space-y-10> :not([hidden])~ :not([hidden]) {
+  .space-y-10 > :not([hidden]) ~ :not([hidden]) {
     margin-top: 1.25rem !important;
   }
 
-  .space-y-8> :not([hidden])~ :not([hidden]) {
+  .space-y-8 > :not([hidden]) ~ :not([hidden]) {
     margin-top: 0.85rem !important;
   }
 
-  .space-y-6> :not([hidden])~ :not([hidden]) {
+  .space-y-6 > :not([hidden]) ~ :not([hidden]) {
     margin-top: 0.65rem !important;
   }
 
-  .space-y-4> :not([hidden])~ :not([hidden]) {
+  .space-y-4 > :not([hidden]) ~ :not([hidden]) {
     margin-top: 0.45rem !important;
   }
 
@@ -438,7 +437,7 @@
 
 /* â”€â”€ TABLET (769px â€“ 1023px) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 @media (min-width: 769px) and (max-width: 1023px) {
- #site-header .container {
+  #site-header .container {
     padding-left: 1.5rem !important;
     padding-right: 1.5rem !important;
   }
@@ -493,8 +492,8 @@
 }
 
 /* When drawer is open â€” hide bg-mesh, lock everything */
-body.drawer-open .page-content>main,
-body.drawer-open .page-content>footer {
+body.drawer-open .page-content > main,
+body.drawer-open .page-content > footer {
   background: rgba(15, 23, 42, 0.15);
   filter: blur(1px);
   transition: filter 0.28s ease;
@@ -525,7 +524,9 @@ body.drawer-open {
   color: #334155;
   cursor: pointer;
   flex-shrink: 0;
-  transition: background 0.15s, color 0.15s;
+  transition:
+    background 0.15s,
+    color 0.15s;
   -webkit-tap-highlight-color: transparent;
 }
 
@@ -594,27 +595,45 @@ body.drawer-open {
 }
 
 /* Mobile drawer item icons when drawer is open */
-.mob-drawer.mob-drawer--open .mob-drawer-body .mob-drawer-item:nth-child(1) .mob-drawer-item-icon {
+.mob-drawer.mob-drawer--open
+  .mob-drawer-body
+  .mob-drawer-item:nth-child(1)
+  .mob-drawer-item-icon {
   background: linear-gradient(135deg, #f26522, #c2410c);
 }
 
-.mob-drawer.mob-drawer--open .mob-drawer-body .mob-drawer-item:nth-child(2) .mob-drawer-item-icon {
+.mob-drawer.mob-drawer--open
+  .mob-drawer-body
+  .mob-drawer-item:nth-child(2)
+  .mob-drawer-item-icon {
   background: linear-gradient(135deg, #22c55e, #15803d);
 }
 
-.mob-drawer.mob-drawer--open .mob-drawer-body .mob-drawer-item:nth-child(3) .mob-drawer-item-icon {
+.mob-drawer.mob-drawer--open
+  .mob-drawer-body
+  .mob-drawer-item:nth-child(3)
+  .mob-drawer-item-icon {
   background: linear-gradient(135deg, #3182ce, #1e3a8a);
 }
 
-.mob-drawer.mob-drawer--open .mob-drawer-body .mob-drawer-item:nth-child(4) .mob-drawer-item-icon {
-  background: linear-gradient(135deg, #E8465D, #843286);
+.mob-drawer.mob-drawer--open
+  .mob-drawer-body
+  .mob-drawer-item:nth-child(4)
+  .mob-drawer-item-icon {
+  background: linear-gradient(135deg, #e8465d, #843286);
 }
 
-.mob-drawer.mob-drawer--open .mob-drawer-body .mob-drawer-item:nth-child(5) .mob-drawer-item-icon {
+.mob-drawer.mob-drawer--open
+  .mob-drawer-body
+  .mob-drawer-item:nth-child(5)
+  .mob-drawer-item-icon {
   background: linear-gradient(135deg, #e53e3e, #7f1d1d);
 }
 
-.mob-drawer.mob-drawer--open .mob-drawer-body .mob-drawer-item:nth-child(6) .mob-drawer-item-icon {
+.mob-drawer.mob-drawer--open
+  .mob-drawer-body
+  .mob-drawer-item:nth-child(6)
+  .mob-drawer-item-icon {
   background: linear-gradient(135deg, #ef4444, #991b1b);
 }
 
@@ -651,7 +670,9 @@ body.drawer-open {
   border-radius: 0.5rem;
   color: #64748b;
   cursor: pointer;
-  transition: background 0.15s, color 0.15s;
+  transition:
+    background 0.15s,
+    color 0.15s;
 }
 
 .mob-drawer-close:hover {
@@ -743,7 +764,9 @@ body.drawer-open {
   font-weight: 700;
   color: #334155;
   text-decoration: none;
-  transition: background 0.12s, color 0.12s;
+  transition:
+    background 0.12s,
+    color 0.12s;
   -webkit-tap-highlight-color: transparent;
 }
 
@@ -786,7 +809,7 @@ body.drawer-open {
   box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.04);
 }
 
-[data-theme='dark'] .mob-drawer-footer {
+[data-theme="dark"] .mob-drawer-footer {
   background: rgba(15, 23, 42, 0.95);
   border-color: rgba(30, 41, 59, 0.8);
 }
@@ -801,7 +824,9 @@ body.drawer-open {
   font-weight: 800;
   color: #334155;
   cursor: pointer;
-  transition: border-color 0.15s, color 0.15s;
+  transition:
+    border-color 0.15s,
+    color 0.15s;
 }
 
 .mob-drawer-login:hover {
@@ -841,7 +866,9 @@ body.drawer-open {
   color: #334155;
   cursor: pointer;
   flex-shrink: 0;
-  transition: background 0.15s, color 0.15s;
+  transition:
+    background 0.15s,
+    color 0.15s;
   -webkit-tap-highlight-color: transparent;
 }
 
@@ -870,7 +897,7 @@ body.drawer-open {
   overflow: hidden;
 }
 
-[data-theme='dark'] .mob-search-overlay {
+[data-theme="dark"] .mob-search-overlay {
   background: #0f172a;
 }
 
@@ -884,7 +911,7 @@ body.drawer-open {
   flex-shrink: 0;
 }
 
-[data-theme='dark'] .mob-search-header {
+[data-theme="dark"] .mob-search-header {
   border-color: #1e293b;
 }
 
@@ -905,7 +932,7 @@ body.drawer-open {
   background: white;
 }
 
-[data-theme='dark'] .mob-search-box-wrap {
+[data-theme="dark"] .mob-search-box-wrap {
   background: #1e293b;
   border-color: #334155;
 }
@@ -927,7 +954,7 @@ body.drawer-open {
   margin: 0;
 }
 
-[data-theme='dark'] .mob-search-input {
+[data-theme="dark"] .mob-search-input {
   color: #f1f5f9;
 }
 
@@ -988,7 +1015,6 @@ body.drawer-open {
 
 /* ── FEATURE SECTIONS MOBILE CENTER ── */
 @media (max-width: 768px) {
-
   .flex.flex-col.md\:flex-row.items-center.gap-16,
   .flex.flex-col.md\:flex-row.items-center.gap-12,
   .flex.flex-col.md\:flex-row-reverse.items-center.gap-12 {
@@ -998,9 +1024,9 @@ body.drawer-open {
     padding: 0 0.5rem !important;
   }
 
-  .flex.flex-col.md\:flex-row.items-center.gap-16>div,
-  .flex.flex-col.md\:flex-row.items-center.gap-12>div,
-  .flex.flex-col.md\:flex-row-reverse.items-center.gap-12>div {
+  .flex.flex-col.md\:flex-row.items-center.gap-16 > div,
+  .flex.flex-col.md\:flex-row.items-center.gap-12 > div,
+  .flex.flex-col.md\:flex-row-reverse.items-center.gap-12 > div {
     text-align: center !important;
     align-items: center !important;
     display: flex !important;
@@ -1037,7 +1063,6 @@ body.drawer-open {
 
 /* ── WHY CHOOSE SECTION MOBILE CENTER ── */
 @media (max-width: 768px) {
-
   .why-card-blue,
   .why-card-yellow,
   .why-card-green,
@@ -1089,7 +1114,7 @@ body.drawer-open {
     text-align: center !important;
   }
 
-  footer .grid>div {
+  footer .grid > div {
     display: flex !important;
     flex-direction: column !important;
     align-items: center !important;

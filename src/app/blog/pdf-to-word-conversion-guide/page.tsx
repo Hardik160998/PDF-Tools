@@ -22,7 +22,7 @@ const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://smartpdfpro.com";
 
 export const metadata: Metadata = {
   title:
-    "Ultimate PDF to Word Conversion Guide: OCR, Formatting & Tools | SmartPDFs Plus",
+    "Ultimate PDF to Word Conversion Guide: OCR, Formatting & Tools | SmartPDFs Pro",
   description:
     "Learn how to perfectly convert PDF documents to editable Microsoft Word files. Discover OCR technology, formatting preservation techniques, and batch conversion secrets.",
   keywords:
@@ -47,7 +47,7 @@ export const metadata: Metadata = {
     description:
       "Master the art of converting locked PDFs into perfectly formatted, editable Word documents.",
     url: `${siteUrl}/blog/pdf-to-word-conversion-guide`,
-    siteName: "SmartPDFs Plus",
+    siteName: "SmartPDFs Pro",
     images: [
       {
         url: "/img/convert-pdf-all-tool.png",
@@ -58,7 +58,7 @@ export const metadata: Metadata = {
     ],
     locale: "en_US",
     type: "article",
-    authors: ["SmartPDFs Plus Team"],
+    authors: ["SmartPDFs Pro Team"],
     publishedTime: "2026-05-15T00:00:00.000Z",
     modifiedTime: new Date().toISOString(),
   },
@@ -70,7 +70,7 @@ export const metadata: Metadata = {
     images: ["/img/convert-pdf-all-tool.png"],
   },
   category: "Technology",
-  authors: [{ name: "SmartPDFs Plus Team", url: siteUrl }],
+  authors: [{ name: "SmartPDFs Pro Team", url: siteUrl }],
 };
 
 export default function PDFToWordPost() {
@@ -94,12 +94,12 @@ export default function PDFToWordPost() {
     image: "/img/convert-pdf-all-tool.png",
     author: {
       "@type": "Organization",
-      name: "SmartPDFs Plus Team",
+      name: "SmartPDFs Pro Team",
       url: siteUrl,
     },
     publisher: {
       "@type": "Organization",
-      name: "SmartPDFs Plus",
+      name: "SmartPDFs Pro",
       logo: {
         "@type": "ImageObject",
         url: `${siteUrl}/logo.png`,
@@ -121,7 +121,7 @@ export default function PDFToWordPost() {
       />
 
       <ArticleSchema
-        title="Ultimate PDF to Word Conversion Guide: OCR, Formatting & Tools | SmartPDFs Plus"
+        title="Ultimate PDF to Word Conversion Guide: OCR, Formatting & Tools | SmartPDFs Pro"
         description="Learn how to perfectly convert PDF documents to editable Microsoft Word files. Discover OCR technology, formatting preservation techniques, and batch conversion secrets."
         url={`${siteUrl}/blog/pdf-to-word-conversion-guide`}
         datePublished="2026-06-01T13:25:51.364Z"

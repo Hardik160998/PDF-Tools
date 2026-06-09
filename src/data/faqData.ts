@@ -1,4 +1,4 @@
-import { HelpCircle, Shield, Zap, FileText, Settings } from 'lucide-react';
+import { HelpCircle, Shield, Zap, FileText, Settings } from "lucide-react";
 
 export const CATEGORIES = [
   {
@@ -8,12 +8,21 @@ export const CATEGORIES = [
     color: "bg-blue-500",
     faqs: [
       {
-        q: "What is SmartPDFs Plus?",
-        a: "SmartPDFs Plus is a free, browser-based PDF toolkit with 22+ tools. You can merge, split, compress, convert, organize, watermark, protect, and repair PDF files — all without installing any software or creating an account.",
+        q: "What is SmartPDFs Pro?",
+        a: "SmartPDFs Pro is a free, browser-based PDF toolkit with 22+ tools. You can merge, split, compress, convert, organize, watermark, protect, and repair PDF files — all without installing any software or creating an account.",
       },
       {
-        q: "Is SmartPDFs Plus completely free?",
+        q: "Is SmartPDFs Pro completely free?",
         a: "Yes! All client-side tools (Merge, Split, Compress, Organize, Watermark, Page Numbers, Edit Metadata, PDF to JPG, JPG to PDF, PDF to Text, PDF to XML, Unlock, Protect, Aadhar Cropper) are 100% free with no sign-up required. Server-side tools (Word/Excel/PowerPoint conversions, Repair PDF) are also free but require an internet connection.",
+      },
+      {
+        q: "Can SmartPDFPro improve warehouse productivity?",
+        a: "Yes, SmartPDFPro helps warehouse teams automate repetitive label processing tasks, reducing manual work and saving hours every day.",
+      },
+
+      {
+        q: "Why do ecommerce sellers use SmartPDFPro?",
+        a: "Ecommerce sellers use SmartPDFPro to automate shipping label extraction, invoice removal, SKU sorting, courier grouping, and bulk order processing workflows.",
       },
       {
         q: "Do I need to create an account?",
@@ -21,15 +30,29 @@ export const CATEGORIES = [
       },
       {
         q: "What browsers are supported?",
-        a: "SmartPDFs Plus works on all modern browsers — Chrome 90+, Firefox 88+, Safari 14+, and Edge 90+. We recommend Chrome or Edge for the best performance. Internet Explorer is not supported.",
+        a: "SmartPDFs Pro works on all modern browsers — Chrome 90+, Firefox 88+, Safari 14+, and Edge 90+. We recommend Chrome or Edge for the best performance. Internet Explorer is not supported.",
       },
       {
-        q: "Can I use SmartPDFs Plus on mobile?",
-        a: "Yes! SmartPDFs Plus is fully responsive and optimized for mobile. All tools work on iOS (Safari, Chrome) and Android (Chrome, Firefox). The Organize PDF tool even supports touch drag-and-drop for reordering pages.",
+        q: "Can I use SmartPDFs Pro on mobile?",
+        a: "Yes! SmartPDFs Pro is fully responsive and optimized for mobile. All tools work on iOS (Safari, Chrome) and Android (Chrome, Firefox). The Organize PDF tool even supports touch drag-and-drop for reordering pages.",
       },
       {
         q: "Are my PDF files secure on SmartPDFPro?",
         a: "Absolutely. All uploaded files are processed securely and automatically deleted after processing to protect user privacy.",
+      },
+      {
+        q: "Does SmartPDFPro support browser-based PDF processing?",
+        a: "Yes, many SmartPDFPro tools process files directly in the browser without uploading data to external servers.",
+      },
+
+      {
+        q: "What makes SmartPDFPro different from other PDF tools?",
+        a: "SmartPDFPro combines traditional PDF tools with advanced ecommerce warehouse automation features for marketplace sellers, fulfillment centers, and logistics operations.",
+      },
+
+      {
+        q: "Can SmartPDFPro be used for logistics automation?",
+        a: "Yes, SmartPDFPro supports logistics automation workflows including shipment label management, bulk dispatch preparation, courier sorting, and print-ready warehouse processing.",
       },
     ],
   },
@@ -39,6 +62,20 @@ export const CATEGORIES = [
     icon: Shield,
     color: "bg-green-500",
     faqs: [
+      {
+        q: "Are SmartPDFPro PDF tools secure?",
+        a: "Yes, SmartPDFPro uses secure browser-based processing, encrypted connections, and automatic file deletion to protect user privacy and uploaded documents.",
+      },
+
+      {
+        q: "Does SmartPDFPro store uploaded files?",
+        a: "No, SmartPDFPro does not permanently store uploaded files. Most tools run completely in the browser and server-side files are automatically deleted after processing.",
+      },
+
+      {
+        q: "Is SmartPDFPro safe for business documents?",
+        a: "Yes, SmartPDFPro is designed for secure business document processing including contracts, invoices, reports, ecommerce labels, and sensitive PDF files.",
+      },
       {
         q: "Are my files safe and private?",
         a: "Absolutely. Client-side tools (Merge, Split, Compress, Organize, Watermark, etc.) process your files entirely in your browser using JavaScript — your files never leave your device and are never uploaded to any server.",
@@ -63,6 +100,27 @@ export const CATEGORIES = [
     icon: Zap,
     color: "bg-orange-500",
     faqs: [
+      {
+        q: "What are the best free online PDF tools?",
+        a: "SmartPDFPro offers free online PDF tools including Merge PDF, Split PDF, Compress PDF, PDF to Word, JPG to PDF, Protect PDF, Unlock PDF, Organize PDF, and more.",
+      },
+      {
+        q: "Can I edit PDF files online without installing software?",
+        a: "Yes, SmartPDFPro works entirely in your browser. You can edit, organize, merge, split, compress, and convert PDF files online without downloading software.",
+      },
+      {
+        q: "How can I reduce PDF file size online?",
+        a: "Use the Compress PDF tool on SmartPDFPro to reduce PDF size while preserving document quality for email sharing and web uploads.",
+      },
+      {
+        q: "Can I convert PDF to JPG or PNG online?",
+        a: "Yes, SmartPDFPro supports PDF to JPG and PDF to PNG conversion with high-quality image output.",
+      },
+
+      {
+        q: "Can I organize PDF pages online?",
+        a: "Yes, SmartPDFPro allows users to reorder, rotate, delete, and organize PDF pages directly in the browser using drag-and-drop functionality.",
+      },
       {
         q: "How do I merge multiple PDFs?",
         a: 'Go to Merge PDF → click "Select PDF Files" to upload multiple files → drag to reorder them if needed → click "Merge PDF" → download the combined file. You can add as many files as you want.',
@@ -152,8 +210,8 @@ export const CATEGORIES = [
     color: "bg-slate-600",
     faqs: [
       {
-        q: "What technology powers SmartPDFs Plus?",
-        a: "SmartPDFs Plus is built with Next.js 16, React, and TypeScript. Client-side PDF processing uses pdf-lib (for creating/editing PDFs) and PDF.js (for rendering/reading PDFs). Office conversions use ConvertAPI. The UI is styled with Tailwind CSS.",
+        q: "What technology powers SmartPDFs Pro?",
+        a: "SmartPDFs Pro is built with Next.js 16, React, and TypeScript. Client-side PDF processing uses pdf-lib (for creating/editing PDFs) and PDF.js (for rendering/reading PDFs). Office conversions use ConvertAPI. The UI is styled with Tailwind CSS.",
       },
       {
         q: "Why does the page show a loading skeleton?",
@@ -166,6 +224,48 @@ export const CATEGORIES = [
       {
         q: "Does SmartPDFs work offline?",
         a: "Client-side tools (Merge, Split, Compress, Organize, Watermark, etc.) work offline once the page is loaded — no internet needed for processing. Server-side tools (Office conversions, Repair) require an active internet connection.",
+      },
+    ],
+  },
+  {
+    id: "automation",
+    label: "Ecommerce & Warehouse Automation",
+    icon: Settings,
+    color: "bg-amber-600",
+    faqs: [
+      {
+        q: "What is the best free shipping label cropper for ecommerce sellers?",
+        a: "SmartPDFPro provides free shipping label cropper tools for Flipkart, Amazon, Meesho, and Snapdeal sellers. Users can automatically extract labels, remove invoices, sort orders, and generate print-ready A4 layouts in seconds.",
+      },
+
+      {
+        q: "Can I remove invoice pages from ecommerce shipping labels?",
+        a: "Yes, SmartPDFPro automatically removes TAX INVOICE pages from shipping label PDFs while keeping labels perfectly aligned for warehouse printing.",
+      },
+
+      {
+        q: "Does SmartPDFPro support bulk shipping label processing?",
+        a: "Yes, SmartPDFPro supports bulk PDF uploads, multi-order processing, batch label extraction, and courier-wise grouping for ecommerce warehouse operations.",
+      },
+
+      {
+        q: "Can I sort shipping labels by courier or seller?",
+        a: "Yes, SmartPDFPro supports sorting by courier, seller, SKU ID, quantity, AWB number, and packed date for efficient warehouse management.",
+      },
+
+      {
+        q: "Which marketplaces are supported by SmartPDFPro?",
+        a: "SmartPDFPro supports Flipkart, Amazon, Meesho, and Snapdeal shipping label automation tools for Indian ecommerce sellers and fulfillment centers.",
+      },
+
+      {
+        q: "Can SmartPDFPro generate 4 labels per A4 page?",
+        a: "Yes, SmartPDFPro automatically creates optimized 2x2 A4 print layouts with 4 shipping labels per page for faster warehouse printing.",
+      },
+
+      {
+        q: "Does SmartPDFPro support warehouse dispatch workflows?",
+        a: "Yes, SmartPDFPro is designed for warehouse dispatch automation including label extraction, courier grouping, SKU sorting, and print-ready batch processing.",
       },
     ],
   },

@@ -13,38 +13,38 @@ import AppLayout from "@/components/AppLayout";
 import Script from "next/script";
 
 const lato = Lato({
- subsets: ["latin"],
- weight: ["300", "400", "700", "900"],
- variable: "--font-lato",
- display: "swap",
+  subsets: ["latin"],
+  weight: ["300", "400", "700", "900"],
+  variable: "--font-lato",
+  display: "swap",
 });
 
 const outfit = Outfit({
- subsets: ["latin"],
- weight: ["400", "700", "900"],
- variable: "--font-outfit",
- display: "swap",
+  subsets: ["latin"],
+  weight: ["400", "700", "900"],
+  variable: "--font-outfit",
+  display: "swap",
 });
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://smartpdfpro.com";
 
 export const metadata: Metadata = {
-  title: "SmartPDFs Plus | Every tool you need to work with PDFs",
+  title: "SmartPDFs Pro | Every tool you need to work with PDFs",
   description:
     "Merge, split, compress, convert, rotate, unlock and watermark PDFs with just a few clicks.",
   openGraph: {
     type: "website",
-    title: "SmartPDFs Plus | Every tool you need to work with PDFs",
+    title: "SmartPDFs Pro | Every tool you need to work with PDFs",
     description:
       "Merge, split, compress, convert, rotate, unlock and watermark PDFs with just a few clicks.",
-    siteName: "SmartPDFs Plus",
+    siteName: "SmartPDFs Pro",
     images: [
       { url: `${siteUrl}/img/snapdeal-label.png`, width: 1200, height: 630 },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "SmartPDFs Plus | Every tool you need to work with PDFs",
+    title: "SmartPDFs Pro | Every tool you need to work with PDFs",
     description:
       "Merge, split, compress, convert, rotate, unlock and watermark PDFs with just a few clicks.",
     images: [`${siteUrl}/img/snapdeal-label.png`],
@@ -59,14 +59,14 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({
- children,
+  children,
 }: Readonly<{
- children: React.ReactNode;
+  children: React.ReactNode;
 }>) {
- return (
- <html lang="en" suppressHydrationWarning>
-         <head>
-               {/* Google Analytics */}
+  return (
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        {/* Google Analytics */}
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-CJBE2GYFFR"
           strategy="afterInteractive"
@@ -85,11 +85,11 @@ export default function RootLayout({
             gtag('config', 'G-CJBE2GYFFR');
           `}
         </Script>
- <meta name="color-scheme" content="light dark" />
- <script
- id="theme-init"
- dangerouslySetInnerHTML={{
- __html: `
+        <meta name="color-scheme" content="light dark" />
+        <script
+          id="theme-init"
+          dangerouslySetInnerHTML={{
+            __html: `
  (function() {
  try {
  var stored = localStorage.getItem('theme');
@@ -107,26 +107,26 @@ export default function RootLayout({
  } catch (e) {}
  })();
  `,
- }}
- />
- </head>
- <body
- className={`${lato.variable} ${outfit.variable} ${lato.className} antialiased bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 min-h-screen flex flex-col selection:bg-blue-500/30`}
- suppressHydrationWarning
- >
- <QueryProvider>
- <ThemeProvider>
- <AuthProvider>
- <AppLayout
- latoClass={lato.className}
- latoVariable={lato.variable}
- >
- {children}
- </AppLayout>
- </AuthProvider>
- </ThemeProvider>
- </QueryProvider>
- </body>
- </html>
- );
+          }}
+        />
+      </head>
+      <body
+        className={`${lato.variable} ${outfit.variable} ${lato.className} antialiased bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 min-h-screen flex flex-col selection:bg-blue-500/30`}
+        suppressHydrationWarning
+      >
+        <QueryProvider>
+          <ThemeProvider>
+            <AuthProvider>
+              <AppLayout
+                latoClass={lato.className}
+                latoVariable={lato.variable}
+              >
+                {children}
+              </AppLayout>
+            </AuthProvider>
+          </ThemeProvider>
+        </QueryProvider>
+      </body>
+    </html>
+  );
 }

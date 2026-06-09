@@ -25,7 +25,7 @@ const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://smartpdfpro.com";
 
 export const metadata: Metadata = {
   title:
-    "Ultimate PDF Optimization Guide: Shrink, Repair & Clean Metadata | SmartPDFs Plus",
+    "Ultimate PDF Optimization Guide: Shrink, Repair & Clean Metadata | SmartPDFs Pro",
   description:
     "Learn how to expertly optimize your PDF files. Reduce file size without losing quality, repair corrupted documents, and clean hidden metadata for maximum security.",
   keywords:
@@ -50,7 +50,7 @@ export const metadata: Metadata = {
     description:
       "Master PDF optimization: shrink file sizes, repair broken documents, and sanitize metadata.",
     url: `${siteUrl}/blog/ultimate-pdf-optimization-guide`,
-    siteName: "SmartPDFs Plus",
+    siteName: "SmartPDFs Pro",
     images: [
       {
         url: "/img/pdf-optimization.png",
@@ -61,7 +61,7 @@ export const metadata: Metadata = {
     ],
     locale: "en_US",
     type: "article",
-    authors: ["SmartPDFs Plus Team"],
+    authors: ["SmartPDFs Pro Team"],
     publishedTime: "2026-05-04T00:00:00.000Z",
     modifiedTime: new Date().toISOString(),
   },
@@ -73,7 +73,7 @@ export const metadata: Metadata = {
     images: ["/img/pdf-optimization.png"],
   },
   category: "Technology",
-  authors: [{ name: "SmartPDFs Plus Team", url: siteUrl }],
+  authors: [{ name: "SmartPDFs Pro Team", url: siteUrl }],
 };
 
 export default function PdfOptimizationGuidePost() {
@@ -97,12 +97,12 @@ export default function PdfOptimizationGuidePost() {
     image: "/img/pdf-optimization.png",
     author: {
       "@type": "Organization",
-      name: "SmartPDFs Plus Team",
+      name: "SmartPDFs Pro Team",
       url: siteUrl,
     },
     publisher: {
       "@type": "Organization",
-      name: "SmartPDFs Plus",
+      name: "SmartPDFs Pro",
       logo: {
         "@type": "ImageObject",
         url: `${siteUrl}/logo.png`,
@@ -124,7 +124,7 @@ export default function PdfOptimizationGuidePost() {
       />
 
       <ArticleSchema
-        title="Ultimate PDF Optimization Guide: Shrink, Repair & Clean Metadata | SmartPDFs Plus"
+        title="Ultimate PDF Optimization Guide: Shrink, Repair & Clean Metadata | SmartPDFs Pro"
         description="Learn how to expertly optimize your PDF files. Reduce file size without losing quality, repair corrupted documents, and clean hidden metadata for maximum security."
         url={`${siteUrl}/blog/ultimate-pdf-optimization-guide`}
         datePublished="2026-06-01T13:25:51.373Z"
@@ -417,7 +417,7 @@ export default function PdfOptimizationGuidePost() {
                 },
                 {
                   q: "Is it safe to upload confidential files for optimization?",
-                  a: "Yes. SmartPDFs Plus uses bank-grade AES-256 TLS encryption during transit. Files are processed entirely in memory or automatically purged from our temporary servers immediately after your session ends. We do not retain or read your data.",
+                  a: "Yes. SmartPDFs Pro uses bank-grade AES-256 TLS encryption during transit. Files are processed entirely in memory or automatically purged from our temporary servers immediately after your session ends. We do not retain or read your data.",
                 },
                 {
                   q: "What is the maximum file size I can optimize?",

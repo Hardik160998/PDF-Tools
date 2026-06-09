@@ -22,7 +22,7 @@ import BreadcrumbSchema from "@/components/seo/BreadcrumbSchema";
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://smartpdfpro.com";
 
 export const metadata: Metadata = {
-  title: "How to Crop Flipkart Labels for Thermal Printing | SmartPDFs Plus",
+  title: "How to Crop Flipkart Labels for Thermal Printing | SmartPDFs Pro",
   description:
     "A complete guide for Flipkart sellers on how to perfectly crop and format Flipkart shipping labels and invoices for standard 4x6 thermal printers.",
   keywords:
@@ -47,7 +47,7 @@ export const metadata: Metadata = {
     description:
       "Optimize your Flipkart order fulfillment. Auto-crop your Smart Fulfillment shipping labels perfectly for 4x6 inch thermal printers.",
     url: `${siteUrl}/blog/how-to-crop-flipkart-labels`,
-    siteName: "SmartPDFs Plus",
+    siteName: "SmartPDFs Pro",
     images: [
       {
         url: "/img/flipkart-label.png",
@@ -58,7 +58,7 @@ export const metadata: Metadata = {
     ],
     locale: "en_IN",
     type: "article",
-    authors: ["SmartPDFs Plus Team"],
+    authors: ["SmartPDFs Pro Team"],
     publishedTime: "2026-05-27T00:00:00.000Z",
     modifiedTime: new Date().toISOString(),
   },
@@ -70,7 +70,7 @@ export const metadata: Metadata = {
     images: ["/img/flipkart-label.png"],
   },
   category: "Ecommerce",
-  authors: [{ name: "SmartPDFs Plus Team", url: siteUrl }],
+  authors: [{ name: "SmartPDFs Pro Team", url: siteUrl }],
 };
 
 export default function CropFlipkartLabelPost() {
@@ -94,12 +94,12 @@ export default function CropFlipkartLabelPost() {
     image: "/img/flipkart-label.png",
     author: {
       "@type": "Organization",
-      name: "SmartPDFs Plus Team",
+      name: "SmartPDFs Pro Team",
       url: siteUrl,
     },
     publisher: {
       "@type": "Organization",
-      name: "SmartPDFs Plus",
+      name: "SmartPDFs Pro",
       logo: {
         "@type": "ImageObject",
         url: `${siteUrl}/logo.png`,
@@ -121,7 +121,7 @@ export default function CropFlipkartLabelPost() {
       />
 
       <ArticleSchema
-        title="How to Crop Flipkart Labels for Thermal Printing | SmartPDFs Plus"
+        title="How to Crop Flipkart Labels for Thermal Printing | SmartPDFs Pro"
         description="A complete guide for Flipkart sellers on how to perfectly crop and format Flipkart shipping labels and invoices for standard 4x6 thermal printers."
         url={`${siteUrl}/blog/how-to-crop-flipkart-labels`}
         datePublished="2026-06-01T13:25:51.340Z"
@@ -340,7 +340,7 @@ export default function CropFlipkartLabelPost() {
                 </h3>
                 <p className="text-sm text-blue-800 leading-relaxed m-0">
                   Never upload unencrypted customer orders to random internet
-                  servers! SmartPDFs Plus uses WebAssembly to execute the
+                  servers! SmartPDFs Pro uses WebAssembly to execute the
                   cropping algorithm entirely within your Google Chrome or
                   Safari browser. The PDF is processed using your computer's
                   RAM. No data is ever transmitted to our cloud servers.
@@ -364,7 +364,7 @@ export default function CropFlipkartLabelPost() {
                   desc: 'In your Flipkart Seller Dashboard, select your "Ready to Dispatch" orders and click "Download Labels".',
                 },
                 {
-                  title: "Upload to SmartPDFs Plus",
+                  title: "Upload to SmartPDFs Pro",
                   desc: "Drag the massive A4 PDF into the Flipkart Cropper interface.",
                 },
                 {

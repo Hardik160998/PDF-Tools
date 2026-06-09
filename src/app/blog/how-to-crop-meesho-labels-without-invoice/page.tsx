@@ -22,7 +22,7 @@ import BreadcrumbSchema from "@/components/seo/BreadcrumbSchema";
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://smartpdfpro.com";
 
 export const metadata: Metadata = {
-  title: "How to Crop Meesho Labels Without Invoice | SmartPDFs Plus",
+  title: "How to Crop Meesho Labels Without Invoice | SmartPDFs Pro",
   description:
     "Learn how to automatically extract only the shipping labels from your Meesho PDFs. Exclude invoices to save thermal paper and speed up dispatch.",
   keywords:
@@ -47,7 +47,7 @@ export const metadata: Metadata = {
     description:
       "Save 50% on thermal paper costs. Learn how to automatically extract only the shipping labels from your Meesho PDFs.",
     url: `${siteUrl}/blog/how-to-crop-meesho-labels-without-invoice`,
-    siteName: "SmartPDFs Plus",
+    siteName: "SmartPDFs Pro",
     images: [
       {
         url: "/img/mesho-label.png",
@@ -58,7 +58,7 @@ export const metadata: Metadata = {
     ],
     locale: "en_IN",
     type: "article",
-    authors: ["SmartPDFs Plus Team"],
+    authors: ["SmartPDFs Pro Team"],
     publishedTime: "2026-05-26T00:00:00.000Z",
     modifiedTime: new Date().toISOString(),
   },
@@ -70,7 +70,7 @@ export const metadata: Metadata = {
     images: ["/img/mesho-label.png"],
   },
   category: "Ecommerce",
-  authors: [{ name: "SmartPDFs Plus Team", url: siteUrl }],
+  authors: [{ name: "SmartPDFs Pro Team", url: siteUrl }],
 };
 
 export default function CropMeeshoLabelOnlyPost() {
@@ -94,12 +94,12 @@ export default function CropMeeshoLabelOnlyPost() {
     image: "/img/mesho-label.png",
     author: {
       "@type": "Organization",
-      name: "SmartPDFs Plus Team",
+      name: "SmartPDFs Pro Team",
       url: siteUrl,
     },
     publisher: {
       "@type": "Organization",
-      name: "SmartPDFs Plus",
+      name: "SmartPDFs Pro",
       logo: {
         "@type": "ImageObject",
         url: `${siteUrl}/logo.png`,
@@ -121,7 +121,7 @@ export default function CropMeeshoLabelOnlyPost() {
       />
 
       <ArticleSchema
-        title="How to Crop Meesho Labels Without Invoice | SmartPDFs Plus"
+        title="How to Crop Meesho Labels Without Invoice | SmartPDFs Pro"
         description="Learn how to automatically extract only the shipping labels from your Meesho PDFs. Exclude invoices to save thermal paper and speed up dispatch."
         url={`${siteUrl}/blog/how-to-crop-meesho-labels-without-invoice`}
         datePublished="2026-06-01T13:25:51.344Z"
@@ -323,7 +323,7 @@ export default function CropMeeshoLabelOnlyPost() {
                 },
                 {
                   title: 'Upload to the "Label Only" Cropper',
-                  desc: 'Navigate to the SmartPDFs Plus Meesho Cropper and select the "Crop Label Only" tool option. Drag and drop your file.',
+                  desc: 'Navigate to the SmartPDFs Pro Meesho Cropper and select the "Crop Label Only" tool option. Drag and drop your file.',
                 },
                 {
                   title: "Automated Discard",

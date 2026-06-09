@@ -22,7 +22,7 @@ import BreadcrumbSchema from "@/components/seo/BreadcrumbSchema";
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://smartpdfpro.com";
 
 export const metadata: Metadata = {
-  title: "How to Edit PDF Files: Text, Images & Annotations | SmartPDFs Plus",
+  title: "How to Edit PDF Files: Text, Images & Annotations | SmartPDFs Pro",
   description:
     "The definitive guide to PDF editing. Learn how to modify vector text, replace embedded images, utilize OCR for scanned documents, and annotate PDFs online securely.",
   keywords:
@@ -47,7 +47,7 @@ export const metadata: Metadata = {
     description:
       "The definitive guide to PDF editing. Learn how to modify vector text, replace embedded images, and utilize OCR for scanned documents.",
     url: `${siteUrl}/blog/how-to-edit-pdf`,
-    siteName: "SmartPDFs Plus",
+    siteName: "SmartPDFs Pro",
     images: [
       {
         url: "/img/edit-pdf.png",
@@ -58,7 +58,7 @@ export const metadata: Metadata = {
     ],
     locale: "en_US",
     type: "article",
-    authors: ["SmartPDFs Plus Team"],
+    authors: ["SmartPDFs Pro Team"],
     publishedTime: "2026-05-30T00:00:00.000Z",
     modifiedTime: new Date().toISOString(),
   },
@@ -70,7 +70,7 @@ export const metadata: Metadata = {
     images: ["/img/edit-pdf.png"],
   },
   category: "PDF Tools",
-  authors: [{ name: "SmartPDFs Plus Team", url: siteUrl }],
+  authors: [{ name: "SmartPDFs Pro Team", url: siteUrl }],
 };
 
 export default function EditPDFGuidePost() {
@@ -91,12 +91,12 @@ export default function EditPDFGuidePost() {
     image: "/img/edit-pdf.png",
     author: {
       "@type": "Organization",
-      name: "SmartPDFs Plus Team",
+      name: "SmartPDFs Pro Team",
       url: siteUrl,
     },
     publisher: {
       "@type": "Organization",
-      name: "SmartPDFs Plus",
+      name: "SmartPDFs Pro",
       logo: {
         "@type": "ImageObject",
         url: `${siteUrl}/logo.png`,
@@ -118,7 +118,7 @@ export default function EditPDFGuidePost() {
       />
 
       <ArticleSchema
-        title="How to Edit PDF Files: Text, Images & Annotations | SmartPDFs Plus"
+        title="How to Edit PDF Files: Text, Images & Annotations | SmartPDFs Pro"
         description="The definitive guide to PDF editing. Learn how to modify vector text, replace embedded images, utilize OCR for scanned documents, and annotate PDFs online securely."
         url={`${siteUrl}/blog/how-to-edit-pdf`}
         datePublished="2026-06-01T13:25:51.356Z"
@@ -354,7 +354,7 @@ export default function EditPDFGuidePost() {
             <p className="text-slate-600 leading-relaxed">
               Because PDFs often contain highly sensitive legal or financial
               data, uploading them to remote cloud servers for editing is a
-              massive security risk. SmartPDFs Plus provides a secure,
+              massive security risk. SmartPDFs Pro provides a secure,
               WebAssembly-powered annotation environment:
             </p>
 
@@ -381,7 +381,7 @@ export default function EditPDFGuidePost() {
               {[
                 {
                   title: "Load the Document",
-                  desc: "Navigate to the SmartPDFs Plus Editor. Drag and drop your file into the secure workspace.",
+                  desc: "Navigate to the SmartPDFs Pro Editor. Drag and drop your file into the secure workspace.",
                 },
                 {
                   title: "Select Annotation Tools",

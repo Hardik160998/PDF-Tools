@@ -116,7 +116,7 @@ export default function AppLayout({
                 browser.
               </p>
               <p className="text-xs text-slate-400 dark:text-slate-400 font-medium">
-                &copy; {new Date().getFullYear()} SmartPDFs Plus. All rights
+                &copy; {new Date().getFullYear()} SmartPDFs Pro. All rights
                 reserved.
               </p>
             </div>

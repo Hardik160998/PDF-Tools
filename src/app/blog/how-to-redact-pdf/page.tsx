@@ -22,7 +22,7 @@ import BreadcrumbSchema from "@/components/seo/BreadcrumbSchema";
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://smartpdfpro.com";
 
 export const metadata: Metadata = {
-  title: "How to Properly Redact a PDF: Avoid Data Leaks | SmartPDFs Plus",
+  title: "How to Properly Redact a PDF: Avoid Data Leaks | SmartPDFs Pro",
   description:
     "Learn the correct way to redact sensitive information in PDF files. Drawing a black box is not enough! Discover how to permanently remove hidden text layers and metadata.",
   keywords:
@@ -47,7 +47,7 @@ export const metadata: Metadata = {
     description:
       "Drawing a black box over text is dangerous. Learn how to securely and permanently redact sensitive data from your PDFs.",
     url: `${siteUrl}/blog/how-to-redact-pdf`,
-    siteName: "SmartPDFs Plus",
+    siteName: "SmartPDFs Pro",
     images: [
       {
         url: "/img/redact-pdf-banner.png", // Fallback to a standard security banner if this doesn't exist
@@ -58,7 +58,7 @@ export const metadata: Metadata = {
     ],
     locale: "en_US",
     type: "article",
-    authors: ["SmartPDFs Plus Team"],
+    authors: ["SmartPDFs Pro Team"],
     publishedTime: "2026-05-18T00:00:00.000Z",
     modifiedTime: new Date().toISOString(),
   },
@@ -70,7 +70,7 @@ export const metadata: Metadata = {
     images: ["/img/redact-pdf-banner.png"],
   },
   category: "Security",
-  authors: [{ name: "SmartPDFs Plus Team", url: siteUrl }],
+  authors: [{ name: "SmartPDFs Pro Team", url: siteUrl }],
 };
 
 export default function RedactPDFPost() {
@@ -91,12 +91,12 @@ export default function RedactPDFPost() {
     image: "/img/redact-pdf-banner.png",
     author: {
       "@type": "Organization",
-      name: "SmartPDFs Plus Team",
+      name: "SmartPDFs Pro Team",
       url: siteUrl,
     },
     publisher: {
       "@type": "Organization",
-      name: "SmartPDFs Plus",
+      name: "SmartPDFs Pro",
       logo: {
         "@type": "ImageObject",
         url: `${siteUrl}/logo.png`,
@@ -118,7 +118,7 @@ export default function RedactPDFPost() {
       />
 
       <ArticleSchema
-        title="How to Properly Redact a PDF: Avoid Data Leaks | SmartPDFs Plus"
+        title="How to Properly Redact a PDF: Avoid Data Leaks | SmartPDFs Pro"
         description="Learn the correct way to redact sensitive information in PDF files. Drawing a black box is not enough! Discover how to permanently remove hidden text layers and metadata."
         url={`${siteUrl}/blog/how-to-redact-pdf`}
         datePublished="2026-06-01T13:25:51.360Z"
@@ -221,7 +221,7 @@ export default function RedactPDFPost() {
                 "The infamous Paul Manafort legal filing redaction disaster of 2019.",
                 "How true redaction tools mathematically slice and delete vector text elements.",
                 "Why you must also scrub Document Metadata and hidden XMP streams.",
-                "How to use SmartPDFs Plus to guarantee HIPAA and GDPR compliant redaction.",
+                "How to use SmartPDFs Pro to guarantee HIPAA and GDPR compliant redaction.",
               ].map((item, i) => (
                 <li
                   key={i}

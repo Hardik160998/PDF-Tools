@@ -23,7 +23,7 @@ const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://smartpdfpro.com";
 
 export const metadata: Metadata = {
   title:
-    "How to Crop PDF Pages Online: Remove White Space & Margins | SmartPDFs Plus",
+    "How to Crop PDF Pages Online: Remove White Space & Margins | SmartPDFs Pro",
   description:
     "Learn how to accurately crop PDF pages to remove margins, trim white space, or extract specific regions. Understand PDF CropBox vs MediaBox specifications.",
   keywords:
@@ -48,7 +48,7 @@ export const metadata: Metadata = {
     description:
       "Master PDF cropping. Learn how to accurately remove margins, trim white space, and extract specific regions using precise bounding boxes.",
     url: `${siteUrl}/blog/how-to-crop-pdf`,
-    siteName: "SmartPDFs Plus",
+    siteName: "SmartPDFs Pro",
     images: [
       {
         url: "/img/crop-pdf.png",
@@ -59,7 +59,7 @@ export const metadata: Metadata = {
     ],
     locale: "en_US",
     type: "article",
-    authors: ["SmartPDFs Plus Team"],
+    authors: ["SmartPDFs Pro Team"],
     publishedTime: "2026-05-22T00:00:00.000Z",
     modifiedTime: new Date().toISOString(),
   },
@@ -71,7 +71,7 @@ export const metadata: Metadata = {
     images: ["/img/crop-pdf.png"],
   },
   category: "Special Tools",
-  authors: [{ name: "SmartPDFs Plus Team", url: siteUrl }],
+  authors: [{ name: "SmartPDFs Pro Team", url: siteUrl }],
 };
 
 export default function CropPDFPost() {
@@ -92,12 +92,12 @@ export default function CropPDFPost() {
     image: "/img/crop-pdf.png",
     author: {
       "@type": "Organization",
-      name: "SmartPDFs Plus Team",
+      name: "SmartPDFs Pro Team",
       url: siteUrl,
     },
     publisher: {
       "@type": "Organization",
-      name: "SmartPDFs Plus",
+      name: "SmartPDFs Pro",
       logo: {
         "@type": "ImageObject",
         url: `${siteUrl}/logo.png`,
@@ -119,7 +119,7 @@ export default function CropPDFPost() {
       />
 
       <ArticleSchema
-        title="How to Crop PDF Pages Online: Remove White Space & Margins | SmartPDFs Plus"
+        title="How to Crop PDF Pages Online: Remove White Space & Margins | SmartPDFs Pro"
         description="Learn how to accurately crop PDF pages to remove margins, trim white space, or extract specific regions. Understand PDF CropBox vs MediaBox specifications."
         url={`${siteUrl}/blog/how-to-crop-pdf`}
         datePublished="2026-06-01T13:25:51.346Z"
@@ -345,7 +345,7 @@ export default function CropPDFPost() {
               3. How to Crop a PDF (Step-by-Step)
             </h2>
             <p className="text-slate-600 leading-relaxed">
-              Using the SmartPDFs Plus{""}
+              Using the SmartPDFs Pro{""}
               <Link
                 href="/tool/crop-pdf"
                 className="text-indigo-500 font-semibold hover:underline"

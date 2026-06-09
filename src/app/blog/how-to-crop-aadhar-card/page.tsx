@@ -23,7 +23,7 @@ import BreadcrumbSchema from "@/components/seo/BreadcrumbSchema";
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://smartpdfpro.com";
 
 export const metadata: Metadata = {
-  title: "How to Crop e-Aadhar Card for PVC Printing Online | SmartPDFs Plus",
+  title: "How to Crop e-Aadhar Card for PVC Printing Online | SmartPDFs Pro",
   description:
     "Learn how to perfectly crop your downloaded e-Aadhar PDF file to exact PVC card dimensions (86mm x 54mm) for seamless printing without losing quality.",
   keywords:
@@ -48,7 +48,7 @@ export const metadata: Metadata = {
     description:
       "Stop struggling with A4 paper alignment. Learn how to instantly auto-crop your e-Aadhar PDF to exact wallet dimensions.",
     url: `${siteUrl}/blog/how-to-crop-aadhar-card`,
-    siteName: "SmartPDFs Plus",
+    siteName: "SmartPDFs Pro",
     images: [
       {
         url: "/img/crop-aadhar-card.png",
@@ -59,7 +59,7 @@ export const metadata: Metadata = {
     ],
     locale: "en_IN",
     type: "article",
-    authors: ["SmartPDFs Plus Team"],
+    authors: ["SmartPDFs Pro Team"],
     publishedTime: "2026-05-20T00:00:00.000Z",
     modifiedTime: new Date().toISOString(),
   },
@@ -71,7 +71,7 @@ export const metadata: Metadata = {
     images: ["/img/crop-aadhar-card.png"],
   },
   category: "Special Tools",
-  authors: [{ name: "SmartPDFs Plus Team", url: siteUrl }],
+  authors: [{ name: "SmartPDFs Pro Team", url: siteUrl }],
 };
 
 export default function CropAadharCardPost() {
@@ -95,12 +95,12 @@ export default function CropAadharCardPost() {
     image: "/img/crop-aadhar-card.png",
     author: {
       "@type": "Organization",
-      name: "SmartPDFs Plus Team",
+      name: "SmartPDFs Pro Team",
       url: siteUrl,
     },
     publisher: {
       "@type": "Organization",
-      name: "SmartPDFs Plus",
+      name: "SmartPDFs Pro",
       logo: {
         "@type": "ImageObject",
         url: `${siteUrl}/logo.png`,
@@ -122,7 +122,7 @@ export default function CropAadharCardPost() {
       />
 
       <ArticleSchema
-        title="How to Crop e-Aadhar Card for PVC Printing Online | SmartPDFs Plus"
+        title="How to Crop e-Aadhar Card for PVC Printing Online | SmartPDFs Pro"
         description="Learn how to perfectly crop your downloaded e-Aadhar PDF file to exact PVC card dimensions (86mm x 54mm) for seamless printing without losing quality."
         url={`${siteUrl}/blog/how-to-crop-aadhar-card`}
         datePublished="2026-06-01T13:25:51.336Z"
@@ -359,7 +359,7 @@ export default function CropAadharCardPost() {
                 </h3>
                 <p className="text-sm text-red-800 leading-relaxed m-0">
                   You should <strong>never</strong> upload an unlocked Aadhar
-                  PDF to a random server on the internet. SmartPDFs Plus
+                  PDF to a random server on the internet. SmartPDFs Pro
                   processes your Aadhar file entirely within your web browser
                   using WebAssembly. The file is cropped utilizing your device's
                   RAM and CPU. The document never leaves your computer, ensuring
@@ -441,7 +441,7 @@ export default function CropAadharCardPost() {
                 },
                 {
                   q: "Is my Aadhar data stored on your servers?",
-                  a: "Never. SmartPDFs Plus runs entirely in your browser. Disconnect from the internet after loading the tool if you want to verify—it will still work perfectly because no data is sent to the cloud.",
+                  a: "Never. SmartPDFs Pro runs entirely in your browser. Disconnect from the internet after loading the tool if you want to verify—it will still work perfectly because no data is sent to the cloud.",
                 },
               ].map(({ q, a }, i) => (
                 <div

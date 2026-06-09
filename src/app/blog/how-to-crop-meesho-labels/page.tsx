@@ -23,7 +23,7 @@ const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://smartpdfpro.com";
 
 export const metadata: Metadata = {
   title:
-    "How to Crop Meesho Labels with Invoice for Thermal Printing | SmartPDFs Plus",
+    "How to Crop Meesho Labels with Invoice for Thermal Printing | SmartPDFs Pro",
   description:
     "A complete guide for Meesho sellers on how to perfectly crop and format Meesho shipping labels combined with invoices for standard 4x6 thermal printers.",
   keywords:
@@ -48,7 +48,7 @@ export const metadata: Metadata = {
     description:
       "Stop wasting A4 paper. Learn how to format and crop Meesho shipping labels (including invoices) specifically for 4x6 inch thermal printers.",
     url: `${siteUrl}/blog/how-to-crop-meesho-labels`,
-    siteName: "SmartPDFs Plus",
+    siteName: "SmartPDFs Pro",
     images: [
       {
         url: "/img/mesho-invoice-label.png",
@@ -59,7 +59,7 @@ export const metadata: Metadata = {
     ],
     locale: "en_IN",
     type: "article",
-    authors: ["SmartPDFs Plus Team"],
+    authors: ["SmartPDFs Pro Team"],
     publishedTime: "2026-05-25T00:00:00.000Z",
     modifiedTime: new Date().toISOString(),
   },
@@ -71,7 +71,7 @@ export const metadata: Metadata = {
     images: ["/img/mesho-invoice-label.png"],
   },
   category: "Ecommerce",
-  authors: [{ name: "SmartPDFs Plus Team", url: siteUrl }],
+  authors: [{ name: "SmartPDFs Pro Team", url: siteUrl }],
 };
 
 export default function CropMeeshoLabelPost() {
@@ -95,12 +95,12 @@ export default function CropMeeshoLabelPost() {
     image: "/img/mesho-invoice-label.png",
     author: {
       "@type": "Organization",
-      name: "SmartPDFs Plus Team",
+      name: "SmartPDFs Pro Team",
       url: siteUrl,
     },
     publisher: {
       "@type": "Organization",
-      name: "SmartPDFs Plus",
+      name: "SmartPDFs Pro",
       logo: {
         "@type": "ImageObject",
         url: `${siteUrl}/logo.png`,
@@ -122,7 +122,7 @@ export default function CropMeeshoLabelPost() {
       />
 
       <ArticleSchema
-        title="How to Crop Meesho Labels with Invoice for Thermal Printing | SmartPDFs Plus"
+        title="How to Crop Meesho Labels with Invoice for Thermal Printing | SmartPDFs Pro"
         description="A complete guide for Meesho sellers on how to perfectly crop and format Meesho shipping labels combined with invoices for standard 4x6 thermal printers."
         url={`${siteUrl}/blog/how-to-crop-meesho-labels`}
         datePublished="2026-06-01T13:25:51.342Z"
@@ -340,7 +340,7 @@ export default function CropMeeshoLabelPost() {
                 },
                 {
                   title: "Upload to the Cropper",
-                  desc: 'Drag and drop the bulk PDF into the SmartPDFs Plus Meesho Cropper. Make sure you select the "Crop with Invoice" option.',
+                  desc: 'Drag and drop the bulk PDF into the SmartPDFs Pro Meesho Cropper. Make sure you select the "Crop with Invoice" option.',
                 },
                 {
                   title: "Instant Processing",

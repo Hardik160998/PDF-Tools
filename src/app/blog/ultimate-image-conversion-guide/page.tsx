@@ -22,7 +22,7 @@ const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://smartpdfpro.com";
 
 export const metadata: Metadata = {
   title:
-    "The Ultimate Guide to Image Conversion: JPG, PNG, WebP & PDF | SmartPDFs Plus",
+    "The Ultimate Guide to Image Conversion: JPG, PNG, WebP & PDF | SmartPDFs Pro",
   description:
     "Master image conversion. Learn the technical differences between lossy and lossless formats (JPG, PNG, WebP) and how to convert images to vector PDFs without losing quality.",
   keywords:
@@ -47,7 +47,7 @@ export const metadata: Metadata = {
     description:
       "Master image conversion. Learn the technical differences between lossy and lossless formats and how to convert images to vector PDFs without losing quality.",
     url: `${siteUrl}/blog/ultimate-image-conversion-guide`,
-    siteName: "SmartPDFs Plus",
+    siteName: "SmartPDFs Pro",
     images: [
       {
         url: "/img/convert-img.png",
@@ -58,7 +58,7 @@ export const metadata: Metadata = {
     ],
     locale: "en_US",
     type: "article",
-    authors: ["SmartPDFs Plus Team"],
+    authors: ["SmartPDFs Pro Team"],
     publishedTime: "2026-05-30T00:00:00.000Z",
     modifiedTime: new Date().toISOString(),
   },
@@ -70,7 +70,7 @@ export const metadata: Metadata = {
     images: ["/img/convert-img.png"],
   },
   category: "Image Tools",
-  authors: [{ name: "SmartPDFs Plus Team", url: siteUrl }],
+  authors: [{ name: "SmartPDFs Pro Team", url: siteUrl }],
 };
 
 export default function ImageConversionGuidePost() {
@@ -94,12 +94,12 @@ export default function ImageConversionGuidePost() {
     image: "/img/convert-img.png",
     author: {
       "@type": "Organization",
-      name: "SmartPDFs Plus Team",
+      name: "SmartPDFs Pro Team",
       url: siteUrl,
     },
     publisher: {
       "@type": "Organization",
-      name: "SmartPDFs Plus",
+      name: "SmartPDFs Pro",
       logo: {
         "@type": "ImageObject",
         url: `${siteUrl}/logo.png`,
@@ -121,7 +121,7 @@ export default function ImageConversionGuidePost() {
       />
 
       <ArticleSchema
-        title="The Ultimate Guide to Image Conversion: JPG, PNG, WebP & PDF | SmartPDFs Plus"
+        title="The Ultimate Guide to Image Conversion: JPG, PNG, WebP & PDF | SmartPDFs Pro"
         description="Master image conversion. Learn the technical differences between lossy and lossless formats (JPG, PNG, WebP) and how to convert images to vector PDFs without losing quality."
         url={`${siteUrl}/blog/ultimate-image-conversion-guide`}
         datePublished="2026-06-01T13:25:51.370Z"
@@ -368,7 +368,7 @@ export default function ImageConversionGuidePost() {
             </h2>
             <p className="text-slate-600 leading-relaxed">
               Converting 50 images into a single PDF document manually using
-              desktop software is tedious. SmartPDFs Plus provides a secure,
+              desktop software is tedious. SmartPDFs Pro provides a secure,
               WebAssembly-powered browser tool to automate this instantly:
             </p>
 

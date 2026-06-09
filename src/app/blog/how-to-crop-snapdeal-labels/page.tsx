@@ -22,7 +22,7 @@ import BreadcrumbSchema from "@/components/seo/BreadcrumbSchema";
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://smartpdfpro.com";
 
 export const metadata: Metadata = {
-  title: "How to Crop Snapdeal Labels for Thermal Printing | SmartPDFs Plus",
+  title: "How to Crop Snapdeal Labels for Thermal Printing | SmartPDFs Pro",
   description:
     "A complete guide for Snapdeal sellers on how to perfectly crop and format Snapdeal shipping labels and tax invoices for 4x6 thermal printers.",
   keywords:
@@ -47,7 +47,7 @@ export const metadata: Metadata = {
     description:
       "Optimize your Snapdeal order fulfillment. Auto-crop your shipping labels perfectly for 4x6 inch thermal printers.",
     url: `${siteUrl}/blog/how-to-crop-snapdeal-labels`,
-    siteName: "SmartPDFs Plus",
+    siteName: "SmartPDFs Pro",
     images: [
       {
         url: "/img/snapdeal-label.png",
@@ -58,7 +58,7 @@ export const metadata: Metadata = {
     ],
     locale: "en_IN",
     type: "article",
-    authors: ["SmartPDFs Plus Team"],
+    authors: ["SmartPDFs Pro Team"],
     publishedTime: "2026-05-29T00:00:00.000Z",
     modifiedTime: new Date().toISOString(),
   },
@@ -70,7 +70,7 @@ export const metadata: Metadata = {
     images: ["/img/snapdeal-label.png"],
   },
   category: "Ecommerce",
-  authors: [{ name: "SmartPDFs Plus Team", url: siteUrl }],
+  authors: [{ name: "SmartPDFs Pro Team", url: siteUrl }],
 };
 
 export default function CropSnapdealLabelPost() {
@@ -94,12 +94,12 @@ export default function CropSnapdealLabelPost() {
     image: "/img/snapdeal-label.png",
     author: {
       "@type": "Organization",
-      name: "SmartPDFs Plus Team",
+      name: "SmartPDFs Pro Team",
       url: siteUrl,
     },
     publisher: {
       "@type": "Organization",
-      name: "SmartPDFs Plus",
+      name: "SmartPDFs Pro",
       logo: {
         "@type": "ImageObject",
         url: `${siteUrl}/logo.png`,
@@ -121,7 +121,7 @@ export default function CropSnapdealLabelPost() {
       />
 
       <ArticleSchema
-        title="How to Crop Snapdeal Labels for Thermal Printing | SmartPDFs Plus"
+        title="How to Crop Snapdeal Labels for Thermal Printing | SmartPDFs Pro"
         description="A complete guide for Snapdeal sellers on how to perfectly crop and format Snapdeal shipping labels and tax invoices for 4x6 thermal printers."
         url={`${siteUrl}/blog/how-to-crop-snapdeal-labels`}
         datePublished="2026-06-01T13:25:51.347Z"
@@ -314,7 +314,7 @@ export default function CropSnapdealLabelPost() {
               3. Zero-Knowledge Privacy for Sellers
             </h2>
             <p className="text-slate-600 leading-relaxed">
-              Protecting customer data is a core responsibility. SmartPDFs Plus
+              Protecting customer data is a core responsibility. SmartPDFs Pro
               uses WebAssembly to execute the cropping algorithm entirely within
               your local browser.
             </p>
@@ -353,7 +353,7 @@ export default function CropSnapdealLabelPost() {
                   desc: "In your Snapdeal Seller dashboard, select your pending orders and download the bulk PDF.",
                 },
                 {
-                  title: "Upload to SmartPDFs Plus",
+                  title: "Upload to SmartPDFs Pro",
                   desc: "Drag the A4 PDF into the Snapdeal Cropper interface.",
                 },
                 {

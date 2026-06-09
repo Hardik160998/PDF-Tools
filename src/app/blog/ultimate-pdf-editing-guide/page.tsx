@@ -23,7 +23,7 @@ const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://smartpdfpro.com";
 
 export const metadata: Metadata = {
   title:
-    "The Ultimate Guide to PDF Editing, Redaction & Annotation | SmartPDFs Plus",
+    "The Ultimate Guide to PDF Editing, Redaction & Annotation | SmartPDFs Pro",
   description:
     "Master advanced PDF editing. Learn the differences between text replacement, drawing annotations, and secure redaction for legal documents.",
   keywords:
@@ -48,7 +48,7 @@ export const metadata: Metadata = {
     description:
       "Master advanced PDF editing. Learn the differences between text replacement, drawing annotations, and secure redaction for legal documents.",
     url: `${siteUrl}/blog/ultimate-pdf-editing-guide`,
-    siteName: "SmartPDFs Plus",
+    siteName: "SmartPDFs Pro",
     images: [
       {
         url: "/img/edit-redact-sign-pdf.png",
@@ -59,7 +59,7 @@ export const metadata: Metadata = {
     ],
     locale: "en_US",
     type: "article",
-    authors: ["SmartPDFs Plus Team"],
+    authors: ["SmartPDFs Pro Team"],
     publishedTime: "2026-05-31T00:00:00.000Z",
     modifiedTime: new Date().toISOString(),
   },
@@ -71,7 +71,7 @@ export const metadata: Metadata = {
     images: ["/img/edit-redact-sign-pdf.png"],
   },
   category: "PDF Tools",
-  authors: [{ name: "SmartPDFs Plus Team", url: siteUrl }],
+  authors: [{ name: "SmartPDFs Pro Team", url: siteUrl }],
 };
 
 export default function UltimateEditingGuidePost() {
@@ -95,12 +95,12 @@ export default function UltimateEditingGuidePost() {
     image: "/img/edit-redact-sign-pdf.png",
     author: {
       "@type": "Organization",
-      name: "SmartPDFs Plus Team",
+      name: "SmartPDFs Pro Team",
       url: siteUrl,
     },
     publisher: {
       "@type": "Organization",
-      name: "SmartPDFs Plus",
+      name: "SmartPDFs Pro",
       logo: {
         "@type": "ImageObject",
         url: `${siteUrl}/logo.png`,
@@ -122,7 +122,7 @@ export default function UltimateEditingGuidePost() {
       />
 
       <ArticleSchema
-        title="The Ultimate Guide to PDF Editing, Redaction & Annotation | SmartPDFs Plus"
+        title="The Ultimate Guide to PDF Editing, Redaction & Annotation | SmartPDFs Pro"
         description="Master advanced PDF editing. Learn the differences between text replacement, drawing annotations, and secure redaction for legal documents."
         url={`${siteUrl}/blog/ultimate-pdf-editing-guide`}
         datePublished="2026-06-01T13:25:51.371Z"
@@ -374,7 +374,7 @@ export default function UltimateEditingGuidePost() {
               4. Comprehensive Web Editing Workflow
             </h2>
             <p className="text-slate-600 leading-relaxed">
-              SmartPDFs Plus offers a unified, WebAssembly-powered editing
+              SmartPDFs Pro offers a unified, WebAssembly-powered editing
               environment that handles all these workflows securely within your
               browser:
             </p>
