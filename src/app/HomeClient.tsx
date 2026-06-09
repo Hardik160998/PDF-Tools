@@ -3,7 +3,7 @@
 import { useState, useMemo, useEffect, useLayoutEffect, useRef, startTransition } from 'react';
 import SkeletonGrid from '@/components/SkeletonGrid';
 import { trackToolClick } from '@/lib/supabase';
-import { Lock, Sparkles, ChevronDown, Crown, CheckCircle2, BookOpen } from 'lucide-react';
+import { Lock, ChevronDown, Crown, CheckCircle2, BookOpen } from 'lucide-react';
 import { IconMap } from '@/lib/icons';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -56,7 +56,7 @@ function FeatureSectionShimmer({ reverse = false }: { reverse?: boolean }) {
             <div className="flex-1 w-full">
                 <Sh className="w-full h-56 rounded-2xl" />
             </div>
-        </div>
+        </>
     );
 }
 
@@ -198,10 +198,8 @@ export default function HomeClient({ initialTools, initialCategories }: { initia
                             <Lock size={8} /> Pro
                         </div>
                     )}
-                    <div className="relative">
-                        <div className={`tool-icon-wrapper shadow-xl ${style.shadow}`} style={{ background: style.gradient }}>
-                            {tool.icon && <tool.icon size={28} />}
-                        </div>
+                    <div className={`tool-icon-wrapper shadow-xl ${style.shadow}`} style={{ background: style.gradient }}>
+                        {tool.icon && <tool.icon size={28} />}
                     </div>
                     <div className="space-y-3">
                         <h3 className="text-lg font-bold text-slate-900 dark:text-white tracking-tight">{tool.title}</h3>
@@ -239,27 +237,9 @@ export default function HomeClient({ initialTools, initialCategories }: { initia
     };
 
     return (
-        <div className="min-h-screen relative overflow-hidden">
-            <div className="bg-mesh-premium" />
-
-            {/* -- HERO -- */}
-            <section className="container mx-auto px-4 pt-24 pb-8 text-center relative z-10">
-                <div className="max-w-6xl mx-auto space-y-8">
-                    <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-red-50 text-red-600 border border-red-100 text-xs font-medium uppercase tracking-widest shadow-sm mb-4">
-                        <Sparkles size={14} className="fill-red-500" />
-                        100% Free &amp; Secure PDF Tools
-                    </div>
-                    <h1 className="text-4xl md:text-5xl lg:text-5xl xl:text-6xl font-outfit font-black leading-[1.1] tracking-tighter lg:whitespace-nowrap">
-                        <span className="hero-gradient-text">PDF Tools Simplified.</span>{' '}
-                        <span className="text-slate-900 dark:text-white">Built for Efficiency.</span>
-                    </h1>
-                    <p className="text-xl font-medium text-slate-500 dark:text-slate-400 max-w-3xl mx-auto leading-relaxed">
-                        The most powerful web-based PDF platform. Merge, split, compress, and convert documents in seconds with advanced security and premium speed.
-                    </p>
-                </div>
-
-                {/* Category Filter */}
-                <div id="tools-grid" className="mt-16 fade-in-up stagger-3 flex justify-center">
+        <>
+            {/* Category Filter */}
+            <div id="tools-grid" className="mt-8 fade-in-up flex justify-center">
                     <div className="hidden md:flex justify-center w-full">
                         <div className="category-nav">
                             {dbCategories.map(cat => (
