@@ -270,8 +270,6 @@ export default function HomeClient({ initialTools, initialCategories }: { initia
                         )}
                     </div>
                 </div>
-            </section>
-
             {/* -- TOOLS GRID -- */}
             <section ref={toolsGridRef} className="container mx-auto px-4 pb-10">
 
