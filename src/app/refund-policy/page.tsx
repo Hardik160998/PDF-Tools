@@ -227,9 +227,9 @@ export default function RefundPolicyPage() {
               </div>
 
               {/* Content */}
-              <div className="pb-4">
+              <div>
                 {section.content.map((item, j) => (
-                  <div key={j} className="pb-4 pl-5">
+                  <div key={j} className="pb-5 pl-8 pr-8">
                     <h3 className="font-bold text-slate-900 text-sm mb-1.5">
                       {item.subtitle}
                     </h3>
