@@ -42,6 +42,18 @@ export default function PdfEditor() {
  const resizeRef = useRef<{ startX: number; startY: number; w: number; h: number } | null>(null);
 
  const [aspectRatio, setAspectRatio] = useState<number>(1.414); // Default A4
+ const [containerWidth, setContainerWidth] = useState(800);
+
+ useEffect(() => {
+   if (!previewRef.current) return;
+   const observer = new ResizeObserver((entries) => {
+     for (let entry of entries) {
+       setContainerWidth(entry.contentRect.width);
+     }
+   });
+   observer.observe(previewRef.current);
+   return () => observer.disconnect();
+ }, [status]);
 
  // ─── PDF Loading ─────────────────────────────────────────────────────────
  const onFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -381,7 +393,7 @@ export default function PdfEditor() {
  contentEditable 
  suppressContentEditableWarning
  className="w-full h-full p-1 outline-none break-words leading-tight overflow-hidden"
- style={{ fontSize: (el.fontSize || 20) * (previewRef.current?.offsetWidth || 800) / 800, color: el.color, fontWeight: 'bold' }}
+ style={{ fontSize: (el.fontSize || 20) * (containerWidth || 800) / 800, color: el.color, fontWeight: 'bold' }}
  onBlur={(e) => setElements(prev => prev.map(item => item.id === el.id ? { ...item, content: e.target.innerText } : item))}
  >
  {el.content}
