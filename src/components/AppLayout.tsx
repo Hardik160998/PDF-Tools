@@ -3,15 +3,17 @@
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { Heart } from "lucide-react";
-import AllToolsDropdown from "@/components/AllToolsDropdown";
-import MobileNav from "@/components/MobileNav";
-import MobileSearch from "@/components/MobileSearch";
-import ConvertDropdown from "@/components/ConvertDropdown";
 import ThemeToggle from "@/components/ThemeToggle";
-import EcommerceDropdown from "@/components/EcommerceDropdown";
 import HeaderActions from "@/components/HeaderActions";
 import Image from "next/image";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import dynamic from "next/dynamic";
+
+const AllToolsDropdown = dynamic(() => import("@/components/AllToolsDropdown"));
+const MobileNav = dynamic(() => import("@/components/MobileNav"));
+const MobileSearch = dynamic(() => import("@/components/MobileSearch"));
+const ConvertDropdown = dynamic(() => import("@/components/ConvertDropdown"));
+const EcommerceDropdown = dynamic(() => import("@/components/EcommerceDropdown"));
 
 export default function AppLayout({
   children,
@@ -48,9 +50,8 @@ export default function AppLayout({
             <Image
               src="/img/logo-v-trans.png"
               alt="SmartPDFPro"
-              width={0}
-              height={0}
-              sizes="100vw"
+              width={232}
+              height={60}
               className="h-10 w-auto"
             />
           </Link>
@@ -105,9 +106,8 @@ export default function AppLayout({
                 <Image
                   src="/img/logo-v-trans.png"
                   alt="SmartPDFPro"
-                  width={0}
-                  height={0}
-                  sizes="100vw"
+                  width={232}
+                  height={60}
                   className="h-10 w-auto"
                 />
               </Link>

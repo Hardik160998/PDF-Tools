@@ -35,6 +35,7 @@ export const metadata: Metadata = {
 };
 
 export const revalidate = 300;
+export const dynamic = 'force-static';
 
 export default async function Page() {
   const [allTools, categories] = await Promise.all([
