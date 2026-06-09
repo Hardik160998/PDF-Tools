@@ -126,13 +126,12 @@ export default function CancellationPolicyPage() {
                 </h2>
               </div>
 
-              <div className="divide-y divide-slate-50">
+              <div className="p-3">
                 {section.content.map((item, j) => (
-                  <div key={j} className="p-5">
-                    <h3 className="font-bold text-slate-700 text-sm mb-1.5">
+                  <div key={j} className="pb-4 pl-5">
+                    <h3 className="font-bold text-slate-900 text-sm mb-1.5">
                       {item.subtitle}
                     </h3>
-
                     <p className="text-sm text-slate-500 leading-relaxed">
                       {item.text}
                     </p>
