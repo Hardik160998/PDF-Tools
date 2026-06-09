@@ -1,11 +1,7 @@
 import type { Metadata } from "next";
 import { Lato, Outfit } from "next/font/google";
 import "./globals.css";
-import "./mobileview.css";
-import "./mobilefixes.css";
-import "./darktheme.css";
-import "./header-responsive.css";
-import "./dropdown-fix.css";
+
 import { ThemeProvider } from "@/context/ThemeContext";
 import { AuthProvider } from "@/context/AuthContext";
 import QueryProvider from "@/lib/QueryProvider";
