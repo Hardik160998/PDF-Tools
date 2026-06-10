@@ -64,8 +64,6 @@ export const metadata: Metadata = {
   authors: [{ name: "SmartPDFs Pro Team", url: siteUrl }],
 };
 
-export const dynamic = 'force-static';
-
 export default function CompressPdfPost() {
   const breadcrumbItems = useMemo(
     () => [
