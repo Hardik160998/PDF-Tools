@@ -133,7 +133,7 @@ export default function CompressPdfPost() {
           </div>
         </header>
 
-        <figure className="relative rounded-2xl overflow-hidden shadow-2xl mb-8 border border-slate-100 bg-slate-50">
+        <figure className="relative rounded-2xl overflow-hidden shadow-2xl mb-8 border border-slate-100 bg-slate-50 aspect-[1200/630]">
           <Image
             src="/img/compress-pdf.png"
             alt="How to Compress a PDF Without Losing Quality"
