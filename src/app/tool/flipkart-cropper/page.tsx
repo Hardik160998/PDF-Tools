@@ -623,7 +623,7 @@ export default function FlipkartCropperPage() {
                         className="text-slate-400 transition-transform duration-300 group-open:rotate-180 shrink-0 ml-4"
                       />
                     </summary>
-                    <div className="px-6 pb-6 border-t border-slate-50 dark:border-slate-800 pt-4">
+                    <div className="px-6 pb-6 border-t border-slate-200 dark:border-slate-800 pt-4">
                       <p className="text-sm text-slate-500 dark:text-slate-400 font-medium leading-relaxed">
                         {faq.a}
                       </p>
