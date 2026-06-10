@@ -429,11 +429,11 @@ export default function BookmarkPdfPage() {
                   documentation layouts.
                 </p>
                 <p className="text-slate-500 dark:text-slate-400 leading-relaxed font-medium text-sm">
-                  SmartPDFs Pro processes your documents{""}
+                  SmartPDFs Pro processes your documents{" "}
                   <strong className="text-amber-600 font-bold dark:text-amber-400">
                     100% locally in your browser's memory
                   </strong>
-                  {""}
+                  {" "}
                   using client-side JavaScript libraries. No uploads are sent to
                   server folders, which completely eliminates data intercept
                   risks and ensures instant rendering.

@@ -387,11 +387,11 @@ export default function PdfToDocxPage() {
                 <p className="text-slate-500 dark:text-slate-400 leading-relaxed font-medium text-sm">
                   SmartPDFs Pro processes your documents using secure HTTPS
                   transfer protocols. Files are converted in sandbox servers and
-                  {""}
+                  {" "}
                   <strong className="text-blue-500 font-bold">
                     automatically removed within 1 hour
                   </strong>
-                  {""}
+                  {" "}
                   after completion. You get a perfect editable DOCX document
                   without risking document data leaks.
                 </p>

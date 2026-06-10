@@ -279,7 +279,7 @@ export default function CropPDFPost() {
                 </div>
                 <p className="text-sm text-slate-600 leading-relaxed m-0">
                   The visible region to which the page should be clipped when
-                  displayed on a screen or printed.{""}
+                  displayed on a screen or printed.{" "}
                   <strong>
                     This is the box that a cropping tool modifies.
                   </strong>
@@ -310,7 +310,7 @@ export default function CropPDFPost() {
             </h2>
             <p className="text-slate-600 leading-relaxed">
               Here is the most critical thing to understand about cropping a
-              PDF:{""}
+              PDF:{" "}
               <strong>
                 Cropping a PDF does not delete the cropped content; it merely
                 hides it.
@@ -321,22 +321,22 @@ export default function CropPDFPost() {
               updates the mathematical coordinates of the <code>CropBox</code>.
               All the text, images, and vectors that fall outside that new box
               are still physically present in the file's binary code. A user
-              could open the file in advanced PDF software, reset the{""}
+              could open the file in advanced PDF software, reset the{" "}
               <code>CropBox</code> to match the <code>MediaBox</code>, and view
               everything you thought you cropped out.
             </p>
             <p className="text-slate-600 leading-relaxed font-bold">
               If you are cropping a document to hide sensitive information (like
               cropping out a signature or a Social Security Number), do NOT use
-              a standard cropping tool. You must use a true{""}
+              a standard cropping tool. You must use a true{" "}
               <Link
-                href="/blog/how-to-redact-pdf"
+                href="/tool/redact-pdf"
                 className="text-indigo-500 hover:underline"
               >
-                PDF Redaction
+                PDF Redaction tool
               </Link>
-              {""}
-              tool, or flatten the PDF into a JPG image first.
+              {" "}
+              , or flatten the PDF into a JPG image first.
             </p>
           </section>
 
@@ -345,7 +345,7 @@ export default function CropPDFPost() {
               3. How to Crop a PDF (Step-by-Step)
             </h2>
             <p className="text-slate-600 leading-relaxed">
-              Using the SmartPDFs Pro{""}
+              Using the SmartPDFs Pro{" "}
               <Link
                 href="/tool/crop-pdf"
                 className="text-indigo-500 font-semibold hover:underline"
@@ -413,7 +413,7 @@ export default function CropPDFPost() {
             <ul className="list-disc pl-6 space-y-2 mt-4">
               <li>
                 <Link
-                  href="/tool/crop-amazon"
+                  href="/tool/amazon-cropper"
                   className="text-indigo-600 font-semibold hover:underline"
                 >
                   Amazon Label Cropper
@@ -421,7 +421,7 @@ export default function CropPDFPost() {
               </li>
               <li>
                 <Link
-                  href="/tool/crop-flipkart"
+                  href="/tool/flipkart-cropper"
                   className="text-indigo-600 font-semibold hover:underline"
                 >
                   Flipkart Label Cropper
@@ -429,7 +429,7 @@ export default function CropPDFPost() {
               </li>
               <li>
                 <Link
-                  href="/tool/crop-meesho"
+                  href="/tool/meshocrop"
                   className="text-indigo-600 font-semibold hover:underline"
                 >
                   Meesho Label & Invoice Cropper

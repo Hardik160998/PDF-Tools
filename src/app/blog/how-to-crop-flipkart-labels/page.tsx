@@ -296,17 +296,17 @@ export default function CropFlipkartLabelPost() {
               2. How the Flipkart Cropper Solves This
             </h2>
             <p className="text-slate-600 leading-relaxed">
-              Our{""}
+              Our{" "}
               <Link
-                href="/tool/flipkart-label"
+                href="/tool/flipkart-cropper"
                 className="text-blue-500 font-semibold hover:underline"
               >
                 Flipkart Label Cropper
               </Link>
-              {""}
+              {" "}
               relies on precise vector bounding boxes. Instead of converting
               your document into a JPG, cutting it, and converting it back to a
-              PDF (which destroys DPI), our tool modifies the PDF's internal{""}
+              PDF (which destroys DPI), our tool modifies the PDF's internal{" "}
               <code>CropBox</code> array.
             </p>
             <p className="text-slate-600 leading-relaxed">
@@ -460,7 +460,7 @@ export default function CropFlipkartLabelPost() {
             </p>
             <div className="flex justify-center">
               <Link
-                href="/tool/flipkart-label"
+                href="/tool/flipkart-cropper"
                 className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-blue-500 hover:bg-blue-600 text-white rounded-xl font-bold text-sm transition-all focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
                 aria-label="Flipkart Label Cropper Tool"
               >

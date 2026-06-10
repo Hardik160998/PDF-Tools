@@ -476,7 +476,7 @@ export default function EditPDFGuidePost() {
             </p>
             <div className="flex justify-center gap-4">
               <Link
-                href="/tool/edit-pdf"
+                href="/tool/edit"
                 className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-cyan-600 hover:bg-cyan-700 text-white rounded-xl font-bold text-sm transition-all focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-cyan-600"
                 aria-label="Edit PDF Tool"
               >

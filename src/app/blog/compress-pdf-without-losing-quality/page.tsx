@@ -125,7 +125,7 @@ export default function CompressPdfPost() {
                   <Clock size={11} aria-hidden="true" /> 7 min read
                 </span>
                 <span>
-                  Last Updated:{""}
+                  Last Updated:{" "}
                   {new Date().toLocaleDateString("en-US", {
                     month: "short",
                     day: "numeric",
@@ -160,7 +160,7 @@ export default function CompressPdfPost() {
             <p className="text-lg text-slate-700 leading-relaxed font-medium">
               We have all been there. You are trying to email an important
               document, upload a resume to a job portal, or submit a university
-              assignment, and you are hit with a dreaded error message:{""}
+              assignment, and you are hit with a dreaded error message:{" "}
               <strong>"File size too large."</strong>
             </p>
             <p className="leading-relaxed">
@@ -169,14 +169,14 @@ export default function CompressPdfPost() {
               embedded fonts, or complex graphics. The good news? You can easily
               reduce the size of your PDF files without turning the text into a
               blurry mess or pixelating the images. In this comprehensive guide,
-              we will show you exactly how to{""}
+              we will show you exactly how to{" "}
               <Link
                 href="/tool/compress"
                 className="text-green-600 hover:underline"
               >
                 compress a PDF
               </Link>
-              {""}
+              {" "}
               effectively, why PDFs get so large in the first place, and the
               best practices for optimal document management.
             </p>
@@ -347,14 +347,14 @@ export default function CompressPdfPost() {
                     Open the Compress PDF Tool
                   </h3>
                   <p className="text-sm text-slate-600 leading-relaxed">
-                    Navigate to our dedicated{""}
+                    Navigate to our dedicated{" "}
                     <Link
                       href="/tool/compress"
                       className="text-green-600 font-bold hover:underline"
                     >
                       Compress PDF
                     </Link>
-                    {""}
+                    {" "}
                     page using any modern web browser (Chrome, Safari, Firefox,
                     Edge).
                   </p>
@@ -410,7 +410,7 @@ export default function CompressPdfPost() {
                   </h3>
                   <p className="text-sm text-slate-600 leading-relaxed">
                     Once finished, the tool will display the exact amount of
-                    space saved. You might see a reduction like{""}
+                    space saved. You might see a reduction like{" "}
                     <em>"Reduced from 15.2MB to 2.1MB (-86%)"</em>.
                   </p>
                 </div>
@@ -544,14 +544,14 @@ export default function CompressPdfPost() {
             </ul>
             <p className="leading-relaxed mt-6">
               If your file consists of multiple separate documents that you need
-              to compress, we highly recommend that you{""}
+              to compress, we highly recommend that you{" "}
               <Link
                 href="/tool/merge"
                 className="text-green-600 hover:underline"
               >
                 merge the PDFs
               </Link>
-              {""}
+              {" "}
               first, and then run the single resulting file through our
               compressor for maximum efficiency.
             </p>

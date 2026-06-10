@@ -353,11 +353,11 @@ export default function PptToPdfPage() {
                 <p className="text-slate-500 dark:text-slate-400 leading-relaxed font-medium text-sm">
                   SmartPDFs Pro processes your slides securely over HTTPS. Our
                   conversion engine parses all graphic components, backgrounds,
-                  and titles, and{""}
+                  and titles, and{" "}
                   <strong className="text-orange-500 font-bold">
                     automatically wipes them from our servers within 1 hour
                   </strong>
-                  {""}
+                  {" "}
                   to protect your document privacy.
                 </p>
               </div>

@@ -418,7 +418,7 @@ export default function CropMeeshoLabelOnlyPost() {
             </p>
             <div className="flex justify-center">
               <Link
-                href="/tool/meesho-label-crop"
+                href="/tool/meshocrop"
                 className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-pink-600 hover:bg-pink-700 text-white rounded-xl font-bold text-sm transition-all focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-pink-600"
                 aria-label="Crop Meesho Label Only Tool"
               >

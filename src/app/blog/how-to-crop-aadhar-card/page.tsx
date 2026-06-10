@@ -314,21 +314,21 @@ export default function CropAadharCardPost() {
                 </div>
                 <p className="text-sm text-slate-600 leading-relaxed m-0">
                   To ensure the micro-printing and QR codes remain perfectly
-                  crisp, the cropped PDF must maintain a minimum of{""}
+                  crisp, the cropped PDF must maintain a minimum of{" "}
                   <strong>300 DPI</strong> (Dots Per Inch).
                 </p>
               </div>
             </div>
 
             <p className="text-slate-600 leading-relaxed mt-4">
-              Our{""}
+              Our{" "}
               <Link
-                href="/tool/crop-aadhar"
+                href="/tool/aadhar-crop"
                 className="text-red-500 font-semibold hover:underline"
               >
                 Aadhar Crop Tool
               </Link>
-              {""}
+              {" "}
               mathematically isolates the vector coordinates of the card within
               the A4 sheet. It doesn't rasterize the image; it simply moves the
               PDF's <code>CropBox</code> and <code>MediaBox</code> boundaries to
@@ -485,7 +485,7 @@ export default function CropAadharCardPost() {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
-                href="/tool/crop-aadhar"
+                href="/tool/aadhar-crop"
                 className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-red-500 hover:bg-red-600 text-white rounded-xl font-bold text-sm transition-all focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-red-500"
                 aria-label="Crop Aadhar PDF Tool"
               >

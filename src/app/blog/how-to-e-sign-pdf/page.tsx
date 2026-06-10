@@ -128,7 +128,7 @@ export default function ESignPDFGuidePost() {
       <WebAppSchema
         name="E-Sign PDF Tool"
         description="Legally sign PDF documents online. Draw, type, or upload your signature and flatten it securely in your browser. No account required."
-        url="https://smartpdfpro.com/esign"
+        url="https://smartpdfpro.com/tool/esign"
       />
 
       <article className="container mx-auto px-4 pt-10 pb-20 max-w-3xl">
@@ -263,7 +263,7 @@ export default function ESignPDFGuidePost() {
                   This is a broad term encompassing any electronic process that
                   indicates acceptance of an agreement. It can be a drawn
                   signature on a tablet, a pasted PNG image of your ink
-                  signature, or even a typed name at the bottom of an email.{""}
+                  signature, or even a typed name at the bottom of an email.{" "}
                   <strong>
                     This is what 99% of people use for daily business contracts.
                   </strong>
@@ -340,7 +340,7 @@ export default function ESignPDFGuidePost() {
             <p className="text-slate-600 leading-relaxed">
               If you paste an image of your signature into a Word Document and
               save it as a PDF, or if you use a basic PDF editor to place a
-              signature graphic, you must be incredibly careful about{""}
+              signature graphic, you must be incredibly careful about{" "}
               <strong>Flattening</strong>.
             </p>
             <p className="text-slate-600 leading-relaxed">
@@ -471,7 +471,7 @@ export default function ESignPDFGuidePost() {
             </p>
             <div className="flex justify-center gap-4 flex-wrap">
               <Link
-                href="/tool/e-sign-pdf"
+                href="/tool/esign"
                 className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl font-bold text-sm transition-all focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-emerald-600"
                 aria-label="E-Sign PDF Tool"
               >

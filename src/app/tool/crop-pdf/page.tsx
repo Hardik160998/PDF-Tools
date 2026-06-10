@@ -317,7 +317,7 @@ export default function CropPdfPage() {
                 <p className="text-slate-500 dark:text-slate-400 leading-relaxed font-medium text-sm">
                   Unlike conventional online tools that upload your files to
                   external servers, our PDF cropper performs the entire process
-                  {""}
+                  {" "}
                   <strong className="text-orange-500 font-bold">
                     100% locally in your web browser
                   </strong>

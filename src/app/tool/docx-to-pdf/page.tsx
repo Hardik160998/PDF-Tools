@@ -393,11 +393,11 @@ export default function DocxToPdfPage() {
                   SmartPDFs Pro processes your documents using advanced cloud
                   engine logic, converting inline shapes, image positions, page
                   margins, and fonts securely over HTTPS. All file uploads are
-                  {""}
+                  {" "}
                   <strong className="text-blue-500 font-bold">
                     permanently wiped within 1 hour
                   </strong>
-                  {""}
+                  {" "}
                   to ensure total confidentiality.
                 </p>
               </div>

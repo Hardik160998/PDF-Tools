@@ -392,11 +392,11 @@ export default function MetadataPage() {
                   indexing systems.
                 </p>
                 <p className="text-slate-500 dark:text-slate-400 leading-relaxed font-medium text-sm">
-                  With SmartPDFs Pro, your editing is executed{""}
+                  With SmartPDFs Pro, your editing is executed{" "}
                   <strong className="text-slate-650 font-bold dark:text-slate-300">
                     100% locally in your web browser
                   </strong>
-                  {""}
+                  {" "}
                   using native JavaScript libraries. Your files never touch our
                   servers, guaranteeing complete document privacy and instant
                   offline tag execution.

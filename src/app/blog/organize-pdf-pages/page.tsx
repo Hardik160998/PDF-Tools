@@ -128,7 +128,7 @@ export default function OrganizePdfPost() {
                   <Clock size={11} aria-hidden="true" /> 7 min read
                 </span>
                 <span>
-                  Last Updated:{""}
+                  Last Updated:{" "}
                   {new Date().toLocaleDateString("en-US", {
                     month: "short",
                     day: "numeric",
@@ -170,14 +170,14 @@ export default function OrganizePdfPost() {
             <p className="leading-relaxed">
               Fortunately, fixing these issues doesn't require expensive
               software like Adobe Acrobat. With the right tools, you can easily
-              {""}
+              {" "}
               <Link
                 href="/tool/organize"
                 className="text-purple-600 hover:underline"
               >
                 organize your PDF
               </Link>
-              {""}
+              {" "}
               directly in your web browser. In this comprehensive guide, we will
               walk you through exactly how to rearrange, rotate, and delete
               pages from any PDF document quickly, securely, and for free.
@@ -278,7 +278,7 @@ export default function OrganizePdfPost() {
                 <p className="text-sm text-slate-500 leading-relaxed">
                   If you have a 100-page manual but only need pages 12-15 to
                   send to a client, you can simply delete the rest, or use our
-                  dedicated{""}
+                  dedicated{" "}
                   <Link
                     href="/tool/extract-pages"
                     className="text-purple-600 hover:underline"
@@ -317,14 +317,14 @@ export default function OrganizePdfPost() {
                     Open the Tool
                   </h3>
                   <p className="text-sm text-slate-600 leading-relaxed">
-                    Navigate to our dedicated{""}
+                    Navigate to our dedicated{" "}
                     <Link
                       href="/tool/organize"
                       className="text-purple-600 font-bold hover:underline"
                     >
                       Organize PDF
                     </Link>
-                    {""}
+                    {" "}
                     page. This works on Windows, Mac, iOS, and Android.
                   </p>
                 </div>
@@ -554,7 +554,7 @@ export default function OrganizePdfPost() {
                   pages will populate into the same visual grid. You can then
                   mix, match, and reorder pages from different documents before
                   exporting them as one single file. Alternatively, you can use
-                  our{""}
+                  our{" "}
                   <Link
                     href="/tool/merge"
                     className="text-purple-600 hover:underline"

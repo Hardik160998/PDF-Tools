@@ -353,11 +353,11 @@ export default function ExcelToPdfPage() {
                 <p className="text-slate-500 dark:text-slate-400 leading-relaxed font-medium text-sm">
                   SmartPDFs Pro processes your sheets securely over HTTPS. Our
                   conversion engine parses all cell frames, values, and
-                  calculations, and{""}
+                  calculations, and{" "}
                   <strong className="text-green-500 font-bold">
                     automatically wipes them from our servers within 1 hour
                   </strong>
-                  {""}
+                  {" "}
                   to protect your document privacy.
                 </p>
               </div>

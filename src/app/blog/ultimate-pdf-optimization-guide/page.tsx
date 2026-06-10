@@ -250,7 +250,7 @@ export default function PdfOptimizationGuidePost() {
               profiles, and complex vector streams.
             </p>
             <p className="text-slate-600 leading-relaxed">
-              When you use a high-quality{""}
+              When you use a high-quality{" "}
               <Link
                 href="/tool/compress"
                 className="text-red-500 font-semibold hover:underline"
@@ -310,14 +310,14 @@ export default function PdfOptimizationGuidePost() {
               corrupted. The result? A "File cannot be opened" error.
             </p>
             <p className="text-slate-600 leading-relaxed">
-              Our{""}
+              Our{" "}
               <Link
                 href="/tool/repair-pdf"
                 className="text-red-500 font-semibold hover:underline"
               >
                 PDF Repair Tool
               </Link>
-              {""}
+              {" "}
               bypasses the corrupted cross-reference table. It deeply scans the
               raw binary data of the file, manually locates the object streams
               (images, text dictionaries), and completely rebuilds the XREF
@@ -357,7 +357,7 @@ export default function PdfOptimizationGuidePost() {
             </div>
 
             <p className="text-slate-600 leading-relaxed">
-              Before distributing sensitive files, always use a{""}
+              Before distributing sensitive files, always use a{" "}
               <Link
                 href="/tool/metadata"
                 className="text-red-500 font-semibold hover:underline"
@@ -385,14 +385,14 @@ export default function PdfOptimizationGuidePost() {
               that the data for the first page appears at the beginning of the
               file. This allows browsers to stream the PDF, displaying the first
               page instantly while the rest of the document downloads in the
-              background. Our{""}
+              background. Our{" "}
               <Link
                 href="/tool/optimize-pdf"
                 className="text-red-500 font-semibold hover:underline"
               >
                 Advanced PDF Optimizer
               </Link>
-              {""}
+              {" "}
               automatically linearizes your documents as it compresses them.
             </p>
           </section>

@@ -342,7 +342,7 @@ export default function ImageConversionGuidePost() {
               A PDF (Portable Document Format) is not an image format like a
               JPG. A PDF is a <em>container</em>. It can hold text, vector
               graphics, fonts, and yes, raster images. When you use a tool to
-              {""}
+              {" "}
               <Link
                 href="/tool/jpg-to-pdf"
                 className="text-emerald-600 font-semibold hover:underline"

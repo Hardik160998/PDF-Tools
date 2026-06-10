@@ -414,7 +414,7 @@ export default function FlattenPdfPage() {
                   background layer.
                 </p>
                 <p className="text-slate-500 dark:text-slate-400 leading-relaxed font-medium text-sm">
-                  SmartPDFs Pro processes your documents{""}
+                  SmartPDFs Pro processes your documents{" "}
                   <strong className="text-violet-600 font-bold dark:text-violet-450">
                     100% locally in your browser's memory
                   </strong>

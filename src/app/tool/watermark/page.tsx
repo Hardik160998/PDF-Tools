@@ -395,11 +395,11 @@ export default function WatermarkPage() {
                   document fraud, and enforcing copyrights.
                 </p>
                 <p className="text-slate-500 dark:text-slate-400 leading-relaxed font-medium text-sm">
-                  With SmartPDFs Pro, your watermarking is executed{""}
+                  With SmartPDFs Pro, your watermarking is executed{" "}
                   <strong className="text-purple-550 font-bold">
                     100% locally in your web browser
                   </strong>
-                  {""}
+                  {" "}
                   using native JavaScript libraries. Your files never touch our
                   servers, guaranteeing complete document privacy and instant
                   offline stamp execution.

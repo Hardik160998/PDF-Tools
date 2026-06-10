@@ -126,7 +126,7 @@ export default function HowToMergePdfPage() {
                   <Clock size={11} aria-hidden="true" /> 5 min read
                 </span>
                 <span>
-                  Last Updated:{""}
+                  Last Updated:{" "}
                   {new Date().toLocaleDateString("en-US", {
                     month: "short",
                     day: "numeric",
@@ -157,14 +157,14 @@ export default function HowToMergePdfPage() {
           <p className="text-lg text-slate-700 leading-relaxed font-medium">
             Need to combine several PDF files into one? Whether you are
             assembling a report, building a portfolio, or organizing scanned
-            documents, our{""}
+            documents, our{" "}
             <Link
               href="/tool/merge"
               className="text-orange-600 hover:underline"
             >
               Merge PDF tool
             </Link>
-            {""}
+            {" "}
             makes it instant — no software, no sign-up, completely free.
           </p>
 
@@ -275,7 +275,7 @@ export default function HowToMergePdfPage() {
                 <p className="text-sm text-slate-500 leading-relaxed">
                   Merge separate scans of pages into a single continuous book or
                   document. If you need to break them up later, you can always
-                  {""}
+                  {" "}
                   <Link
                     href="/tool/split"
                     className="text-orange-600 hover:underline"
@@ -313,14 +313,14 @@ export default function HowToMergePdfPage() {
               <li>
                 <strong>Easier Sharing:</strong> Email clients often have limits
                 on the number of attachments. One merged file circumvents this
-                issue. And if the combined file is too large, you can easily{""}
+                issue. And if the combined file is too large, you can easily{" "}
                 <Link
                   href="/tool/compress"
                   className="text-orange-600 hover:underline"
                 >
                   compress the PDF
                 </Link>
-                {""}
+                {" "}
                 to reduce its size.
               </li>
               <li>
@@ -393,7 +393,7 @@ export default function HowToMergePdfPage() {
                   <span className="text-sm">
                     The tool simply stitches the documents together without
                     degrading image quality or altering the text vectors. If you
-                    need to convert it to a word doc later, try our{""}
+                    need to convert it to a word doc later, try our{" "}
                     <Link
                       href="/tool/pdf-to-word"
                       className="text-orange-600 hover:underline"
@@ -428,14 +428,14 @@ export default function HowToMergePdfPage() {
                     Open the Merge PDF Tool
                   </h3>
                   <p className="text-sm text-slate-600 leading-relaxed">
-                    Navigate to our dedicated{""}
+                    Navigate to our dedicated{" "}
                     <Link
                       href="/tool/merge"
                       className="text-orange-600 font-bold hover:underline"
                     >
                       Merge PDF
                     </Link>
-                    {""}
+                    {" "}
                     tool page. You can do this on desktop or mobile.
                   </p>
                 </div>

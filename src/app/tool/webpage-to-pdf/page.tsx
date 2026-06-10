@@ -397,11 +397,11 @@ export default function WebpageToPdfPage() {
                 </p>
                 <p className="text-slate-500 dark:text-slate-400 leading-relaxed font-medium text-sm">
                   SmartPDFs Pro processes URL tasks securely. The compiled files
-                  are{""}
+                  are{" "}
                   <strong className="text-sky-550 font-bold">
                     automatically removed from our servers within 1 hour
                   </strong>
-                  {""}
+                  {" "}
                   to guarantee data privacy.
                 </p>
               </div>

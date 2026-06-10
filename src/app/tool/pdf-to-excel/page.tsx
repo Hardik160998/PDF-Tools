@@ -354,7 +354,7 @@ export default function PdfToExcelPage() {
                   With SmartPDFs Pro, your conversion is executed on our
                   isolated cloud servers via HTTPS. Your uploads are stored
                   securely, handled by top-tier parser scripts to guarantee
-                  layout accuracy, and{""}
+                  layout accuracy, and{" "}
                   <strong className="text-green-500 font-bold">
                     permanently wiped from our servers within 1 hour
                   </strong>

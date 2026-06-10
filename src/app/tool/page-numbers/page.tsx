@@ -394,11 +394,11 @@ export default function PageNumbersPage() {
                   protocols, and academic layouts.
                 </p>
                 <p className="text-slate-500 dark:text-slate-400 leading-relaxed font-medium text-sm">
-                  With SmartPDFs Pro, your numbering is executed{""}
+                  With SmartPDFs Pro, your numbering is executed{" "}
                   <strong className="text-indigo-550 font-bold">
                     100% locally in your web browser
                   </strong>
-                  {""}
+                  {" "}
                   using native JavaScript libraries. Your files never touch our
                   servers, guaranteeing complete document privacy and instant
                   offline stamp execution.

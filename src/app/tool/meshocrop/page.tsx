@@ -392,11 +392,11 @@ export default function MeeshoCropPage() {
                   exports clean logistics templates.
                 </p>
                 <p className="text-slate-500 dark:text-slate-400 leading-relaxed font-medium text-sm">
-                  The processing occurs{""}
+                  The processing occurs{" "}
                   <strong className="text-orange-500 font-bold">
                     entirely locally in WebAssembly code
                   </strong>
-                  {""}
+                  {" "}
                   inside your browser frame. No merchant data, customer
                   credentials, or barcode lists are sent over the network,
                   providing ultimate enterprise-grade privacy.

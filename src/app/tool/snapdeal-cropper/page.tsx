@@ -412,7 +412,7 @@ export default function SnapdealCropperPage() {
                   the exact logistics layout.
                 </p>
                 <p className="text-slate-500 dark:text-slate-400 leading-relaxed font-medium text-sm">
-                  Our algorithm processes everything{""}
+                  Our algorithm processes everything{" "}
                   <strong className="text-orange-500 font-bold">
                     locally inside your browser engine
                   </strong>

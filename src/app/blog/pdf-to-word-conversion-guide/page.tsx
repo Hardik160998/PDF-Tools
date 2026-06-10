@@ -252,14 +252,14 @@ export default function PDFToWordPost() {
               A PDF, on the other hand, is a strict coordinate-based layout. It
               doesn't know what a "paragraph" is. It simply knows: "Place the
               letter 'A' at X:150, Y:300 using Helvetica 12pt." When you convert
-              a PDF to Word, our advanced{""}
+              a PDF to Word, our advanced{" "}
               <Link
                 href="/tool/pdf-to-word"
                 className="text-blue-600 font-semibold hover:underline"
               >
                 PDF to Word
               </Link>
-              {""}
+              {" "}
               engine must heuristically analyze the distance between letters to
               guess where words and paragraphs exist, and then reconstruct a
               flow-based layout from scratch.
@@ -322,14 +322,14 @@ export default function PDFToWordPost() {
             </h2>
             <p className="text-slate-600 leading-relaxed">
               When dealing with scanned PDFs, you must use a tool equipped with
-              OCR. Our{""}
+              OCR. Our{" "}
               <Link
                 href="/tool/ocr-pdf"
                 className="text-blue-600 font-semibold hover:underline"
               >
                 OCR Tool
               </Link>
-              {""}
+              {" "}
               utilizes artificial intelligence to scan the image pixels,
               recognize the shapes of letters, and generate actual, editable
               text.

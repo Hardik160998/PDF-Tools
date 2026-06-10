@@ -393,11 +393,11 @@ export default function HtmlToPdfPage() {
                 <p className="text-slate-500 dark:text-slate-400 leading-relaxed font-medium text-sm">
                   SmartPDFs Pro processes your HTML files securely over HTTPS.
                   Our conversion engine renders all CSS properties, backgrounds,
-                  media screens, and asset boxes, and{""}
+                  media screens, and asset boxes, and{" "}
                   <strong className="text-indigo-550 font-bold">
                     automatically wipes them from our servers within 1 hour
                   </strong>
-                  {""}
+                  {" "}
                   to protect your document privacy.
                 </p>
               </div>

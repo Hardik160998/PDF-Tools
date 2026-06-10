@@ -310,7 +310,7 @@ export default function JpgToPdfPage() {
                   or submitting multi-page image documents.
                 </p>
                 <p className="text-slate-500 dark:text-slate-400 leading-relaxed font-medium text-sm">
-                  With SmartPDFs, you can build a PDF from images{""}
+                  With SmartPDFs, you can build a PDF from images{" "}
                   <strong className="text-yellow-650 dark:text-yellow-400 font-bold">
                     without uploading your private photos to external servers
                   </strong>

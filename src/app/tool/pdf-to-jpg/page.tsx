@@ -309,7 +309,7 @@ export default function PdfToJpgPage() {
                   view them without a PDF reader.
                 </p>
                 <p className="text-slate-500 dark:text-slate-400 leading-relaxed font-medium text-sm">
-                  With SmartPDFs, this conversion process runs{""}
+                  With SmartPDFs, this conversion process runs{" "}
                   <strong className="text-yellow-600 dark:text-yellow-400 font-bold">
                     entirely in your local browser sandbox
                   </strong>

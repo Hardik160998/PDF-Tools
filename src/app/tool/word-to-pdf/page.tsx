@@ -319,7 +319,7 @@ export default function WordToPdfPage() {
                   SmartPDFs uses a high-performance rendering engine that parses
                   Word documents to compile clean vector graphics layouts. All
                   files are uploaded via highly secure HTTPS channels, and our
-                  automated server protocols ensure that{""}
+                  automated server protocols ensure that{" "}
                   <strong className="text-blue-600 dark:text-blue-400 font-bold">
                     all uploaded and converted files are permanently deleted
                     within 1 hour

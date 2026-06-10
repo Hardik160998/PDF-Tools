@@ -132,7 +132,7 @@ export default function UltimateEditingGuidePost() {
       <WebAppSchema
         name="Ultimate PDF Editing Guide"
         description="Master advanced PDF editing. Learn the differences between text replacement, drawing annotations, and secure redaction for legal documents."
-        url="https://smartpdfpro.com/edit"
+        url="https://smartpdfpro.com/tool/edit"
       />
 
       <article className="container mx-auto px-4 pt-10 pb-20 max-w-3xl">
@@ -326,7 +326,7 @@ export default function UltimateEditingGuidePost() {
                   True Redaction
                 </h3>
                 <p className="text-sm text-indigo-800 leading-relaxed m-0">
-                  A true redaction tool, like the{""}
+                  A true redaction tool, like the{" "}
                   <Link
                     href="/tool/redact-pdf"
                     className="text-indigo-600 hover:underline"
@@ -354,7 +354,7 @@ export default function UltimateEditingGuidePost() {
             <p className="text-slate-600 leading-relaxed">
               If you simply "Save" the document, those annotations remain
               active. The next person to open the file can modify your form data
-              or move your signature. To prevent this, you must{""}
+              or move your signature. To prevent this, you must{" "}
               <strong>Flatten</strong> the PDF.
             </p>
             <p className="text-slate-600 leading-relaxed">
@@ -482,7 +482,7 @@ export default function UltimateEditingGuidePost() {
             </p>
             <div className="flex justify-center gap-4 flex-wrap">
               <Link
-                href="/tool/edit-pdf"
+                href="/tool/edit"
                 className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-bold text-sm transition-all focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-indigo-600"
                 aria-label="Edit PDF Tool"
               >

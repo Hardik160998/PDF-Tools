@@ -292,17 +292,17 @@ export default function CropAmazonLabelPost() {
               2. How the Amazon Cropper Solves This
             </h2>
             <p className="text-slate-600 leading-relaxed">
-              Our{""}
+              Our{" "}
               <Link
-                href="/tool/amazon-label"
+                href="/tool/amazon-cropper"
                 className="text-yellow-500 font-semibold hover:underline"
               >
                 Amazon Label Cropper
               </Link>
-              {""}
+              {" "}
               utilizes precise vector bounding boxes. Instead of converting your
               document into a low-quality image, cutting it, and converting it
-              back to a PDF, our tool modifies the PDF's internal{""}
+              back to a PDF, our tool modifies the PDF's internal{" "}
               <code>CropBox</code> matrix.
             </p>
             <p className="text-slate-600 leading-relaxed">
@@ -456,7 +456,7 @@ export default function CropAmazonLabelPost() {
             </p>
             <div className="flex justify-center">
               <Link
-                href="/tool/amazon-label"
+                href="/tool/amazon-cropper"
                 className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-yellow-500 hover:bg-yellow-600 text-white rounded-xl font-bold text-sm transition-all focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-yellow-500"
                 aria-label="Amazon Label Cropper Tool"
               >

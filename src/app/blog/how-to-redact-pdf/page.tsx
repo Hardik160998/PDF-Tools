@@ -286,14 +286,14 @@ export default function RedactPDFPost() {
             </h2>
             <p className="text-slate-600 leading-relaxed">
               True redaction is a destructive process. It is not an "undoable"
-              overlay. When you use a professional{""}
+              overlay. When you use a professional{" "}
               <Link
-                href="/tool/edit-pdf"
+                href="/tool/edit"
                 className="text-red-500 font-semibold hover:underline"
               >
                 PDF Editor
               </Link>
-              {""}
+              {" "}
               to redact information, the software performs a complex algorithmic
               operation:
             </p>
@@ -349,14 +349,14 @@ export default function RedactPDFPost() {
               "Confidential_Merger_Agreement_CorpA_CorpB.docx" to generate the
               PDF, that exact string might be embedded in the hidden Title or
               Subject metadata fields. Before distributing any redacted file,
-              you must run it through a{""}
+              you must run it through a{" "}
               <Link
                 href="/tool/metadata"
                 className="text-red-500 font-semibold hover:underline"
               >
                 Metadata scrubber
               </Link>
-              {""}
+              {" "}
               to wipe the Author, Subject, Keywords, and Creation Date fields.
             </p>
           </section>
@@ -455,7 +455,7 @@ export default function RedactPDFPost() {
                 className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-slate-900 hover:bg-slate-800 text-white rounded-xl font-bold text-sm transition-all focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-slate-900"
                 aria-label="Flatten PDF to JPG Tool"
               >
-                Flatten via PDF to JPG{""}
+                Flatten via PDF to JPG{" "}
                 <ArrowRight size={16} aria-hidden="true" />
               </Link>
               <Link

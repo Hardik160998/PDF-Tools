@@ -288,16 +288,16 @@ export default function CropSnapdealLabelPost() {
               2. How the Snapdeal Cropper Solves This
             </h2>
             <p className="text-slate-600 leading-relaxed">
-              Our{""}
+              Our{" "}
               <Link
-                href="/tool/snapdeal-label"
+                href="/tool/snapdeal-cropper"
                 className="text-red-600 font-semibold hover:underline"
               >
                 Snapdeal Label Cropper
               </Link>
-              {""}
+              {" "}
               relies on precise vector bounding boxes. Instead of converting
-              your document into an image, it modifies the PDF's internal{""}
+              your document into an image, it modifies the PDF's internal{" "}
               <code>CropBox</code> matrix.
             </p>
             <p className="text-slate-600 leading-relaxed">
@@ -445,7 +445,7 @@ export default function CropSnapdealLabelPost() {
             </p>
             <div className="flex justify-center">
               <Link
-                href="/tool/snapdeal-label"
+                href="/tool/snapdeal-cropper"
                 className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-red-600 hover:bg-red-700 text-white rounded-xl font-bold text-sm transition-all focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-red-600"
                 aria-label="Snapdeal Label Cropper Tool"
               >

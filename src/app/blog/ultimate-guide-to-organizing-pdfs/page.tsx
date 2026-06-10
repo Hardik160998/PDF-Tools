@@ -135,7 +135,7 @@ export default function UltimateGuidePdfsPost() {
                   <Clock size={11} aria-hidden="true" /> 10 min read
                 </span>
                 <span>
-                  Last Updated:{""}
+                  Last Updated:{" "}
                   {new Date().toLocaleDateString("en-US", {
                     month: "short",
                     day: "numeric",
@@ -334,14 +334,14 @@ export default function UltimateGuidePdfsPost() {
             </h3>
             <ol className="list-decimal pl-6 space-y-3">
               <li>
-                Navigate to the{""}
+                Navigate to the{" "}
                 <Link
                   href="/tool/merge"
                   className="text-indigo-600 hover:underline"
                 >
                   Merge PDF
                 </Link>
-                {""}
+                {" "}
                 tool.
               </li>
               <li>
@@ -349,7 +349,7 @@ export default function UltimateGuidePdfsPost() {
                 all at once using Ctrl+Click (or Cmd+Click on Mac).
               </li>
               <li>
-                Once uploaded, you will see the files listed horizontally.{""}
+                Once uploaded, you will see the files listed horizontally.{" "}
                 <strong>Crucial step:</strong> Drag the files left or right to
                 establish the correct sequence. The file furthest to the left
                 will be the first pages of your new document.
@@ -388,14 +388,14 @@ export default function UltimateGuidePdfsPost() {
               Mastering the Syntax of Page Ranges
             </h3>
             <p className="leading-relaxed mb-4">
-              When using the{""}
+              When using the{" "}
               <Link
                 href="/tool/split"
                 className="text-indigo-600 hover:underline"
               >
                 Split PDF
               </Link>
-              {""}
+              {" "}
               tool or extracting pages, you will be prompted to enter a page
               range. Mastering this syntax unlocks immense power:
             </p>
@@ -460,14 +460,14 @@ export default function UltimateGuidePdfsPost() {
               visual approach.
             </p>
             <p className="leading-relaxed mb-4">
-              The{""}
+              The{" "}
               <Link
                 href="/tool/organize"
                 className="text-indigo-600 hover:underline"
               >
                 Organize PDF
               </Link>
-              {""}
+              {" "}
               tool renders every single page of your document as a high-quality
               thumbnail image on a grid.
             </p>
@@ -504,7 +504,7 @@ export default function UltimateGuidePdfsPost() {
               server, waiting in a queue, and then downloading the result.
             </p>
             <p className="leading-relaxed mb-4">
-              SmartPDFs Pro uses bleeding-edge{""}
+              SmartPDFs Pro uses bleeding-edge{" "}
               <strong>WebAssembly (Wasm)</strong> technology. When you click
               "Merge" or "Split", the actual computational logic is executed by
               your own device's CPU, inside the secure sandbox of your web

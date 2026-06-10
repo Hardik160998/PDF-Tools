@@ -302,21 +302,21 @@ export default function CropMeeshoLabelPost() {
             </h2>
             <p className="text-slate-600 leading-relaxed">
               Manually using Adobe Acrobat or Photoshop to crop hundreds of A4
-              pages in half is an immense waste of time. Our{""}
+              pages in half is an immense waste of time. Our{" "}
               <Link
-                href="/tool/meesho-label"
+                href="/tool/meesho-cropper"
                 className="text-pink-500 font-semibold hover:underline"
               >
                 Meesho Label & Invoice Cropper
               </Link>
-              {""}
+              {" "}
               uses a pre-programmed algorithm designed specifically for Meesho's
               PDF layout.
             </p>
             <p className="text-slate-600 leading-relaxed">
               When you upload your PDF, the tool instantly calculates the exact
               coordinates of the label section (top half) and the invoice
-              section (bottom half). It then mathematically adjusts the PDF{""}
+              section (bottom half). It then mathematically adjusts the PDF{" "}
               <code>CropBox</code> and <code>MediaBox</code> parameters. It
               splits every single A4 page into two distinct 4x6 pages without
               touching the underlying vector data. This ensures the barcode
@@ -439,7 +439,7 @@ export default function CropMeeshoLabelPost() {
             </p>
             <div className="flex justify-center">
               <Link
-                href="/tool/meesho-label"
+                href="/tool/meesho-cropper"
                 className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-pink-500 hover:bg-pink-600 text-white rounded-xl font-bold text-sm transition-all focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-pink-500"
                 aria-label="Meesho Label & Invoice Cropper Tool"
               >
