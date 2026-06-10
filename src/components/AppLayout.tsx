@@ -8,8 +8,9 @@ import HeaderActions from "@/components/HeaderActions";
 import Image from "next/image";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import dynamic from "next/dynamic";
-import Script from "next/script";
 
+import Script from "next/script";
+const GA_ID = process.env.NEXT_PUBLIC_GA_ID;
 const AllToolsDropdown = dynamic(() => import("@/components/AllToolsDropdown"));
 const MobileNav = dynamic(() => import("@/components/MobileNav"));
 const MobileSearch = dynamic(() => import("@/components/MobileSearch"));
@@ -306,7 +307,7 @@ export default function AppLayout({
           </div>
         </div>
 
-        <Script
+                <Script
           src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA_ID}`}
           strategy="afterInteractive"
         />
@@ -323,6 +324,7 @@ export default function AppLayout({
         });
       `}
         </Script>
+
       </footer>
 
       <SpeedInsights />
