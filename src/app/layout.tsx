@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Lato, Outfit } from "next/font/google";
+import { GoogleAnalytics } from "@next/third-parties/google";
+import CookieConsentBanner from "@/components/CookieConsentBanner";
 import "./globals.css";
 
 import { ThemeProvider } from "@/context/ThemeContext";
@@ -107,6 +109,7 @@ export default function RootLayout({
             </AuthProvider>
           </ThemeProvider>
         </QueryProvider>
+        <CookieConsentBanner />
       </body>
     </html>
   );
