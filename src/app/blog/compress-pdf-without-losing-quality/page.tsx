@@ -125,12 +125,7 @@ export default function CompressPdfPost() {
                   <Clock size={11} aria-hidden="true" /> 7 min read
                 </span>
                 <span>
-                  Last Updated:{" "}
-                  {new Date().toLocaleDateString("en-US", {
-                    month: "short",
-                    day: "numeric",
-                    year: "numeric",
-                  })}
+                  Last Updated: Apr 18, 2026
                 </span>
                 <span className="flex items-center gap-1">
                   By <strong>SmartPDFs Pro Team</strong>
@@ -140,7 +135,7 @@ export default function CompressPdfPost() {
           </div>
         </header>
 
-        <figure className="mb-8 shadow-2xl rounded-2xl overflow-hidden bg-slate-50 border border-slate-100 flex items-center justify-center">
+        <figure className="relative rounded-2xl overflow-hidden shadow-2xl mb-8 border border-slate-100 bg-slate-50">
           <Image
             src="/img/compress-pdf.png"
             alt="How to Compress a PDF Without Losing Quality"
@@ -148,7 +143,7 @@ export default function CompressPdfPost() {
             height={630}
             sizes="(max-width: 768px) 100vw, 800px"
             priority
-            className="w-full h-auto object-contain"
+            className="w-full h-auto object-cover"
           />
         </figure>
 
