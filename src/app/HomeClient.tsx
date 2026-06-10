@@ -239,7 +239,7 @@ export default function HomeClient({ initialTools, initialCategories }: { initia
     return (
         <>
             {/* Category Filter */}
-            <div id="tools-grid" className="mt-8 fade-in-up flex justify-center">
+            <div id="tools-grid" className="mt-8 fade-in-up flex justify-center relative z-[60]">
                     <div className="hidden md:flex justify-center w-full">
                         <div className="category-nav">
                             {dbCategories.map(cat => (
@@ -271,7 +271,7 @@ export default function HomeClient({ initialTools, initialCategories }: { initia
                     </div>
                 </div>
             {/* -- TOOLS GRID -- */}
-            <section ref={toolsGridRef} className="container mx-auto px-4 pb-10">
+            <section ref={toolsGridRef} className="container mx-auto px-4 pb-10 pt-8">
 
                 {showGridSkeleton ? (
                     <div className="animate-fade-in space-y-8">

@@ -14,7 +14,7 @@ const LEVELS = [
  { id: 'high', label: 'Extreme', desc: '96 DPI · Smallest Size', quality: 0.45, scale: 1.33, printScore: 'B+' },
 ];
 
-export default function OptimizePdf({ id: _id }: { id: string }) {
+export default function OptimizePdf({ id }: { id: string }) {
  const [file, setFile] = useState<File | null>(null);
  const [level, setLevel] = useState('medium');
  const [processing, setProcessing] = useState(false);
@@ -142,7 +142,7 @@ export default function OptimizePdf({ id: _id }: { id: string }) {
 
  <div className={`${showSettings ? 'block' : 'hidden'} lg:block p-6`}>
  <div className="flex items-center justify-between mb-6">
- <h3 className="hidden lg:block text-xl font-bold text-slate-900 dark:text-white uppercase tracking-tighter">Optimizer Pro</h3>
+ <h3 className="hidden lg:block text-xl font-bold text-slate-900 dark:text-white uppercase tracking-tighter">{id === 'compress-pdf' || id === 'compress' ? 'Compressor Pro' : 'Optimizer Pro'}</h3>
  <button onClick={reset} className="text-[11px] font-medium uppercase tracking-widest text-red-500 hover:text-red-600 transition-colors">Reset</button>
  </div>
 
@@ -185,7 +185,7 @@ export default function OptimizePdf({ id: _id }: { id: string }) {
  {processing ? (
  <span className="flex items-center justify-center gap-3 font-medium"><Loader2 className="animate-spin" /> {progress.current}/{progress.total} Pages</span>
  ) : (
- <span className="flex items-center justify-center gap-3 font-medium">Smart Optimize <Zap size={24} /></span>
+ <span className="flex items-center justify-center gap-3 font-medium">{id === 'compress-pdf' || id === 'compress' ? 'Compress PDF' : 'Smart Optimize'} <Zap size={24} /></span>
  )}
  </button>
  ) : (
@@ -217,8 +217,8 @@ export default function OptimizePdf({ id: _id }: { id: string }) {
  <div className="inline-flex p-4 rounded-2xl text-white shadow-lg shadow-emerald-500/20 mx-auto" style={{ background: ACCENT_GRADIENT }}>
  <TrendingDown size={32} />
  </div>
- <h2 className="text-2xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter leading-tight">Intelligent PDF Optimizer</h2>
- <p className="text-sm sm:text-base text-slate-500 dark:text-slate-400 font-medium max-w-md mx-auto leading-relaxed">Production-grade re-encoding for Amazon, Flipkart & Meesho labels.</p>
+ <h2 className="text-2xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter leading-tight">{id === 'compress-pdf' || id === 'compress' ? 'PDF Compressor' : 'Intelligent PDF Optimizer'}</h2>
+ <p className="text-sm sm:text-base text-slate-500 dark:text-slate-400 font-medium max-w-md mx-auto leading-relaxed">{id === 'compress-pdf' || id === 'compress' ? 'Reduce PDF file size drastically while maintaining quality.' : 'Production-grade re-encoding for Amazon, Flipkart & Meesho labels.'}</p>
  </div>
 
  {!file ? (
@@ -260,7 +260,7 @@ export default function OptimizePdf({ id: _id }: { id: string }) {
  <Gauge className="absolute inset-0 m-auto text-emerald-500/20" size={32} />
  </div>
  <div>
- <h3 className="text-2xl font-bold text-slate-900 dark:text-white uppercase tracking-widest animate-pulse text-center">Barcode Safe Optimization...</h3>
+ <h3 className="text-2xl font-bold text-slate-900 dark:text-white uppercase tracking-widest animate-pulse text-center">{id === 'compress-pdf' || id === 'compress' ? 'Compressing PDF...' : 'Barcode Safe Optimization...'}</h3>
  <p className="text-[10px] text-slate-400 font-medium uppercase tracking-widest mt-2 leading-relaxed text-center">Processing Page {progress.current} of {progress.total} • Maintaining Contrast</p>
  </div>
  </div>

@@ -429,10 +429,18 @@ export default function CropPDFPost() {
               </li>
               <li>
                 <Link
-                  href="/tool/meshocrop"
+                  href="/tool/meesho-cropper"
                   className="text-indigo-600 font-semibold hover:underline"
                 >
                   Meesho Label & Invoice Cropper
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/tool/meshocrop"
+                  className="text-indigo-600 font-semibold hover:underline"
+                >
+                  Meesho Label Crop (without invoice)
                 </Link>
               </li>
             </ul>
