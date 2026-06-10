@@ -470,7 +470,7 @@ export default function SnapdealCropperPage() {
             {/* FAQ Accordion */}
             <div className="bg-white dark:bg-slate-900 p-8 sm:p-12 rounded-[2.5rem] border border-slate-100 dark:border-slate-800 shadow-sm">
               <h2 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white uppercase tracking-tight mb-8 flex items-center gap-3">
-                <span className="p-2 rounded-xl bg-red-500/10 text-red-500">
+                <span className="p-2 rounded-xl bg-orange-500/10 text-orange-500">
                   <HelpCircle size={24} />
                 </span>
                 Frequently Asked Questions
@@ -626,7 +626,7 @@ export default function SnapdealCropperPage() {
                         className="text-slate-400 transition-transform duration-300 group-open:rotate-180 shrink-0 ml-4"
                       />
                     </summary>
-                    <div className="px-6 pb-6 border-t border-slate-200 dark:border-slate-800 pt-4">
+                    <div className="mx-6 pb-6 border-t border-slate-200 dark:border-slate-800 pt-4">
                       <p className="text-sm text-slate-500 dark:text-slate-400 font-medium leading-relaxed">
                         {faq.a}
                       </p>

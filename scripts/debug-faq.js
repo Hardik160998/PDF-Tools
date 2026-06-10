@@ -26,13 +26,26 @@ const files = [
   "d:\\PDF-Tools\\src\\app\\tool\\add-blank-page\\page.tsx"
 ];
 
-let replaced = 0;
 for (const file of files) {
+  if (!fs.existsSync(file)) continue;
   let content = fs.readFileSync(file, 'utf8');
-  if (content.includes('px-6 pb-6 border-t border-slate-200 dark:border-slate-800 pt-4')) {
-    content = content.replace(/px-6 pb-6 border-t border-slate-200 dark:border-slate-800 pt-4/g, 'mx-6 pb-6 border-t border-slate-200 dark:border-slate-800 pt-4');
-    fs.writeFileSync(file, content);
-    replaced++;
+  
+  const headerMatch = content.match(/<span[^>]*text-([a-z]+)-(?:500|600)[^>]*>[\s\S]*?<HelpCircle[^>]*>[\s\S]*?<\/span>[\s\S]*?Frequently Asked Questions/);
+  
+  let qMatch = content.match(/<HelpCircle\s+size=\{18\}\s+className="text-([a-z]+)-500 shrink-0"/);
+  
+  let filename = file.split('\\').pop();
+  let folder = file.split('\\').slice(-2, -1)[0];
+  
+  if (!headerMatch) {
+    console.log(`${folder} -> NO HEADER MATCH`);
+  } else if (!qMatch) {
+    console.log(`${folder} -> NO QUESTION MATCH (Header: ${headerMatch[1]})`);
+  } else {
+    if (headerMatch[1] !== qMatch[1]) {
+       console.log(`${folder} -> MISMATCH: Header=${headerMatch[1]}, Q=${qMatch[1]}`);
+    } else {
+       // match
+    }
   }
 }
-console.log(`Successfully updated ${replaced} files to mx-6.`);

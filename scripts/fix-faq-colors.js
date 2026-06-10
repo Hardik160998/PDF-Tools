@@ -1,4 +1,5 @@
 const fs = require('fs');
+
 const files = [
   "d:\\PDF-Tools\\src\\app\\tool\\compare-pdf\\page.tsx",
   "d:\\PDF-Tools\\src\\app\\tool\\excel-to-pdf\\page.tsx",
@@ -26,13 +27,44 @@ const files = [
   "d:\\PDF-Tools\\src\\app\\tool\\add-blank-page\\page.tsx"
 ];
 
-let replaced = 0;
+let updatedFiles = 0;
+
 for (const file of files) {
+  if (!fs.existsSync(file)) continue;
   let content = fs.readFileSync(file, 'utf8');
-  if (content.includes('px-6 pb-6 border-t border-slate-200 dark:border-slate-800 pt-4')) {
-    content = content.replace(/px-6 pb-6 border-t border-slate-200 dark:border-slate-800 pt-4/g, 'mx-6 pb-6 border-t border-slate-200 dark:border-slate-800 pt-4');
-    fs.writeFileSync(file, content);
-    replaced++;
+  
+  // Find the header color:
+  const headerMatch = content.match(/<span[^>]*text-([a-z]+)-(?:500|600)[^>]*>[\s\S]*?<HelpCircle[^>]*>[\s\S]*?<\/span>[\s\S]*?Frequently Asked Questions/);
+  
+  if (headerMatch) {
+    const headerColor = headerMatch[1];
+    let changed = false;
+    
+    // Replace the question HelpCircle color
+    const questionRegex = /<HelpCircle\s+size=\{18\}\s+className="text-([a-z]+)-500 shrink-0"/g;
+    content = content.replace(questionRegex, (match, p1) => {
+      if (p1 !== headerColor) {
+        changed = true;
+        return match.replace(`text-${p1}-500`, `text-${headerColor}-500`);
+      }
+      return match;
+    });
+    
+    // Also fix the focus-visible ring color on the summary
+    const ringRegex = /focus-visible:ring-([a-z]+)-500"/g;
+    content = content.replace(ringRegex, (match, p1) => {
+        if(p1 !== headerColor) {
+            changed = true;
+            return `focus-visible:ring-${headerColor}-500"`;
+        }
+        return match;
+    });
+
+    if (changed) {
+      fs.writeFileSync(file, content);
+      updatedFiles++;
+    }
   }
 }
-console.log(`Successfully updated ${replaced} files to mx-6.`);
+
+console.log(`Successfully updated ${updatedFiles} files to match their FAQ heading colors.`);

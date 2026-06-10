@@ -621,7 +621,7 @@ export default function ExcelToPdfPage() {
                     key={idx}
                     className="group bg-white dark:bg-slate-900 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm overflow-hidden transition-all [&_summary::-webkit-details-marker]:hidden"
                   >
-                    <summary className="flex items-center justify-between p-6 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-500">
+                    <summary className="flex items-center justify-between p-6 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-500">
                       <span className="text-sm sm:text-base font-bold text-slate-800 dark:text-white tracking-tight flex items-center gap-3">
                         <HelpCircle
                           size={18}
@@ -634,7 +634,7 @@ export default function ExcelToPdfPage() {
                         className="text-slate-400 transition-transform duration-300 group-open:rotate-180 shrink-0 ml-4"
                       />
                     </summary>
-                    <div className="px-6 pb-6 border-t border-slate-200 dark:border-slate-800 pt-4">
+                    <div className="mx-6 pb-6 border-t border-slate-200 dark:border-slate-800 pt-4">
                       <p className="text-sm text-slate-500 dark:text-slate-400 font-medium leading-relaxed">
                         {item.a}
                       </p>

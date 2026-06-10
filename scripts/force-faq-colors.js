@@ -1,4 +1,5 @@
 const fs = require('fs');
+
 const files = [
   "d:\\PDF-Tools\\src\\app\\tool\\compare-pdf\\page.tsx",
   "d:\\PDF-Tools\\src\\app\\tool\\excel-to-pdf\\page.tsx",
@@ -26,13 +27,42 @@ const files = [
   "d:\\PDF-Tools\\src\\app\\tool\\add-blank-page\\page.tsx"
 ];
 
-let replaced = 0;
+let updatedFiles = 0;
+
 for (const file of files) {
+  if (!fs.existsSync(file)) continue;
   let content = fs.readFileSync(file, 'utf8');
-  if (content.includes('px-6 pb-6 border-t border-slate-200 dark:border-slate-800 pt-4')) {
-    content = content.replace(/px-6 pb-6 border-t border-slate-200 dark:border-slate-800 pt-4/g, 'mx-6 pb-6 border-t border-slate-200 dark:border-slate-800 pt-4');
+  
+  const themeMatch = content.match(/hover:text-([a-z]+)-500 transition-colors focus-visible:outline-none/);
+  if (!themeMatch) {
+     console.log("Could not find theme color for: " + file);
+     continue;
+  }
+  const themeColor = themeMatch[1];
+  let changed = false;
+
+  const questionRegex = /(<HelpCircle[\s\S]*?className="[^"]*text-)[a-z]+(-500[^"]*"[\s\S]*?\/>)/g;
+  content = content.replace(questionRegex, (match, p1, p2) => {
+      changed = true;
+      return `${p1}${themeColor}${p2}`;
+  });
+
+  const ringRegex = /(<summary[^>]*focus-visible:ring-)[a-z]+(-500[^>]*>)/g;
+  content = content.replace(ringRegex, (match, p1, p2) => {
+      changed = true;
+      return `${p1}${themeColor}${p2}`;
+  });
+
+  const headerIconRegex = /(<span className="p-2 rounded-xl bg-)[a-z]+(-500\/10 text-)[a-z]+(-500">)/g;
+  content = content.replace(headerIconRegex, (match, p1, p2, p3) => {
+      changed = true;
+      return `${p1}${themeColor}${p2}${themeColor}${p3}`;
+  });
+
+  if (changed) {
     fs.writeFileSync(file, content);
-    replaced++;
+    updatedFiles++;
   }
 }
-console.log(`Successfully updated ${replaced} files to mx-6.`);
+
+console.log(`Successfully forced theme color on ${updatedFiles} files.`);
