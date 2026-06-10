@@ -1,4 +1,5 @@
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
+import { unstable_cache } from 'next/cache';
 
 let _supabase: SupabaseClient | null = null;
 
@@ -93,7 +94,7 @@ export interface CategoryRow {
  icon: string;
 }
 
-export async function getCategories(): Promise<CategoryRow[]> {
+export const getCategories = unstable_cache(async (): Promise<CategoryRow[]> => {
  try {
  const { data, error } = await supabase
  .from('categories')
@@ -106,7 +107,7 @@ export async function getCategories(): Promise<CategoryRow[]> {
  console.error("getCategories Exception:", err);
  return [];
  }
-}
+}, ['categories-cache'], { revalidate: 86400, tags: ['categories'] });
 
 export interface AllToolRow {
  tool_key: string;
@@ -120,7 +121,7 @@ export interface AllToolRow {
  is_most_used?: boolean;
 }
 
-export async function getAllTools(): Promise<AllToolRow[]> {
+export const getAllTools = unstable_cache(async (): Promise<AllToolRow[]> => {
  try {
  let { data, error } = await supabase
  .from('allpdftools')
@@ -144,7 +145,7 @@ export async function getAllTools(): Promise<AllToolRow[]> {
  console.error("getAllTools Exception:", err);
  return [];
  }
-}
+}, ['alltools-cache'], { revalidate: 86400, tags: ['tools'] });
 
 export async function getToolsByCategory(category: string): Promise<string[]> {
  const { data } = await supabase
