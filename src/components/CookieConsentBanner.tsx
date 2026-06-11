@@ -64,7 +64,7 @@ export default function CookieConsentBanner() {
   };
 
   return (
-    <div className="fixed right-6 bottom-6 z-[9999] w-[420px] max-w-[calc(100%-32px)] max-h-[calc(100vh-48px)] overflow-y-auto custom-scrollbar flex flex-col bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-50 text-sm p-6 shadow-2xl rounded-3xl border border-slate-200 dark:border-slate-800">
+    <div className="fixed z-[9999] left-4 right-4 bottom-4 sm:left-auto sm:right-6 sm:bottom-6 w-auto sm:w-[420px] max-w-full max-h-[calc(100vh-32px)] sm:max-h-[calc(100vh-48px)] overflow-y-auto custom-scrollbar flex flex-col bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-50 text-sm p-5 sm:p-6 shadow-2xl rounded-3xl border border-slate-200 dark:border-slate-800">
       <div className="flex flex-col gap-3 py-1 w-full">
         <div className="flex items-center gap-3 mb-1">
           <div className="w-10 h-10 rounded-full bg-indigo-100 dark:bg-indigo-500/20 text-indigo-600 dark:text-indigo-400 flex items-center justify-center shrink-0">

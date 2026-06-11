@@ -627,9 +627,7 @@ export default function PdfToWordPage() {
                   >
                     <summary className="flex items-center justify-between p-6 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500">
                       <span className="text-sm sm:text-base font-bold text-slate-800 dark:text-white tracking-tight flex items-center gap-3">
-                        <span className="p-1.5 rounded-full bg-blue-500/10 text-blue-500 shrink-0">
-  <HelpCircle size={18} />
-</span>
+                        <HelpCircle size={22} className="text-blue-500 shrink-0" />
                         {item.q}
                       </span>
                       <ChevronDown

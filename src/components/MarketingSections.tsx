@@ -469,16 +469,18 @@ export default function MarketingSections({
 
                         {/* People Trust Us */}
                         <div className="why-card-blue flex flex-col gap-4 rounded-2xl p-8" style={{ background: 'linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%)' }}>
-                            <div className="w-14 h-14 rounded-xl flex items-center justify-center relative" style={{ background: 'linear-gradient(135deg, #3b82f6, #1d4ed8)' }}>
-                                <svg width="28" height="28" viewBox="0 0 64 64" fill="none">
-                                    <circle cx="24" cy="20" r="10" fill="white" fillOpacity="0.9" />
-                                    <circle cx="40" cy="18" r="8" fill="white" fillOpacity="0.6" />
-                                    <ellipse cx="24" cy="46" rx="16" ry="10" fill="white" fillOpacity="0.9" />
-                                    <ellipse cx="40" cy="44" rx="13" ry="8" fill="white" fillOpacity="0.6" />
-                                </svg>
-                                <span className="absolute -bottom-2 -right-2 bg-red-500 text-white text-[9px] font-medium px-1.5 py-0.5 rounded-md shadow">1M+</span>
+                            <div className="flex flex-col md:flex-row items-center gap-4">
+                                <div className="w-14 h-14 shrink-0 rounded-xl flex items-center justify-center relative" style={{ background: 'linear-gradient(135deg, #3b82f6, #1d4ed8)' }}>
+                                    <svg width="28" height="28" viewBox="0 0 64 64" fill="none">
+                                        <circle cx="24" cy="20" r="10" fill="white" fillOpacity="0.9" />
+                                        <circle cx="40" cy="18" r="8" fill="white" fillOpacity="0.6" />
+                                        <ellipse cx="24" cy="46" rx="16" ry="10" fill="white" fillOpacity="0.9" />
+                                        <ellipse cx="40" cy="44" rx="13" ry="8" fill="white" fillOpacity="0.6" />
+                                    </svg>
+                                    <span className="absolute -bottom-2 -right-2 bg-red-500 text-white text-[9px] font-medium px-1.5 py-0.5 rounded-md shadow">1M+</span>
+                                </div>
+                                <h3 className="text-lg font-bold text-slate-900 m-0">People Trust Us</h3>
                             </div>
-                            <h3 className="text-lg font-bold text-slate-900">People Trust Us</h3>
                             <p className="text-sm text-slate-600 leading-relaxed">
                                 Millions of users rely on Smart PDFs every day to simplify their work with digital documents â€” fast, free, and fully private.
                             </p>
@@ -486,16 +488,18 @@ export default function MarketingSections({
 
                         {/* Top-Rated */}
                         <div className="why-card-yellow flex flex-col gap-4 rounded-2xl p-8" style={{ background: 'linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%)' }}>
-                            <div className="w-14 h-14 rounded-xl flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #f59e0b, #d97706)' }}>
-                                <svg width="28" height="28" viewBox="0 0 64 64" fill="none">
-                                    <rect x="8" y="36" width="10" height="20" rx="2" fill="white" fillOpacity="0.7" />
-                                    <rect x="22" y="24" width="10" height="32" rx="2" fill="white" fillOpacity="0.85" />
-                                    <rect x="36" y="14" width="10" height="42" rx="2" fill="white" />
-                                    <path d="M8 34 L22 22 L36 12 L50 8" stroke="white" strokeWidth="2.5" strokeLinecap="round" />
-                                    <path d="M46 8 L52 8 L52 14" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
-                                </svg>
+                            <div className="flex flex-col md:flex-row items-center gap-4">
+                                <div className="w-14 h-14 shrink-0 rounded-xl flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #f59e0b, #d97706)' }}>
+                                    <svg width="28" height="28" viewBox="0 0 64 64" fill="none">
+                                        <rect x="8" y="36" width="10" height="20" rx="2" fill="white" fillOpacity="0.7" />
+                                        <rect x="22" y="24" width="10" height="32" rx="2" fill="white" fillOpacity="0.85" />
+                                        <rect x="36" y="14" width="10" height="42" rx="2" fill="white" />
+                                        <path d="M8 34 L22 22 L36 12 L50 8" stroke="white" strokeWidth="2.5" strokeLinecap="round" />
+                                        <path d="M46 8 L52 8 L52 14" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+                                    </svg>
+                                </div>
+                                <h3 className="text-lg font-bold text-slate-900 m-0">Top-Rated PDF Tools</h3>
                             </div>
-                            <h3 className="text-lg font-bold text-slate-900">Top-Rated PDF Tools</h3>
                             <p className="text-sm text-slate-600 leading-relaxed">
                                 Smart PDFs is consistently rated among the best free PDF platforms for speed, reliability, and ease of use by our growing community.
                             </p>
@@ -503,18 +507,20 @@ export default function MarketingSections({
 
                         {/* Works Everywhere */}
                         <div className="why-card-green flex flex-col gap-4 rounded-2xl p-8" style={{ background: 'linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%)' }}>
-                            <div className="w-14 h-14 rounded-xl flex items-center justify-center relative" style={{ background: 'linear-gradient(135deg, #22c55e, #15803d)' }}>
-                                <svg width="28" height="28" viewBox="0 0 64 64" fill="none">
-                                    <rect x="6" y="10" width="52" height="36" rx="6" fill="white" fillOpacity="0.3" />
-                                    <rect x="10" y="14" width="44" height="28" rx="3" fill="white" fillOpacity="0.6" />
-                                    <rect x="22" y="46" width="20" height="4" rx="2" fill="white" fillOpacity="0.8" />
-                                    <rect x="16" y="50" width="32" height="3" rx="1.5" fill="white" />
-                                </svg>
-                                <span className="absolute -top-1 -right-1 w-5 h-5 bg-white rounded-full flex items-center justify-center shadow">
-                                    <svg width="10" height="10" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#22c55e" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" /></svg>
-                                </span>
+                            <div className="flex flex-col md:flex-row items-center gap-4">
+                                <div className="w-14 h-14 shrink-0 rounded-xl flex items-center justify-center relative" style={{ background: 'linear-gradient(135deg, #22c55e, #15803d)' }}>
+                                    <svg width="28" height="28" viewBox="0 0 64 64" fill="none">
+                                        <rect x="6" y="10" width="52" height="36" rx="6" fill="white" fillOpacity="0.3" />
+                                        <rect x="10" y="14" width="44" height="28" rx="3" fill="white" fillOpacity="0.6" />
+                                        <rect x="22" y="46" width="20" height="4" rx="2" fill="white" fillOpacity="0.8" />
+                                        <rect x="16" y="50" width="32" height="3" rx="1.5" fill="white" />
+                                    </svg>
+                                    <span className="absolute -top-1 -right-1 w-5 h-5 bg-white rounded-full flex items-center justify-center shadow">
+                                        <svg width="10" height="10" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#22c55e" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                                    </span>
+                                </div>
+                                <h3 className="text-lg font-bold text-slate-900 m-0">Works on Any Device</h3>
                             </div>
-                            <h3 className="text-lg font-bold text-slate-900">Works on Any Device</h3>
                             <p className="text-sm text-slate-600 leading-relaxed">
                                 Fully responsive on desktop, tablet, and mobile. No app or installation needed â€” just open your browser and get to work.
                             </p>
@@ -522,17 +528,19 @@ export default function MarketingSections({
 
                         {/* 24/7 Available */}
                         <div className="why-card-indigo flex flex-col gap-4 rounded-2xl p-8" style={{ background: 'linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%)' }}>
-                            <div className="w-14 h-14 rounded-xl flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #6366f1, #4338ca)' }}>
-                                <svg width="28" height="28" viewBox="0 0 64 64" fill="none">
-                                    <rect x="8" y="12" width="30" height="36" rx="4" fill="white" fillOpacity="0.4" />
-                                    <rect x="12" y="16" width="22" height="4" rx="2" fill="white" fillOpacity="0.8" />
-                                    <rect x="12" y="24" width="16" height="3" rx="1.5" fill="white" fillOpacity="0.7" />
-                                    <rect x="12" y="30" width="20" height="3" rx="1.5" fill="white" fillOpacity="0.7" />
-                                    <circle cx="44" cy="44" r="14" fill="white" fillOpacity="0.25" />
-                                    <text x="44" y="49" textAnchor="middle" fill="white" fontSize="9" fontWeight="bold">24/7</text>
-                                </svg>
+                            <div className="flex flex-col md:flex-row items-center gap-4">
+                                <div className="w-14 h-14 shrink-0 rounded-xl flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #6366f1, #4338ca)' }}>
+                                    <svg width="28" height="28" viewBox="0 0 64 64" fill="none">
+                                        <rect x="8" y="12" width="30" height="36" rx="4" fill="white" fillOpacity="0.4" />
+                                        <rect x="12" y="16" width="22" height="4" rx="2" fill="white" fillOpacity="0.8" />
+                                        <rect x="12" y="24" width="16" height="3" rx="1.5" fill="white" fillOpacity="0.7" />
+                                        <rect x="12" y="30" width="20" height="3" rx="1.5" fill="white" fillOpacity="0.7" />
+                                        <circle cx="44" cy="44" r="14" fill="white" fillOpacity="0.25" />
+                                        <text x="44" y="49" textAnchor="middle" fill="white" fontSize="9" fontWeight="bold">24/7</text>
+                                    </svg>
+                                </div>
+                                <h3 className="text-lg font-bold text-slate-900 m-0">Always Available</h3>
                             </div>
-                            <h3 className="text-lg font-bold text-slate-900">Always Available</h3>
                             <p className="text-sm text-slate-600 leading-relaxed">
                                 Smart PDFs is available around the clock. Process your documents any time, any day â€” no downtime, no waiting.
                             </p>
@@ -540,17 +548,19 @@ export default function MarketingSections({
 
                         {/* 256-bit Encryption */}
                         <div className="why-card-purple flex flex-col gap-4 rounded-2xl p-8" style={{ background: 'linear-gradient(135deg, #fdf4ff 0%, #fae8ff 100%)' }}>
-                            <div className="w-14 h-14 rounded-xl flex items-center justify-center relative" style={{ background: 'linear-gradient(135deg, #a855f7, #7c3aed)' }}>
-                                <svg width="28" height="28" viewBox="0 0 64 64" fill="none">
-                                    <rect x="14" y="8" width="36" height="28" rx="5" fill="white" fillOpacity="0.3" />
-                                    <rect x="20" y="14" width="24" height="16" rx="3" fill="white" fillOpacity="0.5" />
-                                    <rect x="10" y="32" width="44" height="24" rx="5" fill="white" fillOpacity="0.25" />
-                                    <circle cx="32" cy="44" r="5" fill="white" fillOpacity="0.9" />
-                                    <rect x="30" y="44" width="4" height="6" rx="1" fill="white" fillOpacity="0.4" />
-                                </svg>
-                                <span className="absolute -top-2 -right-2 bg-yellow-400 text-[9px] font-medium text-slate-900 px-1.5 py-0.5 rounded shadow">256-bit</span>
+                            <div className="flex flex-col md:flex-row items-center gap-4">
+                                <div className="w-14 h-14 shrink-0 rounded-xl flex items-center justify-center relative" style={{ background: 'linear-gradient(135deg, #a855f7, #7c3aed)' }}>
+                                    <svg width="28" height="28" viewBox="0 0 64 64" fill="none">
+                                        <rect x="14" y="8" width="36" height="28" rx="5" fill="white" fillOpacity="0.3" />
+                                        <rect x="20" y="14" width="24" height="16" rx="3" fill="white" fillOpacity="0.5" />
+                                        <rect x="10" y="32" width="44" height="24" rx="5" fill="white" fillOpacity="0.25" />
+                                        <circle cx="32" cy="44" r="5" fill="white" fillOpacity="0.9" />
+                                        <rect x="30" y="44" width="4" height="6" rx="1" fill="white" fillOpacity="0.4" />
+                                    </svg>
+                                    <span className="absolute -top-2 -right-2 bg-yellow-400 text-[9px] font-medium text-slate-900 px-1.5 py-0.5 rounded shadow">256-bit</span>
+                                </div>
+                                <h3 className="text-lg font-bold text-slate-900 m-0">256-Bit TLS Encryption</h3>
                             </div>
-                            <h3 className="text-lg font-bold text-slate-900">256-Bit TLS Encryption</h3>
                             <p className="text-sm text-slate-600 leading-relaxed">
                                 We use 256-bit TLS encryption to keep your data safe during transfer. Your files are processed securely and never stored on our servers.
                             </p>
@@ -558,14 +568,16 @@ export default function MarketingSections({
 
                         {/* Privacy First */}
                         <div className="why-card-red flex flex-col gap-4 rounded-2xl p-8" style={{ background: 'linear-gradient(135deg, #fff1f2 0%, #ffe4e6 100%)' }}>
-                            <div className="w-14 h-14 rounded-xl flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #f43f5e, #be123c)' }}>
-                                <svg width="28" height="28" viewBox="0 0 64 64" fill="none">
-                                    <path d="M32 14 L44 20 L44 34 C44 42 32 50 32 50 C32 50 20 42 20 34 L20 20 Z" fill="white" fillOpacity="0.35" />
-                                    <path d="M32 18 L41 23 L41 34 C41 40 32 47 32 47 C32 47 23 40 23 34 L23 23 Z" fill="white" fillOpacity="0.6" />
-                                    <path d="M27 32 L30 35 L37 28" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
-                                </svg>
+                            <div className="flex flex-col md:flex-row items-center gap-4">
+                                <div className="w-14 h-14 shrink-0 rounded-xl flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #f43f5e, #be123c)' }}>
+                                    <svg width="28" height="28" viewBox="0 0 64 64" fill="none">
+                                        <path d="M32 14 L44 20 L44 34 C44 42 32 50 32 50 C32 50 20 42 20 34 L20 20 Z" fill="white" fillOpacity="0.35" />
+                                        <path d="M32 18 L41 23 L41 34 C41 40 32 47 32 47 C32 47 23 40 23 34 L23 23 Z" fill="white" fillOpacity="0.6" />
+                                        <path d="M27 32 L30 35 L37 28" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+                                    </svg>
+                                </div>
+                                <h3 className="text-lg font-bold text-slate-900 m-0">Privacy First</h3>
                             </div>
-                            <h3 className="text-lg font-bold text-slate-900">Privacy First</h3>
                             <p className="text-sm text-slate-600 leading-relaxed">
                                 Your safety is our priority. All PDF processing happens locally in your browser â€” your files never leave your device. Zero uploads, 100% private.
                             </p>

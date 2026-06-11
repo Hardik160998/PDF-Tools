@@ -218,14 +218,14 @@ export default function HomeClient({ initialTools, initialCategories }: { initia
             <Link
                 key={tool.id}
                 href={tool.id === 'esign' ? '/esign' : tool.id === 'edit-pdf' ? '/edit' : `/tool/${tool.id}`}
-                className={`bg-white dark:bg-slate-800 rounded-xl p-3 shadow-sm hover:shadow-md border border-slate-100 dark:border-slate-700/80 transition-all hover:-translate-y-1 flex items-center gap-3 ${isLocked ? 'grayscale-[30%] opacity-90' : ''}`}
+                className={`bg-white dark:bg-slate-800 rounded-xl p-2.5 sm:p-3 shadow-sm hover:shadow-md border border-slate-100 dark:border-slate-700/80 transition-all hover:-translate-y-1 flex items-center gap-2 sm:gap-3 ${isLocked ? 'grayscale-[30%] opacity-90' : ''}`}
                 onClick={() => trackToolClick(tool.id)}
             >
-                <div className={`w-10 h-10 rounded-lg flex items-center justify-center text-white shadow-md shrink-0 ${style.shadow}`} style={{ background: style.gradient }}>
-                    {tool.icon && <tool.icon size={18} />}
+                <div className={`w-8 h-8 sm:w-10 sm:h-10 rounded-lg flex items-center justify-center text-white shadow-md shrink-0 ${style.shadow}`} style={{ background: style.gradient }}>
+                    {tool.icon && <tool.icon className="w-[16px] h-[16px] sm:w-[18px] sm:h-[18px]" />}
                 </div>
-                <div className="flex-1 min-w-0 flex flex-col justify-center">
-                    <h3 className="text-[13px] font-bold text-slate-900 dark:text-white truncate leading-tight">{tool.title}</h3>
+                <div className="flex-1 min-w-0 flex flex-col justify-center text-left">
+                    <h3 className="text-xs sm:text-[13px] font-bold text-slate-900 dark:text-white truncate leading-tight w-full text-left">{tool.title}</h3>
                 </div>
                 {isLocked && (
                     <div className="shrink-0 text-amber-500">

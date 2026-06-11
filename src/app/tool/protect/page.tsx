@@ -490,15 +490,15 @@ export default function ProtectPage() {
                         </div>
 
                         {/* FAQ Block */}
-                        <div className="bg-white dark:bg-slate-900 p-8 sm:p-12 rounded-[2.5rem] border border-slate-100 dark:border-slate-800 shadow-sm">
-                            <h2 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white uppercase tracking-tight mb-8 flex items-center gap-3">
-                                <span className="p-2 rounded-xl bg-red-500/10 text-red-500">
-                                    <HelpCircle size={24} />
-                                </span>
-                                Frequently Asked Questions
-                            </h2>
-                            <div className="space-y-4">
-                                {[
+            <div className="bg-white dark:bg-slate-900 p-8 sm:p-12 rounded-[2.5rem] border border-slate-100 dark:border-slate-800 shadow-sm">
+              <h2 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white uppercase tracking-tight mb-8 flex items-center gap-3">
+                <span className="p-2 rounded-xl bg-red-500/10 text-red-600 dark:text-red-500">
+                  <HelpCircle size={24} />
+                </span>
+                Frequently Asked Questions
+              </h2>
+              <div className="space-y-4">
+                {[
                                     {
                                         q: "How do I password-protect a PDF?",
                                         a: "Upload your PDF, enter a strong password in the prompt box, and our security engine will encrypt the file. Anyone who attempts to open the document thereafter will need the password to view it.",
@@ -516,30 +516,29 @@ export default function ProtectPage() {
                                         a: "All uploaded documents are processed securely and deleted automatically from our servers within 1 hour after conversion. We do not keep or read your files.",
                                     },
                                 ].map((item, idx) => (
-                                    <details
-                                        key={idx}
-                                        className="group border border-slate-100 dark:border-slate-800/80 rounded-2xl p-5 [&_summary::-webkit-details-marker]:hidden bg-slate-50/20 dark:bg-slate-900/20 open:bg-slate-50/50 dark:open:bg-slate-800/30 transition-all duration-300 text-left"
-                                    >
-                                        <summary className="flex items-center justify-between cursor-pointer list-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500 rounded-lg">
-                                            <div className="flex items-center gap-3 pr-4">
-  <span className="p-1.5 rounded-full bg-red-500/10 text-red-500 shrink-0">
-    <HelpCircle size={18} />
-  </span>
-  <h3 className="text-base sm:text-base font-bold text-slate-800 dark:text-white uppercase tracking-tight group-hover:text-red-500 transition-colors">
-                                                {item.q}
-                                            </h3>
-</div>
-                                            <span className="shrink-0 transition-transform duration-300 group-open:rotate-180 text-slate-400 group-hover:text-red-500">
-                                                <ChevronDown size={18} />
-                                            </span>
-                                        </summary>
-                                        <div className="mt-3 text-slate-500 dark:text-slate-400 text-sm leading-relaxed font-medium border-t border-slate-105 dark:border-slate-800 pt-3">
-                                            {item.a}
-                                        </div>
-                                    </details>
-                                ))}
-                            </div>
-                        </div>
+                  <details
+                    key={idx}
+                    className="group bg-white dark:bg-slate-900 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm overflow-hidden transition-all [&_summary::-webkit-details-marker]:hidden"
+                  >
+                    <summary className="flex items-center justify-between p-6 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500">
+                      <span className="text-sm sm:text-base font-bold text-slate-800 dark:text-white tracking-tight flex items-center gap-3">
+                        <HelpCircle size={22} className="text-red-500 shrink-0" />
+                        {item.q}
+                      </span>
+                      <ChevronDown
+                        size={18}
+                        className="text-slate-400 transition-transform duration-300 group-open:rotate-180 shrink-0 ml-4"
+                      />
+                    </summary>
+                    <div className="mx-6 pb-6 border-t border-slate-200 dark:border-slate-800 pt-4">
+                      <p className="text-sm text-slate-500 dark:text-slate-400 font-medium leading-relaxed">
+                        {item.a}
+                      </p>
+                    </div>
+                  </details>
+                ))}
+              </div>
+            </div>
                     </article>
                 </section>
 

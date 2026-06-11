@@ -360,9 +360,7 @@ export default function RepairPdfPage() {
  >
  <summary className="flex items-center justify-between p-6 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500">
  <span className="text-sm sm:text-base font-bold text-slate-800 dark:text-white uppercase tracking-tight flex items-center gap-3">
- <span className="p-1.5 rounded-full bg-red-500/10 text-red-500 shrink-0">
-  <HelpCircle size={18} />
-</span>
+ <HelpCircle size={22} className="text-red-500 shrink-0" />
  {faq.q}
  </span>
  <ChevronDown
