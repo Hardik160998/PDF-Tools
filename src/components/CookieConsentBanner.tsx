@@ -20,6 +20,7 @@ const loadGoogleAnalytics = () => {
   }
 };
 
+
 const loadAdSense = () => {
   if (typeof window !== "undefined" && !window.adsbygoogle) {
     window.adsbygoogle = window.adsbygoogle || [];
