@@ -519,9 +519,14 @@ export default function RedactPdfPage() {
                                         className="group border border-slate-100 dark:border-slate-800/80 rounded-2xl p-5 [&_summary::-webkit-details-marker]:hidden bg-slate-50/20 dark:bg-slate-900/20 open:bg-slate-50/50 dark:open:bg-slate-800/30 transition-all duration-300 text-left"
                                     >
                                         <summary className="flex items-center justify-between cursor-pointer list-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500 rounded-lg">
-                                            <h3 className="text-base sm:text-base font-bold text-slate-800 dark:text-white uppercase tracking-tight group-hover:text-red-500 transition-colors pr-4">
+                                            <div className="flex items-center gap-3 pr-4">
+  <span className="p-1.5 rounded-full bg-red-500/10 text-red-500 shrink-0">
+    <HelpCircle size={18} />
+  </span>
+  <h3 className="text-base sm:text-base font-bold text-slate-800 dark:text-white uppercase tracking-tight group-hover:text-red-500 transition-colors">
                                                 {item.q}
                                             </h3>
+</div>
                                             <span className="shrink-0 transition-transform duration-300 group-open:rotate-180 text-slate-400 group-hover:text-red-500">
                                                 <ChevronDown size={18} />
                                             </span>

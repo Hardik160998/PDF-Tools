@@ -585,10 +585,9 @@ export default function JpgToPdfPage() {
                   >
                     <summary className="flex items-center justify-between p-6 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-yellow-500">
                       <span className="text-sm sm:text-base font-bold text-slate-800 dark:text-white tracking-tight flex items-center gap-3">
-                        <HelpCircle
-                          size={18}
-                          className="text-yellow-500 shrink-0"
-                        />
+                        <span className="p-1.5 rounded-full bg-yellow-500/10 text-yellow-500 shrink-0">
+  <HelpCircle size={18} />
+</span>
                         {item.q}
                       </span>
                       <ChevronDown
