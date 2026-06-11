@@ -91,8 +91,8 @@ export default function CookieConsentBanner() {
                 Essential
               </span>
               <span className="text-[11px] text-slate-500 dark:text-slate-400 pl-3 leading-relaxed">
-                Necessary for the website to function securely and properly.
-                <Link href="/cookie-policy#essential" target="_blank" className="text-indigo-600 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300 underline ml-1">Learn more in our Essential Cookies Policy.</Link>
+                Necessary for the website to function securely and properly.{" "}
+                <Link href="/cookie-policy#essential" target="_blank" className="text-indigo-600 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300 underline">Essential Cookies Policy</Link>
               </span>
             </div>
 
@@ -102,8 +102,8 @@ export default function CookieConsentBanner() {
                 Analytics
               </span>
               <span className="text-[11px] text-slate-500 dark:text-slate-400 pl-3 leading-relaxed">
-                Helps us understand how visitors interact with the website.
-                <a href="https://policies.google.com/privacy?hl=en-GB" target="_blank" rel="noopener noreferrer" className="text-indigo-600 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300 underline ml-1">View our Analytics Cookies Policy.</a>
+                Helps us understand how visitors interact with the website.{" "}
+                <a href="https://policies.google.com/privacy?hl=en-GB" target="_blank" rel="noopener noreferrer" className="text-indigo-600 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300 underline">Analytics Cookies Policy</a>
               </span>
             </div>
 
@@ -113,8 +113,8 @@ export default function CookieConsentBanner() {
                 Advertising
               </span>
               <span className="text-[11px] text-slate-500 dark:text-slate-400 pl-3 leading-relaxed">
-                Used to deliver relevant ads and track campaign performance.
-                <a href="https://support.google.com/adsense/answer/48182?sjid=14695444302049797352-NC" target="_blank" rel="noopener noreferrer" className="text-indigo-600 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300 underline ml-1">Read our Advertising Cookies Policy.</a>
+                Used to deliver relevant ads and track campaign performance.{" "}
+                <a href="https://support.google.com/adsense/answer/48182?sjid=14695444302049797352-NC" target="_blank" rel="noopener noreferrer" className="text-indigo-600 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300 underline">Advertising Cookies Policy</a>
               </span>
             </div>
 
@@ -124,8 +124,8 @@ export default function CookieConsentBanner() {
                 Payment
               </span>
               <span className="text-[11px] text-slate-500 dark:text-slate-400 pl-3 leading-relaxed">
-                Required for securely processing your transactions.
-                <a href="https://razorpay.com/privacy-policy/" target="_blank" rel="noopener noreferrer" className="text-indigo-600 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300 underline ml-1">See our Payment Processing Policy.</a>
+                Required for securely processing your transactions.{" "}
+                <a href="https://razorpay.com/privacy-policy/" target="_blank" rel="noopener noreferrer" className="text-indigo-600 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300 underline">Payment Processing Policy</a>
               </span>
             </div>
           </div>
@@ -145,6 +145,13 @@ export default function CookieConsentBanner() {
             Accept All
           </button>
         </div>
+        
+        <p className="text-[11px] text-center text-slate-500 dark:text-slate-400 mt-4 m-0 leading-relaxed">
+          By continuing, you agree to our{" "}
+          <a href="http://smartpdfpro.com/terms" target="_blank" rel="noopener noreferrer" className="text-indigo-600 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300 underline">Terms of Service</a>
+          {" "}and{" "}
+          <a href="https://www.smartpdfpro.com/privacy" target="_blank" rel="noopener noreferrer" className="text-indigo-600 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300 underline">Privacy Policy</a>.
+        </p>
       </div>
     </div>
   );
