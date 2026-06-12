@@ -4,7 +4,8 @@ import { useState, useRef } from 'react';
 import { 
  Upload, Download, Loader2, X, Combine, FileText, 
  CheckCircle2, Scissors, GripVertical, Settings, 
- ChevronDown, FilePlus, Zap, History, LayoutGrid
+ ChevronDown, FilePlus, Zap, History, LayoutGrid,
+ Sparkles, Lock, Trash2, Smartphone, Rocket, Plus, Shield
 } from 'lucide-react';
 import { PDFDocument, rgb } from 'pdf-lib';
 
@@ -267,7 +268,7 @@ export default function MergeSplit({ id }: { id: string }) {
  <div className="flex flex-col-reverse lg:flex-row-reverse gap-8 items-start">
  
  {/* Sidebar Configuration */}
- <div className="w-full lg:w-[320px] bg-white dark:bg-slate-900 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-xl transition-shadow duration-300 overflow-hidden h-fit lg:sticky lg:top-4 flex-shrink-0">
+ <div className={`w-full lg:w-[320px] bg-white dark:bg-slate-900 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-xl transition-shadow duration-300 overflow-hidden h-fit lg:sticky lg:top-4 flex-shrink-0 ${files.length === 0 ? 'hidden' : ''}`}>
  <button onClick={() => setShowSettings(!showSettings)} className="w-full flex lg:hidden items-center justify-between p-5 font-medium text-slate-900 dark:text-white border-b border-slate-50 dark:border-slate-700">
  <span className="flex items-center gap-2"><Settings size={20} style={{ color: ACCENT }} /> Tool Settings</span>
  <ChevronDown className={`transition-transform duration-300 ${showSettings ? 'rotate-180' : ''}`} size={20} />
@@ -344,12 +345,12 @@ export default function MergeSplit({ id }: { id: string }) {
 
  {/* Main Workspace */}
  <div className="flex-1 w-full space-y-4 sm:space-y-6">
- <div className="bg-white dark:bg-slate-900 rounded-3xl sm:rounded-[2.5rem] border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-2xl transition-shadow duration-300 p-5 sm:p-10 min-h-[500px] flex flex-col relative overflow-hidden">
+ <div className={`bg-white dark:bg-slate-900 rounded-3xl sm:rounded-[2.5rem] border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-2xl transition-shadow duration-300 p-5 sm:p-10 min-h-[500px] flex flex-col relative overflow-hidden ${files.length === 0 ? 'max-w-4xl mx-auto w-full' : 'w-full'}`}>
  
  <div className="absolute top-0 right-0 w-64 h-64 bg-slate-50 dark:bg-slate-900/50 rounded-full -mr-32 -mt-32 blur-3xl opacity-50" />
  
- <div className="relative text-center space-y-4 mb-10">
- <div className="inline-flex p-4 rounded-2xl text-white shadow-lg" style={{ background: ACCENT_GRADIENT }}>
+ <div className="relative text-center space-y-4 mb-6">
+ <div className="inline-flex p-3 rounded-xl text-white shadow-lg" style={{ background: ACCENT_GRADIENT }}>
  {isSplit ? <Scissors size={32} /> : <Combine size={32} />}
  </div>
  <h2 className="text-2xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter leading-tight text-center">
@@ -361,25 +362,88 @@ export default function MergeSplit({ id }: { id: string }) {
  </div>
 
  {files.length === 0 ? (
- <div className="flex-1 flex flex-col items-center justify-center border-2 border-dashed border-slate-200 dark:border-slate-800 rounded-[2.5rem] p-10 sm:p-20 hover:border-orange-400 cursor-pointer transition-all bg-slate-50/30 dark:bg-slate-900/30 group relative overflow-hidden"
- onClick={() => fileInputRef.current?.click()}>
- <div className="p-6 bg-white dark:bg-slate-900 rounded-3xl shadow-sm hover:shadow-xl transition-shadow duration-300 mb-6 group-hover:scale-110 transition-transform relative z-10" style={{ color: ACCENT }}>
- <Upload size={32} />
- </div>
- <div className="text-lg sm:text-lg sm:text-xl font-medium text-slate-800 dark:text-white mb-1 relative z-10">
- Drop PDF Files Here
- </div>
- <p className="text-xs sm:text-sm text-slate-400 font-medium relative z-10">
- Secure local processing · Your file stays on your device
- </p>
- <button className="mt-8 px-10 py-4 rounded-2xl text-white text-sm font-medium uppercase tracking-widest shadow-xl hover:scale-105 transition-all relative z-10" style={{ background: ACCENT_GRADIENT }}>
- Choose Files
- </button>
+ <div className="flex-1 flex flex-col items-center animate-in fade-in slide-in-from-bottom-4 duration-500 w-full max-w-3xl mx-auto">
+   {/* Top Features Row */}
+   <div className="hidden sm:flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 w-full mb-6">
+     {[
+       { icon: Zap, title: "Instant", desc: "Lightning fast processing" },
+       { icon: Shield, title: "Private", desc: "Your files stay secure" },
+       { icon: Sparkles, title: "Lossless", desc: "Perfect quality output" }
+     ].map((f, i) => (
+       <div key={i} className="flex items-center gap-3">
+         <div className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0" style={{ color: ACCENT, backgroundColor: `${ACCENT}15` }}>
+           <f.icon size={20} />
+         </div>
+         <div className="text-left">
+           <p className="text-sm font-bold text-slate-900 dark:text-white tracking-tight leading-none mb-1">{f.title}</p>
+           <p className="text-[11px] text-slate-400 font-medium tracking-wide">{f.desc}</p>
+         </div>
+       </div>
+     ))}
+   </div>
+
+   {/* Custom Drop Zone */}
+   <div 
+     className="w-full border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-[2.5rem] p-8 sm:p-10 flex flex-col items-center justify-center cursor-pointer transition-all bg-white dark:bg-slate-900/50 shadow-sm hover:shadow-xl hover:border-slate-300 dark:hover:border-slate-500 group relative overflow-hidden mb-6"
+     onClick={() => fileInputRef.current?.click()}
+   >
+     {/* Custom Illustration */}
+     <div className="relative mb-8 group-hover:scale-105 transition-transform duration-300">
+        <div className="w-24 h-32 bg-slate-50 dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-lg flex flex-col relative z-10">
+           <div className="absolute top-3 left-3 bg-red-500 text-white text-[10px] font-bold px-2 py-0.5 rounded shadow-sm">PDF</div>
+           <div className="m-auto text-slate-300 dark:text-slate-600">
+              {isSplit ? <Scissors size={32} /> : <Combine size={32} />}
+           </div>
+        </div>
+        {/* Upload Arrow Overlay */}
+        <div className="absolute -bottom-4 -right-4 w-12 h-12 rounded-full text-white flex items-center justify-center shadow-xl z-20" style={{ background: ACCENT_GRADIENT }}>
+           <Upload size={20} strokeWidth={3} />
+        </div>
+        {/* Decorative elements */}
+        <Plus size={16} className="absolute -top-4 -left-6 opacity-60" style={{ color: ACCENT }} />
+        <Plus size={12} className="absolute top-10 -right-8 opacity-60" style={{ color: ACCENT }} />
+        <Plus size={14} className="absolute bottom-2 -left-8 opacity-60" style={{ color: ACCENT }} />
+     </div>
+
+     <h3 className="text-2xl sm:text-3xl font-black text-slate-800 dark:text-white mb-2 tracking-tight text-center">
+       Drag & drop your PDF files here
+     </h3>
+     <p className="text-lg font-medium text-slate-500 dark:text-slate-400 mb-4 text-center">
+       or click to <span style={{ color: ACCENT }}>browse</span>
+     </p>
+     <p className="text-sm text-slate-400 font-medium mb-8 text-center">
+       Supports single or multiple PDF files
+     </p>
+
+     <button className="px-8 py-4 rounded-xl text-white text-base font-bold uppercase tracking-widest shadow-xl hover:scale-105 active:scale-95 transition-all relative z-10 flex items-center gap-3" style={{ background: ACCENT_GRADIENT }}>
+       <Plus size={20} /> SELECT PDF FILES
+     </button>
+   </div>
+
+   {/* Bottom Features Row */}
+   <div className="w-full grid grid-cols-4 gap-2 sm:gap-6 pt-8 border-t border-slate-100 dark:border-slate-800/50">
+     {[
+       { icon: Lock, title: "100% Secure", desc: "Your files are safe" },
+       { icon: Trash2, title: "Auto Delete", desc: "Files auto removed" },
+       { icon: Smartphone, title: "Works Offline", desc: "No internet needed" },
+       { icon: Rocket, title: "Super Fast", desc: "Built for speed" }
+     ].map((f, i) => (
+       <div key={i} className="flex flex-col xl:flex-row items-center justify-start gap-2 xl:gap-3 text-center xl:text-left">
+          <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl flex items-center justify-center shrink-0" style={{ color: ACCENT, backgroundColor: `${ACCENT}10` }}>
+             <f.icon size={16} />
+          </div>
+          <div>
+             <p className="text-[10px] sm:text-[13px] font-bold text-slate-900 dark:text-white tracking-tight leading-tight mb-0.5">{f.title}</p>
+             <p className="text-[8px] sm:text-[10px] text-slate-400 font-medium tracking-wide leading-tight hidden sm:block">{f.desc}</p>
+          </div>
+       </div>
+     ))}
+   </div>
  </div>
  ) : (
  <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
  {(mergedResult || (isSplit && files.some(f => f.status === 'done'))) && (
- <div className={`p-6 sm:p-10 rounded-3xl sm:rounded-[2.5rem] border flex flex-col lg:flex-row items-center lg:items-center justify-between gap-8 mb-8 sm:mb-10 text-center lg:text-left ${isSplit ? 'bg-violet-50 dark:bg-violet-500/5 border-violet-100 dark:border-violet-500/20' : 'bg-green-50 dark:bg-green-500/5 border-green-100 dark:border-green-500/20'}`}>
+ <div className={`p-6 sm:p-10 rounded-3xl sm:rounded-[2.5rem] border flex flex-col lg:flex-row items-center lg:items-center justify-between gap-8 mb-8 sm:mb-6 text-center lg:text-left ${isSplit ? 'bg-violet-50 dark:bg-violet-500/5 border-violet-100 dark:border-violet-500/20' : 'bg-green-50 dark:bg-green-500/5 border-green-100 dark:border-green-500/20'}`}>
  <div className="flex flex-col sm:flex-row items-center gap-6">
  <div className={`p-4 text-white rounded-2xl shadow-xl ${isSplit ? 'bg-violet-500 shadow-violet-500/30' : 'bg-green-500 shadow-green-500/30'}`}><CheckCircle2 size={32} /></div>
  <div>
