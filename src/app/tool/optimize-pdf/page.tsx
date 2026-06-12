@@ -327,57 +327,57 @@ export default function OptimizePdfPage() {
  </section>
 
  {/* FAQs Accordion */}
- <section className="space-y-8 max-w-4xl mx-auto">
- <div className="text-center space-y-2">
- <h3 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white uppercase tracking-tight">
- Frequently Asked Questions
- </h3>
- <p className="text-sm font-medium text-slate-400 uppercase tracking-wider">
- Optimize PDF FAQs
- </p>
- </div>
+ <section>
+   <div className="bg-white dark:bg-slate-900 p-8 sm:p-12 rounded-[2.5rem] border border-slate-100 dark:border-slate-800 shadow-sm">
+     <h2 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white uppercase tracking-tight mb-8 flex items-center gap-3">
+       <span className="p-2 rounded-xl bg-emerald-500/10 dark:bg-emerald-500/20 text-emerald-600 dark:text-emerald-400">
+         <HelpCircle size={24} />
+       </span>
+       Frequently Asked Questions
+     </h2>
 
- <div className="space-y-4">
- {[
- {
- q: "How can I optimize and compress a PDF file?",
- a: "Upload your PDF. Select your desired compression level (Extreme, Recommended, or Low). Click 'Optimize PDF' to run the scanner and download the optimized PDF instantly.",
- },
- {
- q: "Is my data secure when using the PDF optimizer?",
- a: "Yes, absolutely! The optimization runs 100% locally in your web browser. No files are uploaded to remote servers, securing your confidential documents completely.",
- },
- {
- q: "What is the difference between Compress PDF and Optimize PDF?",
- a: "Compress PDF optimizes index data and stream layouts without changing image quality (lossless). Optimize PDF downsamples and re-compresses embedded images (lossy), yielding much smaller files for graphic-heavy documents.",
- },
- {
- q: "Is this tool free to use?",
- a: "Yes, our PDF optimizer is 100% free with no watermarks or email signups required.",
- },
- ].map((faq, idx) => (
- <details
- key={idx}
- className="group bg-white dark:bg-slate-900 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm overflow-hidden transition-all [&_summary::-webkit-details-marker]:hidden"
- >
- <summary className="flex items-center justify-between p-6 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500">
- <span className="text-sm sm:text-base font-bold text-slate-800 dark:text-white uppercase tracking-tight flex items-center gap-3">
- <HelpCircle size={22} className="text-emerald-500 shrink-0" />
- {faq.q}
- </span>
- <ChevronDown
- size={18}
- className="text-slate-400 transition-transform duration-300 group-open:rotate-180 shrink-0 ml-4"
- />
- </summary>
- <div className="mx-6 pb-6 border-t border-slate-200 dark:border-slate-800 pt-4">
- <p className="text-sm text-slate-500 dark:text-slate-400 font-medium leading-relaxed">
- {faq.a}
- </p>
- </div>
- </details>
- ))}
- </div>
+     <div className="space-y-4">
+       {[
+         {
+           q: "How can I optimize and compress a PDF file?",
+           a: "Upload your PDF. Select your desired compression level (Extreme, Recommended, or Low). Click 'Optimize PDF' to run the scanner and download the optimized PDF instantly.",
+         },
+         {
+           q: "Is my data secure when using the PDF optimizer?",
+           a: "Yes, absolutely! The optimization runs 100% locally in your web browser. No files are uploaded to remote servers, securing your confidential documents completely.",
+         },
+         {
+           q: "What is the difference between Compress PDF and Optimize PDF?",
+           a: "Compress PDF optimizes index data and stream layouts without changing image quality (lossless). Optimize PDF downsamples and re-compresses embedded images (lossy), yielding much smaller files for graphic-heavy documents.",
+         },
+         {
+           q: "Is this tool free to use?",
+           a: "Yes, our PDF optimizer is 100% free with no watermarks or email signups required.",
+         },
+       ].map((faq, idx) => (
+         <details
+           key={idx}
+           className="group bg-white dark:bg-slate-900 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm overflow-hidden transition-all [&_summary::-webkit-details-marker]:hidden"
+         >
+           <summary className="flex items-center justify-between p-6 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500">
+             <span className="text-sm sm:text-base font-bold text-slate-800 dark:text-white tracking-tight flex items-center gap-3">
+               <HelpCircle size={18} className="text-emerald-500 dark:text-emerald-400 shrink-0" />
+               {faq.q}
+             </span>
+             <ChevronDown
+               size={18}
+               className="text-slate-400 transition-transform duration-300 group-open:rotate-180 shrink-0 ml-4"
+             />
+           </summary>
+           <div className="mx-6 pb-6 border-t border-slate-200 dark:border-slate-800 pt-4">
+             <p className="text-sm text-slate-500 dark:text-slate-400 font-medium leading-relaxed">
+               {faq.a}
+             </p>
+           </div>
+         </details>
+       ))}
+     </div>
+   </div>
  </section>
 
  {/* Internal Links/Related tools */}

@@ -328,57 +328,57 @@ export default function OcrPdfPage() {
  </section>
 
  {/* FAQs Accordion */}
- <section className="space-y-8 max-w-4xl mx-auto">
- <div className="text-center space-y-2">
- <h3 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white uppercase tracking-tight">
- Frequently Asked Questions
- </h3>
- <p className="text-sm font-medium text-slate-400 uppercase tracking-wider">
- OCR PDF FAQs
- </p>
- </div>
+ <section>
+   <div className="bg-white dark:bg-slate-900 p-8 sm:p-12 rounded-[2.5rem] border border-slate-100 dark:border-slate-800 shadow-sm">
+     <h2 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white uppercase tracking-tight mb-8 flex items-center gap-3">
+       <span className="p-2 rounded-xl bg-blue-500/10 dark:bg-blue-500/20 text-blue-600 dark:text-blue-400">
+         <HelpCircle size={24} />
+       </span>
+       Frequently Asked Questions
+     </h2>
 
- <div className="space-y-4">
- {[
- {
- q: "How can I convert a scanned PDF to a searchable PDF?",
- a: "Upload your scanned PDF to our OCR PDF tool. Select your document's language and click 'Run OCR'. Our in-browser Tesseract engine scans the document, injects a selectable text layer, and downloads the searchable PDF.",
- },
- {
- q: "Is my scanned document uploaded to a server?",
- a: "No! Tesseract OCR operates completely inside your web browser sandbox using WebAssembly. No text elements or document pages are ever transmitted to external servers.",
- },
- {
- q: "What languages does the OCR tool support?",
- a: "The OCR engine is configured with English text datasets by default to recognize alphanumeric characters, ensuring fast and accurate layouts parsing.",
- },
- {
- q: "Does OCR PDF support big file sizes?",
- a: "Since OCR runs within your browser, processing speed depends on your machine's processor and memory. We recommend splitting large documents into segments for the fastest performance.",
- },
- ].map((faq, idx) => (
- <details
- key={idx}
- className="group bg-white dark:bg-slate-900 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm overflow-hidden transition-all [&_summary::-webkit-details-marker]:hidden"
- >
- <summary className="flex items-center justify-between p-6 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500">
- <span className="text-sm sm:text-base font-bold text-slate-800 dark:text-white uppercase tracking-tight flex items-center gap-3">
- <HelpCircle size={22} className="text-blue-500 shrink-0" />
- {faq.q}
- </span>
- <ChevronDown
- size={18}
- className="text-slate-400 transition-transform duration-300 group-open:rotate-180 shrink-0 ml-4"
- />
- </summary>
- <div className="mx-6 pb-6 border-t border-slate-200 dark:border-slate-800 pt-4">
- <p className="text-sm text-slate-500 dark:text-slate-400 font-medium leading-relaxed">
- {faq.a}
- </p>
- </div>
- </details>
- ))}
- </div>
+     <div className="space-y-4">
+       {[
+         {
+           q: "How can I convert a scanned PDF to a searchable PDF?",
+           a: "Upload your scanned PDF to our OCR PDF tool. Select your document's language and click 'Run OCR'. Our in-browser Tesseract engine scans the document, injects a selectable text layer, and downloads the searchable PDF.",
+         },
+         {
+           q: "Is my scanned document uploaded to a server?",
+           a: "No! Tesseract OCR operates completely inside your web browser sandbox using WebAssembly. No text elements or document pages are ever transmitted to external servers.",
+         },
+         {
+           q: "What languages does the OCR tool support?",
+           a: "The OCR engine is configured with English text datasets by default to recognize alphanumeric characters, ensuring fast and accurate layouts parsing.",
+         },
+         {
+           q: "Does OCR PDF support big file sizes?",
+           a: "Since OCR runs within your browser, processing speed depends on your machine's processor and memory. We recommend splitting large documents into segments for the fastest performance.",
+         },
+       ].map((faq, idx) => (
+         <details
+           key={idx}
+           className="group bg-white dark:bg-slate-900 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm overflow-hidden transition-all [&_summary::-webkit-details-marker]:hidden"
+         >
+           <summary className="flex items-center justify-between p-6 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500">
+             <span className="text-sm sm:text-base font-bold text-slate-800 dark:text-white tracking-tight flex items-center gap-3">
+               <HelpCircle size={18} className="text-blue-500 dark:text-blue-400 shrink-0" />
+               {faq.q}
+             </span>
+             <ChevronDown
+               size={18}
+               className="text-slate-400 transition-transform duration-300 group-open:rotate-180 shrink-0 ml-4"
+             />
+           </summary>
+           <div className="mx-6 pb-6 border-t border-slate-200 dark:border-slate-800 pt-4">
+             <p className="text-sm text-slate-500 dark:text-slate-400 font-medium leading-relaxed">
+               {faq.a}
+             </p>
+           </div>
+         </details>
+       ))}
+     </div>
+   </div>
  </section>
 
  {/* Internal Links/Related tools */}

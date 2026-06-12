@@ -334,57 +334,57 @@ export default function OrganizePage() {
  </section>
 
  {/* FAQs Accordion */}
- <section className="space-y-8 max-w-4xl mx-auto">
- <div className="text-center space-y-2">
- <h3 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white uppercase tracking-tight">
- Frequently Asked Questions
- </h3>
- <p className="text-sm font-medium text-slate-400 uppercase tracking-wider">
- Organize PDF FAQs
- </p>
- </div>
+ <section>
+   <div className="bg-white dark:bg-slate-900 p-8 sm:p-12 rounded-[2.5rem] border border-slate-100 dark:border-slate-800 shadow-sm">
+     <h2 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white uppercase tracking-tight mb-8 flex items-center gap-3">
+       <span className="p-2 rounded-xl bg-orange-500/10 dark:bg-orange-500/20 text-orange-600 dark:text-orange-400">
+         <HelpCircle size={24} />
+       </span>
+       Frequently Asked Questions
+     </h2>
 
- <div className="space-y-4">
- {[
- {
- q: "How can I reorder pages in a PDF?",
- a: "Simply upload your PDF files to our tool. You will see a visual grid containing thumbnails of all pages. Drag and drop any page thumbnail to change its order, then click 'Organize & Save' to download your reorganized PDF.",
- },
- {
- q: "Is my PDF data safe when using your organizer tool?",
- a: "Absolutely! Our tool processes everything 100% locally in your web browser. Your files are never uploaded to any remote servers, ensuring complete privacy and data confidentiality.",
- },
- {
- q: "Can I merge and organize multiple PDF files at once?",
- a: "Yes, you can upload multiple PDF documents. All pages from the uploaded sources will be populated in the visual grid, allowing you to reorder, rotate, or delete pages across all documents before compiling them into a single organized file.",
- },
- {
- q: "Can I rotate individual pages inside my PDF?",
- a: "Yes, you can rotate pages one-by-one by hovering over a page thumbnail and clicking the rotate icon, or you can rotate all pages in the document simultaneously using the 'Rotate All' global action in the sidebar panel.",
- },
- ].map((faq, idx) => (
- <details
- key={idx}
- className="group bg-white dark:bg-slate-900 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm overflow-hidden transition-all [&_summary::-webkit-details-marker]:hidden"
- >
- <summary className="flex items-center justify-between p-6 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-500">
- <span className="text-sm sm:text-base font-bold text-slate-800 dark:text-white uppercase tracking-tight flex items-center gap-3">
- <HelpCircle size={22} className="text-orange-500 shrink-0" />
- {faq.q}
- </span>
- <ChevronDown
- size={18}
- className="text-slate-400 transition-transform duration-300 group-open:rotate-180 shrink-0 ml-4"
- />
- </summary>
- <div className="mx-6 pb-6 border-t border-slate-200 dark:border-slate-800 pt-4">
- <p className="text-sm text-slate-500 dark:text-slate-400 font-medium leading-relaxed">
- {faq.a}
- </p>
- </div>
- </details>
- ))}
- </div>
+     <div className="space-y-4">
+       {[
+         {
+           q: "How can I reorder pages in a PDF?",
+           a: "Simply upload your PDF files to our tool. You will see a visual grid containing thumbnails of all pages. Drag and drop any page thumbnail to change its order, then click 'Organize & Save' to download your reorganized PDF.",
+         },
+         {
+           q: "Is my PDF data safe when using your organizer tool?",
+           a: "Absolutely! Our tool processes everything 100% locally in your web browser. Your files are never uploaded to any remote servers, ensuring complete privacy and data confidentiality.",
+         },
+         {
+           q: "Can I merge and organize multiple PDF files at once?",
+           a: "Yes, you can upload multiple PDF documents. All pages from the uploaded sources will be populated in the visual grid, allowing you to reorder, rotate, or delete pages across all documents before compiling them into a single organized file.",
+         },
+         {
+           q: "Can I rotate individual pages inside my PDF?",
+           a: "Yes, you can rotate pages one-by-one by hovering over a page thumbnail and clicking the rotate icon, or you can rotate all pages in the document simultaneously using the 'Rotate All' global action in the sidebar panel.",
+         },
+       ].map((faq, idx) => (
+         <details
+           key={idx}
+           className="group bg-white dark:bg-slate-900 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm overflow-hidden transition-all [&_summary::-webkit-details-marker]:hidden"
+         >
+           <summary className="flex items-center justify-between p-6 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-500">
+             <span className="text-sm sm:text-base font-bold text-slate-800 dark:text-white tracking-tight flex items-center gap-3">
+               <HelpCircle size={18} className="text-orange-500 dark:text-orange-400 shrink-0" />
+               {faq.q}
+             </span>
+             <ChevronDown
+               size={18}
+               className="text-slate-400 transition-transform duration-300 group-open:rotate-180 shrink-0 ml-4"
+             />
+           </summary>
+           <div className="mx-6 pb-6 border-t border-slate-200 dark:border-slate-800 pt-4">
+             <p className="text-sm text-slate-500 dark:text-slate-400 font-medium leading-relaxed">
+               {faq.a}
+             </p>
+           </div>
+         </details>
+       ))}
+     </div>
+   </div>
  </section>
 
  {/* Internal Links/Related tools */}

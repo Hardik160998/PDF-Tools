@@ -325,57 +325,57 @@ export default function ExtractPagesPage() {
  </section>
 
  {/* FAQs Accordion */}
- <section className="space-y-8 max-w-4xl mx-auto">
- <div className="text-center space-y-2">
- <h3 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white uppercase tracking-tight">
- Frequently Asked Questions
- </h3>
- <p className="text-sm font-medium text-slate-400 uppercase tracking-wider">
- Extract Pages FAQs
- </p>
- </div>
+ <section>
+   <div className="bg-white dark:bg-slate-900 p-8 sm:p-12 rounded-[2.5rem] border border-slate-100 dark:border-slate-800 shadow-sm">
+     <h2 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white uppercase tracking-tight mb-8 flex items-center gap-3">
+       <span className="p-2 rounded-xl bg-orange-500/10 dark:bg-orange-500/20 text-orange-600 dark:text-orange-400">
+         <HelpCircle size={24} />
+       </span>
+       Frequently Asked Questions
+     </h2>
 
- <div className="space-y-4">
- {[
- {
- q: "How can I extract specific pages from a PDF?",
- a: "Simply upload your PDF file to our tool. You can visually select the pages you want to keep by clicking on their thumbnails, or type in a page range (e.g., 1-3, 5). Click 'Extract Pages' to instantly download the new PDF containing only your selected pages.",
- },
- {
- q: "Is my uploaded document secure?",
- a: "Yes! Our extractor tool processes your files 100% locally in your web browser. No files are uploaded to any external servers, ensuring complete security and privacy for your documents.",
- },
- {
- q: "Can I extract pages from password-protected PDFs?",
- a: "You will need to unlock the PDF first using our Unlock PDF tool before uploading it to the page extractor tool, as secured PDFs cannot be parsed without password authorization.",
- },
- {
- q: "Is there a page limit for extracting pages?",
- a: "There are no hard page limits. Since the tool executes within your browser tab, it is only limited by your device's memory, allowing you to process large PDFs smoothly.",
- },
- ].map((faq, idx) => (
- <details
- key={idx}
- className="group bg-white dark:bg-slate-900 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm overflow-hidden transition-all [&_summary::-webkit-details-marker]:hidden"
- >
- <summary className="flex items-center justify-between p-6 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-500">
- <span className="text-sm sm:text-base font-bold text-slate-800 dark:text-white uppercase tracking-tight flex items-center gap-3">
- <HelpCircle size={22} className="text-orange-500 shrink-0" />
- {faq.q}
- </span>
- <ChevronDown
- size={18}
- className="text-slate-400 transition-transform duration-300 group-open:rotate-180 shrink-0 ml-4"
- />
- </summary>
- <div className="mx-6 pb-6 border-t border-slate-200 dark:border-slate-800 pt-4">
- <p className="text-sm text-slate-500 dark:text-slate-400 font-medium leading-relaxed">
- {faq.a}
- </p>
- </div>
- </details>
- ))}
- </div>
+     <div className="space-y-4">
+       {[
+         {
+           q: "How can I extract specific pages from a PDF?",
+           a: "Simply upload your PDF file to our tool. You can visually select the pages you want to keep by clicking on their thumbnails, or type in a page range (e.g., 1-3, 5). Click 'Extract Pages' to instantly download the new PDF containing only your selected pages.",
+         },
+         {
+           q: "Is my uploaded document secure?",
+           a: "Yes! Our extractor tool processes your files 100% locally in your web browser. No files are uploaded to any external servers, ensuring complete security and privacy for your documents.",
+         },
+         {
+           q: "Can I extract pages from password-protected PDFs?",
+           a: "You will need to unlock the PDF first using our Unlock PDF tool before uploading it to the page extractor tool, as secured PDFs cannot be parsed without password authorization.",
+         },
+         {
+           q: "Is there a page limit for extracting pages?",
+           a: "There are no hard page limits. Since the tool executes within your browser tab, it is only limited by your device's memory, allowing you to process large PDFs smoothly.",
+         },
+       ].map((faq, idx) => (
+         <details
+           key={idx}
+           className="group bg-white dark:bg-slate-900 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm overflow-hidden transition-all [&_summary::-webkit-details-marker]:hidden"
+         >
+           <summary className="flex items-center justify-between p-6 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-500">
+             <span className="text-sm sm:text-base font-bold text-slate-800 dark:text-white tracking-tight flex items-center gap-3">
+               <HelpCircle size={18} className="text-orange-500 dark:text-orange-400 shrink-0" />
+               {faq.q}
+             </span>
+             <ChevronDown
+               size={18}
+               className="text-slate-400 transition-transform duration-300 group-open:rotate-180 shrink-0 ml-4"
+             />
+           </summary>
+           <div className="mx-6 pb-6 border-t border-slate-200 dark:border-slate-800 pt-4">
+             <p className="text-sm text-slate-500 dark:text-slate-400 font-medium leading-relaxed">
+               {faq.a}
+             </p>
+           </div>
+         </details>
+       ))}
+     </div>
+   </div>
  </section>
 
  {/* Internal Links/Related tools */}

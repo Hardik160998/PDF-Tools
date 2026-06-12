@@ -325,57 +325,57 @@ export default function PdfToXmlPage() {
  </section>
 
  {/* FAQs Accordion */}
- <section className="space-y-8 max-w-4xl mx-auto">
- <div className="text-center space-y-2">
- <h3 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white uppercase tracking-tight">
- Frequently Asked Questions
- </h3>
- <p className="text-sm font-medium text-slate-400 uppercase tracking-wider">
- PDF to XML FAQs
- </p>
- </div>
+ <section>
+   <div className="bg-white dark:bg-slate-900 p-8 sm:p-12 rounded-[2.5rem] border border-slate-100 dark:border-slate-800 shadow-sm">
+     <h2 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white uppercase tracking-tight mb-8 flex items-center gap-3">
+       <span className="p-2 rounded-xl bg-blue-500/10 dark:bg-blue-500/20 text-blue-600 dark:text-blue-400">
+         <HelpCircle size={24} />
+       </span>
+       Frequently Asked Questions
+     </h2>
 
- <div className="space-y-4">
- {[
- {
- q: "How can I convert a PDF to an XML file?",
- a: "Simply upload your PDF file to the converter. The parser extracts layout segments, lines, and text content locally. Review the generated XML structured schema in the editor and click copy or download to save the XML file.",
- },
- {
- q: "Is my data secure when converting to XML?",
- a: "Yes, absolutely! The conversion process is completed entirely on your local device. We never upload or save your documents to any external servers, maintaining total security.",
- },
- {
- q: "Does the XML parser support tables and columns?",
- a: "Yes, our parser identifies page layout coordinates to structure columns and paragraphs into clear tags, making it easy to map database attributes or parse schemas.",
- },
- {
- q: "Is there a file size limit for PDF to XML conversion?",
- a: "Since files are analyzed entirely within your web browser, size limits depend mostly on your computer's memory. We optimize memory usage so you can convert large documents smoothly.",
- },
- ].map((faq, idx) => (
- <details
- key={idx}
- className="group bg-white dark:bg-slate-900 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm overflow-hidden transition-all [&_summary::-webkit-details-marker]:hidden"
- >
- <summary className="flex items-center justify-between p-6 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500">
- <span className="text-sm sm:text-base font-bold text-slate-800 dark:text-white uppercase tracking-tight flex items-center gap-3">
- <HelpCircle size={22} className="text-blue-500 shrink-0" />
- {faq.q}
- </span>
- <ChevronDown
- size={18}
- className="text-slate-400 transition-transform duration-300 group-open:rotate-180 shrink-0 ml-4"
- />
- </summary>
- <div className="mx-6 pb-6 border-t border-slate-200 dark:border-slate-800 pt-4">
- <p className="text-sm text-slate-500 dark:text-slate-400 font-medium leading-relaxed">
- {faq.a}
- </p>
- </div>
- </details>
- ))}
- </div>
+     <div className="space-y-4">
+       {[
+         {
+           q: "How can I convert a PDF to an XML file?",
+           a: "Simply upload your PDF file to the converter. The parser extracts layout segments, lines, and text content locally. Review the generated XML structured schema in the editor and click copy or download to save the XML file.",
+         },
+         {
+           q: "Is my data secure when converting to XML?",
+           a: "Yes, absolutely! The conversion process is completed entirely on your local device. We never upload or save your documents to any external servers, maintaining total security.",
+         },
+         {
+           q: "Does the XML parser support tables and columns?",
+           a: "Yes, our parser identifies page layout coordinates to structure columns and paragraphs into clear tags, making it easy to map database attributes or parse schemas.",
+         },
+         {
+           q: "Is there a file size limit for PDF to XML conversion?",
+           a: "Since files are analyzed entirely within your web browser, size limits depend mostly on your computer's memory. We optimize memory usage so you can convert large documents smoothly.",
+         },
+       ].map((faq, idx) => (
+         <details
+           key={idx}
+           className="group bg-white dark:bg-slate-900 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm overflow-hidden transition-all [&_summary::-webkit-details-marker]:hidden"
+         >
+           <summary className="flex items-center justify-between p-6 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500">
+             <span className="text-sm sm:text-base font-bold text-slate-800 dark:text-white tracking-tight flex items-center gap-3">
+               <HelpCircle size={18} className="text-blue-500 dark:text-blue-400 shrink-0" />
+               {faq.q}
+             </span>
+             <ChevronDown
+               size={18}
+               className="text-slate-400 transition-transform duration-300 group-open:rotate-180 shrink-0 ml-4"
+             />
+           </summary>
+           <div className="mx-6 pb-6 border-t border-slate-200 dark:border-slate-800 pt-4">
+             <p className="text-sm text-slate-500 dark:text-slate-400 font-medium leading-relaxed">
+               {faq.a}
+             </p>
+           </div>
+         </details>
+       ))}
+     </div>
+   </div>
  </section>
 
  {/* Internal Links/Related tools */}
