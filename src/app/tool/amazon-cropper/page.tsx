@@ -244,6 +244,8 @@ export default function AmazonCropperPage() {
           </div>
         </section>
 
+        <RelatedTools />
+
         {/* 4. Complete SEO Optimized Content Section */}
         <section className="mt-20 border-t border-slate-200 dark:border-slate-800 pt-16 max-w-7xl mx-auto text-left">
           <div className="mb-16 text-center relative">
@@ -481,7 +483,7 @@ export default function AmazonCropperPage() {
               </div>
             </div>
 
-            <RelatedTools />
+            
           </article>
         </section>
       </div>
