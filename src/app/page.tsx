@@ -63,10 +63,10 @@ export default async function Page() {
                       The most powerful web-based PDF platform. Merge, split, compress, and convert documents in seconds with advanced security and premium speed.
                   </p>
               </div>
-
-              {/* Client Component (Interactivity only) */}
-              <HomeClient initialTools={allTools} initialCategories={categories} />
           </section>
+
+          {/* Client Component (Interactivity and Tools Grid + Marketing) */}
+          <HomeClient initialTools={allTools} initialCategories={categories} />
       </div>
     </>
   );

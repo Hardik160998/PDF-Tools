@@ -239,7 +239,7 @@ export default function HomeClient({ initialTools, initialCategories }: { initia
     return (
         <>
             {/* Category Filter */}
-            <div id="tools-grid" className="mt-8 fade-in-up flex justify-center relative z-[60]">
+            <div id="tools-grid" className="mt-8 fade-in-up flex justify-center relative z-40">
                     <div className="hidden md:flex justify-center w-full">
                         <div className="category-nav">
                             {dbCategories.map(cat => (
@@ -249,7 +249,7 @@ export default function HomeClient({ initialTools, initialCategories }: { initia
                             ))}
                         </div>
                     </div>
-                    <div className="md:hidden w-full px-4 relative z-50">
+                    <div className="md:hidden w-full px-4 relative z-40">
                         {isMobileMenuOpen && <div className="fixed inset-0 z-[-1]" onClick={() => setIsMobileMenuOpen(false)} />}
                         <button
                             onClick={() => startTransition(() => setIsMobileMenuOpen(!isMobileMenuOpen))}
@@ -259,7 +259,7 @@ export default function HomeClient({ initialTools, initialCategories }: { initia
                             <ChevronDown size={20} className={`text-slate-400 transition-transform duration-300 ${isMobileMenuOpen ? 'rotate-180' : ''}`} />
                         </button>
                         {isMobileMenuOpen && (
-                            <div className="absolute top-full left-4 right-4 mt-2 py-2 glass-dropdown mobile-dropdown-shadow rounded-2xl animate-in fade-in slide-in-from-top-2 duration-200 overflow-hidden z-[60]">
+                            <div className="absolute top-full left-4 right-4 mt-2 py-2 glass-dropdown mobile-dropdown-shadow rounded-2xl animate-in fade-in slide-in-from-top-2 duration-200 overflow-hidden z-40">
                                 {dbCategories.map(cat => (
                                     <button key={cat} onClick={() => startTransition(() => { setActiveCategory(cat); setIsMobileMenuOpen(false); })}
                                         className={`w-full text-left px-6 py-3 text-sm font-medium transition-colors ${activeCategory === cat ? 'bg-red-50 text-red-600 dark:bg-red-900/20 dark:text-red-400' : 'text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-700/50'}`}>
