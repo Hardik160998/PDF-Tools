@@ -454,7 +454,11 @@ export default function ImageConverter({ id: toolId }: { id: string }) {
  )}
  </div>
 
- <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
+ 
+ </div>
+ </div>
+
+ <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 mt-8">
  {[
  { title: "Native Engine", desc: "No wait times. Everything happens instantly on your device hardware.", icon: Layers },
  { title: "Smart Batches", desc: "Process hundreds of items. ZIP archives are created automatically.", icon: Zap },
@@ -468,8 +472,6 @@ export default function ImageConverter({ id: toolId }: { id: string }) {
  <p className="text-[11px] text-slate-400 font-medium leading-relaxed uppercase tracking-tighter">{feat.desc}</p>
  </div>
  ))}
- </div>
- </div>
  </div>
  
  <input 

@@ -324,7 +324,7 @@ export default function MergeSplit({ id }: { id: string }) {
  </div>
  </div>
 
- <div className="pt-2">
+ <div className="pt-2 hidden lg:block">
  <button
  onClick={handleProcess}
  disabled={processing || files.length === 0}
@@ -457,8 +457,29 @@ export default function MergeSplit({ id }: { id: string }) {
  </div>
  )}
  </div>
- 
- <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+
+        {/* Mobile-only action button in upload section */}
+        {files.length > 0 && !mergedResult && (!isSplit || splitResults.length === 0) && (
+          <div className="pt-6 lg:hidden block animate-in fade-in slide-in-from-bottom-4 duration-500">
+            <button
+              onClick={handleProcess}
+              disabled={processing || files.length === 0}
+              className="w-full py-5 text-white rounded-[1.5rem] text-lg font-medium shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50 disabled:grayscale uppercase tracking-tighter"
+              style={{ background: ACCENT_GRADIENT }}
+            >
+              {processing ? (
+                <span className="flex items-center justify-center gap-3"><Loader2 className="animate-spin" /> {id === 'merge' ? 'Merging...' : 'Splitting...'}</span>
+              ) : (
+                <span className="flex items-center justify-center gap-3">{id === 'merge' ? 'Merge All' : 'Split All'} {isSplit ? <Scissors size={24} /> : <Combine size={24} />}</span>
+              )}
+            </button>
+          </div>
+        )}
+
+ </div>
+ </div>
+
+ <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mt-8">
  {[
  { title: "Hardware Logic", desc: "Native browser processing means zero wait time for server uploads.", icon: Zap },
  { title: "Safe & Private", desc: "Your sensitive documents never leave your local machine.", icon: CheckCircle2 },
@@ -472,8 +493,6 @@ export default function MergeSplit({ id }: { id: string }) {
  <p className="text-[11px] text-slate-400 font-medium leading-relaxed uppercase">{feat.desc}</p>
  </div>
  ))}
- </div>
- </div>
  </div>
  <input ref={fileInputRef} type="file" multiple onChange={onFileChange} accept=".pdf" className="hidden" />
  </div>

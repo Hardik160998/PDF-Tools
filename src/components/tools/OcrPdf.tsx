@@ -415,7 +415,11 @@ export default function OcrPdf({ id: _id }: { id: string }) {
  </div>
 
  {/* Feature Highlight */}
- <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+ 
+ </div>
+ </div>
+
+ <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mt-8">
  {[
  { title: "Multi-Language", desc: "Native support for English, Spanish, Japanese, and 10+ major languages.", icon: Globe },
  { title: "Native Search", desc: "Injects a proper invisible text layer into your reconstructed PDF.", icon: Search },
@@ -429,8 +433,6 @@ export default function OcrPdf({ id: _id }: { id: string }) {
  <p className="text-[10px] text-slate-400 font-medium leading-relaxed uppercase">{feat.desc}</p>
  </div>
  ))}
- </div>
- </div>
  </div>
  
  <style jsx global>{`

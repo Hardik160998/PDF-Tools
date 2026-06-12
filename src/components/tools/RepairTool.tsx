@@ -336,7 +336,11 @@ export default function RepairTool({ id: _id }: { id: string }) {
  </div>
 
  {/* Feature Grid */}
- <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+ 
+ </div>
+ </div>
+
+ <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mt-8">
  {[
  { title: "Deep Analysis", desc: "Our engine scans internal file tables for structural anomalies.", icon: LifeBuoy },
  { title: "Smart Recovery", desc: "Rebuilds corrupted cross-reference tables and object streams.", icon: ShieldAlert },
@@ -350,8 +354,6 @@ export default function RepairTool({ id: _id }: { id: string }) {
  <p className="text-[10px] text-slate-400 font-medium leading-relaxed uppercase">{feat.desc}</p>
  </div>
  ))}
- </div>
- </div>
  </div>
 
  <style jsx global>{`

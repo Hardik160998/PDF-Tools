@@ -282,7 +282,11 @@ export default function Compressor({ id: _id }: { id: string }) {
  )}
  </div>
 
- <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
+ 
+ </div>
+ </div>
+
+ <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 mt-8">
  {[
  { title: "Privacy Safe", desc: "Military-grade local processing. No data logs or server storage.", icon: Shield },
  { title: "Turbo Engine", desc: "Optimized for multi-core hardware. Fast processing of large files.", icon: Zap },
@@ -296,8 +300,6 @@ export default function Compressor({ id: _id }: { id: string }) {
  <p className="text-[11px] text-slate-400 font-medium leading-relaxed uppercase tracking-tighter">{feat.desc}</p>
  </div>
  ))}
- </div>
- </div>
  </div>
  
  <input ref={fileInputRef} type="file" multiple onChange={e => addFiles(e.target.files)} accept=".pdf" className="hidden" />

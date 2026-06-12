@@ -262,7 +262,11 @@ export default function ExtractText({ id: toolId }: { id: string }) {
  </div>
 
  {/* Feature Highlight */}
- <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+ 
+ </div>
+ </div>
+
+ <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mt-8">
  {[
  { title: "Structural Integrity", desc: "Preserves page-level attributes and line breaks for clean ingestion.", icon: Layers },
  { title: "Batch Processing", desc: "Instantly process multi-hundred page documents with zero lag.", icon: Zap },
@@ -276,8 +280,6 @@ export default function ExtractText({ id: toolId }: { id: string }) {
  <p className="text-[10px] text-slate-400 font-medium leading-relaxed uppercase">{feat.desc}</p>
  </div>
  ))}
- </div>
- </div>
  </div>
  
  <style jsx global>{`

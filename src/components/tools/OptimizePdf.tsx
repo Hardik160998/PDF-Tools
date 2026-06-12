@@ -284,7 +284,11 @@ export default function OptimizePdf({ id }: { id: string }) {
  )}
  </div>
 
- <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+ 
+ </div>
+ </div>
+
+ <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mt-8">
  {[
  { title: "Safe & Private", desc: "Native browser processing means zero wait time for server uploads.", icon: ShieldCheck },
  { title: "Smart Compression", desc: "If reduction is less than 3%, we keep your original file quality.", icon: Zap },
@@ -298,8 +302,6 @@ export default function OptimizePdf({ id }: { id: string }) {
  <p className="text-[11px] text-slate-400 font-medium leading-relaxed uppercase">{feat.desc}</p>
  </div>
  ))}
- </div>
- </div>
  </div>
  </div>
  );
