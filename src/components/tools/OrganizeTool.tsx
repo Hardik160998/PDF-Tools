@@ -244,7 +244,7 @@ export default function OrganizeTool({ id: _id }: { id: string }) {
 
  return (
  <div className="max-w-7xl mx-auto py-4 sm:py-8 px-3 sm:px-6 text-left">
- <div className="flex flex-col lg:flex-row gap-6 items-start">
+ <div className="flex flex-col-reverse lg:flex-row-reverse gap-6 items-start">
  
  {/* Settings Sidebar */}
  <div className={`w-full lg:w-[320px] bg-white dark:bg-slate-900 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-xl h-fit lg:sticky lg:top-4 overflow-hidden flex-shrink-0`}>

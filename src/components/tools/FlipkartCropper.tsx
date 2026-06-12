@@ -648,8 +648,8 @@ export default function FlipkartCropper({ id }: { id: string }) {
  return (
  <div className="max-w-7xl mx-auto py-4 sm:py-8 px-3 sm:px-6">
  <OutOfCreditsModal isOpen={outOfCreditsOpen} onClose={() => setOutOfCreditsOpen(false)} isGuest={isGuest} />
- <div className="grid grid-cols-1 lg:grid-cols-[300px_1fr] gap-4 sm:gap-8">
- <div className="bg-white dark:bg-slate-800 rounded-3xl border border-slate-100 dark:border-slate-700 shadow-sm hover:shadow-xl transition-shadow duration-300 h-fit lg:sticky lg:top-4 overflow-hidden">
+ <div className="flex flex-col-reverse lg:flex-row-reverse gap-4 sm:gap-8 items-start">
+ <div className="w-full lg:w-[300px] bg-white dark:bg-slate-800 rounded-3xl border border-slate-100 dark:border-slate-700 shadow-sm hover:shadow-xl transition-shadow duration-300 h-fit lg:sticky lg:top-4 overflow-hidden flex-shrink-0">
  <button 
  onClick={() => setShowSettings(!showSettings)}
  className="w-full flex lg:hidden items-center justify-between p-5 font-medium text-slate-900 dark:text-white border-b border-slate-50 dark:border-slate-700"
@@ -715,7 +715,7 @@ export default function FlipkartCropper({ id }: { id: string }) {
  </div>
  </div>
 
- <div className="bg-white dark:bg-slate-800 rounded-3xl p-6 sm:p-12 border border-slate-100 dark:border-slate-700 shadow-sm hover:shadow-2xl transition-shadow duration-300 text-center">
+ <div className="flex-1 w-full bg-white dark:bg-slate-800 rounded-3xl p-6 sm:p-12 border border-slate-100 dark:border-slate-700 shadow-sm hover:shadow-2xl transition-shadow duration-300 text-center">
  <div className="space-y-4 mb-10">
  <div className="inline-flex p-4 rounded-2xl text-white shadow-lg" style={{ background: ACCENT }}><ShoppingBag size={32} /></div>
  <h2 className="text-2xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter">Flipkart Label Cropper</h2>

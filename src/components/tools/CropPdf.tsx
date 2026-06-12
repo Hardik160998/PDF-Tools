@@ -224,7 +224,7 @@ export default function CropPdf({ id: _id }: { id: string }) {
 
  const renderStep1 = () => (
  <div className="max-w-7xl mx-auto py-8 sm:py-16 px-4 sm:px-6">
- <div className="flex flex-col lg:flex-row gap-8 items-start">
+ <div className="flex flex-col-reverse lg:flex-row-reverse gap-8 items-start">
  <div className="w-full lg:w-[320px] bg-white dark:bg-slate-900 rounded-[32px] border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-xl transition-shadow duration-300 p-8 flex-shrink-0 space-y-10">
  <div className="space-y-3 text-left">
  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-lg bg-orange-50 dark:bg-orange-500/10 text-orange-600 dark:text-orange-400 text-[11px] font-medium uppercase tracking-widest">

@@ -666,7 +666,7 @@ export default function SnapdealCropper({ id }: { id: string }) {
  return (
  <div className="max-w-7xl mx-auto py-4 sm:py-8 px-3 sm:px-6 ">
  <OutOfCreditsModal isOpen={outOfCreditsOpen} onClose={() => setOutOfCreditsOpen(false)} isGuest={isGuest} />
- <div className="grid grid-cols-1 lg:grid-cols-[300px_1fr] gap-4 sm:gap-8">
+ <div className="flex flex-col-reverse lg:flex-row-reverse gap-4 sm:gap-8 items-start">
  <div 
  className="rounded-[16px] h-fit lg:sticky lg:top-4 overflow-hidden p-6 bg-white/70 dark:bg-slate-900/70 backdrop-blur-md border border-white/40 dark:border-slate-800/80 shadow-[0_8px_32px_0_rgba(31,38,135,0.05)] dark:shadow-none"
  >
@@ -824,7 +824,7 @@ export default function SnapdealCropper({ id }: { id: string }) {
  </div>
  </div>
 
- <div className="bg-white dark:bg-slate-800 rounded-3xl p-6 sm:p-12 border border-slate-100 dark:border-slate-700 shadow-sm hover:shadow-2xl transition-shadow duration-300 text-center">
+ <div className="flex-1 w-full bg-white dark:bg-slate-800 rounded-3xl p-6 sm:p-12 border border-slate-100 dark:border-slate-700 shadow-sm hover:shadow-2xl transition-shadow duration-300 text-center">
  <div className="space-y-4 mb-10">
  <div className="inline-flex p-4 rounded-2xl text-white shadow-lg" style={{ background: ACCENT }}><ShoppingBag size={32} /></div>
  <h2 className="text-2xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter">Snapdeal Label Cropper</h2>
