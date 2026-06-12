@@ -133,7 +133,7 @@ export default function DeletePages({ id: _id }: { id: string }) {
  </div>
 
  {/* Main Content Area */}
- <div className="flex-1 bg-white dark:bg-slate-800 rounded-[2rem] sm:rounded-[3rem] p-6 sm:p-12 border border-slate-100 dark:border-slate-700 shadow-2xl min-h-[500px] flex flex-col w-full relative overflow-hidden">
+ <div className="flex-1 bg-white dark:bg-slate-800 rounded-[2rem] sm:rounded-[3rem] p-6 sm:p-12 border border-slate-100 dark:border-slate-700 shadow-sm hover:shadow-2xl transition-shadow duration-300 min-h-[500px] flex flex-col w-full relative overflow-hidden">
  
  <div className="absolute top-0 right-0 w-64 h-64 bg-red-50 dark:bg-red-900/10 rounded-full -mr-32 -mt-32 blur-3xl opacity-50" />
 
@@ -154,7 +154,7 @@ export default function DeletePages({ id: _id }: { id: string }) {
  onDrop={onDrop}
  >
  <input ref={inputRef} type="file" accept=".pdf" className="hidden" onChange={e => { const f = e.target.files?.[0]; if (f) loadFile(f); e.target.value = ""; }} />
- <div className="p-6 bg-white dark:bg-slate-800 rounded-3xl shadow-xl text-red-500 mb-6 group-hover:scale-110 transition-transform">
+ <div className="p-6 bg-white dark:bg-slate-800 rounded-3xl shadow-sm hover:shadow-xl transition-shadow duration-300 text-red-500 mb-6 group-hover:scale-110 transition-transform">
  <Upload size={32} />
  </div>
  <div className="text-lg sm:text-lg sm:text-xl font-medium text-slate-800 dark:text-white mb-1">Select PDF to clean</div>

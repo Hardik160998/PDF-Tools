@@ -255,7 +255,7 @@ export default function AddBlankPage({ id: _id }: { id: string }) {
         </div>
 
         {/* Main Content Area */}
-        <div className="flex-1 bg-white dark:bg-slate-800 rounded-[2rem] sm:rounded-[3rem] p-6 sm:p-12 border border-slate-100 dark:border-slate-700 shadow-2xl min-h-[500px] flex flex-col w-full">
+        <div className="flex-1 bg-white dark:bg-slate-800 rounded-[2rem] sm:rounded-[3rem] p-6 sm:p-12 border border-slate-100 dark:border-slate-700 shadow-sm hover:shadow-2xl transition-shadow duration-300 min-h-[500px] flex flex-col w-full">
           {/* Header */}
           <div className="text-center space-y-4 mb-10">
             <div
@@ -290,7 +290,7 @@ export default function AddBlankPage({ id: _id }: { id: string }) {
                   e.target.value = "";
                 }}
               />
-              <div className="p-6 bg-white dark:bg-slate-800 rounded-3xl shadow-xl text-indigo-500 mb-6 group-hover:scale-110 transition-transform">
+              <div className="p-6 bg-white dark:bg-slate-800 rounded-3xl shadow-sm hover:shadow-xl transition-shadow duration-300 text-indigo-500 mb-6 group-hover:scale-110 transition-transform">
                 <Upload size={32} />
               </div>
               <div className="text-lg sm:text-lg sm:text-xl font-medium text-slate-800 dark:text-white mb-1">

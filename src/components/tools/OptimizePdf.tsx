@@ -134,7 +134,7 @@ export default function OptimizePdf({ id }: { id: string }) {
  <div className="max-w-7xl mx-auto py-4 sm:py-8 px-3 sm:px-6 text-left">
  <div className="flex flex-col lg:flex-row gap-8 items-start">
  
- <div className="w-full lg:w-[320px] bg-white dark:bg-slate-800 rounded-3xl border border-slate-100 dark:border-slate-700 shadow-xl overflow-hidden h-fit lg:sticky lg:top-4 flex-shrink-0">
+ <div className="w-full lg:w-[320px] bg-white dark:bg-slate-800 rounded-3xl border border-slate-100 dark:border-slate-700 shadow-sm hover:shadow-xl transition-shadow duration-300 overflow-hidden h-fit lg:sticky lg:top-4 flex-shrink-0">
  <button onClick={() => setShowSettings(!showSettings)} className="w-full flex lg:hidden items-center justify-between p-5 font-medium text-slate-900 dark:text-white border-b border-slate-50 dark:border-slate-700">
  <span className="flex items-center gap-2 font-medium"><Settings size={20} style={{ color: ACCENT }} /> Quality Settings</span>
  <ChevronDown className={`transition-transform duration-300 ${showSettings ? 'rotate-180' : ''}`} size={20} />
@@ -211,7 +211,7 @@ export default function OptimizePdf({ id }: { id: string }) {
  </div>
 
  <div className="flex-1 w-full space-y-6">
- <div className="bg-white dark:bg-slate-800 rounded-[2.5rem] border border-slate-100 dark:border-slate-700 shadow-2xl p-6 sm:p-12 min-h-[500px] flex flex-col relative overflow-hidden">
+ <div className="bg-white dark:bg-slate-800 rounded-[2.5rem] border border-slate-100 dark:border-slate-700 shadow-sm hover:shadow-2xl transition-shadow duration-300 p-6 sm:p-12 min-h-[500px] flex flex-col relative overflow-hidden">
  <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-50 dark:bg-emerald-900/10 rounded-full -mr-32 -mt-32 blur-3xl opacity-50" />
  <div className="relative text-center space-y-4 mb-10 text-left sm:text-center">
  <div className="inline-flex p-4 rounded-2xl text-white shadow-lg shadow-emerald-500/20 mx-auto" style={{ background: ACCENT_GRADIENT }}>
@@ -224,7 +224,7 @@ export default function OptimizePdf({ id }: { id: string }) {
  {!file ? (
  <div className="flex-1 flex flex-col items-center justify-center border-2 border-dashed border-slate-100 dark:border-slate-700 rounded-[2.5rem] p-10 sm:p-20 hover:border-emerald-400 cursor-pointer transition-all bg-slate-50/30 dark:bg-slate-900/30 group relative overflow-hidden"
  onClick={() => inputRef.current?.click()}>
- <div className="p-6 bg-white dark:bg-slate-800 rounded-3xl shadow-xl text-emerald-500 mb-6 group-hover:scale-110 transition-transform relative z-10">
+ <div className="p-6 bg-white dark:bg-slate-800 rounded-3xl shadow-sm hover:shadow-xl transition-shadow duration-300 text-emerald-500 mb-6 group-hover:scale-110 transition-transform relative z-10">
  <Upload size={32} />
  </div>
  <div className="text-lg sm:text-lg sm:text-xl font-medium text-slate-800 dark:text-white mb-1 relative z-10">Select PDF File</div>

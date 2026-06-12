@@ -273,7 +273,7 @@ export default function ImageConverter({ id: toolId }: { id: string }) {
  <div className="flex flex-col lg:flex-row gap-8 items-start">
  
  {/* Sidebar Configuration */}
- <div className="w-full lg:w-[320px] bg-white dark:bg-slate-900 rounded-[32px] border border-slate-100 dark:border-slate-800 shadow-xl overflow-hidden h-fit lg:sticky lg:top-4 flex-shrink-0">
+ <div className="w-full lg:w-[320px] bg-white dark:bg-slate-900 rounded-[32px] border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-xl transition-shadow duration-300 overflow-hidden h-fit lg:sticky lg:top-4 flex-shrink-0">
  <button onClick={() => setShowSettings(!showSettings)} className="w-full flex lg:hidden items-center justify-between p-5 font-medium text-slate-900 dark:text-white border-b border-slate-50 dark:border-slate-700">
  <span className="flex items-center gap-2"><Settings size={20} style={{ color: ACCENT }} /> Configuration</span>
  <ChevronDown className={`transition-transform duration-300 ${showSettings ? 'rotate-180' : ''}`} size={20} />
@@ -336,7 +336,7 @@ export default function ImageConverter({ id: toolId }: { id: string }) {
 
  {/* Main Workspace */}
  <div className="flex-1 w-full space-y-6">
- <div className="bg-white dark:bg-slate-900 rounded-[40px] border border-slate-100 dark:border-slate-800 shadow-2xl p-6 sm:p-12 min-h-[650px] flex flex-col relative overflow-hidden">
+ <div className="bg-white dark:bg-slate-900 rounded-[40px] border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-2xl transition-shadow duration-300 p-6 sm:p-12 min-h-[650px] flex flex-col relative overflow-hidden">
  
  <div className="absolute top-0 right-0 w-64 h-64 rounded-full -mr-32 -mt-32 blur-3xl opacity-50" style={{ background: ACCENT }} />
  
@@ -355,7 +355,7 @@ export default function ImageConverter({ id: toolId }: { id: string }) {
  {files.length === 0 ? (
  <div className="flex-1 flex flex-col items-center justify-center border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-[40px] p-10 sm:p-20 hover:border-blue-400 cursor-pointer transition-all bg-slate-50/30 dark:bg-slate-900/30 group relative overflow-hidden"
  onClick={() => fileInputRef.current?.click()}>
- <div className="p-8 bg-white dark:bg-slate-800 rounded-[32px] shadow-2xl mb-8 group-hover:scale-110 transition-transform relative z-10" style={{ color: ACCENT }}>
+ <div className="p-8 bg-white dark:bg-slate-800 rounded-[32px] shadow-sm hover:shadow-2xl transition-shadow duration-300 mb-8 group-hover:scale-110 transition-transform relative z-10" style={{ color: ACCENT }}>
  <Upload size={32} strokeWidth={2.5} />
  </div>
  <div className="text-lg sm:text-lg sm:text-xl font-medium text-slate-800 dark:text-white mb-1 relative z-10">

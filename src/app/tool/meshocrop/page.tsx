@@ -1,3 +1,4 @@
+import RelatedTools from "@/components/tools/RelatedTools";
 import { getToolMeta, getToolUrl } from "@/data/toolData";
 import WebAppSchema from '@/components/seo/WebAppSchema';
 import FAQSchema from '@/components/seo/FAQSchema';
@@ -101,68 +102,7 @@ const STEPS = [
   },
 ];
 
-const RELATED_TOOLS = [
-  {
-    id: "meesho-cropper",
-    title: "Meesho Invoice Cropper",
-    description:
-      'Remove invoice section below "Total" from Meesho labels. Complementary to this tool.',
-    icon: ShoppingBag,
-    gradient: "linear-gradient(135deg, #f26522, #f59e0b)",
-    shadow: "rgba(242,101,34,0.3)",
-    tag: "Ecommerce",
-  },
-  {
-    id: "flipkart-cropper",
-    title: "Flipkart Cropper",
-    description:
-      "Perfectly crop Flipkart label PDFs using smart OCR detection anchors.",
-    icon: ShoppingBag,
-    gradient: "linear-gradient(135deg, #f7941d, #c2410c)",
-    shadow: "rgba(247,148,29,0.3)",
-    tag: "Ecommerce",
-  },
-  {
-    id: "aadhar-crop",
-    title: "Aadhar Cropper",
-    description:
-      "Perfectly crop Aadhar ID cards from e-Aadhar PDF for high quality printing.",
-    icon: Wand2,
-    gradient: "linear-gradient(135deg, #ef4444, #991b1b)",
-    shadow: "rgba(239,68,68,0.3)",
-    tag: "Special",
-  },
-  {
-    id: "crop-pdf",
-    title: "Crop PDF",
-    description:
-      "Trim margins and crop any pages of your PDF with custom margin controls.",
-    icon: Crop,
-    gradient: "linear-gradient(135deg, #f26522, #c2410c)",
-    shadow: "rgba(242,101,34,0.3)",
-    tag: "Special",
-  },
-  {
-    id: "merge",
-    title: "Merge PDF",
-    description:
-      "Combine multiple PDF files into one document in the order you choose.",
-    icon: Combine,
-    gradient: "linear-gradient(135deg, #f26522, #c2410c)",
-    shadow: "rgba(242,101,34,0.3)",
-    tag: "Organize",
-  },
-  {
-    id: "compress",
-    title: "Compress PDF",
-    description:
-      "Reduce PDF file size while keeping text sharp and content intact.",
-    icon: Zap,
-    gradient: "linear-gradient(135deg, #22c55e, #15803d)",
-    shadow: "rgba(34,197,94,0.3)",
-    tag: "Optimize",
-  },
-];
+
 
 
 export function generateMetadata() {
@@ -616,27 +556,7 @@ export default function MeeshoCropPage() {
             </div>
 
             {/* Related Tools Section */}
-            <div className="pt-10 border-t border-slate-200 dark:border-slate-800">
-              <h3 className="text-sm font-bold text-slate-400 uppercase tracking-widest mb-6 text-center">
-                Related Ecommerce &amp; PDF Tools
-              </h3>
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                {RELATED_TOOLS.map((tool, idx) => (
-                  <Link
-                    key={idx}
-                    href={`/tool/${tool.id}`}
-                    className="group p-4 bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-2xl shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all text-center flex flex-col justify-center"
-                  >
-                    <span className="text-xs sm:text-sm font-bold text-slate-800 dark:text-white uppercase tracking-tight group-hover:text-orange-500 transition-colors">
-                      {tool.title}
-                    </span>
-                    <span className="text-[10px] text-slate-400 mt-1 font-medium leading-none">
-                      {tool.description}
-                    </span>
-                  </Link>
-                ))}
-              </div>
-            </div>
+            <RelatedTools />
           </article>
         </section>
       </div>

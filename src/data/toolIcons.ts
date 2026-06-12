@@ -23,7 +23,6 @@ export const TOOL_ICONS: Record<string, string> = {
  'webpage-to-pdf': 'Globe',
  'docx-to-pdf': 'FileText',
  'pdf-to-docx': 'FileText',
- 'translate-pdf': 'Languages',
  'ocr-pdf': 'ScanText',
  'watermark': 'Droplet',
  'page-numbers': 'ListOrdered',

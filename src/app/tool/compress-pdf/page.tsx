@@ -1,3 +1,4 @@
+import RelatedTools from "@/components/tools/RelatedTools";
 import { getToolMeta, getToolUrl } from "@/data/toolData";
 import WebAppSchema from '@/components/seo/WebAppSchema';
 import FAQSchema from '@/components/seo/FAQSchema';

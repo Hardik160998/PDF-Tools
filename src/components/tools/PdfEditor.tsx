@@ -270,7 +270,7 @@ export default function PdfEditor() {
  <div className="max-w-4xl mx-auto py-6 sm:py-10 px-4">
  <label className="flex flex-col items-center justify-center border-4 border-dashed border-slate-200 dark:border-slate-800 rounded-3xl sm:rounded-[3rem] p-8 sm:p-20 hover:border-pink-500 hover:bg-pink-50/20 transition-all cursor-pointer group">
  <input type="file" className="hidden" accept=".pdf" onChange={onFileChange} />
- <div className="w-16 h-16 sm:w-20 h-20 bg-white dark:bg-slate-900 rounded-2xl sm:rounded-3xl shadow-xl flex items-center justify-center text-pink-500 mb-6 sm:mb-8 group-hover:scale-110 transition-transform">
+ <div className="w-16 h-16 sm:w-20 h-20 bg-white dark:bg-slate-900 rounded-2xl sm:rounded-3xl shadow-sm hover:shadow-xl transition-shadow duration-300 flex items-center justify-center text-pink-500 mb-6 sm:mb-8 group-hover:scale-110 transition-transform">
  <Upload className="size-8 sm:size-10" />
  </div>
  <h2 className="text-xl sm:text-3xl font-black text-slate-900 dark:text-white uppercase tracking-tighter text-center">Edit Your PDF</h2>

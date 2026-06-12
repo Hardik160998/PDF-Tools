@@ -152,7 +152,7 @@ export default function BookmarkPdf({ id: _id }: { id: string }) {
  if (!file && !loading) {
  return (
  <div className="max-w-5xl mx-auto py-2 sm:py-10 px-2 sm:px-4">
- <div className="bg-white dark:bg-slate-800 rounded-[2rem] sm:rounded-[2.5rem] p-6 sm:p-10 border border-slate-100 dark:border-slate-700 shadow-2xl space-y-6 sm:space-y-8 overflow-hidden">
+ <div className="bg-white dark:bg-slate-800 rounded-[2rem] sm:rounded-[2.5rem] p-6 sm:p-10 border border-slate-100 dark:border-slate-700 shadow-sm hover:shadow-2xl transition-shadow duration-300 space-y-6 sm:space-y-8 overflow-hidden">
  <div className="text-center space-y-3">
  <div className="inline-flex p-4 rounded-2xl text-white shadow-lg shadow-amber-500/20" style={{ background: "linear-gradient(135deg,#f59e0b,#b45309)" }}>
  <Bookmark size={32} className="sm:w-9 sm:h-9" />
@@ -191,7 +191,7 @@ export default function BookmarkPdf({ id: _id }: { id: string }) {
  if (result) {
  return (
  <div className="max-w-5xl mx-auto py-2 sm:py-10 px-2 sm:px-4">
- <div className="bg-white dark:bg-slate-800 rounded-[2rem] sm:rounded-[2.5rem] p-6 sm:p-10 border border-slate-100 dark:border-slate-700 shadow-2xl space-y-10 text-center py-10 sm:py-16">
+ <div className="bg-white dark:bg-slate-800 rounded-[2rem] sm:rounded-[2.5rem] p-6 sm:p-10 border border-slate-100 dark:border-slate-700 shadow-sm hover:shadow-2xl transition-shadow duration-300 space-y-10 text-center py-10 sm:py-16">
  <div className="inline-flex p-10 rounded-full bg-amber-50 dark:bg-amber-500/10 text-amber-500 scale-110 border border-amber-500/20 shadow-xl shadow-amber-500/10"><CheckCircle2 size={72} /></div>
  <div className="space-y-3">
  <h3 className="text-2xl sm:text-4xl font-bold text-slate-900 dark:text-white uppercase tracking-tighter">Bookmarks Added!</h3>

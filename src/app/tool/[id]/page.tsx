@@ -1,3 +1,4 @@
+import RelatedTools from "@/components/tools/RelatedTools";
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import ToolClient from './ToolClient';

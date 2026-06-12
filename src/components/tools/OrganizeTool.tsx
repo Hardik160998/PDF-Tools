@@ -316,7 +316,7 @@ export default function OrganizeTool({ id: _id }: { id: string }) {
  </div>
 
  {/* Workspace */}
- <div className="flex-1 bg-white dark:bg-slate-900 rounded-3xl sm:rounded-[2.5rem] p-5 sm:p-10 border border-slate-100 dark:border-slate-800 shadow-2xl min-h-[600px] flex flex-col w-full relative overflow-hidden">
+ <div className="flex-1 bg-white dark:bg-slate-900 rounded-3xl sm:rounded-[2.5rem] p-5 sm:p-10 border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-2xl transition-shadow duration-300 min-h-[600px] flex flex-col w-full relative overflow-hidden">
  
  <div className="absolute top-0 right-0 w-64 h-64 bg-orange-50 dark:bg-orange-900/10 rounded-full -mr-32 -mt-32 blur-3xl opacity-50" />
 
@@ -338,7 +338,7 @@ export default function OrganizeTool({ id: _id }: { id: string }) {
  onDragOver={e => e.preventDefault()}
  onDrop={onDrop}
  >
- <div className="p-6 bg-white dark:bg-slate-800 rounded-3xl shadow-xl text-orange-500 mb-6 group-hover:scale-110 transition-transform">
+ <div className="p-6 bg-white dark:bg-slate-800 rounded-3xl shadow-sm hover:shadow-xl transition-shadow duration-300 text-orange-500 mb-6 group-hover:scale-110 transition-transform">
  <Upload size={32} />
  </div>
  <div className="text-lg sm:text-lg sm:text-xl font-medium text-slate-800 dark:text-white mb-1 relative z-10">Select PDFs to Organize</div>

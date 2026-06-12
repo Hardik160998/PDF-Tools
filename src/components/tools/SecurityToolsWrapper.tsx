@@ -3,7 +3,7 @@
 import dynamic from "next/dynamic";
 
 const SecurityToolsLoader = () => (
- <div className="w-full bg-white dark:bg-slate-900 rounded-[2.5rem] border border-slate-100 dark:border-slate-800 shadow-2xl p-6 sm:p-12 min-h-[400px] flex flex-col items-center justify-center relative overflow-hidden animate-pulse">
+ <div className="w-full bg-white dark:bg-slate-900 rounded-[2.5rem] border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-2xl transition-shadow duration-300 p-6 sm:p-12 min-h-[400px] flex flex-col items-center justify-center relative overflow-hidden animate-pulse">
  <div className="absolute top-0 right-0 w-64 h-64 bg-slate-50 dark:bg-slate-900/50 rounded-full -mr-32 -mt-32 blur-3xl opacity-50" />
  <div className="relative text-center space-y-4 mb-8 flex flex-col items-center">
  <div className="w-16 h-16 bg-slate-100 dark:bg-slate-800 rounded-2xl flex items-center justify-center text-slate-300 dark:text-slate-700">

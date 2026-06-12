@@ -1,3 +1,4 @@
+import RelatedTools from "@/components/tools/RelatedTools";
 import { getToolMeta, getToolUrl } from "@/data/toolData";
 import WebAppSchema from "@/components/seo/WebAppSchema";
 import FAQSchema from "@/components/seo/FAQSchema";
@@ -124,66 +125,7 @@ const faqJsonLd = {
 };
 
 // 8. Internal links configuration
-const RELATED = [
-  {
-    id: "organize",
-    title: "Organize PDF",
-    description:
-      "Reorder, rotate, and delete PDF pages with a live visual preview.",
-    icon: Layers,
-    gradient: "linear-gradient(135deg, #f26522, #c2410c)",
-    shadow: "rgba(242,101,34,0.3)",
-    tag: "Organize",
-  },
-  {
-    id: "metadata",
-    title: "Edit Metadata",
-    description: "Add or change PDF metadata like title, author, and subject.",
-    icon: Settings,
-    gradient: "linear-gradient(135deg, #E8465D, #843286)",
-    shadow: "rgba(232,70,93,0.3)",
-    tag: "Edit",
-  },
-  {
-    id: "compare-pdf",
-    title: "Compare PDF",
-    description:
-      "Compare two PDFs side by side and spot every text and visual difference.",
-    icon: GitCompare,
-    gradient: "linear-gradient(135deg, #6366f1, #4f46e5)",
-    shadow: "rgba(99,102,241,0.3)",
-    tag: "Analyze",
-  },
-  {
-    id: "redact-pdf",
-    title: "Redact PDF",
-    description: "Permanently hide sensitive text and areas with black boxes.",
-    icon: EyeOff,
-    gradient: "linear-gradient(135deg, #dc2626, #7f1d1d)",
-    shadow: "rgba(220,38,38,0.3)",
-    tag: "Security",
-  },
-  {
-    id: "protect",
-    title: "Protect PDF",
-    description:
-      "Encrypt your PDF with a password to prevent unauthorized access.",
-    icon: Lock,
-    gradient: "linear-gradient(135deg, #ef4444, #b91c1c)",
-    shadow: "rgba(239,68,68,0.3)",
-    tag: "Security",
-  },
-  {
-    id: "merge",
-    title: "Merge PDF",
-    description:
-      "Combine multiple PDF files into one document in the order you choose.",
-    icon: Combine,
-    gradient: "linear-gradient(135deg, #f26522, #c2410c)",
-    shadow: "rgba(242,101,34,0.3)",
-    tag: "Organize",
-  },
-];
+
 
 // 12. Breadcrumb Navigation Component
 function Breadcrumb() {
@@ -347,6 +289,8 @@ export default function BookmarkPdfPage() {
             </div>
           </div>
         </section>
+
+        <RelatedTools />
 
         {/* Feature Cards Grid */}
         <section
@@ -602,49 +546,7 @@ export default function BookmarkPdfPage() {
           </article>
         </section>
 
-        {/* 8. Internal Linking Section with Accessibility improvements */}
-        <section className="mt-20 border-t border-slate-200 dark:border-slate-800 pt-16 text-left">
-          <h2 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white uppercase tracking-tight mb-8 text-center">
-            Explore More PDF Tools
-          </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {RELATED.map((t) => (
-              <Link
-                key={t.id}
-                href={`/tool/${t.id}`}
-                title={`Use the ${t.title} tool`}
-                aria-label={`Open the ${t.title} tool to ${t.description.toLowerCase()}`}
-                className="group bg-white dark:bg-slate-900 rounded-3xl p-6 shadow-sm border border-slate-100 dark:border-slate-800 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 flex flex-col gap-4 text-left focus-visible:ring-2 focus-visible:ring-amber-500 focus-visible:outline-none"
-              >
-                <div className="flex items-start justify-between">
-                  <div
-                    className="w-14 h-14 rounded-2xl flex items-center justify-center text-white shadow-lg"
-                    style={{
-                      background: t.gradient,
-                      boxShadow: `0 8px 20px -4px ${t.shadow}`,
-                    }}
-                  >
-                    <t.icon size={26} aria-hidden="true" />
-                  </div>
-                  <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400 bg-slate-50 dark:bg-slate-800 px-2 py-1 rounded-full border border-slate-100 dark:border-slate-700">
-                    {t.tag}
-                  </span>
-                </div>
-                <div>
-                  <h3 className="text-base font-bold text-slate-900 dark:text-white mb-1 group-hover:text-amber-500 transition-colors">
-                    {t.title}
-                  </h3>
-                  <p className="text-sm text-slate-500 dark:text-slate-400 font-medium leading-relaxed">
-                    {t.description}
-                  </p>
-                </div>
-                <div className="mt-auto pt-2 text-xs font-bold text-amber-500 flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                  Open tool <span aria-hidden="true">&#8594;</span>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </section>
+        
       </div>
     </main>
   );

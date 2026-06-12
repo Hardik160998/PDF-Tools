@@ -225,7 +225,7 @@ export default function CropPdf({ id: _id }: { id: string }) {
  const renderStep1 = () => (
  <div className="max-w-7xl mx-auto py-8 sm:py-16 px-4 sm:px-6">
  <div className="flex flex-col lg:flex-row gap-8 items-start">
- <div className="w-full lg:w-[320px] bg-white dark:bg-slate-900 rounded-[32px] border border-slate-100 dark:border-slate-800 shadow-xl p-8 flex-shrink-0 space-y-10">
+ <div className="w-full lg:w-[320px] bg-white dark:bg-slate-900 rounded-[32px] border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-xl transition-shadow duration-300 p-8 flex-shrink-0 space-y-10">
  <div className="space-y-3 text-left">
  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-lg bg-orange-50 dark:bg-orange-500/10 text-orange-600 dark:text-orange-400 text-[11px] font-medium uppercase tracking-widest">
  <Zap size={12} /> Capabilities
@@ -261,14 +261,14 @@ export default function CropPdf({ id: _id }: { id: string }) {
  </div>
  </div>
 
- <div className="flex-1 w-full bg-white dark:bg-slate-900 rounded-[32px] sm:rounded-[40px] p-4 sm:p-20 border border-slate-100 dark:border-slate-800 shadow-2xl text-center min-h-[400px] sm:min-h-[650px] flex flex-col justify-center relative group overflow-hidden">
+ <div className="flex-1 w-full bg-white dark:bg-slate-900 rounded-[32px] sm:rounded-[40px] p-4 sm:p-20 border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-2xl transition-shadow duration-300 text-center min-h-[400px] sm:min-h-[650px] flex flex-col justify-center relative group overflow-hidden">
  <div className="absolute top-0 right-0 w-64 h-64 bg-orange-500/10 rounded-full blur-3xl -mr-32 -mt-32" />
  
  <div className="relative z-10 space-y-8 sm:space-y-12">
  <div className="relative border-2 border-dashed border-slate-200 dark:border-slate-800 rounded-[32px] sm:rounded-[48px] p-8 sm:p-24 hover:border-orange-400 hover:bg-orange-50/5 transition-all cursor-pointer bg-slate-50/30 dark:bg-slate-900/30 group/zone"
  onClick={() => fileInputRef.current?.click()}>
  <div className="flex flex-col items-center gap-6 sm:gap-10">
- <div className="p-6 sm:p-10 bg-white dark:bg-slate-800 rounded-2xl sm:rounded-[32px] text-orange-500 shadow-2xl group-hover/zone:scale-110 transition-transform">
+ <div className="p-6 sm:p-10 bg-white dark:bg-slate-800 rounded-2xl sm:rounded-[32px] text-orange-500 shadow-sm hover:shadow-2xl transition-shadow duration-300 group-hover/zone:scale-110 transition-transform">
  <Upload className="w-10 h-10 sm:w-[72px] sm:h-[72px]" strokeWidth={2.5} />
  </div>
  <div>

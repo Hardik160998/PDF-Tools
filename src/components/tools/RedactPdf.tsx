@@ -209,7 +209,7 @@ export default function RedactPdf({ id: _id }: { id: string }) {
 
  const renderStep1 = () => (
  <div className="max-w-4xl mx-auto py-10 sm:py-20 px-6">
- <div className="bg-white dark:bg-slate-900 rounded-[40px] p-8 sm:p-16 border border-slate-100 dark:border-slate-800 shadow-2xl text-center space-y-10 group">
+ <div className="bg-white dark:bg-slate-900 rounded-[40px] p-8 sm:p-16 border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-2xl transition-shadow duration-300 text-center space-y-10 group">
  <div className="w-24 h-24 rounded-full bg-red-50 dark:bg-red-500/10 flex items-center justify-center mx-auto text-red-500 shadow-xl group-hover:scale-110 transition-transform">
  <Shield size={48} />
  </div>
@@ -371,7 +371,7 @@ export default function RedactPdf({ id: _id }: { id: string }) {
 
  const renderStep3 = () => (
  <div className="w-full max-w-4xl mx-auto py-8 sm:py-16 px-4 sm:px-6">
- <div className="bg-white dark:bg-slate-900 rounded-[32px] sm:rounded-[40px] p-6 sm:p-12 border border-slate-100 dark:border-slate-800 shadow-2xl text-center space-y-8 sm:space-y-10">
+ <div className="bg-white dark:bg-slate-900 rounded-[32px] sm:rounded-[40px] p-6 sm:p-12 border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-2xl transition-shadow duration-300 text-center space-y-8 sm:space-y-10">
  <div className="w-24 h-24 rounded-full bg-green-50 dark:bg-green-500/10 flex items-center justify-center mx-auto text-green-500 shadow-xl">
  <CheckCircle2 size={48} />
  </div>

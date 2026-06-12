@@ -1,3 +1,4 @@
+import RelatedTools from "@/components/tools/RelatedTools";
 import { getToolMeta, getToolUrl } from "@/data/toolData";
 import WebAppSchema from "@/components/seo/WebAppSchema";
 import FAQSchema from "@/components/seo/FAQSchema";
@@ -207,6 +208,8 @@ export default function DeletePagesPage() {
         <div className="mb-16">
           <DeletePages id="delete-pages" />
         </div>
+
+        <RelatedTools />
 
         {/* Rich SEO Content Section */}
         <article className="space-y-16 max-w-7xl mx-auto mt-20">
@@ -501,49 +504,7 @@ export default function DeletePagesPage() {
             </div>
           </div>
 
-          {/* Internal Links/Related tools */}
-          <section className="pt-10 border-t border-slate-100 dark:border-slate-800/80">
-            <h3 className="text-sm font-bold text-slate-400 uppercase tracking-widest mb-6 text-center">
-              Related Document Tools
-            </h3>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              {[
-                {
-                  name: "Extract Pages",
-                  path: "/tool/extract-pages",
-                  desc: "Isolate page numbers",
-                },
-                {
-                  name: "Organize PDF",
-                  path: "/tool/organize",
-                  desc: "Reorder & rotate pages",
-                },
-                {
-                  name: "Split PDF",
-                  path: "/tool/split",
-                  desc: "Extract files pages",
-                },
-                {
-                  name: "Merge PDF",
-                  path: "/tool/merge",
-                  desc: "Combine files in order",
-                },
-              ].map((tool, idx) => (
-                <Link
-                  key={idx}
-                  href={tool.path}
-                  className="group p-4 bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-2xl shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all text-center flex flex-col justify-center"
-                >
-                  <span className="text-xs sm:text-sm font-bold text-slate-800 dark:text-white uppercase tracking-tight group-hover:text-red-500 transition-colors">
-                    {tool.name}
-                  </span>
-                  <span className="text-[10px] text-slate-400 mt-1 font-medium leading-none">
-                    {tool.desc}
-                  </span>
-                </Link>
-              ))}
-            </div>
-          </section>
+          
         </article>
       </div>
     </div>

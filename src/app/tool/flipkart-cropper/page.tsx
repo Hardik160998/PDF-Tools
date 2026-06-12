@@ -1,3 +1,4 @@
+import RelatedTools from "@/components/tools/RelatedTools";
 import { getToolMeta, getToolUrl } from "@/data/toolData";
 import WebAppSchema from '@/components/seo/WebAppSchema';
 import FAQSchema from '@/components/seo/FAQSchema';
@@ -100,74 +101,7 @@ const STEPS = [
   },
 ];
 
-const RELATED = [
-  {
-    id: "meesho-cropper",
-    title: "Meesho Label Cropper",
-    description:
-      'Remove invoice section below "Total" from Meesho shipping label PDFs.',
-    icon: ShoppingBag,
-    gradient: "linear-gradient(135deg, #f26522, #f59e0b)",
-    shadow: "rgba(242,101,34,0.3)",
-    tag: "Ecommerce",
-    href: "/tool/meesho-cropper",
-  },
-  {
-    id: "meshocrop",
-    title: "Meesho Crop Label (without invoice)",
-    description:
-      "Crop Meesho labels to keep only shipping address, return address & barcodes.",
-    icon: ShoppingBag,
-    gradient: "linear-gradient(135deg, #f26522, #f59e0b)",
-    shadow: "rgba(242,101,34,0.3)",
-    tag: "Ecommerce",
-    href: "/tool/meshocrop",
-  },
-  {
-    id: "aadhar-crop",
-    title: "Aadhar Cropper",
-    description:
-      "Perfectly crop Aadhar ID cards from e-Aadhar PDF for high quality printing.",
-    icon: Wand2,
-    gradient: "linear-gradient(135deg, #ef4444, #991b1b)",
-    shadow: "rgba(239,68,68,0.3)",
-    tag: "Special",
-    href: "/tool/aadhar-crop",
-  },
-  {
-    id: "crop-pdf",
-    title: "Crop PDF",
-    description:
-      "Trim margins and crop any pages of your PDF with custom margin controls.",
-    icon: Crop,
-    gradient: "linear-gradient(135deg, #f26522, #c2410c)",
-    shadow: "rgba(242,101,34,0.3)",
-    tag: "Special",
-    href: "/tool/crop-pdf",
-  },
-  {
-    id: "merge",
-    title: "Merge PDF",
-    description:
-      "Combine multiple PDF files into one document in the order you choose.",
-    icon: Combine,
-    gradient: "linear-gradient(135deg, #f26522, #c2410c)",
-    shadow: "rgba(242,101,34,0.3)",
-    tag: "Organize",
-    href: "/tool/merge",
-  },
-  {
-    id: "compress",
-    title: "Compress PDF",
-    description:
-      "Reduce PDF file size while keeping text sharp and content intact.",
-    icon: Zap,
-    gradient: "linear-gradient(135deg, #22c55e, #15803d)",
-    shadow: "rgba(34,197,94,0.3)",
-    tag: "Optimize",
-    href: "/tool/compress",
-  },
-];
+
 
 
 export function generateMetadata() {
@@ -631,27 +565,7 @@ export default function FlipkartCropperPage() {
             </div>
 
             {/* Related Tools Section */}
-            <div className="pt-10 border-t border-slate-200 dark:border-slate-800">
-              <h3 className="text-sm font-bold text-slate-400 uppercase tracking-widest mb-6 text-center">
-                Related Ecommerce &amp; PDF Tools
-              </h3>
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                {RELATED.map((tool, idx) => (
-                  <Link
-                    key={idx}
-                    href={tool.href}
-                    className="group p-4 bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-2xl shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all text-center flex flex-col justify-center"
-                  >
-                    <span className="text-xs sm:text-sm font-bold text-slate-800 dark:text-white uppercase tracking-tight group-hover:text-orange-500 transition-colors">
-                      {tool.title}
-                    </span>
-                    <span className="text-[10px] text-slate-400 mt-1 font-medium leading-none">
-                      {tool.description}
-                    </span>
-                  </Link>
-                ))}
-              </div>
-            </div>
+            <RelatedTools />
           </article>
         </section>
       </div>

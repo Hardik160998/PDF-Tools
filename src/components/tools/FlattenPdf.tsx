@@ -99,7 +99,7 @@ export default function FlattenPdf({ id }: { id: string }) {
  <div className="py-6 sm:py-10 space-y-6">
 
  {/* ── TOOL CARD ── */}
- <div className="bg-white dark:bg-slate-800 rounded-[1.5rem] sm:rounded-[2.5rem] p-6 sm:p-12 border border-slate-100 dark:border-slate-700 shadow-2xl space-y-8">
+ <div className="bg-white dark:bg-slate-800 rounded-[1.5rem] sm:rounded-[2.5rem] p-6 sm:p-12 border border-slate-100 dark:border-slate-700 shadow-sm hover:shadow-2xl transition-shadow duration-300 space-y-8">
  <div className="text-center space-y-3">
  <div className="inline-flex p-4 sm:p-5 rounded-2xl sm:rounded-3xl bg-violet-600 text-white shadow-lg shadow-violet-500/30">
  <Layers size={36} />

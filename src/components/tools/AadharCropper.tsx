@@ -174,7 +174,7 @@ export default function AadharCropper({ id }: { id: string }) {
 
  return (
  <div className="max-w-3xl mx-auto py-4 sm:py-10 px-3 sm:px-4">
- <div className="bg-white dark:bg-slate-800 rounded-2xl sm:rounded-[2.5rem] p-4 sm:p-10 border border-slate-100 dark:border-slate-700 shadow-2xl space-y-5">
+ <div className="bg-white dark:bg-slate-800 rounded-2xl sm:rounded-[2.5rem] p-4 sm:p-10 border border-slate-100 dark:border-slate-700 shadow-sm hover:shadow-2xl transition-shadow duration-300 space-y-5">
  {/* Header */}
  <div className="flex items-center justify-between gap-2">
  <div className="flex items-center gap-3">

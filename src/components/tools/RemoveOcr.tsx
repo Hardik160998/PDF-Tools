@@ -118,7 +118,7 @@ export default function RemoveOcr({ id: _id }: { id: string }) {
 
  return (
  <div className="max-w-3xl mx-auto py-6 sm:py-10 px-4">
- <div className="bg-white dark:bg-slate-800 rounded-[2rem] sm:rounded-[3rem] p-6 sm:p-12 border border-slate-100 dark:border-slate-700 shadow-2xl space-y-6 sm:space-y-10 overflow-hidden">
+ <div className="bg-white dark:bg-slate-800 rounded-[2rem] sm:rounded-[3rem] p-6 sm:p-12 border border-slate-100 dark:border-slate-700 shadow-sm hover:shadow-2xl transition-shadow duration-300 space-y-6 sm:space-y-10 overflow-hidden">
 
  {/* Header */}
  <div className="text-center space-y-3 sm:space-y-4">

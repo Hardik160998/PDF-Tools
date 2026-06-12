@@ -60,7 +60,6 @@ INSERT INTO "public"."allpdftools" ("id", "tool_key", "title", "url", "category_
 (62, 'avif-to-webp', 'AVIF to WebP', '/tool/avif-to-webp', 10, true, 'Image Convert', true),
 (63, 'delete-pages', 'Delete PDF Pages', '/tool/delete-pages', 3, true, 'Organize', false),
 (64, 'optimize-pdf', 'Optimize PDF', '/tool/optimize-pdf', 3, true, 'Optimize', false),
-(65, 'translate-pdf', 'Translate PDF', '/tool/translate-pdf', 4, true, 'Convert', false),
 (66, 'add-blank-page', 'Add Blank Page to PDF', '/tool/add-blank-page', 3, true, 'Organize', false),
 (68, 'ocr-pdf', 'OCR PDF', '/tool/ocr-pdf', 3, true, 'Convert', false),
 (69, 'remove-ocr', 'Remove OCR', '/tool/remove-ocr', 4, true, 'Edit', false),

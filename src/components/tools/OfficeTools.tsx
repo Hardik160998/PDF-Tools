@@ -76,7 +76,7 @@ export default function OfficeTools({ id }: { id: string }) {
 
  return (
  <div className="max-w-3xl mx-auto py-4 sm:py-12 px-2 sm:px-4 text-center">
- <div className="bg-white dark:bg-slate-800 rounded-[1.2rem] sm:rounded-[2.5rem] p-4 sm:p-12 border border-slate-100 dark:border-slate-700 shadow-2xl space-y-5 sm:space-y-10">
+ <div className="bg-white dark:bg-slate-800 rounded-[1.2rem] sm:rounded-[2.5rem] p-4 sm:p-12 border border-slate-100 dark:border-slate-700 shadow-sm hover:shadow-2xl transition-shadow duration-300 space-y-5 sm:space-y-10">
  <div className="space-y-2 sm:space-y-4">
  <div className={`inline-flex p-3 sm:p-5 rounded-xl sm:rounded-3xl ${info.color} text-white shadow-lg`}>
  <info.icon size={24} className="sm:w-10 sm:h-10" />

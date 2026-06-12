@@ -1,3 +1,4 @@
+import RelatedTools from "@/components/tools/RelatedTools";
 import { getToolMeta, getToolUrl } from "@/data/toolData";
 import WebAppSchema from "@/components/seo/WebAppSchema";
 import FAQSchema from "@/components/seo/FAQSchema";
@@ -82,66 +83,7 @@ const breadcrumbJsonLd = {
   ],
 };
 
-const RELATED = [
-  {
-    id: "pdf-to-word",
-    title: "PDF to Word",
-    description:
-      "Convert your PDF back into an editable DOCX file with high accuracy.",
-    icon: FileText,
-    gradient: "linear-gradient(135deg, #3182ce, #1e3a8a)",
-    shadow: "rgba(49,130,206,0.3)",
-    tag: "Convert",
-  },
-  {
-    id: "excel-to-pdf",
-    title: "Excel to PDF",
-    description:
-      "Convert XLSX spreadsheets to PDF with all tables and data intact.",
-    icon: FileSpreadsheet,
-    gradient: "linear-gradient(135deg, #22c55e, #15803d)",
-    shadow: "rgba(34,197,94,0.3)",
-    tag: "Convert",
-  },
-  {
-    id: "ppt-to-pdf",
-    title: "PowerPoint to PDF",
-    description:
-      "Convert PPTX presentations to PDF keeping all slides and visuals.",
-    icon: Presentation,
-    gradient: "linear-gradient(135deg, #f97316, #c2410c)",
-    shadow: "rgba(249,115,22,0.3)",
-    tag: "Convert",
-  },
-  {
-    id: "jpg-to-pdf",
-    title: "JPG to PDF",
-    description: "Convert JPG or PNG images into a PDF document instantly.",
-    icon: ImageIcon,
-    gradient: "linear-gradient(135deg, #eab308, #a16207)",
-    shadow: "rgba(234,179,8,0.3)",
-    tag: "Convert",
-  },
-  {
-    id: "merge",
-    title: "Merge PDF",
-    description: "Combine multiple PDF files into one unified document easily.",
-    icon: FileText,
-    gradient: "linear-gradient(135deg, #f97316, #ea580c)",
-    shadow: "rgba(249,115,22,0.3)",
-    tag: "Organize",
-  },
-  {
-    id: "protect",
-    title: "Protect PDF",
-    description:
-      "Encrypt your converted PDF with a password to keep it secure.",
-    icon: Lock,
-    gradient: "linear-gradient(135deg, #ef4444, #b91c1c)",
-    shadow: "rgba(239,68,68,0.3)",
-    tag: "Security",
-  },
-];
+
 
 function Breadcrumb() {
   return (
@@ -239,6 +181,8 @@ export default function WordToPdfPage() {
         >
           <OfficeTools id="word-to-pdf" />
         </section>
+
+        <RelatedTools />
 
         {/* Feature Cards Grid (How it Works) */}
         <section
@@ -602,50 +546,6 @@ export default function WordToPdfPage() {
               </div>
             </div>
           </article>
-        </section>
-
-        {/* RELATED TOOLS */}
-        <section className="mt-20 border-t border-slate-200 dark:border-slate-800 pt-16 text-left">
-          <h2 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white uppercase tracking-tight mb-8 text-center">
-            Explore More Convert Tools
-          </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {RELATED.map((t) => (
-              <Link
-                key={t.id}
-                href={`/tool/${t.id}`}
-                title={`Use the ${t.title} tool`}
-                aria-label={`Open the ${t.title} tool to ${t.description.toLowerCase()}`}
-                className="group bg-white dark:bg-slate-900 rounded-3xl p-6 shadow-sm border border-slate-100 dark:border-slate-800 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 flex flex-col gap-4 text-left focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:outline-none"
-              >
-                <div className="flex items-start justify-between">
-                  <div
-                    className="w-14 h-14 rounded-2xl flex items-center justify-center text-white shadow-lg"
-                    style={{
-                      background: t.gradient,
-                      boxShadow: `0 8px 20px -4px ${t.shadow}`,
-                    }}
-                  >
-                    <t.icon size={26} aria-hidden="true" />
-                  </div>
-                  <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400 bg-slate-50 dark:bg-slate-800 px-2 py-1 rounded-full border border-slate-100 dark:border-slate-700">
-                    {t.tag}
-                  </span>
-                </div>
-                <div>
-                  <h3 className="text-base font-bold text-slate-900 dark:text-white mb-1 group-hover:text-blue-500 transition-colors">
-                    {t.title}
-                  </h3>
-                  <p className="text-sm text-slate-500 dark:text-slate-400 font-medium leading-relaxed">
-                    {t.description}
-                  </p>
-                </div>
-                <div className="mt-auto pt-2 text-xs font-bold text-blue-500 flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                  Open tool <span aria-hidden="true">&#8594;</span>
-                </div>
-              </Link>
-            ))}
-          </div>
         </section>
       </div>
     </main>
