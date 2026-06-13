@@ -71,6 +71,7 @@ export default function RootLayout({
         <meta name="color-scheme" content="light dark" />
         <script
           id="theme-init"
+          suppressHydrationWarning
           dangerouslySetInnerHTML={{
             __html: `
  (function() {
