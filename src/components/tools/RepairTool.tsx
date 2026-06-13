@@ -2,369 +2,351 @@
 
 import { useState, useRef } from 'react';
 import { 
- Upload, Loader2, X, Download, 
- CheckCircle2, Plus, LifeBuoy, 
- Settings, ChevronDown, FileText, ShieldAlert
+  Upload, Loader2, X, Download, 
+  CheckCircle2, Plus, LifeBuoy, 
+  FileText, ShieldAlert, RefreshCw,
+  Lock, Trash2, Smartphone, Rocket, Zap, Shield, Sparkles
 } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
 
 interface RepairFile {
- id: string;
- file: File;
- preview?: string;
- status: 'pending' | 'processing' | 'completed' | 'error';
- resultUrl?: string;
- repairedName?: string;
+  id: string;
+  file: File;
+  status: 'pending' | 'processing' | 'completed' | 'error';
+  resultUrl?: string;
+  repairedName?: string;
 }
 
 export default function RepairTool({ id: _id }: { id: string }) {
- const [files, setFiles] = useState<RepairFile[]>([]);
- const [processing, setProcessing] = useState(false);
- const [showSettings, setShowSettings] = useState(false);
- const fileInputRef = useRef<HTMLInputElement>(null);
+  const [files, setFiles] = useState<RepairFile[]>([]);
+  const [processing, setProcessing] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
- const ACCENT = "#ef4444"; // Red
- const ACCENT_GRADIENT = "linear-gradient(135deg,#ef4444,#dc2626)";
+  const ACCENT = "#ef4444";
+  const ACCENT_GRADIENT = "linear-gradient(135deg,#ef4444,#dc2626)";
 
- const generateThumbnail = async (file: File) => {
- try {
- const pdfjsLib = await import('pdfjs-dist');
- pdfjsLib.GlobalWorkerOptions.workerSrc = '/workers/pdf.worker.min.mjs';
+  const handleFileDrop = async (e: React.ChangeEvent<HTMLInputElement> | React.DragEvent) => {
+    let newFiles: File[] = [];
+    if ('target' in e && 'files' in e.target && e.target.files) {
+      newFiles = Array.from(e.target.files);
+    } else if ('dataTransfer' in e && e.dataTransfer.files) {
+      newFiles = Array.from(e.dataTransfer.files);
+    }
 
- const arrayBuffer = await file.arrayBuffer();
- const pdf = await pdfjsLib.getDocument(arrayBuffer).promise;
- const page = await pdf.getPage(1);
- const viewport = page.getViewport({ scale: 0.2 });
- const canvas = document.createElement('canvas');
- const context = canvas.getContext('2d');
- canvas.height = viewport.height;
- canvas.width = viewport.width;
- await page.render({ canvasContext: context!, viewport, canvas }).promise;
- return canvas.toDataURL();
- } catch (e) {
- console.error("Thumbnail error:", e);
- return undefined;
- }
- };
+    const validFiles = newFiles.filter(f => f.type === 'application/pdf');
 
- const handleFileDrop = async (e: React.ChangeEvent<HTMLInputElement> | React.DragEvent) => {
- let newFiles: File[] = [];
- if ('target' in e && 'files' in e.target && e.target.files) {
- newFiles = Array.from(e.target.files);
- } else if ('dataTransfer' in e && e.dataTransfer.files) {
- newFiles = Array.from(e.dataTransfer.files);
- }
+    const repairFiles: RepairFile[] = validFiles.map(f => ({
+      id: Math.random().toString(36).substr(2, 9),
+      file: f,
+      status: 'pending' as const
+    }));
 
- const validFiles = newFiles.filter(f => f.type === 'application/pdf');
- 
- const repairFiles: RepairFile[] = await Promise.all(
- validFiles.map(async (f) => ({
- id: Math.random().toString(36).substr(2, 9),
- file: f,
- preview: await generateThumbnail(f),
- status: 'pending' as const
- }))
- );
+    setFiles(prev => [...prev, ...repairFiles]);
+  };
 
- setFiles(prev => [...prev, ...repairFiles]);
- };
+  const removeFile = (id: string) => {
+    setFiles(prev => prev.filter(f => f.id !== id));
+  };
 
- const removeFile = (id: string) => {
- setFiles(prev => prev.filter(f => f.id !== id));
- };
+  const resetAll = () => { setFiles([]); };
 
- const resetAll = () => { setFiles([]); };
+  const handleRepair = async () => {
+    if (files.length === 0) return;
+    setProcessing(true);
 
- const handleRepair = async () => {
- if (files.length === 0) return;
- setProcessing(true);
+    const updatedFiles = [...files];
 
- const updatedFiles = [...files];
+    for (let i = 0; i < updatedFiles.length; i++) {
+      if (updatedFiles[i].status === 'completed') continue;
 
- for (let i = 0; i < updatedFiles.length; i++) {
- if (updatedFiles[i].status === 'completed') continue;
- 
- updatedFiles[i].status = 'processing';
- setFiles([...updatedFiles]);
+      updatedFiles[i] = { ...updatedFiles[i], status: 'processing' };
+      setFiles([...updatedFiles]);
 
- try {
- const formData = new FormData();
- formData.append('file', updatedFiles[i].file);
- formData.append('id', 'repair-pdf');
+      try {
+        const formData = new FormData();
+        formData.append('file', updatedFiles[i].file);
+        formData.append('id', 'repair-pdf');
 
- const response = await fetch('/api/convert', {
- method: 'POST',
- body: formData,
- // Add a signal for potential timeout in the future if needed
- });
+        const response = await fetch('/api/convert', {
+          method: 'POST',
+          body: formData,
+        });
 
- let data;
- const contentType = response.headers.get("content-type");
- if (contentType && contentType.includes("application/json")) {
- data = await response.json();
- } else {
- const text = await response.text();
- console.error("Repair API error response:", text);
- throw new Error(`Server error (${response.status}). Please try again later.`);
- }
+        let data;
+        const contentType = response.headers.get("content-type");
+        if (contentType && contentType.includes("application/json")) {
+          data = await response.json();
+        } else {
+          const text = await response.text();
+          console.error("Repair API error response:", text);
+          throw new Error(`Server error (${response.status}). Please try again later.`);
+        }
 
- if (!response.ok) {
- throw new Error(data?.error || `Server Error: ${response.status}`);
- }
+        if (!response.ok) {
+          throw new Error(data?.error || `Server Error: ${response.status}`);
+        }
 
- updatedFiles[i].resultUrl = data.url;
- updatedFiles[i].repairedName = `repaired_${updatedFiles[i].file.name}`;
- updatedFiles[i].status = 'completed';
- } catch (err: any) {
- console.error('Repair Error:', err);
- updatedFiles[i].status = 'error';
- // You could also store the error message in the file object to show in the UI
- }
- setFiles([...updatedFiles]);
- }
+        updatedFiles[i] = {
+          ...updatedFiles[i],
+          resultUrl: data.url,
+          repairedName: `repaired_${updatedFiles[i].file.name}`,
+          status: 'completed'
+        };
+      } catch (err: any) {
+        console.error('Repair Error:', err);
+        updatedFiles[i] = { ...updatedFiles[i], status: 'error' };
+      }
+      setFiles([...updatedFiles]);
+    }
 
- setProcessing(false);
- };
+    setProcessing(false);
+  };
 
- return (
- <div className="max-w-7xl mx-auto py-4 sm:py-8 px-3 sm:px-6 text-left">
- <div className="flex flex-col-reverse lg:flex-row-reverse gap-8 items-start">
- 
- {/* Sidebar Configuration */}
- <div className="w-full lg:w-[320px] bg-white dark:bg-slate-800 rounded-3xl border border-slate-100 dark:border-slate-700 shadow-sm hover:shadow-xl transition-shadow duration-300 overflow-hidden h-fit lg:sticky lg:top-4 flex-shrink-0">
- <button onClick={() => setShowSettings(!showSettings)} className="w-full flex lg:hidden items-center justify-between p-5 font-medium text-slate-900 dark:text-white border-b border-slate-50 dark:border-slate-700">
- <span className="flex items-center gap-2"><Settings size={20} style={{ color: ACCENT }} /> Repair Tools</span>
- <ChevronDown className={`transition-transform duration-300 ${showSettings ? 'rotate-180' : ''}`} size={20} />
- </button>
+  return (
+    <div className="max-w-5xl mx-auto py-4 sm:py-8 px-3 sm:px-6 text-left">
+      <div className="w-full space-y-6">
+        <div className="bg-white dark:bg-slate-900 rounded-3xl sm:rounded-[2.5rem] border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-2xl transition-shadow duration-300 p-5 sm:p-10 min-h-[600px] flex flex-col relative overflow-hidden">
 
- <div className={`${showSettings ? 'block' : 'hidden'} lg:block p-6`}>
- <div className="flex items-center justify-between mb-6">
- <h3 className="hidden lg:block text-xl font-bold text-slate-900 dark:text-white uppercase tracking-tighter">Recovery</h3>
- <button onClick={resetAll} className="text-[11px] font-medium uppercase tracking-widest text-red-500 hover:text-red-600 transition-colors">Reset</button>
- </div>
+          {/* Background glow */}
+          <div className="absolute top-0 right-0 w-64 h-64 bg-red-50 dark:bg-red-900/10 rounded-full -mr-32 -mt-32 blur-3xl opacity-50" />
 
- <div className="space-y-6">
- {/* Info Box */}
- <div className="p-4 bg-red-50 dark:bg-red-500/10 rounded-2xl border border-red-100 dark:border-red-500/20">
- <div className="flex items-center gap-2 mb-2">
- <ShieldAlert size={14} className="text-red-500" />
- <span className="text-[11px] font-medium text-red-700 dark:text-red-400 uppercase tracking-widest">Repair Info</span>
- </div>
- <p className="text-[10px] font-medium text-red-600 dark:text-red-300 leading-relaxed">
- Corrupted PDFs are analyzed and rebuilt using our restoration engine. Some formats may change if data recovery requires it.
- </p>
- </div>
+          <input
+            ref={fileInputRef}
+            type="file"
+            multiple
+            onChange={handleFileDrop}
+            accept=".pdf"
+            className="hidden"
+          />
 
- {/* Selection List */}
- {files.length > 0 && (
- <div className="space-y-3 pt-4 border-t border-slate-50 dark:border-slate-700">
- <span className="text-[11px] font-medium text-slate-400 uppercase tracking-widest block">Selected Files ({files.length})</span>
- <div className="space-y-2 max-h-[300px] overflow-y-auto pr-1 custom-scrollbar">
- {files.map(f => (
- <div key={f.id} className="flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-900 rounded-2xl border border-slate-100 dark:border-slate-800 transition-all hover:border-red-200">
- <div className="flex items-center gap-2 min-w-0">
- <div className={`w-6 h-6 flex items-center justify-center rounded-lg shadow-sm shrink-0 ${f.status === 'completed' ? 'bg-green-500 text-white' : f.status === 'error' ? 'bg-red-500 text-white' : 'bg-white dark:bg-slate-800 text-red-500'}`}>
- {f.status === 'completed' ? <CheckCircle2 size={12} /> : <FileText size={12} />}
- </div>
- <span className="text-[10px] font-medium truncate text-slate-900 dark:text-white uppercase">{f.file.name}</span>
- </div>
- {f.status === 'completed' ? (
- <a href={f.resultUrl} download={f.repairedName} className="p-1.5 bg-green-500 text-white rounded-lg shadow-sm hover:scale-110 transition-transform">
- <Download size={10} />
- </a>
- ) : (
- <button onClick={() => removeFile(f.id)} className="p-1.5 text-slate-300 hover:text-red-500 transition-colors">
- <X size={14} />
- </button>
- )}
- </div>
- ))}
- </div>
- <button onClick={() => fileInputRef.current?.click()} className="w-full flex items-center justify-center gap-2 py-3 rounded-xl text-[11px] font-medium uppercase tracking-widest text-red-600 bg-red-50 border border-red-100 hover:bg-red-100 transition-colors">
- <Plus size={14} /> Add More
- </button>
- </div>
- )}
+          {/* Header */}
+          <div className="relative text-center space-y-4 mb-10">
+            <div className="inline-flex p-4 rounded-2xl text-white shadow-lg shadow-red-500/20 mx-auto" style={{ background: ACCENT_GRADIENT }}>
+              <LifeBuoy size={32} />
+            </div>
+            <h2 className="text-2xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter leading-tight">
+              PDF Repair &amp; Recovery
+            </h2>
+            <p className="text-sm sm:text-base text-slate-500 dark:text-slate-400 font-medium max-w-md mx-auto leading-relaxed text-center">
+              Recover data from corrupted or unreadable PDF documents
+            </p>
+          </div>
 
- {/* Action Button */}
- <div className="pt-2">
- <button
- onClick={handleRepair}
- disabled={processing || files.length === 0}
- className="w-full py-5 text-white rounded-[1.5rem] text-lg sm:text-xl font-medium shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50 disabled:grayscale uppercase tracking-widest shadow-red-500/20"
- style={{ background: ACCENT_GRADIENT }}
- >
- {processing ? (
- <span className="flex items-center justify-center gap-3"><Loader2 className="animate-spin" /> Repairing...</span>
- ) : (
- <span className="flex items-center justify-center gap-3">Repair Batch <LifeBuoy size={24} /></span>
- )}
- </button>
- </div>
- </div>
- </div>
- </div>
+          {/* Success Banner */}
+          {files.some(f => f.status === 'completed') && (
+            <div className="p-6 sm:p-8 rounded-3xl sm:rounded-[2.5rem] border flex flex-col lg:flex-row items-center justify-between gap-6 mb-10 text-center lg:text-left bg-green-50 dark:bg-green-500/5 border-green-100 dark:border-green-500/20 animate-in fade-in slide-in-from-top-4 duration-500 relative z-10">
+              <div className="flex flex-col sm:flex-row items-center gap-6">
+                <div className="p-4 bg-green-500 text-white rounded-2xl shadow-xl shadow-green-500/30"><CheckCircle2 size={32} /></div>
+                <div>
+                  <h4 className="text-2xl font-bold text-slate-900 dark:text-white uppercase tracking-widest leading-none mb-1">Repaired!</h4>
+                  <p className="text-[11px] font-medium text-slate-500 uppercase tracking-widest">Structural recovery complete for your files</p>
+                </div>
+              </div>
+              <div className="flex flex-col sm:flex-row gap-4 w-full lg:w-auto">
+                <button onClick={resetAll} className="px-10 py-5 bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-400 border-2 border-slate-100 dark:border-slate-700 rounded-2xl font-medium text-sm uppercase tracking-widest shadow-xl hover:scale-105 transition-all flex items-center justify-center gap-3 w-full sm:w-auto">
+                  <RefreshCw size={18} /> Start Over
+                </button>
+              </div>
+            </div>
+          )}
 
- {/* Main Workspace */}
- <div className="flex-1 w-full space-y-4 sm:space-y-6">
- <div className="bg-white dark:bg-slate-900 rounded-3xl sm:rounded-[2.5rem] border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-2xl transition-shadow duration-300 p-5 sm:p-10 min-h-[600px] flex flex-col relative overflow-hidden">
- 
- <div className="absolute top-0 right-0 w-64 h-64 bg-red-50 dark:bg-red-900/10 rounded-full -mr-32 -mt-32 blur-3xl opacity-50" />
- 
- <input ref={fileInputRef} type="file" multiple onChange={handleFileDrop} accept=".pdf" className="hidden" />
+          {/* Upload / File List */}
+          <div className="flex-1 flex flex-col items-center animate-in fade-in slide-in-from-bottom-4 duration-500 w-full max-w-3xl mx-auto">
 
- {/* Header */}
- <div className="relative text-center space-y-4 mb-10">
- <div className="inline-flex p-4 rounded-2xl text-white shadow-lg shadow-red-500/20 mx-auto" style={{ background: ACCENT_GRADIENT }}>
- <LifeBuoy size={32} />
- </div>
- <h2 className="text-2xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter leading-tight">
- PDF Repair & Recovery
- </h2>
- <p className="text-sm sm:text-base text-slate-500 dark:text-slate-400 font-medium max-w-md mx-auto leading-relaxed">
- Recover data from corrupted or unreadable PDF documents. We analyze and rebuild internal structures.
- </p>
- </div>
+            {/* Mini feature pills — shown when no files yet */}
+            {files.length === 0 && (
+              <div className="hidden sm:flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 w-full mb-6">
+                {[
+                  { icon: Zap, title: "Instant", desc: "Lightning fast processing" },
+                  { icon: Shield, title: "Private", desc: "Your files stay secure" },
+                  { icon: Sparkles, title: "Smart", desc: "Deep structural analysis" }
+                ].map((f, i) => (
+                  <div key={i} className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0" style={{ color: ACCENT, backgroundColor: `${ACCENT}15` }}>
+                      <f.icon size={20} />
+                    </div>
+                    <div className="text-left">
+                      <p className="text-sm font-bold text-slate-900 dark:text-white tracking-tight leading-none mb-1">{f.title}</p>
+                      <p className="text-[11px] text-slate-400 font-medium tracking-wide">{f.desc}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
 
- {/* Success Box */}
- {files.some(f => f.status === 'completed') && (
- <div className={`p-6 sm:p-8 rounded-3xl sm:rounded-[2.5rem] border flex flex-col lg:flex-row items-center justify-between gap-6 mb-10 text-center lg:text-left bg-green-50 dark:bg-green-500/5 border-green-100 dark:border-green-500/20 animate-in fade-in slide-in-from-top-4 duration-500`}>
- <div className="flex flex-col sm:flex-row items-center gap-6">
- <div className="p-4 bg-green-500 text-white rounded-2xl shadow-xl shadow-green-500/30"><CheckCircle2 size={32} /></div>
- <div>
- <h4 className="text-2xl font-bold text-slate-900 dark:text-white uppercase tracking-widest leading-none mb-1">Repaired!</h4>
- <p className="text-[11px] font-medium text-slate-500 uppercase tracking-widest">Structural recovery complete for your files</p>
- </div>
- </div>
- <div className="flex flex-col sm:flex-row gap-4 w-full lg:w-auto">
- <button onClick={handleRepair} className="px-10 py-5 bg-slate-900 dark:bg-white text-white dark:text-slate-900 rounded-2xl font-medium text-sm uppercase tracking-widest shadow-2xl hover:scale-105 transition-all flex items-center justify-center gap-3 w-full sm:w-auto">
- <LifeBuoy size={18} /> Repair Remaining
- </button>
- <button onClick={resetAll} className="px-10 py-5 bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-400 border-2 border-slate-100 dark:border-slate-700 rounded-2xl font-medium text-sm uppercase tracking-widest shadow-xl hover:scale-105 transition-all flex items-center justify-center gap-3 w-full sm:w-auto">
- <X size={18} /> Start Over
- </button>
- </div>
- </div>
- )}
+            {/* Dropzone */}
+            <div
+              className="w-full border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-[2.5rem] p-8 sm:p-10 flex flex-col items-center justify-center cursor-pointer transition-all bg-white dark:bg-slate-900/50 shadow-sm hover:shadow-xl hover:border-slate-300 dark:hover:border-slate-500 group relative overflow-hidden mb-6"
+              onClick={() => fileInputRef.current?.click()}
+              onDragOver={e => e.preventDefault()}
+              onDrop={e => { e.preventDefault(); handleFileDrop(e); }}
+            >
+              {/* PDF icon with upload badge */}
+              <div className="relative mb-8 group-hover:scale-105 transition-transform duration-300">
+                <div className="w-24 h-32 bg-slate-50 dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-lg flex flex-col relative z-10">
+                  <div className="absolute top-3 left-3 bg-red-500 text-white text-[10px] font-bold px-2 py-0.5 rounded shadow-sm">PDF</div>
+                  <div className="m-auto text-slate-300 dark:text-slate-600">
+                    <LifeBuoy size={32} />
+                  </div>
+                </div>
+                <div className="absolute -bottom-4 -right-4 w-12 h-12 rounded-full text-white flex items-center justify-center shadow-xl z-20" style={{ background: ACCENT_GRADIENT }}>
+                  <Upload size={20} strokeWidth={3} />
+                </div>
+                <Plus size={16} className="absolute -top-4 -left-6 opacity-60" style={{ color: ACCENT }} />
+                <Plus size={12} className="absolute top-10 -right-8 opacity-60" style={{ color: ACCENT }} />
+                <Plus size={14} className="absolute bottom-2 -left-8 opacity-60" style={{ color: ACCENT }} />
+              </div>
 
- {/* Upload Area */}
- {files.length === 0 ? (
- <div className="flex-1 flex flex-col items-center justify-center border-2 border-dashed border-slate-100 dark:border-slate-700 rounded-3xl sm:rounded-[2.5rem] p-10 sm:p-20 hover:border-red-400 cursor-pointer transition-all bg-slate-50/30 dark:bg-slate-900/30 group relative overflow-hidden"
- onClick={() => fileInputRef.current?.click()}>
- <div className="p-6 bg-white dark:bg-slate-800 rounded-3xl shadow-sm hover:shadow-xl transition-shadow duration-300 text-red-500 mb-6 group-hover:scale-110 transition-transform relative z-10">
- <Upload size={32} />
- </div>
- <div className="text-lg sm:text-lg sm:text-xl font-medium text-slate-800 dark:text-white mb-1 relative z-10">
- Drop Damaged PDFs
- </div>
- <p className="text-xs sm:text-sm text-slate-400 font-medium relative z-10">
- Scan and reconstruct corrupted file tables
- </p>
- <button className="mt-8 px-10 py-4 rounded-2xl text-white text-sm font-medium uppercase tracking-widest shadow-xl hover:scale-105 transition-all relative z-10" style={{ background: ACCENT_GRADIENT }}>
- Choose Files
- </button>
- </div>
- ) : (
- <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 overflow-y-auto max-h-[700px] pr-2 custom-scrollbar p-1 animate-in fade-in slide-in-from-bottom-4 duration-500 text-center relative z-10">
- <AnimatePresence>
- {files.map((f) => (
- <motion.div
- key={f.id}
- layout
- initial={{ scale: 0.8, opacity: 0 }}
- animate={{ scale: 1, opacity: 1 }}
- exit={{ scale: 0.8, opacity: 0 }}
- className="relative aspect-[3/4] group"
- >
- <div className={`absolute inset-0 bg-white dark:bg-slate-900 rounded-2xl shadow-xl border-2 overflow-hidden transition-all duration-300 ${f.status === 'completed' ? 'border-green-500/50' : f.status === 'error' ? 'border-red-500' : 'border-slate-100 dark:border-slate-800'}`}>
- {f.preview ? (
- <img src={f.preview} className="w-full h-full object-contain p-2" alt="Preview" />
- ) : (
- <div className="w-full h-full flex items-center justify-center text-slate-100 dark:text-slate-800">
- <LifeBuoy size={48} className="animate-pulse" />
- </div>
- )}
+              <h3 className="text-2xl sm:text-3xl font-black text-slate-800 dark:text-white mb-2 tracking-tight text-center">
+                Drag &amp; drop your PDF files here
+              </h3>
+              <p className="text-lg font-medium text-slate-500 dark:text-slate-400 mb-4 text-center">
+                or click to <span style={{ color: ACCENT }}>browse</span>
+              </p>
+              <p className="text-sm text-slate-400 font-medium mb-8 text-center">
+                Supports single or multiple PDF files
+              </p>
 
- {/* Processing overlay */}
- {f.status === 'processing' && (
- <div className="absolute inset-0 bg-red-600/80 backdrop-blur-sm flex flex-col items-center justify-center z-10">
- <Loader2 className="animate-spin text-white mb-2" size={32} />
- <span className="text-[10px] font-medium text-white uppercase tracking-widest animate-pulse">Fixing...</span>
- </div>
- )}
+              {files.length === 0 ? (
+                <button className="px-8 py-4 rounded-xl text-white text-base font-bold uppercase tracking-widest shadow-xl hover:scale-105 active:scale-95 transition-all relative z-10 flex items-center gap-3" style={{ background: ACCENT_GRADIENT }}>
+                  <Plus size={20} /> SELECT PDF FILES
+                </button>
+              ) : (
+                <button
+                  className="px-8 py-4 rounded-xl text-white text-base font-bold uppercase tracking-widest shadow-xl hover:scale-105 active:scale-95 transition-all relative z-10 flex items-center gap-3 disabled:opacity-50 disabled:grayscale"
+                  style={{ background: ACCENT_GRADIENT }}
+                  onClick={e => { e.stopPropagation(); handleRepair(); }}
+                  disabled={processing}
+                >
+                  {processing ? (
+                    <><Loader2 className="animate-spin" size={20} /> REPAIRING...</>
+                  ) : (
+                    <><LifeBuoy size={20} /> REPAIR PDF</>
+                  )}
+                </button>
+              )}
+            </div>
 
- {/* Completed overlay */}
- {f.status === 'completed' && (
- <div className="absolute inset-0 bg-green-500/20 flex items-center justify-center pointer-events-none z-10">
- <div className="bg-white rounded-full p-2 shadow-2xl scale-125">
- <CheckCircle2 className="text-green-500" size={24} />
- </div>
- </div>
- )}
+            {/* Feature grid — shown when no files */}
+            {files.length === 0 && (
+              <div className="w-full grid grid-cols-4 gap-2 sm:gap-6 pt-8 border-t border-slate-100 dark:border-slate-800/50">
+                {[
+                  { icon: Lock, title: "100% Secure", desc: "Your files are safe" },
+                  { icon: Trash2, title: "Auto Delete", desc: "Files auto removed" },
+                  { icon: Smartphone, title: "Works Offline", desc: "No internet needed" },
+                  { icon: Rocket, title: "Super Fast", desc: "Built for speed" }
+                ].map((f, i) => (
+                  <div key={i} className="flex flex-col xl:flex-row items-center justify-start gap-2 xl:gap-3 text-center xl:text-left">
+                    <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl flex items-center justify-center shrink-0" style={{ color: ACCENT, backgroundColor: `${ACCENT}10` }}>
+                      <f.icon size={16} />
+                    </div>
+                    <div>
+                      <p className="text-[10px] sm:text-[13px] font-bold text-slate-900 dark:text-white tracking-tight leading-tight mb-0.5">{f.title}</p>
+                      <p className="text-[8px] sm:text-[10px] text-slate-400 font-medium tracking-wide leading-tight hidden sm:block">{f.desc}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
 
- {/* File info overlay */}
- <div className="absolute bottom-0 inset-x-0 p-3 bg-gradient-to-t from-black/80 to-transparent z-10 text-left">
- <p className="text-[10px] text-white font-medium truncate uppercase tracking-widest">{f.file.name}</p>
- </div>
- </div>
+            {/* File list */}
+            {files.length > 0 && (
+              <div className="w-full mt-6 space-y-3">
+                <div className="flex items-center justify-between px-2 mb-4">
+                  <h4 className="text-[11px] font-bold text-slate-400 uppercase tracking-widest flex items-center gap-2">
+                    <LifeBuoy size={14} /> Repair Queue ({files.length})
+                  </h4>
+                  <button onClick={resetAll} className="text-[10px] font-bold text-red-500 uppercase tracking-widest hover:text-red-600 transition-colors">
+                    Clear All
+                  </button>
+                </div>
+                <div className="space-y-3">
+                  {files.map((f) => (
+                    <div key={f.id} className="flex flex-row items-center justify-between p-4 bg-slate-50 dark:bg-slate-900/50 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm gap-3 group hover:shadow-md transition-all relative overflow-hidden">
+                      {/* Icon */}
+                      <div className={`p-3 rounded-xl shadow-md transition-all shrink-0 ${f.status === 'completed' ? 'bg-green-500 text-white' : f.status === 'error' ? 'bg-red-500 text-white' : 'bg-white dark:bg-slate-800 text-red-500'}`}>
+                        {f.status === 'processing' ? <Loader2 className="animate-spin" size={20} /> : f.status === 'completed' ? <CheckCircle2 size={20} /> : <FileText size={20} />}
+                      </div>
 
- {/* Floating actions */}
- <div className="absolute -top-2 -right-2 z-30 flex gap-1">
- {f.status === 'completed' ? (
- <a href={f.resultUrl} download={f.repairedName} className="w-8 h-8 bg-green-500 text-white rounded-xl shadow-xl flex items-center justify-center hover:scale-110 transition-transform">
- <Download size={14} />
- </a>
- ) : f.status !== 'processing' && (
- <button onClick={() => removeFile(f.id)} className="w-8 h-8 bg-white dark:bg-slate-800 text-red-500 rounded-xl shadow-xl flex items-center justify-center hover:scale-110 transition-transform border border-slate-100 dark:border-slate-700">
- <X size={14} />
- </button>
- )}
- </div>
- </motion.div>
- ))}
- </AnimatePresence>
- 
- <button 
- onClick={() => fileInputRef.current?.click()}
- className="aspect-[3/4] rounded-2xl border-4 border-dashed border-slate-100 dark:border-slate-800 flex flex-col items-center justify-center text-slate-200 hover:text-red-500 hover:border-red-500 transition-all bg-slate-50/20 dark:bg-slate-900/20 group"
- >
- <Plus size={48} className="group-hover:scale-110 transition-transform" />
- <span className="text-[11px] font-medium uppercase tracking-widest mt-4">Add More</span>
- </button>
- </div>
- )}
- </div>
+                      {/* File info */}
+                      <div className="text-left min-w-0 flex-1">
+                        <p className="text-[12px] font-bold text-slate-900 dark:text-white uppercase truncate tracking-tight leading-none mb-1">{f.file.name}</p>
+                        <div className="flex flex-wrap items-center gap-1.5">
+                          {f.status === 'processing' ? (
+                            <span className="text-[9px] font-bold text-red-500 uppercase tracking-widest bg-red-50 dark:bg-red-500/10 px-2 py-0.5 rounded-full inline-flex items-center gap-1">
+                              <Loader2 size={10} className="animate-spin" /> Repairing...
+                            </span>
+                          ) : f.status === 'completed' ? (
+                            <span className="text-[9px] font-bold text-green-500 uppercase tracking-widest bg-green-50 dark:bg-green-500/10 px-2 py-0.5 rounded-full inline-flex items-center gap-1">
+                              <CheckCircle2 size={10} /> Repaired
+                            </span>
+                          ) : f.status === 'error' ? (
+                            <span className="text-[9px] font-bold text-red-500 uppercase tracking-widest bg-red-50 dark:bg-red-500/10 px-2 py-0.5 rounded-full inline-flex items-center gap-1">
+                              <X size={10} /> Failed
+                            </span>
+                          ) : (
+                            <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded-full">
+                              Ready
+                            </span>
+                          )}
+                          <span className="text-[9px] text-slate-400 font-medium uppercase tracking-wider">{(f.file.size / 1024 / 1024).toFixed(2)} MB</span>
+                        </div>
+                      </div>
 
- {/* Feature Grid */}
- 
- </div>
- </div>
+                      {/* Actions */}
+                      <div className="flex items-center gap-2 shrink-0">
+                        {f.resultUrl && (
+                          <a href={f.resultUrl} download={f.repairedName} className="px-3 py-2 text-white rounded-xl text-[10px] font-bold uppercase tracking-widest shadow-lg hover:scale-105 transition-all flex items-center gap-1.5" style={{ background: ACCENT_GRADIENT }}>
+                            <Download size={12} /> Save
+                          </a>
+                        )}
+                        {f.status !== 'processing' && (
+                          <button onClick={() => removeFile(f.id)} className="p-2 text-slate-400 hover:text-red-500 bg-white dark:bg-slate-800 rounded-xl border border-slate-100 dark:border-slate-700 transition-all hover:scale-110 hover:border-red-200">
+                            <X size={16} />
+                          </button>
+                        )}
+                      </div>
 
- <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mt-8">
- {[
- { title: "Deep Analysis", desc: "Our engine scans internal file tables for structural anomalies.", icon: LifeBuoy },
- { title: "Smart Recovery", desc: "Rebuilds corrupted cross-reference tables and object streams.", icon: ShieldAlert },
- { title: "Batch Support", desc: "Repair multiple documents simultaneously with high priority.", icon: FileText },
- ].map((feat, i) => (
- <div key={i} className="p-8 bg-white dark:bg-slate-800 rounded-3xl border border-slate-50 dark:border-slate-700 shadow-sm flex flex-col items-center text-center group hover:shadow-lg transition-all">
- <div className="w-12 h-12 rounded-2xl bg-red-50 dark:bg-red-500/10 flex items-center justify-center text-red-500 mb-4 group-hover:scale-110 transition-transform shadow-inner">
- <feat.icon size={24} />
- </div>
- <h5 className="text-[11px] font-bold uppercase tracking-widest text-slate-900 dark:text-white mb-2">{feat.title}</h5>
- <p className="text-[10px] text-slate-400 font-medium leading-relaxed uppercase">{feat.desc}</p>
- </div>
- ))}
- </div>
+                      {f.status === 'processing' && (
+                        <div className="absolute bottom-0 left-0 h-0.5 bg-red-500" style={{ width: '100%', animation: 'progress 2s infinite linear' }} />
+                      )}
+                    </div>
+                  ))}
+                </div>
 
- <style jsx global>{`
- .custom-scrollbar::-webkit-scrollbar { width: 6px; }
- .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
- .custom-scrollbar::-webkit-scrollbar-thumb { background: #fee2e2; border-radius: 10px; }
- .dark .custom-scrollbar::-webkit-scrollbar-thumb { background: #334155; }
- `}</style>
- </div>
- );
+                {/* Add more */}
+                <button onClick={() => fileInputRef.current?.click()} className="w-full py-5 border-2 border-dashed border-slate-200 dark:border-slate-800 rounded-2xl flex items-center justify-center gap-3 text-slate-400 hover:text-red-500 hover:border-red-400 transition-all bg-slate-50/10 group">
+                  <Plus size={18} className="group-hover:scale-110 transition-transform" />
+                  <span className="text-xs font-medium uppercase tracking-widest">Add More Files</span>
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Bottom Feature Cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+          {[
+            { title: "Deep Analysis", desc: "Our engine scans internal file tables for structural anomalies.", icon: LifeBuoy },
+            { title: "Smart Recovery", desc: "Rebuilds corrupted cross-reference tables and object streams.", icon: ShieldAlert },
+            { title: "Batch Support", desc: "Repair multiple documents simultaneously with high priority.", icon: FileText },
+          ].map((feat, i) => (
+            <div key={i} className="p-8 bg-white dark:bg-slate-900 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-sm flex flex-col items-center text-center group hover:shadow-lg transition-all">
+              <div className="w-12 h-12 rounded-2xl bg-red-50 dark:bg-red-500/10 flex items-center justify-center text-red-500 mb-4 group-hover:scale-110 transition-transform shadow-inner">
+                <feat.icon size={24} />
+              </div>
+              <h5 className="text-[11px] font-bold uppercase tracking-widest text-slate-900 dark:text-white mb-2">{feat.title}</h5>
+              <p className="text-[10px] text-slate-400 font-medium leading-relaxed uppercase">{feat.desc}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <style>{`
+        @keyframes progress {
+          0% { transform: translateX(-100%); }
+          100% { transform: translateX(100%); }
+        }
+      `}</style>
+    </div>
+  );
 }
-
-
-

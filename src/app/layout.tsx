@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Lato, Outfit } from "next/font/google";
 import { GoogleAnalytics } from "@next/third-parties/google";
+import Script from "next/script";
+
 import CookieConsentBanner from "@/components/CookieConsentBanner";
 import "./globals.css";
 
@@ -69,9 +71,9 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
        
         <meta name="color-scheme" content="light dark" />
-        <script
+        <Script
           id="theme-init"
-          suppressHydrationWarning
+          strategy="beforeInteractive"
           dangerouslySetInnerHTML={{
             __html: `
  (function() {
