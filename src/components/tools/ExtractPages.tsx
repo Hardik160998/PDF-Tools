@@ -125,7 +125,7 @@ export default function ExtractPages({ id: _id }: { id: string }) {
  {/* Settings Sidebar */}
  <div className={`w-full lg:w-[280px] bg-white dark:bg-slate-800 rounded-3xl border border-slate-100 dark:border-slate-700 shadow-xl h-fit lg:sticky lg:top-4 overflow-hidden flex-shrink-0 ${!file ? 'hidden' : ''}`}>
  <button onClick={() => setShowSettings(!showSettings)} className="w-full flex lg:hidden items-center justify-between p-5 font-medium text-slate-900 dark:text-white border-b border-slate-50 dark:border-slate-700">
-  <span className="flex items-center gap-2"><SettingsIcon size={20} style={{ color: ACCENT }} /> Settings</span>
+  <span className="flex items-center gap-2"><Settings size={20} style={{ color: ACCENT }} /> Settings</span>
   <ChevronDown className={`transition-transform duration-300 ${showSettings ? 'rotate-180' : ''}`} size={20} />
   </button>
   <div className={`${showSettings ? 'block' : 'hidden'} lg:block p-6`}>
