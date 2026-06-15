@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef } from 'react';
-import { Upload, Download, Loader2, X, CheckCircle2, ShoppingBag, Trash2, FileText } from 'lucide-react';
+import { Upload, Download, Loader2, X, CheckCircle2, ShoppingBag, Trash2, FileText, Image, Settings, ChevronDown, ChevronUp, Lock, Smartphone, Rocket, Zap, Shield, Sparkles, Plus } from 'lucide-react';
 import type * as PDFJS from 'pdfjs-dist';
 import { PDFDocument, rgb } from 'pdf-lib';
 import { useCredits } from '@/hooks/useCredits';
@@ -279,6 +279,9 @@ export default function MeeshoCropLabel({ id }: { id: string }) {
  setFiles(prev => [...prev, ...entries]);
  setDone(false);
  setPdfUrl(null);
+ if (window.innerWidth < 1024) {
+ setShowSettings(true);
+ }
  };
 
  const removeFile = (fileId: string) => setFiles(prev => prev.filter(f => f.id !== fileId));
@@ -573,200 +576,272 @@ export default function MeeshoCropLabel({ id }: { id: string }) {
 
  const reset = () => { setFiles([]); setDone(false); setPdfUrl(null); setPdfUrls([]); setCsvUrl(null); setLabelCount(0); };
 
- const ToolContent = () => (
+ const ACCENT = '#f43397';
+
+ return (
+ <div className="max-w-7xl mx-auto py-4 sm:py-8 px-3 sm:px-6">
+ <OutOfCreditsModal isOpen={outOfCreditsOpen} onClose={() => setOutOfCreditsOpen(false)} isGuest={isGuest} />
+ <div className="flex flex-col lg:flex-row-reverse gap-4 sm:gap-8 items-start">
+
+ {/* Settings Panel - only show after file upload */}
+ {files.length > 0 && !done && (
+ <div className="w-full lg:w-[400px] bg-white dark:bg-slate-900 rounded-[2rem] border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-xl transition-shadow duration-300 h-fit lg:sticky lg:top-4 overflow-hidden flex-shrink-0 animate-in slide-in-from-left-4">
+ <div
+ className="p-5 border-b border-slate-50 dark:border-slate-800 flex items-center justify-between cursor-pointer lg:cursor-default select-none"
+ onClick={() => setShowSettings(!showSettings)}
+ >
+ <div className="flex items-center gap-2" style={{ color: ACCENT }}>
+ <Settings size={20} />
+ <h3 className="text-[15px] font-black text-[#1e293b] dark:text-white tracking-widest uppercase">Settings</h3>
+ </div>
+ {showSettings ? (
+ <ChevronUp size={20} style={{ color: ACCENT }} className="lg:hidden" />
+ ) : (
+ <ChevronDown size={20} style={{ color: ACCENT }} className="lg:hidden" />
+ )}
+ </div>
+
+ <div className={`pt-5 px-5 pb-4 space-y-5 ${showSettings ? 'block' : 'hidden lg:block'}`}>
+ {/* LAYOUT & EXTRACTION */}
+ <div className="space-y-3 p-4 bg-white dark:bg-slate-900 rounded-xl border border-slate-100 dark:border-slate-700 shadow-sm">
+ <h4 className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-3">Layout & Extraction</h4>
+
+ <div className="flex items-center justify-between mb-3">
+ <div className="flex items-center gap-3">
+ <div className="p-2 bg-pink-50 dark:bg-pink-500/10 rounded-lg" style={{ color: ACCENT }}><Sparkles size={16} /></div>
+ <div>
+ <p className="text-sm font-bold text-[#1e293b] dark:text-white leading-tight">4 Labels per A4</p>
+ <p className="text-[10px] text-slate-400">2x2 Grid layout</p>
+ </div>
+ </div>
+ <button onClick={() => setLabelsPerA4(!labelsPerA4)} className={`w-10 h-5 rounded-full transition-colors relative flex items-center px-0.5 shrink-0 ${labelsPerA4 ? 'bg-[#f43397]' : 'bg-slate-200 dark:bg-slate-700'}`}>
+ <div className={`w-4 h-4 rounded-full bg-white transition-transform ${labelsPerA4 ? 'translate-x-5' : 'translate-x-0'} shadow-sm`} />
+ </button>
+ </div>
+
+ <div className="flex items-center justify-between mb-3">
+ <div className="flex items-center gap-3">
+ <div className="p-2 bg-pink-50 dark:bg-pink-500/10 rounded-lg" style={{ color: ACCENT }}><FileText size={16} /></div>
+ <div>
+ <p className="text-sm font-bold text-[#1e293b] dark:text-white leading-tight">Split by Courier</p>
+ <p className="text-[10px] text-slate-400">Separate PDFs per courier</p>
+ </div>
+ </div>
+ <button onClick={() => setSplitByCourier(!splitByCourier)} className={`w-10 h-5 rounded-full transition-colors relative flex items-center px-0.5 shrink-0 ${splitByCourier ? 'bg-[#f43397]' : 'bg-slate-200 dark:bg-slate-700'}`}>
+ <div className={`w-4 h-4 rounded-full bg-white transition-transform ${splitByCourier ? 'translate-x-5' : 'translate-x-0'} shadow-sm`} />
+ </button>
+ </div>
+
+ <div className="flex items-center justify-between mb-3">
+ <div className="flex items-center gap-3">
+ <div className="p-2 bg-pink-50 dark:bg-pink-500/10 rounded-lg" style={{ color: ACCENT }}><Image size={16} /></div>
+ <div>
+ <p className="text-sm font-bold text-[#1e293b] dark:text-white leading-tight">Export Metadata</p>
+ <p className="text-[10px] text-slate-400">Download CSV details</p>
+ </div>
+ </div>
+ <button onClick={() => setExportMetadata(!exportMetadata)} className={`w-10 h-5 rounded-full transition-colors relative flex items-center px-0.5 shrink-0 ${exportMetadata ? 'bg-[#f43397]' : 'bg-slate-200 dark:bg-slate-700'}`}>
+ <div className={`w-4 h-4 rounded-full bg-white transition-transform ${exportMetadata ? 'translate-x-5' : 'translate-x-0'} shadow-sm`} />
+ </button>
+ </div>
+
+ <div className="flex items-center justify-between">
+ <div className="flex items-center gap-3">
+ <div className="p-2 bg-pink-50 dark:bg-pink-500/10 rounded-lg" style={{ color: ACCENT }}><Zap size={16} /></div>
+ <div>
+ <p className="text-sm font-bold text-[#1e293b] dark:text-white leading-tight">Highlight SKU ID</p>
+ <p className="text-[10px] text-slate-400">Visible blue boxes on labels</p>
+ </div>
+ </div>
+ <button onClick={() => setHighlightSku(!highlightSku)} className={`w-10 h-5 rounded-full transition-colors relative flex items-center px-0.5 shrink-0 ${highlightSku ? 'bg-[#f43397]' : 'bg-slate-200 dark:bg-slate-700'}`}>
+ <div className={`w-4 h-4 rounded-full bg-white transition-transform ${highlightSku ? 'translate-x-5' : 'translate-x-0'} shadow-sm`} />
+ </button>
+ </div>
+ </div>
+
+ {/* SORT OPTIONS */}
+ <div className="space-y-4 p-4 bg-white dark:bg-slate-900 rounded-xl border border-slate-100 dark:border-slate-700 shadow-sm">
+ <div className="flex items-center justify-between mb-3">
+ <h4 className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Sort Orders</h4>
+ <span className="text-[9px] text-slate-400 font-medium bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded-full">Multi-select</span>
+ </div>
+ <div className="grid grid-cols-2 gap-2">
+ <button onClick={() => setSortByQty(!sortByQty)} className={`py-2 text-xs font-bold transition-all flex items-center justify-center gap-2 rounded-lg border-2 ${sortByQty ? 'border-[#f43397] text-[#f43397] bg-pink-50 dark:bg-pink-500/10' : 'border-slate-100 dark:border-slate-800 text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-800'}`}>By Quantity</button>
+ <button onClick={() => setSortBySku(!sortBySku)} className={`py-2 text-xs font-bold transition-all flex items-center justify-center gap-2 rounded-lg border-2 ${sortBySku ? 'border-[#f43397] text-[#f43397] bg-pink-50 dark:bg-pink-500/10' : 'border-slate-100 dark:border-slate-800 text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-800'}`}>By SKU ID</button>
+ <button onClick={() => setSortBySeller(!sortBySeller)} className={`py-2 text-xs font-bold transition-all flex items-center justify-center gap-2 rounded-lg border-2 ${sortBySeller ? 'border-[#f43397] text-[#f43397] bg-pink-50 dark:bg-pink-500/10' : 'border-slate-100 dark:border-slate-800 text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-800'}`}>By Seller</button>
+ <button onClick={() => setSortByCourier(!sortByCourier)} className={`py-2 text-xs font-bold transition-all flex items-center justify-center gap-2 rounded-lg border-2 ${sortByCourier ? 'border-[#f43397] text-[#f43397] bg-pink-50 dark:bg-pink-500/10' : 'border-slate-100 dark:border-slate-800 text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-800'}`}>By Courier</button>
+ </div>
+ <div className="pt-2">
+ <button onClick={() => setMultiOrderAtBottom(!multiOrderAtBottom)} className={`w-full py-2 text-xs font-bold transition-all flex items-center justify-center gap-2 rounded-lg border-2 ${multiOrderAtBottom ? 'border-[#f43397] text-[#f43397] bg-pink-50 dark:bg-pink-500/10' : 'border-slate-100 dark:border-slate-800 text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-800'}`}>Multi-order at Bottom</button>
+ </div>
+ </div>
+ </div>
+ </div>
+ )}
+
+ {/* Main Content */}
+ <div className="flex-1 w-full space-y-4 sm:space-y-6">
+ <div className="bg-white dark:bg-slate-900 rounded-3xl sm:rounded-[2.5rem] border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-2xl transition-shadow duration-300 p-5 sm:p-10 min-h-[500px] flex flex-col relative overflow-hidden w-full">
+ <div className="absolute top-0 right-0 w-64 h-64 bg-slate-50 dark:bg-slate-900/50 rounded-full -mr-32 -mt-32 blur-3xl opacity-50" />
+
+ {!done ? (
  <>
- <div className="space-y-4">
- <div className="inline-flex p-4 rounded-2xl bg-[#f26522] text-white shadow-lg mb-4">
+ <div className="relative text-center space-y-4 mb-6">
+ <div className="inline-flex p-3 rounded-xl text-white shadow-lg" style={{ background: ACCENT }}>
  <ShoppingBag size={32} />
  </div>
- <h2 className="text-2xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter leading-tight">Meesho Label Crop (without invoice)</h2>
- <p className="text-sm sm:text-base text-slate-500 dark:text-slate-400 font-medium max-w-md mx-auto leading-relaxed">Automatically crops Meesho shipping labels — keeps shipping address, return address &amp; barcodes. Removes TAX INVOICE and billing info.</p>
+ <h2 className="text-2xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter leading-tight text-center">
+ Meesho Label Cropper
+ </h2>
+ <p className="text-sm sm:text-base text-slate-500 dark:text-slate-400 font-medium max-w-md mx-auto leading-relaxed text-center">
+ Auto-crop Meesho shipping labels — removes TAX INVOICE, keeps shipping address, barcodes & return info.
+ </p>
+ </div>
 
- {/* Steps */}
- <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mt-6">
+ <div className="flex-1 flex flex-col items-center animate-in fade-in slide-in-from-bottom-4 duration-500 w-full max-w-3xl mx-auto">
+ {/* Instant / Private / Lossless row */}
+ <div className="hidden sm:flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 w-full mb-6">
  {[
- { step: "1", title: "Upload", desc: "Select labels" },
- { step: "2", title: "Sort", desc: "By SKU ID" },
- { step: "3", title: "Highlight", desc: "Check SKU" },
- { step: "4", title: "Print", desc: "Download PDF" }
- ].map((s, idx) => (
- <div key={idx} className="p-3 bg-white dark:bg-slate-900 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm">
- <div className="w-6 h-6 rounded-full bg-[#f26522] text-white text-[10px] font-medium flex items-center justify-center mb-1 mx-auto">{s.step}</div>
- <div className="text-[11px] font-medium text-slate-900 dark:text-white">{s.title}</div>
- <div className="text-[9px] text-slate-400 font-medium leading-tight mt-0.5">{s.desc}</div>
+ { icon: Zap, title: "Instant", desc: "Lightning fast processing" },
+ { icon: Shield, title: "Private", desc: "Your files stay secure" },
+ { icon: Sparkles, title: "Lossless", desc: "Perfect quality output" }
+ ].map((f, i) => (
+ <div key={i} className="flex items-center gap-3">
+ <div className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0" style={{ color: ACCENT, backgroundColor: `${ACCENT}15` }}>
+ <f.icon size={20} />
+ </div>
+ <div className="text-left">
+ <p className="text-sm font-bold text-slate-900 dark:text-white tracking-tight leading-none mb-1">{f.title}</p>
+ <p className="text-[11px] text-slate-400 font-medium tracking-wide">{f.desc}</p>
+ </div>
  </div>
  ))}
  </div>
- </div>
 
- {!done ? (
- <div className="space-y-6">
- <div className="relative border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-2xl sm:rounded-3xl p-8 sm:p-16 group hover:border-[#f26522] transition-all cursor-pointer bg-slate-50/50 dark:bg-slate-900/50" 
- onClick={() => {
- if (!isPremium && remaining <= 0) {
- setOutOfCreditsOpen(true);
- return;
- }
- inputRef.current?.click();
- }} 
- onDragOver={e => e.preventDefault()} 
- onDrop={e => { 
- e.preventDefault(); 
- if (!isPremium && remaining <= 0) {
- setOutOfCreditsOpen(true);
- return;
- }
- addFiles(e.dataTransfer.files); 
- }}
+ {/* Dropzone */}
+ {files.length === 0 ? (
+ <div
+ className="w-full border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-[2.5rem] p-8 sm:p-10 flex flex-col items-center justify-center cursor-pointer transition-all bg-white dark:bg-slate-900/50 shadow-sm hover:shadow-xl hover:border-slate-300 dark:hover:border-slate-500 group relative overflow-hidden mb-6"
+ onDragOver={e => e.preventDefault()}
+ onDrop={e => { e.preventDefault(); if (!isPremium && remaining <= 0) { setOutOfCreditsOpen(true); return; } addFiles(e.dataTransfer.files); }}
+ onClick={() => { if (!isPremium && remaining <= 0) { setOutOfCreditsOpen(true); return; } inputRef.current?.click(); }}
  >
  <input ref={inputRef} type="file" accept=".pdf" multiple className="hidden" onChange={e => addFiles(e.target.files)} />
- <div className="space-y-4 pointer-events-none">
- <div className="p-4 sm:p-6 bg-white dark:bg-slate-800 rounded-2xl shadow-xl inline-block text-[#f26522] group-hover:scale-110 transition-transform"><Upload size={32} className="sm:w-12 sm:h-12" /></div>
- <div className="text-lg sm:text-lg sm:text-xl font-medium text-slate-800 dark:text-white uppercase tracking-tighter">Drop Meesho Label PDFs here</div>
- <p className="text-xs sm:text-sm text-slate-400 font-medium mt-1">or click to browse · Multiple PDFs supported</p>
+ <div className="relative mb-8 group-hover:scale-105 transition-transform duration-300">
+ <div className="w-32 h-40 bg-slate-50 dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-lg flex flex-col relative z-10 overflow-hidden">
+ <div className="w-full h-full bg-gradient-to-br from-pink-50 to-slate-100 dark:from-slate-800 dark:to-slate-900 flex items-center justify-center">
+ <ShoppingBag size={48} className="opacity-20" style={{ color: ACCENT }} />
+ </div>
+ <div className="absolute top-3 left-3 text-white text-[10px] font-bold px-2 py-0.5 rounded shadow-sm" style={{ background: ACCENT }}>PDF</div>
+ </div>
+ <div className="absolute -bottom-4 -right-4 w-12 h-12 rounded-full text-white flex items-center justify-center shadow-xl z-20" style={{ background: ACCENT }}>
+ <Upload size={20} strokeWidth={3} />
+ </div>
+ <Plus size={16} className="absolute -top-4 -left-6 opacity-60" style={{ color: ACCENT }} />
+ <Plus size={12} className="absolute top-10 -right-8 opacity-60" style={{ color: ACCENT }} />
+ <Plus size={14} className="absolute bottom-2 -left-8 opacity-60" style={{ color: ACCENT }} />
+ </div>
+ <h3 className="text-2xl sm:text-3xl font-black text-slate-800 dark:text-white mb-2 tracking-tight text-center">Drag &amp; drop Meesho PDFs here</h3>
+ <p className="text-lg font-medium text-slate-500 dark:text-slate-400 mb-4 text-center">or click to <span style={{ color: ACCENT }}>browse</span></p>
+ <p className="text-sm text-slate-400 font-medium mb-8 text-center">Supports multiple PDF files</p>
+ <div className="px-8 py-4 rounded-xl text-white text-base font-bold uppercase tracking-widest shadow-xl hover:scale-105 active:scale-95 transition-all relative z-10 flex items-center gap-3" style={{ background: ACCENT }}>
+ <Plus size={20} /> SELECT PDF FILES
  </div>
  </div>
-
- {files.length > 0 && (
- <div className="space-y-6 animate-in slide-in-from-bottom-4 duration-500">
- <div className="space-y-2 text-left">
+ ) : (
+ <div className="w-full space-y-4 mb-6">
+ <input ref={inputRef} type="file" accept=".pdf" multiple className="hidden" onChange={e => addFiles(e.target.files)} />
+ <div className="flex items-center justify-between">
+ <h3 className="text-lg font-black text-slate-900 dark:text-white uppercase tracking-tight">Selected Files</h3>
+ <button onClick={() => inputRef.current?.click()} className="text-sm font-bold uppercase tracking-widest" style={{ color: ACCENT }}>+ Add More</button>
+ </div>
+ <div className="space-y-3 max-h-64 overflow-y-auto pr-2 custom-scrollbar">
  {files.map(f => (
- <div key={f.id} className="flex items-center justify-between p-4 bg-slate-50 dark:bg-slate-700 rounded-2xl border border-slate-100 dark:border-slate-600">
- <div className="flex items-center gap-3 flex-1 min-w-0">
- <div className="p-2 bg-white dark:bg-slate-800 rounded-lg shadow-sm text-[#f26522] shrink-0"><FileText size={16} /></div>
+ <div key={f.id} className="flex items-center justify-between p-4 bg-slate-50 dark:bg-slate-800/50 rounded-2xl border border-slate-100 dark:border-slate-800">
+ <div className="flex items-center gap-3 min-w-0">
+ <div className="p-2 rounded-lg bg-white dark:bg-slate-700 shadow-sm shrink-0" style={{ color: ACCENT }}>
+ <FileText size={16} />
+ </div>
  <div className="min-w-0">
- <p className="font-medium text-slate-900 dark:text-white text-xs truncate">{f.name}</p>
+ <p className="font-bold text-slate-900 dark:text-white text-sm truncate">{f.name}</p>
  <p className="text-[10px] text-slate-400 font-medium">{(f.file.size / 1024).toFixed(0)} KB{f.pageCount ? ` · ${f.pageCount} page${f.pageCount > 1 ? 's' : ''}` : ''}</p>
  </div>
  </div>
  <div className="shrink-0 ml-2">
- {f.status === 'pending' && <button onClick={() => removeFile(f.id)} className="p-2 text-slate-400 hover:text-red-500 transition-colors"><X size={16} /></button>}
- {f.status === 'processing' && <Loader2 size={16} className="animate-spin text-[#f26522]" />}
+ {f.status === 'pending' && <button onClick={() => removeFile(f.id)} className="p-2 text-slate-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10 rounded-lg transition-all"><X size={16} /></button>}
+ {f.status === 'processing' && <Loader2 size={18} className="animate-spin" style={{ color: ACCENT }} />}
  {f.status === 'done' && <CheckCircle2 size={16} className="text-green-500" />}
  {f.status === 'error' && <X size={16} className="text-red-500" />}
  </div>
  </div>
  ))}
  </div>
-
- <div className="flex gap-3">
- <button onClick={processAll} disabled={processing} className="flex-1 py-4 sm:py-5 bg-[#f26522] hover:bg-[#d4541a] text-white rounded-2xl text-lg sm:text-lg sm:text-xl font-medium shadow-xl shadow-orange-500/20 flex items-center justify-center gap-3 disabled:opacity-60 transition-all">
- {processing ? <Loader2 className="animate-spin" size={24} /> : <ShoppingBag size={24} />}
- {processing ? 'Processing Labels…' : `Crop ${files.length} PDF${files.length > 1 ? 's' : ''}`}
+ <div className="pt-4 mt-4 border-t border-slate-100 dark:border-slate-800">
+ <button onClick={processAll} disabled={processing} className="w-full py-4 text-white rounded-xl text-lg font-bold uppercase tracking-widest shadow-xl transition-all hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-3" style={{ background: ACCENT }}>
+ {processing ? (<><Loader2 size={24} className="animate-spin" /> Processing...</>) : (<><Zap size={24} /> Start Extraction</>)}
  </button>
- <button onClick={reset} disabled={processing} className="px-5 py-4 sm:py-5 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 text-slate-700 dark:text-white rounded-2xl font-medium transition-all"><Trash2 size={20} /></button>
  </div>
  </div>
  )}
+
+ {/* Bottom feature icons */}
+ <div className="w-full grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6 pt-8 mt-6 border-t border-slate-100 dark:border-slate-800/50">
+ {[
+ { icon: Lock, title: "100% Secure", desc: "Your files are safe" },
+ { icon: Trash2, title: "Auto Delete", desc: "Files auto removed" },
+ { icon: Smartphone, title: "Works Offline", desc: "No internet needed" },
+ { icon: Rocket, title: "Super Fast", desc: "Built for speed" }
+ ].map((f, i) => (
+ <div key={i} className="flex flex-col xl:flex-row items-center justify-start gap-2 xl:gap-3 text-center xl:text-left">
+ <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl flex items-center justify-center shrink-0" style={{ color: ACCENT, backgroundColor: `${ACCENT}10` }}>
+ <f.icon size={16} />
  </div>
+ <div>
+ <p className="text-[10px] sm:text-[13px] font-bold text-slate-900 dark:text-white tracking-tight leading-tight mb-0.5">{f.title}</p>
+ <p className="text-[8px] sm:text-[10px] text-slate-400 font-medium tracking-wide leading-tight hidden sm:block">{f.desc}</p>
+ </div>
+ </div>
+ ))}
+ </div>
+ </div>
+ </>
  ) : (
- (pdfUrl || pdfUrls.length > 0) && (
- <div className="space-y-8 sm:space-y-12 animate-in zoom-in duration-700">
- <div className="p-10 sm:p-12 rounded-full bg-green-100 dark:bg-green-500/20 text-green-500 inline-block"><CheckCircle2 size={72} /></div>
- <div className="space-y-4">
- <h3 className="text-3xl sm:text-4xl font-bold text-slate-900 dark:text-white">{labelCount} Label{labelCount !== 1 ? 's' : ''} Ready!</h3>
- <p className="text-slate-500 dark:text-slate-400 font-medium uppercase tracking-widest text-sm">TAX INVOICE removed. Clean shipping labels packed into PDF{pdfUrls.length > 1 ? 's' : ''}.</p>
+ <div className="flex-1 flex flex-col items-center justify-center space-y-8 animate-in fade-in zoom-in duration-500 text-center w-full max-w-lg mx-auto">
+ <div className="p-8 sm:p-10 rounded-full bg-green-50 dark:bg-green-500/10 text-green-500 shadow-inner relative">
+ <div className="absolute inset-0 bg-green-500/20 rounded-full animate-ping" />
+ <CheckCircle2 size={64} className="relative z-10" />
  </div>
- <div className="space-y-4">
- {pdfUrl && <button onClick={() => handleDownloadClick(pdfUrl, "meesho_crop_labels.pdf")} className="w-full block py-4 sm:py-5 bg-[#f26522] hover:bg-[#d4541a] text-white rounded-2xl text-xl sm:text-2xl font-medium shadow-xl flex items-center justify-center gap-3"><Download size={24} /> Download PDF</button>}
+ <div className="space-y-2">
+ <h3 className="text-3xl sm:text-4xl font-black text-[#1e293b] dark:text-white uppercase tracking-tighter">{labelCount} Labels Extracted</h3>
+ <p className="text-slate-500 dark:text-slate-400 font-medium text-sm sm:text-base leading-relaxed">TAX INVOICE removed. Clean shipping labels ready.</p>
+ </div>
+ <div className="w-full space-y-4">
+ {pdfUrl && (
+ <button onClick={() => handleDownloadClick(pdfUrl, "meesho_crop_labels.pdf")} className="w-full py-4 sm:py-5 text-white rounded-2xl text-lg sm:text-xl font-black shadow-xl hover:shadow-2xl hover:-translate-y-1 transition-all uppercase tracking-widest text-center flex items-center justify-center gap-2" style={{ background: ACCENT }}>
+ <Download size={24} /> Download Final PDF
+ </button>
+ )}
  {pdfUrls.length > 0 && (
- <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+ <div className="grid grid-cols-2 gap-4">
  {pdfUrls.map(({ courier, url }) => (
- <button key={courier} onClick={() => handleDownloadClick(url, `${courier}_Labels.pdf`)} className="py-4 bg-[#f26522] hover:bg-[#d4541a] text-white rounded-2xl text-lg font-medium shadow-xl flex items-center justify-center gap-2"><Download size={20} /> {courier} Labels</button>
+ <button key={courier} onClick={() => handleDownloadClick(url, `${courier}_Labels.pdf`)} className="py-3 bg-slate-100 dark:bg-slate-800 rounded-xl text-slate-700 dark:text-slate-300 font-bold text-sm border border-slate-200 dark:border-slate-700 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors truncate px-2 text-center shadow-sm">
+ {courier} Labels
+ </button>
  ))}
  </div>
  )}
- {csvUrl && <button onClick={() => handleCsvDownloadClick(csvUrl)} className="w-full block py-4 bg-green-600 hover:bg-green-700 text-white rounded-2xl text-lg font-medium shadow-xl flex items-center justify-center gap-3"><Download size={20} /> Download CSV</button>}
- <button onClick={reset} className="w-full px-10 py-4 sm:py-5 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 text-slate-900 dark:text-white rounded-2xl font-medium transition-all">Crop More</button>
- </div>
- </div>
- )
+ {csvUrl && (
+ <button onClick={() => handleCsvDownloadClick(csvUrl)} className="w-full py-4 bg-green-600 hover:bg-green-700 text-white rounded-2xl text-lg font-black shadow-xl flex items-center justify-center gap-3 uppercase tracking-widest transition-colors"><Download size={20} /> Download CSV</button>
  )}
- </>
- );
-
- return (
- <div className="max-w-7xl mx-auto py-4 sm:py-8 px-3 sm:px-6">
- <OutOfCreditsModal isOpen={outOfCreditsOpen} onClose={() => setOutOfCreditsOpen(false)} isGuest={isGuest} />
- {files.length > 0 ? (
- <div className="flex flex-col-reverse lg:flex-row-reverse gap-4 sm:gap-8 items-start">
- <div className="w-full lg:w-[300px] bg-white dark:bg-slate-800 rounded-3xl border border-slate-100 dark:border-slate-700 shadow-sm hover:shadow-xl transition-shadow duration-300 h-fit lg:sticky lg:top-4 overflow-hidden flex-shrink-0">
- <button 
- onClick={() => setShowSettings(!showSettings)}
- className="w-full flex lg:hidden items-center justify-between p-5 font-medium text-slate-900 dark:text-white border-b border-slate-50 dark:border-slate-700"
- >
- <span className="flex items-center gap-2"><FileText size={20} className="text-[#f26522]" /> Settings</span>
- <Loader2 className={`transition-transform duration-300 ${showSettings ? 'rotate-180' : ''}`} size={20} />
+ <button onClick={reset} className="w-full py-4 font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest text-sm hover:text-[#f43397] hover:bg-pink-50 dark:hover:bg-slate-800 rounded-2xl transition-colors">
+ Process New Batch
  </button>
- <div className={`${showSettings ? 'block' : 'hidden'} lg:block p-6`}>
- <h3 className="hidden lg:block text-lg sm:text-xl font-bold text-slate-900 dark:text-white mb-6 uppercase tracking-tighter">Settings</h3>
- <div className="space-y-5">
- <label className="flex items-start gap-3 cursor-pointer group">
- <input type="checkbox" checked={labelsPerA4} onChange={(e) => setLabelsPerA4(e.target.checked)} className="w-5 h-5 mt-0.5 text-[#f26522] bg-white border-2 border-slate-300 rounded focus:ring-2 focus:ring-[#f26522] cursor-pointer flex-shrink-0" />
- <div className="flex flex-col">
- <span className="text-sm font-semibold text-slate-700 dark:text-slate-300 group-hover:text-slate-900 dark:group-hover:text-white leading-tight">4 Labels per A4 page</span>
- <span className="text-[10px] text-slate-400 font-medium uppercase tracking-widest">2x2 Grid (No Invoice)</span>
- </div>
- </label>
- <label className="flex items-start gap-3 cursor-pointer group">
- <input type="checkbox" checked={sortByQty} onChange={(e) => setSortByQty(e.target.checked)} className="w-5 h-5 mt-0.5 text-[#f26522] bg-white border-2 border-slate-300 rounded focus:ring-2 focus:ring-[#f26522] cursor-pointer flex-shrink-0" />
- <div className="flex flex-col">
- <span className="text-sm font-semibold text-slate-700 dark:text-slate-300 group-hover:text-slate-900 dark:group-hover:text-white leading-tight">Sort by Quantity</span>
- <span className="text-[10px] text-slate-400 font-medium uppercase tracking-widest">Sort by Qty</span>
- </div>
- </label>
- <label className="flex items-start gap-3 cursor-pointer group">
- <input type="checkbox" checked={sortBySku} onChange={(e) => setSortBySku(e.target.checked)} className="w-5 h-5 mt-0.5 text-[#f26522] bg-white border-2 border-slate-300 rounded focus:ring-2 focus:ring-[#f26522] cursor-pointer flex-shrink-0" />
- <div className="flex flex-col">
- <span className="text-sm font-semibold text-slate-700 dark:text-slate-300 group-hover:text-slate-900 dark:group-hover:text-white leading-tight">Sort by SKU ID</span>
- <span className="text-[10px] text-slate-400 font-medium uppercase tracking-widest">Group identical items</span>
- </div>
- </label>
- <label className="flex items-start gap-3 cursor-pointer group">
- <input type="checkbox" checked={highlightSku} onChange={(e) => setHighlightSku(e.target.checked)} className="w-5 h-5 mt-0.5 text-[#f26522] bg-white border-2 border-slate-300 rounded focus:ring-2 focus:ring-[#f26522] cursor-pointer flex-shrink-0" />
- <div className="flex flex-col">
- <span className="text-sm font-semibold text-slate-700 dark:text-slate-300 group-hover:text-slate-900 dark:group-hover:text-white leading-tight">Highlight SKU ID</span>
- <span className="text-[10px] text-slate-400 font-medium uppercase tracking-widest">Visible blue boxes</span>
- </div>
- </label>
- <label className="flex items-start gap-3 cursor-pointer group">
- <input type="checkbox" checked={sortBySeller} onChange={(e) => setSortBySeller(e.target.checked)} className="w-5 h-5 mt-0.5 text-[#f26522] bg-white border-2 border-slate-300 rounded focus:ring-2 focus:ring-[#f26522] cursor-pointer flex-shrink-0" />
- <span className="text-sm font-semibold text-slate-700 dark:text-slate-300 group-hover:text-slate-900 dark:group-hover:text-white leading-tight">Sort by <span className="font-medium">Sold By</span></span>
- </label>
- <label className="flex items-start gap-3 cursor-pointer group">
- <input type="checkbox" checked={sortByCourier} onChange={(e) => setSortByCourier(e.target.checked)} className="w-5 h-5 mt-0.5 text-[#f26522] bg-white border-2 border-slate-300 rounded focus:ring-2 focus:ring-[#f26522] cursor-pointer flex-shrink-0" />
- <span className="text-sm font-semibold text-slate-700 dark:text-slate-300 group-hover:text-slate-900 dark:group-hover:text-white leading-tight">Sort Courier wise</span>
- </label>
- <label className="flex items-start gap-3 cursor-pointer group">
- <input type="checkbox" checked={multiOrderAtBottom} onChange={(e) => setMultiOrderAtBottom(e.target.checked)} className="w-5 h-5 mt-0.5 text-[#f26522] bg-white border-2 border-slate-300 rounded focus:ring-2 focus:ring-[#f26522] cursor-pointer flex-shrink-0" />
- <span className="text-sm font-semibold text-slate-700 dark:text-slate-300 group-hover:text-slate-900 dark:group-hover:text-white leading-tight">Multi order at bottom</span>
- </label>
- <div className="border-t border-slate-200 dark:border-slate-600 my-2"></div>
- <label className="flex items-start gap-3 cursor-pointer group">
- <input type="checkbox" checked={splitByCourier} onChange={(e) => setSplitByCourier(e.target.checked)} className="w-5 h-5 mt-0.5 text-[#f26522] bg-white border-2 border-slate-300 rounded focus:ring-2 focus:ring-[#f26522] cursor-pointer flex-shrink-0" />
- <span className="text-sm font-semibold text-slate-700 dark:text-slate-300 group-hover:text-slate-900 dark:group-hover:text-white leading-tight">Split by Courier</span>
- </label>
- <label className="flex items-start gap-3 cursor-pointer group">
- <input type="checkbox" checked={exportMetadata} onChange={(e) => setExportMetadata(e.target.checked)} className="w-5 h-5 mt-0.5 text-[#f26522] bg-white border-2 border-slate-300 rounded focus:ring-2 focus:ring-[#f26522] cursor-pointer flex-shrink-0" />
- <span className="text-sm font-semibold text-slate-700 dark:text-slate-300 group-hover:text-slate-900 dark:group-hover:text-white leading-tight">Export Metadata CSV</span>
- </label>
- </div>
- </div>
- </div>
- <div className="bg-white dark:bg-slate-800 rounded-3xl p-6 sm:p-12 border border-slate-100 dark:border-slate-700 shadow-sm hover:shadow-2xl transition-shadow duration-300 text-center space-y-6 sm:space-y-10">
- <ToolContent />
- </div>
- </div>
- ) : (
- <div className="max-w-3xl mx-auto">
- <div className="bg-white dark:bg-slate-800 rounded-3xl p-6 sm:p-12 border border-slate-100 dark:border-slate-700 shadow-sm hover:shadow-2xl transition-shadow duration-300 text-center space-y-6 sm:space-y-10">
- <ToolContent />
  </div>
  </div>
  )}
+ </div>
+ </div>
+ </div>
  </div>
  );
 }
-
-
-
