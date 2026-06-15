@@ -7,401 +7,401 @@ import { PDFDocument } from "pdf-lib";
 type PageEntry = { pageNum: number; thumb: string; selected: boolean };
 
 export default function ExtractPages({ id: _id }: { id: string }) {
- const [file, setFile] = useState<File | null>(null);
- const [pages, setPages] = useState<PageEntry[]>([]);
- const [loading, setLoading] = useState(false);
- const [processing, setProcessing] = useState(false);
- const [result, setResult] = useState<{ url: string; count: number } | null>(null);
- const [rangeInput, setRangeInput] = useState("");
- const [rangeError, setRangeError] = useState("");
- const [showSettings, setShowSettings] = useState(false);
- const fileInputRef = useRef<HTMLInputElement>(null);
+  const [file, setFile] = useState<File | null>(null);
+  const [pages, setPages] = useState<PageEntry[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [processing, setProcessing] = useState(false);
+  const [result, setResult] = useState<{ url: string; count: number } | null>(null);
+  const [rangeInput, setRangeInput] = useState("");
+  const [rangeError, setRangeError] = useState("");
+  const [showSettings, setShowSettings] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
- const ACCENT = "#f26522";
- const ACCENT_GRADIENT = "linear-gradient(135deg,#f26522,#c2410c)";
+  const ACCENT = "#f26522";
+  const ACCENT_GRADIENT = "linear-gradient(135deg,#f26522,#c2410c)";
 
- const loadFile = useCallback(async (f: File) => {
- if (!f.name.endsWith(".pdf")) return;
- setFile(f);
- setResult(null);
- setRangeInput("");
- setRangeError("");
- setLoading(true);
- try {
- const pdfjsLib = await import('pdfjs-dist');
- pdfjsLib.GlobalWorkerOptions.workerSrc = '/workers/pdf.worker.min.mjs';
- 
- const buf = await f.arrayBuffer();
- const doc = await pdfjsLib.getDocument({ data: buf }).promise;
- const entries: PageEntry[] = [];
- for (let i = 1; i <= doc.numPages; i++) {
- const pg = await doc.getPage(i);
- const vp = pg.getViewport({ scale: 0.25 });
- const canvas = document.createElement("canvas");
- canvas.width = vp.width;
- canvas.height = vp.height;
- await pg.render({ canvasContext: canvas.getContext("2d")!, canvas, viewport: vp }).promise;
- entries.push({ pageNum: i, thumb: canvas.toDataURL(), selected: false });
- }
- setPages(entries);
- } catch (err) {
- console.error(err);
- alert("Error reading PDF.");
- } finally {
- setLoading(false);
- }
- }, []);
+  const loadFile = useCallback(async (f: File) => {
+    if (!f.name.endsWith(".pdf")) return;
+    setFile(f);
+    setResult(null);
+    setRangeInput("");
+    setRangeError("");
+    setLoading(true);
+    try {
+      const pdfjsLib = await import('pdfjs-dist');
+      pdfjsLib.GlobalWorkerOptions.workerSrc = '/workers/pdf.worker.min.mjs';
 
- const onDrop = (e: React.DragEvent) => {
- e.preventDefault();
- const f = e.dataTransfer.files[0];
- if (f) loadFile(f);
- };
+      const buf = await f.arrayBuffer();
+      const doc = await pdfjsLib.getDocument({ data: buf }).promise;
+      const entries: PageEntry[] = [];
+      for (let i = 1; i <= doc.numPages; i++) {
+        const pg = await doc.getPage(i);
+        const vp = pg.getViewport({ scale: 0.25 });
+        const canvas = document.createElement("canvas");
+        canvas.width = vp.width;
+        canvas.height = vp.height;
+        await pg.render({ canvasContext: canvas.getContext("2d")!, canvas, viewport: vp }).promise;
+        entries.push({ pageNum: i, thumb: canvas.toDataURL(), selected: false });
+      }
+      setPages(entries);
+    } catch (err) {
+      console.error(err);
+      alert("Error reading PDF.");
+    } finally {
+      setLoading(false);
+    }
+  }, []);
 
- const togglePage = (i: number) =>
- setPages(prev => prev.map((p, idx) => idx === i ? { ...p, selected: !p.selected } : p));
+  const onDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    const f = e.dataTransfer.files[0];
+    if (f) loadFile(f);
+  };
 
- const selectAll = () => setPages(prev => prev.map(p => ({ ...p, selected: true })));
- const deselectAll = () => setPages(prev => prev.map(p => ({ ...p, selected: false })));
+  const togglePage = (i: number) =>
+    setPages(prev => prev.map((p, idx) => idx === i ? { ...p, selected: !p.selected } : p));
 
- const applyRange = () => {
- if (!rangeInput.trim()) { setRangeError("Enter a page range."); return; }
- const total = pages.length;
- const selected = new Set<number>();
- const parts = rangeInput.split(",");
- for (const part of parts) {
- const trimmed = part.trim();
- if (/^\d+$/.test(trimmed)) {
- const n = parseInt(trimmed);
- if (n < 1 || n > total) { setRangeError(`Page ${n} out of range (1–${total}).`); return; }
- selected.add(n);
- } else if (/^\d+-\d+$/.test(trimmed)) {
- const [a, b] = trimmed.split("-").map(Number);
- if (a < 1 || b > total || a > b) { setRangeError(`Range ${trimmed} is invalid.`); return; }
- for (let x = a; x <= b; x++) selected.add(x);
- } else {
- setRangeError(`Invalid format: "${trimmed}". Use e.g. 1,3,5-8`);
- return;
- }
- }
- setRangeError("");
- setPages(prev => prev.map(p => ({ ...p, selected: selected.has(p.pageNum) })));
- };
+  const selectAll = () => setPages(prev => prev.map(p => ({ ...p, selected: true })));
+  const deselectAll = () => setPages(prev => prev.map(p => ({ ...p, selected: false })));
 
- const selectedPages = pages.filter(p => p.selected);
+  const applyRange = () => {
+    if (!rangeInput.trim()) { setRangeError("Enter a page range."); return; }
+    const total = pages.length;
+    const selected = new Set<number>();
+    const parts = rangeInput.split(",");
+    for (const part of parts) {
+      const trimmed = part.trim();
+      if (/^\d+$/.test(trimmed)) {
+        const n = parseInt(trimmed);
+        if (n < 1 || n > total) { setRangeError(`Page ${n} out of range (1–${total}).`); return; }
+        selected.add(n);
+      } else if (/^\d+-\d+$/.test(trimmed)) {
+        const [a, b] = trimmed.split("-").map(Number);
+        if (a < 1 || b > total || a > b) { setRangeError(`Range ${trimmed} is invalid.`); return; }
+        for (let x = a; x <= b; x++) selected.add(x);
+      } else {
+        setRangeError(`Invalid format: "${trimmed}". Use e.g. 1,3,5-8`);
+        return;
+      }
+    }
+    setRangeError("");
+    setPages(prev => prev.map(p => ({ ...p, selected: selected.has(p.pageNum) })));
+  };
 
- const handleExtract = async () => {
- if (!file || selectedPages.length === 0) return;
- setProcessing(true);
- try {
- const buf = await file.arrayBuffer();
- const srcDoc = await PDFDocument.load(buf);
- const newDoc = await PDFDocument.create();
- const indices = selectedPages.map(p => p.pageNum - 1);
- const copied = await newDoc.copyPages(srcDoc, indices);
- copied.forEach(p => newDoc.addPage(p));
- const bytes = await newDoc.save();
- const url = URL.createObjectURL(new Blob([bytes.buffer as ArrayBuffer], { type: "application/pdf" }));
- setResult({ url, count: selectedPages.length });
- } catch {
- alert("Error extracting pages.");
- } finally {
- setProcessing(false);
- }
- };
+  const selectedPages = pages.filter(p => p.selected);
 
- const reset = () => {
- setFile(null);
- setPages([]);
- setResult(null);
- setRangeInput("");
- setRangeError("");
- };
+  const handleExtract = async () => {
+    if (!file || selectedPages.length === 0) return;
+    setProcessing(true);
+    try {
+      const buf = await file.arrayBuffer();
+      const srcDoc = await PDFDocument.load(buf);
+      const newDoc = await PDFDocument.create();
+      const indices = selectedPages.map(p => p.pageNum - 1);
+      const copied = await newDoc.copyPages(srcDoc, indices);
+      copied.forEach(p => newDoc.addPage(p));
+      const bytes = await newDoc.save();
+      const url = URL.createObjectURL(new Blob([bytes.buffer as ArrayBuffer], { type: "application/pdf" }));
+      setResult({ url, count: selectedPages.length });
+    } catch {
+      alert("Error extracting pages.");
+    } finally {
+      setProcessing(false);
+    }
+  };
 
- return (
- <div className="max-w-7xl mx-auto py-4 sm:py-8 px-3 sm:px-6 ">
- <div className="flex flex-col lg:flex-row-reverse gap-6 items-start">
- 
- {/* Settings Sidebar */}
- <div className={`w-full lg:w-[280px] bg-white dark:bg-slate-800 rounded-3xl border border-slate-100 dark:border-slate-700 shadow-xl h-fit lg:sticky lg:top-4 overflow-hidden flex-shrink-0 ${!file ? 'hidden' : ''}`}>
- <button onClick={() => setShowSettings(!showSettings)} className="w-full flex lg:hidden items-center justify-between p-5 font-medium text-slate-900 dark:text-white border-b border-slate-50 dark:border-slate-700">
-  <span className="flex items-center gap-2"><Settings size={20} style={{ color: ACCENT }} /> Settings</span>
-  <ChevronDown className={`transition-transform duration-300 ${showSettings ? 'rotate-180' : ''}`} size={20} />
-  </button>
-  <div className={`${showSettings ? 'block' : 'hidden'} lg:block p-6`}>
-  <h3 className="hidden lg:block text-xl font-bold text-slate-900 dark:text-white mb-6 uppercase tracking-tighter text-left">Extraction Settings</h3>
- 
- <div className="space-y-6 text-left">
- {/* Range Input */}
- <div className="space-y-3">
- <span className="text-[11px] font-medium text-slate-400 uppercase tracking-widest">Select by Range</span>
- <div className="flex flex-col gap-2">
- <input
- type="text"
- value={rangeInput}
- onChange={e => { setRangeInput(e.target.value); setRangeError(""); }}
- placeholder={`e.g. 1,3,5-8`}
- disabled={!file}
- className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-900 text-sm font-medium text-slate-800 dark:text-white outline-none focus:border-orange-500 transition-colors"
- />
- <button 
- onClick={applyRange} 
- disabled={!file}
- className="w-full py-2.5 rounded-xl text-white text-[11px] font-medium uppercase tracking-widest shadow-md hover:scale-[1.02] transition-all"
- style={{ background: ACCENT_GRADIENT }}
- >
- Apply Range
- </button>
- {rangeError && <p className="text-[10px] text-red-500 font-medium">{rangeError}</p>}
- </div>
- </div>
+  const reset = () => {
+    setFile(null);
+    setPages([]);
+    setResult(null);
+    setRangeInput("");
+    setRangeError("");
+  };
 
- {/* Quick Selection */}
- <div className="space-y-3 pt-4 border-t border-slate-50 dark:border-slate-700">
- <span className="text-[11px] font-medium text-slate-400 uppercase tracking-widest">Quick Selection</span>
- <div className="flex gap-2">
- <button onClick={selectAll} disabled={!file} className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl text-[11px] font-medium uppercase tracking-widest text-slate-600 dark:text-slate-300 bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 hover:bg-slate-100 transition-colors">
- <Eye size={14} /> All
- </button>
- <button onClick={deselectAll} disabled={!file} className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl text-[11px] font-medium uppercase tracking-widest text-slate-600 dark:text-slate-300 bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 hover:bg-slate-100 transition-colors">
- <EyeOff size={14} /> None
- </button>
- </div>
- </div>
+  return (
+    <div className="max-w-7xl mx-auto py-4 sm:py-8 px-3 sm:px-6 ">
+      <div className="flex flex-col lg:flex-row-reverse gap-6 items-start">
 
- {/* Info */}
- <div className="pt-4 border-t border-slate-50 dark:border-slate-700">
- <p className="text-[11px] font-medium text-slate-400 uppercase tracking-widest mb-1">Status</p>
- <p className="text-xs font-medium text-slate-500 uppercase tracking-tight">
- {selectedPages.length} of {pages.length || 0} pages selected
- </p>
- </div>
- </div>
- </div>
- </div>
+        {/* Settings Sidebar */}
+        <div className={`w-full lg:w-[280px] bg-white dark:bg-slate-800 rounded-3xl border border-slate-100 dark:border-slate-700 shadow-xl h-fit lg:sticky lg:top-4 overflow-hidden flex-shrink-0 ${!file ? 'hidden' : ''}`}>
+          <button onClick={() => setShowSettings(!showSettings)} className="w-full flex lg:hidden items-center justify-between p-5 font-medium text-slate-900 dark:text-white border-b border-slate-50 dark:border-slate-700">
+            <span className="flex items-center gap-2"><Settings size={20} style={{ color: ACCENT }} /> Settings</span>
+            <ChevronDown className={`transition-transform duration-300 ${showSettings ? 'rotate-180' : ''}`} size={20} />
+          </button>
+          <div className={`${showSettings ? 'block' : 'hidden'} lg:block p-6`}>
+            <h3 className="hidden lg:block text-xl font-bold text-slate-900 dark:text-white mb-6 uppercase tracking-tighter text-left">Extraction Settings</h3>
 
- {/* Main Content Area */}
- <div className="flex-1 bg-white dark:bg-slate-800 rounded-[2rem] sm:rounded-[3rem] p-6 sm:p-12 border border-slate-100 dark:border-slate-700 shadow-sm hover:shadow-2xl transition-shadow duration-300 min-h-[500px] flex flex-col w-full">
- 
- {/* Header */}
- <div className="text-center space-y-4 mb-10">
- <div className="inline-flex p-4 rounded-2xl text-white shadow-lg" style={{ background: ACCENT_GRADIENT }}>
- <Layers size={32} />
- </div>
- <h2 className="text-2xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter leading-tight">Extract PDF Pages</h2>
- {!file && <p className="text-sm sm:text-base text-slate-500 dark:text-slate-400 font-medium max-w-md mx-auto leading-relaxed">Select specific pages to create a new PDF document.</p>}
- </div>
+            <div className="space-y-6 text-left">
+              {/* Range Input */}
+              <div className="space-y-3">
+                <span className="text-[11px] font-medium text-slate-400 uppercase tracking-widest">Select by Range</span>
+                <div className="flex flex-col gap-2">
+                  <input
+                    type="text"
+                    value={rangeInput}
+                    onChange={e => { setRangeInput(e.target.value); setRangeError(""); }}
+                    placeholder={`e.g. 1,3,5-8`}
+                    disabled={!file}
+                    className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-900 text-sm font-medium text-slate-800 dark:text-white outline-none focus:border-orange-500 transition-colors"
+                  />
+                  <button
+                    onClick={applyRange}
+                    disabled={!file}
+                    className="w-full py-2.5 rounded-xl text-white text-[11px] font-medium uppercase tracking-widest shadow-md hover:scale-[1.02] transition-all"
+                    style={{ background: ACCENT_GRADIENT }}
+                  >
+                    Apply Range
+                  </button>
+                  {rangeError && <p className="text-[10px] text-red-500 font-medium">{rangeError}</p>}
+                </div>
+              </div>
 
- {!file && !loading && (
- <div className="w-full max-w-4xl mx-auto flex-1 flex flex-col items-center">
-      <div className="hidden sm:flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 w-full mb-6">
-        {[
-          { icon: Zap, title: "Instant", desc: "Lightning fast processing" },
-          { icon: Shield, title: "Private", desc: "Your files stay secure" },
-          { icon: Sparkles, title: "Lossless", desc: "Perfect quality output" }
-        ].map((f, i) => (
-          <div key={i} className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0" style={{ color: ACCENT, backgroundColor: `${ACCENT}15` }}>
-              <f.icon size={20} />
-            </div>
-            <div className="text-left">
-              <p className="text-sm font-bold text-slate-900 dark:text-white tracking-tight leading-none mb-1">{f.title}</p>
-              <p className="text-[11px] text-slate-400 font-medium tracking-wide">{f.desc}</p>
+              {/* Quick Selection */}
+              <div className="space-y-3 pt-4 border-t border-slate-50 dark:border-slate-700">
+                <span className="text-[11px] font-medium text-slate-400 uppercase tracking-widest">Quick Selection</span>
+                <div className="flex gap-2">
+                  <button onClick={selectAll} disabled={!file} className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl text-[11px] font-medium uppercase tracking-widest text-slate-600 dark:text-slate-300 bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 hover:bg-slate-100 transition-colors">
+                    <Eye size={14} /> All
+                  </button>
+                  <button onClick={deselectAll} disabled={!file} className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl text-[11px] font-medium uppercase tracking-widest text-slate-600 dark:text-slate-300 bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 hover:bg-slate-100 transition-colors">
+                    <EyeOff size={14} /> None
+                  </button>
+                </div>
+              </div>
+
+              {/* Info */}
+              <div className="pt-4 border-t border-slate-50 dark:border-slate-700">
+                <p className="text-[11px] font-medium text-slate-400 uppercase tracking-widest mb-1">Status</p>
+                <p className="text-xs font-medium text-slate-500 uppercase tracking-tight">
+                  {selectedPages.length} of {pages.length || 0} pages selected
+                </p>
+              </div>
             </div>
           </div>
-        ))}
-      </div>
+        </div>
 
-  <div 
-  className="w-full border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-[2.5rem] p-8 sm:p-10 flex flex-col items-center justify-center cursor-pointer transition-all bg-white dark:bg-slate-900/50 shadow-sm hover:shadow-xl hover:border-slate-300 dark:hover:border-slate-500 group relative overflow-hidden mb-6 z-10"
-  onClick={() => fileInputRef.current?.click()}
-  onDragOver={e => e.preventDefault()}
-  onDrop={onDrop}
-  >
-  <input ref={fileInputRef} type="file" accept=".pdf" className="hidden" onChange={e => { const f = e.target.files?.[0]; if (f) loadFile(f); e.target.value = ""; }} />
-  
-  <div className="relative mb-8 group-hover:scale-105 transition-transform duration-300">
-  <div className="w-24 h-32 bg-slate-50 dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-lg flex flex-col relative z-10">
-  <div className="absolute top-3 left-3 bg-red-500 text-white text-[10px] font-bold px-2 py-0.5 rounded shadow-sm">PDF</div>
-  <div className="m-auto text-slate-300 dark:text-slate-600">
-  <Layers size={32} />
-  </div>
-  </div>
-  <div className="absolute -bottom-4 -right-4 w-12 h-12 rounded-full text-white flex items-center justify-center shadow-xl z-20" style={{ background: ACCENT_GRADIENT }}>
-  <Upload size={20} strokeWidth={3} />
-  </div>
-  <Plus size={16} className="absolute -top-4 -left-6 opacity-60" style={{ color: ACCENT }} />
-  <Plus size={12} className="absolute top-10 -right-8 opacity-60" style={{ color: ACCENT }} />
-  <Plus size={14} className="absolute bottom-2 -left-8 opacity-60" style={{ color: ACCENT }} />
-  </div>
+        {/* Main Content Area */}
+        <div className="flex-1 bg-white dark:bg-slate-800 rounded-[2rem] sm:rounded-[3rem] p-6 sm:p-12 border border-slate-100 dark:border-slate-700 shadow-sm hover:shadow-2xl transition-shadow duration-300 min-h-[500px] flex flex-col w-full">
 
-  <h3 className="text-2xl sm:text-3xl font-black text-slate-800 dark:text-white mb-2 tracking-tight text-center">
-  Drag & drop your PDF file here
-  </h3>
-  <p className="text-lg font-medium text-slate-500 dark:text-slate-400 mb-4 text-center">
-  or click to <span style={{ color: ACCENT }}>browse</span>
-  </p>
-  <p className="text-sm text-slate-400 font-medium mb-8 text-center">
-  Supports single PDF files
-  </p>
-
-  <button className="px-8 py-4 rounded-xl text-white text-base font-bold uppercase tracking-widest shadow-xl hover:scale-105 active:scale-95 transition-all relative z-10 flex items-center gap-3" style={{ background: ACCENT_GRADIENT }}>
-  <Plus size={20} /> SELECT PDF FILE
-  </button>
-  </div>
-
-  <div className="w-full grid grid-cols-4 gap-2 sm:gap-6 pt-8 border-t border-slate-100 dark:border-slate-800/50 z-10">
-  {[
-  { icon: Lock, title: "100% Secure", desc: "Your files are safe" },
-  { icon: Trash2, title: "Auto Delete", desc: "Files auto removed" },
-  { icon: Smartphone, title: "Works Offline", desc: "No internet needed" },
-  { icon: Rocket, title: "Super Fast", desc: "Built for speed" }
-  ].map((f, i) => (
-  <div key={i} className="flex flex-col xl:flex-row items-center justify-start gap-2 xl:gap-3 text-center xl:text-left">
-  <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl flex items-center justify-center shrink-0" style={{ color: ACCENT, backgroundColor: `${ACCENT}10` }}>
-  <f.icon size={16} />
-  </div>
-  <div>
-  <p className="text-[10px] sm:text-[13px] font-bold text-slate-900 dark:text-white tracking-tight leading-tight mb-0.5">{f.title}</p>
-  <p className="text-[8px] sm:text-[10px] text-slate-400 font-medium tracking-wide leading-tight hidden sm:block">{f.desc}</p>
-  </div>
-  </div>
-  ))}
-  </div>
- </div>
- )}
-
- {loading && (
- <div className="flex-1 flex flex-col items-center justify-center gap-4">
- <div className="relative">
- <Loader2 size={64} className="animate-spin text-orange-500" />
- <Layers className="absolute inset-0 m-auto text-orange-500/20" size={32} />
- </div>
- <p className="text-lg font-medium text-slate-400 uppercase tracking-widest animate-pulse">Analyzing Document...</p>
- </div>
- )}
-
- {!loading && pages.length > 0 && !result && (
- <div className="space-y-8 flex-1 flex flex-col">
-      <div className="hidden sm:flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 w-full mb-6">
-        {[
-          { icon: Zap, title: "Instant", desc: "Lightning fast processing" },
-          { icon: Shield, title: "Private", desc: "Your files stay secure" },
-          { icon: Sparkles, title: "Lossless", desc: "Perfect quality output" }
-        ].map((f, i) => (
-          <div key={i} className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0" style={{ color: ACCENT, backgroundColor: `${ACCENT}15` }}>
-              <f.icon size={20} />
+          {/* Header */}
+          <div className="text-center space-y-4 mb-10">
+            <div className="inline-flex p-4 rounded-2xl text-white shadow-lg" style={{ background: ACCENT_GRADIENT }}>
+              <Layers size={32} />
             </div>
-            <div className="text-left">
-              <p className="text-sm font-bold text-slate-900 dark:text-white tracking-tight leading-none mb-1">{f.title}</p>
-              <p className="text-[11px] text-slate-400 font-medium tracking-wide">{f.desc}</p>
-            </div>
+            <h2 className="text-2xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter leading-tight">Extract PDF Pages</h2>
+            {!file && <p className="text-sm sm:text-base text-slate-500 dark:text-slate-400 font-medium max-w-md mx-auto leading-relaxed">Select specific pages to create a new PDF document.</p>}
           </div>
-        ))}
+
+          {!file && !loading && (
+            <div className="w-full max-w-4xl mx-auto flex-1 flex flex-col items-center">
+              <div className="hidden sm:flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 w-full mb-6">
+                {[
+                  { icon: Zap, title: "Instant", desc: "Lightning fast processing" },
+                  { icon: Shield, title: "Private", desc: "Your files stay secure" },
+                  { icon: Sparkles, title: "Lossless", desc: "Perfect quality output" }
+                ].map((f, i) => (
+                  <div key={i} className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0" style={{ color: ACCENT, backgroundColor: `${ACCENT}15` }}>
+                      <f.icon size={20} />
+                    </div>
+                    <div className="text-left">
+                      <p className="text-sm font-bold text-slate-900 dark:text-white tracking-tight leading-none mb-1">{f.title}</p>
+                      <p className="text-[11px] text-slate-400 font-medium tracking-wide">{f.desc}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <div
+                className="w-full border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-[2.5rem] p-8 sm:p-10 flex flex-col items-center justify-center cursor-pointer transition-all bg-white dark:bg-slate-900/50 shadow-sm hover:shadow-xl hover:border-slate-300 dark:hover:border-slate-500 group relative overflow-hidden mb-6 z-10"
+                onClick={() => fileInputRef.current?.click()}
+                onDragOver={e => e.preventDefault()}
+                onDrop={onDrop}
+              >
+                <input ref={fileInputRef} type="file" accept=".pdf" className="hidden" onChange={e => { const f = e.target.files?.[0]; if (f) loadFile(f); e.target.value = ""; }} />
+
+                <div className="relative mb-8 group-hover:scale-105 transition-transform duration-300">
+                  <div className="w-24 h-32 bg-slate-50 dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-lg flex flex-col relative z-10">
+                    <div className="absolute top-3 left-3 bg-red-500 text-white text-[10px] font-bold px-2 py-0.5 rounded shadow-sm">PDF</div>
+                    <div className="m-auto text-slate-300 dark:text-slate-600">
+                      <Layers size={32} />
+                    </div>
+                  </div>
+                  <div className="absolute -bottom-4 -right-4 w-12 h-12 rounded-full text-white flex items-center justify-center shadow-xl z-20" style={{ background: ACCENT_GRADIENT }}>
+                    <Upload size={20} strokeWidth={3} />
+                  </div>
+                  <Plus size={16} className="absolute -top-4 -left-6 opacity-60" style={{ color: ACCENT }} />
+                  <Plus size={12} className="absolute top-10 -right-8 opacity-60" style={{ color: ACCENT }} />
+                  <Plus size={14} className="absolute bottom-2 -left-8 opacity-60" style={{ color: ACCENT }} />
+                </div>
+
+                <h3 className="text-2xl sm:text-3xl font-black text-slate-800 dark:text-white mb-2 tracking-tight text-center">
+                  Drag & drop your PDF file here
+                </h3>
+                <p className="text-lg font-medium text-slate-500 dark:text-slate-400 mb-4 text-center">
+                  or click to <span style={{ color: ACCENT }}>browse</span>
+                </p>
+                <p className="text-sm text-slate-400 font-medium mb-8 text-center">
+                  Supports single PDF files
+                </p>
+
+                <button className="px-8 py-4 rounded-xl text-white text-base font-bold uppercase tracking-widest shadow-xl hover:scale-105 active:scale-95 transition-all relative z-10 flex items-center gap-3" style={{ background: ACCENT_GRADIENT }}>
+                  <Plus size={20} /> SELECT PDF FILE
+                </button>
+              </div>
+
+              <div className="w-full grid grid-cols-4 gap-2 sm:gap-6 pt-8 border-t border-slate-100 dark:border-slate-800/50 z-10">
+                {[
+                  { icon: Lock, title: "100% Secure", desc: "Your files are safe" },
+                  { icon: Trash2, title: "Auto Delete", desc: "Files auto removed" },
+                  { icon: Smartphone, title: "Works Offline", desc: "No internet needed" },
+                  { icon: Rocket, title: "Super Fast", desc: "Built for speed" }
+                ].map((f, i) => (
+                  <div key={i} className="flex flex-col xl:flex-row items-center justify-start gap-2 xl:gap-3 text-center xl:text-left">
+                    <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl flex items-center justify-center shrink-0" style={{ color: ACCENT, backgroundColor: `${ACCENT}10` }}>
+                      <f.icon size={16} />
+                    </div>
+                    <div>
+                      <p className="text-[10px] sm:text-[13px] font-bold text-slate-900 dark:text-white tracking-tight leading-tight mb-0.5">{f.title}</p>
+                      <p className="text-[8px] sm:text-[10px] text-slate-400 font-medium tracking-wide leading-tight hidden sm:block">{f.desc}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {loading && (
+            <div className="flex-1 flex flex-col items-center justify-center gap-4">
+              <div className="relative">
+                <Loader2 size={64} className="animate-spin text-orange-500" />
+                <Layers className="absolute inset-0 m-auto text-orange-500/20" size={32} />
+              </div>
+              <p className="text-lg font-medium text-slate-400 uppercase tracking-widest animate-pulse">Analyzing Document...</p>
+            </div>
+          )}
+
+          {!loading && pages.length > 0 && !result && (
+            <div className="space-y-8 flex-1 flex flex-col">
+              <div className="hidden sm:flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 w-full mb-6">
+                {[
+                  { icon: Zap, title: "Instant", desc: "Lightning fast processing" },
+                  { icon: Shield, title: "Private", desc: "Your files stay secure" },
+                  { icon: Sparkles, title: "Lossless", desc: "Perfect quality output" }
+                ].map((f, i) => (
+                  <div key={i} className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0" style={{ color: ACCENT, backgroundColor: `${ACCENT}15` }}>
+                      <f.icon size={20} />
+                    </div>
+                    <div className="text-left">
+                      <p className="text-sm font-bold text-slate-900 dark:text-white tracking-tight leading-none mb-1">{f.title}</p>
+                      <p className="text-[11px] text-slate-400 font-medium tracking-wide">{f.desc}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* File bar */}
+              <div className="flex items-center justify-between p-4 bg-slate-50 dark:bg-slate-700/50 rounded-2xl border border-slate-100 dark:border-slate-600">
+                <div className="flex items-center gap-4 min-w-0">
+                  <div className="w-10 h-10 rounded-xl bg-white dark:bg-slate-800 flex items-center justify-center text-orange-500 shadow-sm"><FileText size={20} /></div>
+                  <div className="truncate">
+                    <p className="font-medium text-slate-900 dark:text-white text-sm truncate">{file?.name}</p>
+                    <p className="text-[10px] font-medium text-slate-400 uppercase tracking-widest">{pages.length} Pages Found</p>
+                  </div>
+                </div>
+                <button onClick={reset} className="w-10 h-10 rounded-xl flex items-center justify-center text-slate-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10 transition-all"><X size={20} /></button>
+              </div>
+
+              {/* Grid */}
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-5 gap-4 overflow-y-auto max-h-[600px] pr-2 custom-scrollbar p-1">
+                {pages.map((p, i) => (
+                  <button
+                    key={i}
+                    onClick={() => togglePage(i)}
+                    className={`relative aspect-[3/4] rounded-2xl overflow-hidden border-4 transition-all group shadow-sm ${p.selected ? "border-orange-500 ring-4 ring-orange-500/20 scale-[1.02]" : "border-slate-100 dark:border-slate-700 hover:border-orange-200"}`}
+                  >
+                    <img src={p.thumb} alt={`Page ${p.pageNum}`} className="w-full h-full object-cover" />
+                    <div className={`absolute inset-0 transition-all ${p.selected ? "bg-orange-500/10" : "bg-transparent group-hover:bg-orange-500/5"}`} />
+
+                    {/* Checkbox badge */}
+                    <div className={`absolute top-3 right-3 w-6 h-6 rounded-full border-2 flex items-center justify-center shadow-lg transition-all ${p.selected ? "bg-orange-500 border-orange-500 scale-110" : "bg-white/90 border-slate-200"}`}>
+                      {p.selected && <CheckCircle2 size={14} className="text-white" />}
+                    </div>
+
+                    {/* Page Number Label */}
+                    <div className="absolute bottom-3 left-3 px-3 py-1 bg-black/60 backdrop-blur-md text-white text-[10px] font-medium rounded-full border border-white/20 tracking-widest">
+                      PAGE {p.pageNum}
+                    </div>
+                  </button>
+                ))}
+              </div>
+
+              {/* Footer Action */}
+              <div className="mt-auto pt-8 border-t border-slate-50 dark:border-slate-700">
+                <button
+                  onClick={handleExtract}
+                  disabled={processing || selectedPages.length === 0}
+                  className="w-full py-5 text-white rounded-[1.5rem] text-lg sm:text-xl font-medium shadow-xl hover:scale-[1.01] active:scale-[0.99] transition-all disabled:opacity-50 disabled:grayscale uppercase tracking-widest shadow-orange-500/20"
+                  style={{ background: ACCENT_GRADIENT }}
+                >
+                  {processing ? (
+                    <span className="flex items-center justify-center gap-3"><Loader2 className="animate-spin" /> Finalizing PDF...</span>
+                  ) : (
+                    <span className="flex items-center justify-center gap-3">
+                      Extract {selectedPages.length} {selectedPages.length === 1 ? 'Page' : 'Pages'} <Download size={24} />
+                    </span>
+                  )}
+                </button>
+              </div>
+            </div>
+          )}
+
+          {result && (
+            <div className="flex-1 flex flex-col items-center justify-center text-center space-y-10 animate-in zoom-in fade-in duration-500">
+              <div className="relative">
+                <div className="absolute inset-0 bg-green-500 blur-3xl opacity-20 animate-pulse"></div>
+                <div className="relative p-10 rounded-full bg-green-50 dark:bg-green-500/10 text-green-500 shadow-2xl border border-green-100 dark:border-green-500/20">
+                  <CheckCircle2 size={80} />
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <h3 className="text-4xl font-bold text-slate-900 dark:text-white uppercase tracking-widest">Extraction Ready!</h3>
+                <p className="text-slate-500 font-medium uppercase tracking-widest text-sm">
+                  {result.count} high-quality page{result.count !== 1 ? "s" : ""} isolated
+                </p>
+              </div>
+
+              <div className="flex flex-col sm:flex-row gap-4 w-full max-w-md">
+                <a
+                  href={result.url}
+                  download={`extracted_${file!.name}`}
+                  className="flex-1 py-5 text-white rounded-2xl text-lg sm:text-xl font-medium shadow-xl hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-3 uppercase tracking-widest shadow-orange-500/20"
+                  style={{ background: ACCENT_GRADIENT }}
+                >
+                  <Download size={24} /> Download PDF
+                </a>
+                <button
+                  onClick={reset}
+                  className="px-8 py-5 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 text-slate-900 dark:text-white rounded-2xl font-medium uppercase tracking-widest text-xs transition-all"
+                >
+                  Start Over
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
       </div>
 
- {/* File bar */}
- <div className="flex items-center justify-between p-4 bg-slate-50 dark:bg-slate-700/50 rounded-2xl border border-slate-100 dark:border-slate-600">
- <div className="flex items-center gap-4 min-w-0">
- <div className="w-10 h-10 rounded-xl bg-white dark:bg-slate-800 flex items-center justify-center text-orange-500 shadow-sm"><FileText size={20} /></div>
- <div className="truncate">
- <p className="font-medium text-slate-900 dark:text-white text-sm truncate">{file?.name}</p>
- <p className="text-[10px] font-medium text-slate-400 uppercase tracking-widest">{pages.length} Pages Found</p>
- </div>
- </div>
- <button onClick={reset} className="w-10 h-10 rounded-xl flex items-center justify-center text-slate-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10 transition-all"><X size={20} /></button>
- </div>
-
- {/* Grid */}
- <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-5 gap-4 overflow-y-auto max-h-[600px] pr-2 custom-scrollbar p-1">
- {pages.map((p, i) => (
- <button
- key={i}
- onClick={() => togglePage(i)}
- className={`relative aspect-[3/4] rounded-2xl overflow-hidden border-4 transition-all group shadow-sm ${p.selected ? "border-orange-500 ring-4 ring-orange-500/20 scale-[1.02]" : "border-slate-100 dark:border-slate-700 hover:border-orange-200"}`}
- >
- <img src={p.thumb} alt={`Page ${p.pageNum}`} className="w-full h-full object-cover" />
- <div className={`absolute inset-0 transition-all ${p.selected ? "bg-orange-500/10" : "bg-transparent group-hover:bg-orange-500/5"}`} />
- 
- {/* Checkbox badge */}
- <div className={`absolute top-3 right-3 w-6 h-6 rounded-full border-2 flex items-center justify-center shadow-lg transition-all ${p.selected ? "bg-orange-500 border-orange-500 scale-110" : "bg-white/90 border-slate-200"}`}>
- {p.selected && <CheckCircle2 size={14} className="text-white" />}
- </div>
-
- {/* Page Number Label */}
- <div className="absolute bottom-3 left-3 px-3 py-1 bg-black/60 backdrop-blur-md text-white text-[10px] font-medium rounded-full border border-white/20 tracking-widest">
- PAGE {p.pageNum}
- </div>
- </button>
- ))}
- </div>
-
- {/* Footer Action */}
- <div className="mt-auto pt-8 border-t border-slate-50 dark:border-slate-700">
- <button
- onClick={handleExtract}
- disabled={processing || selectedPages.length === 0}
- className="w-full py-5 text-white rounded-[1.5rem] text-lg sm:text-xl font-medium shadow-xl hover:scale-[1.01] active:scale-[0.99] transition-all disabled:opacity-50 disabled:grayscale uppercase tracking-widest shadow-orange-500/20"
- style={{ background: ACCENT_GRADIENT }}
- >
- {processing ? (
- <span className="flex items-center justify-center gap-3"><Loader2 className="animate-spin" /> Finalizing PDF...</span>
- ) : (
- <span className="flex items-center justify-center gap-3">
- Extract {selectedPages.length} {selectedPages.length === 1 ? 'Page' : 'Pages'} <Download size={24} />
- </span>
- )}
- </button>
- </div>
- </div>
- )}
-
- {result && (
- <div className="flex-1 flex flex-col items-center justify-center text-center space-y-10 animate-in zoom-in fade-in duration-500">
- <div className="relative">
- <div className="absolute inset-0 bg-green-500 blur-3xl opacity-20 animate-pulse"></div>
- <div className="relative p-10 rounded-full bg-green-50 dark:bg-green-500/10 text-green-500 shadow-2xl border border-green-100 dark:border-green-500/20">
- <CheckCircle2 size={80} />
- </div>
- </div>
- 
- <div className="space-y-2">
- <h3 className="text-4xl font-bold text-slate-900 dark:text-white uppercase tracking-widest">Extraction Ready!</h3>
- <p className="text-slate-500 font-medium uppercase tracking-widest text-sm">
- {result.count} high-quality page{result.count !== 1 ? "s" : ""} isolated
- </p>
- </div>
-
- <div className="flex flex-col sm:flex-row gap-4 w-full max-w-md">
- <a
- href={result.url}
- download={`extracted_${file!.name}`}
- className="flex-1 py-5 text-white rounded-2xl text-lg sm:text-xl font-medium shadow-xl hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-3 uppercase tracking-widest shadow-orange-500/20"
- style={{ background: ACCENT_GRADIENT }}
- >
- <Download size={24} /> Download PDF
- </a>
- <button
- onClick={reset}
- className="px-8 py-5 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 text-slate-900 dark:text-white rounded-2xl font-medium uppercase tracking-widest text-xs transition-all"
- >
- Start Over
- </button>
- </div>
- </div>
- )}
- </div>
- </div>
-
- <style jsx global>{`
+      <style jsx global>{`
  .custom-scrollbar::-webkit-scrollbar { width: 6px; }
  .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
  .custom-scrollbar::-webkit-scrollbar-thumb { background: #e2e8f0; border-radius: 10px; }
  .dark .custom-scrollbar::-webkit-scrollbar-thumb { background: #334155; }
  `}</style>
- </div>
- );
+    </div>
+  );
 }
 
 

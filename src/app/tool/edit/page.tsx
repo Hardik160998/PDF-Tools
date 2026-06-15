@@ -338,12 +338,12 @@ export default function EditPage() {
           <div className="mb-16 text-center relative">
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[100px] bg-pink-500/10 dark:bg-pink-500/5 blur-[80px] rounded-full -z-10 pointer-events-none" />
 
-            <h1 className="text-4xl sm:text-6xl font-black tracking-tight mb-6 uppercase leading-tight bg-gradient-to-r from-slate-950 via-slate-800 to-pink-600 dark:from-white dark:via-slate-200 dark:to-pink-500 bg-clip-text text-transparent">
+            <h2 className="text-4xl sm:text-6xl font-black tracking-tight mb-6 uppercase leading-tight bg-gradient-to-r from-slate-950 via-slate-800 to-pink-600 dark:from-white dark:via-slate-200 dark:to-pink-500 bg-clip-text text-transparent">
               Free Online PDF Editor <br />
               <span className="text-pink-500 dark:text-pink-400">
                 Edit PDF Files in Your Browser
               </span>
-            </h1>
+            </h2>
             <p className="text-base sm:text-lg text-slate-500 dark:text-slate-400 font-medium max-w-2xl mx-auto leading-relaxed">
               Add text, write notes, drop images, draw shapes, and mask
               sensitive page areas. Edit files locally with absolute compliance

@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   description:
     "Read the refund policy of SmartPDFs Pro for subscriptions, premium plans, cancellations, and billing information.",
   alternates: {
-    canonical: "/refund-policy",
+    canonical: `${siteUrl}/refund-policy`,
   },
   openGraph: {
     title: "Refund Policy | SmartPDFs Pro",

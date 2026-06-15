@@ -20,7 +20,7 @@ export const metadata: Metadata = {
   description:
     "Read our terms of service to understand the rules, guidelines, and policies for using SmartPDFs Pro free PDF tools.",
   alternates: {
-    canonical: "/terms",
+    canonical: `${siteUrl}/terms`,
   },
   openGraph: {
     title: "Terms of Service | SmartPDFs Pro",

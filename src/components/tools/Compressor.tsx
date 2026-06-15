@@ -126,7 +126,7 @@ export default function Compressor({ id: _id }: { id: string }) {
                 <div className="flex flex-col sm:flex-row items-center gap-6">
                   <div className="p-4 bg-green-500 text-white rounded-2xl shadow-xl shadow-green-500/30"><CheckCircle2 size={32} /></div>
                   <div>
-                    <h4 className="text-2xl font-bold text-slate-900 dark:text-white uppercase tracking-widest leading-none mb-1">Shrink Complete</h4>
+                    <h2 className="text-2xl font-bold text-slate-900 dark:text-white uppercase tracking-widest leading-none mb-1">Shrink Complete</h2>
                     <p className="text-[11px] font-medium text-slate-500 uppercase tracking-widest">Optimized documents are ready for local download</p>
                   </div>
                 </div>

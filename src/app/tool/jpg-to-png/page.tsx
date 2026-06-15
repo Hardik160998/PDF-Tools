@@ -257,12 +257,12 @@ export default function JpgToPngPage() {
                 <section className="mt-20 border-t border-slate-200 dark:border-slate-800 pt-16 max-w-7xl mx-auto text-left">
                     <div className="mb-16 text-center relative">
                         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[100px] bg-emerald-500/10 dark:bg-emerald-500/5 blur-[80px] rounded-full -z-10 pointer-events-none" />
-                        <h1 className="text-4xl sm:text-6xl font-black tracking-tight mb-6 uppercase leading-tight bg-gradient-to-r from-slate-950 via-slate-800 to-emerald-600 dark:from-white dark:via-slate-200 dark:to-emerald-500 bg-clip-text text-transparent">
+                        <h2 className="text-4xl sm:text-6xl font-black tracking-tight mb-6 uppercase leading-tight bg-gradient-to-r from-slate-950 via-slate-800 to-emerald-600 dark:from-white dark:via-slate-200 dark:to-emerald-500 bg-clip-text text-transparent">
                             Convert JPG to PNG Online <br />
                             <span className="text-emerald-500 dark:text-emerald-400">
                                 100% Free & Secure
                             </span>
-                        </h1>
+                        </h2>
                         <p className="text-base sm:text-lg text-slate-500 dark:text-slate-400 font-medium max-w-2xl mx-auto leading-relaxed">
                             Convert your JPEG images into PNG files instantly. Benefit from
                             lossless conversion that supports transparency, completed entirely

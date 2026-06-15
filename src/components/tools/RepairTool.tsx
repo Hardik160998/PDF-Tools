@@ -1,9 +1,9 @@
 "use client";
 
 import { useState, useRef } from 'react';
-import { 
-  Upload, Loader2, X, Download, 
-  CheckCircle2, Plus, LifeBuoy, 
+import {
+  Upload, Loader2, X, Download,
+  CheckCircle2, Plus, LifeBuoy,
   FileText, ShieldAlert, RefreshCw,
   Lock, Trash2, Smartphone, Rocket, Zap, Shield, Sparkles
 } from 'lucide-react';
@@ -137,7 +137,7 @@ export default function RepairTool({ id: _id }: { id: string }) {
               <div className="flex flex-col sm:flex-row items-center gap-6">
                 <div className="p-4 bg-green-500 text-white rounded-2xl shadow-xl shadow-green-500/30"><CheckCircle2 size={32} /></div>
                 <div>
-                  <h4 className="text-2xl font-bold text-slate-900 dark:text-white uppercase tracking-widest leading-none mb-1">Repaired!</h4>
+                  <h2 className="text-2xl font-bold text-slate-900 dark:text-white uppercase tracking-widest leading-none mb-1">Repaired!</h2>
                   <p className="text-[11px] font-medium text-slate-500 uppercase tracking-widest">Structural recovery complete for your files</p>
                 </div>
               </div>
@@ -252,9 +252,9 @@ export default function RepairTool({ id: _id }: { id: string }) {
             {files.length > 0 && (
               <div className="w-full mt-6 space-y-3">
                 <div className="flex items-center justify-between px-2 mb-4">
-                  <h4 className="text-[11px] font-bold text-slate-400 uppercase tracking-widest flex items-center gap-2">
+                  <div className="text-[11px] font-bold text-slate-400 uppercase tracking-widest flex items-center gap-2">
                     <LifeBuoy size={14} /> Repair Queue ({files.length})
-                  </h4>
+                  </div>
                   <button onClick={resetAll} className="text-[10px] font-bold text-red-500 uppercase tracking-widest hover:text-red-600 transition-colors">
                     Clear All
                   </button>
@@ -334,7 +334,7 @@ export default function RepairTool({ id: _id }: { id: string }) {
               <div className="w-12 h-12 rounded-2xl bg-red-50 dark:bg-red-500/10 flex items-center justify-center text-red-500 mb-4 group-hover:scale-110 transition-transform shadow-inner">
                 <feat.icon size={24} />
               </div>
-              <h5 className="text-[11px] font-bold uppercase tracking-widest text-slate-900 dark:text-white mb-2">{feat.title}</h5>
+              <h3 className="text-[11px] font-bold uppercase tracking-widest text-slate-900 dark:text-white mb-2">{feat.title}</h3>
               <p className="text-[10px] text-slate-400 font-medium leading-relaxed uppercase">{feat.desc}</p>
             </div>
           ))}

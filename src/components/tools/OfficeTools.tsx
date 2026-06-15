@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef } from 'react';
-import { 
+import {
   Upload, FileText, Loader2, X,
   Download, CheckCircle2, FileSpreadsheet,
   Presentation, Globe, Plus, Lock, Trash2,
@@ -19,21 +19,21 @@ const TOOL_INFO: Record<string, {
   type: string;
   apiId: string;
 }> = {
-  'word-to-pdf':  { title: 'Word to PDF',        gradient: 'linear-gradient(135deg,#2563eb,#1d4ed8)', accent: '#2563eb', icon: FileText,        ext: '.doc, .docx', accept: '.doc,.docx', type: 'Word',       apiId: 'word-to-pdf'  },
-  'docx-to-pdf':  { title: 'DOCX to PDF',         gradient: 'linear-gradient(135deg,#2563eb,#1d4ed8)', accent: '#2563eb', icon: FileText,        ext: '.docx',        accept: '.docx',      type: 'DOCX',       apiId: 'docx-to-pdf'  },
-  'pdf-to-word':  { title: 'PDF to Word',         gradient: 'linear-gradient(135deg,#2563eb,#1d4ed8)', accent: '#2563eb', icon: FileText,        ext: '.pdf',         accept: '.pdf',       type: 'PDF',        apiId: 'pdf-to-word'  },
-  'pdf-to-docx':  { title: 'PDF to DOCX',         gradient: 'linear-gradient(135deg,#2563eb,#1d4ed8)', accent: '#2563eb', icon: FileText,        ext: '.pdf',         accept: '.pdf',       type: 'PDF',        apiId: 'pdf-to-docx'  },
-  'excel-to-pdf': { title: 'Excel to PDF',        gradient: 'linear-gradient(135deg,#16a34a,#15803d)', accent: '#16a34a', icon: FileSpreadsheet, ext: '.xls, .xlsx',  accept: '.xls,.xlsx', type: 'Excel',      apiId: 'excel-to-pdf' },
-  'pdf-to-excel': { title: 'PDF to Excel',        gradient: 'linear-gradient(135deg,#16a34a,#15803d)', accent: '#16a34a', icon: FileSpreadsheet, ext: '.pdf',         accept: '.pdf',       type: 'PDF',        apiId: 'pdf-to-excel' },
-  'ppt-to-pdf':   { title: 'PowerPoint to PDF',   gradient: 'linear-gradient(135deg,#ea580c,#c2410c)', accent: '#ea580c', icon: Presentation,   ext: '.ppt, .pptx',  accept: '.ppt,.pptx', type: 'PowerPoint', apiId: 'ppt-to-pdf'   },
-  'pdf-to-ppt':   { title: 'PDF to PowerPoint',   gradient: 'linear-gradient(135deg,#ea580c,#c2410c)', accent: '#ea580c', icon: Presentation,   ext: '.pdf',         accept: '.pdf',       type: 'PDF',        apiId: 'pdf-to-ppt'   },
-  'html-to-pdf':  { title: 'HTML to PDF',         gradient: 'linear-gradient(135deg,#7c3aed,#6d28d9)', accent: '#7c3aed', icon: Globe,           ext: '.html, .htm',  accept: '.html,.htm', type: 'HTML',       apiId: 'html-to-pdf'  },
+  'word-to-pdf': { title: 'Word to PDF', gradient: 'linear-gradient(135deg,#2563eb,#1d4ed8)', accent: '#2563eb', icon: FileText, ext: '.doc, .docx', accept: '.doc,.docx', type: 'Word', apiId: 'word-to-pdf' },
+  'docx-to-pdf': { title: 'DOCX to PDF', gradient: 'linear-gradient(135deg,#2563eb,#1d4ed8)', accent: '#2563eb', icon: FileText, ext: '.docx', accept: '.docx', type: 'DOCX', apiId: 'docx-to-pdf' },
+  'pdf-to-word': { title: 'PDF to Word', gradient: 'linear-gradient(135deg,#2563eb,#1d4ed8)', accent: '#2563eb', icon: FileText, ext: '.pdf', accept: '.pdf', type: 'PDF', apiId: 'pdf-to-word' },
+  'pdf-to-docx': { title: 'PDF to DOCX', gradient: 'linear-gradient(135deg,#2563eb,#1d4ed8)', accent: '#2563eb', icon: FileText, ext: '.pdf', accept: '.pdf', type: 'PDF', apiId: 'pdf-to-docx' },
+  'excel-to-pdf': { title: 'Excel to PDF', gradient: 'linear-gradient(135deg,#16a34a,#15803d)', accent: '#16a34a', icon: FileSpreadsheet, ext: '.xls, .xlsx', accept: '.xls,.xlsx', type: 'Excel', apiId: 'excel-to-pdf' },
+  'pdf-to-excel': { title: 'PDF to Excel', gradient: 'linear-gradient(135deg,#16a34a,#15803d)', accent: '#16a34a', icon: FileSpreadsheet, ext: '.pdf', accept: '.pdf', type: 'PDF', apiId: 'pdf-to-excel' },
+  'ppt-to-pdf': { title: 'PowerPoint to PDF', gradient: 'linear-gradient(135deg,#ea580c,#c2410c)', accent: '#ea580c', icon: Presentation, ext: '.ppt, .pptx', accept: '.ppt,.pptx', type: 'PowerPoint', apiId: 'ppt-to-pdf' },
+  'pdf-to-ppt': { title: 'PDF to PowerPoint', gradient: 'linear-gradient(135deg,#ea580c,#c2410c)', accent: '#ea580c', icon: Presentation, ext: '.pdf', accept: '.pdf', type: 'PDF', apiId: 'pdf-to-ppt' },
+  'html-to-pdf': { title: 'HTML to PDF', gradient: 'linear-gradient(135deg,#7c3aed,#6d28d9)', accent: '#7c3aed', icon: Globe, ext: '.html, .htm', accept: '.html,.htm', type: 'HTML', apiId: 'html-to-pdf' },
 };
 
 export default function OfficeTools({ id }: { id: string }) {
-  const [file,       setFile]       = useState<File | null>(null);
+  const [file, setFile] = useState<File | null>(null);
   const [processing, setProcessing] = useState(false);
-  const [resultUrl,  setResultUrl]  = useState<string | null>(null);
+  const [resultUrl, setResultUrl] = useState<string | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
   const info = TOOL_INFO[id] || TOOL_INFO['word-to-pdf'];
@@ -90,9 +90,9 @@ export default function OfficeTools({ id }: { id: string }) {
             <div className="inline-flex p-4 rounded-2xl text-white shadow-lg mx-auto" style={{ background: info.gradient, boxShadow: `0 10px 40px ${info.accent}30` }}>
               <info.icon size={32} />
             </div>
-            <h2 className="text-2xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter leading-tight">
+            <h1 className="text-2xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter leading-tight">
               {info.title}
-            </h2>
+            </h1>
             <p className="text-sm sm:text-base text-slate-500 dark:text-slate-400 font-medium max-w-md mx-auto leading-relaxed text-center">
               Easily convert your {from} files to {to} — free, fast &amp; secure
             </p>
@@ -106,7 +106,7 @@ export default function OfficeTools({ id }: { id: string }) {
                   <CheckCircle2 size={32} />
                 </div>
                 <div>
-                  <h4 className="text-2xl font-bold text-slate-900 dark:text-white uppercase tracking-widest leading-none mb-1">Converted!</h4>
+                  <h2 className="text-2xl font-bold text-slate-900 dark:text-white uppercase tracking-widest leading-none mb-1">Converted!</h2>
                   <p className="text-[11px] font-medium text-slate-500 uppercase tracking-widest">Your {to} file is ready to download</p>
                 </div>
               </div>
@@ -133,8 +133,8 @@ export default function OfficeTools({ id }: { id: string }) {
             {!file && !resultUrl && (
               <div className="hidden sm:flex items-center justify-center gap-6 w-full mb-6">
                 {[
-                  { icon: Zap,      title: "Instant",  desc: "Lightning fast" },
-                  { icon: Shield,   title: "Private",  desc: "Files stay secure" },
+                  { icon: Zap, title: "Instant", desc: "Lightning fast" },
+                  { icon: Shield, title: "Private", desc: "Files stay secure" },
                   { icon: Sparkles, title: "Accurate", desc: "Format preserved" }
                 ].map((f, i) => (
                   <div key={i} className="flex items-center gap-3">
@@ -201,8 +201,8 @@ export default function OfficeTools({ id }: { id: string }) {
                   {/* Feature pills — 3 col bordered cards */}
                   <div className="grid grid-cols-3 gap-2 w-full pb-4 border-b border-slate-100 dark:border-slate-800">
                     {[
-                      { icon: Zap,      title: "Instant",  desc: "In your browser" },
-                      { icon: Shield,   title: "Private",  desc: "No server upload" },
+                      { icon: Zap, title: "Instant", desc: "In your browser" },
+                      { icon: Shield, title: "Private", desc: "No server upload" },
                       { icon: Sparkles, title: "Accurate", desc: "Format preserved" }
                     ].map((f, i) => (
                       <div key={i} className="flex flex-col items-center text-center gap-1.5 p-2.5 sm:p-4 rounded-2xl border border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/50">
@@ -267,10 +267,10 @@ export default function OfficeTools({ id }: { id: string }) {
             {!file && !resultUrl && (
               <div className="w-full grid grid-cols-4 gap-2 sm:gap-6 pt-8 border-t border-slate-100 dark:border-slate-800/50">
                 {[
-                  { icon: Lock,       title: "100% Secure",   desc: "Your files are safe"   },
-                  { icon: Trash2,     title: "Auto Delete",   desc: "Files auto removed"     },
-                  { icon: Smartphone, title: "Works on Mobile", desc: "Any device"           },
-                  { icon: Rocket,     title: "Super Fast",    desc: "Built for speed"        }
+                  { icon: Lock, title: "100% Secure", desc: "Your files are safe" },
+                  { icon: Trash2, title: "Auto Delete", desc: "Files auto removed" },
+                  { icon: Smartphone, title: "Works on Mobile", desc: "Any device" },
+                  { icon: Rocket, title: "Super Fast", desc: "Built for speed" }
                 ].map((f, i) => (
                   <div key={i} className="flex flex-col xl:flex-row items-center justify-start gap-2 xl:gap-3 text-center xl:text-left">
                     <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl flex items-center justify-center shrink-0" style={{ color: info.accent, backgroundColor: `${info.accent}10` }}>

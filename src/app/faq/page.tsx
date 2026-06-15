@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   description:
     "Frequently asked questions about SmartPDFs Pro. Learn how our free PDF tools work, security practices, and troubleshooting tips.",
   alternates: {
-    canonical: "/faq",
+    canonical: `${siteUrl}/faq`,
   },
   openGraph: {
     title: "FAQ | SmartPDFs Pro",

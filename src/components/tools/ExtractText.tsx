@@ -1,8 +1,8 @@
 "use client";
 
 import { useState, useRef, useCallback } from 'react';
-import { 
-  Upload, Download, Loader2, X, FileText, CheckCircle2, 
+import {
+  Upload, Download, Loader2, X, FileText, CheckCircle2,
   Copy, Terminal, FileJson, ShieldCheck, Zap, RefreshCw, Layers,
   Plus, Lock, Trash2, Smartphone, Rocket
 } from 'lucide-react';
@@ -43,7 +43,7 @@ export default function ExtractText({ id: toolId }: { id: string }) {
     setFile(f);
     setStatus('processing');
     setText(""); setXml("");
-    
+
     try {
       const pdfjsLib = await import('pdfjs-dist');
       pdfjsLib.GlobalWorkerOptions.workerSrc = '/workers/pdf.worker.min.mjs';
@@ -108,10 +108,10 @@ export default function ExtractText({ id: toolId }: { id: string }) {
     <div className="max-w-5xl mx-auto py-4 sm:py-8 px-3 sm:px-6 text-left">
       <div className="w-full space-y-6">
         <div className="bg-white dark:bg-slate-900 rounded-3xl sm:rounded-[2.5rem] border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-2xl transition-shadow duration-300 p-5 sm:p-10 min-h-[600px] flex flex-col relative overflow-hidden">
-          
+
           {/* Background Glow */}
           <div className="absolute top-0 right-0 w-64 h-64 bg-blue-50 dark:bg-blue-900/10 rounded-full -mr-32 -mt-32 blur-3xl opacity-50" />
-          
+
           <input ref={fileInputRef} type="file" onChange={e => e.target.files && loadFile(e.target.files[0])} accept=".pdf" className="hidden" />
 
           {/* Header */}
@@ -128,14 +128,14 @@ export default function ExtractText({ id: toolId }: { id: string }) {
           </div>
 
           <div className="flex-1 flex flex-col items-center animate-in fade-in duration-500 w-full max-w-3xl mx-auto">
-            
+
             {/* Feature pills (empty state) */}
             {!file && (
               <div className="hidden sm:flex items-center justify-center gap-6 w-full mb-6">
                 {[
-                  { icon: Zap,         title: "Instant",  desc: "In your browser" },
-                  { icon: ShieldCheck, title: "Private",  desc: "No server upload" },
-                  { icon: Layers,      title: "Accurate", desc: "Format preserved" }
+                  { icon: Zap, title: "Instant", desc: "In your browser" },
+                  { icon: ShieldCheck, title: "Private", desc: "No server upload" },
+                  { icon: Layers, title: "Accurate", desc: "Format preserved" }
                 ].map((f, i) => (
                   <div key={i} className="flex items-center gap-3">
                     <div className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0" style={{ color: ACCENT, backgroundColor: `${ACCENT}15` }}>
@@ -195,7 +195,7 @@ export default function ExtractText({ id: toolId }: { id: string }) {
               ) : (
                 /* File selected view */
                 <div className="w-full space-y-5" onClick={e => e.stopPropagation()}>
-                  
+
                   {/* Format Toggle Inline */}
                   <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pb-4 border-b border-slate-100 dark:border-slate-800">
                     <div className="flex items-center gap-2">
@@ -205,14 +205,14 @@ export default function ExtractText({ id: toolId }: { id: string }) {
                       <span className="text-[11px] font-bold text-slate-400 uppercase tracking-widest">Output Format</span>
                     </div>
                     <div className="flex bg-slate-100 dark:bg-slate-900 p-1.5 rounded-2xl border border-slate-200 dark:border-slate-700 w-full sm:w-auto">
-                      <button 
-                        onClick={() => setMode('text')} 
+                      <button
+                        onClick={() => setMode('text')}
                         className={`flex-1 sm:px-6 py-2 rounded-xl text-xs font-bold uppercase tracking-widest transition-all flex items-center justify-center gap-2 ${mode === 'text' ? 'bg-white dark:bg-slate-800 text-blue-500 shadow-sm' : 'text-slate-400 hover:text-slate-600'}`}
                       >
                         <FileText size={14} /> Text
                       </button>
-                      <button 
-                        onClick={() => setMode('xml')} 
+                      <button
+                        onClick={() => setMode('xml')}
                         className={`flex-1 sm:px-6 py-2 rounded-xl text-xs font-bold uppercase tracking-widest transition-all flex items-center justify-center gap-2 ${mode === 'xml' ? 'bg-white dark:bg-slate-800 text-blue-500 shadow-sm' : 'text-slate-400 hover:text-slate-600'}`}
                       >
                         <FileJson size={14} /> XML
@@ -223,9 +223,9 @@ export default function ExtractText({ id: toolId }: { id: string }) {
                   {/* Feature pills inline — 3 col with bordered cards */}
                   <div className="grid grid-cols-3 gap-2 w-full pb-4 border-b border-slate-100 dark:border-slate-800">
                     {[
-                      { icon: Zap,         title: "Instant",  desc: "In your browser" },
-                      { icon: ShieldCheck, title: "Private",  desc: "No server upload" },
-                      { icon: Layers,      title: "Accurate", desc: "Format preserved" }
+                      { icon: Zap, title: "Instant", desc: "In your browser" },
+                      { icon: ShieldCheck, title: "Private", desc: "No server upload" },
+                      { icon: Layers, title: "Accurate", desc: "Format preserved" }
                     ].map((f, i) => (
                       <div key={i} className="flex flex-col items-center text-center gap-1.5 p-2.5 sm:p-4 rounded-2xl border border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/50">
                         <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl flex items-center justify-center" style={{ color: ACCENT, backgroundColor: `${ACCENT}15` }}>
@@ -265,7 +265,7 @@ export default function ExtractText({ id: toolId }: { id: string }) {
                         </div>
                         <div className="text-[9px] font-medium text-slate-500 uppercase tracking-widest">{mode === 'text' ? 'Plaintext Output' : 'XML Document Stream'}</div>
                       </div>
-                      
+
                       <div className="flex-1 relative min-h-0">
                         {status === 'processing' ? (
                           <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 bg-slate-950/80 backdrop-blur-sm z-20">
@@ -319,10 +319,10 @@ export default function ExtractText({ id: toolId }: { id: string }) {
             {!file && (
               <div className="w-full grid grid-cols-4 gap-2 sm:gap-6 pt-8 border-t border-slate-100 dark:border-slate-800/50">
                 {[
-                  { icon: Lock,        title: "100% Secure",  desc: "Your files are safe"      },
-                  { icon: Trash2,      title: "Auto Delete",  desc: "Files auto removed"        },
-                  { icon: Smartphone,  title: "Works Offline", desc: "No internet needed"       },
-                  { icon: Rocket,      title: "Super Fast",   desc: "Built for speed"           }
+                  { icon: Lock, title: "100% Secure", desc: "Your files are safe" },
+                  { icon: Trash2, title: "Auto Delete", desc: "Files auto removed" },
+                  { icon: Smartphone, title: "Works Offline", desc: "No internet needed" },
+                  { icon: Rocket, title: "Super Fast", desc: "Built for speed" }
                 ].map((f, i) => (
                   <div key={i} className="flex flex-col xl:flex-row items-center justify-start gap-2 xl:gap-3 text-center xl:text-left">
                     <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl flex items-center justify-center shrink-0" style={{ color: ACCENT, backgroundColor: `${ACCENT}10` }}>
@@ -350,7 +350,7 @@ export default function ExtractText({ id: toolId }: { id: string }) {
               <div className="w-12 h-12 rounded-2xl bg-blue-50 dark:bg-blue-500/10 flex items-center justify-center text-blue-500 mb-4 group-hover:scale-110 transition-transform shadow-inner">
                 <feat.icon size={24} />
               </div>
-              <h5 className="text-[11px] font-bold uppercase tracking-widest text-slate-900 dark:text-white mb-2">{feat.title}</h5>
+              <h3 className="text-[11px] font-bold uppercase tracking-widest text-slate-900 dark:text-white mb-2">{feat.title}</h3>
               <p className="text-[11px] text-slate-400 font-medium leading-relaxed uppercase">{feat.desc}</p>
             </div>
           ))}

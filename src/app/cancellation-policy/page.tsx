@@ -16,7 +16,7 @@ export const metadata: Metadata = {
   description:
     "Read the cancellation policy for SmartPDFs Pro subscriptions, premium plans, renewals, and billing services.",
   alternates: {
-    canonical: "/cancellation-policy",
+    canonical: `${siteUrl}/cancellation-policy`,
   },
 };
 

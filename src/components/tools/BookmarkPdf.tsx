@@ -168,7 +168,7 @@ export default function BookmarkPdf({ id: _id }: { id: string }) {
  <div className="flex flex-col items-center gap-4 pointer-events-none text-center">
  <div className="p-4 sm:p-5 bg-white dark:bg-slate-800 rounded-2xl shadow-xl text-amber-500 group-hover:scale-110 transition-transform"><Upload size={32} /></div>
  <div>
- <div className="text-lg sm:text-lg sm:text-xl font-medium text-slate-800 dark:text-white mb-1">Click or drag &amp; drop PDF</div>
+ <h3 className="text-2xl sm:text-3xl font-black text-slate-800 dark:text-white mb-2 tracking-tight text-center">Click or drag &amp; drop PDF</h3>
  <p className="text-xs sm:text-sm text-slate-400 font-medium mt-1">Your file stays on your device — always</p>
  </div>
  <button className="px-6 py-2.5 sm:px-7 sm:py-3 rounded-xl text-white text-xs sm:text-sm font-medium uppercase tracking-widest shadow-lg active:scale-95 transition-all" style={{ background: "linear-gradient(135deg,#f59e0b,#b45309)" }}>Choose PDF File</button>

@@ -84,9 +84,9 @@ export default function WebpageToPdf({ id: _id }: { id: string }) {
       <OutOfCreditsModal isOpen={outOfCreditsOpen} onClose={() => setOutOfCreditsOpen(false)} isGuest={isGuest} />
       <div className="w-full space-y-6">
         <div className="bg-white dark:bg-slate-900 rounded-3xl sm:rounded-[2.5rem] border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-2xl transition-shadow duration-300 p-5 sm:p-10 min-h-[600px] flex flex-col relative overflow-hidden">
-          
+
           <div className="absolute top-0 right-0 w-64 h-64 bg-sky-50 dark:bg-sky-900/10 rounded-full -mr-32 -mt-32 blur-3xl opacity-50" />
-          
+
           <div className="relative text-center space-y-4 mb-10">
             <div className="inline-flex p-4 rounded-2xl text-white shadow-lg mx-auto" style={{ background: ACCENT_GRADIENT, boxShadow: `0 10px 20px -5px ${ACCENT}44` }}>
               <Globe size={32} />
@@ -100,14 +100,14 @@ export default function WebpageToPdf({ id: _id }: { id: string }) {
           </div>
 
           <div className="flex-1 flex flex-col items-center animate-in fade-in duration-500 w-full max-w-3xl mx-auto">
-            
+
             {/* Feature pills when empty */}
             {!resultUrl && !processing && (
               <div className="hidden sm:flex items-center justify-center gap-6 w-full mb-6">
                 {[
-                  { icon: Zap,        title: "Instant",    desc: "In your browser" },
-                  { icon: ShieldCheck, title: "Private",   desc: "No server upload" },
-                  { icon: Layers,      title: "Lossless",  desc: "Format preserved" }
+                  { icon: Zap, title: "Instant", desc: "In your browser" },
+                  { icon: ShieldCheck, title: "Private", desc: "No server upload" },
+                  { icon: Layers, title: "Lossless", desc: "Format preserved" }
                 ].map((f, i) => (
                   <div key={i} className="flex items-center gap-3">
                     <div className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0" style={{ color: ACCENT, backgroundColor: `${ACCENT}15` }}>
@@ -124,7 +124,7 @@ export default function WebpageToPdf({ id: _id }: { id: string }) {
 
             {!resultUrl ? (
               <div className="w-full border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-[2.5rem] p-6 sm:p-10 flex flex-col items-center justify-center transition-all bg-white dark:bg-slate-900/50 shadow-sm hover:shadow-xl hover:border-sky-300 dark:hover:border-sky-500 relative overflow-hidden mb-6">
-                
+
                 <h3 className="text-2xl sm:text-3xl font-black text-slate-800 dark:text-white mb-8 tracking-tight text-center">
                   Paste Webpage Link
                 </h3>
@@ -181,10 +181,10 @@ export default function WebpageToPdf({ id: _id }: { id: string }) {
                           setOutOfCreditsOpen(true);
                           return;
                         }
-                        setUrl(`https://${ex}`); 
-                        setError(""); 
+                        setUrl(`https://${ex}`);
+                        setError("");
                       }}
-                      className="px-4 py-2 rounded-xl text-[10px] sm:text-xs font-bold text-slate-500 dark:text-slate-400 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:text-sky-500 hover:border-sky-200 dark:hover:border-sky-800 transition-all uppercase tracking-widest shadow-sm">
+                        className="px-4 py-2 rounded-xl text-[10px] sm:text-xs font-bold text-slate-500 dark:text-slate-400 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:text-sky-500 hover:border-sky-200 dark:hover:border-sky-800 transition-all uppercase tracking-widest shadow-sm">
                         {ex}
                       </button>
                     ))}
@@ -197,7 +197,7 @@ export default function WebpageToPdf({ id: _id }: { id: string }) {
                   <div className="flex flex-col sm:flex-row items-center gap-6">
                     <div className="p-4 bg-green-500 text-white rounded-2xl shadow-xl shadow-green-500/30"><CheckCircle2 size={32} /></div>
                     <div>
-                      <h4 className="text-2xl font-bold text-slate-900 dark:text-white uppercase tracking-widest leading-none mb-1">Success!</h4>
+                      <h2 className="text-2xl font-bold text-slate-900 dark:text-white uppercase tracking-widest leading-none mb-1">Success!</h2>
                       <p className="text-[11px] font-medium text-slate-500 uppercase tracking-widest truncate max-w-[200px] sm:max-w-md">{hostname} converted to PDF.</p>
                     </div>
                   </div>
@@ -212,15 +212,15 @@ export default function WebpageToPdf({ id: _id }: { id: string }) {
                 </div>
 
                 <div className="max-w-xs mx-auto">
-                   <div className="bg-slate-50 dark:bg-slate-900/50 rounded-[2.5rem] p-5 border border-slate-100 dark:border-slate-800 shadow-sm flex flex-col gap-4 relative">
-                     <div className="aspect-[3/4] rounded-[2rem] overflow-hidden bg-white dark:bg-slate-900 relative border border-slate-100 dark:border-slate-700 shadow-inner flex items-center justify-center">
-                       <FileText size={64} className="text-slate-200 dark:text-slate-700" />
-                     </div>
-                     <div className="text-center px-2 pb-1">
-                       <p className="text-xs font-bold text-slate-900 dark:text-white uppercase truncate tracking-tight">{hostname}.pdf</p>
-                       <p className="text-[9px] font-medium text-slate-400 uppercase tracking-widest mt-1">Ready for Download</p>
-                     </div>
-                   </div>
+                  <div className="bg-slate-50 dark:bg-slate-900/50 rounded-[2.5rem] p-5 border border-slate-100 dark:border-slate-800 shadow-sm flex flex-col gap-4 relative">
+                    <div className="aspect-[3/4] rounded-[2rem] overflow-hidden bg-white dark:bg-slate-900 relative border border-slate-100 dark:border-slate-700 shadow-inner flex items-center justify-center">
+                      <FileText size={64} className="text-slate-200 dark:text-slate-700" />
+                    </div>
+                    <div className="text-center px-2 pb-1">
+                      <p className="text-xs font-bold text-slate-900 dark:text-white uppercase truncate tracking-tight">{hostname}.pdf</p>
+                      <p className="text-[9px] font-medium text-slate-400 uppercase tracking-widest mt-1">Ready for Download</p>
+                    </div>
+                  </div>
                 </div>
               </div>
             )}

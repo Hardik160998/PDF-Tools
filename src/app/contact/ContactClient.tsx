@@ -206,9 +206,9 @@ export default function ContactPage() {
                 <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center">
                   <Send size={28} className="text-green-500" />
                 </div>
-                <h3 className="text-xl font-bold text-slate-900">
+                <h2 className="text-xl font-bold text-slate-900">
                   Message Sent!
-                </h3>
+                </h2>
                 <p className="text-slate-500 text-sm max-w-xs">
                   Thanks for reaching out. We'll get back to you within 24
                   hours.

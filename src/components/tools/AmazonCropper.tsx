@@ -380,7 +380,7 @@ export default function AmazonCropper({ id }: { id: string }) {
  }}>
  <input ref={inputRef} type="file" accept=".pdf" multiple className="hidden" onChange={e => addFiles(e.target.files)} />
  <div className="p-6 bg-white dark:bg-slate-800 rounded-2xl shadow-xl inline-block mb-4" style={{ color: ACCENT }}><Upload size={32} /></div>
- <div className="text-lg sm:text-lg sm:text-xl font-medium text-slate-800 dark:text-white mb-1">Upload Amazon PDFs</div>
+ <h3 className="text-2xl sm:text-3xl font-black text-slate-800 dark:text-white mb-2 tracking-tight text-center">Upload Amazon PDFs</h3>
  <p className="text-xs sm:text-sm text-slate-400 font-medium">Even invoices automatically cleared.</p>
  </div>
  {files.length > 0 && (

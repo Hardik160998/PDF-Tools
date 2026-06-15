@@ -264,12 +264,12 @@ export default function PptToPdfPage() {
           <div className="mb-16 text-center relative">
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[100px] bg-orange-500/10 dark:bg-orange-500/5 blur-[80px] rounded-full -z-10 pointer-events-none" />
 
-            <h1 className="text-4xl sm:text-6xl font-black tracking-tight mb-6 uppercase leading-tight bg-gradient-to-r from-slate-950 via-slate-800 to-orange-600 dark:from-white dark:via-slate-200 dark:to-orange-550 bg-clip-text text-transparent">
+            <h2 className="text-4xl sm:text-6xl font-black tracking-tight mb-6 uppercase leading-tight bg-gradient-to-r from-slate-950 via-slate-800 to-orange-600 dark:from-white dark:via-slate-200 dark:to-orange-550 bg-clip-text text-transparent">
               Convert PPT to PDF Online <br />
               <span className="text-orange-500 dark:text-orange-450">
                 Free, Fast & Secure
               </span>
-            </h1>
+            </h2>
             <p className="text-base sm:text-lg text-slate-500 dark:text-slate-400 font-medium max-w-2xl mx-auto leading-relaxed">
               Transform Microsoft PowerPoint files (.ppt or .pptx) into
               high-fidelity PDF documents in a single click. Keep slides,

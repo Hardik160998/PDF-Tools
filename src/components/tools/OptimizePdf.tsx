@@ -119,9 +119,9 @@ export default function OptimizePdf({ id }: { id: string }) {
             <div className="inline-flex p-4 rounded-2xl text-white shadow-lg shadow-emerald-500/20 mx-auto" style={{ background: ACCENT_GRADIENT }}>
               <TrendingDown size={32} />
             </div>
-            <h2 className="text-2xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter leading-tight">
+            <h1 className="text-2xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter leading-tight">
               Intelligent PDF Optimizer
-            </h2>
+            </h1>
             <p className="text-sm sm:text-base text-slate-500 dark:text-slate-400 font-medium max-w-md mx-auto leading-relaxed text-center">
               Production-grade re-encoding for Amazon, Flipkart &amp; Meesho labels
             </p>
@@ -135,9 +135,9 @@ export default function OptimizePdf({ id }: { id: string }) {
                   <CheckCircle2 size={32} />
                 </div>
                 <div>
-                  <h4 className="text-2xl font-bold text-slate-900 dark:text-white uppercase tracking-widest leading-none mb-1">
+                  <h3 className="text-2xl font-bold text-slate-900 dark:text-white uppercase tracking-widest leading-none mb-1">
                     {result.status === 'optimized' ? `Reduced by ${Math.round(result.reduction)}%` : 'Already Optimized'}
-                  </h4>
+                  </h3>
                   <p className="text-[11px] font-medium text-slate-500 uppercase tracking-widest">
                     {result.status === 'optimized'
                       ? `${fmt(result.origSize)} → ${fmt(result.newSize)}`
@@ -361,7 +361,7 @@ export default function OptimizePdf({ id }: { id: string }) {
               <div className="w-12 h-12 rounded-2xl bg-emerald-50 dark:bg-emerald-500/10 flex items-center justify-center text-emerald-500 mb-4 group-hover:scale-110 transition-transform shadow-inner">
                 <feat.icon size={24} />
               </div>
-              <h5 className="text-[11px] font-bold uppercase tracking-widest text-slate-900 dark:text-white mb-2">{feat.title}</h5>
+              <h3 className="text-[11px] font-bold uppercase tracking-widest text-slate-900 dark:text-white mb-2">{feat.title}</h3>
               <p className="text-[11px] text-slate-400 font-medium leading-relaxed uppercase">{feat.desc}</p>
             </div>
           ))}

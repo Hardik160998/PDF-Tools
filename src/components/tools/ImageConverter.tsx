@@ -1,9 +1,9 @@
 "use client";
 
 import { useState, useRef, useCallback } from "react";
-import { 
-  Upload, Download, Loader2, X, FileImage, FileText, 
-  CheckCircle2, Image as ImageIcon, Zap, ShieldCheck, 
+import {
+  Upload, Download, Loader2, X, FileImage, FileText,
+  CheckCircle2, Image as ImageIcon, Zap, ShieldCheck,
   RefreshCw, Layers, Smartphone, Rocket, Plus, Lock, Trash2
 } from "lucide-react";
 import { PDFDocument } from "pdf-lib";
@@ -42,8 +42,8 @@ export default function ImageConverter({ id: toolId }: { id: string }) {
   const [results, setResults] = useState<{ url: string; name: string; preview: string }[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const meta = TOOL_METADATA[toolId] || { 
-    title: toolId.replace(/-/g, ' ').toUpperCase(), 
+  const meta = TOOL_METADATA[toolId] || {
+    title: toolId.replace(/-/g, ' ').toUpperCase(),
     desc: 'Professional image conversion tool running 100% in your browser.',
     accent: '#3b82f6',
     gradient: 'linear-gradient(135deg,#3b82f6,#2563eb)'
@@ -58,10 +58,10 @@ export default function ImageConverter({ id: toolId }: { id: string }) {
 
   const addFiles = useCallback(async (newFiles: FileList | null) => {
     if (!newFiles) return;
-    
-    const allowedExtensions = isPdfToImg ? ['pdf'] : 
-      (sourceFormat === 'jpg' || sourceFormat === 'jpeg') ? ['jpg', 'jpeg'] : 
-      [sourceFormat.toLowerCase()];
+
+    const allowedExtensions = isPdfToImg ? ['pdf'] :
+      (sourceFormat === 'jpg' || sourceFormat === 'jpeg') ? ['jpg', 'jpeg'] :
+        [sourceFormat.toLowerCase()];
 
     const filteredFiles = Array.from(newFiles).filter(file => {
       const ext = file.name.split('.').pop()?.toLowerCase() || "";
@@ -101,7 +101,7 @@ export default function ImageConverter({ id: toolId }: { id: string }) {
     if (files.length === 0) return;
     setStatus("processing");
     setResults([]);
-    
+
     try {
       const globalZip = new JSZip();
       let finalBlob: Blob | null = null;
@@ -127,7 +127,7 @@ export default function ImageConverter({ id: toolId }: { id: string }) {
           const buf = await entry.file.arrayBuffer();
           const doc = await pdfjsLib.getDocument({ data: buf }).promise;
           const baseName = entry.file.name.replace(/\.pdf$/i, "");
-          
+
           const entryZip = doc.numPages > 1 ? new JSZip() : null;
           let firstPageUrl: string | null = null;
 
@@ -138,19 +138,19 @@ export default function ImageConverter({ id: toolId }: { id: string }) {
             const ctx = canvas.getContext("2d", { alpha: false })!;
             canvas.width = viewport.width;
             canvas.height = viewport.height;
-            
+
             ctx.fillStyle = "white";
             ctx.fillRect(0, 0, canvas.width, canvas.height);
-            
+
             await page.render({ canvasContext: ctx, viewport, canvas }).promise;
             const blob = await new Promise<Blob>(r => canvas.toBlob(b => r(b!), targetMime, 0.90));
             const url = URL.createObjectURL(blob);
 
             const fileName = doc.numPages > 1 ? `${baseName}-page-${p}.${targetExt}` : `${baseName}.${targetExt}`;
-            
+
             globalZip.file(fileName, blob);
             if (entryZip) entryZip.file(fileName, blob);
-            
+
             allResults.push({ url, name: fileName, preview: url });
             if (p === 1) firstPageUrl = url;
             totalOutputCount++;
@@ -217,7 +217,7 @@ export default function ImageConverter({ id: toolId }: { id: string }) {
           canvas.getContext('2d')?.drawImage(image, 0, 0);
           const blob = await new Promise<Blob>(r => canvas.toBlob(b => r(b!), targetMime, 0.90));
           const url = URL.createObjectURL(blob);
-          
+
           const fileName = `${entry.file.name.split('.')[0]}.${targetExt}`;
           updatedFiles[i] = {
             ...entry,
@@ -239,7 +239,7 @@ export default function ImageConverter({ id: toolId }: { id: string }) {
         const content = await globalZip.generateAsync({ type: "blob" });
         setResultUrl(URL.createObjectURL(content));
       } else setResultUrl(allResults[0]?.url || null);
-      
+
       setStatus("done");
     } catch (err) {
       console.error(err);
@@ -260,14 +260,14 @@ export default function ImageConverter({ id: toolId }: { id: string }) {
     <div className="max-w-5xl mx-auto py-4 sm:py-8 px-3 sm:px-6 text-left">
       <div className="w-full space-y-6">
         <div className="bg-white dark:bg-slate-900 rounded-3xl sm:rounded-[2.5rem] border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-2xl transition-shadow duration-300 p-5 sm:p-10 min-h-[600px] flex flex-col relative overflow-hidden">
-          
+
           <div className="absolute top-0 right-0 w-64 h-64 rounded-full -mr-32 -mt-32 blur-3xl opacity-50" style={{ background: ACCENT }} />
 
-          <input 
-            ref={fileInputRef} type="file" multiple 
-            onChange={e => addFiles(e.target.files)} 
-            accept={isPdfToImg ? ".pdf" : (sourceFormat === 'jpg' || sourceFormat === 'jpeg') ? ".jpg,.jpeg" : `.${sourceFormat}`} 
-            className="hidden" 
+          <input
+            ref={fileInputRef} type="file" multiple
+            onChange={e => addFiles(e.target.files)}
+            accept={isPdfToImg ? ".pdf" : (sourceFormat === 'jpg' || sourceFormat === 'jpeg') ? ".jpg,.jpeg" : `.${sourceFormat}`}
+            className="hidden"
           />
 
           <div className="relative text-center space-y-4 mb-10">
@@ -288,7 +288,7 @@ export default function ImageConverter({ id: toolId }: { id: string }) {
               <div className="flex flex-col sm:flex-row items-center gap-6">
                 <div className="p-4 bg-green-500 text-white rounded-2xl shadow-xl shadow-green-500/30"><CheckCircle2 size={32} /></div>
                 <div>
-                  <h4 className="text-2xl font-bold text-slate-900 dark:text-white uppercase tracking-widest leading-none mb-1">Conversion Complete!</h4>
+                  <h2 className="text-2xl font-bold text-slate-900 dark:text-white uppercase tracking-widest leading-none mb-1">Conversion Complete!</h2>
                   <p className="text-[11px] font-medium text-slate-500 uppercase tracking-widest">{results.length} Item{results.length !== 1 ? 's' : ''} Generated Successfully</p>
                 </div>
               </div>
@@ -310,9 +310,9 @@ export default function ImageConverter({ id: toolId }: { id: string }) {
             {files.length === 0 && (
               <div className="hidden sm:flex items-center justify-center gap-6 w-full mb-6">
                 {[
-                  { icon: Zap,        title: "Instant",    desc: "In your browser" },
-                  { icon: ShieldCheck, title: "Private",   desc: "No server upload" },
-                  { icon: Layers,      title: "Lossless",  desc: "Format preserved" }
+                  { icon: Zap, title: "Instant", desc: "In your browser" },
+                  { icon: ShieldCheck, title: "Private", desc: "No server upload" },
+                  { icon: Layers, title: "Lossless", desc: "Format preserved" }
                 ].map((f, i) => (
                   <div key={i} className="flex items-center gap-3">
                     <div className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0" style={{ color: ACCENT, backgroundColor: `${ACCENT}15` }}>
@@ -392,13 +392,13 @@ export default function ImageConverter({ id: toolId }: { id: string }) {
             ) : (
               /* Files loaded list */
               <div className="w-full space-y-5" onClick={e => e.stopPropagation()}>
-                
+
                 {/* Feature pills inline bordered cards */}
                 <div className="grid grid-cols-3 gap-2 w-full pb-4 border-b border-slate-100 dark:border-slate-800">
                   {[
-                    { icon: Zap,         title: "Instant",  desc: "In your browser" },
-                    { icon: ShieldCheck, title: "Private",  desc: "No server upload" },
-                    { icon: Layers,      title: "Lossless", desc: "Format preserved" }
+                    { icon: Zap, title: "Instant", desc: "In your browser" },
+                    { icon: ShieldCheck, title: "Private", desc: "No server upload" },
+                    { icon: Layers, title: "Lossless", desc: "Format preserved" }
                   ].map((f, i) => (
                     <div key={i} className="flex flex-col items-center text-center gap-1.5 p-2.5 sm:p-4 rounded-2xl border border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/50">
                       <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl flex items-center justify-center" style={{ color: ACCENT, backgroundColor: `${ACCENT}15` }}>
@@ -415,14 +415,14 @@ export default function ImageConverter({ id: toolId }: { id: string }) {
                     <div key={f.id} className="flex flex-row items-center p-4 bg-slate-50 dark:bg-slate-900/50 rounded-2xl border border-slate-100 dark:border-slate-800 gap-3 group relative overflow-hidden transition-all">
                       {f.preview ? (
                         <div className="w-12 h-12 rounded-xl overflow-hidden shrink-0 border border-slate-200 dark:border-slate-700">
-                           <img src={f.preview} className="w-full h-full object-cover" alt="" />
+                          <img src={f.preview} className="w-full h-full object-cover" alt="" />
                         </div>
                       ) : (
                         <div className="w-12 h-12 rounded-xl text-white shrink-0 flex items-center justify-center shadow-md" style={{ background: ACCENT_GRADIENT }}>
                           <FileText size={20} />
                         </div>
                       )}
-                      
+
                       <div className="flex-1 min-w-0 text-left">
                         <p className="text-[12px] font-bold text-slate-900 dark:text-white uppercase truncate tracking-tight mb-1">{f.file.name}</p>
                         <div className="flex items-center gap-2">
@@ -470,7 +470,7 @@ export default function ImageConverter({ id: toolId }: { id: string }) {
                 )}
               </div>
             )}
-            
+
             {/* Feature grid when empty */}
             {files.length === 0 && (
               <div className="w-full grid grid-cols-4 gap-2 sm:gap-6 pt-8 border-t border-slate-100 dark:border-slate-800/50">
@@ -507,7 +507,7 @@ export default function ImageConverter({ id: toolId }: { id: string }) {
               <div className="w-12 h-12 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform shadow-inner" style={{ color: ACCENT, backgroundColor: `${ACCENT}10` }}>
                 <feat.icon size={24} />
               </div>
-              <h5 className="text-[11px] font-bold uppercase tracking-widest text-slate-900 dark:text-white mb-2">{feat.title}</h5>
+              <h3 className="text-[11px] font-bold uppercase tracking-widest text-slate-900 dark:text-white mb-2">{feat.title}</h3>
               <p className="text-[11px] text-slate-400 font-medium leading-relaxed uppercase">{feat.desc}</p>
             </div>
           ))}

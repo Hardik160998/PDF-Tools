@@ -341,12 +341,12 @@ export default function BookmarkPdfPage() {
           <div className="mb-16 text-center relative">
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[100px] bg-amber-500/10 dark:bg-amber-500/5 blur-[80px] rounded-full -z-10 pointer-events-none" />
 
-            <h1 className="text-4xl sm:text-6xl font-black tracking-tight mb-6 uppercase leading-tight bg-gradient-to-r from-slate-950 via-slate-800 to-amber-600 dark:from-white dark:via-slate-200 dark:to-amber-500 bg-clip-text text-transparent">
+            <h2 className="text-4xl sm:text-6xl font-black tracking-tight mb-6 uppercase leading-tight bg-gradient-to-r from-slate-950 via-slate-800 to-amber-600 dark:from-white dark:via-slate-200 dark:to-amber-500 bg-clip-text text-transparent">
               Add Bookmarks to PDF Online <br />
               <span className="text-amber-500 dark:text-amber-450">
                 100% Free & Secure
               </span>
-            </h1>
+            </h2>
             <p className="text-base sm:text-lg text-slate-500 dark:text-slate-400 font-medium max-w-2xl mx-auto leading-relaxed">
               Create standard tables of contents and document outline structures
               inside your PDF in seconds. Work with complete privacy — files are

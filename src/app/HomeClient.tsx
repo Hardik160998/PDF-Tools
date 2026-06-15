@@ -279,7 +279,7 @@ export default function HomeClient({ initialTools, initialCategories }: { initia
                             <div>
                                 <div className="mb-6 flex items-center justify-center gap-4">
                                     <div className="h-[2px] bg-slate-200 dark:bg-slate-700/80 w-12 rounded-full"></div>
-                                    <h3 className="text-xs font-bold uppercase tracking-[0.2em] text-slate-400 dark:text-slate-500">Most Used Tools</h3>
+                                    <h2 className="text-xs font-bold uppercase tracking-[0.2em] text-slate-400 dark:text-slate-500">Most Used Tools</h2>
                                     <div className="h-[2px] bg-slate-200 dark:bg-slate-700/80 w-12 rounded-full"></div>
                                 </div>
                                 <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
@@ -298,7 +298,7 @@ export default function HomeClient({ initialTools, initialCategories }: { initia
                             {displayCategory === 'All' && (
                                 <div className="mb-8 flex items-center justify-center gap-4">
                                     <div className="h-[2px] bg-slate-200 dark:bg-slate-700/80 w-12 rounded-full"></div>
-                                    <h3 className="text-xs font-bold uppercase tracking-[0.2em] text-slate-400 dark:text-slate-500">All PDF Tools</h3>
+                                    <h2 className="text-xs font-bold uppercase tracking-[0.2em] text-slate-400 dark:text-slate-500">All PDF Tools</h2>
                                     <div className="h-[2px] bg-slate-200 dark:bg-slate-700/80 w-12 rounded-full"></div>
                                 </div>
                             )}
@@ -313,7 +313,7 @@ export default function HomeClient({ initialTools, initialCategories }: { initia
                             <div>
                                 <div className="mb-6 flex items-center justify-center gap-4">
                                     <div className="h-[2px] bg-slate-200 dark:bg-slate-700/80 w-12 rounded-full"></div>
-                                    <h3 className="text-xs font-bold uppercase tracking-[0.2em] text-slate-400 dark:text-slate-500">Most Used Tools</h3>
+                                    <h2 className="text-xs font-bold uppercase tracking-[0.2em] text-slate-400 dark:text-slate-500">Most Used Tools</h2>
                                     <div className="h-[2px] bg-slate-200 dark:bg-slate-700/80 w-12 rounded-full"></div>
                                 </div>
                                 <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
@@ -327,7 +327,7 @@ export default function HomeClient({ initialTools, initialCategories }: { initia
                             {displayCategory === 'All' && mergedTools.some(t => t.is_most_used) && (
                                 <div className="mb-8 flex items-center justify-center gap-4">
                                     <div className="h-[2px] bg-slate-200 dark:bg-slate-700/80 w-12 rounded-full"></div>
-                                    <h3 className="text-xs font-bold uppercase tracking-[0.2em] text-slate-400 dark:text-slate-500">All PDF Tools</h3>
+                                    <h2 className="text-xs font-bold uppercase tracking-[0.2em] text-slate-400 dark:text-slate-500">All PDF Tools</h2>
                                     <div className="h-[2px] bg-slate-200 dark:bg-slate-700/80 w-12 rounded-full"></div>
                                 </div>
                             )}

@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   description:
     "Get in touch with the SmartPDFs Pro team. We're here to help with any questions, support requests, or feedback you may have.",
   alternates: {
-    canonical: "/contact",
+    canonical: `${siteUrl}/contact`,
   },
   openGraph: {
     title: "Contact Us | SmartPDFs Pro",

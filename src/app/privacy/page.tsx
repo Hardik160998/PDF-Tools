@@ -20,7 +20,7 @@ export const metadata: Metadata = {
   description:
     "Read our privacy policy to understand how SmartPDFs Pro protects your data and privacy while using our free PDF tools.",
   alternates: {
-    canonical: "/privacy",
+    canonical: `${siteUrl}/privacy`,
   },
   openGraph: {
     title: "Privacy Policy | SmartPDFs Pro",

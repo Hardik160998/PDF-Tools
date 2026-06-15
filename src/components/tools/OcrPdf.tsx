@@ -13,16 +13,16 @@ import { useCredits } from "@/hooks/useCredits";
 import OutOfCreditsModal from "@/components/credits/OutOfCreditsModal";
 
 const LANGUAGES = [
-  { code: "eng",     label: "English" },
-  { code: "spa",     label: "Spanish" },
-  { code: "fra",     label: "French" },
-  { code: "deu",     label: "German" },
-  { code: "por",     label: "Portuguese" },
-  { code: "ita",     label: "Italian" },
-  { code: "rus",     label: "Russian" },
+  { code: "eng", label: "English" },
+  { code: "spa", label: "Spanish" },
+  { code: "fra", label: "French" },
+  { code: "deu", label: "German" },
+  { code: "por", label: "Portuguese" },
+  { code: "ita", label: "Italian" },
+  { code: "rus", label: "Russian" },
   { code: "chi_sim", label: "Chinese (Simplified)" },
-  { code: "jpn",     label: "Japanese" },
-  { code: "ara",     label: "Arabic" },
+  { code: "jpn", label: "Japanese" },
+  { code: "ara", label: "Arabic" },
 ];
 
 async function createOcrWorker(lang: string): Promise<Tesseract.Worker> {
@@ -44,13 +44,13 @@ export default function OcrPdf({ id: _id }: { id: string }) {
   const { remaining, isGuest, isPremium, deductCredit } = useCredits();
   const [outOfCreditsOpen, setOutOfCreditsOpen] = useState(false);
   const [pdfFiles, setPdfFiles] = useState<PdfFile[]>([]);
-  const [processing, setProcessing]   = useState(false);
-  const [allDone, setAllDone]         = useState(false);
-  const [language, setLanguage]       = useState("eng");
+  const [processing, setProcessing] = useState(false);
+  const [allDone, setAllDone] = useState(false);
+  const [language, setLanguage] = useState("eng");
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const abortRef     = useRef(false);
+  const abortRef = useRef(false);
 
-  const ACCENT          = "#3b82f6";
+  const ACCENT = "#3b82f6";
   const ACCENT_GRADIENT = "linear-gradient(135deg,#3b82f6,#2563eb)";
 
   const reset = () => {
@@ -70,7 +70,7 @@ export default function OcrPdf({ id: _id }: { id: string }) {
       const entries: PdfFile[] = await Promise.all(pdfs.map(async (file) => {
         const id = `${file.name}-${file.size}-${Date.now()}-${Math.random()}`;
         try {
-          const buf   = await file.arrayBuffer();
+          const buf = await file.arrayBuffer();
           const pdfJs = await pdfjsLib.getDocument({ data: buf }).promise;
           return { id, file, numPages: pdfJs.numPages, status: "pending" as FileStatus, progress: 0 };
         } catch {
@@ -97,14 +97,14 @@ export default function OcrPdf({ id: _id }: { id: string }) {
         let ocrWorker: Tesseract.Worker | null = null;
         try {
           ocrWorker = await createOcrWorker(language);
-          const buf    = await entry.file.arrayBuffer();
-          const pdfJs  = await pdfjsLib.getDocument({ data: buf }).promise;
+          const buf = await entry.file.arrayBuffer();
+          const pdfJs = await pdfjsLib.getDocument({ data: buf }).promise;
           const numPages = pdfJs.numPages;
           const pagePdfChunks: Uint8Array[] = [];
           for (let i = 1; i <= numPages; i++) {
             if (abortRef.current) break;
             const pdfPage = await pdfJs.getPage(i);
-            const vp2x   = pdfPage.getViewport({ scale: 2 });
+            const vp2x = pdfPage.getViewport({ scale: 2 });
             const w = Math.floor(vp2x.width), h = Math.floor(vp2x.height);
             const canvas = document.createElement("canvas");
             canvas.width = w; canvas.height = h;
@@ -125,7 +125,7 @@ export default function OcrPdf({ id: _id }: { id: string }) {
               mergedDoc.addPage(copiedPage);
             }
             const mergedBytes = await mergedDoc.save();
-            const resultBlob  = new Blob([mergedBytes.buffer as ArrayBuffer], { type: "application/pdf" });
+            const resultBlob = new Blob([mergedBytes.buffer as ArrayBuffer], { type: "application/pdf" });
             setPdfFiles(prev => prev.map(f => f.id === entry.id ? { ...f, status: "done", progress: 100, resultBlob } : f));
           }
         } catch (err: any) {
@@ -142,7 +142,7 @@ export default function OcrPdf({ id: _id }: { id: string }) {
     if (!isPremium && remaining <= 0) { setOutOfCreditsOpen(true); return; }
     deductCredit("ocr-pdf");
     const url = URL.createObjectURL(entry.resultBlob);
-    const a   = document.createElement("a");
+    const a = document.createElement("a");
     a.href = url; a.download = entry.file.name.replace(/\.pdf$/i, "_ocr.pdf");
     document.body.appendChild(a); a.click();
     document.body.removeChild(a); URL.revokeObjectURL(url);
@@ -175,9 +175,9 @@ export default function OcrPdf({ id: _id }: { id: string }) {
             <div className="inline-flex p-4 rounded-2xl text-white shadow-lg shadow-blue-500/20 mx-auto" style={{ background: ACCENT_GRADIENT }}>
               <ScanText size={32} />
             </div>
-            <h2 className="text-2xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter leading-tight">
+            <h1 className="text-2xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter leading-tight">
               Optical Character Recognition
-            </h2>
+            </h1>
             <p className="text-sm sm:text-base text-slate-500 dark:text-slate-400 font-medium max-w-md mx-auto leading-relaxed text-center">
               Transform scanned PDFs into searchable text — runs entirely in your browser
             </p>
@@ -189,7 +189,7 @@ export default function OcrPdf({ id: _id }: { id: string }) {
               <div className="flex flex-col sm:flex-row items-center gap-6">
                 <div className="p-4 bg-green-500 text-white rounded-2xl shadow-xl shadow-green-500/30"><CheckCircle2 size={32} /></div>
                 <div>
-                  <h4 className="text-2xl font-bold text-slate-900 dark:text-white uppercase tracking-widest leading-none mb-1">OCR Complete!</h4>
+                  <h2 className="text-2xl font-bold text-slate-900 dark:text-white uppercase tracking-widest leading-none mb-1">OCR Complete!</h2>
                   <p className="text-[11px] font-medium text-slate-500 uppercase tracking-widest">Text layer has been embedded in your PDFs</p>
                 </div>
               </div>
@@ -211,9 +211,9 @@ export default function OcrPdf({ id: _id }: { id: string }) {
             {pdfFiles.length === 0 && (
               <div className="hidden sm:flex items-center justify-center gap-6 w-full mb-6">
                 {[
-                  { icon: Zap,        title: "Instant",    desc: "Browser-native processing" },
-                  { icon: ShieldCheck, title: "Private",   desc: "No server upload needed"   },
-                  { icon: Globe,      title: "10+ Langs",  desc: "Multi-language support"     }
+                  { icon: Zap, title: "Instant", desc: "Browser-native processing" },
+                  { icon: ShieldCheck, title: "Private", desc: "No server upload needed" },
+                  { icon: Globe, title: "10+ Langs", desc: "Multi-language support" }
                 ].map((f, i) => (
                   <div key={i} className="flex items-center gap-3">
                     <div className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0" style={{ color: ACCENT, backgroundColor: `${ACCENT}15` }}>
@@ -296,9 +296,9 @@ export default function OcrPdf({ id: _id }: { id: string }) {
                   {/* Feature pill cards — always visible after upload */}
                   <div className="grid grid-cols-3 gap-2 w-full">
                     {[
-                      { icon: Zap,         title: "Instant",  desc: "In your browser" },
-                      { icon: ShieldCheck, title: "Private",  desc: "No server upload" },
-                      { icon: Globe,       title: "10+ Langs", desc: "Multi-language"  }
+                      { icon: Zap, title: "Instant", desc: "In your browser" },
+                      { icon: ShieldCheck, title: "Private", desc: "No server upload" },
+                      { icon: Globe, title: "10+ Langs", desc: "Multi-language" }
                     ].map((f, i) => (
                       <div key={i} className="flex flex-col items-center text-center gap-1.5 p-2.5 sm:p-4 rounded-2xl border border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/50">
                         <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl flex items-center justify-center" style={{ color: ACCENT, backgroundColor: `${ACCENT}15` }}>
@@ -392,10 +392,10 @@ export default function OcrPdf({ id: _id }: { id: string }) {
             {pdfFiles.length === 0 && (
               <div className="w-full grid grid-cols-4 gap-2 sm:gap-6 pt-8 border-t border-slate-100 dark:border-slate-800/50">
                 {[
-                  { icon: Lock,        title: "100% Secure",  desc: "Your files are safe"      },
-                  { icon: Trash2,      title: "Auto Delete",  desc: "Files auto removed"        },
-                  { icon: Smartphone,  title: "Works Offline", desc: "No internet needed"       },
-                  { icon: Rocket,      title: "Super Fast",   desc: "Built for speed"           }
+                  { icon: Lock, title: "100% Secure", desc: "Your files are safe" },
+                  { icon: Trash2, title: "Auto Delete", desc: "Files auto removed" },
+                  { icon: Smartphone, title: "Works Offline", desc: "No internet needed" },
+                  { icon: Rocket, title: "Super Fast", desc: "Built for speed" }
                 ].map((f, i) => (
                   <div key={i} className="flex flex-col xl:flex-row items-center justify-start gap-2 xl:gap-3 text-center xl:text-left">
                     <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl flex items-center justify-center shrink-0" style={{ color: ACCENT, backgroundColor: `${ACCENT}10` }}>
@@ -415,15 +415,15 @@ export default function OcrPdf({ id: _id }: { id: string }) {
         {/* Bottom feature cards */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
           {[
-            { title: "Multi-Language",  desc: "Native support for English, Spanish, Japanese, and 10+ major languages.", icon: Globe       },
-            { title: "Native Search",   desc: "Injects a proper invisible text layer into your reconstructed PDF.",       icon: Search      },
-            { title: "Total Privacy",   desc: "OCR engine runs inside your browser sandbox. No server processing.",       icon: ShieldCheck },
+            { title: "Multi-Language", desc: "Native support for English, Spanish, Japanese, and 10+ major languages.", icon: Globe },
+            { title: "Native Search", desc: "Injects a proper invisible text layer into your reconstructed PDF.", icon: Search },
+            { title: "Total Privacy", desc: "OCR engine runs inside your browser sandbox. No server processing.", icon: ShieldCheck },
           ].map((feat, i) => (
             <div key={i} className="p-8 bg-white dark:bg-slate-900 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-sm flex flex-col items-center text-center group hover:shadow-lg transition-all">
               <div className="w-12 h-12 rounded-2xl bg-blue-50 dark:bg-blue-500/10 flex items-center justify-center text-blue-500 mb-4 group-hover:scale-110 transition-transform shadow-inner">
                 <feat.icon size={24} />
               </div>
-              <h5 className="text-[11px] font-bold uppercase tracking-widest text-slate-900 dark:text-white mb-2">{feat.title}</h5>
+              <h3 className="text-[11px] font-bold uppercase tracking-widest text-slate-900 dark:text-white mb-2">{feat.title}</h3>
               <p className="text-[11px] text-slate-400 font-medium leading-relaxed uppercase">{feat.desc}</p>
             </div>
           ))}

@@ -308,12 +308,12 @@ export default function WebpageToPdfPage() {
           <div className="mb-16 text-center relative">
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[100px] bg-sky-500/10 dark:bg-sky-500/5 blur-[80px] rounded-full -z-10 pointer-events-none" />
 
-            <h1 className="text-4xl sm:text-6xl font-black tracking-tight mb-6 uppercase leading-tight bg-gradient-to-r from-slate-950 via-slate-800 to-sky-600 dark:from-white dark:via-slate-200 dark:to-sky-500 bg-clip-text text-transparent">
+            <h2 className="text-4xl sm:text-6xl font-black tracking-tight mb-6 uppercase leading-tight bg-gradient-to-r from-slate-950 via-slate-800 to-sky-600 dark:from-white dark:via-slate-200 dark:to-sky-500 bg-clip-text text-transparent">
               Convert URL to PDF Online <br />
               <span className="text-sky-500 dark:text-sky-455">
                 Free, Fast & Secure
               </span>
-            </h1>
+            </h2>
             <p className="text-base sm:text-lg text-slate-500 dark:text-slate-400 font-medium max-w-2xl mx-auto leading-relaxed">
               Transform any public website webpage URL into a high-fidelity PDF
               document in a single click. Save news articles, blogs,

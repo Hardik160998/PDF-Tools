@@ -24,7 +24,7 @@ export const metadata: Metadata = {
   description:
     "Learn about how SmartPDFs Pro uses cookies to improve your experience, serve targeted ads, and process secure payments.",
   alternates: {
-    canonical: "/cookie-policy",
+    canonical: `${siteUrl}/cookie-policy`,
   },
   openGraph: {
     title: "Cookie Policy | SmartPDFs Pro",
