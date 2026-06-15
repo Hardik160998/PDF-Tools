@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef } from 'react';
-import { Upload, Download, Loader2, X, Layers, FileText, CheckCircle2, ShieldCheck, ChevronDown } from 'lucide-react';
+import { Upload, Download, Loader2, X, Layers, FileText, CheckCircle2, ShieldCheck, ChevronDown, Zap, Shield, Sparkles, Plus, Lock, Trash2, Smartphone, Rocket } from 'lucide-react';
 import { PDFDocument } from 'pdf-lib';
 
 const FEATURES = [
@@ -95,19 +95,37 @@ export default function FlattenPdf({ id }: { id: string }) {
 
  const reset = () => { setFile(null); setResult(null); setPageCount(0); };
 
+ const hex = '#8b5cf6';
  return (
- <div className="py-6 sm:py-10 space-y-6">
+ <div className="py-6 sm:py-10 space-y-6 w-full max-w-4xl mx-auto px-2 sm:px-6">
 
  {/* ── TOOL CARD ── */}
- <div className="bg-white dark:bg-slate-800 rounded-[1.5rem] sm:rounded-[2.5rem] p-6 sm:p-12 border border-slate-100 dark:border-slate-700 shadow-sm hover:shadow-2xl transition-shadow duration-300 space-y-8">
- <div className="text-center space-y-3">
- <div className="inline-flex p-4 sm:p-5 rounded-2xl sm:rounded-3xl bg-violet-600 text-white shadow-lg shadow-violet-500/30">
- <Layers size={36} />
+ <div className="bg-white dark:bg-slate-900 rounded-[24px] sm:rounded-[48px] p-4 sm:p-16 border border-slate-100 dark:border-slate-800 shadow-2xl space-y-8 sm:space-y-12 relative text-center">
+ <div className="space-y-3">
+ <div className="inline-flex p-4 sm:p-5 rounded-[1.5rem] sm:rounded-3xl text-white shadow-xl shadow-violet-500/20" style={{ background: "linear-gradient(135deg,#8b5cf6,#6d28d9)" }}>
+ <Layers size={32} className="sm:w-9 sm:h-9" />
  </div>
- <h1 className="text-2xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter">Flatten PDF</h1>
- <p className="text-sm sm:text-base text-slate-500 dark:text-slate-400 font-medium max-w-lg mx-auto leading-relaxed">
- Merge all layers, forms and annotations into a single flat, non-editable PDF. 100% private — runs in your browser.
- </p>
+ <h1 className="text-2xl sm:text-5xl font-black text-slate-900 dark:text-white uppercase tracking-tighter">Flatten PDF</h1>
+ <p className="text-[10px] sm:text-xs text-slate-400 font-bold uppercase tracking-widest max-w-md mx-auto leading-relaxed">Merge all layers, forms and annotations into a single flat, non-editable PDF.</p>
+ </div>
+
+ <div className="space-y-6 w-full max-w-3xl mx-auto">
+ <div className="hidden sm:flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 w-full mb-6">
+ {[
+ { icon: Zap, title: "Instant", desc: "Lightning fast processing" },
+ { icon: Shield, title: "Private", desc: "Your files stay secure" },
+ { icon: Sparkles, title: "Lossless", desc: "Perfect quality output" }
+ ].map((f, i) => (
+ <div key={i} className="flex items-center gap-3 pointer-events-none">
+ <div className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0" style={{ color: hex, backgroundColor: `${hex}15` }}>
+ <f.icon size={20} />
+ </div>
+ <div className="text-left">
+ <p className="text-sm font-bold text-slate-900 dark:text-white tracking-tight leading-none mb-1">{f.title}</p>
+ <p className="text-[11px] text-slate-400 font-medium tracking-wide">{f.desc}</p>
+ </div>
+ </div>
+ ))}
  </div>
 
  {result ? (
@@ -131,31 +149,62 @@ export default function FlattenPdf({ id }: { id: string }) {
  </div>
 
  ) : !file ? (
- <div className="space-y-6">
- <div className="relative border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-2xl sm:rounded-3xl p-10 sm:p-16 group hover:border-violet-400 transition-all cursor-pointer bg-slate-50/50 dark:bg-slate-900/50"
+ <>
+ <div className="relative w-full border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-[2.5rem] p-8 sm:p-10 flex flex-col items-center justify-center cursor-pointer transition-all bg-white dark:bg-slate-900/50 shadow-sm hover:shadow-xl hover:border-slate-300 dark:hover:border-slate-500 group overflow-hidden mb-6"
  onClick={() => inputRef.current?.click()}>
- <input ref={inputRef} type="file" accept=".pdf" className="hidden" onChange={e => e.target.files?.[0] && loadFile(e.target.files[0])} />
- <div className="space-y-4 pointer-events-none text-center">
- <div className="p-5 bg-white dark:bg-slate-800 rounded-2xl shadow-xl inline-block text-violet-600 group-hover:scale-110 transition-transform">
- <Upload size={32} />
+ <input ref={inputRef} type="file" accept=".pdf" className="absolute inset-0 opacity-0 cursor-pointer w-full h-full z-30" onChange={e => e.target.files?.[0] && loadFile(e.target.files[0])} />
+ 
+ <div className="relative mb-8 group-hover:scale-105 transition-transform duration-300 pointer-events-none z-10">
+ <div className="w-24 h-32 bg-slate-50 dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-lg flex flex-col relative z-10">
+ <div className="absolute top-3 left-3 bg-red-500 text-white text-[10px] font-bold px-2 py-0.5 rounded shadow-sm">PDF</div>
+ <div className="m-auto text-slate-300 dark:bg-slate-800">
+ <Layers size={32} />
  </div>
- <div className="text-lg sm:text-lg sm:text-xl font-medium text-slate-800 dark:text-white mb-1">Select PDF File</div>
- <p className="text-xs sm:text-sm text-slate-400 font-medium">or drop PDF here</p>
  </div>
+ <div className="absolute -bottom-4 -right-4 w-12 h-12 rounded-full text-white flex items-center justify-center shadow-xl z-20" style={{ background: "linear-gradient(135deg,#8b5cf6,#6d28d9)" }}>
+ <Upload size={20} strokeWidth={3} />
  </div>
- <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
- {FEATURES.map(f => (
- <div key={f.title} className="p-4 bg-slate-50 dark:bg-slate-700/50 rounded-2xl border border-slate-100 dark:border-slate-600 text-left space-y-2">
- <span className="text-2xl">{f.icon}</span>
- <p className="text-xs font-medium text-slate-900 dark:text-white">{f.title}</p>
- <p className="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed">{f.desc}</p>
+ <Plus size={16} className="absolute -top-4 -left-6 opacity-60 text-slate-400" />
+ <Plus size={12} className="absolute top-10 -right-8 opacity-60 text-slate-400" />
+ <Plus size={14} className="absolute bottom-2 -left-8 opacity-60 text-slate-400" />
+ </div>
+
+ <h3 className="text-2xl sm:text-3xl font-black text-slate-800 dark:text-white mb-2 tracking-tight text-center pointer-events-none z-10">
+ Drag & drop your PDF file here
+ </h3>
+ <p className="text-lg font-medium text-slate-500 dark:text-slate-400 mb-4 text-center pointer-events-none z-10">
+ or click to <span style={{ color: hex }}>browse</span>
+ </p>
+ <p className="text-sm text-slate-400 font-medium mb-8 text-center pointer-events-none z-10">
+ Supports single PDF file
+ </p>
+
+ <button className="px-8 py-4 rounded-xl text-white text-base font-bold uppercase tracking-widest shadow-xl hover:scale-105 active:scale-95 transition-all relative z-20 flex items-center gap-3 pointer-events-none" style={{ background: "linear-gradient(135deg,#8b5cf6,#6d28d9)" }}>
+ <Plus size={20} /> SELECT PDF FILE
+ </button>
+ </div>
+
+ <div className="w-full grid grid-cols-4 gap-2 sm:gap-6 pt-8 mt-8 border-t border-slate-100 dark:border-slate-800/50 z-10 pointer-events-none">
+ {[
+ { icon: Lock, title: "100% Secure", desc: "Your files are safe" },
+ { icon: Trash2, title: "Auto Delete", desc: "Files auto removed" },
+ { icon: Smartphone, title: "Works Offline", desc: "No internet needed" },
+ { icon: Rocket, title: "Super Fast", desc: "Built for speed" }
+ ].map((f, i) => (
+ <div key={i} className="flex flex-col xl:flex-row items-center justify-start gap-2 xl:gap-3 text-center xl:text-left">
+ <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl flex items-center justify-center shrink-0" style={{ color: hex, backgroundColor: `${hex}10` }}>
+ <f.icon size={16} />
+ </div>
+ <div>
+ <p className="text-[10px] sm:text-[13px] font-bold text-slate-900 dark:text-white tracking-tight leading-tight mb-0.5">{f.title}</p>
+ <p className="text-[8px] sm:text-[10px] text-slate-400 font-medium tracking-wide leading-tight hidden sm:block">{f.desc}</p>
+ </div>
  </div>
  ))}
  </div>
- </div>
-
+ </>
  ) : (
- <div className="space-y-6 animate-in slide-in-from-bottom-4 duration-500">
+ <div className="space-y-6 animate-in slide-in-from-bottom-4 duration-500 text-left">
  <div className="flex items-center justify-between p-4 bg-slate-50 dark:bg-slate-700/50 rounded-2xl border border-slate-100 dark:border-slate-600">
  <div className="flex items-center gap-3">
  <div className="p-2 bg-white dark:bg-slate-800 rounded-xl shadow-sm text-violet-600"><FileText size={20} /></div>
@@ -179,6 +228,7 @@ export default function FlattenPdf({ id }: { id: string }) {
  </button>
  </div>
  )}
+ </div>
  </div>
 
  {/* ── HOW IT WORKS ── */}
