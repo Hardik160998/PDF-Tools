@@ -1,28 +1,27 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { Zap, Shield, Sparkles, Upload, Plus, Lock, Trash2, Smartphone, Rocket } from "lucide-react";
+import { ShoppingBag, Upload, Plus, Shield, Zap, Sparkles, Lock, Trash2, Smartphone, Rocket } from "lucide-react";
 
-const ACCENT = "#ef4444";
-const ACCENT_GRADIENT = "linear-gradient(135deg,#ef4444,#b91c1c)";
+const ACCENT = '#f43397';
 
-export function RedactPdfSkeleton() {
+export function MeeshoCropperSkeleton() {
   return (
-    <div className="max-w-7xl mx-auto py-2 sm:py-8 px-2 sm:px-6 animate-pulse">
-      <div className="flex flex-col lg:flex-row-reverse gap-8 items-start pointer-events-none">
+    <div className="max-w-7xl mx-auto py-4 sm:py-8 px-3 sm:px-6 animate-pulse">
+      <div className="flex flex-col lg:flex-row-reverse gap-4 sm:gap-8 items-start pointer-events-none">
         <div className="flex-1 w-full space-y-4 sm:space-y-6">
-          <div className="bg-white dark:bg-slate-900 rounded-3xl sm:rounded-[2.5rem] border border-slate-100 dark:border-slate-800 shadow-sm p-5 sm:p-10 min-h-[500px] flex flex-col relative overflow-hidden max-w-4xl mx-auto w-full">
+          <div className="bg-white dark:bg-slate-900 rounded-3xl sm:rounded-[2.5rem] border border-slate-100 dark:border-slate-800 shadow-sm p-5 sm:p-10 min-h-[500px] flex flex-col relative overflow-hidden w-full">
             <div className="absolute top-0 right-0 w-64 h-64 bg-slate-50 dark:bg-slate-900/50 rounded-full -mr-32 -mt-32 blur-3xl opacity-50" />
-            
+
             <div className="relative text-center space-y-4 mb-6">
-              <div className="inline-flex p-3 rounded-xl text-white shadow-lg" style={{ background: ACCENT_GRADIENT }}>
-                <Shield size={32} />
+              <div className="inline-flex p-3 rounded-xl text-white shadow-lg" style={{ background: ACCENT }}>
+                <ShoppingBag size={32} />
               </div>
               <h2 className="text-2xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter leading-tight text-center">
-                Redact PDF Documents
+                Meesho Label Cropper
               </h2>
               <p className="text-sm sm:text-base text-slate-500 dark:text-slate-400 font-medium max-w-md mx-auto leading-relaxed text-center">
-                Permanently hide sensitive data with military-grade precision.
+                Auto-crop Meesho shipping labels — removes the invoice section below "Total", keeps the shipping label.
               </p>
             </div>
 
@@ -45,17 +44,15 @@ export function RedactPdfSkeleton() {
                 ))}
               </div>
 
-              <div 
-                className="w-full border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-[2.5rem] p-8 sm:p-10 flex flex-col items-center justify-center bg-white dark:bg-slate-900/50 shadow-sm relative overflow-hidden mb-6"
-              >
+              <div className="w-full border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-[2.5rem] p-8 sm:p-10 flex flex-col items-center justify-center bg-white dark:bg-slate-900/50 shadow-sm relative overflow-hidden mb-6">
                 <div className="relative mb-8">
-                  <div className="w-24 h-32 bg-slate-50 dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-lg flex flex-col relative z-10">
-                    <div className="absolute top-3 left-3 bg-red-500 text-white text-[10px] font-bold px-2 py-0.5 rounded shadow-sm">PDF</div>
-                    <div className="m-auto text-slate-300 dark:text-slate-600">
-                      <Shield size={32} />
+                  <div className="w-32 h-40 bg-slate-50 dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-lg flex flex-col relative z-10 overflow-hidden">
+                    <div className="w-full h-full bg-gradient-to-br from-pink-50 to-slate-100 dark:from-slate-800 dark:to-slate-900 flex items-center justify-center">
+                      <ShoppingBag size={48} className="opacity-20" style={{ color: ACCENT }} />
                     </div>
+                    <div className="absolute top-3 left-3 text-white text-[10px] font-bold px-2 py-0.5 rounded shadow-sm" style={{ background: ACCENT }}>PDF</div>
                   </div>
-                  <div className="absolute -bottom-4 -right-4 w-12 h-12 rounded-full text-white flex items-center justify-center shadow-xl z-20" style={{ background: ACCENT_GRADIENT }}>
+                  <div className="absolute -bottom-4 -right-4 w-12 h-12 rounded-full text-white flex items-center justify-center shadow-xl z-20" style={{ background: ACCENT }}>
                     <Upload size={20} strokeWidth={3} />
                   </div>
                   <Plus size={16} className="absolute -top-4 -left-6 opacity-60" style={{ color: ACCENT }} />
@@ -64,17 +61,15 @@ export function RedactPdfSkeleton() {
                 </div>
 
                 <h3 className="text-2xl sm:text-3xl font-black text-slate-800 dark:text-white mb-2 tracking-tight text-center">
-                  Drag & drop your PDF file here
+                  Drag &amp; drop Meesho PDFs here
                 </h3>
                 <p className="text-lg font-medium text-slate-500 dark:text-slate-400 mb-4 text-center">
                   or click to <span style={{ color: ACCENT }}>browse</span>
                 </p>
-                <p className="text-sm text-slate-400 font-medium mb-8 text-center">
-                  Supports single PDF file
-                </p>
+                <p className="text-sm text-slate-400 font-medium mb-8 text-center">Supports multiple PDF files</p>
 
-                <div className="px-8 py-4 rounded-xl text-white text-base font-bold uppercase tracking-widest shadow-xl relative z-10 flex items-center gap-3" style={{ background: ACCENT_GRADIENT }}>
-                  <Plus size={20} /> SELECT PDF FILE
+                <div className="px-8 py-4 rounded-xl text-white text-base font-bold uppercase tracking-widest shadow-xl relative z-10 flex items-center gap-3" style={{ background: ACCENT }}>
+                  <Plus size={20} /> SELECT PDF FILES
                 </div>
               </div>
 
@@ -104,11 +99,11 @@ export function RedactPdfSkeleton() {
   );
 }
 
-const RedactPdfClient = dynamic(() => import("./RedactPdf"), {
+const MeeshoCropperClient = dynamic(() => import("./MeeshoCropper"), {
   ssr: false,
-  loading: () => <RedactPdfSkeleton />,
+  loading: () => <MeeshoCropperSkeleton />,
 });
 
-export default function RedactPdfWrapper({ id }: { id: string }) {
-  return <RedactPdfClient id={id} />;
+export default function MeeshoCropperWrapper({ id }: { id: string }) {
+  return <MeeshoCropperClient id={id} />;
 }

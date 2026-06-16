@@ -27,7 +27,7 @@ import {
     SplitSquareHorizontal,
     FileText,
 } from "lucide-react";
-import { CenteredCardSkeleton } from "@/app/tool/[id]/skeletons";
+
 
 // Site URL for canonical/SEO links
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://smartpdfpro.com";
@@ -129,13 +129,7 @@ const faqJsonLd = {
 
 
 import CreditGate from "@/components/credits/CreditGate";
-
-const RedactPdfWrapper = dynamic(
-    () => import("@/components/tools/RedactPdfWrapper"),
-    {
-        loading: () => <CenteredCardSkeleton accent="#ef4444" />,
-    },
-);
+import RedactPdfWrapper, { RedactPdfSkeleton } from "@/components/tools/RedactPdfWrapper";
 
 // 12. Breadcrumb Navigation Component
 function Breadcrumb() {
@@ -224,7 +218,7 @@ export default function RedactPdfPage() {
 
                 {/* Interactive PDF Redaction Tool */}
                 <section aria-label="PDF Redaction Application" className="mb-16">
-                    <CreditGate toolName="redact-pdf" showCounter={false}>
+                    <CreditGate toolName="redact-pdf" showCounter={false} fallback={<RedactPdfSkeleton />}>
                         <RedactPdfWrapper id="redact-pdf" />
                     </CreditGate>
                 </section>

@@ -3,17 +3,17 @@ import { getToolMeta, getToolUrl } from "@/data/toolData";
 import WebAppSchema from '@/components/seo/WebAppSchema';
 import FAQSchema from '@/components/seo/FAQSchema';
 import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema';
-import OcrPdf from "@/components/tools/OcrPdf";
+import OcrPdfClientWrapper, { OcrPdfSkeleton } from "@/components/tools/OcrPdfClientWrapper";
 import CreditGate from "@/components/credits/CreditGate";
 import Link from "next/link";
 import type { Metadata } from "next";
 import {
- FileText,
- ArrowRight,
- HelpCircle,
- Star,
- Check,
- ChevronDown,
+  FileText,
+  ArrowRight,
+  HelpCircle,
+  Star,
+  Check,
+  ChevronDown,
 } from "lucide-react";
 
 // Site URL for canonical/SEO links
@@ -199,8 +199,8 @@ export default function OcrPdfPage() {
 
  {/* Dynamic Client Tool Component with CreditGate wrapper */}
  <div className="mb-16">
- <CreditGate toolName="ocr-pdf" showCounter={false}>
- <OcrPdf id="ocr-pdf" />
+ <CreditGate toolName="ocr-pdf" showCounter={false} fallback={<OcrPdfSkeleton />}>
+ <OcrPdfClientWrapper id="ocr-pdf" />
  </CreditGate>
  </div>
 

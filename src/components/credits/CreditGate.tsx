@@ -35,6 +35,8 @@ interface CreditGateProps {
  * Receives the new remaining credit count.
  */
  onCreditDeducted?: (remaining: number) => void;
+ /** Optional custom loading fallback to display while checking credits */
+ fallback?: React.ReactNode;
 }
 
 /**
@@ -45,12 +47,16 @@ export default function CreditGate({
  children,
  showCounter = true,
  onCreditDeducted,
+ fallback,
 }: CreditGateProps) {
  const { remaining, isGuest, isPremium, unlimited, isLoading } = useCredits();
  const pathname = usePathname();
  const redirectParam = encodeURIComponent(pathname || "/");
 
  if (isLoading) {
+ if (fallback) {
+ return <>{fallback}</>;
+ }
  const accent = PREMIUM_TOOL_SKELETON_ACCENTS[toolName];
  if (accent) {
  return <CenteredCardSkeleton accent={accent} />;

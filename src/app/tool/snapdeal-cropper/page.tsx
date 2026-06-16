@@ -5,7 +5,7 @@ import FAQSchema from "@/components/seo/FAQSchema";
 import BreadcrumbSchema from "@/components/seo/BreadcrumbSchema";
 import Link from "next/link";
 import type { Metadata } from "next";
-import SnapdealCropper from "@/components/tools/SnapdealCropper";
+import SnapdealCropperWrapper, { SnapdealCropperSkeleton } from "@/components/tools/SnapdealCropperWrapper";
 import CreditGate from "@/components/credits/CreditGate";
 import {
   ShoppingBag,
@@ -192,12 +192,9 @@ export default function SnapdealCropperPage() {
         </nav>
 
         {/* Dynamic Client Tool Component */}
-        <section
-          aria-label="Snapdeal Label Cropper Workspace"
-          className="mb-16"
-        >
-          <CreditGate toolName="snapdeal-cropper" showCounter={false}>
-            <SnapdealCropper id="snapdeal-cropper" />
+        <section aria-label="Snapdeal Label Cropper Workspace" className="mb-16">
+          <CreditGate toolName="snapdeal-cropper" showCounter={false} fallback={<SnapdealCropperSkeleton />}>
+            <SnapdealCropperWrapper id="snapdeal-cropper" />
           </CreditGate>
         </section>
 

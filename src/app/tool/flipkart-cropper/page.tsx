@@ -5,7 +5,7 @@ import FAQSchema from '@/components/seo/FAQSchema';
 import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema';
 import Link from "next/link";
 import type { Metadata } from "next";
-import FlipkartCropper from "@/components/tools/FlipkartCropper";
+import FlipkartCropperWrapper, { FlipkartCropperSkeleton } from "@/components/tools/FlipkartCropperWrapper";
 import CreditGate from "@/components/credits/CreditGate";
 import {
   ShoppingBag,
@@ -193,8 +193,8 @@ export default function FlipkartCropperPage() {
 
         {/* Dynamic Client Tool Component */}
         <section aria-label="Flipkart Label Cropper Workspace" className="mb-16">
-          <CreditGate toolName="flipkart-cropper" showCounter={false}>
-            <FlipkartCropper id="flipkart-cropper" />
+          <CreditGate toolName="flipkart-cropper" showCounter={false} fallback={<FlipkartCropperSkeleton />}>
+            <FlipkartCropperWrapper id="flipkart-cropper" />
           </CreditGate>
         </section>
 

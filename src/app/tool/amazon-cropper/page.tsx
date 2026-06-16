@@ -5,7 +5,7 @@ import FAQSchema from '@/components/seo/FAQSchema';
 import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema';
 import Link from "next/link";
 import type { Metadata } from "next";
-import AmazonCropper from "@/components/tools/AmazonCropper";
+import AmazonCropperWrapper, { AmazonCropperSkeleton } from "@/components/tools/AmazonCropperWrapper";
 import CreditGate from "@/components/credits/CreditGate";
 import {
   ShoppingBag,
@@ -171,8 +171,8 @@ export default function AmazonCropperPage() {
 
         {/* Dynamic Client Tool Component */}
         <section aria-label="Amazon Label Cropper Workspace" className="mb-16">
-          <CreditGate toolName="amazon-cropper" showCounter={false}>
-            <AmazonCropper id="amazon-main" />
+          <CreditGate toolName="amazon-cropper" showCounter={false} fallback={<AmazonCropperSkeleton />}>
+            <AmazonCropperWrapper id="amazon-cropper" />
           </CreditGate>
         </section>
 

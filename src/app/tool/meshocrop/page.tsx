@@ -5,7 +5,7 @@ import FAQSchema from '@/components/seo/FAQSchema';
 import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema';
 import Link from "next/link";
 import type { Metadata } from "next";
-import MeeshoCropLabel from "@/components/tools/MeeshoCropLabel";
+import MeeshoCropLabelWrapper, { MeeshoCropLabelSkeleton } from "@/components/tools/MeeshoCropLabelWrapper";
 import MeeshoTitleSync from "@/components/tools/MeeshoTitleSync";
 import CreditGate from "@/components/credits/CreditGate";
 import {
@@ -197,8 +197,8 @@ export default function MeeshoCropPage() {
           aria-label="Meesho Crop Label without Invoice Workspace"
           className="mb-16"
         >
-          <CreditGate toolName="meshocrop" showCounter={false}>
-            <MeeshoCropLabel id="meshocrop" />
+          <CreditGate toolName="meshocrop" showCounter={false} fallback={<MeeshoCropLabelSkeleton />}>
+            <MeeshoCropLabelWrapper id="meshocrop" />
           </CreditGate>
         </section>
 

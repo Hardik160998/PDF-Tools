@@ -719,7 +719,7 @@ export default function MeeshoCropper({ id }: { id: string }) {
                     </div>
                   )}
 
-                 <div className="w-full grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6 pt-8 mt-6 border-t border-slate-100 dark:border-slate-800/50">
+                 <div className="w-full grid grid-cols-4 gap-2 sm:gap-6 pt-8 border-t border-slate-100 dark:border-slate-800/50">
                    {[
                      { icon: Lock, title: "100% Secure", desc: "Your files are safe" },
                      { icon: Trash2, title: "Auto Delete", desc: "Files auto removed" },
