@@ -392,9 +392,23 @@ export default function AmazonCropper({ id }: { id: string }) {
           </div>
 
           <div className="flex-1 flex flex-col items-center animate-in fade-in slide-in-from-bottom-4 duration-500 w-full max-w-3xl mx-auto">
-
-
-            {files.length === 0 ? (
+            <div className="hidden sm:flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 w-full mb-6">
+              {[
+                { icon: Zap, title: "Instant", desc: "Lightning fast processing" },
+                { icon: Shield, title: "Private", desc: "Your files stay secure" },
+                { icon: Sparkles, title: "Lossless", desc: "Perfect quality output" }
+              ].map((f, i) => (
+                <div key={i} className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0" style={{ color: ACCENT, backgroundColor: `${ACCENT}15` }}>
+                    <f.icon size={20} />
+                  </div>
+                  <div className="text-left">
+                    <p className="text-sm font-bold text-slate-900 dark:text-white tracking-tight leading-none mb-1">{f.title}</p>
+                    <p className="text-[11px] text-slate-400 font-medium tracking-wide">{f.desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>            {files.length === 0 ? (
               <div 
                 className="w-full border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-[2.5rem] p-8 sm:p-10 flex flex-col items-center justify-center cursor-pointer transition-all bg-white dark:bg-slate-900/50 shadow-sm hover:shadow-xl hover:border-slate-300 dark:hover:border-slate-500 group relative overflow-hidden mb-6"
                 onClick={() => {

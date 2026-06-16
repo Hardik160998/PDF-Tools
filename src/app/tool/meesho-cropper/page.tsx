@@ -5,7 +5,7 @@ import FAQSchema from '@/components/seo/FAQSchema';
 import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema';
 import Link from "next/link";
 import type { Metadata } from "next";
-import MeeshoCropper from "@/components/tools/MeeshoCropper";
+import MeeshoCropperWrapper, { MeeshoCropperSkeleton } from "@/components/tools/MeeshoCropperWrapper";
 import MeeshoTitleSync from "@/components/tools/MeeshoTitleSync";
 import CreditGate from "@/components/credits/CreditGate";
 import {
@@ -197,8 +197,8 @@ export default function MeeshoCropperPage() {
           aria-label="Meesho Shipping Label Cropper Workspace"
           className="mb-16"
         >
-          <CreditGate toolName="meesho-cropper" showCounter={false}>
-            <MeeshoCropper id="meesho-cropper" />
+          <CreditGate toolName="meesho-cropper" showCounter={false} fallback={<MeeshoCropperSkeleton />}>
+            <MeeshoCropperWrapper id="meesho-cropper" />
           </CreditGate>
         </section>
 
