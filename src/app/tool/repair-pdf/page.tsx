@@ -218,7 +218,7 @@ export default function RepairPdfPage() {
               </h2>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto mb-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto mb-12">
             {[
               {
                 slug: "reduce-pdf-size-without-losing-quality",
@@ -240,6 +240,13 @@ export default function RepairPdfPage() {
                 iconBg: "bg-[#3b82f6]",
                 readTime: "5 min read",
                 date: "May 20, 2026",
+              },
+              {
+                slug: "10-common-pdf-problems-and-how-to-fix-them",
+                title: "10 Common PDF Problems and How to Fix Them",
+                iconBg: "bg-[#ef4444]",
+                readTime: "10 min read",
+                date: "Jun 17, 2026",
               }
             ].map((post) => (
               <a key={post.slug} href={`/blog/${post.slug}`} className="group bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-lg transition-all overflow-hidden flex flex-col">

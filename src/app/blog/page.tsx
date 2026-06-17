@@ -13,10 +13,24 @@ import {
   Image as ImageIcon,
   Shield,
   PenTool,
+  Wrench,
 } from "lucide-react";
 import BlogImage from "@/components/BlogImage";
 
 const POSTS = [
+  {
+    slug: "10-common-pdf-problems-and-how-to-fix-them",
+    title: "10 Common PDF Problems and How to Fix Them (2026 Guide)",
+    excerpt:
+      "Struggling with PDF issues? Discover the top 10 common PDF problems—from large file sizes to files not opening—and learn quick, easy troubleshooting fixes.",
+    label: "Troubleshooting",
+    icon: Wrench,
+    iconBg: "bg-red-500",
+    readTime: "10 min read",
+    date: "Jun 17, 2026",
+    featured: false,
+    image: "/img/10-common-pdf-problems.png",
+  },
   {
     slug: "merge-vs-split-pdf",
     title: "Merge vs Split PDF: When to Use Each Tool (2026 Guide)",
@@ -80,7 +94,7 @@ const POSTS = [
     readTime: "5 min read",
     date: "Apr 15, 2026",
     featured: false,
-    image: "/img/word-to-pdf.png",
+    image: "/img/word-pdf.png",
   },
   {
     slug: "protect-pdf-with-password",
@@ -303,6 +317,7 @@ const CATEGORY_DESCRIPTIONS: Record<string, string> = {
     "Convert images between modern formats like WebP, AVIF, and PNG.",
   Edit: "Add text, draw, and annotate your PDFs.",
   Sign: "E-sign documents securely online.",
+  Troubleshooting: "Fix common PDF issues, compression problems, and formatting errors.",
 };
 
 export default function BlogPage() {
@@ -317,6 +332,7 @@ export default function BlogPage() {
     "Image Convert",
     "Edit",
     "Sign",
+    "Troubleshooting",
   ];
 
   return (

@@ -239,7 +239,7 @@ export default function UnlockPage() {
               </h2>
           </div>
           
-          <div className="max-w-xl mx-auto mb-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto mb-12">
             {/* Blog Post 1: Protect PDF Guide */}
             <a href="/blog/protect-pdf-with-password" className="group bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-lg transition-all overflow-hidden flex flex-col h-full">
                 <div className="p-6 flex flex-col flex-1 gap-3">
@@ -261,6 +261,34 @@ export default function UnlockPage() {
                                 <polyline points="12 6 12 12 16 14" />
                             </svg>
                             4 min read &nbsp; May 28, 2026
+                        </div>
+                        <span className="text-sm font-bold text-red-500 flex items-center gap-1 group-hover:gap-2 transition-all">
+                            Read <ArrowRight size={14} />
+                        </span>
+                    </div>
+                </div>
+            </a>
+
+            {/* Blog Post 2: 10 Common PDF Problems */}
+            <a href="/blog/10-common-pdf-problems-and-how-to-fix-them" className="group bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-lg transition-all overflow-hidden flex flex-col h-full">
+                <div className="p-6 flex flex-col flex-1 gap-3">
+                    <div className="flex items-start gap-3">
+                        <div className="w-8 h-8 bg-[#ef4444] rounded-lg flex items-center justify-center text-white shrink-0 mt-0.5">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path>
+                            </svg>
+                        </div>
+                        <h3 className="font-bold text-slate-800 text-[17px] leading-snug group-hover:text-red-600 transition-colors">
+                            10 Common PDF Problems and How to Fix Them
+                        </h3>
+                    </div>
+                    <div className="flex items-center justify-between pt-4 mt-auto border-t border-slate-100">
+                        <div className="flex items-center gap-1.5 text-xs text-slate-400 font-medium">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                <circle cx="12" cy="12" r="10" />
+                                <polyline points="12 6 12 12 16 14" />
+                            </svg>
+                            10 min read &nbsp; Jun 17, 2026
                         </div>
                         <span className="text-sm font-bold text-red-500 flex items-center gap-1 group-hover:gap-2 transition-all">
                             Read <ArrowRight size={14} />
