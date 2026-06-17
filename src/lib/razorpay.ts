@@ -34,8 +34,8 @@ export async function triggerRazorpayPayment({
   onSuccess,
 }: PaymentOptions) {
   const hasKey =
-    process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID &&
-    process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID !== "";
+    process.env.RAZORPAY_KEY_ID &&
+    process.env.RAZORPAY_KEY_ID !== "";
 
   if (!hasKey) {
     const confirmSimulation =
@@ -159,7 +159,7 @@ export async function triggerRazorpayPayment({
     }
 
     const options = {
-      key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || "rzp_test_SSITbj2voJfP8y",
+      key: process.env.RAZORPAY_KEY_ID || "rzp_test_SSITbj2voJfP8y",
       amount: amountINR * 100, // paise
       currency: "INR",
       name: "SmartPDFs Pro",
