@@ -196,7 +196,7 @@ export default function MergePage() {
               </h2>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto mb-12">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-7xl mx-auto mb-12">
             {/* Blog Post 1: How to Merge PDF */}
             <a href="/blog/how-to-merge-pdf" className="group bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-lg transition-all overflow-hidden flex flex-col h-full">
                 <div className="p-6 flex flex-col flex-1 gap-3">
@@ -251,6 +251,37 @@ export default function MergePage() {
                                 <polyline points="12 6 12 12 16 14" />
                             </svg>
                             5 min read &nbsp; May 5, 2026
+                        </div>
+                        <span className="text-sm font-bold text-red-500 flex items-center gap-1 group-hover:gap-2 transition-all">
+                            Read <ArrowRight size={14} />
+                        </span>
+                    </div>
+                </div>
+            </a>
+
+            {/* Blog Post 3: Merge vs Split PDF */}
+            <a href="/blog/merge-vs-split-pdf" className="group bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-lg transition-all overflow-hidden flex flex-col h-full">
+                <div className="p-6 flex flex-col flex-1 gap-3">
+                    <div className="flex items-start gap-3">
+                        <div className="w-8 h-8 bg-[#f97316] rounded-lg flex items-center justify-center text-white shrink-0 mt-0.5">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                <rect x="3" y="3" width="7" height="7" rx="1" />
+                                <rect x="14" y="3" width="7" height="7" rx="1" />
+                                <rect x="14" y="14" width="7" height="7" rx="1" />
+                                <rect x="3" y="14" width="7" height="7" rx="1" />
+                            </svg>
+                        </div>
+                        <h3 className="font-bold text-slate-800 text-[17px] leading-snug group-hover:text-red-600 transition-colors">
+                            Merge vs Split PDF: When to Use Each Tool (2026 Guide)
+                        </h3>
+                    </div>
+                    <div className="flex items-center justify-between pt-4 mt-auto border-t border-slate-100">
+                        <div className="flex items-center gap-1.5 text-xs text-slate-400 font-medium">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                <circle cx="12" cy="12" r="10" />
+                                <polyline points="12 6 12 12 16 14" />
+                            </svg>
+                            8 min read &nbsp; Jun 17, 2026
                         </div>
                         <span className="text-sm font-bold text-red-500 flex items-center gap-1 group-hover:gap-2 transition-all">
                             Read <ArrowRight size={14} />

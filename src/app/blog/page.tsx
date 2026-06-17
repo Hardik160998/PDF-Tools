@@ -18,6 +18,19 @@ import BlogImage from "@/components/BlogImage";
 
 const POSTS = [
   {
+    slug: "merge-vs-split-pdf",
+    title: "Merge vs Split PDF: When to Use Each Tool (2026 Guide)",
+    excerpt:
+      "Confused about PDF document management? Learn the exact differences between Merge vs Split PDF tools, real-world use cases, and how to combine or separate pages.",
+    label: "Organize",
+    icon: Combine,
+    iconBg: "bg-orange-500",
+    readTime: "8 min read",
+    date: "Jun 17, 2026",
+    featured: false,
+    image: "/img/merge-multiple-pdfs.png",
+  },
+  {
     slug: "reduce-pdf-size-without-losing-quality",
     title: "Reduce PDF File Size Without Losing Quality (2026 Guide)",
     excerpt:
@@ -58,7 +71,7 @@ const POSTS = [
   },
   {
     slug: "pdf-to-word-conversion-guide",
-    title: "Convert PDF All Tools: Complete All Tool 2026",
+    title: "Convert PDF to Word: The Complete 2026 Guide",
     excerpt:
       "Everything you need to know about converting PDF files to editable Word documents — including tips for preserving formatting.",
     label: "Convert",
@@ -67,7 +80,7 @@ const POSTS = [
     readTime: "5 min read",
     date: "Apr 15, 2026",
     featured: false,
-    image: "/img/convert-pdf-all-tool.png?v=1",
+    image: "/img/word-to-pdf.png",
   },
   {
     slug: "protect-pdf-with-password",
