@@ -14,6 +14,7 @@ import {
   Shield,
   PenTool,
   Wrench,
+  Briefcase,
 } from "lucide-react";
 import BlogImage from "@/components/BlogImage";
 
@@ -303,6 +304,19 @@ const POSTS = [
     date: "May 6, 2026",
     featured: false,
     image: "/img/edit-redact-sign-pdf.png",
+  },
+  {
+    slug: "organize-large-pdf-documents-business",
+    title: "How to Organize Large PDF Documents for Business Use",
+    excerpt:
+      "A comprehensive guide to best practices, file management tips, and essential PDF productivity tools to keep your corporate workflows efficient and secure.",
+    label: "Organize",
+    icon: Briefcase,
+    iconBg: "bg-blue-600",
+    readTime: "7 min read",
+    date: "Jun 18, 2026",
+    featured: false,
+    image: "/img/organize-large-pdfs.png",
   },
 ];
 
