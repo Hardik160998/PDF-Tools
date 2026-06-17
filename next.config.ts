@@ -18,6 +18,7 @@ const cspHeader = `
     https://partner.googleadservices.com
     https://googleads.g.doubleclick.net
     https://checkout.razorpay.com;
+    https://cdn.razorpay.com;
 
   style-src 'self' 'unsafe-inline'
     https://fonts.googleapis.com;
@@ -42,6 +43,8 @@ const cspHeader = `
     https://googleads.g.doubleclick.net
     https://checkout.razorpay.com
     https://api.razorpay.com
+    https://lumberjack.razorpay.com;
+    https://ep1.adtrafficquality.google;
     ${supabaseOrigin}
     ${supabaseWs};
 
@@ -73,8 +76,8 @@ const cspHeader = `
 
   upgrade-insecure-requests;
 `
-.replace(/\s{2,}/g, " ")
-.trim();
+  .replace(/\s{2,}/g, " ")
+  .trim();
 
 const nextConfig: NextConfig = {
   compress: true,

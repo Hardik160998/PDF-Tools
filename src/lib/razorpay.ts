@@ -8,10 +8,14 @@ export function loadRazorpayScript(): Promise<boolean> {
       resolve(true);
       return;
     }
+
     const script = document.createElement("script");
     script.src = "https://checkout.razorpay.com/v1/checkout.js";
+    script.async = true;
+
     script.onload = () => resolve(true);
     script.onerror = () => resolve(false);
+
     document.body.appendChild(script);
   });
 }
@@ -33,205 +37,166 @@ export async function triggerRazorpayPayment({
   userName,
   onSuccess,
 }: PaymentOptions) {
-  const hasKey =
-    process.env.RAZORPAY_KEY_ID &&
-    process.env.RAZORPAY_KEY_ID !== "";
-
-  if (!hasKey) {
-    const confirmSimulation =
-      typeof window !== "undefined" &&
-      confirm(
-        `No custom Razorpay Key ID detected in .env.local.\n\nWould you like to SIMULATE a successful payment of ₹${amountINR} for testing? \n\n• Click 'OK' to simulate success (triggers Supabase/localStorage update and redirects to profile).\n• Click 'Cancel' to try launching the official Razorpay Checkout popup using the fallback test key.`,
-      );
-
-    if (confirmSimulation) {
-      const mockPaymentId =
-        "pay_mock_" + Math.random().toString(36).substring(2, 11);
-
-      // Save the plan to localStorage
-      localStorage.setItem("user_plan", planName);
-
-      // Try saving the plan status to Supabase profile
-      try {
-        if (userEmail) {
-          const startDate = new Date();
-          const endDate = new Date();
-          if (planName.toLowerCase().includes("yearly")) {
-            endDate.setFullYear(startDate.getFullYear() + 1);
-          } else {
-            endDate.setMonth(startDate.getMonth() + 1);
-          }
-
-          // Get User ID
-          const { data: userRow } = await supabase
-            .from("users")
-            .select("id")
-            .eq("email", userEmail)
-            .single();
-
-          await supabase
-            .from("users")
-            .update({
-              plan: planName,
-              current_plan: planName,
-              subscription_status: "active",
-              subscription_start_date: startDate.toISOString(),
-              subscription_end_date: endDate.toISOString(),
-            })
-            .eq("email", userEmail);
-
-          if (userRow?.id) {
-            // Write simulated subscription
-            const { error: simSubError } = await supabase
-              .from("subscriptions")
-              .insert({
-                user_id: userRow.id,
-                plan_id: planName,
-                status: "active",
-                current_start: startDate.toISOString(),
-                current_end: endDate.toISOString(),
-                razorpay_subscription_id: mockPaymentId,
-                updated_at: new Date().toISOString(),
-              });
-
-            if (simSubError) {
-              console.error("Simulation Sub Insert Error:", simSubError);
-            }
-
-            // Write simulated payment record
-            await supabase.from("payments").insert({
-              user_id: userRow.id,
-              razorpay_order_id:
-                "order_mock_" + Math.random().toString(36).substring(2, 11),
-              razorpay_payment_id: mockPaymentId,
-              amount: planName.toLowerCase().includes("yearly") ? 1699 : 399,
-              currency: "INR",
-              status: "captured",
-            });
-          }
-        }
-      } catch (dbErr) {
-        console.warn(
-          "Could not save simulated plan update to Supabase table:",
-          dbErr,
-        );
-      }
-
-      onSuccess(mockPaymentId);
-      return;
-    }
-  }
-
-  // Real Secure Razorpay Flow
   try {
-    // 1. Create order on server api
+    // =====================================================
+    // Create Razorpay Order
+    // =====================================================
+
     const orderRes = await fetch("/api/payments/create-order", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ userId, planName, amountINR, userEmail }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        userId,
+        planName,
+        amountINR,
+        userEmail,
+      }),
     });
 
-    let orderData;
-    const orderContentType = orderRes.headers.get("content-type");
-    if (orderContentType && orderContentType.includes("application/json")) {
-      orderData = await orderRes.json();
-    } else {
-      const text = await orderRes.text();
-      console.error("Razorpay create-order API error response:", text);
-      throw new Error(
-        `Server error (${orderRes.status}). Failed to create payment order.`,
-      );
-    }
+    const orderData = await orderRes.json();
 
     if (!orderRes.ok) {
-      throw new Error(orderData.error || "Failed to create order on server");
-    }
-
-    const { orderId } = orderData;
-
-    // 2. Load Checkout script
-    const isLoaded = await loadRazorpayScript();
-    if (!isLoaded) {
-      alert(
-        "Failed to load Razorpay payment portal. Please check your internet connection.",
+      throw new Error(
+        orderData.error ||
+          orderData.message ||
+          "Failed to create payment order"
       );
-      return;
     }
+
+    const {
+      orderId,
+      amount,
+      currency,
+      key,
+    } = orderData;
+
+    console.log("Razorpay Order Created:", orderData);
+
+    // =====================================================
+    // Load Razorpay Script
+    // =====================================================
+
+    const loaded = await loadRazorpayScript();
+
+    if (!loaded) {
+      throw new Error(
+        "Failed to load Razorpay Checkout SDK"
+      );
+    }
+
+    // =====================================================
+    // Razorpay Checkout
+    // =====================================================
 
     const options = {
-      key: process.env.RAZORPAY_KEY_ID || "rzp_test_SSITbj2voJfP8y",
-      amount: amountINR * 100, // paise
-      currency: "INR",
-      name: "SmartPDFs Pro",
-      description: `${planName} Subscription Plan`,
-      image: "/img/favicons/512x512.png",
+      key,
+
       order_id: orderId,
-      handler: async function (response: any) {
-        try {
-          // 3. Post verification payload to verify-signature endpoint
-          const verifyRes = await fetch("/api/payments/verify-signature", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              userId,
-              userEmail,
-              planName,
-              razorpay_order_id: orderId,
-              razorpay_payment_id: response.razorpay_payment_id,
-              razorpay_signature: response.razorpay_signature,
-            }),
-          });
 
-          let verifyData;
-          const verifyContentType = verifyRes.headers.get("content-type");
-          if (
-            verifyContentType &&
-            verifyContentType.includes("application/json")
-          ) {
-            verifyData = await verifyRes.json();
-          } else {
-            const text = await verifyRes.text();
-            console.error(
-              "Razorpay verify-signature API error response:",
-              text,
-            );
-            throw new Error(
-              `Server error (${verifyRes.status}). Failed to verify signature.`,
-            );
-          }
+      amount,
+      currency,
 
-          if (!verifyRes.ok) {
-            throw new Error(
-              verifyData.error || "Signature verification failed on server",
-            );
-          }
+      name: "SmartPDFPro",
 
-          // Save the plan to localStorage on success
-          localStorage.setItem("user_plan", planName);
-          onSuccess(response.razorpay_payment_id);
-        } catch (verifyErr: any) {
-          console.error("Verification error:", verifyErr);
-          alert(`Signature verification failed: ${verifyErr.message}`);
-        }
-      },
+      description: `${planName} Subscription`,
+
+      image: "/img/favicons/512x512.png",
+
       prefill: {
         name: userName,
         email: userEmail,
       },
+
       theme: {
         color: "#ef4444",
       },
+
       modal: {
-        ondismiss: function () {
-          console.log("Razorpay modal closed by user.");
+        ondismiss() {
+          console.log(
+            "Razorpay checkout closed by user"
+          );
         },
+      },
+
+      handler: async function (response: any) {
+        try {
+          console.log(
+            "Payment Success:",
+            response
+          );
+
+          const verifyRes = await fetch(
+            "/api/payments/verify-signature",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                userId,
+                userEmail,
+                planName,
+
+                razorpay_order_id:
+                  response.razorpay_order_id,
+
+                razorpay_payment_id:
+                  response.razorpay_payment_id,
+
+                razorpay_signature:
+                  response.razorpay_signature,
+              }),
+            }
+          );
+
+          const verifyData =
+            await verifyRes.json();
+
+          if (!verifyRes.ok) {
+            throw new Error(
+              verifyData.error ||
+                "Signature verification failed"
+            );
+          }
+
+          localStorage.setItem(
+            "user_plan",
+            planName
+          );
+
+          onSuccess(
+            response.razorpay_payment_id
+          );
+        } catch (verifyError: any) {
+          console.error(
+            "Verification Error:",
+            verifyError
+          );
+
+          alert(
+            `Payment verification failed: ${verifyError.message}`
+          );
+        }
       },
     };
 
-    const rzp = new (window as any).Razorpay(options);
-    rzp.open();
+    const razorpay = new (window as any).Razorpay(
+      options
+    );
+
+    razorpay.open();
   } catch (error: any) {
-    console.error("Checkout initiation failed:", error);
-    alert(`Could not initiate checkout: ${error.message}`);
+    console.error(
+      "Checkout initiation failed:",
+      error
+    );
+
+    alert(
+      error?.message ||
+        "Failed to start payment"
+    );
   }
 }
