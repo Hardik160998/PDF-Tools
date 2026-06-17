@@ -18,6 +18,19 @@ import BlogImage from "@/components/BlogImage";
 
 const POSTS = [
   {
+    slug: "reduce-pdf-size-without-losing-quality",
+    title: "Reduce PDF File Size Without Losing Quality (2026 Guide)",
+    excerpt:
+      "Learn how to reduce PDF file size without losing quality. Discover the best methods, online PDF compressors, and tips for optimizing PDFs efficiently.",
+    label: "Optimize",
+    icon: Zap,
+    iconBg: "bg-teal-500",
+    readTime: "8 min read",
+    date: "Jun 17, 2026",
+    featured: false,
+    image: "/img/compress-pdf.png",
+  },
+  {
     slug: "how-to-merge-pdf",
     title: "How to Merge Multiple PDFs into One File (Free & Easy)",
     excerpt:

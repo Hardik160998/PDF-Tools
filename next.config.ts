@@ -17,7 +17,7 @@ const cspHeader = `
     https://pagead2.googlesyndication.com
     https://partner.googleadservices.com
     https://googleads.g.doubleclick.net
-    https://checkout.razorpay.com;
+    https://checkout.razorpay.com
     https://cdn.razorpay.com;
 
   style-src 'self' 'unsafe-inline'
@@ -43,8 +43,8 @@ const cspHeader = `
     https://googleads.g.doubleclick.net
     https://checkout.razorpay.com
     https://api.razorpay.com
-    https://lumberjack.razorpay.com;
-    https://ep1.adtrafficquality.google;
+    https://lumberjack.razorpay.com
+    https://ep1.adtrafficquality.google
     ${supabaseOrigin}
     ${supabaseWs};
 
