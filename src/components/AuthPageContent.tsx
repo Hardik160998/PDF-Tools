@@ -160,7 +160,13 @@ export default function AuthPageContent({ initialMode }: AuthPageContentProps) {
       }
     } catch (err: any) {
       console.error("Auth error:", err);
-      setStatusMessage({ type: "error", text: err.message || "Authentication failed." });
+      // Provide a clearer message for invalid credentials and clear password for security
+      if (err?.message?.includes('Invalid login credentials')) {
+        setStatusMessage({ type: "error", text: "Invalid email or password. Please try again." });
+        setPassword(''); // clear password field on error
+      } else {
+        setStatusMessage({ type: "error", text: err.message || "Authentication failed." });
+      }
     } finally {
       setIsLoading(false);
     }

@@ -16,7 +16,8 @@ const cspHeader = `
     https://www.google-analytics.com
     https://pagead2.googlesyndication.com
     https://partner.googleadservices.com
-    https://googleads.g.doubleclick.net;
+    https://googleads.g.doubleclick.net
+    https://checkout.razorpay.com;
 
   style-src 'self' 'unsafe-inline'
     https://fonts.googleapis.com;
@@ -30,7 +31,8 @@ const cspHeader = `
     blob:
     https:
     *.googleusercontent.com
-    *.gstatic.com;
+    *.gstatic.com
+    *.razorpay.com;
 
   connect-src 'self'
     https://www.google-analytics.com
@@ -38,10 +40,14 @@ const cspHeader = `
     https://www.googletagmanager.com
     https://pagead2.googlesyndication.com
     https://googleads.g.doubleclick.net
+    https://checkout.razorpay.com
+    https://api.razorpay.com
     ${supabaseOrigin}
     ${supabaseWs};
 
   frame-src 'self'
+    https://checkout.razorpay.com
+    https://api.razorpay.com
     https://googleads.g.doubleclick.net
     https://tpc.googlesyndication.com
     https://pagead2.googlesyndication.com;
@@ -50,18 +56,25 @@ const cspHeader = `
     blob:
     https://cdn.jsdelivr.net;
 
-  child-src 'self' blob:;
+  child-src 'self'
+    blob:
+    https://checkout.razorpay.com;
 
   media-src 'self' blob: data:;
 
   object-src 'none';
   base-uri 'self';
-  form-action 'self';
+
+  form-action 'self'
+    https://api.razorpay.com
+    https://checkout.razorpay.com;
+
   frame-ancestors 'self';
+
   upgrade-insecure-requests;
 `
-  .replace(/\s{2,}/g, " ")
-  .trim();
+.replace(/\s{2,}/g, " ")
+.trim();
 
 const nextConfig: NextConfig = {
   compress: true,

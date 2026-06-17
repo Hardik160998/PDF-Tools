@@ -10,11 +10,18 @@ export async function POST(request: Request) {
  key_secret: process.env.RAZORPAY_KEY_SECRET || "dummy_secret",
  });
 
- const { userId, planName, amountINR, userEmail } = await request.json();
+  let payload;
+  try {
+    payload = await request.json();
+  } catch (err) {
+    console.warn('Failed to parse JSON body for create-order:', err);
+    return NextResponse.json({ error: 'Invalid JSON payload' }, { status: 400 });
+  }
+  const { userId, planName, amountINR, userEmail } = payload;
 
- if (!userId || !planName || !amountINR) {
- return NextResponse.json({ error: "Missing required parameters (userId, planName, amountINR)" }, { status: 400 });
- }
+  if (!userId || !planName || !amountINR) {
+    return NextResponse.json({ error: "Missing required parameters (userId, planName, amountINR)" }, { status: 400 });
+  }
 
  // 1. Generate Order via Razorpay API
  const orderOptions = {

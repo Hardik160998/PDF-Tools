@@ -5,16 +5,25 @@ let _supabase: SupabaseClient | null = null;
 
 function getSupabase(): SupabaseClient | null {
  if (!_supabase) {
- const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
- const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
- if (!url || !key) return null;
- _supabase = createClient(url, key, {
- auth: {
- lock: async (_name, _acquireTimeout, fn) => {
- return await fn();
- }
- }
- });
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  if (!url) {
+    console.warn("Supabase URL is not set. Supabase client will be unavailable.");
+    return null;
+  }
+  const key = serviceKey || anonKey;
+  if (!key) {
+    console.warn("Supabase key is not set. Supabase client will be unavailable.");
+    return null;
+  }
+  _supabase = createClient(url, key, {
+    auth: {
+      lock: async (_name, _acquireTimeout, fn) => {
+        return await fn();
+      }
+    }
+  });
  }
  return _supabase;
 }
