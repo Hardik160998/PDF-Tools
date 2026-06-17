@@ -14,7 +14,10 @@ import {
   Star,
   Check,
   ChevronDown,
+  BookOpen,
+  Clock,
 } from "lucide-react";
+import BlogImage from "@/components/BlogImage";
 
 // Site URL for canonical/SEO links
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://smartpdfpro.com";
@@ -185,37 +188,72 @@ export default function CompressPage() {
               </h2>
           </div>
           
-          <div className="max-w-xl mx-auto mb-12">
-            {/* Blog Post 1: Compress PDFs */}
-            <a href="/blog/compress-pdf-without-losing-quality" className="group bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-lg transition-all overflow-hidden flex flex-col h-full">
-                <div className="p-6 flex flex-col flex-1 gap-3">
-                    <div className="flex items-start gap-3">
-                        <div className="w-8 h-8 bg-[#10b981] rounded-lg flex items-center justify-center text-white shrink-0 mt-0.5">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z" />
-                                <polyline points="13 2 13 9 20 9" />
-                                <line x1="12" y1="18" x2="12" y2="12" />
-                                <polyline points="9 15 12 18 15 15" />
-                            </svg>
-                        </div>
-                        <h3 className="font-bold text-slate-800 text-[17px] leading-snug group-hover:text-red-600 transition-colors">
-                            How to Compress a PDF Without Losing Quality (Best Free Tools)
-                        </h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto mb-12">
+            {[
+              {
+                slug: "reduce-pdf-size-without-losing-quality",
+                title: "Reduce PDF File Size Without Losing Quality (2026 Guide)",
+                excerpt: "Learn how to reduce PDF file size without losing quality. Discover the best methods, online PDF compressors, and tips for optimizing PDFs efficiently.",
+                label: "Optimize",
+                icon: Zap,
+                iconBg: "bg-teal-500",
+                readTime: "8 min read",
+                date: "Jun 17, 2026",
+                image: "/img/compress-pdf.png",
+              },
+              {
+                slug: "compress-pdf-without-losing-quality",
+                title: "How to Compress a PDF Without Losing Quality",
+                excerpt: "Reduce your PDF file size by up to 80% while keeping text sharp and images clear. A complete guide to PDF compression techniques.",
+                label: "Optimize",
+                icon: Zap,
+                iconBg: "bg-green-500",
+                readTime: "4 min read",
+                date: "Apr 18, 2026",
+                image: "/img/compress-pdf.png",
+              },
+              {
+                slug: "ultimate-pdf-optimization-guide",
+                title: "The Ultimate Guide to PDF Optimization — Size, Speed & Repair",
+                excerpt: "Are your PDF files too large or corrupted? Learn how to compress, repair, and clean up your PDFs with our all-in-one guide.",
+                label: "Optimize",
+                icon: Zap,
+                iconBg: "bg-amber-500",
+                readTime: "5 min read",
+                date: "May 4, 2026",
+                image: "/img/pdf-optimization.png",
+              }
+            ].map((post) => (
+              <a
+                key={post.slug}
+                href={`/blog/${post.slug}`}
+                className="group bg-white dark:bg-slate-900 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-2xl hover:-translate-y-1 transition-all overflow-hidden flex flex-col h-full"
+              >
+                <div className="p-5 flex flex-col flex-1 gap-3">
+                  <div className="flex items-start gap-3">
+                    <div
+                      className={`w-8 h-8 ${post.iconBg} rounded-lg flex items-center justify-center text-white shrink-0 shadow-sm mt-0.5`}
+                    >
+                      <post.icon size={16} />
                     </div>
-                    <div className="flex items-center justify-between pt-4 mt-auto border-t border-slate-100">
-                        <div className="flex items-center gap-1.5 text-xs text-slate-400 font-medium">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                <circle cx="12" cy="12" r="10" />
-                                <polyline points="12 6 12 12 16 14" />
-                            </svg>
-                            4 min read &nbsp; Apr 28, 2026
-                        </div>
-                        <span className="text-sm font-bold text-red-500 flex items-center gap-1 group-hover:gap-2 transition-all">
-                            Read <ArrowRight size={14} />
-                        </span>
+                    <h3 className="font-bold text-slate-900 dark:text-white text-[15px] leading-snug group-hover:text-red-500 transition-colors">
+                      {post.title}
+                    </h3>
+                  </div>
+                  <div className="flex items-center justify-between pt-3 mt-auto border-t border-slate-50 dark:border-slate-800">
+                    <div className="flex items-center gap-2 text-xs text-slate-400 font-medium">
+                      <span className="flex items-center gap-1">
+                        <Clock size={12} /> {post.readTime}
+                      </span>
+                      <span>{post.date}</span>
                     </div>
+                    <span className="text-xs font-bold text-red-500 flex items-center gap-1 group-hover:gap-2 transition-all">
+                      Read <ArrowRight size={12} />
+                    </span>
+                  </div>
                 </div>
-            </a>
+              </a>
+            ))}
           </div>
         </section>
 

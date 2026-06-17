@@ -71,9 +71,8 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
        
         <meta name="color-scheme" content="light dark" />
-        <Script
+        <script
           id="theme-init"
-          strategy="beforeInteractive"
           dangerouslySetInnerHTML={{
             __html: `
  (function() {

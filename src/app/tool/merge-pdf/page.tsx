@@ -3,6 +3,8 @@ import { getToolMeta, getToolUrl } from "@/data/toolData";
 import WebAppSchema from '@/components/seo/WebAppSchema';
 import FAQSchema from '@/components/seo/FAQSchema';
 import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema';
+import BlogImage from "@/components/BlogImage";
+import { Zap, BookOpen, Clock, ArrowRight } from "lucide-react";
 
 
 import MergeSplit from "@/components/tools/MergeSplit";
@@ -58,33 +60,95 @@ export default function MergePdfPage() {
  <div className="max-w-7xl mx-auto px-4 pt-10 sm:pt-16 pb-10">
  <MergeSplit id="merge" />
 
- <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-16 mb-16">
- {[
- { 
- title: "Amazon Labels", 
- desc: "Specialized merging for Amazon warehouse labels with automated SKU/Qty extraction and enrichment.",
- gradient: "linear-gradient(135deg,#f97316,#ea580c)"
- },
- { 
- title: "Smart Sorting", 
- desc: "Reorder files via drag-and-drop to create the perfectly sequenced PDF document.",
- gradient: "linear-gradient(135deg,#f97316,#ea580c)"
- },
- { 
- title: "Local Privacy", 
- desc: "Merging happens 100% in your browser. Sensitive business data stays on your machine.",
- gradient: "linear-gradient(135deg,#22c55e,#15803d)"
- }
- ].map((feat, i) => (
- <div key={i} className="bg-white dark:bg-slate-900 p-8 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-xl transition-all group">
- <div className="w-12 h-12 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform shadow-lg" style={{ background: feat.gradient }}>
- <div className="text-white font-bold">{i + 1}</div>
- </div>
- <h3 className="text-xl font-bold text-slate-900 dark:text-white uppercase tracking-tight mb-2">{feat.title}</h3>
- <p className="text-slate-500 dark:text-slate-400 text-sm leading-relaxed">{feat.desc}</p>
- </div>
- ))}
- </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto mb-12">
+            {[
+              {
+                slug: "reduce-pdf-size-without-losing-quality",
+                title: "Reduce PDF File Size Without Losing Quality (2026 Guide)",
+                excerpt: "Learn how to reduce PDF file size without losing quality. Discover the best methods, online PDF compressors, and tips for optimizing PDFs efficiently.",
+                label: "Optimize",
+                icon: Zap,
+                iconBg: "bg-teal-500",
+                readTime: "8 min read",
+                date: "Jun 17, 2026",
+                image: "/img/compress-pdf.png",
+              },
+              {
+                slug: "how-to-merge-pdf",
+                title: "How to Merge Multiple PDFs into One File (Free & Easy)",
+                excerpt: "Learn how to combine multiple PDF files into a single document in seconds using SmartPDFs Pro — no software installation required.",
+                label: "Organize",
+                icon: Zap,
+                iconBg: "bg-orange-500",
+                readTime: "3 min read",
+                date: "Apr 20, 2026",
+                image: "/img/merge-multiple-pdfs.png",
+              },
+              {
+                slug: "ultimate-guide-to-organizing-pdfs",
+                title: "The Ultimate Guide to Organizing PDFs — Merge, Split & Rearrange",
+                excerpt: "Do you need to combine reports or split a large document? Learn how to use our organization tools to manage your PDFs.",
+                label: "Organize",
+                icon: Zap,
+                iconBg: "bg-purple-600",
+                readTime: "5 min read",
+                date: "May 5, 2026",
+                image: "/img/organizing-pdfs.png",
+              }
+            ].map((post) => (
+              <a
+                key={post.slug}
+                href={`/blog/${post.slug}`}
+                className="group bg-white dark:bg-slate-900 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-2xl hover:-translate-y-1 transition-all overflow-hidden flex flex-col"
+              >
+                <div className="relative overflow-hidden">
+                  <BlogImage
+                    src={post.image || "/img/word-pdf.png"}
+                    alt={post.title}
+                    className="group-hover:scale-105 transition-transform duration-500"
+                  />
+                  <div className="absolute inset-0 bg-black/20 group-hover:bg-black/60 transition-colors duration-300 flex items-center justify-center z-10">
+                    <div className="bg-white/95 dark:bg-slate-900/95 backdrop-blur-sm text-red-500 rounded-full p-2.5 shadow-xl opacity-0 group-hover:opacity-100 transform scale-75 group-hover:scale-100 transition-all duration-300 ease-out flex items-center justify-center">
+                      <BookOpen size={16} className="stroke-[2.5]" />
+                    </div>
+                  </div>
+                  <div className="absolute top-3 right-3 z-20">
+                    <span className="text-[10px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-full bg-white text-red-600 border-2 border-red-500 shadow-sm">
+                      {post.label}
+                    </span>
+                  </div>
+                </div>
+                <div className="p-5 flex flex-col flex-1 gap-3">
+                  <div className="flex items-center gap-2">
+                    <div
+                      className={`w-6 h-6 ${post.iconBg} rounded-md flex items-center justify-center text-white shrink-0 shadow-sm`}
+                    >
+                      <post.icon size={12} />
+                    </div>
+                    <h3 className="font-bold text-slate-900 dark:text-white text-sm leading-snug group-hover:text-red-500 transition-colors line-clamp-2">
+                      {post.title}
+                    </h3>
+                  </div>
+                  <div className="flex-1">
+                    <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed line-clamp-2">
+                      {post.excerpt}
+                    </p>
+                  </div>
+                  <div className="flex items-center justify-between pt-2 border-t border-slate-50 dark:border-slate-800">
+                    <div className="flex items-center gap-2 text-[10px] text-slate-400 font-medium">
+                      <span className="flex items-center gap-1">
+                        <Clock size={10} /> {post.readTime}
+                      </span>
+                      <span>{post.date}</span>
+                    </div>
+                    <span className="text-xs font-bold text-red-500 flex items-center gap-1 group-hover:gap-2 transition-all">
+                      Read <ArrowRight size={10} />
+                    </span>
+                  </div>
+                </div>
+              </a>
+            ))}
+          </div>
  </div>
  </div>
  );
