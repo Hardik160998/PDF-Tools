@@ -15,10 +15,76 @@ import {
   PenTool,
   Wrench,
   Briefcase,
+  FileSpreadsheet,
 } from "lucide-react";
 import BlogImage from "@/components/BlogImage";
 
 const POSTS = [
+  {
+    slug: "how-to-convert-powerpoint-presentations-into-professional-pdfs",
+    title: "How to Convert PowerPoint to PDF Professionally (2026)",
+    excerpt:
+      "Learn the best ways to convert PowerPoint presentations into professional PDFs. Preserve formatting, high-quality images, and layouts effortlessly.",
+    label: "Convert",
+    icon: FileText,
+    iconBg: "bg-orange-600",
+    readTime: "8 min read",
+    date: "Jun 18, 2026",
+    featured: false,
+    image: "/img/powerpoint-to-pdf.png",
+  },
+  {
+    slug: "pdf-to-jpg-vs-screenshot-quality",
+    title: "PDF to JPG vs Screenshot: Which Has Better Quality?",
+    excerpt:
+      "Discover the ultimate quality comparison between PDF to JPG conversion and taking screenshots. Learn which method is best for high-resolution images and print.",
+    label: "Convert",
+    icon: ImageIcon,
+    iconBg: "bg-emerald-600",
+    readTime: "8 min read",
+    date: "Jun 18, 2026",
+    featured: false,
+    image: "/img/pdf-to-jpg vs screen short.png",
+  },
+  {
+    slug: "how-to-convert-pdf-tables-into-excel-spreadsheets-accurately",
+    title: "How to Convert PDF Tables into Excel Accurately (2026)",
+    excerpt:
+      "Learn the best methods to convert PDF to Excel accurately. Extract tables, preserve formatting, and automate data entry without losing rows or columns.",
+    label: "Convert",
+    icon: FileSpreadsheet,
+    iconBg: "bg-emerald-600",
+    readTime: "8 min read",
+    date: "Jun 18, 2026",
+    featured: false,
+    image: "/img/convertpdftable-excel.png",
+  },
+  {
+    slug: "best-way-to-convert-word-to-pdf-without-formatting-issues",
+    title: "Convert Word to PDF Without Formatting Issues (2026 Guide)",
+    excerpt:
+      "Learn the best ways to convert Word documents to PDF without losing formatting. Fix font changes, broken tables, and image misalignment instantly.",
+    label: "Convert",
+    icon: FileText,
+    iconBg: "bg-indigo-600",
+    readTime: "8 min read",
+    date: "Jun 18, 2026",
+    featured: false,
+    image: "/img/convert-word-docu-pdf.png",
+  },
+  {
+    slug: "pdf-to-word-vs-pdf-to-docx-difference",
+    title: "PDF to Word vs DOCX: What's the Difference? (2026 Guide)",
+    excerpt:
+      "Discover the key differences between converting a PDF to Word and PDF to DOCX. Learn which format is best for editing, compatibility, and file size.",
+    label: "Convert",
+    icon: FileText,
+    iconBg: "bg-green-600",
+    readTime: "8 min read",
+    date: "Jun 18, 2026",
+    featured: false,
+    image: "/img/pdf-word-docx.png",
+  },
   {
     slug: "10-common-pdf-problems-and-how-to-fix-them",
     title: "10 Common PDF Problems and How to Fix Them (2026 Guide)",
