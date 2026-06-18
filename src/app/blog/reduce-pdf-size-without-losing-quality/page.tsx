@@ -46,7 +46,7 @@ export const metadata: Metadata = {
     siteName: "SmartPDFs Pro",
     images: [
       {
-        url: "/img/compress-pdf.png",
+        url: "/img/reduce-pdf-file-size.png",
         width: 1200,
         height: 630,
         alt: "Reduce PDF File Size Guide Banner",
@@ -62,7 +62,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Reduce PDF File Size Without Losing Quality (2026 Guide)",
     description: "Learn how to reduce PDF file size without losing quality. Discover the best methods, online PDF compressors, and tips for optimizing PDFs efficiently.",
-    images: ["/img/compress-pdf.png"],
+    images: ["/img/reduce-pdf-file-size.png"],
   },
   category: "Optimization",
   authors: [{ name: "SmartPDFs Pro Team", url: siteUrl }],
@@ -83,7 +83,7 @@ export default function ReducePDFSizePost() {
     "@type": "Article",
     headline: metadata.title,
     description: metadata.description,
-    image: "/img/compress-pdf.png",
+    image: "/img/reduce-pdf-file-size.png",
     author: {
       "@type": "Organization",
       name: "SmartPDFs Pro Team",
@@ -165,7 +165,7 @@ export default function ReducePDFSizePost() {
 
           <figure className="relative rounded-2xl overflow-hidden shadow-2xl mb-8 border border-slate-100 bg-slate-50">
             <Image
-              src="/img/compress-pdf.png"
+              src="/img/reduce-pdf-file-size.png"
               alt="Reduce PDF File Size Without Losing Quality"
               width={1200}
               height={630}

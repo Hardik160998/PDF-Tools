@@ -30,7 +30,7 @@ const POSTS = [
     readTime: "10 min read",
     date: "Jun 17, 2026",
     featured: false,
-    image: "/img/10-common-pdf-problems.png",
+    image: "/img/common-problem.png",
   },
   {
     slug: "merge-vs-split-pdf",
@@ -43,7 +43,7 @@ const POSTS = [
     readTime: "8 min read",
     date: "Jun 17, 2026",
     featured: false,
-    image: "/img/merge-multiple-pdfs.png",
+    image: "/img/merge vs split.png",
   },
   {
     slug: "reduce-pdf-size-without-losing-quality",
@@ -56,7 +56,7 @@ const POSTS = [
     readTime: "8 min read",
     date: "Jun 17, 2026",
     featured: false,
-    image: "/img/compress-pdf.png",
+    image: "/img/reduce-pdf-file-size.png",
   },
   {
     slug: "how-to-merge-pdf",
@@ -316,7 +316,7 @@ const POSTS = [
     readTime: "7 min read",
     date: "Jun 18, 2026",
     featured: false,
-    image: "/img/organize-large-pdfs.png",
+    image: "/img/organize-large-pdf.png",
   },
   {
     slug: "pdf-security-guide-protect-unlock-redact",
@@ -329,7 +329,7 @@ const POSTS = [
     readTime: "9 min read",
     date: "Jun 18, 2026",
     featured: false,
-    image: "/img/pdf-security-guide.png",
+    image: "/img/mergwpdf & features img.png",
   },
 ];
 

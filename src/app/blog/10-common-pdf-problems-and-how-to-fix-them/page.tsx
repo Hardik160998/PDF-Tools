@@ -46,7 +46,7 @@ export const metadata: Metadata = {
     siteName: "SmartPDFs Pro",
     images: [
       {
-        url: "/img/10-common-pdf-problems.png",
+        url: "/img/common-problem.png",
         width: 1200,
         height: 630,
         alt: "10 Common PDF Problems Guide Banner",
@@ -62,7 +62,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "10 Common PDF Problems and How to Fix Them (2026 Guide)",
     description: "Struggling with PDF issues? Discover the top 10 common PDF problems—from large file sizes to files not opening—and learn quick, easy troubleshooting fixes.",
-    images: ["/img/10-common-pdf-problems.png"],
+    images: ["/img/common-problem.png"],
   },
   category: "Troubleshooting",
   authors: [{ name: "SmartPDFs Pro Team", url: siteUrl }],
@@ -83,7 +83,7 @@ export default function TenCommonPDFProblemsPost() {
     "@type": "Article",
     headline: metadata.title,
     description: metadata.description,
-    image: "/img/10-common-pdf-problems.png",
+    image: "/img/common-problem.png",
     author: {
       "@type": "Organization",
       name: "SmartPDFs Pro Team",
@@ -165,7 +165,7 @@ export default function TenCommonPDFProblemsPost() {
 
           <figure className="relative rounded-2xl overflow-hidden shadow-2xl mb-8 border border-slate-100 bg-slate-50">
             <Image
-              src="/img/10-common-pdf-problems.png"
+              src="/img/common-problem.png"
               alt="10 Common PDF Problems Troubleshooting Guide"
               width={1200}
               height={630}

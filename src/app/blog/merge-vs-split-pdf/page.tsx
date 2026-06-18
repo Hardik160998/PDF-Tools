@@ -46,7 +46,7 @@ export const metadata: Metadata = {
     siteName: "SmartPDFs Pro",
     images: [
       {
-        url: "/img/merge-multiple-pdfs.png",
+        url: "/img/merge vs split.png",
         width: 1200,
         height: 630,
         alt: "Merge vs Split PDF Guide Banner",
@@ -62,7 +62,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Merge vs Split PDF: When to Use Each Tool (2026 Guide)",
     description: "Confused about PDF document management? Learn the exact differences between Merge vs Split PDF tools, real-world use cases, and how to combine or separate pages.",
-    images: ["/img/merge-multiple-pdfs.png"],
+    images: ["/img/merge vs split.png"],
   },
   category: "Document Management",
   authors: [{ name: "SmartPDFs Pro Team", url: siteUrl }],
@@ -83,7 +83,7 @@ export default function MergeVsSplitPost() {
     "@type": "Article",
     headline: metadata.title,
     description: metadata.description,
-    image: "/img/merge-multiple-pdfs.png",
+    image: "/img/merge vs split.png",
     author: {
       "@type": "Organization",
       name: "SmartPDFs Pro Team",
@@ -165,7 +165,7 @@ export default function MergeVsSplitPost() {
 
           <figure className="relative rounded-2xl overflow-hidden shadow-2xl mb-8 border border-slate-100 bg-slate-50">
             <Image
-              src="/img/merge-multiple-pdfs.png"
+              src="/img/merge vs split.png"
               alt="Merge vs Split PDF Comparison"
               width={1200}
               height={630}

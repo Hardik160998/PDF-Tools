@@ -51,7 +51,7 @@ export const metadata: Metadata = {
     siteName: "SmartPDFs Pro",
     images: [
       {
-        url: "/img/pdf-security-guide.png",
+        url: "/img/mergwpdf & features img.png",
         width: 1200,
         height: 630,
         alt: "PDF Security Guide Banner",
@@ -68,7 +68,7 @@ export const metadata: Metadata = {
     title: "PDF Security Guide: Protect, Unlock and Redact Documents",
     description:
       "Learn how to secure, encrypt, password-protect, unlock, and properly redact sensitive PDF documents.",
-    images: ["/img/pdf-security-guide.png"],
+    images: ["/img/mergwpdf & features img.png"],
   },
   category: "Security",
   authors: [{ name: "SmartPDFs Pro Team", url: siteUrl }],
@@ -89,7 +89,7 @@ export default function PdfSecurityGuidePost() {
     "@type": "Article",
     headline: metadata.title,
     description: metadata.description,
-    image: "/img/pdf-security-guide.png",
+    image: "/img/mergwpdf & features img.png",
     author: {
       "@type": "Organization",
       name: "SmartPDFs Pro Team",
@@ -171,7 +171,7 @@ export default function PdfSecurityGuidePost() {
 
           <figure className="relative rounded-2xl overflow-hidden shadow-2xl mb-8 border border-slate-100 bg-slate-50">
             <Image
-              src="/img/pdf-security-guide.png"
+              src="/img/mergwpdf & features img.png"
               alt="PDF Security Guide Banner"
               width={1200}
               height={630}

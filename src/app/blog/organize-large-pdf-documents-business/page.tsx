@@ -39,7 +39,7 @@ export const metadata: Metadata = {
     publishedTime: "2026-06-18T00:00:00.000Z",
     images: [
       {
-        url: `${siteUrl}/img/organize-large-pdfs.png`,
+        url: `${siteUrl}/img/organize-large-pdf.png`,
         width: 1200,
         height: 630,
         alt: "Organizing Large PDF Documents for Business",
@@ -51,7 +51,7 @@ export const metadata: Metadata = {
     title: "Organize Large PDF Documents: The Ultimate 2026 Business Guide",
     description:
       "Learn how to organize large PDF documents for business use. Discover best practices, file management tips, and essential PDF productivity tools for workflows.",
-    images: [`${siteUrl}/img/organize-large-pdfs.png`],
+    images: [`${siteUrl}/img/organize-large-pdf.png`],
   },
 };
 
@@ -64,7 +64,7 @@ export default function OrganizeLargePDFsPage() {
         title={metadata.title as string}
         description={metadata.description as string}
         url={POST_URL}
-        imageUrl={`${siteUrl}/img/organize-large-pdfs.png`}
+        imageUrl={`${siteUrl}/img/organize-large-pdf.png`}
         datePublished={publishDate}
         dateModified={publishDate}
         authorName="SmartPDFs Team"
@@ -108,7 +108,7 @@ export default function OrganizeLargePDFsPage() {
 
           <div className="relative aspect-[21/9] w-full rounded-3xl overflow-hidden shadow-2xl border border-slate-100 dark:border-slate-800">
             <Image
-              src="/img/organize-large-pdfs.png"
+              src="/img/organize-large-pdf.png"
               alt="Organizing Large PDF Documents for Business"
               fill
               className="object-cover"
