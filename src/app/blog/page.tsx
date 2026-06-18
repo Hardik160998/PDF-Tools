@@ -318,6 +318,19 @@ const POSTS = [
     featured: false,
     image: "/img/organize-large-pdfs.png",
   },
+  {
+    slug: "pdf-security-guide-protect-unlock-redact",
+    title: "PDF Security Guide: Protect, Unlock and Redact Documents",
+    excerpt:
+      "Learn how to secure, encrypt, password-protect, unlock, and properly redact sensitive PDF documents. A complete 2026 guide to PDF privacy and compliance.",
+    label: "Security",
+    icon: Shield,
+    iconBg: "bg-red-600",
+    readTime: "9 min read",
+    date: "Jun 18, 2026",
+    featured: false,
+    image: "/img/pdf-security-guide.png",
+  },
 ];
 
 const CATEGORY_DESCRIPTIONS: Record<string, string> = {
