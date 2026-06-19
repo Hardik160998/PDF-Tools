@@ -16,10 +16,37 @@ import {
   Wrench,
   Briefcase,
   FileSpreadsheet,
+  FileDigit,
 } from "lucide-react";
 import BlogImage from "@/components/BlogImage";
 
 const POSTS = [
+  {
+    slug: "how-to-extract-text-from-scanned-documents-and-invoices",
+    title: "Extract Text from Scanned Documents & Invoices (2026)",
+    excerpt:
+      "Learn how to extract text from scanned documents, invoices, and PDFs using OCR. Discover the benefits of AllPDFTools for fast image-to-text conversion.",
+    label: "Convert",
+    icon: FileDigit,
+    iconBg: "bg-blue-600",
+    readTime: "12 min read",
+    date: "Jun 19, 2026",
+    featured: false,
+    image: "/img/extract-text.png",
+  },
+  {
+    slug: "what-is-ocr-and-how-to-convert-scanned-pdfs-to-text",
+    title: "What is OCR? Convert Scanned PDF to Text Guide (2026)",
+    excerpt:
+      "Discover what OCR PDF technology is and how to convert scanned PDFs into editable text. Learn how OCR works, its benefits, and the best tools.",
+    label: "Convert",
+    icon: FileDigit,
+    iconBg: "bg-emerald-600",
+    readTime: "10 min read",
+    date: "Jun 19, 2026",
+    featured: false,
+    image: "/img/what-is-ocr.png",
+  },
   {
     slug: "how-to-convert-powerpoint-presentations-into-professional-pdfs",
     title: "How to Convert PowerPoint to PDF Professionally (2026)",
