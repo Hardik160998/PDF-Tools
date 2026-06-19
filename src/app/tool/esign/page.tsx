@@ -266,11 +266,11 @@ export default function ESignPage() {
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto mb-12">
-            {/* Blog Post 1: How to eSign */}
-            <a href="/blog/how-to-e-sign-pdf" className="group bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-lg transition-all overflow-hidden flex flex-col h-full">
+            {/* Blog Post 1: Secure PDF Signing */}
+            <a href="/blog/how-to-sign-pdf-documents-online-securely" className="group bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-lg transition-all overflow-hidden flex flex-col h-full">
                 <div className="p-6 flex flex-col flex-1 gap-3">
                     <div className="flex items-start gap-3">
-                        <div className="w-8 h-8 bg-[#8b5cf6] rounded-lg flex items-center justify-center text-white shrink-0 mt-0.5">
+                        <div className="w-8 h-8 bg-violet-600 rounded-lg flex items-center justify-center text-white shrink-0 mt-0.5">
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                                 <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
                                 <polyline points="14 2 14 8 20 8"></polyline>
@@ -280,7 +280,7 @@ export default function ESignPage() {
                             </svg>
                         </div>
                         <h3 className="font-bold text-slate-800 text-[17px] leading-snug group-hover:text-red-600 transition-colors">
-                            How to eSign PDF Documents Free (Step-by-Step)
+                            How to Sign PDF Documents Online Securely (2026 Guide)
                         </h3>
                     </div>
                     <div className="flex items-center justify-between pt-4 mt-auto border-t border-slate-100">
@@ -289,7 +289,7 @@ export default function ESignPage() {
                                 <circle cx="12" cy="12" r="10" />
                                 <polyline points="12 6 12 12 16 14" />
                             </svg>
-                            4 min read &nbsp; May 31, 2026
+                            14 min read &nbsp; June 19, 2026
                         </div>
                         <span className="text-sm font-bold text-red-500 flex items-center gap-1 group-hover:gap-2 transition-all">
                             Read <ArrowRight size={14} />
@@ -298,11 +298,11 @@ export default function ESignPage() {
                 </div>
             </a>
 
-            {/* Blog Post 2: Ultimate PDF Editing Guide */}
-            <a href="/blog/ultimate-pdf-editing-guide" className="group bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-lg transition-all overflow-hidden flex flex-col h-full">
+            {/* Blog Post 2: Legal Validity of E-Signatures */}
+            <a href="/blog/are-electronic-signatures-legally-valid-in-india" className="group bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-lg transition-all overflow-hidden flex flex-col h-full">
                 <div className="p-6 flex flex-col flex-1 gap-3">
                     <div className="flex items-start gap-3">
-                        <div className="w-8 h-8 bg-[#6d28d9] rounded-lg flex items-center justify-center text-white shrink-0 mt-0.5">
+                        <div className="w-8 h-8 bg-[#b8860b] rounded-lg flex items-center justify-center text-white shrink-0 mt-0.5">
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                                 <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
                                 <polyline points="14 2 14 8 20 8"></polyline>
@@ -312,7 +312,7 @@ export default function ESignPage() {
                             </svg>
                         </div>
                         <h3 className="font-bold text-slate-800 text-[17px] leading-snug group-hover:text-red-600 transition-colors">
-                            The Ultimate Guide to PDF Editing & Annotation
+                            Are Electronic Signatures Legally Valid in India? (2026)
                         </h3>
                     </div>
                     <div className="flex items-center justify-between pt-4 mt-auto border-t border-slate-100">
@@ -321,7 +321,7 @@ export default function ESignPage() {
                                 <circle cx="12" cy="12" r="10" />
                                 <polyline points="12 6 12 12 16 14" />
                             </svg>
-                            6 min read &nbsp; Jun 01, 2026
+                            16 min read &nbsp; June 19, 2026
                         </div>
                         <span className="text-sm font-bold text-red-500 flex items-center gap-1 group-hover:gap-2 transition-all">
                             Read <ArrowRight size={14} />

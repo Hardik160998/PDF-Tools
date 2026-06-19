@@ -17,10 +17,51 @@ import {
   Briefcase,
   FileSpreadsheet,
   FileDigit,
+  Scale,
+  FileSignature,
 } from "lucide-react";
 import BlogImage from "@/components/BlogImage";
 
 const POSTS = [
+  {
+    slug: "how-to-sign-pdf-documents-online-securely",
+    title: "How to Sign PDF Documents Online Securely (2026 Guide)",
+    excerpt:
+      "Learn how to sign PDF documents online securely. A beginner-friendly guide covering e-signatures, digital security, and best practices.",
+    label: "Security & Guides",
+    icon: FileSignature,
+    iconBg: "bg-violet-600",
+    readTime: "14 min read",
+    date: "Jun 19, 2026",
+    featured: false,
+    image: "/img/sign-pdf.png",
+  },
+  {
+    slug: "are-electronic-signatures-legally-valid-in-india",
+    title: "Are Electronic Signatures Legally Valid in India? (2026)",
+    excerpt:
+      "Learn if electronic signatures are legal in India. Understand the IT Act 2000, Aadhaar eSign, and how to securely sign digital contracts.",
+    label: "Legal & Business",
+    icon: Scale,
+    iconBg: "bg-[#b8860b]",
+    readTime: "16 min read",
+    date: "Jun 19, 2026",
+    featured: false,
+    image: "/img/e-sign-valid.png",
+  },
+  {
+    slug: "ocr-vs-manual-data-entry",
+    title: "OCR vs Manual Data Entry: Which Saves More Time? (2026)",
+    excerpt:
+      "Compare OCR vs manual data entry. Discover how AI document automation can save your business thousands of hours.",
+    label: "Business",
+    icon: Clock,
+    iconBg: "bg-indigo-600",
+    readTime: "15 min read",
+    date: "Jun 19, 2026",
+    featured: false,
+    image: "/img/ocr vs manual-data.png",
+  },
   {
     slug: "how-to-extract-text-from-scanned-documents-and-invoices",
     title: "Extract Text from Scanned Documents & Invoices (2026)",
