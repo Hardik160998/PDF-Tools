@@ -22,10 +22,24 @@ import {
   Crop,
   Printer,
   Truck,
+  Package,
 } from "lucide-react";
 import BlogImage from "@/components/BlogImage";
 
 const POSTS = [
+  {
+    slug: "warehouse-automation-tips-ecommerce-pdf-tools",
+    title: "Warehouse Automation Tips for Ecommerce Sellers",
+    excerpt:
+      "Learn how ecommerce sellers can automate warehouse operations using PDF tools to improve efficiency, reduce manual work, and accelerate order fulfillment.",
+    label: "Ecommerce",
+    icon: Package,
+    iconBg: "bg-green-500",
+    readTime: "12 min read",
+    date: "Jun 20, 2026",
+    featured: false,
+    image: "/img/ecommerce-labels.png",
+  },
   {
     slug: "marketplace-shipping-label-formats-compared",
     title: "Amazon, Flipkart, Meesho & Snapdeal Label Formats",
