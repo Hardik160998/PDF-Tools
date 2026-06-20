@@ -19,10 +19,65 @@ import {
   FileDigit,
   Scale,
   FileSignature,
+  Crop,
+  Printer,
+  Truck,
 } from "lucide-react";
 import BlogImage from "@/components/BlogImage";
 
 const POSTS = [
+  {
+    slug: "marketplace-shipping-label-formats-compared",
+    title: "Amazon, Flipkart, Meesho & Snapdeal Label Formats",
+    excerpt:
+      "Compare shipping label formats for Amazon, Flipkart, Meesho, and Snapdeal. Learn how to print, crop, and manage marketplace labels efficiently.",
+    label: "Ecommerce",
+    icon: Truck,
+    iconBg: "bg-purple-500",
+    readTime: "14 min read",
+    date: "Jun 20, 2026",
+    featured: false,
+    image: "/img/ecommerce-labels.png",
+  },
+  {
+    slug: "flipkart-shipping-labels-dispatch",
+    title: "How to Print Flipkart Shipping Labels Correctly",
+    excerpt:
+      "Learn how to print Flipkart shipping labels correctly. Avoid barcode scanning failures and dispatch delays with our comprehensive seller guide.",
+    label: "Ecommerce",
+    icon: Printer,
+    iconBg: "bg-blue-500",
+    readTime: "15 min read",
+    date: "Jun 20, 2026",
+    featured: false,
+    image: "/img/flipkart-label.png",
+  },
+  {
+    slug: "meesho-shipping-labels-invoices-awb",
+    title: "Complete Guide to Meesho Shipping Labels, Invoices and AWB",
+    excerpt:
+      "Master Meesho shipping labels, invoices, and AWB documents. Learn how to download, print, and automate your eCommerce order fulfillment workflow efficiently.",
+    label: "Ecommerce",
+    icon: FileText,
+    iconBg: "bg-orange-500",
+    readTime: "12 min read",
+    date: "Jun 20, 2026",
+    featured: false,
+    image: "/img/mesho-invoice-label.png",
+  },
+  {
+    slug: "meesho-label-cropping",
+    title: "How Meesho Sellers Save Hours Using Automatic Label Cropping",
+    excerpt:
+      "Learn how automatic label cropping saves Meesho sellers hours of manual work. Streamline your order fulfillment process with bulk label cropping tools.",
+    label: "Ecommerce",
+    icon: Crop,
+    iconBg: "bg-pink-500",
+    readTime: "10 min read",
+    date: "Jun 20, 2026",
+    featured: false,
+    image: "/img/mesho-label.png",
+  },
   {
     slug: "how-to-sign-pdf-documents-online-securely",
     title: "How to Sign PDF Documents Online Securely (2026 Guide)",

@@ -21,6 +21,7 @@ import {
   ChevronDown,
   Star,
   Check,
+  Truck,
 } from "lucide-react";
 
 // Site URL for canonical/SEO links
@@ -321,7 +322,7 @@ export default function SnapdealCropperPage() {
               </h2>
           </div>
           
-          <div className="max-w-xl mx-auto mb-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto mb-12">
             {/* Blog Post 1: Snapdeal Crop Guide */}
             <a href="/blog/how-to-crop-snapdeal-labels" className="group bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-lg transition-all overflow-hidden flex flex-col h-full">
                 <div className="p-6 flex flex-col flex-1 gap-3">
@@ -346,6 +347,32 @@ export default function SnapdealCropperPage() {
                                 <polyline points="12 6 12 12 16 14" />
                             </svg>
                             3 min read &nbsp; Jun 01, 2026
+                        </div>
+                        <span className="text-sm font-bold text-red-500 flex items-center gap-1 group-hover:gap-2 transition-all">
+                            Read <ArrowRight size={14} />
+                        </span>
+                    </div>
+                </div>
+            </a>
+
+            {/* Blog Post 2: Marketplace Formats Compared */}
+            <a href="/blog/marketplace-shipping-label-formats-compared" className="group bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-lg transition-all overflow-hidden flex flex-col h-full">
+                <div className="p-6 flex flex-col flex-1 gap-3">
+                    <div className="flex items-start gap-3">
+                        <div className="w-8 h-8 bg-purple-500 rounded-lg flex items-center justify-center text-white shrink-0 mt-0.5">
+                            <Truck size={16} />
+                        </div>
+                        <h3 className="font-bold text-slate-800 text-[17px] leading-snug group-hover:text-red-600 transition-colors">
+                            Amazon, Flipkart, Meesho and Snapdeal Label Formats Compared
+                        </h3>
+                    </div>
+                    <div className="flex items-center justify-between pt-4 mt-auto border-t border-slate-100">
+                        <div className="flex items-center gap-1.5 text-xs text-slate-400 font-medium">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                <circle cx="12" cy="12" r="10" />
+                                <polyline points="12 6 12 12 16 14" />
+                            </svg>
+                            14 min read &nbsp; Jun 20, 2026
                         </div>
                         <span className="text-sm font-bold text-red-500 flex items-center gap-1 group-hover:gap-2 transition-all">
                             Read <ArrowRight size={14} />
