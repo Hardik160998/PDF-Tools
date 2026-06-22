@@ -97,11 +97,14 @@ export async function POST(request: Request) {
  fromFormat = 'pdf'; 
  toFormat = 'xlsx'; 
  } else if (fromId.includes('word') || fromId.includes('docx')) { 
- fromFormat = 'docx'; 
+ const ext = file?.name.split('.').pop()?.toLowerCase();
+ fromFormat = ext === 'doc' ? 'doc' : 'docx';
  } else if (fromId.includes('excel')) { 
- fromFormat = 'xlsx'; 
+ const ext = file?.name.split('.').pop()?.toLowerCase();
+ fromFormat = ext === 'xls' ? 'xls' : 'xlsx';
  } else if (fromId.includes('ppt')) { 
- fromFormat = 'pptx'; 
+ const ext = file?.name.split('.').pop()?.toLowerCase();
+ fromFormat = ext === 'ppt' ? 'ppt' : 'pptx';
  } else if (fromId.includes('html')) { 
  fromFormat = 'html'; 
  }

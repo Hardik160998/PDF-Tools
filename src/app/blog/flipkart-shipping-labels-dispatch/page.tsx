@@ -54,7 +54,7 @@ export const metadata: Metadata = {
     siteName: "AllPDFTools",
     images: [
       {
-        url: "/img/flipkart-label.png",
+        url: "/img/flipkart-faster-dispatch.png",
         width: 1200,
         height: 630,
         alt: "Flipkart Shipping Labels Printing Guide",
@@ -71,7 +71,7 @@ export const metadata: Metadata = {
     title: "How to Print Flipkart Shipping Labels Correctly",
     description:
       "Learn how to print Flipkart shipping labels correctly. Avoid dispatch delays.",
-    images: ["/img/flipkart-label.png"],
+    images: ["/img/flipkart-faster-dispatch.png"],
   },
   category: "eCommerce Tools",
   authors: [{ name: "AllPDFTools Team", url: siteUrl }],
@@ -91,7 +91,7 @@ export default function FlipkartShippingLabelsPage() {
     "@type": "Article",
     headline: metadata.title,
     description: metadata.description,
-    image: "/img/flipkart-label.png",
+    image: "/img/flipkart-faster-dispatch.png",
     author: {
       "@type": "Organization",
       name: "AllPDFTools Team",
@@ -173,7 +173,7 @@ export default function FlipkartShippingLabelsPage() {
 
           <figure className="relative rounded-2xl overflow-hidden shadow-2xl mb-8 border border-slate-100 bg-slate-50">
             <Image
-              src="/img/flipkart-label.png"
+              src="/img/flipkart-faster-dispatch.png"
               alt="Flipkart Shipping Label Printing"
               width={1200}
               height={630}

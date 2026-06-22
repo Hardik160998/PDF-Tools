@@ -50,7 +50,7 @@ export const metadata: Metadata = {
     siteName: "AllPDFTools",
     images: [
       {
-        url: "/img/meesho-label-cropping.png",
+        url: "/img/meshoseller-save-hours.png",
         width: 1200,
         height: 630,
         alt: "Meesho label cropping tool and process",
@@ -67,7 +67,7 @@ export const metadata: Metadata = {
     title: "How Meesho Sellers Save Hours Using Automatic Label Cropping",
     description:
       "Learn how automatic label cropping saves Meesho sellers hours of manual work.",
-    images: ["/img/meesho-label-cropping.png"],
+    images: ["/img/meshoseller-save-hours.png"],
   },
   category: "eCommerce Tools",
   authors: [{ name: "AllPDFTools Team", url: siteUrl }],
@@ -87,7 +87,7 @@ export default function MeeshoLabelCroppingPage() {
     "@type": "Article",
     headline: metadata.title,
     description: metadata.description,
-    image: "/img/meesho-label-cropping.png",
+    image: "/img/meshoseller-save-hours.png",
     author: {
       "@type": "Organization",
       name: "AllPDFTools Team",
@@ -169,7 +169,7 @@ export default function MeeshoLabelCroppingPage() {
 
           <figure className="relative rounded-2xl overflow-hidden shadow-2xl mb-8 border border-slate-100 bg-slate-50">
             <Image
-              src="/img/mesho-label.png"
+              src="/img/meshoseller-save-hours.png"
               alt="Meesho Label Cropping"
               width={1200}
               height={630}

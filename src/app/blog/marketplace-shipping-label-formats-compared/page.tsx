@@ -55,7 +55,7 @@ export const metadata: Metadata = {
     siteName: "AllPDFTools",
     images: [
       {
-        url: "/img/ecommerce-labels.png",
+        url: "/img/label-format-compared.png",
         width: 1200,
         height: 630,
         alt: "Marketplace Shipping Labels Compared",
@@ -72,7 +72,7 @@ export const metadata: Metadata = {
     title: "Amazon, Flipkart, Meesho & Snapdeal Label Formats",
     description:
       "Compare shipping label formats for Amazon, Flipkart, Meesho, and Snapdeal.",
-    images: ["/img/ecommerce-labels.png"],
+    images: ["/img/label-format-compared.png"],
   },
   category: "eCommerce Tools",
   authors: [{ name: "AllPDFTools Team", url: siteUrl }],
@@ -92,7 +92,7 @@ export default function MarketplaceLabelsComparisonPage() {
     "@type": "Article",
     headline: metadata.title,
     description: metadata.description,
-    image: "/img/ecommerce-labels.png",
+    image: "/img/label-format-compared.png",
     author: {
       "@type": "Organization",
       name: "AllPDFTools Team",
@@ -174,7 +174,7 @@ export default function MarketplaceLabelsComparisonPage() {
 
           <figure className="relative rounded-2xl overflow-hidden shadow-2xl mb-8 border border-slate-100 bg-slate-50">
             <Image
-              src="/img/ecommerce-labels.png"
+              src="/img/label-format-compared.png"
               alt="Amazon, Flipkart, Meesho and Snapdeal Labels Compared"
               width={1200}
               height={630}

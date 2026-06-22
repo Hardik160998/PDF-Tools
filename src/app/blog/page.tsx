@@ -38,7 +38,7 @@ const POSTS = [
     readTime: "12 min read",
     date: "Jun 20, 2026",
     featured: false,
-    image: "/img/ecommerce-labels.png",
+    image: "/img/wherehouse-using-tool.png",
   },
   {
     slug: "marketplace-shipping-label-formats-compared",
@@ -51,7 +51,7 @@ const POSTS = [
     readTime: "14 min read",
     date: "Jun 20, 2026",
     featured: false,
-    image: "/img/ecommerce-labels.png",
+    image: "/img/label-format-compared.png",
   },
   {
     slug: "flipkart-shipping-labels-dispatch",
@@ -64,7 +64,7 @@ const POSTS = [
     readTime: "15 min read",
     date: "Jun 20, 2026",
     featured: false,
-    image: "/img/flipkart-label.png",
+    image: "/img/flipkart-faster-dispatch.png",
   },
   {
     slug: "meesho-shipping-labels-invoices-awb",
@@ -77,7 +77,7 @@ const POSTS = [
     readTime: "12 min read",
     date: "Jun 20, 2026",
     featured: false,
-    image: "/img/mesho-invoice-label.png",
+    image: "/img/mesholabel-guide.png",
   },
   {
     slug: "meesho-label-cropping",
@@ -90,7 +90,7 @@ const POSTS = [
     readTime: "10 min read",
     date: "Jun 20, 2026",
     featured: false,
-    image: "/img/mesho-label.png",
+    image: "/img/meshoseller-save-hours.png",
   },
   {
     slug: "how-to-sign-pdf-documents-online-securely",

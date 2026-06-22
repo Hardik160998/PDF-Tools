@@ -56,7 +56,7 @@ export const metadata: Metadata = {
     siteName: "AllPDFTools",
     images: [
       {
-        url: "/img/ecommerce-labels.png",
+        url: "/img/wherehouse-using-tool.png",
         width: 1200,
         height: 630,
         alt: "Ecommerce Warehouse Automation Tips",
@@ -73,7 +73,7 @@ export const metadata: Metadata = {
     title: "Warehouse Automation Tips for Ecommerce Sellers",
     description:
       "Automate warehouse operations using PDF tools to improve efficiency and accelerate order fulfillment.",
-    images: ["/img/ecommerce-labels.png"],
+    images: ["/img/wherehouse-using-tool.png"],
   },
   category: "eCommerce Tools",
   authors: [{ name: "AllPDFTools Team", url: siteUrl }],
@@ -93,7 +93,7 @@ export default function WarehouseAutomationTipsPage() {
     "@type": "Article",
     headline: metadata.title,
     description: metadata.description,
-    image: "/img/ecommerce-labels.png",
+    image: "/img/wherehouse-using-tool.png",
     author: {
       "@type": "Organization",
       name: "AllPDFTools Team",
@@ -175,7 +175,7 @@ export default function WarehouseAutomationTipsPage() {
 
           <figure className="relative rounded-2xl overflow-hidden shadow-2xl mb-8 border border-slate-100 bg-slate-50">
             <Image
-              src="/img/ecommerce-labels.png"
+              src="/img/wherehouse-using-tool.png"
               alt="Ecommerce Warehouse Automation and Shipping Management"
               width={1200}
               height={630}

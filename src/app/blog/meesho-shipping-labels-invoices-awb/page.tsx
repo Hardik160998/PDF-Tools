@@ -51,7 +51,7 @@ export const metadata: Metadata = {
     siteName: "AllPDFTools",
     images: [
       {
-        url: "/img/mesho-invoice-label.png",
+        url: "/img/mesholabel-guide.png",
         width: 1200,
         height: 630,
         alt: "Meesho Shipping Labels, Invoices and AWB Documents",
@@ -68,7 +68,7 @@ export const metadata: Metadata = {
     title: "Complete Guide to Meesho Shipping Labels & AWB Documents",
     description:
       "Master Meesho shipping labels, invoices, and AWB documents.",
-    images: ["/img/mesho-invoice-label.png"],
+    images: ["/img/mesholabel-guide.png"],
   },
   category: "eCommerce Tools",
   authors: [{ name: "AllPDFTools Team", url: siteUrl }],
@@ -88,7 +88,7 @@ export default function MeeshoShippingLabelsPage() {
     "@type": "Article",
     headline: metadata.title,
     description: metadata.description,
-    image: "/img/mesho-invoice-label.png",
+    image: "/img/mesholabel-guide.png",
     author: {
       "@type": "Organization",
       name: "AllPDFTools Team",
@@ -170,7 +170,7 @@ export default function MeeshoShippingLabelsPage() {
 
           <figure className="relative rounded-2xl overflow-hidden shadow-2xl mb-8 border border-slate-100 bg-slate-50">
             <Image
-              src="/img/mesho-invoice-label.png"
+              src="/img/mesholabel-guide.png"
               alt="Meesho Shipping Labels and Documents"
               width={1200}
               height={630}
