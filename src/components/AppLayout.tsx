@@ -21,10 +21,14 @@ export default function AppLayout({
   children,
   latoClass,
   latoVariable,
+  initialTools,
+  initialCategories,
 }: {
   children: React.ReactNode;
   latoClass: string;
   latoVariable: string;
+  initialTools?: any[];
+  initialCategories?: any[];
 }) {
   const pathname = usePathname();
   const cleanPathname = pathname ? pathname.replace(/\/$/, "") : "";
@@ -38,7 +42,7 @@ export default function AppLayout({
     <div className="page-content">
       <header
         id="site-header"
-        className="sticky top-0 z-50 bg-white dark:bg-slate-900 border-b border-slate-100 dark:border-slate-800 overflow-visible"
+        className="sticky top-0 z-[100] bg-white dark:bg-slate-900 border-b border-slate-100 dark:border-slate-800 overflow-visible"
       >
         <div
           className="w-full px-6 h-16 grid items-center"
@@ -76,7 +80,7 @@ export default function AppLayout({
             ))}
             <ConvertDropdown />
             <EcommerceDropdown />
-            <AllToolsDropdown />
+            <AllToolsDropdown initialTools={initialTools} initialCategories={initialCategories} />
           </nav>
 
           {/* Right — Actions */}

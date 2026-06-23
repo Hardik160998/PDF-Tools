@@ -10,6 +10,7 @@ import { ThemeProvider } from "@/context/ThemeContext";
 import { AuthProvider } from "@/context/AuthContext";
 import QueryProvider from "@/lib/QueryProvider";
 import AppLayout from "@/components/AppLayout";
+import { getAllTools, getCategories } from "@/lib/supabase";
 
 
 const lato = Lato({
@@ -58,11 +59,16 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const [allTools, categories] = await Promise.all([
+    getAllTools(),
+    getCategories(),
+  ]);
+
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
@@ -105,6 +111,8 @@ export default function RootLayout({
               <AppLayout
                 latoClass={lato.className}
                 latoVariable={lato.variable}
+                initialTools={allTools}
+                initialCategories={categories}
               >
                 {children}
               </AppLayout>

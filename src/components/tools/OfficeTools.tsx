@@ -113,7 +113,7 @@ export default function OfficeTools({ id }: { id: string }) {
               <div className="flex flex-col sm:flex-row gap-3 w-full lg:w-auto">
                 <a
                   href={resultUrl}
-                  download={`converted_${file?.name || 'output'}`}
+                  download={`converted_${file?.name ? file.name.substring(0, file.name.lastIndexOf('.')) || file.name : 'output'}.${to.toLowerCase()}`}
                   className="px-8 py-4 text-white rounded-2xl font-bold text-sm uppercase tracking-widest shadow-xl hover:scale-105 transition-all flex items-center justify-center gap-3 w-full sm:w-auto whitespace-nowrap"
                   style={{ background: info.gradient }}
                 >

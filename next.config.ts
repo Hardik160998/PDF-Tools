@@ -17,8 +17,10 @@ const cspHeader = `
     https://pagead2.googlesyndication.com
     https://partner.googleadservices.com
     https://googleads.g.doubleclick.net
-    https://checkout.razorpay.com;
-    https://cdn.razorpay.com;
+    https://checkout.razorpay.com
+    https://cdn.razorpay.com
+    https://va.vercel-scripts.com
+    https://*.adtrafficquality.google;
 
   style-src 'self' 'unsafe-inline'
     https://fonts.googleapis.com;
@@ -43,8 +45,9 @@ const cspHeader = `
     https://googleads.g.doubleclick.net
     https://checkout.razorpay.com
     https://api.razorpay.com
-    https://lumberjack.razorpay.com;
-    https://ep1.adtrafficquality.google;
+    https://lumberjack.razorpay.com
+    https://*.adtrafficquality.google
+    https://va.vercel-scripts.com
     ${supabaseOrigin}
     ${supabaseWs};
 
@@ -53,7 +56,9 @@ const cspHeader = `
     https://api.razorpay.com
     https://googleads.g.doubleclick.net
     https://tpc.googlesyndication.com
-    https://pagead2.googlesyndication.com;
+    https://pagead2.googlesyndication.com
+    https://*.adtrafficquality.google
+    https://www.google.com;
 
   worker-src 'self'
     blob:

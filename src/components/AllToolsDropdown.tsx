@@ -24,12 +24,12 @@ const CATEGORY_STYLES: Record<string, { color: string; gradient: string }> = {
 const WIDE_CATS = new Set(["Convert", "Image Convert"]);
 const WRAP_CATS = new Set(["Special", "Ecommerce"]);
 
-export default function AllToolsDropdown() {
+export default function AllToolsDropdown({ initialTools, initialCategories }: { initialTools?: any[], initialCategories?: any[] }) {
     const [open, setOpen] = useState(false);
     const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-    const { data: dbCategories } = useDbCategories();
-    const { data: allTools } = useAllTools();
+    const { data: dbCategories } = useDbCategories(initialCategories);
+    const { data: allTools } = useAllTools(initialTools);
 
     const dynamicCategories = useMemo(() => {
         if (!dbCategories || !allTools) return [];
