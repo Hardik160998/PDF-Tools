@@ -565,7 +565,7 @@ export default function UltimateGuidePdfsPost() {
               Frequently Asked Questions
             </h2>
             <div className="space-y-4">
-              <div className="bg-white rounded-xl p-5 border border-slate-200 shadow-sm">
+              <div className="bg-white rounded-xl p-5 border border-slate-200 shadow-sm hover:shadow-md hover:border-indigo-300 transition-all">
                 <h3 className="font-bold text-slate-900 text-base mb-2">
                   Will organizing my PDF reduce its quality?
                 </h3>
@@ -576,7 +576,7 @@ export default function UltimateGuidePdfsPost() {
                   images or vector text. Quality is 100% preserved.
                 </p>
               </div>
-              <div className="bg-white rounded-xl p-5 border border-slate-200 shadow-sm">
+              <div className="bg-white rounded-xl p-5 border border-slate-200 shadow-sm hover:shadow-md hover:border-indigo-300 transition-all">
                 <h3 className="font-bold text-slate-900 text-base mb-2">
                   Can I organize a password-protected PDF?
                 </h3>
@@ -587,7 +587,7 @@ export default function UltimateGuidePdfsPost() {
                   the password if a locked file is detected.
                 </p>
               </div>
-              <div className="bg-white rounded-xl p-5 border border-slate-200 shadow-sm">
+              <div className="bg-white rounded-xl p-5 border border-slate-200 shadow-sm hover:shadow-md hover:border-indigo-300 transition-all">
                 <h3 className="font-bold text-slate-900 text-base mb-2">
                   Is there a limit to how many files I can merge?
                 </h3>
@@ -598,7 +598,7 @@ export default function UltimateGuidePdfsPost() {
                   tab to crash if your device runs out of available RAM.
                 </p>
               </div>
-              <div className="bg-white rounded-xl p-5 border border-slate-200 shadow-sm">
+              <div className="bg-white rounded-xl p-5 border border-slate-200 shadow-sm hover:shadow-md hover:border-indigo-300 transition-all">
                 <h3 className="font-bold text-slate-900 text-base mb-2">
                   Do these tools work on iOS and Android?
                 </h3>
@@ -609,6 +609,50 @@ export default function UltimateGuidePdfsPost() {
                   smartphone.
                 </p>
               </div>
+            </div>
+          </section>
+
+          <section aria-labelledby="common-mistakes">
+            <h2
+              id="common-mistakes"
+              className="text-2xl font-bold text-slate-900 mt-10 mb-4"
+            >
+              Common Mistakes to Avoid When Organizing PDFs
+            </h2>
+            <p className="leading-relaxed mb-4">
+              Even with powerful tools, it is easy to make a mistake when handling complex documents. Watch out for these common pitfalls:
+            </p>
+            <ul className="list-disc pl-6 space-y-3">
+              <li>
+                <strong>Forgetting to Save a Backup:</strong> Always keep a copy of your original, untouched PDFs just in case you make a mistake during the merging or splitting process.
+              </li>
+              <li>
+                <strong>Ignoring File Size:</strong> Merging dozens of high-quality image PDFs can create a massive file that is difficult to share. Remember to compress the final document if needed.
+              </li>
+              <li>
+                <strong>Mismatched Page Sizes:</strong> Combining a US Letter size document with an A4 document can lead to awkward printing. Try to standardize your page sizes before merging.
+              </li>
+            </ul>
+          </section>
+
+          <section aria-labelledby="related-articles">
+            <h2
+              id="related-articles"
+              className="text-2xl font-bold text-slate-900 mt-10 mb-6"
+            >
+              Related Articles
+            </h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6 mb-12">
+              <Link href="/blog/merge-vs-split-pdf" className="block bg-white rounded-xl p-6 border border-slate-200 shadow-sm hover:shadow-md hover:border-indigo-300 transition-all group">
+                <h3 className="font-bold text-slate-900 text-lg group-hover:text-indigo-600 transition-colors mb-2">Merge vs Split PDF: When to Use Each Tool</h3>
+                <p className="text-sm text-slate-600 mb-4">Confused about PDF document management? Learn the exact differences between Merge vs Split PDF tools.</p>
+                <span className="text-indigo-600 text-sm font-bold flex items-center gap-1 group-hover:gap-2 transition-all">Read Article <ArrowRight size={14} /></span>
+              </Link>
+              <Link href="/blog/how-to-merge-pdf" className="block bg-white rounded-xl p-6 border border-slate-200 shadow-sm hover:shadow-md hover:border-indigo-300 transition-all group">
+                <h3 className="font-bold text-slate-900 text-lg group-hover:text-indigo-600 transition-colors mb-2">How to Merge Multiple PDFs into One File</h3>
+                <p className="text-sm text-slate-600 mb-4">Learn how to easily merge, combine, and organize multiple PDF files into one single document for free.</p>
+                <span className="text-indigo-600 text-sm font-bold flex items-center gap-1 group-hover:gap-2 transition-all">Read Article <ArrowRight size={14} /></span>
+              </Link>
             </div>
           </section>
 

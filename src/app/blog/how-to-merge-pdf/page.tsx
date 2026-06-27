@@ -570,7 +570,7 @@ export default function HowToMergePdfPage() {
               Frequently Asked Questions
             </h2>
             <div className="space-y-4">
-              <div className="bg-white rounded-xl p-5 border border-slate-200 shadow-sm">
+              <div className="bg-white rounded-xl p-5 border border-slate-200 shadow-sm hover:shadow-md hover:border-orange-300 transition-all">
                 <h3 className="font-bold text-slate-900 text-base mb-2">
                   Is there a file size limit for merging?
                 </h3>
@@ -580,7 +580,7 @@ export default function HowToMergePdfPage() {
                   slow down your browser depending on your device RAM.
                 </p>
               </div>
-              <div className="bg-white rounded-xl p-5 border border-slate-200 shadow-sm">
+              <div className="bg-white rounded-xl p-5 border border-slate-200 shadow-sm hover:shadow-md hover:border-orange-300 transition-all">
                 <h3 className="font-bold text-slate-900 text-base mb-2">
                   Can I merge password-protected PDFs?
                 </h3>
@@ -590,7 +590,7 @@ export default function HowToMergePdfPage() {
                   if a file is locked.
                 </p>
               </div>
-              <div className="bg-white rounded-xl p-5 border border-slate-200 shadow-sm">
+              <div className="bg-white rounded-xl p-5 border border-slate-200 shadow-sm hover:shadow-md hover:border-orange-300 transition-all">
                 <h3 className="font-bold text-slate-900 text-base mb-2">
                   Will merging reduce the quality of my PDFs?
                 </h3>
@@ -600,6 +600,50 @@ export default function HowToMergePdfPage() {
                   original files.
                 </p>
               </div>
+            </div>
+          </section>
+
+          <section aria-labelledby="pro-tips">
+            <h2
+              id="pro-tips"
+              className="text-2xl font-bold text-slate-900 mt-10 mb-4"
+            >
+              Pro Tips for Managing Large PDFs
+            </h2>
+            <p className="leading-relaxed mb-4">
+              When working with extensive documents, a few extra steps can make your life much easier:
+            </p>
+            <ul className="list-disc pl-6 space-y-3">
+              <li>
+                <strong>Compress Before or After:</strong> If you are merging several high-resolution image PDFs, the final file size might be too large for email. Use a PDF compressor on the final merged document.
+              </li>
+              <li>
+                <strong>Consistent Formatting:</strong> If possible, ensure all source documents have the same page size (e.g., A4 or Letter). While our tool can merge different sizes, uniform sizes look more professional.
+              </li>
+              <li>
+                <strong>Create a Cover Page:</strong> Consider creating a dedicated one-page PDF to serve as your title page, and make sure it is the first file in your list before merging.
+              </li>
+            </ul>
+          </section>
+
+          <section aria-labelledby="related-articles">
+            <h2
+              id="related-articles"
+              className="text-2xl font-bold text-slate-900 mt-10 mb-6"
+            >
+              Related Articles
+            </h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6 mb-12">
+              <Link href="/blog/merge-vs-split-pdf" className="block bg-white rounded-xl p-6 border border-slate-200 shadow-sm hover:shadow-md hover:border-orange-300 transition-all group">
+                <h3 className="font-bold text-slate-900 text-lg group-hover:text-orange-600 transition-colors mb-2">Merge vs Split PDF: When to Use Each Tool</h3>
+                <p className="text-sm text-slate-600 mb-4">Confused about PDF document management? Learn the exact differences between Merge vs Split PDF tools.</p>
+                <span className="text-orange-600 text-sm font-bold flex items-center gap-1 group-hover:gap-2 transition-all">Read Article <ArrowRight size={14} /></span>
+              </Link>
+              <Link href="/blog/reduce-pdf-size-without-losing-quality" className="block bg-white rounded-xl p-6 border border-slate-200 shadow-sm hover:shadow-md hover:border-orange-300 transition-all group">
+                <h3 className="font-bold text-slate-900 text-lg group-hover:text-orange-600 transition-colors mb-2">Compress PDFs Without Quality Loss</h3>
+                <p className="text-sm text-slate-600 mb-4">Learn the best techniques to reduce your PDF file size for easy sharing and storage.</p>
+                <span className="text-orange-600 text-sm font-bold flex items-center gap-1 group-hover:gap-2 transition-all">Read Article <ArrowRight size={14} /></span>
+              </Link>
             </div>
           </section>
 

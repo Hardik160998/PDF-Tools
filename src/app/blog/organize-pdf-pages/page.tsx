@@ -524,7 +524,7 @@ export default function OrganizePdfPost() {
               Frequently Asked Questions
             </h2>
             <div className="space-y-4">
-              <div className="bg-white rounded-xl p-5 border border-slate-200 shadow-sm">
+              <div className="bg-white rounded-xl p-5 border border-slate-200 shadow-sm hover:shadow-md hover:border-purple-300 transition-all">
                 <h3 className="font-bold text-slate-900 text-base mb-2">
                   Can I undo a deletion if I make a mistake?
                 </h3>
@@ -535,7 +535,7 @@ export default function OrganizePdfPost() {
                   bring it back before you click Apply.
                 </p>
               </div>
-              <div className="bg-white rounded-xl p-5 border border-slate-200 shadow-sm">
+              <div className="bg-white rounded-xl p-5 border border-slate-200 shadow-sm hover:shadow-md hover:border-purple-300 transition-all">
                 <h3 className="font-bold text-slate-900 text-base mb-2">
                   Is there a limit on the number of pages I can organize?
                 </h3>
@@ -545,7 +545,7 @@ export default function OrganizePdfPost() {
                   the only limitation is your device's available RAM.
                 </p>
               </div>
-              <div className="bg-white rounded-xl p-5 border border-slate-200 shadow-sm">
+              <div className="bg-white rounded-xl p-5 border border-slate-200 shadow-sm hover:shadow-md hover:border-purple-300 transition-all">
                 <h3 className="font-bold text-slate-900 text-base mb-2">
                   Can I combine pages from different PDFs?
                 </h3>
@@ -564,7 +564,7 @@ export default function OrganizePdfPost() {
                   .
                 </p>
               </div>
-              <div className="bg-white rounded-xl p-5 border border-slate-200 shadow-sm">
+              <div className="bg-white rounded-xl p-5 border border-slate-200 shadow-sm hover:shadow-md hover:border-purple-300 transition-all">
                 <h3 className="font-bold text-slate-900 text-base mb-2">
                   Are my files kept private?
                 </h3>
@@ -574,6 +574,50 @@ export default function OrganizePdfPost() {
                   are never uploaded to our servers.
                 </p>
               </div>
+            </div>
+          </section>
+
+          <section aria-labelledby="why-visual-matters">
+            <h2
+              id="why-visual-matters"
+              className="text-2xl font-bold text-slate-900 mt-10 mb-4"
+            >
+              Why Visual Organization Matters
+            </h2>
+            <p className="leading-relaxed mb-4">
+              Traditional desktop software often relies on list views or tiny sidebar thumbnails to reorder pages. This can easily lead to mistakes. Our tool utilizes a full-screen, grid-based "light table" approach that brings several benefits:
+            </p>
+            <ul className="list-disc pl-6 space-y-3">
+              <li>
+                <strong>Spot Mistakes Instantly:</strong> When all pages are laid out visually at a decent size, it is immediately obvious if a page is upside down or completely blank.
+              </li>
+              <li>
+                <strong>Intuitive Reordering:</strong> Dragging a page across a large canvas feels natural and mimics the real-world action of sorting physical papers on a desk.
+              </li>
+              <li>
+                <strong>Better Context:</strong> Seeing the pages before and after the one you are moving gives you the context needed to ensure your document flows perfectly.
+              </li>
+            </ul>
+          </section>
+
+          <section aria-labelledby="related-articles">
+            <h2
+              id="related-articles"
+              className="text-2xl font-bold text-slate-900 mt-10 mb-6"
+            >
+              Related Articles
+            </h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6 mb-12">
+              <Link href="/blog/merge-vs-split-pdf" className="block bg-white rounded-xl p-6 border border-slate-200 shadow-sm hover:shadow-md hover:border-purple-300 transition-all group">
+                <h3 className="font-bold text-slate-900 text-lg group-hover:text-purple-600 transition-colors mb-2">Merge vs Split PDF: When to Use Each Tool</h3>
+                <p className="text-sm text-slate-600 mb-4">Confused about PDF document management? Learn the exact differences between Merge vs Split PDF tools.</p>
+                <span className="text-purple-600 text-sm font-bold flex items-center gap-1 group-hover:gap-2 transition-all">Read Article <ArrowRight size={14} /></span>
+              </Link>
+              <Link href="/blog/how-to-merge-pdf" className="block bg-white rounded-xl p-6 border border-slate-200 shadow-sm hover:shadow-md hover:border-purple-300 transition-all group">
+                <h3 className="font-bold text-slate-900 text-lg group-hover:text-purple-600 transition-colors mb-2">How to Merge Multiple PDFs into One File</h3>
+                <p className="text-sm text-slate-600 mb-4">Learn how to easily merge, combine, and organize multiple PDF files into one single document for free.</p>
+                <span className="text-purple-600 text-sm font-bold flex items-center gap-1 group-hover:gap-2 transition-all">Read Article <ArrowRight size={14} /></span>
+              </Link>
             </div>
           </section>
 
