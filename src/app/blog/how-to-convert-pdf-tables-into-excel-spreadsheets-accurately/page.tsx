@@ -489,7 +489,7 @@ export default function PdfToExcelPage() {
               ].map(({ q, a }, i) => (
                 <div
                   key={i}
-                  className="bg-slate-50 rounded-xl p-5 border border-slate-100 hover:border-emerald-200 transition-colors"
+                  className="bg-white rounded-xl p-5 border border-slate-200 shadow-sm hover:shadow-md hover:border-emerald-300 transition-all"
                   itemScope
                   itemProp="mainEntity"
                   itemType="https://schema.org/Question"
@@ -514,6 +514,41 @@ export default function PdfToExcelPage() {
                   </div>
                 </div>
               ))}
+            </div>
+          </section>
+
+          <section>
+            <h2 className="text-2xl font-black text-slate-900 border-b pb-2 mt-8">
+              Data Security During Conversion
+            </h2>
+            <p className="text-slate-600 leading-relaxed mb-4">
+              When converting financial tables, security is paramount. Never upload sensitive corporate data to a free, unknown converter.
+            </p>
+            <ul className="list-disc pl-6 space-y-3 text-slate-600">
+              <li><strong>SSL Encryption:</strong> Ensure the converter uses 256-bit SSL encryption to protect your data during the upload and download process.</li>
+              <li><strong>Auto-Deletion Policies:</strong> Reputable services will automatically delete your original PDF and the generated Excel file from their servers within 1 to 2 hours.</li>
+              <li><strong>Read the Privacy Policy:</strong> Confirm that the tool explicitly states they do not sell or store your extracted data.</li>
+            </ul>
+          </section>
+
+          <section aria-labelledby="related-articles">
+            <h2
+              id="related-articles"
+              className="text-2xl font-black text-slate-900 border-b pb-2 mt-12 mb-6"
+            >
+              Related Articles
+            </h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6 mb-12">
+              <Link href="/blog/how-to-extract-text-from-scanned-documents-and-invoices" className="block bg-white rounded-xl p-6 border border-slate-200 shadow-sm hover:shadow-md hover:border-emerald-300 transition-all group">
+                <h3 className="font-bold text-slate-900 text-lg group-hover:text-emerald-600 transition-colors mb-2 mt-0">Extract Data from Scanned Invoices</h3>
+                <p className="text-sm text-slate-600 mb-4 m-0">Learn how modern OCR technology can automatically pull pricing tables out of scanned vendor invoices.</p>
+                <span className="text-emerald-600 text-sm font-bold flex items-center gap-1 group-hover:gap-2 transition-all mt-4">Read Article <ArrowRight size={14} /></span>
+              </Link>
+              <Link href="/blog/pdf-security-guide-protect-unlock-redact" className="block bg-white rounded-xl p-6 border border-slate-200 shadow-sm hover:shadow-md hover:border-emerald-300 transition-all group">
+                <h3 className="font-bold text-slate-900 text-lg group-hover:text-emerald-600 transition-colors mb-2 mt-0">PDF Security & Protection Guide</h3>
+                <p className="text-sm text-slate-600 mb-4 m-0">Ensure your converted data remains secure. Learn the best practices for protecting your sensitive PDF documents.</p>
+                <span className="text-emerald-600 text-sm font-bold flex items-center gap-1 group-hover:gap-2 transition-all mt-4">Read Article <ArrowRight size={14} /></span>
+              </Link>
             </div>
           </section>
 

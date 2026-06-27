@@ -414,13 +414,46 @@ export default function WhatIsOcrPage() {
                   a: "The best converters are secure, cloud-based tools that utilize modern AI recognition models, support multiple languages, and accurately preserve original document formatting."
                 }
               ].map(({ q, a }, i) => (
-                <div key={i} className="bg-slate-50 rounded-xl p-5 border border-slate-100" itemScope itemProp="mainEntity" itemType="https://schema.org/Question">
+                <div key={i} className="bg-white rounded-xl p-5 border border-slate-200 shadow-sm hover:shadow-md hover:border-emerald-300 transition-all" itemScope itemProp="mainEntity" itemType="https://schema.org/Question">
                   <h3 className="font-bold text-slate-900 text-base mb-2 mt-0" itemProp="name">{q}</h3>
                   <div itemScope itemProp="acceptedAnswer" itemType="https://schema.org/Answer">
                     <p className="text-sm text-slate-600 leading-relaxed m-0" itemProp="text">{a}</p>
                   </div>
                 </div>
               ))}
+            </div>
+          </section>
+
+          <section>
+            <h2 className="text-2xl font-black text-slate-900 border-b pb-2 mt-8">OCR Software Limitations</h2>
+            <p className="text-slate-600 leading-relaxed mb-4">
+              While OCR is highly advanced, it is important to understand its current limitations before relying on it for critical data extraction:
+            </p>
+            <ul className="list-disc pl-6 space-y-3 text-slate-600">
+              <li><strong>Zero-Day Accuracy is Impossible:</strong> No OCR system is 100% accurate 100% of the time without human verification. A smudge on a piece of paper might turn a "3" into an "8".</li>
+              <li><strong>Mathematical Formulas:</strong> Standard OCR struggles to correctly format complex mathematical equations and symbols found in academic papers.</li>
+              <li><strong>Multi-layered Documents:</strong> Brochures with text overlapping complex background images or gradients can confuse the extraction engine.</li>
+            </ul>
+          </section>
+
+          <section aria-labelledby="related-articles">
+            <h2
+              id="related-articles"
+              className="text-2xl font-black text-slate-900 border-b pb-2 mt-12 mb-6"
+            >
+              Related Articles
+            </h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6 mb-12">
+              <Link href="/blog/how-to-extract-text-from-scanned-documents-and-invoices" className="block bg-white rounded-xl p-6 border border-slate-200 shadow-sm hover:shadow-md hover:border-emerald-300 transition-all group">
+                <h3 className="font-bold text-slate-900 text-lg group-hover:text-emerald-600 transition-colors mb-2 mt-0">Extract Text from Scans & Invoices</h3>
+                <p className="text-sm text-slate-600 mb-4 m-0">A deep dive into how businesses are using OCR to automate invoice processing and eliminate manual data entry.</p>
+                <span className="text-emerald-600 text-sm font-bold flex items-center gap-1 group-hover:gap-2 transition-all mt-4">Read Article <ArrowRight size={14} /></span>
+              </Link>
+              <Link href="/blog/ocr-vs-manual-data-entry" className="block bg-white rounded-xl p-6 border border-slate-200 shadow-sm hover:shadow-md hover:border-emerald-300 transition-all group">
+                <h3 className="font-bold text-slate-900 text-lg group-hover:text-emerald-600 transition-colors mb-2 mt-0">OCR vs Manual Data Entry</h3>
+                <p className="text-sm text-slate-600 mb-4 m-0">Discover the hidden costs of manual data entry and why automation through OCR is the future of business efficiency.</p>
+                <span className="text-emerald-600 text-sm font-bold flex items-center gap-1 group-hover:gap-2 transition-all mt-4">Read Article <ArrowRight size={14} /></span>
+              </Link>
             </div>
           </section>
 

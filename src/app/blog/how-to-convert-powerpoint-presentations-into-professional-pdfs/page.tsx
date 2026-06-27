@@ -451,7 +451,7 @@ export default function PptToPdfPage() {
               ].map(({ q, a }, i) => (
                 <div
                   key={i}
-                  className="bg-slate-50 rounded-xl p-5 border border-slate-100 hover:border-orange-200 transition-colors"
+                  className="bg-white rounded-xl p-5 border border-slate-200 shadow-sm hover:shadow-md hover:border-orange-300 transition-all"
                   itemScope
                   itemProp="mainEntity"
                   itemType="https://schema.org/Question"
@@ -476,6 +476,40 @@ export default function PptToPdfPage() {
                   </div>
                 </div>
               ))}
+            </div>
+          </section>
+
+          <section>
+            <h2 className="text-2xl font-black text-slate-900 border-b pb-2 mt-8">
+              File Size Considerations
+            </h2>
+            <p className="text-slate-600 leading-relaxed mb-4">
+              Converting a 50-slide PowerPoint filled with high-resolution images can result in a massive PDF file that is difficult to email. To mitigate this:
+            </p>
+            <ul className="list-disc pl-6 space-y-3 text-slate-600">
+              <li><strong>Compress Pictures in PPT first:</strong> Before exporting, select any image in your deck, go to the 'Picture Format' tab, click 'Compress Pictures', and choose 'Email (96 ppi)'.</li>
+              <li><strong>Use a PDF Compressor post-export:</strong> If the exported PDF is still too large, run it through a dedicated PDF compressor to shrink the file size by up to 80% without noticeable quality loss.</li>
+            </ul>
+          </section>
+
+          <section aria-labelledby="related-articles">
+            <h2
+              id="related-articles"
+              className="text-2xl font-black text-slate-900 border-b pb-2 mt-12 mb-6"
+            >
+              Related Articles
+            </h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6 mb-12">
+              <Link href="/blog/reduce-pdf-size-without-losing-quality" className="block bg-white rounded-xl p-6 border border-slate-200 shadow-sm hover:shadow-md hover:border-orange-300 transition-all group">
+                <h3 className="font-bold text-slate-900 text-lg group-hover:text-orange-600 transition-colors mb-2 mt-0">Reduce PDF File Size (2026 Guide)</h3>
+                <p className="text-sm text-slate-600 mb-4 m-0">A comprehensive look into PDF optimization, including hidden factors that cause your PDFs to become bloated.</p>
+                <span className="text-orange-600 text-sm font-bold flex items-center gap-1 group-hover:gap-2 transition-all mt-4">Read Article <ArrowRight size={14} /></span>
+              </Link>
+              <Link href="/blog/best-way-to-convert-word-to-pdf-without-formatting-issues" className="block bg-white rounded-xl p-6 border border-slate-200 shadow-sm hover:shadow-md hover:border-orange-300 transition-all group">
+                <h3 className="font-bold text-slate-900 text-lg group-hover:text-orange-600 transition-colors mb-2 mt-0">Word to PDF Formatting Guide</h3>
+                <p className="text-sm text-slate-600 mb-4 m-0">Stop your Word documents from shifting when exporting. Learn the absolute best way to convert Word to PDF.</p>
+                <span className="text-orange-600 text-sm font-bold flex items-center gap-1 group-hover:gap-2 transition-all mt-4">Read Article <ArrowRight size={14} /></span>
+              </Link>
             </div>
           </section>
 

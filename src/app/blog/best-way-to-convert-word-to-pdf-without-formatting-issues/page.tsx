@@ -494,7 +494,7 @@ export default function WordToPdfFormattingPage() {
               ].map(({ q, a }, i) => (
                 <div
                   key={i}
-                  className="bg-slate-50 rounded-xl p-5 border border-slate-100 hover:border-indigo-200 transition-colors"
+                  className="bg-white rounded-xl p-5 border border-slate-200 shadow-sm hover:shadow-md hover:border-indigo-300 transition-all"
                   itemScope
                   itemProp="mainEntity"
                   itemType="https://schema.org/Question"
@@ -519,6 +519,41 @@ export default function WordToPdfFormattingPage() {
                   </div>
                 </div>
               ))}
+            </div>
+          </section>
+
+          <section>
+            <h2 className="text-2xl font-black text-slate-900 border-b pb-2 mt-8">
+              Preserving Image Quality
+            </h2>
+            <p className="text-slate-600 leading-relaxed mb-4">
+              A major formatting issue users face is perfectly crisp images in Word becoming heavily pixelated in the final PDF. Here is how to fix it:
+            </p>
+            <ul className="list-disc pl-6 space-y-3 text-slate-600">
+              <li><strong>Disable automatic compression:</strong> In Word, go to <code>File</code> &gt; <code>Options</code> &gt; <code>Advanced</code> &gt; <code>Image Size and Quality</code> and check "Do not compress images in file".</li>
+              <li><strong>Use the correct PDF preset:</strong> If exporting from Word, always ensure "Standard (publishing online and printing)" is selected rather than "Minimum size (publishing online)".</li>
+              <li><strong>Professional converters:</strong> If you use an online tool or dedicated PDF software, ensure it allows you to set the output DPI to at least 300 for maximum image clarity.</li>
+            </ul>
+          </section>
+
+          <section aria-labelledby="related-articles">
+            <h2
+              id="related-articles"
+              className="text-2xl font-black text-slate-900 border-b pb-2 mt-12 mb-6"
+            >
+              Related Articles
+            </h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6 mb-12">
+              <Link href="/blog/how-to-convert-powerpoint-presentations-into-professional-pdfs" className="block bg-white rounded-xl p-6 border border-slate-200 shadow-sm hover:shadow-md hover:border-indigo-300 transition-all group">
+                <h3 className="font-bold text-slate-900 text-lg group-hover:text-indigo-600 transition-colors mb-2 mt-0">PowerPoint to PDF Conversion</h3>
+                <p className="text-sm text-slate-600 mb-4 m-0">Stop your presentation slides from breaking. Learn the secrets to flawlessly converting PowerPoint decks into PDFs.</p>
+                <span className="text-indigo-600 text-sm font-bold flex items-center gap-1 group-hover:gap-2 transition-all mt-4">Read Article <ArrowRight size={14} /></span>
+              </Link>
+              <Link href="/blog/how-to-sign-pdf-documents-online-securely" className="block bg-white rounded-xl p-6 border border-slate-200 shadow-sm hover:shadow-md hover:border-indigo-300 transition-all group">
+                <h3 className="font-bold text-slate-900 text-lg group-hover:text-indigo-600 transition-colors mb-2 mt-0">Sign PDF Documents Securely</h3>
+                <p className="text-sm text-slate-600 mb-4 m-0">Once you've converted your contract, learn how to quickly and securely add legally binding digital signatures.</p>
+                <span className="text-indigo-600 text-sm font-bold flex items-center gap-1 group-hover:gap-2 transition-all mt-4">Read Article <ArrowRight size={14} /></span>
+              </Link>
             </div>
           </section>
 
