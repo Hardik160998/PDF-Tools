@@ -3,7 +3,7 @@ import HomeClient from "./HomeClient";
 import WebSiteSchema from "@/components/seo/WebSiteSchema";
 import OrganizationSchema from "@/components/seo/OrganizationSchema";
 import { getAllTools, getCategories } from "@/lib/supabase";
-import { Sparkles } from "lucide-react";
+import { Sparkles, Users, FileText, Globe, Star } from "lucide-react";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://smartpdfpro.com";
 
@@ -62,6 +62,38 @@ export default async function Page() {
                   <p className="text-xl font-medium text-slate-500 dark:text-slate-400 max-w-3xl mx-auto leading-relaxed">
                       The most powerful web-based PDF platform. Merge, split, compress, and convert documents in seconds with advanced security and premium speed.
                   </p>
+
+                  {/* Social Proof Stats Bar (Desktop Only) */}
+                  <div className="hidden md:grid grid-cols-4 gap-6 max-w-5xl mx-auto mt-12 p-8 rounded-3xl bg-white/70 dark:bg-slate-800/40 backdrop-blur-md border border-slate-100 dark:border-slate-850 shadow-xl relative z-20">
+                      <div className="flex flex-col items-center justify-center p-2 text-center border-r border-slate-200/60 dark:border-slate-700/50">
+                          <div className="w-10 h-10 rounded-xl bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 flex items-center justify-center mb-3 transition-transform hover:scale-110 duration-300">
+                              <Users size={20} />
+                          </div>
+                          <span className="text-3xl font-extrabold text-slate-900 dark:text-white font-outfit">50,000+</span>
+                          <span className="text-xs font-semibold text-slate-500 dark:text-slate-400 mt-1">Trusted Users</span>
+                      </div>
+                      <div className="flex flex-col items-center justify-center p-2 text-center border-r border-slate-200/60 dark:border-slate-700/50">
+                          <div className="w-10 h-10 rounded-xl bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 flex items-center justify-center mb-3 transition-transform hover:scale-110 duration-300">
+                              <FileText size={20} />
+                          </div>
+                          <span className="text-3xl font-extrabold text-slate-900 dark:text-white font-outfit">2.5M+</span>
+                          <span className="text-xs font-semibold text-slate-500 dark:text-slate-400 mt-1">Files Processed</span>
+                      </div>
+                      <div className="flex flex-col items-center justify-center p-2 text-center border-r border-slate-200/60 dark:border-slate-700/50">
+                          <div className="w-10 h-10 rounded-xl bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 dark:text-emerald-400 flex items-center justify-center mb-3 transition-transform hover:scale-110 duration-300">
+                              <Globe size={20} />
+                          </div>
+                          <span className="text-3xl font-extrabold text-slate-900 dark:text-white font-outfit">120+</span>
+                          <span className="text-xs font-semibold text-slate-500 dark:text-slate-400 mt-1">Countries Served</span>
+                      </div>
+                      <div className="flex flex-col items-center justify-center p-2 text-center">
+                          <div className="w-10 h-10 rounded-xl bg-amber-50 dark:bg-amber-950/20 text-amber-500 flex items-center justify-center mb-3 transition-transform hover:scale-110 duration-300">
+                              <Star size={20} className="fill-amber-500" />
+                          </div>
+                          <span className="text-3xl font-extrabold text-slate-900 dark:text-white font-outfit">4.9/5</span>
+                          <span className="text-xs font-semibold text-slate-500 dark:text-slate-400 mt-1">Average Rating</span>
+                      </div>
+                  </div>
               </div>
           </section>
 

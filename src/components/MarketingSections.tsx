@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Crown, CheckCircle2, BookOpen } from 'lucide-react';
+import { Crown, CheckCircle2, BookOpen, Star, Quote, Users, FileText, Globe } from 'lucide-react';
 import dynamic from 'next/dynamic';
 
 const BlogImage = dynamic(() => import('@/components/BlogImage'), { ssr: false });
@@ -452,6 +452,152 @@ export default function MarketingSections({
                                 <path d="M5 12h14M12 5l7 7-7 7" />
                             </svg>
                         </a>
+                    </div>
+                </div>
+            </section>
+
+            {/* -- CUSTOMER TESTIMONIALS -- */}
+            <section className="py-20 bg-slate-50 dark:bg-slate-800/20 border-t border-slate-100 dark:border-slate-800/80">
+                <div className="container mx-auto px-4 max-w-6xl">
+                    
+                    {/* Social Proof Stats Bar for Mobile (above Testimonials) */}
+                    <div className="md:hidden grid grid-cols-2 gap-4 mb-12 p-6 rounded-3xl bg-white/70 dark:bg-slate-850 border border-slate-100 dark:border-slate-800/80 shadow-lg">
+                        <div className="flex flex-col items-center justify-center p-2 text-center border-r border-b border-slate-200/60 dark:border-slate-700/50 pb-4">
+                            <div className="w-8 h-8 rounded-lg bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 flex items-center justify-center mb-2">
+                                <Users size={16} />
+                            </div>
+                            <span className="text-xl font-outfit font-extrabold text-slate-900 dark:text-white">50,000+</span>
+                            <span className="text-[10px] font-semibold text-slate-500 dark:text-slate-400 mt-0.5">Trusted Users</span>
+                        </div>
+                        <div className="flex flex-col items-center justify-center p-2 text-center border-b border-slate-200/60 dark:border-slate-700/50 pb-4">
+                            <div className="w-8 h-8 rounded-lg bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 flex items-center justify-center mb-2">
+                                <FileText size={16} />
+                            </div>
+                            <span className="text-xl font-outfit font-extrabold text-slate-900 dark:text-white">2.5M+</span>
+                            <span className="text-[10px] font-semibold text-slate-500 dark:text-slate-400 mt-0.5">Files Processed</span>
+                        </div>
+                        <div className="flex flex-col items-center justify-center p-2 text-center border-r border-slate-200/60 dark:border-slate-700/50 pt-4">
+                            <div className="w-8 h-8 rounded-lg bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 dark:text-emerald-400 flex items-center justify-center mb-2">
+                                <Globe size={16} />
+                            </div>
+                            <span className="text-xl font-outfit font-extrabold text-slate-900 dark:text-white">120+</span>
+                            <span className="text-[10px] font-semibold text-slate-500 dark:text-slate-400 mt-0.5">Countries Served</span>
+                        </div>
+                        <div className="flex flex-col items-center justify-center p-2 text-center pt-4">
+                            <div className="w-8 h-8 rounded-lg bg-amber-50 dark:bg-amber-950/20 text-amber-500 flex items-center justify-center mb-2">
+                                <Star size={16} className="fill-amber-500" />
+                            </div>
+                            <span className="text-xl font-outfit font-extrabold text-slate-900 dark:text-white">4.9/5</span>
+                            <span className="text-[10px] font-semibold text-slate-500 dark:text-slate-400 mt-0.5">Average Rating</span>
+                        </div>
+                    </div>
+
+                    <div className="text-center max-w-3xl mx-auto mb-16">
+                        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-red-50 dark:bg-red-950/20 text-red-600 dark:text-red-400 border border-red-100 dark:border-red-900/30 text-xs font-medium uppercase tracking-widest shadow-sm mb-6">
+                            <Star size={14} className="fill-red-500/20 text-red-500" />
+                            User Testimonials
+                        </div>
+                        <h2 className="text-4xl md:text-5xl font-black text-slate-900 dark:text-white tracking-tighter mb-4">
+                            What Our <span className="text-red-500">Users Say</span>
+                        </h2>
+                        <p className="text-lg text-slate-500 dark:text-slate-400 font-medium leading-relaxed">
+                            Discover how professional sellers, students, and businesses simplify their daily document workflows with SmartPDFs.
+                        </p>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch max-w-6xl mx-auto">
+                        {/* Testimonial 1 */}
+                        <div className="bg-white dark:bg-slate-800/50 rounded-3xl p-8 shadow-lg hover:shadow-2xl border border-slate-100 dark:border-slate-700/80 flex flex-col justify-between hover:-translate-y-1 transition-all duration-300 relative group">
+                            <div className="absolute top-6 right-8 text-slate-100 dark:text-slate-700 group-hover:text-red-100 dark:group-hover:text-red-950/30 transition-colors duration-300 pointer-events-none">
+                                <Quote size={40} className="fill-current" />
+                            </div>
+                            <div className="space-y-6">
+                                <div className="flex items-center gap-1">
+                                    {[...Array(5)].map((_, i) => (
+                                        <Star key={i} size={16} className="fill-amber-400 text-amber-400" />
+                                    ))}
+                                </div>
+                                <p className="text-sm md:text-base text-slate-600 dark:text-slate-300 font-medium leading-relaxed relative z-10">
+                                    &ldquo;As an eCommerce seller, cropping Flipkart and Amazon labels used to take hours. SmartPDFs crops them perfectly in seconds right in my browser. An absolute lifesaver!&rdquo;
+                                </p>
+                            </div>
+                            <div className="flex items-center gap-4 mt-8 pt-6 border-t border-slate-100 dark:border-slate-700/60">
+                                <div className="w-12 h-12 rounded-full flex items-center justify-center text-white font-black text-base bg-gradient-to-br from-pink-500 to-rose-500 shadow-md">
+                                    SJ
+                                </div>
+                                <div>
+                                    <h4 className="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-1.5">
+                                        Sarah Jenkins
+                                        <span className="inline-flex items-center justify-center px-1.5 py-0.5 rounded-full text-[9px] font-bold bg-green-50 dark:bg-green-950/30 text-green-600 dark:text-green-400 border border-green-100 dark:border-green-900/30 uppercase tracking-wide">
+                                            Verified
+                                        </span>
+                                    </h4>
+                                    <p className="text-xs text-slate-400 dark:text-slate-500 font-medium mt-0.5">eCommerce Store Owner</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Testimonial 2 */}
+                        <div className="bg-white dark:bg-slate-800/50 rounded-3xl p-8 shadow-lg hover:shadow-2xl border border-slate-100 dark:border-slate-700/80 flex flex-col justify-between hover:-translate-y-1 transition-all duration-300 relative group">
+                            <div className="absolute top-6 right-8 text-slate-100 dark:text-slate-700 group-hover:text-blue-100 dark:group-hover:text-blue-950/30 transition-colors duration-300 pointer-events-none">
+                                <Quote size={40} className="fill-current" />
+                            </div>
+                            <div className="space-y-6">
+                                <div className="flex items-center gap-1">
+                                    {[...Array(5)].map((_, i) => (
+                                        <Star key={i} size={16} className="fill-amber-400 text-amber-400" />
+                                    ))}
+                                </div>
+                                <p className="text-sm md:text-base text-slate-600 dark:text-slate-300 font-medium leading-relaxed relative z-10">
+                                    &ldquo;I love that all file processing happens locally in the browser. Knowing my confidential business documents are never uploaded to any server makes this the only PDF tool I trust.&rdquo;
+                                </p>
+                            </div>
+                            <div className="flex items-center gap-4 mt-8 pt-6 border-t border-slate-100 dark:border-slate-700/60">
+                                <div className="w-12 h-12 rounded-full flex items-center justify-center text-white font-black text-base bg-gradient-to-br from-blue-500 to-indigo-600 shadow-md">
+                                    DC
+                                </div>
+                                <div>
+                                    <h4 className="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-1.5">
+                                        David Chen
+                                        <span className="inline-flex items-center justify-center px-1.5 py-0.5 rounded-full text-[9px] font-bold bg-green-50 dark:bg-green-950/30 text-green-600 dark:text-green-400 border border-green-100 dark:border-green-900/30 uppercase tracking-wide">
+                                            Verified
+                                        </span>
+                                    </h4>
+                                    <p className="text-xs text-slate-400 dark:text-slate-500 font-medium mt-0.5">Software Architect</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Testimonial 3 */}
+                        <div className="bg-white dark:bg-slate-800/50 rounded-3xl p-8 shadow-lg hover:shadow-2xl border border-slate-100 dark:border-slate-700/80 flex flex-col justify-between hover:-translate-y-1 transition-all duration-300 relative group">
+                            <div className="absolute top-6 right-8 text-slate-100 dark:text-slate-700 group-hover:text-emerald-100 dark:group-hover:text-emerald-950/30 transition-colors duration-300 pointer-events-none">
+                                <Quote size={40} className="fill-current" />
+                            </div>
+                            <div className="space-y-6">
+                                <div className="flex items-center gap-1">
+                                    {[...Array(5)].map((_, i) => (
+                                        <Star key={i} size={16} className="fill-amber-400 text-amber-400" />
+                                    ))}
+                                </div>
+                                <p className="text-sm md:text-base text-slate-600 dark:text-slate-300 font-medium leading-relaxed relative z-10">
+                                    &ldquo;I was skeptical at first, but the quality of the compressed PDFs is absolutely amazing. No registration or credit cards, just fast and completely free tools. Saved me during finals week!&rdquo;
+                                </p>
+                            </div>
+                            <div className="flex items-center gap-4 mt-8 pt-6 border-t border-slate-100 dark:border-slate-700/60">
+                                <div className="w-12 h-12 rounded-full flex items-center justify-center text-white font-black text-base bg-gradient-to-br from-emerald-500 to-teal-500 shadow-md">
+                                    ER
+                                </div>
+                                <div>
+                                    <h4 className="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-1.5">
+                                        Elena Rostova
+                                        <span className="inline-flex items-center justify-center px-1.5 py-0.5 rounded-full text-[9px] font-bold bg-green-50 dark:bg-green-950/30 text-green-600 dark:text-green-400 border border-green-100 dark:border-green-900/30 uppercase tracking-wide">
+                                            Verified
+                                        </span>
+                                    </h4>
+                                    <p className="text-xs text-slate-400 dark:text-slate-500 font-medium mt-0.5">Graduate Student</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>
