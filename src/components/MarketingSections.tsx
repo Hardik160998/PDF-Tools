@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Crown, CheckCircle2, BookOpen, Star, Quote, Users, FileText, Globe } from 'lucide-react';
+import { Crown, CheckCircle2, BookOpen, Star, Quote, Users, FileText, Globe, ShieldCheck, Scale, Shield, Lock, Clock } from 'lucide-react';
 import dynamic from 'next/dynamic';
 
 const BlogImage = dynamic(() => import('@/components/BlogImage'), { ssr: false });
@@ -692,43 +692,141 @@ export default function MarketingSections({
                             </p>
                         </div>
 
-                        {/* 256-bit Encryption */}
+                        {/* No Registration Required */}
                         <div className="why-card-purple flex flex-col gap-4 rounded-2xl p-8" style={{ background: 'linear-gradient(135deg, #fdf4ff 0%, #fae8ff 100%)' }}>
                             <div className="flex flex-col md:flex-row items-center gap-4">
-                                <div className="w-14 h-14 shrink-0 rounded-xl flex items-center justify-center relative" style={{ background: 'linear-gradient(135deg, #a855f7, #7c3aed)' }}>
+                                <div className="w-14 h-14 shrink-0 rounded-xl flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #a855f7, #7c3aed)' }}>
                                     <svg width="28" height="28" viewBox="0 0 64 64" fill="none">
-                                        <rect x="14" y="8" width="36" height="28" rx="5" fill="white" fillOpacity="0.3" />
-                                        <rect x="20" y="14" width="24" height="16" rx="3" fill="white" fillOpacity="0.5" />
-                                        <rect x="10" y="32" width="44" height="24" rx="5" fill="white" fillOpacity="0.25" />
-                                        <circle cx="32" cy="44" r="5" fill="white" fillOpacity="0.9" />
-                                        <rect x="30" y="44" width="4" height="6" rx="1" fill="white" fillOpacity="0.4" />
+                                        <circle cx="32" cy="32" r="28" stroke="white" strokeWidth="3" fill="white" fillOpacity="0.2"/>
+                                        <circle cx="32" cy="24" r="8" fill="white"/>
+                                        <path d="M16 48 C16 40 22 36 32 36 C42 36 48 40 48 48" stroke="white" strokeWidth="4" strokeLinecap="round"/>
+                                        <circle cx="48" cy="20" r="7" fill="#22c55e" stroke="white" strokeWidth="2"/>
+                                        <path d="M45 20 L47 22 L51 18" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
                                     </svg>
-                                    <span className="absolute -top-2 -right-2 bg-yellow-400 text-[9px] font-medium text-slate-900 px-1.5 py-0.5 rounded shadow">256-bit</span>
                                 </div>
-                                <h3 className="text-lg font-bold text-slate-900 m-0">256-Bit TLS Encryption</h3>
+                                <h3 className="text-lg font-bold text-slate-900 m-0">No Registration</h3>
                             </div>
-                            <p className="text-sm text-slate-600 leading-relaxed">
-                                We use 256-bit TLS encryption to keep your data safe during transfer. Your files are processed securely and never stored on our servers.
+                            <p className="text-sm text-slate-600 leading-relaxed font-medium">
+                                No sign-up or accounts required to use our free tools. Enjoy a completely friction-free experience with zero setups or profiles.
                             </p>
                         </div>
 
-                        {/* Privacy First */}
+                        {/* Batch File Processing */}
                         <div className="why-card-red flex flex-col gap-4 rounded-2xl p-8" style={{ background: 'linear-gradient(135deg, #fff1f2 0%, #ffe4e6 100%)' }}>
                             <div className="flex flex-col md:flex-row items-center gap-4">
                                 <div className="w-14 h-14 shrink-0 rounded-xl flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #f43f5e, #be123c)' }}>
                                     <svg width="28" height="28" viewBox="0 0 64 64" fill="none">
-                                        <path d="M32 14 L44 20 L44 34 C44 42 32 50 32 50 C32 50 20 42 20 34 L20 20 Z" fill="white" fillOpacity="0.35" />
-                                        <path d="M32 18 L41 23 L41 34 C41 40 32 47 32 47 C32 47 23 40 23 34 L23 23 Z" fill="white" fillOpacity="0.6" />
-                                        <path d="M27 32 L30 35 L37 28" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+                                        <rect x="18" y="18" width="34" height="38" rx="4" fill="white" fillOpacity="0.4" stroke="white" strokeWidth="3"/>
+                                        <rect x="10" y="10" width="34" height="38" rx="4" fill="white" stroke="white" strokeWidth="3"/>
+                                        <line x1="18" y1="20" x2="36" y2="20" stroke="#f43f5e" strokeWidth="3" strokeLinecap="round"/>
+                                        <line x1="18" y1="28" x2="30" y2="28" stroke="#f43f5e" strokeWidth="3" strokeLinecap="round"/>
                                     </svg>
                                 </div>
-                                <h3 className="text-lg font-bold text-slate-900 m-0">Privacy First</h3>
+                                <h3 className="text-lg font-bold text-slate-900 m-0">Batch File Processing</h3>
                             </div>
-                            <p className="text-sm text-slate-600 leading-relaxed">
-                                Your safety is our priority. All PDF processing happens locally in your browser â€” your files never leave your device. Zero uploads, 100% private.
+                            <p className="text-sm text-slate-600 leading-relaxed font-medium">
+                                Need to handle multiple documents? Merge, split, or convert multiple files simultaneously in one go, saving you valuable time.
                             </p>
                         </div>
 
+                    </div>
+                </div>
+            </section>
+
+            {/* -- SECURITY & TRUST COMPLIANCE -- */}
+            <section className="py-16 bg-white dark:bg-slate-900 border-t border-slate-100 dark:border-slate-800/80">
+                <div className="container mx-auto px-4 max-w-6xl">
+                    <div className="bg-gradient-to-r from-slate-50 to-slate-100/50 dark:from-slate-800/30 dark:to-slate-850 rounded-3xl p-8 md:p-12 border border-slate-100 dark:border-slate-800 shadow-xl">
+                        <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 items-center">
+                            {/* Left column: Heading and summary */}
+                            <div className="space-y-4 lg:col-span-1">
+                                <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-50 dark:bg-emerald-950/20 text-emerald-600 dark:text-emerald-400 border border-emerald-100 dark:border-emerald-900/30 text-xs font-semibold uppercase tracking-wider">
+                                    <ShieldCheck size={14} className="fill-emerald-500/10 text-emerald-500" />
+                                    100% Secure & Compliant
+                                </div>
+                                <h3 className="text-3xl font-black text-slate-900 dark:text-white tracking-tighter">
+                                    Your Privacy is <br className="hidden md:inline" />
+                                    <span className="text-red-500">Non-Negotiable</span>
+                                </h3>
+                                <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed font-medium">
+                                    We employ bank-grade security protocols, strict data handling compliance, and transparent legal terms to guarantee your absolute peace of mind.
+                                </p>
+                                
+                                {/* Quick Badges Links */}
+                                <div className="pt-4 flex flex-wrap gap-2">
+                                    <Link href="/terms" className="px-3 py-1.5 rounded-lg text-xs font-bold text-slate-600 dark:text-slate-300 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:text-red-500 transition-colors shadow-sm">
+                                        Terms of Service
+                                    </Link>
+                                    <Link href="/privacy" className="px-3 py-1.5 rounded-lg text-xs font-bold text-slate-600 dark:text-slate-300 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:text-red-500 transition-colors shadow-sm">
+                                        Privacy Policy
+                                    </Link>
+                                    <Link href="/cookie-policy" className="px-3 py-1.5 rounded-lg text-xs font-bold text-slate-600 dark:text-slate-300 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:text-red-500 transition-colors shadow-sm">
+                                        Cookie Policy
+                                    </Link>
+                                    <Link href="/contact" className="px-3 py-1.5 rounded-lg text-xs font-bold text-slate-600 dark:text-slate-300 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:text-red-500 transition-colors shadow-sm">
+                                        Contact Support
+                                    </Link>
+                                </div>
+                            </div>
+
+                            {/* Right column: 4-grid Trust Signal Cards */}
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 lg:col-span-2">
+                                {/* SSL Badge Card */}
+                                <div className="bg-white dark:bg-slate-800/40 p-6 rounded-2xl border border-slate-100 dark:border-slate-700/50 shadow-sm flex gap-4">
+                                    <div className="w-12 h-12 rounded-xl bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 flex items-center justify-center shrink-0">
+                                        <Lock size={22} className="stroke-[2.5]" />
+                                    </div>
+                                    <div className="space-y-1">
+                                        <h4 className="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-1.5">
+                                            256-bit SSL Secure
+                                            <span className="inline-block w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse shadow-lg" />
+                                        </h4>
+                                        <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed font-medium">
+                                            All connections run over a secure, encrypted HTTPS tunnel. Intercepting data is mathematically impossible.
+                                        </p>
+                                    </div>
+                                </div>
+
+                                {/* GDPR Compliance Card */}
+                                <div className="bg-white dark:bg-slate-800/40 p-6 rounded-2xl border border-slate-100 dark:border-slate-700/50 shadow-sm flex gap-4">
+                                    <div className="w-12 h-12 rounded-xl bg-purple-50 dark:bg-purple-900/20 text-purple-600 dark:text-purple-400 flex items-center justify-center shrink-0">
+                                        <Scale size={22} className="stroke-[2.5]" />
+                                    </div>
+                                    <div className="space-y-1">
+                                        <h4 className="text-sm font-bold text-slate-900 dark:text-white">GDPR & CCPA Compliant</h4>
+                                        <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed font-medium">
+                                            We respect your privacy. No personal profiling, no cookie tracking without consent, and you have the complete right to be forgotten.
+                                        </p>
+                                    </div>
+                                </div>
+
+                                {/* Privacy-First (Local execution) Card */}
+                                <div className="bg-white dark:bg-slate-800/40 p-6 rounded-2xl border border-slate-100 dark:border-slate-700/50 shadow-sm flex gap-4">
+                                    <div className="w-12 h-12 rounded-xl bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 flex items-center justify-center shrink-0">
+                                        <Shield size={22} className="stroke-[2.5]" />
+                                    </div>
+                                    <div className="space-y-1">
+                                        <h4 className="text-sm font-bold text-slate-900 dark:text-white">Privacy-First Execution</h4>
+                                        <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed font-medium">
+                                            Most conversion tools run 100% locally in your browser. Your files never get uploaded to any servers.
+                                        </p>
+                                    </div>
+                                </div>
+
+                                {/* File Deletion Timer Card */}
+                                <div className="bg-white dark:bg-slate-800/40 p-6 rounded-2xl border border-slate-100 dark:border-slate-700/50 shadow-sm flex gap-4">
+                                    <div className="w-12 h-12 rounded-xl bg-amber-50 dark:bg-amber-900/20 text-amber-600 dark:text-amber-400 flex items-center justify-center shrink-0">
+                                        <Clock size={22} className="stroke-[2.5]" />
+                                    </div>
+                                    <div className="space-y-1">
+                                        <h4 className="text-sm font-bold text-slate-900 dark:text-white">Automatic 1-Hour Deletion</h4>
+                                        <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed font-medium">
+                                            For backend processed tasks, files are auto-purged from our system after exactly 60 minutes.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>

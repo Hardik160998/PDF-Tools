@@ -72,11 +72,11 @@ export default function CookieConsentBanner() {
           </div>
           <p className="font-bold text-slate-900 dark:text-white text-lg m-0">We value your privacy</p>
         </div>
-        
+
         <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed border-b border-slate-200 dark:border-slate-800 pb-5 m-0">
           We use cookies to enhance your browsing experience, analyze site traffic, process secure payments, and serve targeted advertisements.
         </p>
-        
+
         <details className="group mt-2 mb-2">
           <summary className="text-xs font-bold text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white cursor-pointer flex items-center gap-1.5 focus:outline-none transition-colors w-max select-none [&::-webkit-details-marker]:hidden m-0">
             Show Cookie Details
@@ -132,20 +132,20 @@ export default function CookieConsentBanner() {
         </details>
 
         <div className="flex w-full gap-3 mt-4">
-          <button 
+          <button
             onClick={handleDecline}
             className="bg-transparent hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-400 border border-slate-300 dark:border-slate-700 text-sm font-semibold rounded-xl py-[11px] px-6 m-0 flex-1 text-center transition-colors cursor-pointer"
           >
             Decline All
           </button>
-          <button 
+          <button
             onClick={handleAccept}
             className="bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-600 text-white text-sm font-semibold rounded-xl py-3 px-6 m-0 flex-1 text-center transition-colors cursor-pointer"
           >
             Accept All
           </button>
         </div>
-        
+
         <p className="text-[11px] text-center text-slate-500 dark:text-slate-400 mt-4 m-0 leading-relaxed">
           By continuing, you agree to our{" "}
           <a href="http://smartpdfpro.com/terms" target="_blank" rel="noopener noreferrer" className="text-indigo-600 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300 underline">Terms of Service</a>
