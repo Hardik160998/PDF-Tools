@@ -736,7 +736,7 @@ export default function MarketingSections({
             {/* -- SECURITY & TRUST COMPLIANCE -- */}
             <section className="py-16 bg-white dark:bg-slate-900 border-t border-slate-100 dark:border-slate-800/80">
                 <div className="container mx-auto px-4 max-w-6xl">
-                    <div className="bg-gradient-to-r from-slate-50 to-slate-100/50 dark:from-slate-800/30 dark:to-slate-850 rounded-3xl p-8 md:p-12 border border-slate-100 dark:border-slate-800 shadow-xl">
+                    <div className="bg-gradient-to-r from-slate-50 to-slate-100/50 dark:from-slate-800/30 dark:to-slate-850 rounded-3xl p-5 sm:p-8 md:p-12 border border-slate-100 dark:border-slate-800 shadow-xl">
                         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 items-center">
                             {/* Left column: Heading and summary */}
                             <div className="space-y-4 lg:col-span-1">
@@ -770,7 +770,7 @@ export default function MarketingSections({
                             </div>
 
                             {/* Right column: 4-grid Trust Signal Cards */}
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 lg:col-span-2">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:col-span-2">
                                 {/* SSL Badge Card */}
                                 <div className="bg-white dark:bg-slate-800/40 p-6 rounded-2xl border border-slate-100 dark:border-slate-700/50 shadow-sm flex gap-4">
                                     <div className="w-12 h-12 rounded-xl bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 flex items-center justify-center shrink-0">
