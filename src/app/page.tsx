@@ -13,14 +13,15 @@ export const metadata: Metadata = {
   description:
     "Merge, split, compress, convert, rotate, unlock and watermark PDFs online for free with just a few clicks.",
   alternates: {
-    canonical: "/",
+    canonical: `${siteUrl}/`,
   },
   openGraph: {
     type: "website",
     title: "SmartPDFs Pro | Free Online PDF Tools",
     description:
       "Merge, split, compress, convert, rotate, unlock and watermark PDFs online for free with just a few clicks.",
-    url: "/",
+    url: `${siteUrl}/`,
+
     siteName: "SmartPDFs Pro",
     images: [
       { url: `${siteUrl}/img/snapdeal-label.png`, width: 1200, height: 630 },
