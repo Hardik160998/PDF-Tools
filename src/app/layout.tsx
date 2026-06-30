@@ -112,17 +112,11 @@ export const metadata: Metadata = {
 
   openGraph: {
     title: "SmartPDFs Pro | Every tool you need to work with PDFs",
-    description:
-      "Merge, split, compress, convert, rotate, unlock and watermark PDFs online for free.",
-
+    description:  "Merge, split, compress, convert, rotate, unlock and watermark PDFs online for free.",
     url: siteUrl,
-
     siteName: "SmartPDFs Pro",
-
     locale: "en_US",
-
     type: "website",
-
     images: [
       {
         url: "/img/snapdeal-label.png",
