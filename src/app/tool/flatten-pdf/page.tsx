@@ -4,17 +4,8 @@ import WebAppSchema from "@/components/seo/WebAppSchema";
 import FAQSchema from "@/components/seo/FAQSchema";
 import BreadcrumbSchema from "@/components/seo/BreadcrumbSchema";
 import Link from "next/link";
-import type { Metadata } from "next";
 import dynamic from "next/dynamic";
 import {
-  Layers,
-  Upload,
-  Download,
-  CheckCircle,
-  Combine,
-  Scissors,
-  Lock,
-  Settings,
   Info,
   ArrowRight,
   Star,
@@ -25,104 +16,6 @@ import {
   Shield,
   Zap,
 } from "lucide-react";
-
-// Site URL for canonical/SEO links
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://smartpdfpro.com";
-
-// 1. Dynamic Metadata Export for Next.js App Router
-
-// 3. Structured Data (JSON-LD Schemas)
-const webAppJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "WebApplication",
-  name: "Flatten PDF Online Free",
-  url: `${siteUrl}/tool/flatten-pdf`,
-  image: `${siteUrl}/img/snapdeal-label.png`,
-  description:
-    "Flatten PDF files online for free. Merge form fields, annotations, and shapes permanently into the PDF page content to prevent further editing.",
-  applicationCategory: "UtilityApplication",
-  operatingSystem: "All",
-  browserRequirements: "Requires HTML5 support",
-  featureList: [
-    "100% Local processing in your browser",
-    "No file uploads to servers",
-    "Flatten form fields and text inputs",
-    "Flatten comments, shapes, and annotations",
-    "Fast and free with no watermark",
-  ],
-  offers: {
-    "@type": "Offer",
-    price: "0",
-    priceCurrency: "USD",
-  },
-};
-
-const breadcrumbJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  itemListElement: [
-    {
-      "@type": "ListItem",
-      position: 1,
-      name: "Home",
-      item: siteUrl,
-    },
-    {
-      "@type": "ListItem",
-      position: 2,
-      name: "Tools",
-      item: `${siteUrl}/#tools-grid`,
-    },
-    {
-      "@type": "ListItem",
-      position: 3,
-      name: "Flatten PDF",
-      item: `${siteUrl}/tool/flatten-pdf`,
-    },
-  ],
-};
-
-const faqJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  mainEntity: [
-    {
-      "@type": "Question",
-      name: "What does flattening a PDF mean?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Flattening a PDF merges interactive elements like form text fields, checkboxes, drop-downs, and annotations directly into the background page content. This converts interactive layers into static visual elements, preventing anyone from editing, modifying, or changing the form values.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "Is my data safe using the Flatten PDF tool?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Yes, absolutely. Like all tools on SmartPDFs Pro, the Flatten PDF process is run 100% locally in your web browser. Your document is processed in local memory and is never uploaded to any cloud server, ensuring full data privacy.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "Does flattening a PDF reduce its file size?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "In many cases, yes. Removing interactive form layers and metadata can reduce the overhead of the PDF structure, leading to a smaller, more optimized file size.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "Will the links in my PDF still work after flattening?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Annotations such as comments or editable text fields will be flattened and made uneditable. However, standard hypertext links can be preserved depending on the flattener settings. Our tool prioritizes turning interactive fields static.",
-      },
-    },
-  ],
-};
-
-// 8. Internal links configuration
-
 
 // 12. Breadcrumb Navigation Component
 function Breadcrumb() {

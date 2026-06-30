@@ -4,82 +4,19 @@ import WebAppSchema from "@/components/seo/WebAppSchema";
 import FAQSchema from "@/components/seo/FAQSchema";
 import BreadcrumbSchema from "@/components/seo/BreadcrumbSchema";
 import Link from "next/link";
-import type { Metadata } from "next";
 import SnapdealCropperWrapper, { SnapdealCropperSkeleton } from "@/components/tools/SnapdealCropperWrapper";
 import CreditGate from "@/components/credits/CreditGate";
 import {
-  ShoppingBag,
   Upload,
   Download,
   Wand2,
-  Crop,
-  Combine,
-  Zap,
   Info,
   ArrowRight,
   HelpCircle,
   ChevronDown,
-  Star,
-  Check,
   Truck,
   Package,
 } from "lucide-react";
-
-// Site URL for canonical/SEO links
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://smartpdfpro.com";
-
-// 1. Dynamic Metadata Export for Next.js App Router (SEO & Indexing Fix)
-
-// 3. Structured Data (JSON-LD Schemas)
-const webAppJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "WebApplication",
-  name: "Snapdeal Label Cropper",
-  url: `${siteUrl}/tool/snapdeal-cropper`,
-  image: `${siteUrl}/img/snapdeal-cropper-og.png`,
-  description:
-    "Crop Snapdeal shipping label PDFs online for free. Automatically detects outer borders, highlights barcodes, quantities & addresses.",
-  applicationCategory: "UtilityApplication",
-  operatingSystem: "All",
-  browserRequirements: "Requires HTML5 support",
-  featureList: [
-    "100% browser-local processing for file privacy",
-    "Smart border detection identifies outer barcode guides",
-    "Highlights barcodes and buyer address boundaries",
-    "Supports multiple PDF document batch uploads",
-    "Clean export to PDF or single-page label segments",
-  ],
-  offers: {
-    "@type": "Offer",
-    price: "0",
-    priceCurrency: "USD",
-  },
-};
-
-const breadcrumbJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  itemListElement: [
-    {
-      "@type": "ListItem",
-      position: 1,
-      name: "Home",
-      item: siteUrl,
-    },
-    {
-      "@type": "ListItem",
-      position: 2,
-      name: "Tools",
-      item: `${siteUrl}/#tools-grid`,
-    },
-    {
-      "@type": "ListItem",
-      position: 3,
-      name: "Snapdeal Label Cropper",
-      item: `${siteUrl}/tool/snapdeal-cropper`,
-    },
-  ],
-};
 
 const STEPS = [
   {
@@ -98,8 +35,6 @@ const STEPS = [
     desc: "Get perfectly sized PDF labels ready for thermal or A4 printing without any cut-off text.",
   },
 ];
-
-
 
 export function generateMetadata() {
   const id = "snapdeal-cropper";
@@ -314,98 +249,98 @@ export default function SnapdealCropperPage() {
         {/* -- RELATED BLOG POSTS -- */}
         <section className="mb-20 text-left mt-20">
           <div className="text-center max-w-3xl mx-auto mb-12">
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-red-50 text-red-600 border border-red-100 text-xs font-medium uppercase tracking-widest shadow-sm mb-6">
-                  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" /></svg>
-                  Latest from Blog
-              </div>
-              <h2 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter mb-4 text-center">
-                  Explore Our PDF Guides
-              </h2>
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-red-50 text-red-600 border border-red-100 text-xs font-medium uppercase tracking-widest shadow-sm mb-6">
+              <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" /></svg>
+              Latest from Blog
+            </div>
+            <h2 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter mb-4 text-center">
+              Explore Our PDF Guides
+            </h2>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto mb-12">
             {/* Blog Post 1: Snapdeal Crop Guide */}
             <a href="/blog/how-to-crop-snapdeal-labels" className="group bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-lg transition-all overflow-hidden flex flex-col h-full">
-                <div className="p-6 flex flex-col flex-1 gap-3">
-                    <div className="flex items-start gap-3">
-                        <div className="w-8 h-8 bg-[#e40046] rounded-lg flex items-center justify-center text-white shrink-0 mt-0.5">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                                <polyline points="14 2 14 8 20 8"></polyline>
-                                <line x1="16" y1="13" x2="8" y2="13"></line>
-                                <line x1="16" y1="17" x2="8" y2="17"></line>
-                                <polyline points="10 9 9 9 8 9"></polyline>
-                            </svg>
-                        </div>
-                        <h3 className="font-bold text-slate-800 text-[17px] leading-snug group-hover:text-red-600 transition-colors">
-                            How to Crop Snapdeal Labels (Complete Guide)
-                        </h3>
-                    </div>
-                    <div className="flex items-center justify-between pt-4 mt-auto border-t border-slate-100">
-                        <div className="flex items-center gap-1.5 text-xs text-slate-400 font-medium">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                <circle cx="12" cy="12" r="10" />
-                                <polyline points="12 6 12 12 16 14" />
-                            </svg>
-                            3 min read &nbsp; Jun 01, 2026
-                        </div>
-                        <span className="text-sm font-bold text-red-500 flex items-center gap-1 group-hover:gap-2 transition-all">
-                            Read <ArrowRight size={14} />
-                        </span>
-                    </div>
+              <div className="p-6 flex flex-col flex-1 gap-3">
+                <div className="flex items-start gap-3">
+                  <div className="w-8 h-8 bg-[#e40046] rounded-lg flex items-center justify-center text-white shrink-0 mt-0.5">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                      <polyline points="14 2 14 8 20 8"></polyline>
+                      <line x1="16" y1="13" x2="8" y2="13"></line>
+                      <line x1="16" y1="17" x2="8" y2="17"></line>
+                      <polyline points="10 9 9 9 8 9"></polyline>
+                    </svg>
+                  </div>
+                  <h3 className="font-bold text-slate-800 text-[17px] leading-snug group-hover:text-red-600 transition-colors">
+                    How to Crop Snapdeal Labels (Complete Guide)
+                  </h3>
                 </div>
+                <div className="flex items-center justify-between pt-4 mt-auto border-t border-slate-100">
+                  <div className="flex items-center gap-1.5 text-xs text-slate-400 font-medium">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <circle cx="12" cy="12" r="10" />
+                      <polyline points="12 6 12 12 16 14" />
+                    </svg>
+                    3 min read &nbsp; Jun 01, 2026
+                  </div>
+                  <span className="text-sm font-bold text-red-500 flex items-center gap-1 group-hover:gap-2 transition-all">
+                    Read <ArrowRight size={14} />
+                  </span>
+                </div>
+              </div>
             </a>
 
             {/* Blog Post 2: Marketplace Formats Compared */}
             <a href="/blog/marketplace-shipping-label-formats-compared" className="group bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-lg transition-all overflow-hidden flex flex-col h-full">
-                <div className="p-6 flex flex-col flex-1 gap-3">
-                    <div className="flex items-start gap-3">
-                        <div className="w-8 h-8 bg-purple-500 rounded-lg flex items-center justify-center text-white shrink-0 mt-0.5">
-                            <Truck size={16} />
-                        </div>
-                        <h3 className="font-bold text-slate-800 text-[17px] leading-snug group-hover:text-red-600 transition-colors">
-                            Amazon, Flipkart, Meesho and Snapdeal Label Formats Compared
-                        </h3>
-                    </div>
-                    <div className="flex items-center justify-between pt-4 mt-auto border-t border-slate-100">
-                        <div className="flex items-center gap-1.5 text-xs text-slate-400 font-medium">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                <circle cx="12" cy="12" r="10" />
-                                <polyline points="12 6 12 12 16 14" />
-                            </svg>
-                            14 min read &nbsp; Jun 20, 2026
-                        </div>
-                        <span className="text-sm font-bold text-red-500 flex items-center gap-1 group-hover:gap-2 transition-all">
-                            Read <ArrowRight size={14} />
-                        </span>
-                    </div>
+              <div className="p-6 flex flex-col flex-1 gap-3">
+                <div className="flex items-start gap-3">
+                  <div className="w-8 h-8 bg-purple-500 rounded-lg flex items-center justify-center text-white shrink-0 mt-0.5">
+                    <Truck size={16} />
+                  </div>
+                  <h3 className="font-bold text-slate-800 text-[17px] leading-snug group-hover:text-red-600 transition-colors">
+                    Amazon, Flipkart, Meesho and Snapdeal Label Formats Compared
+                  </h3>
                 </div>
+                <div className="flex items-center justify-between pt-4 mt-auto border-t border-slate-100">
+                  <div className="flex items-center gap-1.5 text-xs text-slate-400 font-medium">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <circle cx="12" cy="12" r="10" />
+                      <polyline points="12 6 12 12 16 14" />
+                    </svg>
+                    14 min read &nbsp; Jun 20, 2026
+                  </div>
+                  <span className="text-sm font-bold text-red-500 flex items-center gap-1 group-hover:gap-2 transition-all">
+                    Read <ArrowRight size={14} />
+                  </span>
+                </div>
+              </div>
             </a>
 
             {/* Blog Post 3: Warehouse Automation Tips */}
             <a href="/blog/warehouse-automation-tips-ecommerce-pdf-tools" className="group bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-lg transition-all overflow-hidden flex flex-col h-full">
-                <div className="p-6 flex flex-col flex-1 gap-3">
-                    <div className="flex items-start gap-3">
-                        <div className="w-8 h-8 bg-green-500 rounded-lg flex items-center justify-center text-white shrink-0 mt-0.5">
-                            <Package size={16} />
-                        </div>
-                        <h3 className="font-bold text-slate-800 text-[17px] leading-snug group-hover:text-red-600 transition-colors">
-                            Warehouse Automation Tips for Ecommerce Sellers
-                        </h3>
-                    </div>
-                    <div className="flex items-center justify-between pt-4 mt-auto border-t border-slate-100">
-                        <div className="flex items-center gap-1.5 text-xs text-slate-400 font-medium">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                <circle cx="12" cy="12" r="10" />
-                                <polyline points="12 6 12 12 16 14" />
-                            </svg>
-                            12 min read &nbsp; Jun 20, 2026
-                        </div>
-                        <span className="text-sm font-bold text-red-500 flex items-center gap-1 group-hover:gap-2 transition-all">
-                            Read <ArrowRight size={14} />
-                        </span>
-                    </div>
+              <div className="p-6 flex flex-col flex-1 gap-3">
+                <div className="flex items-start gap-3">
+                  <div className="w-8 h-8 bg-green-500 rounded-lg flex items-center justify-center text-white shrink-0 mt-0.5">
+                    <Package size={16} />
+                  </div>
+                  <h3 className="font-bold text-slate-800 text-[17px] leading-snug group-hover:text-red-600 transition-colors">
+                    Warehouse Automation Tips for Ecommerce Sellers
+                  </h3>
                 </div>
+                <div className="flex items-center justify-between pt-4 mt-auto border-t border-slate-100">
+                  <div className="flex items-center gap-1.5 text-xs text-slate-400 font-medium">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <circle cx="12" cy="12" r="10" />
+                      <polyline points="12 6 12 12 16 14" />
+                    </svg>
+                    12 min read &nbsp; Jun 20, 2026
+                  </div>
+                  <span className="text-sm font-bold text-red-500 flex items-center gap-1 group-hover:gap-2 transition-all">
+                    Read <ArrowRight size={14} />
+                  </span>
+                </div>
+              </div>
             </a>
           </div>
         </section>
@@ -667,7 +602,7 @@ export default function SnapdealCropperPage() {
               </div>
             </div>
 
-            
+
           </article>
         </section>
       </div>

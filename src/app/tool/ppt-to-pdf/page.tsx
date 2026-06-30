@@ -4,18 +4,11 @@ import WebAppSchema from "@/components/seo/WebAppSchema";
 import FAQSchema from "@/components/seo/FAQSchema";
 import BreadcrumbSchema from "@/components/seo/BreadcrumbSchema";
 import Link from "next/link";
-import type { Metadata } from "next";
 import dynamic from "next/dynamic";
 import {
-  Presentation,
-  Upload,
-  Sparkles,
-  Download,
   FileText,
-  FileSpreadsheet,
   Globe,
   Zap,
-  Lock,
   Shield,
   Info,
   ArrowRight,
@@ -25,65 +18,6 @@ import {
   ChevronDown,
   Loader2,
 } from "lucide-react";
-
-// Site URL for canonical/SEO links
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://smartpdfpro.com";
-
-// 1. Dynamic Metadata Export for Next.js App Router
-
-// 3. Structured Data (JSON-LD Schemas)
-const webAppJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "WebApplication",
-  name: "PPT to PDF Converter Online Free",
-  url: `${siteUrl}/tool/ppt-to-pdf`,
-  image: `${siteUrl}/img/snapdeal-label.png`,
-  description:
-    "Convert PowerPoint presentations (PPT or PPTX) to high-quality PDF files online for free. Visuals, tables, and layouts perfectly preserved.",
-  applicationCategory: "UtilityApplication",
-  operatingSystem: "All",
-  browserRequirements: "Requires HTML5 support",
-  featureList: [
-    "Perfect visual layout and font preservation",
-    "High-speed server side presentation parsing",
-    "Secure SSL file transfer protocols",
-    "Auto file cleanup within 1 hour",
-    "Zero ads or watermarks in output PDF",
-  ],
-  offers: {
-    "@type": "Offer",
-    price: "0",
-    priceCurrency: "USD",
-  },
-};
-
-const breadcrumbJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  itemListElement: [
-    {
-      "@type": "ListItem",
-      position: 1,
-      name: "Home",
-      item: siteUrl,
-    },
-    {
-      "@type": "ListItem",
-      position: 2,
-      name: "Tools",
-      item: `${siteUrl}/#tools-grid`,
-    },
-    {
-      "@type": "ListItem",
-      position: 3,
-      name: "PowerPoint to PDF Converter",
-      item: `${siteUrl}/tool/ppt-to-pdf`,
-    },
-  ],
-};
-
-// 8. Internal links configuration
-
 
 // 12. Breadcrumb Navigation Component
 function Breadcrumb() {

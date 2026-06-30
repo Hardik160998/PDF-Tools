@@ -5,13 +5,7 @@ import FAQSchema from "@/components/seo/FAQSchema";
 import BreadcrumbSchema from "@/components/seo/BreadcrumbSchema";
 import MergeSplit from "@/components/tools/MergeSplit";
 import Link from "next/link";
-import type { Metadata } from "next";
 import {
-  SplitSquareHorizontal,
-  FileText,
-  ImageIcon,
-  Lock,
-  Unlock,
   Zap,
   Shield,
   ArrowRight,
@@ -21,65 +15,6 @@ import {
   Check,
   ChevronDown,
 } from "lucide-react";
-
-// Site URL for canonical/SEO links
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
-
-// 1. Dynamic Metadata Export for Next.js App Router
-
-// 3. Structured Data (JSON-LD Schemas)
-const webAppJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "WebApplication",
-  name: "Merge PDF Online Free",
-  url: `${siteUrl}/tool/merge`,
-  image: `${siteUrl}/img/merge-multiple-pdfs.png`,
-  description:
-    "Merge PDF files online for free. Combine multiple PDF documents into one instantly with 100% secure local browser processing.",
-  applicationCategory: "UtilityApplication",
-  operatingSystem: "All",
-  browserRequirements: "Requires HTML5 support",
-  featureList: [
-    "100% Local processing in your browser",
-    "No file uploads to servers",
-    "Combine multiple PDF documents",
-    "Drag and drop reordering",
-    "Fast and free with no watermark",
-  ],
-  offers: {
-    "@type": "Offer",
-    price: "0",
-    priceCurrency: "USD",
-  },
-};
-
-const breadcrumbJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  itemListElement: [
-    {
-      "@type": "ListItem",
-      position: 1,
-      name: "Home",
-      item: siteUrl,
-    },
-    {
-      "@type": "ListItem",
-      position: 2,
-      name: "Tools",
-      item: `${siteUrl}/#tools-grid`,
-    },
-    {
-      "@type": "ListItem",
-      position: 3,
-      name: "Merge PDF",
-      item: `${siteUrl}/tool/merge`,
-    },
-  ],
-};
-
-// 8. Internal links configuration
-
 
 // 12. Breadcrumb Navigation Component
 function Breadcrumb() {

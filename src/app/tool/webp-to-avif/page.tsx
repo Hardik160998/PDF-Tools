@@ -4,16 +4,12 @@ import WebAppSchema from '@/components/seo/WebAppSchema';
 import FAQSchema from '@/components/seo/FAQSchema';
 import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema';
 import Link from "next/link";
-import type { Metadata } from "next";
 import ImageConverter from "@/components/tools/ImageConverter";
 import {
-    ImageIcon,
     Upload,
     SlidersHorizontal,
     Download,
     Zap,
-    Lock,
-    FileText,
     Shield,
     Check,
     HelpCircle,
@@ -22,102 +18,6 @@ import {
     Info,
     Star,
 } from "lucide-react";
-
-// Site URL for canonical/SEO links
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://smartpdfpro.com";
-
-// 1. Dynamic Metadata Export for Next.js App Router (SEO & Indexing Fix)
-
-
-// 3. Structured Data (JSON-LD Schemas)
-const webAppJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "WebApplication",
-    name: "WebP to AVIF Converter",
-    url: `${siteUrl}/tool/webp-to-avif`,
-    image: `${siteUrl}/img/webp-to-avif-og.png`,
-    description:
-        "Convert WebP images to AVIF format online for free. AVIF provides next-generation compression that compresses files up to 35% smaller than WebP.",
-    applicationCategory: "UtilityApplication",
-    operatingSystem: "All",
-    browserRequirements: "Requires HTML5 support",
-    featureList: [
-        "100% Local processing in your browser sandbox",
-        "No file uploads to servers",
-        "Preserves image alpha transparency layers",
-        "Batch processing for multiple images",
-        "Free with no registrations or watermarks",
-    ],
-    offers: {
-        "@type": "Offer",
-        price: "0",
-        priceCurrency: "USD",
-    },
-};
-
-const breadcrumbJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: [
-        {
-            "@type": "ListItem",
-            position: 1,
-            name: "Home",
-            item: siteUrl,
-        },
-        {
-            "@type": "ListItem",
-            position: 2,
-            name: "Tools",
-            item: `${siteUrl}/#tools-grid`,
-        },
-        {
-            "@type": "ListItem",
-            position: 3,
-            name: "WebP to AVIF",
-            item: `${siteUrl}/tool/webp-to-avif`,
-        },
-    ],
-};
-
-const faqJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: [
-        {
-            "@type": "Question",
-            name: "Will converting my WebP to AVIF support transparency?",
-            acceptedAnswer: {
-                "@type": "Answer",
-                text: "Yes, AVIF supports full alpha channel transparency. Converting your WebP to AVIF will retain transparent background structures perfectly.",
-            },
-        },
-        {
-            "@type": "Question",
-            name: "How much smaller will my AVIF file be compared to WebP?",
-            acceptedAnswer: {
-                "@type": "Answer",
-                text: "On average, AVIF files can compress up to 30-35% smaller than standard WebP files at equivalent visual details, helping websites load much faster.",
-            },
-        },
-        {
-            "@type": "Question",
-            name: "Is this tool secure to use with company assets?",
-            acceptedAnswer: {
-                "@type": "Answer",
-                text: "Absolutely. The converter processes assets entirely local inside your browser memory using WebAssembly/JavaScript. Your files never touch external servers.",
-            },
-        },
-        {
-            "@type": "Question",
-            name: "Can I convert multiple WebPs to AVIFs in one go?",
-            acceptedAnswer: {
-                "@type": "Answer",
-                text: "Yes. Upload all target WebPs in batch. The system converts them in parallel and packages the outputs inside a single ZIP file for downloading.",
-            },
-        },
-    ],
-};
 
 const STEPS = [
     {

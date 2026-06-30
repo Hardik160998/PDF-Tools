@@ -4,17 +4,9 @@ import WebAppSchema from "@/components/seo/WebAppSchema";
 import FAQSchema from "@/components/seo/FAQSchema";
 import BreadcrumbSchema from "@/components/seo/BreadcrumbSchema";
 import Link from "next/link";
-import type { Metadata } from "next";
 import dynamic from "next/dynamic";
 import {
   FileText,
-  Upload,
-  Sparkles,
-  Download,
-  FileSpreadsheet,
-  Presentation,
-  ImageIcon,
-  Lock,
   Shield,
   Zap,
   Globe,
@@ -26,103 +18,6 @@ import {
   ChevronDown,
   Loader2,
 } from "lucide-react";
-
-// Site URL for canonical/SEO links
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://smartpdfpro.com";
-
-// 1. Dynamic Metadata Export for Next.js App Router
-
-// 3. Structured Data (JSON-LD Schemas)
-const webAppJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "WebApplication",
-  name: "DOCX to PDF Converter Online Free",
-  url: `${siteUrl}/tool/docx-to-pdf`,
-  image: `${siteUrl}/img/snapdeal-label.png`,
-  description:
-    "Convert Microsoft Word (DOCX or DOC) documents to high-quality PDF files online for free. Complete formatting, fonts, and images preservation.",
-  applicationCategory: "UtilityApplication",
-  operatingSystem: "All",
-  browserRequirements: "Requires HTML5 support",
-  featureList: [
-    "Perfect font and layout preservation",
-    "Lightning fast server side conversion",
-    "Secure HTTPS file transfers",
-    "Automatic file cleanup in 1 hour",
-    "Zero watermarks in output document",
-  ],
-  offers: {
-    "@type": "Offer",
-    price: "0",
-    priceCurrency: "USD",
-  },
-};
-
-const breadcrumbJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  itemListElement: [
-    {
-      "@type": "ListItem",
-      position: 1,
-      name: "Home",
-      item: siteUrl,
-    },
-    {
-      "@type": "ListItem",
-      position: 2,
-      name: "Tools",
-      item: `${siteUrl}/#tools-grid`,
-    },
-    {
-      "@type": "ListItem",
-      position: 3,
-      name: "DOCX to PDF Converter",
-      item: `${siteUrl}/tool/docx-to-pdf`,
-    },
-  ],
-};
-
-const faqJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  mainEntity: [
-    {
-      "@type": "Question",
-      name: "Why convert DOCX to PDF?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "PDF documents look identical on every device and operating system. Sharing contracts, reports, and resumes as PDFs guarantees your formatting, spacing, and fonts never break.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "Will the document layout and formatting change?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "No. Our converter faithfully reproduces fonts, tables, bullet points, headers, footers, and margins in the output PDF document, matching your original Word file.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "Are my uploaded Word files safe?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Absolutely. Your documents are uploaded over secure HTTPS connections, processed in our sandbox system, and permanently deleted from our servers within 1 hour.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "Which Word document extensions are supported?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "We support both modern DOCX files (Word 2007+) and legacy DOC files (Word 97-2003) for seamless PDF generation.",
-      },
-    },
-  ],
-};
-
-// 8. Internal links configuration
 
 
 // 12. Breadcrumb Navigation Component

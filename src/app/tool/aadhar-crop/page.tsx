@@ -11,108 +11,12 @@ import {
   Shield, Check, HelpCircle, ChevronDown, ArrowRight, Info, Star, Zap
 } from "lucide-react";
 
-// Site URL for canonical/SEO links
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://smartpdfpro.com";
-
-// 1. Dynamic Metadata Export for Next.js App Router (SEO & Indexing Fix)
-
-
-// 3. Structured Data (JSON-LD Schemas)
-const webAppJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "WebApplication",
-  "name": "Aadhar Card Cropper",
-  "url": `${siteUrl}/tool/aadhar-crop`,
-  "image": `${siteUrl}/img/aadhar-crop-og.png`,
-  "description": "Crop your e-Aadhar card PDF or image online for free. Adjust and crop the front and back sides to standard ID dimensions ready for print.",
-  "applicationCategory": "UtilityApplication",
-  "operatingSystem": "All",
-  "browserRequirements": "Requires HTML5 support",
-  "featureList": [
-    "100% Local processing in your browser sandbox",
-    "No file uploads to servers",
-    "Predefined ID card dimensions for easy print formatting",
-    "Supports both PDF and image inputs",
-    "Free with no registrations or watermarks"
-  ],
-  "offers": {
-    "@type": "Offer",
-    "price": "0",
-    "priceCurrency": "USD"
-  }
-};
-
-const breadcrumbJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [
-    {
-      "@type": "ListItem",
-      "position": 1,
-      "name": "Home",
-      "item": siteUrl
-    },
-    {
-      "@type": "ListItem",
-      "position": 2,
-      "name": "Tools",
-      "item": `${siteUrl}/#tools-grid`
-    },
-    {
-      "@type": "ListItem",
-      "position": 3,
-      "name": "Aadhar Crop",
-      "item": `${siteUrl}/tool/aadhar-crop`
-    }
-  ]
-};
-
-const faqJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "Is my Aadhar Card uploaded to any server?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Never. Privacy is our top priority. The entire cropping process runs locally in your web browser using HTML5 Canvas. Your Aadhar PDF or image files are never uploaded, stored, or transmitted to any server."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is the standard print size for an Aadhar Card?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Our cropper formats both cropped sections to the standard Indian government ID dimensions (approx 8.56 cm x 5.4 cm) and compiles them on a single print-ready A4 PDF page."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Does the cropper support e-Aadhar PDFs directly?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes. You can upload either standard image files or the digital e-Aadhar PDF document directly to start cropping the ID sections."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What should I do if my Aadhar PDF is password protected?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "If your e-Aadhar PDF requires a password, please use our Unlock PDF tool first to remove the security encryption before cropping."
-      }
-    }
-  ]
-};
 
 const STEPS = [
   { icon: Upload, title: "Upload E-Aadhar PDF", desc: "Select your e-Aadhar PDF or image. Everything is processed entirely in your browser — your Aadhar data never leaves your device." },
   { icon: Crop, title: "Crop Front & Back", desc: "Use the visual cropper to select the front side of your Aadhar card, then the back side. Zoom and adjust for a perfect crop." },
   { icon: Download, title: "Download Print-Ready PDF", desc: "Download an A4 PDF with both sides formatted to standard ID card dimensions — ready for high-quality printing." },
 ];
-
-
 
 
 export function generateMetadata() {

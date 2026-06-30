@@ -4,17 +4,8 @@ import WebAppSchema from "@/components/seo/WebAppSchema";
 import FAQSchema from "@/components/seo/FAQSchema";
 import BreadcrumbSchema from "@/components/seo/BreadcrumbSchema";
 import Link from "next/link";
-import type { Metadata } from "next";
 import dynamic from "next/dynamic";
 import {
-  PenLine,
-  Upload,
-  Download,
-  Stamp,
-  Hash,
-  Lock,
-  Unlock,
-  Combine,
   Zap,
   Settings,
   Shield,
@@ -27,104 +18,6 @@ import {
   ChevronDown,
   Loader2,
 } from "lucide-react";
-
-// Site URL for canonical/SEO links
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://smartpdfpro.com";
-
-// 1. Dynamic Metadata Export for Next.js App Router
-
-// 3. Structured Data (JSON-LD Schemas)
-const webAppJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "WebApplication",
-  name: "PDF Metadata Editor Online Free",
-  url: `${siteUrl}/tool/metadata`,
-  image: `${siteUrl}/img/snapdeal-label.png`,
-  description:
-    "Edit PDF metadata tags like Title, Author, Subject, and Keywords online for free. 100% secure local browser processing.",
-  applicationCategory: "UtilityApplication",
-  operatingSystem: "All",
-  browserRequirements: "Requires HTML5 support",
-  featureList: [
-    "100% Local processing in your browser",
-    "No file uploads to servers",
-    "Edit Title, Author, Subject, and Keywords",
-    "Modify Creator, Producer, and Date stamps",
-    "Fast and free with no watermark",
-  ],
-  offers: {
-    "@type": "Offer",
-    price: "0",
-    priceCurrency: "USD",
-  },
-};
-
-const breadcrumbJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  itemListElement: [
-    {
-      "@type": "ListItem",
-      position: 1,
-      name: "Home",
-      item: siteUrl,
-    },
-    {
-      "@type": "ListItem",
-      position: 2,
-      name: "Tools",
-      item: `${siteUrl}/#tools-grid`,
-    },
-    {
-      "@type": "ListItem",
-      position: 3,
-      name: "Edit PDF Metadata",
-      item: `${siteUrl}/tool/metadata`,
-    },
-  ],
-};
-
-const faqJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  mainEntity: [
-    {
-      "@type": "Question",
-      name: "Is the metadata editor secure?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Yes, absolutely. Unlike other online tools that upload your files to external servers, our PDF metadata editor performs the entire process 100% locally in your web browser. Your private documents never leave your computer.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "Which metadata fields can I edit?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "You can modify Title, Author, Subject, Keywords, Creator (software used to make the PDF), Producer (engine used to compile), and document creation/modification dates.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "Will editing metadata change my original PDF text or layout formatting?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "No. Metadata is saved in a separate document info dictionary block at the end of the file structure. Your page text, fonts, and inline graphics remain untouched.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "Is there a page or size limit?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Because all processing happens client-side in your browser, there is no server-imposed upload limit. It depends only on your local system's memory and CPU.",
-      },
-    },
-  ],
-};
-
-// 8. Internal links configuration
-
 
 // 12. Breadcrumb Navigation Component
 function Breadcrumb() {

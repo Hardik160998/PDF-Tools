@@ -4,87 +4,23 @@ import WebAppSchema from '@/components/seo/WebAppSchema';
 import FAQSchema from '@/components/seo/FAQSchema';
 import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema';
 import Link from "next/link";
-import type { Metadata } from "next";
 import MeeshoCropperWrapper, { MeeshoCropperSkeleton } from "@/components/tools/MeeshoCropperWrapper";
 import MeeshoTitleSync from "@/components/tools/MeeshoTitleSync";
 import CreditGate from "@/components/credits/CreditGate";
 import {
-  ShoppingBag,
   Upload,
   Scissors,
   Download,
   Zap,
   FileText,
-  Wand2,
   Crop,
-  Combine,
-  Lock,
   Info,
   ArrowRight,
   HelpCircle,
   ChevronDown,
-  Star,
-  Check,
   Truck,
   Package,
 } from "lucide-react";
-
-// Site URL for canonical/SEO links
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://smartpdfpro.com";
-
-// 1. Dynamic Metadata Export for Next.js App Router (SEO & Indexing Fix)
-
-
-// 3. Structured Data (JSON-LD Schemas)
-const webAppJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "WebApplication",
-  name: "Meesho Label with Invoice Cropper",
-  url: `${siteUrl}/tool/meesho-cropper`,
-  image: `${siteUrl}/img/meesho-cropper-og.png`,
-  description:
-    "Crop Meesho shipping label PDFs online for free. Automatically remove the invoice section below 'Total', sort by SKU or Quantity, and download a print-ready PDF.",
-  applicationCategory: "UtilityApplication",
-  operatingSystem: "All",
-  browserRequirements: "Requires HTML5 support",
-  featureList: [
-    "100% browser-based local processing for absolute privacy",
-    "Auto detects 'Total' row to crop invoice section below it",
-    "Sort labels by Quantity, SKU ID, or Courier brand",
-    "Highlight SKU ID for easy warehouse verification",
-    "Export metadata CSV of all processed orders",
-  ],
-  offers: {
-    "@type": "Offer",
-    price: "0",
-    priceCurrency: "USD",
-  },
-};
-
-const breadcrumbJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  itemListElement: [
-    {
-      "@type": "ListItem",
-      position: 1,
-      name: "Home",
-      item: siteUrl,
-    },
-    {
-      "@type": "ListItem",
-      position: 2,
-      name: "Tools",
-      item: `${siteUrl}/#tools-grid`,
-    },
-    {
-      "@type": "ListItem",
-      position: 3,
-      name: "Meesho Label Cropper",
-      item: `${siteUrl}/tool/meesho-cropper`,
-    },
-  ],
-};
 
 const STEPS = [
   {

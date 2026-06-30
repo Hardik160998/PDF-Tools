@@ -8,126 +8,17 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import {
     EyeOff,
-    Upload,
     Shield,
-    Download,
-    Combine,
-    Lock,
-    Unlock,
-    Layers,
-    GitCompare,
     ArrowRight,
     HelpCircle,
     Info,
     Star,
     Check,
     ChevronDown,
-    Trash2,
-    Zap,
-    SplitSquareHorizontal,
-    FileText,
 } from "lucide-react";
 
 
-// Site URL for canonical/SEO links
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://smartpdfpro.com";
-
-// 1. Dynamic Metadata Export for Next.js App Router (Server-side)
-
-
-// 3. Structured Data (JSON-LD Schemas)
-const webAppJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "WebApplication",
-    name: "Redact PDF Online Free",
-    url: `${siteUrl}/tool/redact-pdf`,
-    image: `${siteUrl}/img/redact-pdf.png`,
-    description:
-        "Permanently redact and black out sensitive text and images from PDF files online. Process documents securely in your web browser.",
-    applicationCategory: "UtilityApplication",
-    operatingSystem: "All",
-    browserRequirements: "Requires HTML5 support",
-    featureList: [
-        "100% Local processing in your browser",
-        "No server file uploads",
-        "Draw black boxes to redact content",
-        "Keyword search and auto-redaction",
-        "Instant download with no watermarks",
-    ],
-    offers: {
-        "@type": "Offer",
-        price: "0",
-        priceCurrency: "USD",
-    },
-};
-
-const breadcrumbJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: [
-        {
-            "@type": "ListItem",
-            position: 1,
-            name: "Home",
-            item: siteUrl,
-        },
-        {
-            "@type": "ListItem",
-            position: 2,
-            name: "Tools",
-            item: `${siteUrl}/#tools-grid`,
-        },
-        {
-            "@type": "ListItem",
-            position: 3,
-            name: "Redact PDF",
-            item: `${siteUrl}/tool/redact-pdf`,
-        },
-    ],
-};
-
-const faqJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: [
-        {
-            "@type": "Question",
-            name: "Is this PDF redaction tool safe for confidential files?",
-            acceptedAnswer: {
-                "@type": "Answer",
-                text: "Yes, absolutely. Unlike other online services that upload your documents to remote servers, our tool processes all PDF files 100% locally in your web browser. Your private data never leaves your computer.",
-            },
-        },
-        {
-            "@type": "Question",
-            name: "Does this tool actually remove redacted text or just hide it?",
-            acceptedAnswer: {
-                "@type": "Answer",
-                text: "Our tool permanently deletes and strips the redacted text and vector paths under the black boxes. It doesn't just overlay color; it ensures the underlying content cannot be highlighted, copied, or recovered by search tools or conversions.",
-            },
-        },
-        {
-            "@type": "Question",
-            name: "How does keyword-based auto-redaction work?",
-            acceptedAnswer: {
-                "@type": "Answer",
-                text: "You can select the 'Search' mode, type a keyword or phrase, and our tool will find all matching text occurrences across all pages of your PDF and automatically apply redaction boxes to them instantly.",
-            },
-        },
-        {
-            "@type": "Question",
-            name: "Will using the PDF redaction tool add any watermarks?",
-            acceptedAnswer: {
-                "@type": "Answer",
-                text: "No. We believe in providing clean, professional outputs. The redacted PDF is downloaded in high quality without any watermarks or added logos.",
-            },
-        },
-    ],
-};
-
 // 8. Internal links configuration
-
-
 import CreditGate from "@/components/credits/CreditGate";
 import RedactPdfWrapper, { RedactPdfSkeleton } from "@/components/tools/RedactPdfWrapper";
 

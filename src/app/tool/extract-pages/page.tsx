@@ -5,112 +5,13 @@ import FAQSchema from '@/components/seo/FAQSchema';
 import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema';
 import ExtractPages from "@/components/tools/ExtractPages";
 import Link from "next/link";
-import type { Metadata } from "next";
 import {
- FileText,
  ArrowRight,
  HelpCircle,
  Star,
  Check,
  ChevronDown,
 } from "lucide-react";
-
-// Site URL for canonical/SEO links
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://smartpdfpro.com";
-
-// 1. Dynamic Metadata Export for Next.js App Router
-
-
-// 3. Structured Data (JSON-LD Schemas)
-const webAppJsonLd = {
- "@context": "https://schema.org",
- "@type": "WebApplication",
- name: "Extract PDF Pages Online Free",
- url: `${siteUrl}/tool/extract-pages`,
- image: `${siteUrl}/img/extract-pages-og.png`,
- description:
- "Extract pages from PDF online for free. Select individual pages or page ranges visually and save them as a new PDF. 100% local, secure, and private.",
- applicationCategory: "UtilityApplication",
- operatingSystem: "All",
- browserRequirements: "Requires HTML5 support",
- featureList: [
- "100% Local processing in your browser",
- "No file uploads to servers",
- "Select page ranges or individual pages visually",
- "Fast PDF extraction with no watermarks",
- "Maintains original document styling and resolution",
- ],
- offers: {
- "@type": "Offer",
- price: "0",
- priceCurrency: "USD",
- },
-};
-
-const breadcrumbJsonLd = {
- "@context": "https://schema.org",
- "@type": "BreadcrumbList",
- itemListElement: [
- {
- "@type": "ListItem",
- position: 1,
- name: "Home",
- item: siteUrl,
- },
- {
- "@type": "ListItem",
- position: 2,
- name: "Tools",
- item: `${siteUrl}/#tools-grid`,
- },
- {
- "@type": "ListItem",
- position: 3,
- name: "Extract Pages",
- item: `${siteUrl}/tool/extract-pages`,
- },
- ],
-};
-
-const faqJsonLd = {
- "@context": "https://schema.org",
- "@type": "FAQPage",
- mainEntity: [
- {
- "@type": "Question",
- name: "How can I extract specific pages from a PDF?",
- acceptedAnswer: {
- "@type": "Answer",
- text: "Simply upload your PDF file to our tool. You can visually select the pages you want to keep by clicking on their thumbnails, or type in a page range (e.g., 1-3, 5). Click 'Extract Pages' to instantly download the new PDF containing only your selected pages.",
- },
- },
- {
- "@type": "Question",
- name: "Is my uploaded document secure?",
- acceptedAnswer: {
- "@type": "Answer",
- text: "Yes! Our extractor tool processes your files 100% locally in your web browser. No files are uploaded to any external servers, ensuring complete security and privacy for your documents.",
- },
- },
- {
- "@type": "Question",
- name: "Can I extract pages from password-protected PDFs?",
- acceptedAnswer: {
- "@type": "Answer",
- text: "You will need to unlock the PDF first using our Unlock PDF tool before uploading it to the page extractor tool, as secured PDFs cannot be parsed without password authorization.",
- },
- },
- {
- "@type": "Question",
- name: "Is there a page limit for extracting pages?",
- acceptedAnswer: {
- "@type": "Answer",
- text: "There are no hard page limits. Since the tool executes within your browser tab, it is only limited by your device's memory, allowing you to process large PDFs smoothly.",
- },
- },
- ],
-};
-
 
 export function generateMetadata() {
  const id = 'extract-pages';

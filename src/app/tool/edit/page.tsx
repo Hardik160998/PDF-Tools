@@ -4,17 +4,9 @@ import WebAppSchema from "@/components/seo/WebAppSchema";
 import FAQSchema from "@/components/seo/FAQSchema";
 import BreadcrumbSchema from "@/components/seo/BreadcrumbSchema";
 import Link from "next/link";
-import type { Metadata } from "next";
 import dynamic from "next/dynamic";
 import {
   PenLine,
-  Stamp,
-  FileDigit,
-  Settings,
-  EyeOff,
-  Bookmark,
-  Layers,
-  CheckCircle,
   Info,
   ArrowRight,
   Star,
@@ -22,107 +14,8 @@ import {
   HelpCircle,
   ChevronDown,
   Loader2,
-  Shield,
-  Zap,
+  Shield
 } from "lucide-react";
-
-// Site URL for canonical/SEO links
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://smartpdfpro.com";
-
-// 1. Dynamic Metadata Export for Next.js App Router
-
-// 3. Structured Data (JSON-LD Schemas)
-const webAppJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "WebApplication",
-  name: "Free Online PDF Editor",
-  url: `${siteUrl}/edit`,
-  image: `${siteUrl}/img/snapdeal-label.png`,
-  description:
-    "Edit PDF documents online for free. Add text, insert images, draw annotations, and redact content locally inside your browser with 100% privacy.",
-  applicationCategory: "UtilityApplication",
-  operatingSystem: "All",
-  browserRequirements: "Requires HTML5 support",
-  featureList: [
-    "100% Local browser processing",
-    "Add rich interactive text overlay fields",
-    "Place, crop, and scale custom images",
-    "Redact or white-out sensitive content details",
-    "Fast, free, and no watermark tags",
-  ],
-  offers: {
-    "@type": "Offer",
-    price: "0",
-    priceCurrency: "USD",
-  },
-};
-
-const breadcrumbJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  itemListElement: [
-    {
-      "@type": "ListItem",
-      position: 1,
-      name: "Home",
-      item: siteUrl,
-    },
-    {
-      "@type": "ListItem",
-      position: 2,
-      name: "Tools",
-      item: `${siteUrl}/#tools-grid`,
-    },
-    {
-      "@type": "ListItem",
-      position: 3,
-      name: "Edit PDF",
-      item: `${siteUrl}/edit`,
-    },
-  ],
-};
-
-const faqJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  mainEntity: [
-    {
-      "@type": "Question",
-      name: "Can I edit existing text in a PDF with this tool?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "You can add new text blocks, place shapes, add images, and draw annotations. To modify existing text, you can use our white-out/redaction tool to cover the original text and write new text over it.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "Is this online PDF editor really free?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Yes! You can edit, annotate, and modify your PDFs completely for free with no watermarks and no sign-up required.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "How secure is this online PDF editor?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Our editor runs 100% client-side in your web browser. Your files are never uploaded to any server or cloud, meaning your private data remains completely private.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "Does the edited PDF work in other viewers?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Yes. All edits are compiled into standard PDF elements compatible with Adobe Acrobat Reader, Google Chrome, Apple Preview, and other readers.",
-      },
-    },
-  ],
-};
-
-// 8. Internal links configuration
-
 
 // 12. Breadcrumb Navigation Component
 function Breadcrumb() {

@@ -5,13 +5,8 @@ import FAQSchema from "@/components/seo/FAQSchema";
 import BreadcrumbSchema from "@/components/seo/BreadcrumbSchema";
 import ImageConverter from "@/components/tools/ImageConverter";
 import Link from "next/link";
-import type { Metadata } from "next";
 import {
-  SplitSquareHorizontal,
-  FileText,
-  ImageIcon,
-  Lock,
-  Unlock,
+
   Zap,
   Shield,
   ArrowRight,
@@ -21,64 +16,6 @@ import {
   Check,
   ChevronDown,
 } from "lucide-react";
-
-// Site URL for canonical/SEO links
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://smartpdfpro.com";
-
-// 1. Dynamic Metadata Export for Next.js App Router
-
-// 3. Structured Data (JSON-LD Schemas)
-const webAppJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "WebApplication",
-  name: "Convert JPG to PDF Online",
-  url: `${siteUrl}/tool/jpg-to-pdf`,
-  image: `${siteUrl}/img/jpg-to-pdf-og.png`,
-  description:
-    "Convert JPG, PNG, and TIFF images to PDF online for free. Combine multiple photos into a single PDF document locally and securely in your web browser.",
-  applicationCategory: "UtilityApplication",
-  operatingSystem: "All",
-  browserRequirements: "Requires HTML5 support",
-  featureList: [
-    "100% Local processing in your browser",
-    "No file uploads to servers",
-    "Combine multiple images into one PDF",
-    "High-resolution PDF output",
-    "Free with no watermark",
-  ],
-  offers: {
-    "@type": "Offer",
-    price: "0",
-    priceCurrency: "USD",
-  },
-};
-
-const breadcrumbJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  itemListElement: [
-    {
-      "@type": "ListItem",
-      position: 1,
-      name: "Home",
-      item: siteUrl,
-    },
-    {
-      "@type": "ListItem",
-      position: 2,
-      name: "Tools",
-      item: `${siteUrl}/#tools-grid`,
-    },
-    {
-      "@type": "ListItem",
-      position: 3,
-      name: "JPG to PDF",
-      item: `${siteUrl}/tool/jpg-to-pdf`,
-    },
-  ],
-};
-
-
 
 function Breadcrumb() {
   return (

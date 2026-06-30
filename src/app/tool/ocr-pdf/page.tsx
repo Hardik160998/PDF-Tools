@@ -6,113 +6,13 @@ import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema';
 import OcrPdfClientWrapper, { OcrPdfSkeleton } from "@/components/tools/OcrPdfClientWrapper";
 import CreditGate from "@/components/credits/CreditGate";
 import Link from "next/link";
-import type { Metadata } from "next";
 import {
-  FileText,
   ArrowRight,
   HelpCircle,
   Star,
   Check,
   ChevronDown,
 } from "lucide-react";
-
-// Site URL for canonical/SEO links
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://smartpdfpro.com";
-
-// 1. Dynamic Metadata Export for Next.js App Router
-
-
-// 3. Structured Data (JSON-LD Schemas)
-const webAppJsonLd = {
- "@context": "https://schema.org",
- "@type": "WebApplication",
- name: "OCR PDF Online Free",
- url: `${siteUrl}/tool/ocr-pdf`,
- image: `${siteUrl}/img/ocr-pdf-og.png`,
- description:
- "OCR PDF files online for free. Convert scanned PDFs and images into fully searchable, selectable PDF documents. 100% secure, local in-browser OCR scanning.",
- applicationCategory: "UtilityApplication",
- operatingSystem: "All",
- browserRequirements: "Requires HTML5 support",
- featureList: [
- "100% Local processing in your browser sandbox",
- "No file uploads to servers",
- "Uses Tesseract OCR engine for text recognition",
- "Generates searchable overlay text layers",
- "Supports multiple document formats and scans",
- "Fast character mapping with zero leaks",
- ],
- offers: {
- "@type": "Offer",
- price: "0",
- priceCurrency: "USD",
- },
-};
-
-const breadcrumbJsonLd = {
- "@context": "https://schema.org",
- "@type": "BreadcrumbList",
- itemListElement: [
- {
- "@type": "ListItem",
- position: 1,
- name: "Home",
- item: siteUrl,
- },
- {
- "@type": "ListItem",
- position: 2,
- name: "Tools",
- item: `${siteUrl}/#tools-grid`,
- },
- {
- "@type": "ListItem",
- position: 3,
- name: "OCR PDF",
- item: `${siteUrl}/tool/ocr-pdf`,
- },
- ],
-};
-
-const faqJsonLd = {
- "@context": "https://schema.org",
- "@type": "FAQPage",
- mainEntity: [
- {
- "@type": "Question",
- name: "How can I convert a scanned PDF to a searchable PDF?",
- acceptedAnswer: {
- "@type": "Answer",
- text: "Upload your scanned PDF to our OCR PDF tool. Select your document's language and click 'Run OCR'. Our in-browser Tesseract engine scans the document, injects a selectable text layer, and downloads the searchable PDF.",
- },
- },
- {
- "@type": "Question",
- name: "Is my scanned document uploaded to a server?",
- acceptedAnswer: {
- "@type": "Answer",
- text: "No! Tesseract OCR operates completely inside your web browser sandbox using WebAssembly. No text elements or document pages are ever transmitted to external servers.",
- },
- },
- {
- "@type": "Question",
- name: "What languages does the OCR tool support?",
- acceptedAnswer: {
- "@type": "Answer",
- text: "The OCR engine is configured with English text datasets by default to recognize alphanumeric characters, ensuring fast and accurate layouts parsing.",
- },
- },
- {
- "@type": "Question",
- name: "Does OCR PDF support big file sizes?",
- acceptedAnswer: {
- "@type": "Answer",
- text: "Since OCR runs within your browser, processing speed depends on your machine's processor and memory. We recommend splitting large documents into segments for the fastest performance.",
- },
- },
- ],
-};
-
 
 export function generateMetadata() {
  const id = 'ocr-pdf';

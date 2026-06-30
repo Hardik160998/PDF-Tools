@@ -4,19 +4,11 @@ import WebAppSchema from "@/components/seo/WebAppSchema";
 import FAQSchema from "@/components/seo/FAQSchema";
 import BreadcrumbSchema from "@/components/seo/BreadcrumbSchema";
 import Link from "next/link";
-import type { Metadata } from "next";
 import dynamic from "next/dynamic";
 import {
   Globe,
-  Upload,
-  Download,
-  CheckCircle,
   FileText,
   Zap,
-  Lock,
-  ImageIcon,
-  FileSpreadsheet,
-  Presentation,
   Shield,
   Info,
   ArrowRight,
@@ -26,104 +18,6 @@ import {
   ChevronDown,
   Loader2,
 } from "lucide-react";
-
-// Site URL for canonical/SEO links
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://smartpdfpro.com";
-
-// 1. Dynamic Metadata Export for Next.js App Router
-
-// 3. Structured Data (JSON-LD Schemas)
-const webAppJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "WebApplication",
-  name: "Webpage to PDF Converter Online Free",
-  url: `${siteUrl}/tool/webpage-to-pdf`,
-  image: `${siteUrl}/img/snapdeal-label.png`,
-  description:
-    "Convert any public webpage URL into a clean, formatted PDF document online for free. Save news articles, blogs, or documentation.",
-  applicationCategory: "UtilityApplication",
-  operatingSystem: "All",
-  browserRequirements: "Requires HTML5 support",
-  featureList: [
-    "Converts public website URLs to PDF",
-    "High-speed browser-rendering layout engine",
-    "Preserves CSS, styling, shapes and margins",
-    "Secure cloud sandboxes with automated deletion",
-    "Zero watermarks in output PDF file",
-  ],
-  offers: {
-    "@type": "Offer",
-    price: "0",
-    priceCurrency: "USD",
-  },
-};
-
-const breadcrumbJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  itemListElement: [
-    {
-      "@type": "ListItem",
-      position: 1,
-      name: "Home",
-      item: siteUrl,
-    },
-    {
-      "@type": "ListItem",
-      position: 2,
-      name: "Tools",
-      item: `${siteUrl}/#tools-grid`,
-    },
-    {
-      "@type": "ListItem",
-      position: 3,
-      name: "Webpage URL to PDF",
-      item: `${siteUrl}/tool/webpage-to-pdf`,
-    },
-  ],
-};
-
-const faqJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  mainEntity: [
-    {
-      "@type": "Question",
-      name: "How do I convert a webpage to PDF?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Simply copy the website's URL, paste it into the input box at the top, and click 'Convert to PDF'. You can download the generated document in a few seconds.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "Does it support pages that require login credentials?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "No, our converter only supports public URL targets. If the webpage is behind a paywall, registration, or login page, the engine will fail to authenticate and fetch assets.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "Will formatting, styling, and images be identical?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Yes, our browser-rendering engine compiles web media stylesheets, margins, and inline grids, reproducing them exactly as they would look in a standard web browser print view.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "Is there a page or document length limit?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "We render webpages up to 100 pages long, which easily accommodates most blogs, news articles, essays, and online documentation resources.",
-      },
-    },
-  ],
-};
-
-// 8. Internal links configuration
-
 
 // 12. Breadcrumb Navigation Component
 function Breadcrumb() {

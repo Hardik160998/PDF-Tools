@@ -4,16 +4,12 @@ import WebAppSchema from '@/components/seo/WebAppSchema';
 import FAQSchema from '@/components/seo/FAQSchema';
 import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema';
 import Link from "next/link";
-import type { Metadata } from "next";
 import ImageConverter from "@/components/tools/ImageConverter";
 import {
-    ImageIcon,
     Upload,
     SlidersHorizontal,
     Download,
     Zap,
-    Lock,
-    FileText,
     Shield,
     Check,
     HelpCircle,
@@ -22,102 +18,6 @@ import {
     Info,
     Star,
 } from "lucide-react";
-
-// Site URL for canonical/SEO links
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://smartpdfpro.com";
-
-// 1. Dynamic Metadata Export for Next.js App Router (SEO & Indexing Fix)
-
-
-// 3. Structured Data (JSON-LD Schemas)
-const webAppJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "WebApplication",
-    name: "JPG to PNG Converter",
-    url: `${siteUrl}/tool/jpg-to-png`,
-    image: `${siteUrl}/img/jpg-to-png-og.png`,
-    description:
-        "Convert JPG and JPEG images to PNG format instantly for free. Lossless quality conversion with alpha transparency support.",
-    applicationCategory: "UtilityApplication",
-    operatingSystem: "All",
-    browserRequirements: "Requires HTML5 support",
-    featureList: [
-        "100% Local processing in your browser sandbox",
-        "No file uploads to servers",
-        "Preserves image quality with lossless output",
-        "Batch processing for multiple images",
-        "Free with no registrations or watermarks",
-    ],
-    offers: {
-        "@type": "Offer",
-        price: "0",
-        priceCurrency: "USD",
-    },
-};
-
-const breadcrumbJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: [
-        {
-            "@type": "ListItem",
-            position: 1,
-            name: "Home",
-            item: siteUrl,
-        },
-        {
-            "@type": "ListItem",
-            position: 2,
-            name: "Tools",
-            item: `${siteUrl}/#tools-grid`,
-        },
-        {
-            "@type": "ListItem",
-            position: 3,
-            name: "JPG to PNG",
-            item: `${siteUrl}/tool/jpg-to-png`,
-        },
-    ],
-};
-
-const faqJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: [
-        {
-            "@type": "Question",
-            name: "Will converting my JPG to PNG reduce the quality?",
-            acceptedAnswer: {
-                "@type": "Answer",
-                text: "No, PNG is a lossless format. Converting a JPG to PNG will preserve the exact visual quality of your original image without introducing new compression artifacts.",
-            },
-        },
-        {
-            "@type": "Question",
-            name: "Are my images uploaded to any remote server?",
-            acceptedAnswer: {
-                "@type": "Answer",
-                text: "Never. Our tool runs entirely client-side using Javascript. Your files are processed locally inside your web browser and are never uploaded or stored on any server.",
-            },
-        },
-        {
-            "@type": "Question",
-            name: "Can I convert multiple JPG images to PNG at the same time?",
-            acceptedAnswer: {
-                "@type": "Answer",
-                text: "Yes, you can drop or select multiple JPG files at once. Our batch processor will convert them all in parallel and provide a unified ZIP download.",
-            },
-        },
-        {
-            "@type": "Question",
-            name: "Is there a file size limit for image uploads?",
-            acceptedAnswer: {
-                "@type": "Answer",
-                text: "Because all rendering and formatting occur inside your browser memory, there are no artificial server upload limits. It depends entirely on your device's capacity.",
-            },
-        },
-    ],
-};
 
 const STEPS = [
     {

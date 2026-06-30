@@ -5,111 +5,13 @@ import FAQSchema from "@/components/seo/FAQSchema";
 import BreadcrumbSchema from "@/components/seo/BreadcrumbSchema";
 import DeletePages from "@/components/tools/DeletePages";
 import Link from "next/link";
-import type { Metadata } from "next";
 import {
-  FileText,
   ArrowRight,
   HelpCircle,
   Star,
   Check,
   ChevronDown,
 } from "lucide-react";
-
-// Site URL for canonical/SEO links
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://smartpdfpro.com";
-
-// 1. Dynamic Metadata Export for Next.js App Router
-
-// 3. Structured Data (JSON-LD Schemas)
-const webAppJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "WebApplication",
-  name: "Delete PDF Pages Online Free",
-  url: `${siteUrl}/tool/delete-pages`,
-  image: `${siteUrl}/img/delete-pages-og.png`,
-  description:
-    "Delete pages from PDF online for free. Visual page remover lets you select and remove unwanted or blank pages instantly. 100% secure, local browser processing.",
-  applicationCategory: "UtilityApplication",
-  operatingSystem: "All",
-  browserRequirements: "Requires HTML5 support",
-  featureList: [
-    "100% Local processing in your browser",
-    "No file uploads to servers",
-    "Visual thumbnails selection for deletion",
-    "Delete individual pages or ranges",
-    "Fast processing with no watermarks",
-    "Zero file compression loss during removal",
-  ],
-  offers: {
-    "@type": "Offer",
-    price: "0",
-    priceCurrency: "USD",
-  },
-};
-
-const breadcrumbJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  itemListElement: [
-    {
-      "@type": "ListItem",
-      position: 1,
-      name: "Home",
-      item: siteUrl,
-    },
-    {
-      "@type": "ListItem",
-      position: 2,
-      name: "Tools",
-      item: `${siteUrl}/#tools-grid`,
-    },
-    {
-      "@type": "ListItem",
-      position: 3,
-      name: "Delete Pages",
-      item: `${siteUrl}/tool/delete-pages`,
-    },
-  ],
-};
-
-const faqJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  mainEntity: [
-    {
-      "@type": "Question",
-      name: "How do I delete pages from a PDF document?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Upload your PDF document to the page remover tool. Hover over any page thumbnail and click the delete trash icon, or input page numbers/ranges in the sidebar. Click 'Delete Pages' to download your newly trimmed PDF.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "Are my documents kept secure and private?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Yes, completely! Page deletion is carried out entirely on your own device using local WebAssembly. We never copy, view, or upload your files to remote cloud storage.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "Can I remove blank pages or duplicate pages?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Yes. Our tool generates high-quality thumbnails for every page in your document. You can easily spot empty spaces, duplicate files, or layout errors and discard them visually.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "Does deleting pages reduce the quality of the remaining pages?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "No. The pages that you choose to keep remain fully intact, maintaining their original vector graphics, layout styles, compression levels, and text fonts.",
-      },
-    },
-  ],
-};
 
 export function generateMetadata() {
   const id = "delete-pages";

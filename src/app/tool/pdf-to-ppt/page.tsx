@@ -4,18 +4,8 @@ import WebAppSchema from "@/components/seo/WebAppSchema";
 import FAQSchema from "@/components/seo/FAQSchema";
 import BreadcrumbSchema from "@/components/seo/BreadcrumbSchema";
 import Link from "next/link";
-import type { Metadata } from "next";
 import dynamic from "next/dynamic";
 import {
-  Presentation,
-  Upload,
-  Sparkles,
-  Download,
-  FileText,
-  FileSpreadsheet,
-  Type,
-  ImageIcon,
-  Lock,
   Shield,
   Zap,
   Info,
@@ -26,104 +16,6 @@ import {
   ChevronDown,
   Loader2,
 } from "lucide-react";
-
-// Site URL for canonical/SEO links
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://smartpdfpro.com";
-
-// 1. Dynamic Metadata Export for Next.js App Router
-
-// 3. Structured Data (JSON-LD Schemas)
-const webAppJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "WebApplication",
-  name: "PDF to PowerPoint Converter Online Free",
-  url: `${siteUrl}/tool/pdf-to-ppt`,
-  image: `${siteUrl}/img/snapdeal-label.png`,
-  description:
-    "Convert PDF files to editable PowerPoint presentations (PPTX) online for free. Highly accurate conversion of text, images, and slides layout.",
-  applicationCategory: "UtilityApplication",
-  operatingSystem: "All",
-  browserRequirements: "Requires HTML5 support",
-  featureList: [
-    "Generates editable PPTX presentation slides",
-    "High-fidelity visual structure analysis",
-    "Secure cloud-based conversion systems",
-    "Automatic file cleanup in 1 hour",
-    "No registration or user login required",
-  ],
-  offers: {
-    "@type": "Offer",
-    price: "0",
-    priceCurrency: "USD",
-  },
-};
-
-const breadcrumbJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  itemListElement: [
-    {
-      "@type": "ListItem",
-      position: 1,
-      name: "Home",
-      item: siteUrl,
-    },
-    {
-      "@type": "ListItem",
-      position: 2,
-      name: "Tools",
-      item: `${siteUrl}/#tools-grid`,
-    },
-    {
-      "@type": "ListItem",
-      position: 3,
-      name: "PDF to PowerPoint Converter",
-      item: `${siteUrl}/tool/pdf-to-ppt`,
-    },
-  ],
-};
-
-const faqJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  mainEntity: [
-    {
-      "@type": "Question",
-      name: "Why convert PDF to PowerPoint?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "PDF documents are read-only and hard to modify. Converting them to PPTX slides lets you present details dynamically and update fonts, shapes, tables, or charts natively in PowerPoint or Google Slides.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "Will the presentation formatting and layouts change?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "No. Our high-fidelity parser maps paragraph grids, slide boundaries, images, shapes, and footnotes, preserving slide formatting inside standard PowerPoint structures.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "Is my document data secure?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Absolutely. Your presentation files are uploaded over encrypted HTTPS connections, processed in an isolated sandbox, and permanently deleted from our servers within 1 hour.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "Can I convert scanned PDF presentations?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Yes, scanned PDF presentations are supported. However, the slides will contain images. For editable text from scans, we recommend utilizing our OCR tool first.",
-      },
-    },
-  ],
-};
-
-// 8. Internal links configuration
-
 
 // 12. Breadcrumb Navigation Component
 function Breadcrumb() {

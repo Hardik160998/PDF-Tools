@@ -4,18 +4,10 @@ import WebAppSchema from "@/components/seo/WebAppSchema";
 import FAQSchema from "@/components/seo/FAQSchema";
 import BreadcrumbSchema from "@/components/seo/BreadcrumbSchema";
 import Link from "next/link";
-import type { Metadata } from "next";
 import dynamic from "next/dynamic";
 import {
   Globe,
-  Upload,
-  Sparkles,
-  Download,
   FileText,
-  FileSpreadsheet,
-  Presentation,
-  ImageIcon,
-  Lock,
   Shield,
   Zap,
   Info,
@@ -26,104 +18,6 @@ import {
   ChevronDown,
   Loader2,
 } from "lucide-react";
-
-// Site URL for canonical/SEO links
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://smartpdfpro.com";
-
-// 1. Dynamic Metadata Export for Next.js App Router
-
-// 3. Structured Data (JSON-LD Schemas)
-const webAppJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "WebApplication",
-  name: "HTML to PDF Converter Online Free",
-  url: `${siteUrl}/tool/html-to-pdf`,
-  image: `${siteUrl}/img/snapdeal-label.png`,
-  description:
-    "Convert local HTML or HTM files into high-quality PDF documents online for free. Renders CSS layouts, visual frames, and assets.",
-  applicationCategory: "UtilityApplication",
-  operatingSystem: "All",
-  browserRequirements: "Requires HTML5 support",
-  featureList: [
-    "High-fidelity CSS and grid layouts rendering",
-    "Encrypted cloud-based HTML compilation",
-    "Secure SSL file transfer protocols",
-    "Auto file cleanup within 1 hour",
-    "Zero watermarks in output document",
-  ],
-  offers: {
-    "@type": "Offer",
-    price: "0",
-    priceCurrency: "USD",
-  },
-};
-
-const breadcrumbJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  itemListElement: [
-    {
-      "@type": "ListItem",
-      position: 1,
-      name: "Home",
-      item: siteUrl,
-    },
-    {
-      "@type": "ListItem",
-      position: 2,
-      name: "Tools",
-      item: `${siteUrl}/#tools-grid`,
-    },
-    {
-      "@type": "ListItem",
-      position: 3,
-      name: "HTML to PDF Converter",
-      item: `${siteUrl}/tool/html-to-pdf`,
-    },
-  ],
-};
-
-const faqJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  mainEntity: [
-    {
-      "@type": "Question",
-      name: "Will external CSS and images be rendered in the PDF?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Yes. As long as stylesheets, web fonts, and images use absolute URLs, our engine fetches and renders them correctly. For local assets, we recommend archiving them or using absolute paths.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "Does the converter support modern JavaScript execution?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "No, our HTML to PDF converter focuses on static page layout representation. If you need dynamic JS rendering, we recommend utilizing our Webpage to PDF tool instead.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "Is my HTML data private?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Absolutely. All file uploads are transferred over secure HTTPS connections, processed in isolated server sandboxes, and permanently deleted within 1 hour.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "Is there a file size limit constraint?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "We support HTML files up to 20MB for free, which covers most landing pages, reports, and code structures.",
-      },
-    },
-  ],
-};
-
-// 8. Internal links configuration
-
 
 // 12. Breadcrumb Navigation Component
 function Breadcrumb() {

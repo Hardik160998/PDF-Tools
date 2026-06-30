@@ -5,74 +5,13 @@ import FAQSchema from "@/components/seo/FAQSchema";
 import BreadcrumbSchema from "@/components/seo/BreadcrumbSchema";
 import MergeSplit from "@/components/tools/MergeSplit";
 import Link from "next/link";
-import type { Metadata } from "next";
 import {
-  Scissors,
-  FileText,
   ArrowRight,
   HelpCircle,
   Star,
   Check,
   ChevronDown,
 } from "lucide-react";
-
-// Site URL for canonical/SEO links
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://smartpdfpro.com";
-
-// 1. Dynamic Metadata Export for Next.js App Router
-
-// 3. Structured Data (JSON-LD Schemas)
-const webAppJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "WebApplication",
-  name: "Split PDF Online Free",
-  url: `${siteUrl}/tool/split`,
-  image: `${siteUrl}/img/split-pdf-og.png`,
-  description:
-    "Split PDF files online for free. Extract specific page ranges or split every page into separate PDF documents instantly. 100% secure, local browser processing.",
-  applicationCategory: "UtilityApplication",
-  operatingSystem: "All",
-  browserRequirements: "Requires HTML5 support",
-  featureList: [
-    "100% Local processing in your browser",
-    "No file uploads to servers",
-    "Split PDF by page ranges or extract all pages",
-    "Visual thumbnails preview",
-    "Fast processing with no watermarks",
-    "Download result as separate files or unified ZIP",
-  ],
-  offers: {
-    "@type": "Offer",
-    price: "0",
-    priceCurrency: "USD",
-  },
-};
-
-const breadcrumbJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  itemListElement: [
-    {
-      "@type": "ListItem",
-      position: 1,
-      name: "Home",
-      item: siteUrl,
-    },
-    {
-      "@type": "ListItem",
-      position: 2,
-      name: "Tools",
-      item: `${siteUrl}/#tools-grid`,
-    },
-    {
-      "@type": "ListItem",
-      position: 3,
-      name: "Split PDF",
-      item: `${siteUrl}/tool/split`,
-    },
-  ],
-};
-
 
 export function generateMetadata() {
   const id = "split";
@@ -177,76 +116,76 @@ export default function SplitPage() {
         {/* -- RELATED BLOG POSTS -- */}
         <section className="mb-20 text-left mt-20">
           <div className="text-center max-w-3xl mx-auto mb-12">
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-red-50 text-red-600 border border-red-100 text-xs font-medium uppercase tracking-widest shadow-sm mb-6">
-                  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" /></svg>
-                  Latest from Blog
-              </div>
-              <h2 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter mb-4 text-center">
-                  Explore Our PDF Guides
-              </h2>
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-red-50 text-red-600 border border-red-100 text-xs font-medium uppercase tracking-widest shadow-sm mb-6">
+              <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" /></svg>
+              Latest from Blog
+            </div>
+            <h2 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter mb-4 text-center">
+              Explore Our PDF Guides
+            </h2>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto mb-12">
             {/* Blog Post 1: Organizing PDFs */}
             <a href="/blog/ultimate-guide-to-organizing-pdfs" className="group bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-lg transition-all overflow-hidden flex flex-col h-full">
-                <div className="p-6 flex flex-col flex-1 gap-3">
-                    <div className="flex items-start gap-3">
-                        <div className="w-8 h-8 bg-[#a855f7] rounded-lg flex items-center justify-center text-white shrink-0 mt-0.5">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                <rect x="3" y="3" width="7" height="7" rx="1" />
-                                <rect x="14" y="3" width="7" height="7" rx="1" />
-                                <rect x="14" y="14" width="7" height="7" rx="1" />
-                                <rect x="3" y="14" width="7" height="7" rx="1" />
-                            </svg>
-                        </div>
-                        <h3 className="font-bold text-slate-800 text-[17px] leading-snug group-hover:text-red-600 transition-colors">
-                            The Ultimate Guide to Organizing PDFs — Merge, Split & Rearrange
-                        </h3>
-                    </div>
-                    <div className="flex items-center justify-between pt-4 mt-auto border-t border-slate-100">
-                        <div className="flex items-center gap-1.5 text-xs text-slate-400 font-medium">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                <circle cx="12" cy="12" r="10" />
-                                <polyline points="12 6 12 12 16 14" />
-                            </svg>
-                            5 min read &nbsp; May 5, 2026
-                        </div>
-                        <span className="text-sm font-bold text-red-500 flex items-center gap-1 group-hover:gap-2 transition-all">
-                            Read <ArrowRight size={14} />
-                        </span>
-                    </div>
+              <div className="p-6 flex flex-col flex-1 gap-3">
+                <div className="flex items-start gap-3">
+                  <div className="w-8 h-8 bg-[#a855f7] rounded-lg flex items-center justify-center text-white shrink-0 mt-0.5">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <rect x="3" y="3" width="7" height="7" rx="1" />
+                      <rect x="14" y="3" width="7" height="7" rx="1" />
+                      <rect x="14" y="14" width="7" height="7" rx="1" />
+                      <rect x="3" y="14" width="7" height="7" rx="1" />
+                    </svg>
+                  </div>
+                  <h3 className="font-bold text-slate-800 text-[17px] leading-snug group-hover:text-red-600 transition-colors">
+                    The Ultimate Guide to Organizing PDFs — Merge, Split & Rearrange
+                  </h3>
                 </div>
+                <div className="flex items-center justify-between pt-4 mt-auto border-t border-slate-100">
+                  <div className="flex items-center gap-1.5 text-xs text-slate-400 font-medium">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <circle cx="12" cy="12" r="10" />
+                      <polyline points="12 6 12 12 16 14" />
+                    </svg>
+                    5 min read &nbsp; May 5, 2026
+                  </div>
+                  <span className="text-sm font-bold text-red-500 flex items-center gap-1 group-hover:gap-2 transition-all">
+                    Read <ArrowRight size={14} />
+                  </span>
+                </div>
+              </div>
             </a>
 
             {/* Blog Post 2: Merge vs Split PDF */}
             <a href="/blog/merge-vs-split-pdf" className="group bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-lg transition-all overflow-hidden flex flex-col h-full">
-                <div className="p-6 flex flex-col flex-1 gap-3">
-                    <div className="flex items-start gap-3">
-                        <div className="w-8 h-8 bg-[#f97316] rounded-lg flex items-center justify-center text-white shrink-0 mt-0.5">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                <rect x="3" y="3" width="7" height="7" rx="1" />
-                                <rect x="14" y="3" width="7" height="7" rx="1" />
-                                <rect x="14" y="14" width="7" height="7" rx="1" />
-                                <rect x="3" y="14" width="7" height="7" rx="1" />
-                            </svg>
-                        </div>
-                        <h3 className="font-bold text-slate-800 text-[17px] leading-snug group-hover:text-red-600 transition-colors">
-                            Merge vs Split PDF: When to Use Each Tool (2026 Guide)
-                        </h3>
-                    </div>
-                    <div className="flex items-center justify-between pt-4 mt-auto border-t border-slate-100">
-                        <div className="flex items-center gap-1.5 text-xs text-slate-400 font-medium">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                <circle cx="12" cy="12" r="10" />
-                                <polyline points="12 6 12 12 16 14" />
-                            </svg>
-                            8 min read &nbsp; Jun 17, 2026
-                        </div>
-                        <span className="text-sm font-bold text-red-500 flex items-center gap-1 group-hover:gap-2 transition-all">
-                            Read <ArrowRight size={14} />
-                        </span>
-                    </div>
+              <div className="p-6 flex flex-col flex-1 gap-3">
+                <div className="flex items-start gap-3">
+                  <div className="w-8 h-8 bg-[#f97316] rounded-lg flex items-center justify-center text-white shrink-0 mt-0.5">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <rect x="3" y="3" width="7" height="7" rx="1" />
+                      <rect x="14" y="3" width="7" height="7" rx="1" />
+                      <rect x="14" y="14" width="7" height="7" rx="1" />
+                      <rect x="3" y="14" width="7" height="7" rx="1" />
+                    </svg>
+                  </div>
+                  <h3 className="font-bold text-slate-800 text-[17px] leading-snug group-hover:text-red-600 transition-colors">
+                    Merge vs Split PDF: When to Use Each Tool (2026 Guide)
+                  </h3>
                 </div>
+                <div className="flex items-center justify-between pt-4 mt-auto border-t border-slate-100">
+                  <div className="flex items-center gap-1.5 text-xs text-slate-400 font-medium">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <circle cx="12" cy="12" r="10" />
+                      <polyline points="12 6 12 12 16 14" />
+                    </svg>
+                    8 min read &nbsp; Jun 17, 2026
+                  </div>
+                  <span className="text-sm font-bold text-red-500 flex items-center gap-1 group-hover:gap-2 transition-all">
+                    Read <ArrowRight size={14} />
+                  </span>
+                </div>
+              </div>
             </a>
           </div>
         </section>
@@ -545,7 +484,7 @@ export default function SplitPage() {
             </div>
           </div>
 
-          
+
         </article>
       </div>
     </div>

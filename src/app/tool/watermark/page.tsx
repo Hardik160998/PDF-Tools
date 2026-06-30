@@ -4,20 +4,10 @@ import WebAppSchema from "@/components/seo/WebAppSchema";
 import FAQSchema from "@/components/seo/FAQSchema";
 import BreadcrumbSchema from "@/components/seo/BreadcrumbSchema";
 import Link from "next/link";
-import type { Metadata } from "next";
 import dynamic from "next/dynamic";
 import {
   Stamp,
-  Upload,
-  Type,
-  Download,
-  Hash,
   Settings,
-  Lock,
-  Unlock,
-  PenLine,
-  Combine,
-  CheckCircle,
   Shield,
   Zap,
   Info,
@@ -29,104 +19,6 @@ import {
   Loader2,
   Globe,
 } from "lucide-react";
-
-// Site URL for canonical/SEO links
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://smartpdfpro.com";
-
-// 1. Dynamic Metadata Export for Next.js App Router
-
-// 3. Structured Data (JSON-LD Schemas)
-const webAppJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "WebApplication",
-  name: "Watermark PDF Online Free",
-  url: `${siteUrl}/tool/watermark`,
-  image: `${siteUrl}/img/snapdeal-label.png`,
-  description:
-    "Stamp image or text watermarks onto PDF pages online for free. Custom spacing, rotation, transparency, and 100% secure local browser processing.",
-  applicationCategory: "UtilityApplication",
-  operatingSystem: "All",
-  browserRequirements: "Requires HTML5 support",
-  featureList: [
-    "100% Local processing in your browser",
-    "No file uploads to servers",
-    "Add text watermarks with custom fonts",
-    "Add image/logo watermarks",
-    "Adjust opacity, scale, and rotation angles",
-  ],
-  offers: {
-    "@type": "Offer",
-    price: "0",
-    priceCurrency: "USD",
-  },
-};
-
-const breadcrumbJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  itemListElement: [
-    {
-      "@type": "ListItem",
-      position: 1,
-      name: "Home",
-      item: siteUrl,
-    },
-    {
-      "@type": "ListItem",
-      position: 2,
-      name: "Tools",
-      item: `${siteUrl}/#tools-grid`,
-    },
-    {
-      "@type": "ListItem",
-      position: 3,
-      name: "Watermark PDF",
-      item: `${siteUrl}/tool/watermark`,
-    },
-  ],
-};
-
-const faqJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  mainEntity: [
-    {
-      "@type": "Question",
-      name: "Is the watermarking tool secure?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Yes, absolutely. Unlike other online tools that upload your files to external servers, our PDF watermark tool performs the entire process 100% locally in your web browser. Your private documents never leave your computer.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "Can I adjust the transparency and angle of the watermark?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Yes. The editor provides slider controls to set custom transparency, rotate stamps to any angle, and scale font sizes.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "Can I stamp watermarks on specific pages?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Yes, you can specify individual page ranges or stamp the watermark across all pages in the PDF document.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "Will watermarking add extra file sizes?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Our system inserts lightweight overlay vectors, ensuring output file sizes remain small.",
-      },
-    },
-  ],
-};
-
-// 8. Internal links configuration
-
 
 // 12. Breadcrumb Navigation Component
 function Breadcrumb() {
@@ -512,7 +404,7 @@ export default function WatermarkPage() {
           </article>
         </section>
 
-        
+
       </div>
     </main>
   );

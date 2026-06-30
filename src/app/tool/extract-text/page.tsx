@@ -5,113 +5,13 @@ import FAQSchema from '@/components/seo/FAQSchema';
 import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema';
 import ExtractText from "@/components/tools/ExtractText";
 import Link from "next/link";
-import type { Metadata } from "next";
 import {
- FileText,
  ArrowRight,
  HelpCircle,
  Star,
  Check,
  ChevronDown,
 } from "lucide-react";
-
-// Site URL for canonical/SEO links
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://smartpdfpro.com";
-
-// 1. Dynamic Metadata Export for Next.js App Router
-
-
-// 3. Structured Data (JSON-LD Schemas)
-const webAppJsonLd = {
- "@context": "https://schema.org",
- "@type": "WebApplication",
- name: "Extract Text from PDF Online Free",
- url: `${siteUrl}/tool/extract-text`,
- image: `${siteUrl}/img/extract-text-og.png`,
- description:
- "Extract text from PDF files online for free. Copy, export, and download text layers from PDF documents instantly. 100% secure, local browser parsing.",
- applicationCategory: "UtilityApplication",
- operatingSystem: "All",
- browserRequirements: "Requires HTML5 support",
- featureList: [
- "100% Local processing in your browser",
- "No file uploads to servers",
- "Preserves character flows and layout lines",
- "Built-in terminal-style text editor",
- "Fast one-click copy to clipboard",
- "Supports multiple languages and file encodings",
- ],
- offers: {
- "@type": "Offer",
- price: "0",
- priceCurrency: "USD",
- },
-};
-
-const breadcrumbJsonLd = {
- "@context": "https://schema.org",
- "@type": "BreadcrumbList",
- itemListElement: [
- {
- "@type": "ListItem",
- position: 1,
- name: "Home",
- item: siteUrl,
- },
- {
- "@type": "ListItem",
- position: 2,
- name: "Tools",
- item: `${siteUrl}/#tools-grid`,
- },
- {
- "@type": "ListItem",
- position: 3,
- name: "Extract Text",
- item: `${siteUrl}/tool/extract-text`,
- },
- ],
-};
-
-const faqJsonLd = {
- "@context": "https://schema.org",
- "@type": "FAQPage",
- mainEntity: [
- {
- "@type": "Question",
- name: "How can I copy text from a PDF file?",
- acceptedAnswer: {
- "@type": "Answer",
- text: "Simply upload your PDF document. The tool extracts all readable text layers in real-time. Review the parsed content in the editor box and copy it to your clipboard or download it as a plain TXT file.",
- },
- },
- {
- "@type": "Question",
- name: "Is my text data safe when parsing files?",
- acceptedAnswer: {
- "@type": "Answer",
- text: "Yes! All extraction is performed entirely inside your web browser. No text fragments or document pages are ever uploaded or transmitted to remote servers.",
- },
- },
- {
- "@type": "Question",
- name: "Why is the extracted text empty for some pages?",
- acceptedAnswer: {
- "@type": "Answer",
- text: "If a PDF page is a scanned image or photo without selectable text elements, standard extractors cannot read it. In such cases, you can use our local OCR PDF tool to identify and extract text from images.",
- },
- },
- {
- "@type": "Question",
- name: "Does this tool preserve paragraphs and spacing?",
- acceptedAnswer: {
- "@type": "Answer",
- text: "Yes, our extractor analyzes character coordinate positions to preserve formatting layouts, line breaks, and paragraph flows as closely as possible.",
- },
- },
- ],
-};
-
 
 export function generateMetadata() {
  const id = 'extract-text';

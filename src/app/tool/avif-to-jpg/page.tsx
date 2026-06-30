@@ -23,102 +23,6 @@ import {
     Star,
 } from "lucide-react";
 
-// Site URL for canonical/SEO links
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://smartpdfpro.com";
-
-// 1. Dynamic Metadata Export for Next.js App Router (SEO & Indexing Fix)
-
-
-// 3. Structured Data (JSON-LD Schemas)
-const webAppJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "WebApplication",
-    name: "AVIF to JPG Converter",
-    url: `${siteUrl}/tool/avif-to-jpg`,
-    image: `${siteUrl}/img/avif-to-jpg-og.png`,
-    description:
-        "Convert AVIF images to JPG format online for free. Convert next-generation AVIF files into universally compatible JPGs instantly.",
-    applicationCategory: "UtilityApplication",
-    operatingSystem: "All",
-    browserRequirements: "Requires HTML5 support",
-    featureList: [
-        "100% Local processing in your browser sandbox",
-        "No file uploads to servers",
-        "Fills transparent backgrounds with white color during conversion",
-        "Batch processing for multiple images",
-        "Free with no registrations or watermarks",
-    ],
-    offers: {
-        "@type": "Offer",
-        price: "0",
-        priceCurrency: "USD",
-    },
-};
-
-const breadcrumbJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: [
-        {
-            "@type": "ListItem",
-            position: 1,
-            name: "Home",
-            item: siteUrl,
-        },
-        {
-            "@type": "ListItem",
-            position: 2,
-            name: "Tools",
-            item: `${siteUrl}/#tools-grid`,
-        },
-        {
-            "@type": "ListItem",
-            position: 3,
-            name: "AVIF to JPG",
-            item: `${siteUrl}/tool/avif-to-jpg`,
-        },
-    ],
-};
-
-const faqJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: [
-        {
-            "@type": "Question",
-            name: "Why would I convert AVIF to JPG?",
-            acceptedAnswer: {
-                "@type": "Answer",
-                text: "AVIF offers superior compression metrics but is rejected by legacy operating systems, specific print-on-demand services, and strict document management apps. Converting AVIF to JPG restores full universal compatibility.",
-            },
-        },
-        {
-            "@type": "Question",
-            name: "Are my files uploaded to any remote server?",
-            acceptedAnswer: {
-                "@type": "Answer",
-                text: "No. The entire conversion process occurs within your local web browser using client-side JavaScript. Your files are processed entirely offline and are never stored or transmitted to our servers.",
-            },
-        },
-        {
-            "@type": "Question",
-            name: "What happens to transparency when converting AVIF to JPG?",
-            acceptedAnswer: {
-                "@type": "Answer",
-                text: "Because the JPG format does not support transparency, any transparent areas in your AVIF file will be automatically filled with a clean white background during the conversion process.",
-            },
-        },
-        {
-            "@type": "Question",
-            name: "Can I convert multiple images in a batch?",
-            acceptedAnswer: {
-                "@type": "Answer",
-                text: "Yes. Simply upload multiple files into the workspace. The tool converts them all in parallel, and you can download them at once as a single ZIP archive.",
-            },
-        },
-    ],
-};
-
 const STEPS = [
     {
         icon: Upload,
@@ -136,9 +40,6 @@ const STEPS = [
         desc: "Download the converted JPG — universally compatible with all apps.",
     },
 ];
-
-
-
 
 export function generateMetadata() {
     const id = 'avif-to-jpg';

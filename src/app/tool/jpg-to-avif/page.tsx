@@ -23,102 +23,6 @@ import {
     Star,
 } from "lucide-react";
 
-// Site URL for canonical/SEO links
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://smartpdfpro.com";
-
-// 1. Dynamic Metadata Export for Next.js App Router (SEO & Indexing Fix)
-
-
-// 3. Structured Data (JSON-LD Schemas)
-const webAppJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "WebApplication",
-    name: "JPG to AVIF Converter",
-    url: `${siteUrl}/tool/jpg-to-avif`,
-    image: `${siteUrl}/img/jpg-to-avif-og.png`,
-    description:
-        "Convert JPG and JPEG images to AVIF format online for free. AVIF offers next-generation compression for lightweight web graphics.",
-    applicationCategory: "UtilityApplication",
-    operatingSystem: "All",
-    browserRequirements: "Requires HTML5 support",
-    featureList: [
-        "100% Local processing in your browser sandbox",
-        "No file uploads to servers",
-        "Reduces file sizes by up to 50% relative to JPG",
-        "Batch processing for multiple images",
-        "Free with no registrations or watermarks",
-    ],
-    offers: {
-        "@type": "Offer",
-        price: "0",
-        priceCurrency: "USD",
-    },
-};
-
-const breadcrumbJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: [
-        {
-            "@type": "ListItem",
-            position: 1,
-            name: "Home",
-            item: siteUrl,
-        },
-        {
-            "@type": "ListItem",
-            position: 2,
-            name: "Tools",
-            item: `${siteUrl}/#tools-grid`,
-        },
-        {
-            "@type": "ListItem",
-            position: 3,
-            name: "JPG to AVIF",
-            item: `${siteUrl}/tool/jpg-to-avif`,
-        },
-    ],
-};
-
-const faqJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: [
-        {
-            "@type": "Question",
-            name: "Why should I convert my JPG images to AVIF?",
-            acceptedAnswer: {
-                "@type": "Answer",
-                text: "AVIF is a next-generation image format that features superior compression algorithms compared to JPG and WebP. Converting JPG to AVIF can compress file sizes up to 50% smaller while keeping crisp visual quality, significantly boosting page speed scores.",
-            },
-        },
-        {
-            "@type": "Question",
-            name: "Are my files uploaded to any remote server?",
-            acceptedAnswer: {
-                "@type": "Answer",
-                text: "No. The entire conversion process occurs within your local web browser using client-side JavaScript. Your files are processed entirely offline and are never stored or transmitted to our servers.",
-            },
-        },
-        {
-            "@type": "Question",
-            name: "Which web browsers support AVIF files?",
-            acceptedAnswer: {
-                "@type": "Answer",
-                text: "AVIF is supported by almost all major modern browsers, including Google Chrome, Apple Safari, Mozilla Firefox, and Microsoft Edge.",
-            },
-        },
-        {
-            "@type": "Question",
-            name: "Can I convert multiple images in a batch?",
-            acceptedAnswer: {
-                "@type": "Answer",
-                text: "Yes. Simply upload multiple files into the workspace. The tool converts them all in parallel, and you can download them at once as a single ZIP archive.",
-            },
-        },
-    ],
-};
-
 const STEPS = [
     {
         icon: Upload,
@@ -136,8 +40,6 @@ const STEPS = [
         desc: "Download the converted AVIF file immediately — ultra-compressed and web-ready.",
     },
 ];
-
-
 
 
 export function generateMetadata() {
@@ -188,9 +90,6 @@ export default function JpgToAvifPage() {
             })()}
 
             {/* 2. Structured data scripts for search indexing */}
-
-
-
 
             <div className="max-w-7xl mx-auto px-4 pt-8 sm:pt-12 pb-16">
                 {/* Breadcrumb Navigation */}

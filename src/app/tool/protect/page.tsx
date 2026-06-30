@@ -5,129 +5,20 @@ import FAQSchema from '@/components/seo/FAQSchema';
 import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema';
 import dynamic from "next/dynamic";
 import Link from "next/link";
-import type { Metadata } from "next";
 import {
     Lock,
-    Upload,
-    KeyRound,
-    Download,
-    Unlock,
-    Stamp,
-    Hash,
-    Settings,
-    PenLine,
-    Combine,
+    Unlock,    
     ArrowRight,
     HelpCircle,
     Info,
     Star,
     Check,
     ChevronDown,
-    Zap,
-    SplitSquareHorizontal,
-    FileText,
 } from "lucide-react";
 import { CenteredCardSkeleton } from "@/app/tool/[id]/skeletons";
 
-// Site URL for canonical/SEO links
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://smartpdfpro.com";
-
-// 1. Dynamic Metadata Export for Next.js App Router (Server-side)
-
-
-// 3. Structured Data (JSON-LD Schemas)
-const webAppJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "WebApplication",
-    name: "Protect PDF Online Free",
-    url: `${siteUrl}/tool/protect`,
-    image: `${siteUrl}/img/protect-pdf.png`,
-    description:
-        "Password protect and encrypt PDF files online. Secure documents with strong AES encryption to control editing, printing, and copying.",
-    applicationCategory: "UtilityApplication",
-    operatingSystem: "All",
-    browserRequirements: "Requires HTML5 support",
-    featureList: [
-        "Secure document encryption with passwords",
-        "Restricts copying, editing, and printing",
-        "Uses advanced AES cryptographic algorithms",
-        "100% secure file processing with HTTPS",
-        "Automatic cleanup of files within 1 hour",
-    ],
-    offers: {
-        "@type": "Offer",
-        price: "0",
-        priceCurrency: "USD",
-    },
-};
-
-const breadcrumbJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: [
-        {
-            "@type": "ListItem",
-            position: 1,
-            name: "Home",
-            item: siteUrl,
-        },
-        {
-            "@type": "ListItem",
-            position: 2,
-            name: "Tools",
-            item: `${siteUrl}/#tools-grid`,
-        },
-        {
-            "@type": "ListItem",
-            position: 3,
-            name: "Protect PDF",
-            item: `${siteUrl}/tool/protect`,
-        },
-    ],
-};
-
-const faqJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: [
-        {
-            "@type": "Question",
-            name: "How do I password-protect a PDF?",
-            acceptedAnswer: {
-                "@type": "Answer",
-                text: "Upload your PDF, enter a strong password in the prompt box, and our security engine will encrypt the file. Anyone who attempts to open the document thereafter will need the password to view it.",
-            },
-        },
-        {
-            "@type": "Question",
-            name: "What level of encryption is used for PDF protection?",
-            acceptedAnswer: {
-                "@type": "Answer",
-                text: "Our security engine uses industry-standard 128-bit or 256-bit AES encryption to lock and secure your PDF documents, providing high-grade protection against unauthorized decryption.",
-            },
-        },
-        {
-            "@type": "Question",
-            name: "Can someone bypass the password by converting the PDF?",
-            acceptedAnswer: {
-                "@type": "Answer",
-                text: "No. Standard converters will prompt the user to input the password before converting, and they cannot bypass the built-in PDF security dictionary protection.",
-            },
-        },
-        {
-            "@type": "Question",
-            name: "How long are my files stored on your servers?",
-            acceptedAnswer: {
-                "@type": "Answer",
-                text: "All uploaded documents are processed securely and deleted automatically from our servers within 1 hour after conversion. We do not keep or read your files.",
-            },
-        },
-    ],
-};
 
 // 8. Internal links configuration
-
-
 const SecurityToolsWrapper = dynamic(
     () => import("@/components/tools/SecurityToolsWrapper"),
     {

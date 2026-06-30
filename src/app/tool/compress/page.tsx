@@ -5,76 +5,15 @@ import FAQSchema from "@/components/seo/FAQSchema";
 import BreadcrumbSchema from "@/components/seo/BreadcrumbSchema";
 import Compressor from "@/components/tools/Compressor";
 import Link from "next/link";
-import type { Metadata } from "next";
 import {
   Zap,
-  FileText,
   ArrowRight,
   HelpCircle,
   Star,
   Check,
   ChevronDown,
-  BookOpen,
   Clock,
 } from "lucide-react";
-import BlogImage from "@/components/BlogImage";
-
-// Site URL for canonical/SEO links
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://smartpdfpro.com";
-
-// 1. Dynamic Metadata Export for Next.js App Router
-
-// 3. Structured Data (JSON-LD Schemas)
-const webAppJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "WebApplication",
-  name: "Compress PDF Online Free",
-  url: `${siteUrl}/tool/compress`,
-  image: `${siteUrl}/img/compress-pdf-og.png`,
-  description:
-    "Compress PDF files online for free. Reduce PDF document size while maintaining high quality. 100% secure local browser processing.",
-  applicationCategory: "UtilityApplication",
-  operatingSystem: "All",
-  browserRequirements: "Requires HTML5 support",
-  featureList: [
-    "100% Local processing in your browser",
-    "No file uploads to servers",
-    "Smart metadata and layout streams optimization",
-    "Selectable compression levels",
-    "Zero quality loss for vector graphics and text",
-    "Incredibly fast browser execution",
-  ],
-  offers: {
-    "@type": "Offer",
-    price: "0",
-    priceCurrency: "USD",
-  },
-};
-
-const breadcrumbJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  itemListElement: [
-    {
-      "@type": "ListItem",
-      position: 1,
-      name: "Home",
-      item: siteUrl,
-    },
-    {
-      "@type": "ListItem",
-      position: 2,
-      name: "Tools",
-      item: `${siteUrl}/#tools-grid`,
-    },
-    {
-      "@type": "ListItem",
-      position: 3,
-      name: "Compress PDF",
-      item: `${siteUrl}/tool/compress`,
-    },
-  ],
-};
 
 export function generateMetadata() {
   const id = "compress";

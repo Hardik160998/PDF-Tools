@@ -4,18 +4,11 @@ import WebAppSchema from "@/components/seo/WebAppSchema";
 import FAQSchema from "@/components/seo/FAQSchema";
 import BreadcrumbSchema from "@/components/seo/BreadcrumbSchema";
 import Link from "next/link";
-import type { Metadata } from "next";
 import CropPdf from "@/components/tools/CropPdf";
 import {
   Upload,
   Crop,
   Download,
-  Lock,
-  Unlock,
-  FileText,
-  ImageIcon,
-  Merge,
-  SplitSquareHorizontal,
   Shield,
   Check,
   HelpCircle,
@@ -25,62 +18,6 @@ import {
   Star,
   Zap,
 } from "lucide-react";
-
-// Site URL for canonical/SEO links
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://smartpdfpro.com";
-
-// 1. Dynamic Metadata Export for Next.js App Router (SEO & Indexing Fix)
-
-// 3. Structured Data (JSON-LD Schemas)
-const webAppJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "WebApplication",
-  name: "Crop PDF Online Free",
-  url: `${siteUrl}/tool/crop-pdf`,
-  image: `${siteUrl}/img/crop-pdf-og.png`,
-  description:
-    "Crop PDF pages online for free. Adjust page margins, trim borders, and crop individual pages or whole documents instantly.",
-  applicationCategory: "UtilityApplication",
-  operatingSystem: "All",
-  browserRequirements: "Requires HTML5 support",
-  featureList: [
-    "100% Local processing in your browser sandbox",
-    "No file uploads to servers",
-    "Set uniform crop area or specify per-page crop areas",
-    "Interactive visual crop guides",
-    "Free with no registrations or watermarks",
-  ],
-  offers: {
-    "@type": "Offer",
-    price: "0",
-    priceCurrency: "USD",
-  },
-};
-
-const breadcrumbJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  itemListElement: [
-    {
-      "@type": "ListItem",
-      position: 1,
-      name: "Home",
-      item: siteUrl,
-    },
-    {
-      "@type": "ListItem",
-      position: 2,
-      name: "Tools",
-      item: `${siteUrl}/#tools-grid`,
-    },
-    {
-      "@type": "ListItem",
-      position: 3,
-      name: "Crop PDF",
-      item: `${siteUrl}/tool/crop-pdf`,
-    },
-  ],
-};
 
 const STEPS = [
   {
@@ -99,8 +36,6 @@ const STEPS = [
     desc: "Click 'Crop PDF' and instantly download your cropped PDF with all pages trimmed to your selected area.",
   },
 ];
-
-
 
 export function generateMetadata() {
   const id = "crop-pdf";

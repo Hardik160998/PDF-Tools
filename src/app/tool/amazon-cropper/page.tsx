@@ -24,66 +24,6 @@ import {
   Package,
 } from "lucide-react";
 
-// Site URL for canonical/SEO links
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://smartpdfpro.com";
-
-// 1. Dynamic Metadata Export for Next.js App Router (SEO & Indexing Fix)
-
-
-// 3. Structured Data (JSON-LD Schemas)
-const webAppJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "WebApplication",
-  name: "Amazon Label Cropper",
-  url: `${siteUrl}/tool/amazon-cropper`,
-  image: `${siteUrl}/img/amazon-cropper-og.png`,
-  description:
-    "Crop Amazon shipping label PDFs online for free. Automatically detect and remove even-numbered invoice pages, and arrange labels in 4-per-page layouts.",
-  applicationCategory: "UtilityApplication",
-  operatingSystem: "All",
-  browserRequirements: "Requires HTML5 support",
-  featureList: [
-    "100% local processing inside browser sandbox",
-    "Invoice auto-clear deletes invoice pages instantly",
-    "Precision crop protects 'Sold on' and 'ATSPL' barcode anchors",
-    "2x2 grid A4 layouts or single-label thermal templates",
-    "Completely secure with no file uploads",
-  ],
-  offers: {
-    "@type": "Offer",
-    price: "0",
-    priceCurrency: "USD",
-  },
-};
-
-const breadcrumbJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  itemListElement: [
-    {
-      "@type": "ListItem",
-      position: 1,
-      name: "Home",
-      item: siteUrl,
-    },
-    {
-      "@type": "ListItem",
-      position: 2,
-      name: "Tools",
-      item: `${siteUrl}/#tools-grid`,
-    },
-    {
-      "@type": "ListItem",
-      position: 3,
-      name: "Amazon Label Cropper",
-      item: `${siteUrl}/tool/amazon-cropper`,
-    },
-  ],
-};
-
-
-
-
 export function generateMetadata() {
   const id = 'amazon-cropper';
   const meta = getToolMeta(id);

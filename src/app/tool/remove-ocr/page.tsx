@@ -4,17 +4,8 @@ import WebAppSchema from "@/components/seo/WebAppSchema";
 import FAQSchema from "@/components/seo/FAQSchema";
 import BreadcrumbSchema from "@/components/seo/BreadcrumbSchema";
 import Link from "next/link";
-import type { Metadata } from "next";
 import dynamic from "next/dynamic";
 import {
-  EyeOff,
-  Upload,
-  Download,
-  FileText,
-  ScanText,
-  Lock,
-  Combine,
-  Scissors,
   Info,
   ArrowRight,
   Star,
@@ -25,104 +16,6 @@ import {
   Shield,
   Zap,
 } from "lucide-react";
-
-// Site URL for canonical/SEO links
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://smartpdfpro.com";
-
-// 1. Dynamic Metadata Export for Next.js App Router
-
-// 3. Structured Data (JSON-LD Schemas)
-const webAppJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "WebApplication",
-  name: "Remove OCR from PDF Online Free",
-  url: `${siteUrl}/tool/remove-ocr`,
-  image: `${siteUrl}/img/snapdeal-label.png`,
-  description:
-    "Remove OCR and searchable text layers from your PDF online for free. Convert your searchable PDF to a scanned-only image PDF to prevent text selection and copying.",
-  applicationCategory: "UtilityApplication",
-  operatingSystem: "All",
-  browserRequirements: "Requires HTML5 support",
-  featureList: [
-    "100% Local processing in your browser",
-    "No file uploads to servers",
-    "Convert searchable PDF to scanned image-only PDF",
-    "Render pages at high-fidelity 3x resolution",
-    "Fast and free with no watermark",
-  ],
-  offers: {
-    "@type": "Offer",
-    price: "0",
-    priceCurrency: "USD",
-  },
-};
-
-const breadcrumbJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  itemListElement: [
-    {
-      "@type": "ListItem",
-      position: 1,
-      name: "Home",
-      item: siteUrl,
-    },
-    {
-      "@type": "ListItem",
-      position: 2,
-      name: "Tools",
-      item: `${siteUrl}/#tools-grid`,
-    },
-    {
-      "@type": "ListItem",
-      position: 3,
-      name: "Remove OCR",
-      item: `${siteUrl}/tool/remove-ocr`,
-    },
-  ],
-};
-
-const faqJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  mainEntity: [
-    {
-      "@type": "Question",
-      name: "How does the Remove OCR tool work?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "The tool renders each page of your PDF into a high-resolution image at 3x resolution, then bundles these images back into a new PDF. This completely removes the underlying invisible text layer and any selectable characters, leaving an image-only PDF.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "Can someone recover the text after using this tool?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "No. Once the text layer is removed and converted to flat raster images, the text is permanently gone. The only way to retrieve the text would be to run a new OCR engine on the output document.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "Does this tool upload my PDF to a server?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Never. The entire rendering and PDF generation process is executed entirely on your local machine using client-side JavaScript. Your confidential files never touch our servers.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "Will the visual quality of my PDF decrease?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Our tool uses a high-resolution 3x rendering scale to convert pages into images. This maintains crisp, readable text and clear layouts while ensuring the text layer is completely removed.",
-      },
-    },
-  ],
-};
-
-// 8. Internal links configuration
-
 
 // 12. Breadcrumb Navigation Component
 function Breadcrumb() {

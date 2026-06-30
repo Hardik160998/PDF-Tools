@@ -23,103 +23,6 @@ import {
     Star,
 } from "lucide-react";
 
-// Site URL for canonical/SEO links
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://smartpdfpro.com";
-
-// 1. Dynamic Metadata Export for Next.js App Router (SEO & Indexing Fix)
-
-
-// 3. Structured Data (JSON-LD Schemas)
-const webAppJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "WebApplication",
-    name: "AVIF to PNG Converter",
-    url: `${siteUrl}/tool/avif-to-png`,
-    image: `${siteUrl}/img/avif-to-png-og.png`,
-    description:
-        "Convert AVIF images to PNG format online for free. Restore lossless details and transparent background alpha channels instantly.",
-    applicationCategory: "UtilityApplication",
-    operatingSystem: "All",
-    browserRequirements: "Requires HTML5 support",
-    featureList: [
-        "100% Local processing in your browser sandbox",
-        "No file uploads to servers",
-        "Preserves image alpha transparency layers",
-        "Batch processing for multiple images",
-        "Free with no registrations or watermarks",
-    ],
-    offers: {
-        "@type": "Offer",
-        price: "0",
-        priceCurrency: "USD",
-    },
-};
-
-const breadcrumbJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: [
-        {
-            "@type": "ListItem",
-            position: 1,
-            name: "Home",
-            item: siteUrl,
-        },
-        {
-            "@type": "ListItem",
-            position: 2,
-            name: "Tools",
-            item: `${siteUrl}/#tools-grid`,
-        },
-        {
-            "@type": "ListItem",
-            position: 3,
-            name: "AVIF to PNG",
-            item: `${siteUrl}/tool/avif-to-png`,
-        },
-    ],
-};
-
-const faqJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: [
-        {
-            "@type": "Question",
-            name: "Will converting AVIF to PNG lose visual quality?",
-            acceptedAnswer: {
-                "@type": "Answer",
-                text: "No, PNG is a lossless format. Converting an AVIF file to PNG will retain the original pixels, colors, and layout configurations without introducing compression errors.",
-            },
-        },
-        {
-            "@type": "Question",
-            name: "Are my transparent backgrounds kept?",
-            acceptedAnswer: {
-                "@type": "Answer",
-                text: "Yes. PNG natively supports alpha channel layouts. The transparent backgrounds inside your AVIF assets will carry over perfectly to the final PNG.",
-            },
-        },
-        {
-            "@type": "Question",
-            name: "How secure is this AVIF converter?",
-            acceptedAnswer: {
-                "@type": "Answer",
-                text: "Completely secure. The tool is executed entirely client-side using JavaScript. Your files are never sent across the web or stored on external servers.",
-            },
-            position: 3,
-        },
-        {
-            "@type": "Question",
-            name: "Can I convert multiple AVIF files to PNG at once?",
-            acceptedAnswer: {
-                "@type": "Answer",
-                text: "Yes. The converter supports batch processing. Upload your files in queue, and the converter will compile them in parallel for a unified ZIP download.",
-            },
-        },
-    ],
-};
-
 const STEPS = [
     {
         icon: Upload,
@@ -137,9 +40,6 @@ const STEPS = [
         desc: "Download the converted PNG — lossless quality, maximum compatibility.",
     },
 ];
-
-
-
 
 export function generateMetadata() {
     const id = 'avif-to-png';

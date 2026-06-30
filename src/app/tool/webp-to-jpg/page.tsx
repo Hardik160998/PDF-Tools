@@ -4,16 +4,12 @@ import WebAppSchema from '@/components/seo/WebAppSchema';
 import FAQSchema from '@/components/seo/FAQSchema';
 import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema';
 import Link from "next/link";
-import type { Metadata } from "next";
 import ImageConverter from "@/components/tools/ImageConverter";
 import {
-    ImageIcon,
     Upload,
     SlidersHorizontal,
     Download,
     Zap,
-    Lock,
-    FileText,
     Shield,
     Check,
     HelpCircle,
@@ -22,102 +18,6 @@ import {
     Info,
     Star,
 } from "lucide-react";
-
-// Site URL for canonical/SEO links
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://smartpdfpro.com";
-
-// 1. Dynamic Metadata Export for Next.js App Router (SEO & Indexing Fix)
-
-
-// 3. Structured Data (JSON-LD Schemas)
-const webAppJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "WebApplication",
-    name: "WebP to JPG Converter",
-    url: `${siteUrl}/tool/webp-to-jpg`,
-    image: `${siteUrl}/img/webp-to-jpg-og.png`,
-    description:
-        "Convert WebP images to JPG format online for free. Convert modern WebP files into universally compatible JPGs instantly.",
-    applicationCategory: "UtilityApplication",
-    operatingSystem: "All",
-    browserRequirements: "Requires HTML5 support",
-    featureList: [
-        "100% Local processing in your browser sandbox",
-        "No file uploads to servers",
-        "Fills transparent backgrounds with white color during conversion",
-        "Batch processing for multiple images",
-        "Free with no registrations or watermarks",
-    ],
-    offers: {
-        "@type": "Offer",
-        price: "0",
-        priceCurrency: "USD",
-    },
-};
-
-const breadcrumbJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: [
-        {
-            "@type": "ListItem",
-            position: 1,
-            name: "Home",
-            item: siteUrl,
-        },
-        {
-            "@type": "ListItem",
-            position: 2,
-            name: "Tools",
-            item: `${siteUrl}/#tools-grid`,
-        },
-        {
-            "@type": "ListItem",
-            position: 3,
-            name: "WebP to JPG",
-            item: `${siteUrl}/tool/webp-to-jpg`,
-        },
-    ],
-};
-
-const faqJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: [
-        {
-            "@type": "Question",
-            name: "Why would I convert WebP to JPG?",
-            acceptedAnswer: {
-                "@type": "Answer",
-                text: "While WebP offers superior compression, older image viewers, email clients, print shops, and legacy web portals often fail to support WebP formats. Converting WebP to JPG restores universal compatibility.",
-            },
-        },
-        {
-            "@type": "Question",
-            name: "Are my files uploaded to any remote server?",
-            acceptedAnswer: {
-                "@type": "Answer",
-                text: "No. The entire conversion process occurs within your local web browser using client-side JavaScript. Your files are processed entirely offline and are never stored or transmitted to our servers.",
-            },
-        },
-        {
-            "@type": "Question",
-            name: "What happens to transparency when converting WebP to JPG?",
-            acceptedAnswer: {
-                "@type": "Answer",
-                text: "Because the JPG format does not support transparency, any transparent areas in your WebP file will be automatically filled with a clean white background during the conversion process.",
-            },
-        },
-        {
-            "@type": "Question",
-            name: "Can I convert multiple images in a batch?",
-            acceptedAnswer: {
-                "@type": "Answer",
-                text: "Yes. Simply upload multiple files into the workspace. The tool converts them all in parallel, and you can download them at once as a single ZIP archive.",
-            },
-        },
-    ],
-};
 
 const STEPS = [
     {
@@ -136,9 +36,6 @@ const STEPS = [
         desc: "Download the converted JPG — universally compatible with all apps.",
     },
 ];
-
-
-
 
 export function generateMetadata() {
     const id = 'webp-to-jpg';
@@ -293,54 +190,54 @@ export default function WebpToJpgPage() {
 
                 <RelatedTools />
 
-        {/* -- RELATED BLOG POSTS -- */}
-        <section className="mb-20 text-left mt-20">
-          <div className="text-center max-w-3xl mx-auto mb-12">
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-red-50 text-red-600 border border-red-100 text-xs font-medium uppercase tracking-widest shadow-sm mb-6">
-                  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" /></svg>
-                  Latest from Blog
-              </div>
-              <h2 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter mb-4 text-center">
-                  Explore Our PDF Guides
-              </h2>
-          </div>
-          
-          <div className="max-w-xl mx-auto mb-12">
-            {/* Blog Post 1: Image Conversion Guide */}
-            <a href="/blog/ultimate-image-conversion-guide" className="group bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-lg transition-all overflow-hidden flex flex-col h-full">
-                <div className="p-6 flex flex-col flex-1 gap-3">
-                    <div className="flex items-start gap-3">
-                        <div className="w-8 h-8 bg-[#8b5cf6] rounded-lg flex items-center justify-center text-white shrink-0 mt-0.5">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                                <polyline points="14 2 14 8 20 8"></polyline>
-                                <line x1="16" y1="13" x2="8" y2="13"></line>
-                                <line x1="16" y1="17" x2="8" y2="17"></line>
-                                <polyline points="10 9 9 9 8 9"></polyline>
-                            </svg>
+                {/* -- RELATED BLOG POSTS -- */}
+                <section className="mb-20 text-left mt-20">
+                    <div className="text-center max-w-3xl mx-auto mb-12">
+                        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-red-50 text-red-600 border border-red-100 text-xs font-medium uppercase tracking-widest shadow-sm mb-6">
+                            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" /></svg>
+                            Latest from Blog
                         </div>
-                        <h3 className="font-bold text-slate-800 text-[17px] leading-snug group-hover:text-red-600 transition-colors">
-                            The Ultimate Image Conversion Guide (Format Best Practices)
-                        </h3>
+                        <h2 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter mb-4 text-center">
+                            Explore Our PDF Guides
+                        </h2>
                     </div>
-                    <div className="flex items-center justify-between pt-4 mt-auto border-t border-slate-100">
-                        <div className="flex items-center gap-1.5 text-xs text-slate-400 font-medium">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                <circle cx="12" cy="12" r="10" />
-                                <polyline points="12 6 12 12 16 14" />
-                            </svg>
-                            5 min read &nbsp; Jun 01, 2026
-                        </div>
-                        <span className="text-sm font-bold text-red-500 flex items-center gap-1 group-hover:gap-2 transition-all">
-                            Read <ArrowRight size={14} />
-                        </span>
-                    </div>
-                </div>
-            </a>
-          </div>
-        </section>
 
-        {/* 4. Complete SEO Optimized Content Section */}
+                    <div className="max-w-xl mx-auto mb-12">
+                        {/* Blog Post 1: Image Conversion Guide */}
+                        <a href="/blog/ultimate-image-conversion-guide" className="group bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-lg transition-all overflow-hidden flex flex-col h-full">
+                            <div className="p-6 flex flex-col flex-1 gap-3">
+                                <div className="flex items-start gap-3">
+                                    <div className="w-8 h-8 bg-[#8b5cf6] rounded-lg flex items-center justify-center text-white shrink-0 mt-0.5">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                            <polyline points="14 2 14 8 20 8"></polyline>
+                                            <line x1="16" y1="13" x2="8" y2="13"></line>
+                                            <line x1="16" y1="17" x2="8" y2="17"></line>
+                                            <polyline points="10 9 9 9 8 9"></polyline>
+                                        </svg>
+                                    </div>
+                                    <h3 className="font-bold text-slate-800 text-[17px] leading-snug group-hover:text-red-600 transition-colors">
+                                        The Ultimate Image Conversion Guide (Format Best Practices)
+                                    </h3>
+                                </div>
+                                <div className="flex items-center justify-between pt-4 mt-auto border-t border-slate-100">
+                                    <div className="flex items-center gap-1.5 text-xs text-slate-400 font-medium">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                            <circle cx="12" cy="12" r="10" />
+                                            <polyline points="12 6 12 12 16 14" />
+                                        </svg>
+                                        5 min read &nbsp; Jun 01, 2026
+                                    </div>
+                                    <span className="text-sm font-bold text-red-500 flex items-center gap-1 group-hover:gap-2 transition-all">
+                                        Read <ArrowRight size={14} />
+                                    </span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </section>
+
+                {/* 4. Complete SEO Optimized Content Section */}
                 <section className="mt-20 border-t border-slate-200 dark:border-slate-800 pt-16 max-w-7xl mx-auto text-left">
                     <div className="mb-16 text-center relative">
                         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[100px] bg-pink-500/10 dark:bg-pink-500/5 blur-[80px] rounded-full -z-10 pointer-events-none" />
@@ -492,15 +389,15 @@ export default function WebpToJpgPage() {
                         </div>
 
                         {/* FAQ Block */}
-            <div className="bg-white dark:bg-slate-900 p-8 sm:p-12 rounded-[2.5rem] border border-slate-100 dark:border-slate-800 shadow-sm">
-              <h2 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white uppercase tracking-tight mb-8 flex items-center gap-3">
-                <span className="p-2 rounded-xl bg-pink-500/10 text-pink-600 dark:text-pink-500">
-                  <HelpCircle size={24} />
-                </span>
-                Frequently Asked Questions
-              </h2>
-              <div className="space-y-4">
-                {[
+                        <div className="bg-white dark:bg-slate-900 p-8 sm:p-12 rounded-[2.5rem] border border-slate-100 dark:border-slate-800 shadow-sm">
+                            <h2 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white uppercase tracking-tight mb-8 flex items-center gap-3">
+                                <span className="p-2 rounded-xl bg-pink-500/10 text-pink-600 dark:text-pink-500">
+                                    <HelpCircle size={24} />
+                                </span>
+                                Frequently Asked Questions
+                            </h2>
+                            <div className="space-y-4">
+                                {[
                                     {
                                         q: "Why would I convert WebP to JPG?",
                                         a: "While WebP offers superior compression, older image viewers, email clients, print shops, and legacy web portals often fail to support WebP formats. Converting WebP to JPG restores universal compatibility.",
@@ -518,33 +415,33 @@ export default function WebpToJpgPage() {
                                         a: "Yes. Simply upload multiple files into the workspace. The tool converts them all in parallel, and you can download them at once as a single ZIP archive.",
                                     },
                                 ].map((item, idx) => (
-                  <details
-                    key={idx}
-                    className="group bg-white dark:bg-slate-900 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm overflow-hidden transition-all [&_summary::-webkit-details-marker]:hidden"
-                  >
-                    <summary className="flex items-center justify-between p-6 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pink-500">
-                      <span className="text-sm sm:text-base font-bold text-slate-800 dark:text-white tracking-tight flex items-center gap-3">
-                        <HelpCircle size={22} className="text-pink-500 shrink-0" />
-                        {item.q}
-                      </span>
-                      <ChevronDown
-                        size={18}
-                        className="text-slate-400 transition-transform duration-300 group-open:rotate-180 shrink-0 ml-4"
-                      />
-                    </summary>
-                    <div className="mx-6 pb-6 border-t border-slate-200 dark:border-slate-800 pt-4">
-                      <p className="text-sm text-slate-500 dark:text-slate-400 font-medium leading-relaxed">
-                        {item.a}
-                      </p>
-                    </div>
-                  </details>
-                ))}
-              </div>
-            </div>
+                                    <details
+                                        key={idx}
+                                        className="group bg-white dark:bg-slate-900 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm overflow-hidden transition-all [&_summary::-webkit-details-marker]:hidden"
+                                    >
+                                        <summary className="flex items-center justify-between p-6 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pink-500">
+                                            <span className="text-sm sm:text-base font-bold text-slate-800 dark:text-white tracking-tight flex items-center gap-3">
+                                                <HelpCircle size={22} className="text-pink-500 shrink-0" />
+                                                {item.q}
+                                            </span>
+                                            <ChevronDown
+                                                size={18}
+                                                className="text-slate-400 transition-transform duration-300 group-open:rotate-180 shrink-0 ml-4"
+                                            />
+                                        </summary>
+                                        <div className="mx-6 pb-6 border-t border-slate-200 dark:border-slate-800 pt-4">
+                                            <p className="text-sm text-slate-500 dark:text-slate-400 font-medium leading-relaxed">
+                                                {item.a}
+                                            </p>
+                                        </div>
+                                    </details>
+                                ))}
+                            </div>
+                        </div>
                     </article>
                 </section>
 
-                
+
             </div>
         </main>
     );

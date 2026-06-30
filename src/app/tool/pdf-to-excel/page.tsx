@@ -4,18 +4,8 @@ import WebAppSchema from "@/components/seo/WebAppSchema";
 import FAQSchema from "@/components/seo/FAQSchema";
 import BreadcrumbSchema from "@/components/seo/BreadcrumbSchema";
 import Link from "next/link";
-import type { Metadata } from "next";
 import dynamic from "next/dynamic";
 import {
-  FileSpreadsheet,
-  Upload,
-  Sparkles,
-  Download,
-  FileText,
-  Presentation,
-  Type,
-  ImageIcon,
-  Lock,
   Shield,
   Zap,
   Info,
@@ -26,65 +16,6 @@ import {
   ChevronDown,
   Loader2,
 } from "lucide-react";
-
-// Site URL for canonical/SEO links
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://smartpdfpro.com";
-
-// 1. Dynamic Metadata Export for Next.js App Router
-
-// 3. Structured Data (JSON-LD Schemas)
-const webAppJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "WebApplication",
-  name: "PDF to Excel Converter Online Free",
-  url: `${siteUrl}/tool/pdf-to-excel`,
-  image: `${siteUrl}/img/snapdeal-label.png`,
-  description:
-    "Extract tables from PDF files into editable XLSX spreadsheets online for free. Highly accurate structure analysis keeps columns intact.",
-  applicationCategory: "UtilityApplication",
-  operatingSystem: "All",
-  browserRequirements: "Requires HTML5 support",
-  featureList: [
-    "Generates editable XLSX spreadsheets",
-    "High-fidelity visual table and grid analysis",
-    "Secure cloud-based conversion systems",
-    "Automatic file cleanup in 1 hour",
-    "No registration or user login required",
-  ],
-  offers: {
-    "@type": "Offer",
-    price: "0",
-    priceCurrency: "USD",
-  },
-};
-
-const breadcrumbJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  itemListElement: [
-    {
-      "@type": "ListItem",
-      position: 1,
-      name: "Home",
-      item: siteUrl,
-    },
-    {
-      "@type": "ListItem",
-      position: 2,
-      name: "Tools",
-      item: `${siteUrl}/#tools-grid`,
-    },
-    {
-      "@type": "ListItem",
-      position: 3,
-      name: "PDF to Excel Converter",
-      item: `${siteUrl}/tool/pdf-to-excel`,
-    },
-  ],
-};
-
-// 8. Internal links configuration
-
 
 // 12. Breadcrumb Navigation Component
 function Breadcrumb() {
